@@ -30,14 +30,17 @@ var app = new Vue({
             title: 'Skateboard Deck Configurator',
             randomColors: [],
             currentStep: 0,
-            
+            quantity: 0,
+            total: 0,
+            perdeck: 0,
+            size: "",
             steps: [ {state: false}, 
                     {state: true}, 
                     {state: true}, 
                     {state: true}, 
-                    {state: true},                      
-                     {state: true, name: ''}, 
-                     {state: true, name: ''}, 
+                    {state: false},                      
+                     {state: false, name: ''}, 
+                     {state: false, name: ''}, 
                      {state: true, name: ''}, 
                     {   fulldip: {state: false, 
                                     color: ""}, 
@@ -49,8 +52,8 @@ var app = new Vue({
                         blackmidlayer: {state: false}, 
                         pattern: {state: false}, 
                     },                     
-                    {state: true, name: ''}, 
-                    {state: true, name: ''}, ],
+                    {state: false, name: ''}, 
+                    {state: false, name: ''}, ],
     },
     computed: {
         progressWidth: function(){
@@ -81,12 +84,27 @@ var app = new Vue({
             if(event.target.getAttribute('data-part-id') == null){
                 part = parseInt(event.target.parentElement.getAttribute('data-part-id'))
                 color = event.target.parentElement.getAttribute('data-color-name')
+
             }else{
                 part = parseInt(event.target.getAttribute('data-part-id'))
                 color = event.target.getAttribute('data-color-name')
-           }                
-            this.currentColors[part] = color;            
-            renderProduct()
+            }                
+            org_c = 0;   
+            for(i = 0; i < this.currentColors.length; i ++){
+                if(this.currentColors[i] != 'natural')
+                    org_c ++;
+            }
+            this.currentColors[part] = color;         
+            c = 0;   
+            for(i = 0; i < this.currentColors.length; i ++){
+                if(this.currentColors[i] != 'natural')
+                    c ++;
+            }
+            if(org_c > c && c > 1)
+                this.perdeck -= 0.4;
+            else if(org_c < c && c > 2)
+                this.perdeck += 0.4;
+           renderProduct()
         },
         randomClicked: function(event){
             renderRandomProduct()
@@ -100,6 +118,38 @@ var app = new Vue({
                 this.currentStep--;
             
         },
+        sizeChange: function(){
+            if(this.size < '8')
+              this.perdeck += 8.5;
+            else if(this.size < '8.5')
+              this.perdeck += 9.5;
+            else
+              this.perdeck += 10;
+        },
+        quantityChange: function(){
+            if(this.quantity <= 10)
+              this.perdeck += 50;
+            else if(this.quantity <= 20)
+              this.perdeck += 40;
+            else if(this.quantity <= 30)
+              this.perdeck += 30;
+            else if(this.quantity <= 50)
+              this.perdeck += 6;
+            else if(this.quantity <= 100)
+              this.perdeck += 4;
+            else if(this.quantity <= 200)
+              this.perdeck += 3;
+            else if(this.quantity <= 300)
+              this.perdeck += 2.5;
+            else if(this.quantity <= 500)
+              this.perdeck += 1.5;
+            else if(this.quantity <= 1000)
+              this.perdeck += 1;
+            else if(this.quantity <= 2000)
+              this.perdeck += 0.5;
+            else 
+              this.perdeck += 0;
+        }
     }
 
 })
@@ -132,4 +182,47 @@ function gotoStep(step){
     app.currentStep = step - 1
     WizardDemo.gotoStep(step)
 }
+
 renderProduct()
+
+
+  $('#quantity').change(function(){
+    quantity = $(this).val();
+
+    if(quantity <= 10)
+      perdeck += 50;
+    else if(quantity <= 20)
+      perdeck += 40;
+    else if(quantity <= 30)
+      perdeck += 30;
+    else if(quantity <= 50)
+      perdeck += 6;
+    else if(quantity <= 100)
+      perdeck += 4;
+    else if(quantity <= 200)
+      perdeck += 3;
+    else if(quantity <= 300)
+      perdeck += 2.5;
+    else if(quantity <= 500)
+      perdeck += 1.5;
+    else if(quantity <= 1000)
+      perdeck += 1;
+    else if(quantity <= 2000)
+      perdeck += 0.5;
+    else 
+      perdeck += 0;
+    $('#perdeck').val('$'+perdeck);
+    $('#total').val(perdeck * quantity);
+  });
+
+  $('#size').change(function(){
+    size = $(this).val();
+    if(size < '8')
+      perdeck += 8.5;
+    else if(size < '8.5')
+      perdeck += 9.5;
+    else
+      perdeck += 10;
+    $('#perdeck').val('$'+perdeck);
+    $('#total').val(perdeck * quantity);
+  });

@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
+use App\Models\Order;
+use App\Models\ShipInfo;
 class LoginController extends Controller
 {
     /*
@@ -108,6 +109,10 @@ class LoginController extends Controller
                 ->withErrors($errors);
         }
 
+        $token = csrf_token();
+        $order = Order::where('created_by','=',$token)->get();
+        if(count($order) > 0)
+            Order::where('created_by','=',$token)->update(['created_by' => $user->id])
         return redirect()->intended($this->redirectPath());
     }
 }

@@ -209,27 +209,27 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Your Company name">
+                                                <input class="form-control m-input" id="invoice_company" type="text" value="">
                                             </div>
                                         </div>
                                         
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Mark Andre">
+                                                <input class="form-control m-input" id="invoice_name" type="text" value="">
                                             </div>
                                         </div>
                                         
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Country</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Germany">
+                                                <input class="form-control m-input" id="invoice_country" type="text" value="">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Tax ID</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="DE1342562772">
+                                                <input class="form-control m-input" id="invoice_taxid" type="text" value="">
                                                 <span class="m-form__help">European companies must either provide their European Tax ID or pay 19% value addet tax.</span>
                                             </div>
                                         </div>
@@ -252,7 +252,7 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Birdspouse">
+                                                <input class="form-control m-input" id="shipping_company" type="text" value="">
                                                 <span class="m-form__help">Private name if you do not have a company.</span>
                                             </div>
                                         </div>
@@ -260,43 +260,43 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Address</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="205 Downhillstreet">
+                                                <input class="form-control m-input" id="shipping_address" type="text" value="">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">City</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="San Francisco">
+                                                <input class="form-control m-input" id="shipping_city" type="text" value="">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">State</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="California">
+                                                <input class="form-control m-input" type="text" value="" id="shipping_state">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Postcode</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="45000">
+                                                <input class="form-control m-input" type="text" value="" id="shipping_postcode">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Country</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="45000">
+                                                <input class="form-control m-input" type="text" value="" id="shipping_country">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Contact Person</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Tony Hawk">
+                                                <input class="form-control m-input" type="text" value="" id="shipping_contactperson">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Phone No.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="number" value="+456669067890">
+                                                <input class="form-control m-input" type="number" value="" id="shipping_phone">
                                             </div>
                                         </div>
                                         
@@ -333,34 +333,34 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Your full name" placeholder="Enter your full name">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->name:''}}" placeholder="Enter your full name">
                                             </div>
                                         </div>
 
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Position in company</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="CEO"  placeholder="Enter your position">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->position:''}}"  placeholder="Enter your position">
                                             </div>
                                         </div>
 
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="Ding Boards" placeholder="Enter your company name">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->company_name:''}}" placeholder="Enter your company name">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Phone No.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="number" value="+496669067890" placeholder="Enter your phone number">
+                                                <input class="form-control m-input" type="number" value="{{Auth::user()?Auth::user()->phone_num:''}}" placeholder="Enter your phone number">
                                             </div>
                                         </div>
 
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Email Address.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="john@dingboards.com" name="email" placeholder="Enter your email">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->email:''}}" name="email" placeholder="Enter your email">
                                             </div>
                                         </div>
 
@@ -407,7 +407,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="save_address" data-dismiss="modal">Save changes</button>
                 </div>
             </div>
         </div>

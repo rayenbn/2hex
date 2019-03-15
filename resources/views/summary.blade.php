@@ -15,7 +15,7 @@
 						</li>
 						<li class="m-nav__separator">-</li>
 						<li class="m-nav__item">
-							<a href="index.html" class="m-nav__link">
+							<a href="/" class="m-nav__link">
 								<span class="m-nav__link-text">Products</span>
 							</a>
 						</li>
@@ -27,13 +27,13 @@
 						</li>
 						<li class="m-nav__separator">-</li>
 						<li class="m-nav__item">
-							<a href="skateboard-manufacturer/skateboard-deck-configurator.html" class="m-nav__link">
+							<a href="/skateboard-deck-configurator" class="m-nav__link">
 								<span class="m-nav__link-text">Online Order</span>
 							</a>
 						</li>
                         <li class="m-nav__separator">-</li>
 						<li class="m-nav__item">
-							<a href="summary.html" class="m-nav__link">
+							<a href="/summary" class="m-nav__link">
 								<span class="m-nav__link-text">Summary</span>
 							</a>
 						</li>
@@ -56,7 +56,7 @@
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
 						<ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
-								<a href="#" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
+								<a href="/skateboard-deck-configurator" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
 									<span>
 										<i class="la la-cart-plus"></i>
 										<span>Add Batch</span>
@@ -67,7 +67,7 @@
                         
                         <ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
-								<a href="profile.html#m_user_profile_tab_2" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
+								<a href="profile#m_user_profile_tab_2" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
 									<span>
 										<i class="la la-ship"></i>
 										<span>Check Address</span>
@@ -105,103 +105,55 @@
 						</thead>
                         
 						<tbody>
+							<?php $total_price = 0; $total_qty = 0; ?>
+							@foreach($orders as $order)
+							<?php $total_price += $order->total; $total_qty += $order->quantity; ?>
 							<tr>
 								<td>1</td>
-								<td>60</td>
-								<td><b>8.0"&nbsp;x&nbsp;31.375"</b><br><br>
-                                    Wheelbase:&nbsp;14.02"<br>
-                                    Nose:&nbsp;N6.87"<br>
-                                    Tail:&nbsp;6.32"<br>
-                                    (Shape&nbsp;H2)
+								<td>{{$order->quantity}}</td>
+								<td>{{$order->size}}
                                 </td>
-								<td>Medium Concave</td>
-								<td>US Maple Wood</td>
-								<td>Resin Glue</td>
+								<td>{{$order->concave}}</td>
+								<td>{{$order->wood}}</td>
+								<td>{{$order->glue}}</td>
 
                                 <td>
                                     <b>Bottom</b><br>
-                                    SupermanV2.ai<br>
+                                    {{$order->bottomprint?$order->bottomprint:'None'}}<br>
 									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                                     <b>Top</b><br>
-                                    SupermanV2.ai
+                                    {{$order->topprint?$order->topprint:'None'}}
                                 </td>
 
-                                <td>None</td>
+                                <td>{{$order->engravery?$order->engravery:'None'}}</td>
 								<td>
                                     <ol style="padding-left:0; list-style-position:inside;">
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
+                                    	
+                                    
+                                    	@foreach(json_decode($order->veneer) as $veneer)
+                                        <li>{{$veneer}}</li>
+                                       	@endforeach 
+
                                     </ol>
-								<td>None</td>
-								<td>None</td>
-								<td>CartonDesignV1.pdf</td>
-								<td>$16.35</td>
-								<td>$892.70</td>
-							</tr>
-
-
-                            
-                            
-                            
-                            
-                            
-							<tr>
-								<td>2</td>
-								<td>60</td>
-								<td><b>8.25"&nbsp;x&nbsp;31.75"</b><br>
-                                <br>
-                                Wheelbase:&nbsp;14.5"<br>
-                                    Nose:&nbsp;N6.65"<br>
-                                    Tail:&nbsp;6.42"<br>
-                                    (Shape&nbsp;J1)
-                                
                                 </td>
-								<td>Deep Concave</td>
-								<td>EU Maple Wood</td>
-								<td>Epoxy Glue</td>
-                                
                                 <td>
-                                    <b>Bottom</b><br>
-                                    CondorflightV1.ai<br>
-                                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    <b>Top</b><br>
-                                    CondorTop.ai
+                                	<?php $count = 0 ?>
+                                	@foreach(json_decode($order->extra) as $index => $extra)
+                                	 @if($extra->state == true)
+                                	 	@if($count != 0)
+                                     		<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
+                                     	@endif
+                                     	{{$index}}{{isset($extra->color)?' : '.$extra->color:''}}<br>
+                                     	<?php $count ++ ?>
+                                     @endif
+                                    @endforeach
                                 </td>
-                                
-								<td>None</td>
-                                
-								<td>
-                                    <ol style="padding-left:0; list-style-position:inside; display:inline;">
-                                        <li>Blue&nbsp;012</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Blue&nbsp;001</li>
-                                        <li>Random</li>
-                                        <li>Random</li>
-                                        <li>Blue&nbsp;012</li>
-                                    </ol>
-                                </td>
-                                
-								<td>
-                                     Fulldip:&nbsp;P254367<br>
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                     Top&nbsp;Fiberglas
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    Mid&nbsp;Fiberglas
-                                </td>
-                                
-								<td>None</td>
-								<td>CartonDesignV1.pdf</td>
-								<td>$21.20</td>
-								<td>$1,392.40</td>
+								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
+								<td>{{$order->carton?$order->carton:'None'}}</td>
+								<td>${{$order->perdeck}}</td>
+								<td>${{$order->total}}</td>
 							</tr>
-                            
-                            
+							@endforeach                          
 
                             
                             
@@ -246,7 +198,7 @@
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title" style="padding-left: 20px;">
 									<h3 class="m-portlet__head-text">
-										ORDER TOTAL: $3,155.10
+										ORDER TOTAL: ${{$total_price}}
 									</h3>
 								</div>
 							</div>
@@ -255,7 +207,7 @@
 								<ul class="m-portlet__nav">
 									
 									<li class="m-portlet__nav-item">
-										<a href="profile.html" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<a href="profile" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
 											<span>
 												<i class="la la-save"></i>
 												<span>save for later</span>
@@ -281,7 +233,7 @@
                    
 				</div>
             </div>
-
+            @if($total_qty < 50)
 			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__icon">
 					<i class="flaticon-exclamation m--font-brand"></i>
@@ -291,7 +243,7 @@
 					This is a summary of your complete order. Please make sure that everything including your address and contact information is correct before submitting.
 				</div>
 			</div>
-
+			@endif
 
 			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__icon">

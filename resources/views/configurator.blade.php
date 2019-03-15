@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+   <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <!-- BEGIN: Subheader -->                   
 
                     <!-- END: Subheader -->                   
@@ -23,17 +23,17 @@
                                     <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
                                     
                                         <li class="m-nav__item">
-                                            <a href="../index.html" class="m-nav__link">
+                                            <a href="/" class="m-nav__link">
                                                 <span class="m-nav__link-text">Home -</span>
                                             </a>
                                         </li>
                                         <li class="m-nav__item">
-                                            <a href="skateboard-deck-manufacturer.html" class="m-nav__link">
+                                            <a href="skateboard-deck-manufacturer" class="m-nav__link">
                                                 <span class="m-nav__link-text">Configurator -</span>
                                             </a>
                                         </li>
                                         <li class="m-nav__item">
-                                            <a href="skateboard-deck-configurator.html" class="m-nav__link">
+                                            <a href="skateboard-deck-configurator" class="m-nav__link">
                                                 <span class="m-nav__link-text">SB Deck</span>
                                             </a>
                                         </li>
@@ -120,7 +120,7 @@
             1) Use m-form--label-align-left class to alight the form input lables to the right
             2) Use m-form--state class to highlight input control borders on form validation
         -->
-                                <form class="m-form m-form--label-align-left- m-form--state-" id="m_form">
+                                <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" method="POST" action="/skateboard-deck-configurator">
                                     <!--begin: Form Body -->
                                     <div class="m-portlet__body">
                                         <!--begin: Form Wizard Step 1-->
@@ -152,7 +152,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <input id="m_touchspin_5" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="demo1" placeholder="30" type="text">
+                                                                <input id="quantity" v-model="quantity" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="quantity" placeholder="30" type="text" @change="quantityChange">
 
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Batch Quantity</h3>
@@ -193,7 +193,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>      
-                                                                <select class="form-control m-select2" id="m_select2_1" name="param" style="width:100%;">
+                                                                <select class="form-control" id="size" name="size" @change="sizeChange" style="width:100%;" v-model="size">
                                                                         <option value="">SELECT</option>
                                                                         <option value="7.0&quot; x 28&quot; (A1: WB 11.73&quot;, N 6.06&quot;, T 6.0&quot;)">7.0" x 28" (A1: WB 11.73", N 6.06", T 6.0")
                                                                         </option><option value="7.25&quot; x 29&quot; (B1: WB13.5&quot;: N5.87&quot;, T5.47&quot;)" selected="">7.25" x 29" (B1: WB13.5": N5.87", T5.47")
@@ -478,10 +478,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if=" steps[2].state" @click=" steps[2].state=! steps[2].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if=" steps[2].state" @click=" steps[2].state=! steps[2].state, perdeck += 1"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[2].state=! steps[2].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[2].state=! steps[2].state, perdeck -= 1"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -526,10 +526,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[2].state" @click=" steps[2].state=! steps[2].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[2].state" @click=" steps[2].state=! steps[2].state, perdeck -= 1"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[2].state=! steps[2].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[2].state=! steps[2].state, perdeck += 1"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -579,10 +579,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if=" steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if=" steps[3].state" @click=" steps[3].state=! steps[3].state, perdeck +=0.9"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[3].state=! steps[3].state, perdeck -=0.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -625,10 +625,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[3].state" @click=" steps[3].state=! steps[3].state, perdeck -=0.9"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[3].state=! steps[3].state, perdeck +=0.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -677,10 +677,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if=" steps[4].state" @click=" steps[4].state=! steps[4].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if=" steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[4].state=! steps[4].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[4].state=! steps[4].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -699,7 +699,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="bottomPrintFile">
                                                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                     
@@ -742,10 +742,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[4].state" @click=" steps[4].state=! steps[4].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[4].state=! steps[4].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[4].state=! steps[4].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -795,10 +795,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if=" steps[5].state" @click=" steps[5].state=! steps[5].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if=" steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[5].state=! steps[5].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[5].state=! steps[5].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -817,7 +817,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="topPrintFile">
                                                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -858,10 +858,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[5].state" @click=" steps[5].state=! steps[5].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[5].state=! steps[5].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[5].state=! steps[5].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -911,10 +911,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if=" steps[6].state" @click=" steps[6].state=! steps[6].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if=" steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[6].state=! steps[6].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -933,7 +933,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="engraveryFile">
                                                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -975,10 +975,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[6].state=! steps[6].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1021,12 +1021,12 @@
 
                                                                 <div v-for="partName in partNames"  class="dropdown">
                                                                     <div class="btn btn-secondary  dropdown-toggle skate-color-dropdown-menu"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <label>{{partName + 1}}. {{currentColor(partName)}}</label>
+                                                                        <label>@{{partName + 1}}. @{{currentColor(partName)}}</label>
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
                                                                     </div>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                                         <div v-for="(colorValue, colorName) in colorData" class="color-dropdown-item" @click="colorClicked" v-bind:data-part-id="partName" v-bind:data-color-name="colorName">
-                                                                            <label>{{colorName}}</label>
+                                                                            <label>@{{colorName}}</label>
                                                                             <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorValue}"></button>
                                                                         </div>                                                                              
                                                                     </div>
@@ -1069,7 +1069,7 @@
                                                             <div class="m-widget4">
                                                                 <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="randomClicked">
                                                                     <label>Random Colors</label>
-                                                                    <img src="random-icon.png">
+                                                                    <img src="skateboard-deck-production/random-icon.png">
                                                                 </div>                                                                      
                                                             </div>
                                                         </div>
@@ -1111,10 +1111,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].fulldip.state" @click="steps[8].fulldip.state=!steps[8].fulldip.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].fulldip.state" @click="steps[8].fulldip.state=!steps[8].fulldip.state, perdeck-=1.5"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].fulldip.state=!steps[8].fulldip.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].fulldip.state=!steps[8].fulldip.state, perdeck+=1.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1130,7 +1130,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <input v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
+                                                                <input onclick="{{Auth::user()?'return ture':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Deep Concave</h3>
                                                                                 Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
@@ -1157,10 +1157,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].transparent.state" @click="steps[8].transparent.state=!steps[8].transparent.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].transparent.state" @click="steps[8].transparent.state=!steps[8].transparent.state, perdeck-=1.5"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].transparent.state=!steps[8].transparent.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].transparent.state=!steps[8].transparent.state, perdeck+=1.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1207,10 +1207,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].metallic.state" @click="steps[8].metallic.state=!steps[8].metallic.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].metallic.state" @click="steps[8].metallic.state=!steps[8].metallic.state, perdeck-=3.5"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].metallic.state=!steps[8].metallic.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].metallic.state=!steps[8].metallic.state, perdeck+=3.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1253,10 +1253,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].blacktop.state" @click="steps[8].blacktop.state=!steps[8].blacktop.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].blacktop.state" @click="steps[8].blacktop.state=!steps[8].blacktop.state, perdeck-=1.9"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].blacktop.state=!steps[8].blacktop.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].blacktop.state=!steps[8].blacktop.state, perdeck+=1.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1302,10 +1302,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].blackmidlayer.state" @click="steps[8].blackmidlayer.state=!steps[8].blackmidlayer.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].blackmidlayer.state" @click="steps[8].blackmidlayer.state=!steps[8].blackmidlayer.state, perdeck-=1.9"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].blackmidlayer.state=!steps[8].blackmidlayer.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].blackmidlayer.state=!steps[8].blackmidlayer.state, perdeck+=1.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1421,7 +1421,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cardboardFile">
                                                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -1516,10 +1516,10 @@
                                                                 <div class="m-portlet__head-tools">
                                                                     <ul class="m-portlet__nav">
                                                                         <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                            <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                            <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck-=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                                 <i class="fa fa-check"></i>
                                                                             </a>
-                                                                            <a v-else @click=" steps[10].state=! steps[10].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                            <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                     <i class="fa fa-times"></i>
                                                                             </a>
                                                                         </li>
@@ -1538,7 +1538,7 @@
                                                                     <div class="form-group m-form__group">
                                                                         <div></div>
                                                                         <div class="custom-file">
-                                                                            <input type="file" class="custom-file-input" id="customFile">
+                                                                            <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cartonFile">
                                                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                                                         </div>
                                                                     </div>
@@ -1580,10 +1580,10 @@
                                                                 <div class="m-portlet__head-tools">
                                                                     <ul class="m-portlet__nav">
                                                                         <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                            <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                            <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                                 <i class="fa fa-check"></i>
                                                                             </a>
-                                                                            <a v-else @click=" steps[10].state=! steps[10].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                            <a v-else @click=" steps[10].state=! steps[10].state, perdeck-=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                     <i class="fa fa-times"></i>
                                                                             </a>
                                                                         </li>
@@ -1696,7 +1696,7 @@
                                             <span class="m-widget1__desc">Price per Deck</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-brand">$17.80</span>
+                                            <span class="m-widget1__number m--font-brand" id="perdeck">$ @{{perdeck}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1707,14 +1707,14 @@
                                             <span class="m-widget1__desc">Total of Order</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-danger">$41,824.00</span>
+                                            <span class="m-widget1__number m--font-danger" id="total">$ @{{perdeck*quantity+total}}</span>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 
           <br>
-                                <a href="../profile.html"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
+                                <a href="/profile"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
                                     <span>
                                         <i class="la la-save"></i>
                                         <span> save for later</span>
@@ -1728,5 +1728,7 @@
                 </div>
             </div>
         </div>
+
     </div>
+    
 @endsection

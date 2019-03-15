@@ -40,22 +40,22 @@
 
 
                     <li class="m-nav__item">
-                        <a href="../affiliate.php" class="m-nav__link">
+                        <a href="../affiliate" class="m-nav__link">
                             <span class="m-nav__link-text">Affiliates</span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../imprint.php" class="m-nav__link">
+                        <a href="../imprint" class="m-nav__link">
                             <span class="m-nav__link-text">Imprint</span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../imprint.php#privacy" class="m-nav__link">
+                        <a href="../imprint.php" class="m-nav__link">
                             <span class="m-nav__link-text">Privacy</span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../imprint.php#terms" class="m-nav__link">
+                        <a href="../imprint.php" class="m-nav__link">
                             <span class="m-nav__link-text">Terms</span>
                         </a>
                     </li>

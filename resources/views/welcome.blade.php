@@ -26,7 +26,7 @@
                                     our old website.
                                 </a>
                                 or download our
-                                <a href="newsletter.php" class="m-link m-link--warning m--font-bold" target="_blank">
+                                <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
                                     catalog
                                 </a>
                             </div>
@@ -93,7 +93,7 @@
                                         </div>
                                         <br>
                                         <div class="m-widget19__action">
-                                            <a href="newsletter.php" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                            <a href="newsletter" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                                     <span>
                                                         <span>get our catalog</span>
                                                         <i class="la la-arrow-right"></i>

@@ -32,3 +32,163 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+/*=======  Color Panel   ==================================*/
+.btn-configurator-drop-btn{
+    padding: 6px 13px;
+}
+.configurator-color-panel {
+    height: 100%;
+    margin-bottom: 0;
+}
+.configurator-color-panel .skate-color-dropdown-menu{
+    width: 100%;
+    text-align: right;
+}
+.configurator-color-panel .dropdown{
+    padding: 10px;
+}
+.configurator-color-panel label{
+    float: left;
+    margin-bottom: 0px;
+}
+.dropdown-menu{
+    width: 100%;
+}
+.random-button{
+    width: 100%;
+    text-align: left;
+}
+.random-button label{
+    font-size: 15px;
+    float: left;
+}
+
+.random-button img{
+    width: 40px;
+    float: right;
+}
+/*============== Common used color  ======================================================*/
+.bg-pink{
+    background: var(--pink);
+}
+.bg-orange{
+    background: var(--orange);
+}
+.bg-green{
+    background: var(--green);
+}
+.bg-purple{
+    background: var(--purple);
+}
+.bg-yellow{
+    background: var(--yellow);
+}
+.bg-natural{
+    background: #f5e7be;
+}
+.clr-pink{
+    color: var(--pink);
+}
+/*============== Product Panel  ======================================================*/
+.product-panel{
+    margin-bottom: 0;
+    height: 100%;
+}
+.product-panel img{
+    width: 100%;
+    padding: 20px;
+}
+.product-panel .m-portlet__head{
+    position: absolute;
+}
+
+/*============== Price Panel  ======================================================*/
+.price-panel .m-portlet__head{
+    height: auto;
+    display: block;
+    padding: 40px;
+}
+
+.price-panel .m-widget4__item:last-child{
+    margin: 0 auto;
+}
+
+/*============== Color Panel Dropdown Menu=====================================================================*/
+.color-dropdown-item{
+    border-bottom: solid 1px #f2f2f2;
+    padding: 1px 5px;
+    text-align: right;
+}
+.color-dropdown-item:hover{
+    background: #e2e2e2;
+    cursor: pointer;
+}
+/* .color-dropdown-item label{
+    float: left;
+}
+.color-dropdown-item button{
+    float: right;
+} */
+/*=============== product ================================================================*/
+.product-panel-header{
+    float: right;
+}
+.row{
+    margin-top: 30px;
+}
+.product-panel-img2{
+    width: 100%;
+    height: 400px;
+}
+
+/*==============  Step 1========================================================================*/
+.step1-img1{
+    width: 100%;
+    padding: 0 20px;
+}
+.step1-img2{
+    width: 100%;
+    padding: 0 40px;
+}
+.product-panel2{
+    margin-bottom: 0;
+}
+.product-panel2 .m-portlet__head{
+    position: absolute;
+    right: 10px;
+}
+.product-panel2 img{
+    width: 100%;
+}
+/*================  Step 2  ================================================*/
+.step2-tab-nav{
+    display: table-cell;
+}
+@media only screen and (max-width: 460px) {
+    #m_form .m-portlet__body {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+/*===============  Manufacturer purchase button responsive ===========================================================================*/
+@media only screen and (max-width: 360px) {
+    #start_purchase {
+        font-size: 10px;
+    }
+}
+/*============== Breadcrumb ===================================================================*/
+#breadcrumbs{
+    margin-left: 10px;
+}
+#breadcrumbs li.m-nav__item{
+    padding: 0;
+    margin: 0;
+}
+#breadcrumbs li.m-nav__item a{
+    padding: 0;
+    margin: 0;
+}
+#breadcrumbs span{
+    font-size: 12px;
+}
