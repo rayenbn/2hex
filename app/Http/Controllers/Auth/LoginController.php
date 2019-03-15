@@ -112,7 +112,7 @@ class LoginController extends Controller
         $token = csrf_token();
         $order = Order::where('created_by','=',$token)->get();
         if(count($order) > 0)
-            Order::where('created_by','=',$token)->update(['created_by' => $user->id])
+            Order::where('created_by','=',$token)->update(['created_by' => $user->id]);
         return redirect()->intended($this->redirectPath());
     }
 }
