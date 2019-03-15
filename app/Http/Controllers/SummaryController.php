@@ -14,7 +14,7 @@ class SummaryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index']]);
+        
     }
 
     /**
@@ -24,11 +24,7 @@ class SummaryController extends Controller
      */
     public function index()
     {
-        if(Auth::user()){
-            $id = Auth::user()->id;
-            $orders = Order::where('created_by','=',$id)->get();
-        }
-        else{
+        {
             $token = csrf_token();
             $orders = Order::where('created_by','=',$token)->get();    
         }   
