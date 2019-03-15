@@ -75,6 +75,8 @@
     <script src="https://unpkg.com/merge-images"></script>
     <script src="{{asset('asset/app/js/manufacture.js')}}"></script>
     <script src="{{asset('asset/app/js/script.js')}}"></script>
+
+    @include('layouts.script')
 <!--end::Base Scripts -->  
 
 </html>

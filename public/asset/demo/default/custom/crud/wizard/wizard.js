@@ -149,14 +149,7 @@ var WizardDemo = function() {
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        mApp.unprogress(n), swal({
-                            title: "",
-                            text: "The application has been successfully submitted!",
-                            type: "success",
-                            confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                        }).then((value) => {
-                            window.location.href = "../summary"
-                        });
+                        window.location.href = "../summary"
                     }
                 });
 

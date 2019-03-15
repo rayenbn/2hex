@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class SummaryController extends Controller
 {
@@ -24,7 +25,11 @@ class SummaryController extends Controller
      */
     public function index()
     {
-        {
+        if(Auth::user()){
+            $id = Auth::user()->id;
+            $orders = Order::where('created_by','=',$id)->get();
+        }
+        else{
             $token = csrf_token();
             $orders = Order::where('created_by','=',$token)->get();    
         }   
