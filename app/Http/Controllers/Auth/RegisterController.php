@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'confirmation_code' => Uuid::uuid4(),
-            'confirmed' => false
+            'confirmed' => true
         ]);
 
         if (config('auth.users.default_role')) {
@@ -120,7 +120,7 @@ class RegisterController extends Controller
 
             $this->guard()->logout();
 
-            $user->notify(new ConfirmEmail());
+            //$user->notify(new ConfirmEmail());
 
             return redirect(route('login'));
         }
