@@ -12,7 +12,7 @@ var WizardDemo = function() {
             }), r.on("change", function(e) {
                 mUtil.scrollTop()
             }), r.on("change", function(e) {
-                1 === e.getStep() && alert(1)
+                1 === e.getStep()
             }), e = i.validate({
                 ignore: ":hidden",
                 rules: {

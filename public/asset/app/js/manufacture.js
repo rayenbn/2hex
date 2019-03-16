@@ -34,6 +34,8 @@ var app = new Vue({
             total: 0,
             perdeck: 0,
             size: "",
+            pre_quantity: 0,
+            pre_size: "",
             steps: [ {state: false}, 
                     {state: true}, 
                     {state: true}, 
@@ -119,14 +121,52 @@ var app = new Vue({
             
         },
         sizeChange: function(){
+
+            if(this.pre_size != ""){
+                if(this.pre_size < '8')
+                  this.perdeck -= 8.5;
+                else if(this.pre_size < '8.5')
+                  this.perdeck -= 9.5;
+                else
+                  this.perdeck -= 10;                
+            }
+
             if(this.size < '8')
               this.perdeck += 8.5;
             else if(this.size < '8.5')
               this.perdeck += 9.5;
             else
               this.perdeck += 10;
+
+            this.pre_size = this.size;
         },
         quantityChange: function(){
+
+            if(this.pre_quantity > 0){
+                if(this.pre_quantity <= 10)
+                  this.perdeck -= 50;
+                else if(this.pre_quantity <= 20)
+                  this.perdeck -= 40;
+                else if(this.pre_quantity <= 30)
+                  this.perdeck -= 30;
+                else if(this.pre_quantity <= 50)
+                  this.perdeck -= 6;
+                else if(this.pre_quantity <= 100)
+                  this.perdeck -= 4;
+                else if(this.pre_quantity <= 200)
+                  this.perdeck -= 3;
+                else if(this.pre_quantity <= 300)
+                  this.perdeck -= 2.5;
+                else if(this.pre_quantity <= 500)
+                  this.perdeck -= 1.5;
+                else if(this.pre_quantity <= 1000)
+                  this.perdeck -= 1;
+                else if(this.pre_quantity <= 2000)
+                  this.perdeck -= 0.5;
+                else 
+                  this.perdeck -= 0;                
+            }
+
             if(this.quantity <= 10)
               this.perdeck += 50;
             else if(this.quantity <= 20)

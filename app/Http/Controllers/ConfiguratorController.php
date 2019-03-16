@@ -24,6 +24,20 @@ class ConfiguratorController extends Controller
      */
     public function index()
     {
+        // if(Auth::user()){
+        //     $created_by = Auth::user()->id;
+        // }
+        // else{
+        //     $created_by = csrf_token();
+        // }
+        // $orders = Order::where('created_by','=',$created_by)->where();
+        // $totalquantity = 0;
+        // $totalprice = 0;
+        // for($i = 0; $i < count($orders); $i ++){
+        //     $totalquantity += $orders[$i]['quantity'];
+        //     $totalprice += $orders[$i]['total'];
+        // }
+
         return view('configurator');
     }
     public function store(Request $request)

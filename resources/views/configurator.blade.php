@@ -1696,7 +1696,7 @@
                                             <span class="m-widget1__desc">Price per Deck</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-brand" id="perdeck">$ @{{perdeck}}</span>
+                                            <span class="m-widget1__number m--font-brand" v-if="quantity > 0 && size != ''"  id="perdeck">$ @{{perdeck.toFixed(2)}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1707,7 +1707,7 @@
                                             <span class="m-widget1__desc">Total of Order</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-danger" id="total">$ @{{perdeck*quantity+total}}</span>
+                                            <span class="m-widget1__number m--font-danger" v-if="quantity > 0 && size != ''" id="total">$ @{{(perdeck*quantity+total).toFixed(2)}}</span>
                                         </div>
                                     </div>
                                 </div>

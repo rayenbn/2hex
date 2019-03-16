@@ -209,27 +209,27 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="invoice_company" type="text" value="">
+                                                <input class="form-control m-input" id="invoice_company" type="text" value="{{isset($shipinfo)?$shipinfo->invoice_company:''}}">
                                             </div>
                                         </div>
                                         
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="invoice_name" type="text" value="">
+                                                <input class="form-control m-input" id="invoice_name" type="text" value="{{isset($shipinfo)?$shipinfo->invoice_name:''}}">
                                             </div>
                                         </div>
                                         
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Country</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="invoice_country" type="text" value="">
+                                                <input class="form-control m-input" id="invoice_country" type="text" value="{{isset($shipinfo)?$shipinfo->invoice_country:''}}">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Tax ID</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="invoice_taxid" type="text" value="">
+                                                <input class="form-control m-input" id="invoice_taxid" type="text" value="{{isset($shipinfo)?$shipinfo->invoice_taxid:''}}">
                                                 <span class="m-form__help">European companies must either provide their European Tax ID or pay 19% value addet tax.</span>
                                             </div>
                                         </div>
@@ -252,7 +252,7 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="shipping_company" type="text" value="">
+                                                <input class="form-control m-input" id="shipping_company" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_company:''}}">
                                                 <span class="m-form__help">Private name if you do not have a company.</span>
                                             </div>
                                         </div>
@@ -260,43 +260,43 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Address</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="shipping_address" type="text" value="">
+                                                <input class="form-control m-input" id="shipping_address" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_address:''}}">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">City</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" id="shipping_city" type="text" value="">
+                                                <input class="form-control m-input" id="shipping_city" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_city:''}}">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">State</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="" id="shipping_state">
+                                                <input class="form-control m-input" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_state:''}}" id="shipping_state">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Postcode</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="" id="shipping_postcode">
+                                                <input class="form-control m-input" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_postcode:''}}" id="shipping_postcode">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Country</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="" id="shipping_country">
+                                                <input class="form-control m-input" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_country:''}}" id="shipping_country">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Contact Person</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="" id="shipping_contactperson">
+                                                <input class="form-control m-input" type="text" value="{{isset($shipinfo)?$shipinfo->shipping_contactperson:''}}" id="shipping_contactperson">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Phone No.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="number" value="" id="shipping_phone">
+                                                <input class="form-control m-input" type="number" value="{{isset($shipinfo)?$shipinfo->shipping_phone:''}}" id="shipping_phone">
                                             </div>
                                         </div>
                                         
@@ -319,7 +319,8 @@
                             </div>
                             <div class="tab-pane " id="m_user_profile_tab_3">
 
-                                <form class="m-form m-form--fit m-form--label-align-right">
+                                <form class="m-form m-form--fit m-form--label-align-right" action="detail_save" method="POST" id="detailForm">
+                                    {{ csrf_field() }}
                                     <div class="m-portlet__body">
                                         <div class="form-group m-form__group m--margin-top-10 m--hide">
 
@@ -340,20 +341,20 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Position in company</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->position:''}}"  placeholder="Enter your position">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->position:''}}"  placeholder="Enter your position" name="position">
                                             </div>
                                         </div>
 
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->company_name:''}}" placeholder="Enter your company name">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->company_name:''}}" placeholder="Enter your company name" name="company_name">
                                             </div>
                                         </div>
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Phone No.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="number" value="{{Auth::user()?Auth::user()->phone_num:''}}" placeholder="Enter your phone number">
+                                                <input class="form-control m-input" type="number" value="{{Auth::user()?Auth::user()->phone_num:''}}" placeholder="Enter your phone number" name="phone_num">
                                             </div>
                                         </div>
 
@@ -373,7 +374,7 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-7">
-                                                    <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">Save changes</button>&nbsp;&nbsp;
+                                                    <button type="Submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="save_details">Save changes</button>&nbsp;&nbsp;
                                                     <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
                                                 </div>
                                             </div>
@@ -403,7 +404,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>We have received your order. You will receive an email in 5 Minutes.” If you do not receive the email, you can find the order summary and invoice in your profile. The order will be processed after we receive your payment.</p>
+                    <p>Do you really want to save this?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

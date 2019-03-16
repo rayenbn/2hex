@@ -31,7 +31,7 @@ class ConfirmController extends Controller
         $user->save();
 
         auth()->login($user);
-        return view('welcom');
+        return view('welcome');
     }
 
     public function sendEmail(User $user)

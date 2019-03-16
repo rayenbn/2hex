@@ -217,7 +217,7 @@
 									
 									
 									<li class="m-portlet__nav-item">
-										<a href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+										<a href="/submit_order" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
 											<span>
 												<i class="la la-rocket"></i>
 												<span>SUBMIT</span>

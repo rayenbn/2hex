@@ -68,14 +68,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::get('/', 'HomeController@index');
 Route::get('/inquiries', 'InquiriesController@index');
-Route::get('/profile', 'ProfileController@index');
+Route::get('/profile', 'ProfileController@index')->name('profile');
+Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index');
 Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
 Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
 Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index');
+Route::get('/export_csv','SummaryController@exportcsv');
+Route::get('/submit_order','SummaryController@submitOrder');
 
-Route::get('/summary', 'SummaryController@index');
+
+Route::get('/summary', 'SummaryController@index')->name('summary');
 Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');

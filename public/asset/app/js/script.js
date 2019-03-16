@@ -13,7 +13,7 @@ $(document).ready(function(){
             type: "alert",
             confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
         }).then((value) => {
-            
+            window.location.href = "../login";
         });
     }
   });
@@ -84,6 +84,19 @@ $(document).ready(function(){
 
   });
 
+  $('#save_details').click(function(e){
+    if($('body').attr('signed') == 0){
+       e.preventDefault();
+        swal({
+            title: "",
+            text: "You need to login to upload file",
+            type: "alert",
+            confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+        }).then((value) => {
+            window.location.href = "../login";
+        });
+    }
+  });
 
 
 });
