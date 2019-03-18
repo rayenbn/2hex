@@ -3,6 +3,18 @@ $(document).ready(function(){
   var value = 0;
   var perdeck = 0;
   var quantity = 0;
+
+  $.ajax({
+    url: '/getdata',
+    type: 'GET',
+    data: {},
+    success: function(data){
+
+      app.total_quantity = data.quantity * 1;
+      $('#totalconprice').html('TOTAL: $ '+ (+data.total).toFixed(2));
+    }
+  })
+
   $('input[type="file"]').click(function(e){
     if($('body').attr('signed') == 0){
        e.stopPropagation();
@@ -35,14 +47,14 @@ $(document).ready(function(){
         }
       });
       $.ajax({
-             url : 'configurator-fileupload',
+             url : '/configurator-fileupload',
              type : 'POST',
              data : formData,
              processData: false,  // tell jQuery not to process the data
              contentType: false,  // tell jQuery not to set contentType
              success : function(data) {
                  if(data != 'failed')
-                    $(self).attr('filename','data');
+                    $(self).attr('fileName',data);
              }
       });  
 
@@ -71,7 +83,7 @@ $(document).ready(function(){
       }
     });
     $.ajax({
-           url : 'address_save',
+           url : '/address_save',
            type : 'POST',
            data : formData,
            processData: false,  // tell jQuery not to process the data

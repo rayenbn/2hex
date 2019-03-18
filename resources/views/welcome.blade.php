@@ -78,7 +78,7 @@
                                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                                 <div>
                                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                                        <img src="skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="" style="width: 100%;">
+                                                        <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,7 +134,7 @@
 											<div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
 												<div>
 													<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-														<img src="skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt="" style="width: 100%;">
+														<img src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt="" style="width: 100%;">
 													</div>
 												</div>
 											</div>
@@ -211,7 +211,7 @@
                                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                                 <div>
                                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                                        <img src="skateboard-deck-production/manual/complete-skateboard-factory.jpg" alt="complete skateboards manufacturer" style="width: 100%;">
+                                                        <img src="/skateboard-deck-production/manual/complete-skateboard-factory.jpg" alt="complete skateboards manufacturer" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,7 +275,7 @@
                                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                                 <div>
                                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                                        <img src="skateboard-deck-production/manual/skateboard-wheels-factory.jpg" alt="skateboard wheels manufacturer" style="width: 100%;">
+                                                        <img src="/skateboard-deck-production/manual/skateboard-wheels-factory.jpg" alt="skateboard wheels manufacturer" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -338,7 +338,7 @@
                                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                                 <div>
                                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                                        <img src="skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
+                                                        <img src="/skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -407,7 +407,7 @@
                                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                                 <div>
                                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                                        <img src="skateboard-deck-production/manual/skateboard-truck-factory.jpg" alt="skateboard trucks manufacturer" style="width: 100%;">
+                                                        <img src="/skateboard-deck-production/manual/skateboard-truck-factory.jpg" alt="skateboard trucks manufacturer" style="width: 100%;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,7 +512,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/skateboard-factory-experience-2hex.jpg" alt="2HEX experience">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/skateboard-factory-experience-2hex.jpg" alt="2HEX experience">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">
@@ -545,7 +545,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/skateboard-warehouse.jpg" alt="skateboard warehouse">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/skateboard-warehouse.jpg" alt="skateboard warehouse">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">
@@ -580,7 +580,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/skateboard-factory-experience-2hex.jpg" alt="">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/skateboard-factory-experience-2hex.jpg" alt="">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">
@@ -611,7 +611,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/designer-pexels-photo-1327214.jpg" alt="">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/designer-pexels-photo-1327214.jpg" alt="">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">
@@ -643,7 +643,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/2hex-skateboard-manufacturer-experience.jpg" alt="">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/2hex-skateboard-manufacturer-experience.jpg" alt="">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">
@@ -676,7 +676,7 @@
                                                                                                     <div class="m-widget5__item">
                                                                                                         <div class="m-widget5__content">
                                                                                                             <div class="m-widget5__pic">
-                                                                                                                <img class="m-widget7__img" src="skateboard-deck-production/skateboard-blog/closed.png" alt="">
+                                                                                                                <img class="m-widget7__img" src="/skateboard-deck-production/skateboard-blog/closed.png" alt="">
                                                                                                             </div>
                                                                                                             <div class="m-widget5__section">
                                                                                                                 <h4 class="m-widget5__title">

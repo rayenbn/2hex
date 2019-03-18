@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
+use App\Models\Order;
 
 class ProfileController extends Controller
 {
@@ -32,9 +33,9 @@ class ProfileController extends Controller
         else{
             $created_by = csrf_token();
         }
-
+        $order = Order::where('created_by','=',$created_by)->get();
         $shipinfo = ShipInfo::where('created_by','=',$created_by)->first();
-        return view('profile', ['shipinfo'=>$shipinfo]);
+        return view('profile', ['shipinfo'=>$shipinfo, 'orders'=>$order]);
 
     }
     public function store_address(Request $request)

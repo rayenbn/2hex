@@ -36,11 +36,13 @@ class Order extends Model
      * @var string
      */
     protected $table = 'orders';
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by'];
+    protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by','created_at'];
+
 }

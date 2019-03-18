@@ -101,6 +101,8 @@
                                 <th>Carton Print</th>
                                 <th>Deck&nbspPrice</th>
                                 <th>Batch&nbspTotal</th>
+                                <th>Edit</th>
+                                <th>Remove</th>
 							</tr>
 						</thead>
                         
@@ -152,6 +154,8 @@
 								<td>{{$order->carton?$order->carton:'None'}}</td>
 								<td>${{$order->perdeck}}</td>
 								<td>${{$order->total}}</td>
+								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
+								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
 							</tr>
 							@endforeach                          
 
@@ -161,7 +165,7 @@
 							<tr>
 								<td colspan="3">Fixed Cost</td>
 								<td colspan="3">Batches</td>
-								<td colspan="7">Filename</td>
+								<td colspan="9">Filename</td>
 								<td>Fixed&nbspTotal</td>
 							</tr>
 						   </thead>
@@ -169,18 +173,18 @@
                             <tr>
 								<td colspan="3">Bottom Print</td>
 								<td colspan="3">1, 2, 3</td>
-								<td colspan="7">supermanV2.ai</td>
+								<td colspan="9">supermanV2.ai</td>
 								<td>$120.00</td>
 							</tr>
                             <tr>
 								<td colspan="3">Delivery</td>
 								<td colspan="3">All</td>
-								<td colspan="7">Global Delivery</td>
+								<td colspan="9">Global Delivery</td>
 								<td>$800.00</td>
 							</tr>
 						<tr>
 							<td colspan="6">Vendor Code</td>
-                            <td colspan="7">VbnjjHhSk8cC</td>
+                            <td colspan="9">VbnjjHhSk8cC</td>
 							<td>- $50.00</td>
 						</tr>
 						<tr>
@@ -207,7 +211,16 @@
 								<ul class="m-portlet__nav">
 									
 									<li class="m-portlet__nav-item">
-										<a href="profile" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+											<span>
+												<i class="la la-save"></i>
+												<span>ExportInvoice</span>
+											</span>
+										</a>
+									</li>
+
+									<li class="m-portlet__nav-item">
+										<a href="/profile" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
 											<span>
 												<i class="la la-save"></i>
 												<span>save for later</span>

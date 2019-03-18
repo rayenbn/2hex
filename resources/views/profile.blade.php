@@ -25,8 +25,8 @@
                                     Your Profile
                                 </div>
                                 <div class="m-card-profile__details">
-                                    <span class="m-card-profile__name">Mark Andre</span>
-                                    <a href="" class="m-card-profile__email m-link">mark.andre@gmail.com</a>
+                                    <span class="m-card-profile__name">{{Auth::User()?Auth::User()->name:'Please LogIn Or Register'}}</span>
+                                    <a href="" class="m-card-profile__email m-link">{{Auth::user()?Auth::User()->email:''}}</a>
                                 </div>
                             </div>
                             <div class="m-portlet__body-separator"></div>
@@ -74,44 +74,16 @@
                                                 <h3 class="m-form__section">1. Saved Orders</h3>                                                            
                                             </div>
                                             <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
-
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div class="btn btn-secondary">Continue</div>
-                                                    <div class="btn btn-secondary">
-                                                        Saved order: 2019/02/01 20:23
-                                                    </div>
-                                                </div>
-                                                                                                            
+                                                @foreach($orders as $order)
+                                                    @if($order->submit == 0)
+                                                    <div class="saved-order-list-item">
+                                                        <div class="btn btn-secondary"><a href="/skateboard-deck-configurator/{{$order->id}}">Continue</a></div>
+                                                        <div class="btn btn-secondary">
+                                                            Saved order: {{$order->created_at}}
+                                                        </div>
+                                                    </div>    
+                                                    @endif
+                                                @endforeach
                                             </div>
                                         </div>
                                         
@@ -121,7 +93,8 @@
                                                 <h3 class="m-form__section">2. Submitted Orders</h3>
                                             </div>
                                             <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
-
+                                            @foreach($orders as $order)
+                                                @if($order->submit == 1)
                                                 <div class="saved-order-list-item">
                                                     <div>                                                                   
                                                         <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
@@ -129,7 +102,7 @@
                                                                 Order Number: XYZ5432 2019/02/01&nbsp;&nbsp; 
                                                             </div> 
                                                             <div>
-                                                                Submitted: 2019/02/033 20:35
+                                                                Submitted: {{$order->updated_at}}
                                                             </div>                                                                      
                                                         </div>
                                                     </div>
@@ -141,47 +114,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="saved-order-list-item">
-                                                    <div>                                                                   
-                                                        <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
-                                                            <div>
-                                                                Order Number: XYZ5432 2019/02/01&nbsp;&nbsp; 
-                                                            </div> 
-                                                            <div>
-                                                                Submitted: 2019/02/033 20:35
-                                                            </div>                                                                      
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div>
-                                                            <div class="btn btn-secondary">View</div>
-                                                            <div class="btn btn-secondary">re-use</div>
-                                                            <div class="btn btn-secondary">Invoice</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="saved-order-list-item">
-                                                    <div>                                                                   
-                                                        <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
-                                                            <div>
-                                                                Order Number: XYZ5432 2019/02/01&nbsp;&nbsp; 
-                                                            </div> 
-                                                            <div>
-                                                                Submitted: 2019/02/033 20:35
-                                                            </div>                                                                      
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div>
-                                                            <div class="btn btn-secondary">View</div>
-                                                            <div class="btn btn-secondary">re-use</div>
-                                                            <div class="btn btn-secondary">Invoice</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                
-                                                
+                                                @endif
+                                            @endforeach
                                             </div>
                                         </div>
                                     </div>

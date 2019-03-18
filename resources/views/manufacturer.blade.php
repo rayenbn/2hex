@@ -109,7 +109,7 @@
                                 <h2 class="m-section__heading">Skateboard Decks</h2>
                                 <div class="m-section__content">
                                     
-                                    <img alt="" src="skateboard-deck-production/width-skateboard-decks-factory-2hex.jpg" style="width: 100%" />
+                                    <img alt="" src="/skateboard-deck-production/width-skateboard-decks-factory-2hex.jpg" style="width: 100%" />
                 
                                 </div>
                             </div>

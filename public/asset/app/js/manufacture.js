@@ -31,6 +31,7 @@ var app = new Vue({
             randomColors: [],
             currentStep: 0,
             quantity: 0,
+            total_quantity: 0,
             total: 0,
             perdeck: 0,
             size: "",
@@ -102,10 +103,15 @@ var app = new Vue({
                 if(this.currentColors[i] != 'natural')
                     c ++;
             }
-            if(org_c > c && c > 1)
-                this.perdeck -= 0.4;
-            else if(org_c < c && c > 2)
-                this.perdeck += 0.4;
+
+            if(org_c == 0 && c > 0)
+              this.perdeck += 0.4;
+            else if(org_c < c && c > 3)
+              this.perdeck += 0.4;
+            else if(org_c > c && c > 2)
+              this.perdeck -= 0.4;
+            else if(c == 0 && org_c > 0)
+              this.perdeck -= 0.4;
            renderProduct()
         },
         randomClicked: function(event){
@@ -142,50 +148,54 @@ var app = new Vue({
         },
         quantityChange: function(){
 
+
+          debugger;
             if(this.pre_quantity > 0){
-                if(this.pre_quantity <= 10)
+                if(this.total_quantity <= 10)
                   this.perdeck -= 50;
-                else if(this.pre_quantity <= 20)
+                else if(this.total_quantity <= 20)
                   this.perdeck -= 40;
-                else if(this.pre_quantity <= 30)
+                else if(this.total_quantity <= 30)
                   this.perdeck -= 30;
-                else if(this.pre_quantity <= 50)
+                else if(this.total_quantity <= 50)
                   this.perdeck -= 6;
-                else if(this.pre_quantity <= 100)
+                else if(this.total_quantity <= 100)
                   this.perdeck -= 4;
-                else if(this.pre_quantity <= 200)
+                else if(this.total_quantity <= 200)
                   this.perdeck -= 3;
-                else if(this.pre_quantity <= 300)
+                else if(this.total_quantity <= 300)
                   this.perdeck -= 2.5;
-                else if(this.pre_quantity <= 500)
+                else if(this.total_quantity <= 500)
                   this.perdeck -= 1.5;
-                else if(this.pre_quantity <= 1000)
+                else if(this.total_quantity <= 1000)
                   this.perdeck -= 1;
-                else if(this.pre_quantity <= 2000)
+                else if(this.total_quantity <= 2000)
                   this.perdeck -= 0.5;
                 else 
                   this.perdeck -= 0;                
             }
 
-            if(this.quantity <= 10)
+            this.total_quantity += (this.quantity * 1);
+            this.pre_quantity = this.quantity;
+            if(this.total_quantity <= 10)
               this.perdeck += 50;
-            else if(this.quantity <= 20)
+            else if(this.total_quantity <= 20)
               this.perdeck += 40;
-            else if(this.quantity <= 30)
+            else if(this.total_quantity <= 30)
               this.perdeck += 30;
-            else if(this.quantity <= 50)
+            else if(this.total_quantity <= 50)
               this.perdeck += 6;
-            else if(this.quantity <= 100)
+            else if(this.total_quantity <= 100)
               this.perdeck += 4;
-            else if(this.quantity <= 200)
+            else if(this.total_quantity <= 200)
               this.perdeck += 3;
-            else if(this.quantity <= 300)
+            else if(this.total_quantity <= 300)
               this.perdeck += 2.5;
-            else if(this.quantity <= 500)
+            else if(this.total_quantity <= 500)
               this.perdeck += 1.5;
-            else if(this.quantity <= 1000)
+            else if(this.total_quantity <= 1000)
               this.perdeck += 1;
-            else if(this.quantity <= 2000)
+            else if(this.total_quantity <= 2000)
               this.perdeck += 0.5;
             else 
               this.perdeck += 0;
@@ -194,7 +204,7 @@ var app = new Vue({
 
 })
 
-const baseImgURL = 'skateboard-deck-production/8.1 veneers/';
+const baseImgURL = '/skateboard-deck-production/8.1 veneers/';
 function renderProduct(){
     validateColorPanel()    
     var imgArr = []
@@ -224,45 +234,3 @@ function gotoStep(step){
 }
 
 renderProduct()
-
-
-  $('#quantity').change(function(){
-    quantity = $(this).val();
-
-    if(quantity <= 10)
-      perdeck += 50;
-    else if(quantity <= 20)
-      perdeck += 40;
-    else if(quantity <= 30)
-      perdeck += 30;
-    else if(quantity <= 50)
-      perdeck += 6;
-    else if(quantity <= 100)
-      perdeck += 4;
-    else if(quantity <= 200)
-      perdeck += 3;
-    else if(quantity <= 300)
-      perdeck += 2.5;
-    else if(quantity <= 500)
-      perdeck += 1.5;
-    else if(quantity <= 1000)
-      perdeck += 1;
-    else if(quantity <= 2000)
-      perdeck += 0.5;
-    else 
-      perdeck += 0;
-    $('#perdeck').val('$'+perdeck);
-    $('#total').val(perdeck * quantity);
-  });
-
-  $('#size').change(function(){
-    size = $(this).val();
-    if(size < '8')
-      perdeck += 8.5;
-    else if(size < '8.5')
-      perdeck += 9.5;
-    else
-      perdeck += 10;
-    $('#perdeck').val('$'+perdeck);
-    $('#total').val(perdeck * quantity);
-  });

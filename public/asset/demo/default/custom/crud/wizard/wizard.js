@@ -124,26 +124,26 @@ var WizardDemo = function() {
                 });
 
                 r.preventDefault();
-                
+                debugger;
                 var formData = new FormData();
-                
+                formData.append('id',$('#saved_order_id').val());
                 formData.append('quantity',app.quantity);
                 formData.append('size',$('#size').val());
-                formData.append('concave',app.steps[1].status?'Deep Concave':'Mediumn Concave');
-                formData.append('wood',app.steps[2].status?'European Maple Wood':'American Maple Wood');
-                formData.append('glue',app.steps[3].status?'American Glue':'Epoxy Glue');
-                formData.append('bottomprint',app.steps[4].status?$('#bottomPrintFile').attr('fileName'):'');
-                formData.append('topprint',app.steps[5].status?$('#topPrintFile').attr('fileName'):'');
-                formData.append('engravery',app.steps[6].status?$('#engraveryFile').attr('fileName'):'');
+                formData.append('concave',app.steps[1].state?'Mediumn Concave':'Deep Concave');
+                formData.append('wood',app.steps[2].state?'European Maple Wood':'American Maple Wood');
+                formData.append('glue',app.steps[3].state?'American Glue':'Epoxy Glue');
+                formData.append('bottomprint',app.steps[4].state?$('#bottomPrintFile').attr('fileName'):'');
+                formData.append('topprint',app.steps[5].state?$('#topPrintFile').attr('fileName'):'');
+                formData.append('engravery',app.steps[6].state?$('#engraveryFile').attr('fileName'):'');
                 formData.append('veneer',JSON.stringify(app.currentColors));
                 formData.append('extra',JSON.stringify(app.steps[8]));
-                formData.append('cardboard',app.steps[9].status?$('#cardboardFile').attr('fileName'):'');
-                formData.append('carton',app.steps[10].status?$('#cartonFile').attr('fileName'):'');
+                formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
+                formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
                 formData.append('perdeck',app.perdeck);
                 formData.append('total',app.quantity*app.perdeck + app.total);
                 
                 $.ajax({
-                    url: 'skateboard-deck-configurator',
+                    url: '/skateboard-deck-configurator',
                     type: 'post',
                     data: formData,
                     processData: false,
@@ -154,6 +154,40 @@ var WizardDemo = function() {
                 });
 
                 
+            }), $('#save_order').click(function(){
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+
+                var formData = new FormData();
+                formData.append('id',$('#saved_order_id').val());
+                formData.append('quantity',app.quantity);
+                formData.append('size',$('#size').val());
+                formData.append('concave',app.steps[1].state?'Deep Concave':'Mediumn Concave');
+                formData.append('wood',app.steps[2].state?'European Maple Wood':'American Maple Wood');
+                formData.append('glue',app.steps[3].state?'American Glue':'Epoxy Glue');
+                formData.append('bottomprint',app.steps[4].state?$('#bottomPrintFile').attr('fileName'):'');
+                formData.append('topprint',app.steps[5].state?$('#topPrintFile').attr('fileName'):'');
+                formData.append('engravery',app.steps[6].state?$('#engraveryFile').attr('fileName'):'');
+                formData.append('veneer',JSON.stringify(app.currentColors));
+                formData.append('extra',JSON.stringify(app.steps[8]));
+                formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
+                formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
+                formData.append('perdeck',app.perdeck);
+                formData.append('total',app.quantity*app.perdeck + app.total);
+                
+                $.ajax({
+                    url: '/skateboard-deck-configurator',
+                    type: 'post',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        window.location.href = "../profile"
+                    }
+                });                
             })
         },
         gotoStep: function(step){

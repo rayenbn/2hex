@@ -47,8 +47,17 @@ class ConfiguratorController extends Controller
              $data['created_by'] = Auth::user()->id;
         else
             $data['created_by'] = csrf_token();
+        if($data['id'] == '')
+        {
+            $data['created_at'] =new \DateTime();
+            Order::insert($data);
+        }
+        else
+        {
+            Order::where('id','=',$data['id'])->update($data);
+        }
        // $request = [ 'quantity' : 30 ];
-        Order::insert($data);
+        
         // var_dump($request);
         // exit();
         return 'success';
@@ -67,5 +76,15 @@ class ConfiguratorController extends Controller
            return $name;
         }
         return 'failed';
+    }
+    public function show($id)
+    {
+        $data = Order::where('id','=',$id)->get();
+
+        return view('configurator', ['saved_order'=>$data]);
+    }
+    public function delete($id){
+        Order::where('id','=',$id)->delete();        
+        return redirect()->route('summary');
     }
 }

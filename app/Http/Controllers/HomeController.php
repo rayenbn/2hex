@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
@@ -13,7 +14,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index']]);
     }
 
     /**
@@ -25,21 +25,21 @@ class HomeController extends Controller
     {
         return view('welcome');
     }
-    public function inquiries()
+    public function getData()
     {
-        return view('inquiries');   
-    }
-    public function profile()
-    {
-        return view('profile');   
-    }
-    public function configurator()
-    {
-        return view('configurator');   
-    }
-    public function summary()
-    {
-        return view('summary');
+        if(Auth::user())
+            $created_by = Auth::user()->id;
+        else
+            $created_by = csrf_token();
+        $data = Order::where('created_by','=',$created_by)->get();
+        $quantity = 0;
+        $total = 0;
+        for($i = 0; $i < count($data); $i ++)
+        {
+            $quantity += $data[$i]['quantity'];
+            $total += $data[$i]['total'];
+        }
+        return ['quantity' => $quantity, 'total' => $total];
     }
     
 }

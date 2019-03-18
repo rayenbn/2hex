@@ -122,6 +122,7 @@
         -->
                                 <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" method="POST" action="/skateboard-deck-configurator">
                                     <!--begin: Form Body -->
+                                    <input type="hidden" id="saved_order_id">
                                     <div class="m-portlet__body">
                                         <!--begin: Form Wizard Step 1-->
                                         
@@ -148,7 +149,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div>
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -189,7 +190,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div>
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/width-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/width-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -493,7 +494,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/european-maple-for-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/european-maple-for-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -541,7 +542,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -594,7 +595,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/american-glue-for-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/american-glue-for-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -640,7 +641,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/epoxy-glue-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/epoxy-glue-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -692,7 +693,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/heat-transfer-print-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/heat-transfer-print-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -757,7 +758,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/blank-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/blank-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -810,7 +811,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/skateboard-deck-top-print-factory-2hex.jpg" alt=""  class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/skateboard-deck-top-print-factory-2hex.jpg" alt=""  class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -873,7 +874,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -926,7 +927,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/skateboard-decks-laser-engravery-manufacturer-2hex.jpg" alt=""  class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/skateboard-decks-laser-engravery-manufacturer-2hex.jpg" alt=""  class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -990,7 +991,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
+                                                                            <img src="/skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -1024,7 +1025,7 @@
                                                                         <label>@{{partName + 1}}. @{{currentColor(partName)}}</label>
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
                                                                     </div>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName != 2 && partName != 4">
                                                                         <div v-for="(colorValue, colorName) in colorData" class="color-dropdown-item" @click="colorClicked" v-bind:data-part-id="partName" v-bind:data-color-name="colorName">
                                                                             <label>@{{colorName}}</label>
                                                                             <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorValue}"></button>
@@ -1069,7 +1070,7 @@
                                                             <div class="m-widget4">
                                                                 <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="randomClicked">
                                                                     <label>Random Colors</label>
-                                                                    <img src="skateboard-deck-production/random-icon.png">
+                                                                    <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>                                                                      
                                                             </div>
                                                         </div>
@@ -1089,7 +1090,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <img src="skateboard-deck-production/colored-maple-veneers-for-skateboard-deck-factory-2hex.jpg" alt="">
+                                                        <img src="/skateboard-deck-production/colored-maple-veneers-for-skateboard-deck-factory-2hex.jpg" alt="">
                                                     </div>
                                                 </div>
                                             </div>          
@@ -1126,7 +1127,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/blue-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/blue-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1172,7 +1173,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/transparent-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/transparent-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -1222,7 +1223,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/metallic-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/metallic-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1268,7 +1269,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/fiberglass-skateboard-deck-manufacturer-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/fiberglass-skateboard-deck-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1317,7 +1318,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/fiberglas-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/fiberglas-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1363,7 +1364,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/pattern-pressed-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/pattern-pressed-skateboard-decks-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1414,7 +1415,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/skateboard-deck-cardboards-factory-2hex.jpg" alt=""  class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/skateboard-deck-cardboards-factory-2hex.jpg" alt=""  class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1478,7 +1479,7 @@
                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                     <div >
                                                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                            <img src="skateboard-deck-production/skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
+                                                                            <img src="/skateboard-deck-production/skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
                                                                 </div>      
@@ -1531,7 +1532,7 @@
                                                                     <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                         <div >
                                                                             <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                                <img src="skateboard-deck-production/skateboard-decks-carton-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                                <img src="/skateboard-deck-production/skateboard-decks-carton-manufacturer-2hex.jpg" alt=""  class="step1-img1">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1595,7 +1596,7 @@
                                                                     <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                                                         <div >
                                                                             <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                                <img src="skateboard-deck-production/skateboard-decks-carton-factory-2hex.jpg" alt="" class="step1-img1">
+                                                                                <img src="/skateboard-deck-production/skateboard-decks-carton-factory-2hex.jpg" alt="" class="step1-img1">
                                                                             </div>
                                                                         </div>
                                                                     </div>      
@@ -1714,7 +1715,7 @@
                                 
                                 
           <br>
-                                <a href="/profile"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
+                                <a href="javascript:void(0)" id="save_order"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
                                     <span>
                                         <i class="la la-save"></i>
                                         <span> save for later</span>
