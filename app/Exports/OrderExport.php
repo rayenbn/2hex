@@ -21,7 +21,7 @@ class OrderExport implements FromView
     public function view(): View
     {
         return view('items', [
-            'orders' => Order::all()
+            'orders' => Order::where('created_by','=',$this->created_by)->get()
         ]);
     }
 }

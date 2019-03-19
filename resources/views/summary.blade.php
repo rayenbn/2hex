@@ -107,11 +107,11 @@
 						</thead>
                         
 						<tbody>
-							<?php $total_price = 0; $total_qty = 0; ?>
+							<?php $total_price = 0; $total_qty = 0; $batch = 0; $filename = []; $isfilehere = []; $fixedprice = 0; $type=[];?>
 							@foreach($orders as $order)
 							<?php $total_price += $order->total; $total_qty += $order->quantity; ?>
 							<tr>
-								<td>1</td>
+								<td>{{++$batch}}</td>
 								<td>{{$order->quantity}}</td>
 								<td>{{$order->size}}
                                 </td>
@@ -156,6 +156,36 @@
 								<td>${{$order->total}}</td>
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
+								@php
+									$here = 0;
+                                  	if($order->bottomprint != ""){
+                                  		$filename[] = $order->bottomprint;
+                                  		$fixedprice += 120; 
+                                  		$here = 1;
+                                  	}
+                                  	if($order->topprint != ""){
+                                  		$filename[] = $order->topprint;
+                                  		$fixedprice += 120;
+                                  		$here = 1;
+                                  	}
+                                  	if($order->engravery != ""){
+                                  		$filename[] = $order->engravery;
+                                  		$fixedprice += 80;
+                                  		$here = 1;
+                                  	}
+                                  	if($order->cardboard != ""){
+                                  		$filename[] = $order->cardboard;
+                                  		$fixedprice += 500;
+                                  		$here = 1;
+                                  	}
+                                  	if($order->carton != ""){
+                                  		$filename[] = $order->carton;
+                                  		$fixedprice += 120;
+                                  		$here = 1;
+                                  	}
+                                  	if($here == 1)
+                                  		$isfilehere[] = $batch;
+                                @endphp
 							</tr>
 							@endforeach                          
 
@@ -171,12 +201,12 @@
 						   </thead>
                             
                             <tr>
-								<td colspan="3">Bottom Print</td>
-								<td colspan="3">1, 2, 3</td>
-								<td colspan="9">supermanV2.ai</td>
-								<td>$120.00</td>
+								<td colspan="3">Print</td>
+								<td colspan="3">{{implode(',', $isfilehere)}}</td>
+								<td colspan="9">{{implode(',', $filename)}}</td>
+								<td>{{$fixedprice}}</td>
 							</tr>
-                            <tr>
+                            <!-- <tr>
 								<td colspan="3">Delivery</td>
 								<td colspan="3">All</td>
 								<td colspan="9">Global Delivery</td>
@@ -186,7 +216,7 @@
 							<td colspan="6">Vendor Code</td>
                             <td colspan="9">VbnjjHhSk8cC</td>
 							<td>- $50.00</td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td colspan="14"></td>
 						</tr>

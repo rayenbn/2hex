@@ -15,6 +15,12 @@ $(document).ready(function(){
     }
   })
 
+  $('.file-dropdown').click(function(){
+    filename = $(this).html();
+    $(this).parent().prev().html(filename);
+    $('input[type="file"]', $(this).parent().parent().prev()).attr('fileName',filename);
+  });
+
   $('input[type="file"]').click(function(e){
     if($('body').attr('signed') == 0){
        e.stopPropagation();

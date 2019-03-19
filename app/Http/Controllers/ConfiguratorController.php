@@ -68,11 +68,15 @@ class ConfiguratorController extends Controller
            $file = $request->file('file');
            
            //you also need to keep file extension as well
-           $name = uniqid(rand(), true).'.'.$file->getClientOriginalExtension();;
-            
+           //$name = uniqid(rand(), true).'.'.$file->getClientOriginalExtension();;
+            $path = public_path().'/uploads/'.Auth::user()->name;
+            $name = $file->getClientOriginalName();
+            if(!\File::exists($path)) {
+                \File::makeDirectory($path, $mode = 0777, true, true);
+            }
            //using the array instead of object
            
-           $file->move(public_path().'/uploads/', $name);
+           $file->move(public_path().'/uploads/'.Auth::user()->name.'/', $name);
            return $name;
         }
         return 'failed';
@@ -80,11 +84,24 @@ class ConfiguratorController extends Controller
     public function show($id)
     {
         $data = Order::where('id','=',$id)->get();
+        $filenames = [];
+        if(Auth::User()){
+            $path = public_path().'/uploads/'.Auth::user()->name;
+            if(\File::exists($path)) {
+                $filesInFolder = \File::files($path);
 
-        return view('configurator', ['saved_order'=>$data]);
+                foreach($filesInFolder as $filepath) { 
+                      $file = pathinfo($filepath);
+                      $filenames[] = $file['filename'].'.'.$file['extension'] ;
+                } 
+            }
+            
+        }
+        return view('configurator', ['saved_order'=>$data, 'filenames'=>$filenames]);
     }
     public function delete($id){
         Order::where('id','=',$id)->delete();        
         return redirect()->route('summary');
     }
+
 }

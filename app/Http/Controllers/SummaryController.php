@@ -34,11 +34,11 @@ class SummaryController extends Controller
     {
         if(Auth::user()){
             $id = Auth::user()->id;
-            $orders = Order::where('created_by','=',$id)->get();
+            $orders = Order::where('created_by','=',$id)->where('submit','=','0')->get();
         }
         else{
             $token = csrf_token();
-            $orders = Order::where('created_by','=',$token)->get();    
+            $orders = Order::where('created_by','=',$token)->where('submit','=','0')->get();    
         }   
         return view('summary',['orders'=>$orders]);
     }
@@ -62,11 +62,20 @@ class SummaryController extends Controller
         if(Auth::user()){
             $id = Auth::user()->id;
             $info = ShipInfo::where('created_by','=',$id)->first();
+            $data = [];
+            $data['submit'] = 1;
+            Order::where('created_by','=',$id)->update($data); 
         }
         else{
             $token = csrf_token();
             $info = ShipInfo::where('created_by','=',$token)->first();    
+            
+            $data = [];
+            $data['submit'] = 1;
+            Order::where('created_by','=',$token)->update($data); 
         }
+
+
 
         $data = array('name' => $info['invoice_name']);
 
@@ -74,8 +83,8 @@ class SummaryController extends Controller
 
         Mail::send('mail', $data, function($message){
             $name = uniqid(rand(), true).'.xlsx';
-            $file =  Excel::store('vniklas@connect.ust.hk', $name);
-            $message->to('luckygolden0505@gmail.com', 'Tutorials Point')->subject
+            $file =  Excel::store(new OrderExport(Auth::user()->id), $name);
+            $message->to('vniklas@connect.ust.hk', 'Tutorials Point')->subject
             ('Laravel Testing Mail with Attachment');
             $message->from('goldengolem0815@gmail.com','Test User');
             $message->attach(storage_path('app/'.$name));

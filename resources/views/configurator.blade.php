@@ -711,9 +711,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
+                                                                        @if(isset($filenames))
+                                                                                @foreach($filenames as $filename)
+                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                @endforeach
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -827,9 +829,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
+                                                                        @if(isset($filenames))
+                                                                                @foreach($filenames as $filename)
+                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                @endforeach
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -943,9 +947,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
+                                                                        @if(isset($filenames))
+                                                                                @foreach($filenames as $filename)
+                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                @endforeach
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1431,9 +1437,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
-                                                                        <a class="dropdown-item" href="#">Recent file</a>
+                                                                        @if(isset($filenames))
+                                                                                @foreach($filenames as $filename)
+                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                @endforeach
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1548,9 +1556,11 @@
                                                                             Recent file
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                            <a class="dropdown-item" href="#">Recent file</a>
-                                                                            <a class="dropdown-item" href="#">Recent file</a>
-                                                                            <a class="dropdown-item" href="#">Recent file</a>
+                                                                            @if(isset($filenames))
+                                                                                @foreach($filenames as $filename)
+                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                @endforeach
+                                                                            @endif
                                                                         </div>
                                                                     </div>
                                                                     <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
