@@ -38,7 +38,21 @@ class ConfiguratorController extends Controller
         //     $totalprice += $orders[$i]['total'];
         // }
 
-        return view('configurator');
+        $filenames = [];
+        if(Auth::User()){
+            $path = public_path().'/uploads/'.Auth::user()->name;
+            if(\File::exists($path)) {
+                $filesInFolder = \File::files($path);
+
+                foreach($filesInFolder as $filepath) { 
+                      $file = pathinfo($filepath);
+                      $filenames[] = $file['filename'].'.'.$file['extension'] ;
+                } 
+            }
+            
+        }
+
+        return view('configurator',['filenames'=>$filenames]);
     }
     public function store(Request $request)
     {
