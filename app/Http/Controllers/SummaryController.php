@@ -53,7 +53,7 @@ class SummaryController extends Controller
             $created_by = csrf_token();
         }
 
-        return Excel::download(new OrderExport, 'invoices.xlsx');
+        return Excel::download(new OrderExport($created_by), 'invoices.xlsx');
     }
 
     public function submitOrder()

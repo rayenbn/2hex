@@ -707,13 +707,13 @@
     
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                         @if(isset($filenames))
                                                                                 @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">{{$filename}}</a>
                                                                                 @endforeach
                                                                         @endif
                                                                     </div>
@@ -825,13 +825,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[5].state?0:0.75, steps[10].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                         @if(isset($filenames))
                                                                                 @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                    <a class="dropdown-item file-dropdown" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"  href="#">{{$filename}}</a>
                                                                                 @endforeach
                                                                         @endif
                                                                     </div>
@@ -943,13 +943,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                         @if(isset($filenames))
                                                                                 @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                    <a class="dropdown-item file-dropdown" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"  href="#">{{$filename}}</a>
                                                                                 @endforeach
                                                                         @endif
                                                                     </div>
@@ -1428,7 +1428,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cardboardFile">
+                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cardboardFile" @click=" steps[9].state = 1">
                                                                         <label class="custom-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -1439,7 +1439,7 @@
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                         @if(isset($filenames))
                                                                                 @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" steps[9].state = 1">{{$filename}}</a>
                                                                                 @endforeach
                                                                         @endif
                                                                     </div>
@@ -1552,13 +1552,13 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="dropdown">
-                                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
                                                                             Recent file
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                             @if(isset($filenames))
                                                                                 @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#">{{$filename}}</a>
+                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">{{$filename}}</a>
                                                                                 @endforeach
                                                                             @endif
                                                                         </div>

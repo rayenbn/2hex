@@ -61,6 +61,8 @@ $(document).ready(function(){
              success : function(data) {
                  if(data != 'failed')
                     $(self).attr('fileName',data);
+                   $(self).next().css('border','1px solid green');
+                   $('button', $(self).parent().parent().next()).html(data);
              }
       });  
 

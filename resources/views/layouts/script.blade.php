@@ -27,20 +27,29 @@
 					app.steps[3].state = false;
 
 				app.bottomprint = decodeHTML("{{$order->bottomprint}}");
-				if(app.bottomprint != "")
+				if(app.bottomprint != ""){
 					app.steps[4].state = true;
+					$('button',$('#m_wizard_form_step_5')).html(app.bottomprint);
+					$('input',$('#m_wizard_form_step_5')).attr('fileName',app.bottomprint);
+				}
 				else
 					app.steps[4].state = false;
 
 				app.topprint = decodeHTML("{{$order->topprint}}");
-				if(app.topprint != "")
+				if(app.topprint != ""){
+					$('button',$('#m_wizard_form_step_6')).html(app.topprint);
+					$('input',$('#m_wizard_form_step_6')).attr('fileName',app.topprint);
 					app.steps[5].state = true;
+				}
 				else
 					app.steps[5].state = false;
 
 				app.engravery = decodeHTML("{{$order->engravery}}");
-				if(app.engravery != "")
+				if(app.engravery != ""){
 					app.steps[6].state = true;
+					$('button',$('#m_wizard_form_step_7')).html(app.engravery);
+					$('input',$('#m_wizard_form_step_7')).attr('fileName',app.engravery);
+				}
 				else
 					app.steps[6].state = false;
 
@@ -49,14 +58,20 @@
 				app.steps[8] =JSON.parse(decodeHTML("{{$order->extra}}"));
 
 				app.cardboard =decodeHTML("{{$order->cardboard}}");
-				if(app.cardboard != "")
+				if(app.cardboard != ""){
 					app.steps[9].state = true;
+					$('button',$('#m_wizard_form_step_10')).html(app.cardboard);
+					$('input',$('#m_wizard_form_step_10')).attr('fileName',app.cardboard);
+				}
 				else
 					app.steps[9].state = false;
 
 				app.carton =decodeHTML("{{$order->carton}}");
-				if(app.carton != "")
+				if(app.carton != ""){
 					app.steps[9].state = true;
+					$('button',$('#m_wizard_form_step_11')).html(app.carton);
+					$('input',$('#m_wizard_form_step_11')).attr('fileName',app.carton);
+				}
 				else
 					app.steps[9].state = false;
 
