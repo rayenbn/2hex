@@ -57,6 +57,7 @@ class ConfiguratorController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['submit'] = '0';
         if(Auth::user())
              $data['created_by'] = Auth::user()->id;
         else

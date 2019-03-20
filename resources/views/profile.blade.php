@@ -79,7 +79,7 @@
                                                     <div class="saved-order-list-item">
                                                         <div class="btn btn-secondary"><a href="/skateboard-deck-configurator/{{$order->id}}">Continue</a></div>
                                                         <div class="btn btn-secondary">
-                                                            Saved order: {{$order->created_at}}
+                                                            Saved order: {{$order->updated_at==""?$order->created_at:$order->updated_at}}
                                                         </div>
                                                     </div>    
                                                     @endif

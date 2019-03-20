@@ -140,7 +140,8 @@ var WizardDemo = function() {
                 formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
                 formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
                 formData.append('perdeck',app.perdeck);
-                formData.append('total',app.quantity*app.perdeck + app.total);
+                formData.append('total',app.quantity*app.perdeck + app.fixedprice);
+                formData.append('fixedprice',app.fixedprice);
                 
                 $.ajax({
                     url: '/skateboard-deck-configurator',
@@ -176,7 +177,8 @@ var WizardDemo = function() {
                 formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
                 formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
                 formData.append('perdeck',app.perdeck);
-                formData.append('total',app.quantity*app.perdeck + app.total);
+                formData.append('total',app.quantity*app.perdeck + app.fixedprice);
+                formData.append('fixedprice',app.fixedprice);
                 
                 $.ajax({
                     url: '/skateboard-deck-configurator',

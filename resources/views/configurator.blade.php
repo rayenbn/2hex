@@ -825,7 +825,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[5].state}" @click=" perdeck += steps[5].state?0:0.75, steps[10].state = 1">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[5].state}" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -1718,7 +1718,7 @@
                                             <span class="m-widget1__desc">Total of Order</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-danger" v-if="quantity > 0 && size != ''" id="total">$ @{{(perdeck*quantity+total).toFixed(2)}}</span>
+                                            <span class="m-widget1__number m--font-danger" v-if="quantity > 0 && size != ''" id="total">$ @{{(perdeck*quantity+fixedprice).toFixed(2)}}</span>
                                         </div>
                                     </div>
                                 </div>

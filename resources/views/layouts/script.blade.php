@@ -94,7 +94,7 @@
 
 				app.perdeck = +decodeHTML("{{$order->perdeck}}");
 				app.total = +decodeHTML("{{$order->total}}");
-				
+				app.fixedprice = +decodeHTML("{{$order->fixedprice}}");
 				debugger;
 			@endforeach
 		@endif

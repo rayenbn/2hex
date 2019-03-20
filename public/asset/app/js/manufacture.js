@@ -33,6 +33,7 @@ var app = new Vue({
             quantity: 0,
             total_quantity: 0,
             total: 0,
+            fixedprice: 0,
             perdeck: 0,
             size: "",
             pre_quantity: 0,
