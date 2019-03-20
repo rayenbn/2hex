@@ -701,13 +701,13 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="bottomPrintFile">
-                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                     
     
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[4].state}" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -821,11 +821,11 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="topPrintFile">
-                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[5].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[5].state?0:0.75, steps[10].state = 1">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[5].state}" @click=" perdeck += steps[5].state?0:0.75, steps[10].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -939,11 +939,11 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="engraveryFile">
-                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[6].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[6].state}" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -1429,11 +1429,11 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cardboardFile" @click=" steps[9].state = 1">
-                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[9].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[9].state}">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -1548,11 +1548,11 @@
                                                                         <div></div>
                                                                         <div class="custom-file">
                                                                             <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cartonFile">
-                                                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                            <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="dropdown">
-                                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
+                                                                        <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[10].state}" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
                                                                             Recent file
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

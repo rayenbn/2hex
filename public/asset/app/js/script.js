@@ -19,6 +19,10 @@ $(document).ready(function(){
     filename = $(this).html();
     $(this).parent().prev().html(filename);
     $('input[type="file"]', $(this).parent().parent().prev()).attr('fileName',filename);
+    $('input[type="file"]', $(this).parent().parent().prev()).removeClass('unchecked');
+    $('label', $(this).parent().parent().prev()).html(filename);
+    $('label', $(this).parent().parent().prev()).addClass('unchecked')
+
   });
 
   $('input[type="file"]').click(function(e){
@@ -60,8 +64,9 @@ $(document).ready(function(){
              contentType: false,  // tell jQuery not to set contentType
              success : function(data) {
                  if(data != 'failed')
-                    $(self).attr('fileName',data);
-                   $(self).next().css('border','1px solid green');
+                   $(self).attr('fileName',data);
+                   $(self).removeClass('unchecked');
+                   $('button', $(self).parent().parent().next()).addClass('unchecked');
                    $('button', $(self).parent().parent().next()).html(data);
              }
       });  

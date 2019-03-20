@@ -192,3 +192,12 @@ input[type=number]::-webkit-outer-spin-button {
 #breadcrumbs span{
     font-size: 12px;
 }
+
+
+
+.checked {
+    border: 1px solid green !important;
+}
+.unchecked {
+    border: 1px solid #ced4da !important;
+}

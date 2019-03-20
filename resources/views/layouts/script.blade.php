@@ -30,6 +30,10 @@
 				if(app.bottomprint != ""){
 					app.steps[4].state = true;
 					$('button',$('#m_wizard_form_step_5')).html(app.bottomprint);
+					setTimeout(function(){
+						$('button',$('#m_wizard_form_step_5')).removeClass('unchecked');
+					}, 1000);
+					
 					$('input',$('#m_wizard_form_step_5')).attr('fileName',app.bottomprint);
 				}
 				else
@@ -37,7 +41,11 @@
 
 				app.topprint = decodeHTML("{{$order->topprint}}");
 				if(app.topprint != ""){
+					debugger;
 					$('button',$('#m_wizard_form_step_6')).html(app.topprint);
+					setTimeout(function(){
+						$('button',$('#m_wizard_form_step_6')).removeClass('unchecked');
+					}, 1000);
 					$('input',$('#m_wizard_form_step_6')).attr('fileName',app.topprint);
 					app.steps[5].state = true;
 				}
@@ -48,6 +56,9 @@
 				if(app.engravery != ""){
 					app.steps[6].state = true;
 					$('button',$('#m_wizard_form_step_7')).html(app.engravery);
+					setTimeout(function(){
+						$('button',$('#m_wizard_form_step_7')).removeClass('unchecked');
+					}, 1000);
 					$('input',$('#m_wizard_form_step_7')).attr('fileName',app.engravery);
 				}
 				else
@@ -61,6 +72,9 @@
 				if(app.cardboard != ""){
 					app.steps[9].state = true;
 					$('button',$('#m_wizard_form_step_10')).html(app.cardboard);
+					setTimeout(function(){
+						$('button',$('#m_wizard_form_step_10')).removeClass('unchecked');
+					}, 1000);
 					$('input',$('#m_wizard_form_step_10')).attr('fileName',app.cardboard);
 				}
 				else
@@ -70,6 +84,9 @@
 				if(app.carton != ""){
 					app.steps[9].state = true;
 					$('button',$('#m_wizard_form_step_11')).html(app.carton);
+					setTimeout(function(){
+						$('button',$('#m_wizard_form_step_11')).removeClass('unchecked');
+					}, 1000);
 					$('input',$('#m_wizard_form_step_11')).attr('fileName',app.carton);
 				}
 				else
