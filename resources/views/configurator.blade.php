@@ -700,7 +700,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="bottomPrintFile">
+                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="bottomPrintFile" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                     
@@ -820,7 +820,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="topPrintFile">
+                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="topPrintFile"  @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1">
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[5].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -938,7 +938,7 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="engraveryFile">
+                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="engraveryFile"  @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[6].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -1137,7 +1137,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <input onclick="{{Auth::user()?'return ture':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
+                                                                <input onclick="{{Auth::user()?'return true':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Deep Concave</h3>
                                                                                 Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
@@ -1428,12 +1428,12 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cardboardFile" @click=" steps[9].state = 1">
+                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="cardboardFile" @click=" steps[9].state = 1">
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[9].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown">
-                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[9].state}">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[9].state}"  @click=" steps[9].state = 1">
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -1547,7 +1547,7 @@
                                                                     <div class="form-group m-form__group">
                                                                         <div></div>
                                                                         <div class="custom-file">
-                                                                            <input onclick="{{Auth::user()?'return ture':'return false'}}" type="file" class="custom-file-input" id="cartonFile">
+                                                                            <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="cartonFile"   @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
                                                                             <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
                                                                         </div>
                                                                     </div>
