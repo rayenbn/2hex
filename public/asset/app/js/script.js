@@ -44,11 +44,11 @@ $(document).ready(function(){
       
       
       if($(this).attr('filename') == "" && $(this).attr('id') != "engraveryFile" && $(this).attr('id') != "cardboardFile")
-        app.total += 120;
+        app.fixedprice += 120;
       else if($(this).attr('filename') == "" && $(this).attr('id') == "engraveryFile")
-        app.total += 80;
+        app.fixedprice += 80;
       else if($(this).attr('filename') == "" && $(this).attr('id') == "cardboardFile")
-        app.total += 500;
+        app.fixedprice += 500;
       formData.append('file', $(this)[0].files[0]);
       self = this;
       $.ajaxSetup({
@@ -65,7 +65,7 @@ $(document).ready(function(){
              success : function(data) {
                  if(data != 'failed')
                    $(self).attr('fileName',data);
-                   $(self).removeClass('unchecked');
+                   $(self).next().removeClass('unchecked');
                    $('button', $(self).parent().parent().next()).addClass('unchecked');
                    $('button', $(self).parent().parent().next()).html(data);
              }
