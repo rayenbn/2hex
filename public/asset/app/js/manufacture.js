@@ -150,7 +150,18 @@ var app = new Vue({
         quantityChange: function(){
 
 
-          debugger;
+            if(this.quantity % 10 != 0){
+                 swal({
+                    title: "",
+                    text: "Select Only quantities in steps of 10 (10, 20, ...)",
+                    type: "alert",
+                    confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                }).then((value) => {
+                });
+                this.quantity = this.pre_quantity;
+                return false;
+            }
+            
             if(this.pre_quantity > 0){
                 if(this.total_quantity <= 10)
                   this.perdeck -= 50;

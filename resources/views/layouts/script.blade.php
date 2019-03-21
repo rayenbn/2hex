@@ -7,6 +7,7 @@
 				$('#saved_order_id').val({{$order->id}});
 
 				app.quantity =decodeHTML("{{$order->quantity}}");
+				app.pre_quantity = decodeHTML("{{$order->quantity}}");
 				app.size = decodeHTML("{{$order->size}}");
 				app.concave =decodeHTML("{{$order->concave}}");
 				if(app.concave == "Deep Concave")
