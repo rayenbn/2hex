@@ -125,7 +125,7 @@ class SummaryController extends Controller
     function load($id)
     {
         $save_data['usenow'] = 0;
-        $save_data['saved_date'] =new \DateTime();
+        //$save_data['saved_date'] =new \DateTime();
 
         
         if(Auth::user()){
