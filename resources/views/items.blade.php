@@ -1,4 +1,37 @@
 <table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
+
+  <thead>
+    <tr>
+      <th>Invoice No</th>
+      <th>Date</th>
+      <th>Contact</th>
+      <th>Phone</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Cell Number</th>
+      <th>Company Name</th>
+      <th>Invoice Address</th>
+      <th>Vat ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>#2HEX-A19Z001</td>
+      <td><? echo (new \DateTime();) ?></td>
+      <td>{{$user->email}}</td>
+      <td>{{$user->phone}}</td>
+      <td>{{$user->name}}</td>
+      <td>{{$user->email}}</td>
+      <td>{{$user->phone}}</td>
+      <td>{{$user->company}}</td>
+      <td>Address</td>
+      <td>{{$shipinfo->invoice_taxid}}</td>
+    </tr>
+  </tbody>
+
+  <tr></tr>
+  <tr></tr>
+
   <thead style="background-color: #52a3f0; color: white;">
     <tr>
                       
@@ -75,26 +108,41 @@
         <td>Fixed Total</td>
       </tr>
      </thead>
-                  
-                  <tr>
-      <td colspan="3">Bottom Print</td>
-      <td colspan="3">1, 2, 3</td>
-      <td colspan="7">supermanV2.ai</td>
-      <td>$120.00</td>
+    <tbody>              
+      <tr>
+        <td colspan="3">Bottom Print</td>
+        <td colspan="3">1, 2, 3</td>
+        <td colspan="7">supermanV2.ai</td>
+        <td>$120.00</td>
+      </tr>
+                    <tr>
+        <td colspan="3">Delivery</td>
+        <td colspan="3">All</td>
+        <td colspan="7">Global Delivery</td>
+        <td>$800.00</td>
+      </tr>
+    <tr>
+      <td colspan="14"></td>
     </tr>
-                  <tr>
-      <td colspan="3">Delivery</td>
-      <td colspan="3">All</td>
-      <td colspan="7">Global Delivery</td>
-      <td>$800.00</td>
-    </tr>
-  <tr>
-    <td colspan="14"></td>
-  </tr>
 
                   
-                  
-                  
-                  
+  </tbody>
+  <tr></tr>
+  <tr></tr>
+  <thead>
+    <tr>
+      <th>Company Name</th>
+      <th>Name</th>
+      <th>Shipping Address</th>
+      <th>Cell Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{$shipinfo->shipping_company}}</td>
+      <td>{{$shipinfo->shipping_contactperson}}</td>
+      <td>{{$shipinfo->shipping_address}}</td>
+      <td>{{$shipinfo->shipping_phone}}</td>
+    </tr>
   </tbody>
 </table>

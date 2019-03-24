@@ -75,14 +75,12 @@
                                             </div>
                                             <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
                                                 @foreach($orders as $order)
-                                                    @if($order->submit == 0)
                                                     <div class="saved-order-list-item">
-                                                        <div class="btn btn-secondary"><a href="/skateboard-deck-configurator/{{$order->id}}">Continue</a></div>
+                                                        <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">Continue</a></div>
                                                         <div class="btn btn-secondary">
-                                                            Saved order: {{$order->updated_at==""?$order->created_at:$order->updated_at}}
+                                                            Saved order: {{$order->saved_date}}
                                                         </div>
                                                     </div>    
-                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
@@ -93,8 +91,8 @@
                                                 <h3 class="m-form__section">2. Submitted Orders</h3>
                                             </div>
                                             <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
-                                            @foreach($orders as $order)
-                                                @if($order->submit == 1)
+                                            @foreach($submitorders as $order)
+                                                
                                                 <div class="saved-order-list-item">
                                                     <div>                                                                   
                                                         <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
@@ -102,19 +100,19 @@
                                                                 Order Number: XYZ5432 2019/02/01&nbsp;&nbsp; 
                                                             </div> 
                                                             <div>
-                                                                Submitted: {{$order->updated_at}}
+                                                                Submitted: {{$order->saved_date}}
                                                             </div>                                                                      
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div>
                                                             <div class="btn btn-secondary">View</div>
-                                                            <div class="btn btn-secondary">re-use</div>
+                                                            <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">re-use</a></div>
                                                             <div class="btn btn-secondary">Invoice</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @endif
+                                                
                                             @endforeach
                                             </div>
                                         </div>

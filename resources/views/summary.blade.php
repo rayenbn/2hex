@@ -250,7 +250,7 @@
 									</li>
 
 									<li class="m-portlet__nav-item">
-										<a href="/profile" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
 											<span>
 												<i class="la la-save"></i>
 												<span>save for later</span>

@@ -33,9 +33,10 @@ class ProfileController extends Controller
         else{
             $created_by = csrf_token();
         }
-        $order = Order::where('created_by','=',$created_by)->get();
+        $order1 = Order::where('created_by','=',$created_by)->groupBy('saved_date')->where('submit','=',0)->whereNotNull('saved_date')->select('saved_date')->get();
+        $order2 = Order::where('created_by','=',$created_by)->groupBy('saved_date')->where('submit','=',1)->whereNotNull('saved_date')->select('saved_date')->get();
         $shipinfo = ShipInfo::where('created_by','=',$created_by)->first();
-        return view('profile', ['shipinfo'=>$shipinfo, 'orders'=>$order]);
+        return view('profile', ['shipinfo'=>$shipinfo, 'orders'=>$order1, 'submitorders'=>$order2]);
 
     }
     public function store_address(Request $request)

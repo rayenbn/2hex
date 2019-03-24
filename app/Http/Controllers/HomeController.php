@@ -31,7 +31,7 @@ class HomeController extends Controller
             $created_by = Auth::user()->id;
         else
             $created_by = csrf_token();
-        $data = Order::where('created_by','=',$created_by)->get();
+        $data = Order::where('created_by','=',$created_by)->where('usenow','=',1)->get();
         $quantity = 0;
         $total = 0;
         for($i = 0; $i < count($data); $i ++)
