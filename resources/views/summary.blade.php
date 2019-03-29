@@ -54,6 +54,7 @@
 						</div>
 					</div>
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
+						@if(Session::get('viewonly') == null)
 						<ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
 								<a href="/skateboard-deck-configurator" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
@@ -75,7 +76,7 @@
 								</a>
 							</li>
 						</ul>
-                        
+                        @endif
                         
 					</div>
       
@@ -101,8 +102,10 @@
                                 <th>Carton Print</th>
                                 <th>Deck&nbspPrice</th>
                                 <th>Batch&nbspTotal</th>
+                                @if(Session::get('viewonly') == null)
                                 <th>Edit</th>
                                 <th>Remove</th>
+                                @endif
 							</tr>
 						</thead>
                         
@@ -154,8 +157,10 @@
 								<td>{{$order->carton?$order->carton:'None'}}</td>
 								<td>${{$order->perdeck}}</td>
 								<td>${{$order->total}}</td>
+								@if(Session::get('viewonly') == null)
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
+								@endif
 								@php
 									$here = 0;
                                   	if($order->bottomprint != ""){
@@ -239,37 +244,7 @@
 								
 							<div class="m-portlet__head-tools">
 								@if(Session::get('viewonly') != null)
-								<ul class="m-portlet__nav">
-									
-									<li class="m-portlet__nav-item">
-										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon" >
-											<span>
-												<i class="la la-save"></i>
-												<span>ExportInvoice</span>
-											</span>
-										</p>
-									</li>
-
-									<li class="m-portlet__nav-item">
-										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon">
-											<span>
-												<i class="la la-save"></i>
-												<span>save for later</span>
-											</span>
-										</p>
-									</li>
-									
-									
-									<li class="m-portlet__nav-item">
-										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon">
-											<span>
-												<i class="la la-rocket"></i>
-												<span>SUBMIT</span>
-											</span>
-										</p>
-									</li>
-									
-								</ul>
+								
 								@else
 								<ul class="m-portlet__nav">
 									

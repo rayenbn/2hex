@@ -186,7 +186,7 @@ var app = new Vue({
                 else 
                   this.perdeck -= 0;                
             }
-            //this.total_quantity -= (this.pre_quantity * 1);
+            this.total_quantity -= (this.pre_quantity * 1);
             this.total_quantity += (this.quantity * 1);
             this.pre_quantity = this.quantity;
             if(this.total_quantity <= 10)
