@@ -59,14 +59,14 @@
                         <ul class="m-topbar__nav m-nav m-nav--inline">
                             <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                 m-dropdown-toggle="click">
-
-                                <a href="/inquiries" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
-
-                                             <span class="m-topbar__userpic">
-                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Run Your Production</span>
-                                             </span>
-
-                                </a>
+                                @if (Auth::user())
+                                <a href="#" class="m-nav__link m-dropdown__toggle">
+                                                                                             
+                                     <span class="m-topbar__userpic">
+                                         <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">{{Auth::user()->name}}</span>
+                                     </span>
+                                                                                     
+                                 </a>
 
                                 <div class="m-dropdown__wrapper">
                                     <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
@@ -78,8 +78,8 @@
 
                                                 </div>
                                                 <div class="m-card-user__details">
-                                                    <span class="m-card-user__name m--font-weight-500">Mark Andre</span>
-                                                    <a href="/inquiries" class="m-card-user__email m--font-weight-300 m-link">mark.andre@gmail.com</a>
+                                                    <span class="m-card-user__name m--font-weight-500">{{Auth::user()->name}}</span>
+                                                    <a href="/inquiries" class="m-card-user__email m--font-weight-300 m-link">{{Auth::user()->email}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                                         <span class="m-nav__section-text">Section</span>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="../profile.php" class="m-nav__link">
+                                                        <a href="/profile" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -101,7 +101,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="../profile.php#user_address" class="m-nav__link">
+                                                        <a href="/profile#user_address" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-map-location"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -112,7 +112,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="../profile.php#saved_orders" class="m-nav__link">
+                                                        <a href="/profile" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-symbol"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -123,7 +123,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="../profile.php#submitted_orders" class="m-nav__link">
+                                                        <a href="/profile" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-file"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -134,7 +134,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="../profile.php" class="m-nav__link">
+                                                        <a href="/profile" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-delete"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -147,13 +147,22 @@
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="../login.php" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
+                                                        <a href="/loginout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                @else
+                                <a href="/login" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
+
+                                             <span class="m-topbar__userpic">
+                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login</span>
+                                             </span>
+
+                                </a>
+                                @endif 
                             </li>
                             <li id="m_quick_sidebar_toggle" class="m-nav__item">
                                 <a   class="m-nav__link m-dropdown__toggle">

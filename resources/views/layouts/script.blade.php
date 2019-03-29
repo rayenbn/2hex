@@ -99,6 +99,19 @@
 				debugger;
 			@endforeach
 		@endif
+		debugger;
+		var url = document.location.href;
+		if(url.indexOf('#') != -1){
+			sub = url.slice(url.indexOf('#'));
+			if(sub == "#user_address"){
+				$('#m_user_profile_tab_3').addClass('active');
+				$('#m_user_profile_tab_1').removeClass('active');
+				$('.m-tabs__link').eq(0).removeClass('active')
+				$('.m-tabs__link').eq(2).addClass('active')
+			}
+		}
+		
+
 	});
 
 	function decodeHTML(encodedStr){
