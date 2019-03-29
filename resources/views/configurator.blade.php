@@ -982,10 +982,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click=" steps[6].state=! steps[6].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
@@ -1355,10 +1355,10 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a v-if="steps[8].pattern.state" @click="steps[8].pattern.state=!steps[8].pattern.state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                        <a v-if="steps[8].pattern.state" @click="steps[8].pattern.state=!steps[8].pattern.state, perdeck-=1.3"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
-                                                                        <a v-else @click="steps[8].pattern.state=!steps[8].pattern.state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                        <a v-else @click="steps[8].pattern.state=!steps[8].pattern.state, perdeck+=1.3"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                                 <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>

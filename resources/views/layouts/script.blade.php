@@ -103,7 +103,13 @@
 		var url = document.location.href;
 		if(url.indexOf('#') != -1){
 			sub = url.slice(url.indexOf('#'));
-			if(sub == "#user_address"){
+			if(sub == "#invoice_address"){
+				$('#m_user_profile_tab_2').addClass('active');
+				$('#m_user_profile_tab_1').removeClass('active');
+				$('.m-tabs__link').eq(0).removeClass('active')
+				$('.m-tabs__link').eq(1).addClass('active')
+			}
+			if(sub == "#my_detail"){
 				$('#m_user_profile_tab_3').addClass('active');
 				$('#m_user_profile_tab_1').removeClass('active');
 				$('.m-tabs__link').eq(0).removeClass('active')

@@ -176,7 +176,7 @@
 										</div>
 										<br>
 										<div class="m-widget19__action">
-											<a href="http://skateboard-factory.com/skateboarddeckfactory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
+											<a href="/skateboard-deck-manufacturer" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
                                                     <span>
                                                         <span>back to our old website</span>
                                                         <i class="la la-arrow-right"></i>

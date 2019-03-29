@@ -90,7 +90,7 @@
                                                         <span class="m-nav__section-text">Section</span>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="/profile" class="m-nav__link">
+                                                        <a href="/profile#my_detail" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -101,7 +101,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="/profile#user_address" class="m-nav__link">
+                                                        <a href="/profile#invoice_address" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-map-location"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -112,7 +112,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="/profile" class="m-nav__link">
+                                                        <a href="/profile#saved_orders" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-symbol"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
@@ -123,7 +123,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="/profile" class="m-nav__link">
+                                                        <a href="/profile#submitted_orders" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-file"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">
