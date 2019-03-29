@@ -83,6 +83,7 @@ Route::get('/export_csv','SummaryController@exportcsv');
 Route::get('/export_csv/{id}','SummaryController@exportcsvbyid');
 Route::get('/submit_order','SummaryController@submitOrder');
 Route::get('/save_order', 'SummaryController@saveOrder');
+Route::get('/remove_saveorder/{id}','SummaryController@removeOrder');
 Route::get('/getdata','HomeController@getData');
 
 

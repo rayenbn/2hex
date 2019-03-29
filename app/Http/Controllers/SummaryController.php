@@ -106,7 +106,7 @@ class SummaryController extends Controller
         return redirect()->route('summary');
     }
 
-    function saveOrder()
+    public function saveOrder()
     {
         if(Auth::user()){
             $created_by = Auth::user()->id;
@@ -134,7 +134,7 @@ class SummaryController extends Controller
 
         return redirect()->route('summary');   
     }
-    function load($id)
+    public function load($id)
     {
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
@@ -158,7 +158,7 @@ class SummaryController extends Controller
         }
         return redirect()->route('summary');   
     } 
-    function view($id)
+    public function view($id)
     {
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
@@ -181,5 +181,16 @@ class SummaryController extends Controller
             Order::insert($array);
         }
         return redirect()->route('summary')->with(['viewonly'=>1]);   
-    }  
+    }
+    public function removeOrder($id)
+    {
+        if(Auth::user()){
+            $created_by = Auth::user()->id;
+        }
+        else{
+            $created_by = csrf_token();
+        }
+        Order::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        return redirect()->route('profile');
+    }
 }

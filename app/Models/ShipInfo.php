@@ -42,5 +42,5 @@ class ShipInfo extends Model
      *
      * @var array
      */
-    protected $fillable = ['invoice_company','invoice_name','invoice_country','invoice_taxid','shipping_company','shipping_address','shipping_city','shipping_state','shipping_postcode','shipping_contactperson','shipping_phone','shipping_country','created_by'];
+    protected $fillable = ['invoice_company','invoice_name','invoice_country','invoice_taxid','shipping_company','shipping_address','shipping_city','shipping_state','shipping_postcode','shipping_contactperson','shipping_phone','shipping_country','created_by', 'updated_at'];
 }

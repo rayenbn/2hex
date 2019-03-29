@@ -80,6 +80,9 @@
                                                         <div class="btn btn-secondary">
                                                             Saved order: {{$order->saved_date}}
                                                         </div>
+                                                        <div class="btn btn-secondary">
+                                                            <a class="remove_button" href="/remove_saveorder/{{$order->saved_date}}">Remove</a>
+                                                        </div>
                                                     </div>    
                                                 @endforeach
                                             </div>
@@ -251,7 +254,7 @@
                             </div>
                             <div class="tab-pane " id="m_user_profile_tab_3">
 
-                                <form class="m-form m-form--fit m-form--label-align-right" action="detail_save" method="POST" id="detailForm">
+                                <form class="m-form m-form--fit m-form--label-align-right" action="/detail_save" method="POST" id="detailForm">
                                     {{ csrf_field() }}
                                     <div class="m-portlet__body">
                                         <div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -266,7 +269,7 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->name:''}}" placeholder="Enter your full name">
+                                                <input class="form-control m-input" name="name" type="text" value="{{Auth::user()?Auth::user()->name:''}}" placeholder="Enter your full name">
                                             </div>
                                         </div>
 
@@ -293,7 +296,7 @@
                                         <div class="form-group m-form__group row">
                                             <label for="example-text-input" class="col-2 col-form-label">Email Address.</label>
                                             <div class="col-7">
-                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->email:''}}" name="email" placeholder="Enter your email">
+                                                <input class="form-control m-input" type="text" value="{{Auth::user()?Auth::user()->email:''}}" name="email" placeholder="Enter your email" name="email">
                                             </div>
                                         </div>
 
