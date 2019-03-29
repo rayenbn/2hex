@@ -106,9 +106,9 @@
                                                     </div>
                                                     <div>
                                                         <div>
-                                                            <div class="btn btn-secondary">View</div>
+                                                            <div class="btn btn-secondary"><a href="/summary/view/{{$order->saved_date}}">View</a></div>
                                                             <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">re-use</a></div>
-                                                            <div class="btn btn-secondary">Invoice</div>
+                                                            <div class="btn btn-secondary"><a href="/export_csv/{{$order->saved_date}}">Invoice</a></div>
                                                         </div>
                                                     </div>
                                                 </div>

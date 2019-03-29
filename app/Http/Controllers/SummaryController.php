@@ -56,6 +56,18 @@ class SummaryController extends Controller
         return Excel::download(new OrderExport($created_by), 'invoices.xlsx');
     }
 
+    public function exportcsvbyid($id)
+    {
+        if(Auth::user()){
+            $created_by = Auth::user()->id;
+        }
+        else{
+            $created_by = csrf_token();
+        }
+
+        return Excel::download(new OrderExport($created_by, $id), 'invoices.xlsx');   
+    }
+
     public function submitOrder()
     {
 
@@ -145,5 +157,29 @@ class SummaryController extends Controller
             Order::insert($array);
         }
         return redirect()->route('summary');   
-    }   
+    } 
+    function view($id)
+    {
+        $save_data['usenow'] = 0;
+        //$save_data['saved_date'] =new \DateTime();
+
+        
+        if(Auth::user()){
+            $created_by = Auth::user()->id;
+        }
+        else{
+            $created_by = csrf_token();
+        }
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        for($i = 0; $i < count($data); $i ++){
+            unset($data[$i]['id']);
+            unset($data[$i]['saved_date']);
+            unset($data[$i]['usenow']);
+            unset($data[$i]['submit']);
+            $array = json_decode(json_encode($data[$i]), true);
+            Order::insert($array);
+        }
+        return redirect()->route('summary')->with(['viewonly'=>1]);   
+    }  
 }

@@ -140,7 +140,7 @@ var WizardDemo = function() {
                 formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
                 formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
                 formData.append('perdeck',app.perdeck);
-                formData.append('total',app.quantity*app.perdeck + app.fixedprice);
+                formData.append('total',(app.quantity*app.perdeck + app.fixedprice).toFixed(2));
                 formData.append('fixedprice',app.fixedprice);
                 
                 $.ajax({
@@ -150,7 +150,7 @@ var WizardDemo = function() {
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        window.location.href = "../summary"
+                        window.location.href = "/summary"
                     }
                 });
 
@@ -177,7 +177,7 @@ var WizardDemo = function() {
                 formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
                 formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
                 formData.append('perdeck',app.perdeck);
-                formData.append('total',app.quantity*app.perdeck + app.fixedprice);
+                formData.append('total',(app.quantity*app.perdeck + app.fixedprice).toFixed(2));
                 formData.append('fixedprice',app.fixedprice);
                 
                 $.ajax({
@@ -187,7 +187,7 @@ var WizardDemo = function() {
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        window.location.href = "../profile"
+                        window.location.href = "/profile"
                     }
                 });                
             })

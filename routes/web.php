@@ -80,6 +80,7 @@ Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
 
 Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index');
 Route::get('/export_csv','SummaryController@exportcsv');
+Route::get('/export_csv/{id}','SummaryController@exportcsvbyid');
 Route::get('/submit_order','SummaryController@submitOrder');
 Route::get('/save_order', 'SummaryController@saveOrder');
 Route::get('/getdata','HomeController@getData');
@@ -89,6 +90,7 @@ Route::get('/getdata','HomeController@getData');
 
 Route::get('/summary', 'SummaryController@index')->name('summary');
 Route::get('/summary/{id}', 'SummaryController@load');
+Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');

@@ -158,7 +158,7 @@
                                 <a href="/login" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
 
                                              <span class="m-topbar__userpic">
-                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login</span>
+                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login Or SignUp</span>
                                              </span>
 
                                 </a>

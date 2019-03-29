@@ -107,9 +107,9 @@
 						</thead>
                         
 						<tbody>
-							<?php $total_price = 0; $total_qty = 0; $batch = 0; $filename = []; $isfilehere = []; $fixedprice = 0; $type=[];?>
+							<?php $total_price = 0; $total_qty = 0; $warningshow = 0; $batch = 0; $filename = []; $isfilehere = []; $fixedprice = 0; $type=[];?>
 							@foreach($orders as $order)
-							<?php $total_price += $order->total; $total_qty += $order->quantity; ?>
+							<?php $total_price += $order->total; $total_qty += $order->quantity; if($order->quantity <= 40) $warningshow = 1; ?>
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$order->quantity}}</td>
@@ -238,10 +238,43 @@
 							</div>
 								
 							<div class="m-portlet__head-tools">
+								@if(Session::get('viewonly') != null)
 								<ul class="m-portlet__nav">
 									
 									<li class="m-portlet__nav-item">
-										<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon" >
+											<span>
+												<i class="la la-save"></i>
+												<span>ExportInvoice</span>
+											</span>
+										</p>
+									</li>
+
+									<li class="m-portlet__nav-item">
+										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon">
+											<span>
+												<i class="la la-save"></i>
+												<span>save for later</span>
+											</span>
+										</p>
+									</li>
+									
+									
+									<li class="m-portlet__nav-item">
+										<p href="#" class="btn btn-default m-btn m-btn--custom m-btn--icon">
+											<span>
+												<i class="la la-rocket"></i>
+												<span>SUBMIT</span>
+											</span>
+										</p>
+									</li>
+									
+								</ul>
+								@else
+								<ul class="m-portlet__nav">
+									
+									<li class="m-portlet__nav-item">
+										<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
 											<span>
 												<i class="la la-save"></i>
 												<span>ExportInvoice</span>
@@ -269,6 +302,7 @@
 									</li>
 									
 								</ul>
+								@endif
 							</div>
 						
 						
@@ -276,7 +310,7 @@
                    
 				</div>
             </div>
-            @if($total_qty < 50)
+            @if($warningshow == 1)
 			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__icon">
 					<i class="flaticon-exclamation m--font-brand"></i>
