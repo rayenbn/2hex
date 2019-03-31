@@ -1,9 +1,7 @@
 <?php
-
 /**
  * Global helpers file with misc functions.
  */
-
 if (!function_exists('gravatar')) {
     /**
      * Access the gravatar helper.
@@ -15,7 +13,6 @@ if (!function_exists('gravatar')) {
         return app('gravatar');
     }
 }
-
 if (!function_exists('to_js')) {
     /**
      * Access the javascript helper.
@@ -25,15 +22,12 @@ if (!function_exists('to_js')) {
         if (is_null($key)) {
             return app('tojs');
         }
-
         if (is_array($key)) {
             return app('tojs')->put($key);
         }
-
         return app('tojs')->get($key, $default);
     }
 }
-
 if (!function_exists('meta')) {
     /**
      * Access the meta helper.
@@ -43,7 +37,6 @@ if (!function_exists('meta')) {
         return app('meta');
     }
 }
-
 if (!function_exists('meta_tag')) {
     /**
      * Access the meta tags helper.
@@ -53,7 +46,6 @@ if (!function_exists('meta_tag')) {
         return app('meta')->tag($name, $content, $attributes);
     }
 }
-
 if (!function_exists('meta_property')) {
     /**
      * Access the meta tags helper.
@@ -63,7 +55,6 @@ if (!function_exists('meta_property')) {
         return app('meta')->property($name, $content, $attributes);
     }
 }
-
 if (!function_exists('protection_context')) {
     /**
      * @return \NetLicensing\Context
@@ -73,7 +64,6 @@ if (!function_exists('protection_context')) {
         return app('netlicensing')->context();
     }
 }
-
 if (!function_exists('protection_context_basic_auth')) {
     /**
      * @return \NetLicensing\Context
@@ -83,7 +73,6 @@ if (!function_exists('protection_context_basic_auth')) {
         return app('netlicensing')->context(\NetLicensing\Context::BASIC_AUTHENTICATION);
     }
 }
-
 if (!function_exists('protection_context_api_key')) {
     /**
      * @return \NetLicensing\Context
@@ -93,9 +82,7 @@ if (!function_exists('protection_context_api_key')) {
         return app('netlicensing')->context(\NetLicensing\Context::APIKEY_IDENTIFICATION);
     }
 }
-
 if (!function_exists('protection_shop_token')) {
-
     /**
      * @param \App\Models\Auth\User\User $user
      * @param null $successUrl
@@ -109,9 +96,7 @@ if (!function_exists('protection_shop_token')) {
         return app('netlicensing')->createShopToken($user, $successUrl, $cancelUrl, $successUrlTitle, $cancelUrlTitle);
     }
 }
-
 if (!function_exists('protection_validate')) {
-
     /**
      * @param \App\Models\Auth\User\User $user
      * @return \App\Models\Protection\ProtectionValidation
@@ -119,5 +104,18 @@ if (!function_exists('protection_validate')) {
     function protection_validate(\App\Models\Auth\User\User $user)
     {
         return app('netlicensing')->validate($user);
+    }
+}
+if (!function_exists('invoice_number')) {
+    /**
+     * @return string
+     */
+    function invoice_number()
+    {
+        return sprintf(
+            '#%s%s', 
+            now()->format('ymd'),
+            substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3)
+        );
     }
 }

@@ -36,6 +36,7 @@ class ShipInfo extends Model
      * @var string
      */
     protected $table = 'ship_infos';
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
