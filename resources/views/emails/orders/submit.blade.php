@@ -1,17 +1,25 @@
-@component('mail::message')
+@component('mail::layout')
 
-<table align="left" width="570" cellpadding="0" cellspacing="0">
+{{-- Header --}}
+@slot('header')
+    @component('mail::header', ['url' => config('app.url')])
+        {{ config('app.name') }}
+    @endcomponent
+@endslot
+
+{{-- Body --}}
+<table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
-        <td align="left" style="font-size: 16px; color: #000000; font-family: Avenir,sans-serif;">
-            <p class="black">Dear {{ $data['name'] }}</p>
+        <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
+            <p style="color: black;">Dear {{ $data['name'] }}</p>
 
-			<p  class="black">Congrats on your order at 2HEX. <br>
+			<p style="color: black;">Congrats on your order at 2HEX. <br>
 			We have already received your product details.<p>
 
-			<p  class="black">Attached you can find your invoice.<br>
+			<p style="color: black;">Attached you can find your invoice.<br>
 			You can also find a summary of your order <a href="{{route('summary')}}">here</a></p>
 
-			<p  class="black">Please pay the invoice within two weeks.<br>
+			<p style="color: black;">Please pay the invoice within two weeks.<br>
 			Your production will be started right after we receive your payment.</p>
 
 			Cheers <br>
@@ -32,5 +40,21 @@
         </td>
     </tr>
 </table>
+
+{{-- Subcopy --}}
+@isset($subcopy)
+    @slot('subcopy')
+        @component('mail::subcopy')
+            {{ $subcopy }}
+        @endcomponent
+    @endslot
+@endisset
+
+{{-- Footer --}}
+@slot('footer')
+    @component('mail::footer')
+        © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+    @endcomponent
+@endslot
 
 @endcomponent

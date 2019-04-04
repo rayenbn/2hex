@@ -106,7 +106,7 @@ class SummaryController extends Controller
         //     $message->attach(storage_path('app/'.$name));
         // });
 
-        Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($query->first(), $data));
+        Mail::send(new \App\Mail\OrderSubmit($query->first(), $data));
 
 
         return redirect()->route('summary');

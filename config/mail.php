@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => 'smtp.gmail.com',
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => 587,
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => 'tls',
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => 'goldengolem0815@gmail.com',
+    'username' =>  env('MAIL_USERNAME', 'goldengolem0815@gmail.com'),
 
-    'password' => '123!@#IS SPECIAL',
+    'password' => env('MAIL_PASSWORD', '123!@#IS SPECIAL'),
 
     /*
     |--------------------------------------------------------------------------
