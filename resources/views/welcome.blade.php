@@ -82,7 +82,35 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="m-widget17__stats"></div>
+                                            <div class="m-widget17__stats">
+                                                <div class="m-widget17__items m-widget17__items-col1">
+                                                    <div class="m-widget17__item">
+														<span class="m-widget17__icon">
+															<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+														</span>
+                                                        <span class="m-widget17__subtitle">
+															Our Offer
+														</span>
+                                                        <span class="m-widget17__desc">
+															See our major products
+														</span>
+                                                    </div>
+                                                </div>
+                                                <div class="m-widget17__items m-widget17__items-col2">
+                                                    <div class="m-widget17__item">
+														<span class="m-widget17__icon">
+															<i class="flaticon-graph m--font-success"></i>
+														</span>
+                                                        <span class="m-widget17__subtitle">
+															Best
+														</span>
+                                                        <span class="m-widget17__desc">
+															See best sellers
+														</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div style="text-align: justify; color: #9699a4;">
                                             <h3>Catalog</h3>
@@ -138,34 +166,34 @@
 													</div>
 												</div>
 											</div>
-											<div class="m-widget17__stats">
-												<div class="m-widget17__items m-widget17__items-col1">
-													<div class="m-widget17__item">
+                                            <div class="m-widget17__stats">
+                                                <div class="m-widget17__items m-widget17__items-col1">
+                                                    <div class="m-widget17__item">
 														<span class="m-widget17__icon">
 															<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
 														</span>
-														<span class="m-widget17__subtitle">
+                                                        <span class="m-widget17__subtitle">
 															Shapes
 														</span>
-														<span class="m-widget17__desc">
+                                                        <span class="m-widget17__desc">
 															Check our big list of shapes
 														</span>
-													</div>
-												</div>
-												<div class="m-widget17__items m-widget17__items-col2">
-													<div class="m-widget17__item">
+                                                    </div>
+                                                </div>
+                                                <div class="m-widget17__items m-widget17__items-col2">
+                                                    <div class="m-widget17__item">
 														<span class="m-widget17__icon">
 															<i class="flaticon-graph m--font-success"></i>
 														</span>
-														<span class="m-widget17__subtitle">
+                                                        <span class="m-widget17__subtitle">
 															Sales
 														</span>
-														<span class="m-widget17__desc">
+                                                        <span class="m-widget17__desc">
 															Our bestseller!
 														</span>
-													</div>
-												</div>
-											</div>
+                                                    </div>
+                                                </div>
+                                            </div>
 										</div>
 										<div style="text-align: justify; color: #9699a4;">
 											<h3>Skateboard Decks</h3>
@@ -176,9 +204,9 @@
 										</div>
 										<br>
 										<div class="m-widget19__action">
-											<a href="/skateboard-deck-manufacturer" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
+											<a href="/skateboard-deck-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                                     <span>
-                                                        <span>back to our old website</span>
+                                                        <span>add to your order</span>
                                                         <i class="la la-arrow-right"></i>
                                                     </span>
 											</a>

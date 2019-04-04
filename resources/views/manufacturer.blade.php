@@ -72,6 +72,8 @@
                                 <div class="m-form m-form--label-align-left- m-form--state-">
                                     <!--begin: Form Body -->
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+                                        <iframe width="100%" height="220" src="https://sketchfab.com/models/0f583557d87a461e8e920741ad39575c/embed" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
                                         <div class="m-form__actions m-form__actions">
                                             Skateboard decks are the most frequently replaced part of skateboards, which
                                             makes it a popular first product for skateboard companies. Skateboard decks
@@ -83,14 +85,14 @@
                                         that perfectly fits to your brand - by quality, usage and style!
                                     </p>
                                 </div>
-                            </div>
+                                    </div>
                                     <!--end: Form Body -->
 
                                     <!--begin: Form Actions -->
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                         <div class="m-form__actions m-form__actions">
                                                 <a href="skateboard-deck-configurator" id="start_purchase" class="btn btn-primary m-btn m-btn--custom m-btn--icon">
-                                                    create the perfect decks for your brand
+                                                    add custom skateboard decks to your order
                                                     <i class="la la-arrow-right"></i>
                                                 </a>
                                         </div>
