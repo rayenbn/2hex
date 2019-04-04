@@ -66,10 +66,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
      */
     protected $user;
     /**
-     * Count Deliveries
-     * int $countDeliveries
+     * Count fees
+     * int $countFees
      */
-    protected $countDeliveries = 0;
+    protected $countFees = 0;
 
     /**
      * Drawing object
@@ -80,10 +80,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
     protected $costWithoutGlobal = 0;
 
      /**
-     * Drawing object
-     * array $deliveries
+     * Types of fees
+     * array $feesTypes
      */
-    protected $deliveries = [
+    protected $feesTypes = [
         'engravery' => [
             'name' => 'Top Engravery Set Up',
             'price' => 80
@@ -361,7 +361,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('L%s', 
                     $startTotal = $this->rangeStart 
                     + $this->getCountOrders() * self::ROWS_ITEM + 1 
-                    + $this->countDeliveries + 2
+                    + $this->countFees + 2
                 ), 
                 'Final amount in USD:'
             )
@@ -387,7 +387,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     sprintf('C%s', 
                         $shipsStart = $this->rangeStart 
                             + $this->getCountOrders() * self::ROWS_ITEM + 1 
-                            + $this->countDeliveries + 5
+                            + $this->countFees + 5
                     ), 
                     'Company Name: ' . $shipinfo->shipping_company
                 )
@@ -418,8 +418,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
     }
     protected function setDeliveryCells()
     {
-        // find not empty deliveries
-        $deliveries = $this->orders->map(function($order) {
+        // find not empty order fees
+        $orderFees = $this->orders->map(function($order) {
             return array_filter(
                 $order->only(['bottomprint', 'topprint', 'engravery', 'carton', 'cardboard']), function($image) {
                     return isset($image);
@@ -429,20 +429,21 @@ class GenerateInvoicesXLSX implements ShouldQueue
             return count($image);
         })->values();
 
-        // Insert rows = count deliveries
+        // Insert rows = count fees
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
                 $startDelivery = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + 1, 
-                $this->countDeliveries = $deliveries->count() + 1
+                $this->countFees = $this->calculateFees($orderFees) + 1
             ); 
+
         // start + count orders * 8(count rows in single item)
-        $rangeDelivery = sprintf(
+        $rangeFees = sprintf(
             'C%s:N%s', 
             $startDelivery,  
-            $startDelivery + $this->countDeliveries
+            $startDelivery + $this->countFees
         );
-        $styles = $this->getStylesRange($rangeDelivery);
+        $styles = $this->getStylesRange($rangeFees);
         // set fill bg
         $styles
             ->getFill()
@@ -459,35 +460,36 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $deliveries = $deliveries->map(function($imageGroup, $indx) use ($startDelivery){
-            $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $startDelivery + $indx, $startDelivery + $indx));
-            $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $startDelivery + $indx, $startDelivery + $indx));
+        $index = 0;
 
-            foreach ($imageGroup as $key => $value) {
-                if (array_key_exists($key,  $this->deliveries)) {
-                    $this->getActiveSheet()->setCellValue(sprintf('C%s', $startDelivery + $indx), $this->deliveries[$key]['name']);
-                    $this->getActiveSheet()->setCellValue(
-                        sprintf('N%s', $startDelivery + $indx), 
-                        $this->deliveries[$key]['price']
-                    );
-                    $this->costWithoutGlobal += $this->deliveries[$key]['price'];
-                } else {
-                    $this->getActiveSheet()->setCellValue(sprintf('C%s', $startDelivery + $indx), $key);
-                    $this->getActiveSheet()->setCellValue(sprintf('N%s', $startDelivery + $indx), 0);
-                }
-                $this->getActiveSheet()->setCellValue(sprintf('J%s', $startDelivery + $indx), $value);
+        array_walk_recursive($orderFees, function($value, $key) use($startDelivery, &$index) {
+            $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $pos = $startDelivery + $index, $pos));
+            $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $pos, $pos));
+
+            if (array_key_exists($key,  $this->feesTypes)) {
+                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $this->feesTypes[$key]['name']);
+                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $this->feesTypes[$key]['price']);
+                // plus total fees
+                $this->costWithoutGlobal += $this->feesTypes[$key]['price'];
+            } else {
+                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $key);
+                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), 0);
             }
+            $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value);
+
+            $index++;
         });
 
         // Global Delivery
         $this->getActiveSheet()->mergeCells(
-            sprintf('C%s:I%s', $startGlobal = $startDelivery + $this->countDeliveries - 1, $startDelivery + $this->countDeliveries - 1)
+            sprintf('C%s:I%s', $startGlobal = $startDelivery + $this->countFees - 1, $startDelivery + $this->countFees - 1)
         );
         $this->getActiveSheet()->mergeCells(
             sprintf('J%s:M%s', $startGlobal, $startGlobal)
         );
          $this->getActiveSheet()->setCellValue(sprintf('C%s', $startGlobal), 'Global delivery');
          $this->getActiveSheet()->setCellValue(sprintf('J%s', $startGlobal), 'Global delivery');
+
          $this->getActiveSheet()->setCellValue(
             sprintf('N%s', $startGlobal), 
             $this->getGlobalDelivery($this->orders->sum('quantity'))
@@ -510,11 +512,16 @@ class GenerateInvoicesXLSX implements ShouldQueue
         return $this;
     }
 
-    private function countFees($items) 
+    /**
+     * Calculate deep count fees 
+     * @param array|Collection $items
+     * @return int
+     */
+    private function calculateFees($items) 
     {
         $total = 0;
-        array_walk_recursive($items, function($x) use(&$tot) {
-            $tot++;
+        array_walk_recursive($items, function($x) use(&$total) {
+            $total++;
         });
 
         return $total;
@@ -527,23 +534,23 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         if ($amount < 20) {
             return 38;
-        } else if ($amount > 20 && $amount < 30) {
+        } else if ($amount >= 20 && $amount < 30) {
             return 52;
-        } else if ($amount > 30 && $amount < 50) {
+        } else if ($amount >= 30 && $amount < 50) {
             return 90;
-        } else if ($amount > 50 && $amount < 100) {
+        } else if ($amount >= 50 && $amount < 100) {
             return 450;
-        } else if ($amount > 100 && $amount < 200) {
+        } else if ($amount >= 100 && $amount < 200) {
             return 650;
-        } else if ($amount > 200 && $amount < 300) {
+        } else if ($amount >= 200 && $amount < 300) {
             return 800;
-        } else if ($amount > 300 && $amount < 500) {
+        } else if ($amount >= 300 && $amount < 500) {
             return 900;
-        } else if ($amount > 500 && $amount < 1000) {
+        } else if ($amount >= 500 && $amount < 1000) {
             return 1100;
-        } else if ($amount > 1000 && $amount < 2000) {
+        } else if ($amount >= 1000 && $amount < 2000) {
             return 1300;
-        } else if ($amount > 2000) {
+        } else if ($amount >= 2000) {
             return 1700;
         }
     }
