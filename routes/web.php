@@ -71,14 +71,14 @@ Route::get('/inquiries', 'InquiriesController@index');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
-Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index');
+Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show');
 Route::get('/getdesign','ConfiguratorController@getdesign');
 Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete');
 Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
 Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
 
-Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index');
+Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index')->name('skateboard.manufacturer');
 Route::get('/export_csv','SummaryController@exportcsv');
 Route::get('/export_csv/{id}','SummaryController@exportcsvbyid');
 Route::get('/submit_order','SummaryController@submitOrder');
