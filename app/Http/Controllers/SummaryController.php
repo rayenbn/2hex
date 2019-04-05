@@ -10,20 +10,8 @@ use Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrderExport;
 
-
-
-
 class SummaryController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
 
     /**
      * Show the application dashboard.
@@ -31,21 +19,12 @@ class SummaryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        if(Auth::user()){
-            $id = Auth::user()->id;
-            $orders = Order::where('created_by','=',$id)->where('usenow','=','1')->get();
-        }
-        else{
-            $token = csrf_token();
-            $orders = Order::where('created_by','=',$token)->where('usenow','=','1')->get();
-        }   
-        return view('summary',['orders'=>$orders]);
+    {  
+        return view('summary');
     }
 
     public function exportcsv()
     {
-
         $orders = Order::auth()->get();
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($orders));
         return response()->download($exporter->getPathInvoice());
