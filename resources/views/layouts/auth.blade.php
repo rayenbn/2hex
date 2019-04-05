@@ -28,9 +28,12 @@
                     <div class="m-grid__item m-grid__item--fluid    m-login__wrapper">
                         <div class="m-login__container">
                             <div class="m-login__logo">
-                                <a href="#">
-                                    <img src="../../asset/app/media/img//logos/logo-1.png">
-                                </a>
+                                <img 
+                                    src="{{ asset('/img/2HEX-logo2.png') }}" 
+                                    width="300"
+                                    title="2HEX.com" 
+                                    alt="2HEX.com" 
+                                >
                             </div>
                             {{--Page--}}
                             @yield('page')
