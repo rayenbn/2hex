@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Auth\Role\Role;
-use App\Notifications\Auth\ConfirmEmail;
+use App\Notifications\UserConfirmEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Models\Auth\User\User;
@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'confirmation_code' => Uuid::uuid4(),
-            'confirmed' => true
+            'confirmed' => false
         ]);
 
         if (config('auth.users.default_role')) {
@@ -120,7 +120,7 @@ class RegisterController extends Controller
 
             $this->guard()->logout();
 
-            //$user->notify(new ConfirmEmail());
+            $user->notify(new UserConfirmEmail());
 
             return redirect(route('login'));
         }
