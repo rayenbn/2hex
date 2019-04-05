@@ -5,11 +5,14 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Order;
+
 class OrderSubmit extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $order;
     public $data;
+
     public function __construct(Order $order, array $data = [])
     {
         $this->order = $order;
@@ -27,13 +30,13 @@ class OrderSubmit extends Mailable
         
         return $this
             ->from('niklas@2hex.com', 'Niklas')
+            ->to(auth()->user())
             ->subject('2HEX Production Order Confirmation')
-            ->with(['invoice' => $exporter->getInvoiceNumber()])
+            ->bcc('niklas@2hex.com', 'Niklas2')
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ])
-            ->bcc('niklas@2hex.com')
             ->markdown('emails.orders.submit');
     }
 }

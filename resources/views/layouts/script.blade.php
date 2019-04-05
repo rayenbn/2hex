@@ -42,7 +42,7 @@
 
 				app.topprint = decodeHTML("{{$order->topprint}}");
 				if(app.topprint != ""){
-					debugger;
+					// debugger;
 					$('button',$('#m_wizard_form_step_6')).html(app.topprint);
 					setTimeout(function(){
 						$('button',$('#m_wizard_form_step_6')).removeClass('unchecked');
@@ -96,10 +96,10 @@
 				app.perdeck = +decodeHTML("{{$order->perdeck}}");
 				app.total = +decodeHTML("{{$order->total}}");
 				app.fixedprice = +decodeHTML("{{$order->fixedprice}}");
-				debugger;
+				// debugger;
 			@endforeach
 		@endif
-		debugger;
+		// debugger;
 		var url = document.location.href;
 		if(url.indexOf('#') != -1){
 			sub = url.slice(url.indexOf('#'));
