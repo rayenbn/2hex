@@ -131,7 +131,14 @@
                 </div>
             </li>
             
-            <li class="m-menu__item " aria-haspopup="true"><a href="/summary" class="m-menu__link "><i class="m-menu__link-icon flaticon-truck"><span></span></i><span class="m-menu__link-text">Your Order</span></a></li>
+            <li class="m-menu__item " aria-haspopup="true">
+                <a href="{{route('summary')}}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-truck">
+                        <span></span>
+                    </i>
+                    <span class="m-menu__link-text">Your Order</span>
+                </a>
+            </li>
                 
             <li class="m-menu__item " aria-haspopup="true"><a class="m-menu__link "><span></span><span class="m-menu__link-text" id = "totalconprice">TOTAL: $0.00</span></a></li>
             

@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="m-grid__item m-grid__item--fluid m-wrapper">
-                    <!-- BEGIN: Subheader -->                   
-
-                    <!-- END: Subheader -->                   
+   <div class="m-grid__item m-grid__item--fluid m-wrapper">                 
                     
         <div class="m-content">
             <div class="row">

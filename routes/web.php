@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'ResetPasswordController@reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset.request');
 
     // Confirmation Routes...
     if (config('auth.users.confirm_email')) {
