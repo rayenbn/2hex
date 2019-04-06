@@ -29,10 +29,10 @@ class OrderSubmit extends Mailable
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($orders));
         
         return $this
-            ->from('niklas@2hex.com', 'Niklas')
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->to(auth()->user())
             ->subject('2HEX Production Order Confirmation')
-            ->bcc('niklas@2hex.com', 'Niklas2')
+            ->bcc(config('mail.from.address'), config('mail.from.name'))
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
