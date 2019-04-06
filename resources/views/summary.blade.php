@@ -110,7 +110,17 @@
 						</thead>
                         
 						<tbody>
-							<?php $total_price = 0; $total_qty = 0; $warningshow = 0; $batch = 0; $filename = []; $isfilehere = []; $fixedprice = 0; $type=[];?>
+							<?php 
+								$total_price = 0; 
+								$total_qty = 0; 
+								$warningshow = 0; 
+								$batch = 0; 
+								$filename = []; 
+								$isfilehere = []; 
+								$fixedprice = 0; 
+								$type=[];
+								setlocale(LC_MONETARY, 'en_US');
+							?>
 							@foreach($orders as $order)
 							<?php $total_price += $order->total; $total_qty += $order->quantity; if($order->quantity <= 40) $warningshow = 1; ?>
 							<tr>
@@ -155,8 +165,8 @@
                                 </td>
 								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
 								<td>{{$order->carton?$order->carton:'None'}}</td>
-								<td>${{$order->perdeck}}</td>
-								<td>${{$order->total}}</td>
+								<td>{{ money_format('$%.2n', $order->perdeck) }}</td>
+								<td>{{ money_format('$%.2n', $order->total) }}</td>
 								@if(Session::get('viewonly') == null)
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>

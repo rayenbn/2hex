@@ -23,7 +23,7 @@
                 {!! $errors->first() !!}
             </div>
         @endif
-        {{ Form::open(['route' => 'password.request', 'class' => 'm-login__form m-form']) }}
+        {{ Form::open(['route' => 'password.email', 'class' => 'm-login__form m-form']) }}
             <div class="form-group m-form__group">
                 <input class="form-control m-input" type="text" name="email" id="m_email" value="{{ old('email') }}" placeholder="{{ __('views.auth.passwords.reset.input_0') }}" required autofocus>
             </div>
@@ -39,6 +39,6 @@
                     {{ __('views.auth.passwords.reset.message') }}
                 </a>
             </div>
-        </form>
+        {{ Form::close() }}
     </div>
 @endsection

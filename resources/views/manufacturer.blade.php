@@ -1,14 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="m-grid__item m-grid__item--fluid m-wrapper">
-
-                    <!-- BEGIN: Subheader -->
-                    
-
-                    <!-- END: Subheader -->
-                    
-                    
+   <div class="m-grid__item m-grid__item--fluid m-wrapper">                        
         <div class="m-content">
             <div class="row">
                 <div class="col-xl-9">
@@ -65,39 +58,47 @@
                             </div>
 
                             <!--end: Message container -->
-        <div class="progress" style="height: 2px;"></div>
+                            <div class="progress" style="height: 2px;"></div>
 
                             <!--begin: Form Wizard Form-->
                             
                                 <div class="m-form m-form--label-align-left- m-form--state-">
                                     <!--begin: Form Body -->
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                        <iframe width="100%" height="220" src="https://sketchfab.com/models/0f583557d87a461e8e920741ad39575c/embed" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                                        <iframe 
+                                            width="100%" 
+                                            height="220" 
+                                            src="https://sketchfab.com/models/0f583557d87a461e8e920741ad39575c/embed" 
+                                            frameborder="0" 
+                                            allow="autoplay; fullscreen; vr" 
+                                            mozallowfullscreen="true" 
+                                            webkitallowfullscreen="true">
+                                        </iframe>
 
                                         <div class="m-form__actions m-form__actions">
                                             Skateboard decks are the most frequently replaced part of skateboards, which
                                             makes it a popular first product for skateboard companies. Skateboard decks
                                             offer a lot of customization options, enabling brands to differentiate from
                                             the current trend and create their own style.
-                                    </p>
-                                    <p>
-                                        Start the configuration process to create a skateboard deck production
-                                        that perfectly fits to your brand - by quality, usage and style!
-                                    </p>
-                                </div>
-                                    </div>
-                                    <!--end: Form Body -->
-
-                                    <!--begin: Form Actions -->
-                                    <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                        <div class="m-form__actions m-form__actions">
-                                                <a href="skateboard-deck-configurator" id="start_purchase" class="btn btn-primary m-btn m-btn--custom m-btn--icon">
-                                                    add custom skateboard decks to your order
-                                                    <i class="la la-arrow-right"></i>
-                                                </a>
                                         </div>
+                                        <p>
+                                            Start the configuration process to create a skateboard deck production
+                                            that perfectly fits to your brand - by quality, usage and style!
+                                        </p>
                                     </div>
                                 </div>
+                                <!--end: Form Body -->
+
+                                <!--begin: Form Actions -->
+                                <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+                                    <div class="m-form__actions m-form__actions">
+                                        <a href="{{route('get.skateboard.configurator')}}" id="start_purchase" class="btn btn-primary m-btn m-btn--custom m-btn--icon">
+                                            add custom skateboard decks to your order
+                                            <i class="la la-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!--end: Form Wizard-->
                     </div>
@@ -110,9 +111,7 @@
                             <div class="m-section">
                                 <h2 class="m-section__heading">Skateboard Decks</h2>
                                 <div class="m-section__content">
-                                    
                                     <img alt="" src="/skateboard-deck-production/width-skateboard-decks-factory-2hex.jpg" style="width: 100%" />
-                
                                 </div>
                             </div>
                             <!--end: Form Body -->

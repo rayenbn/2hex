@@ -18,7 +18,7 @@
     <div class="m-login__signin">
         {{ Form::open(['route' => 'login', 'class'=>'m-login__form m-form']) }}
             <div class="form-group m-form__group">
-                <input class="form-control m-input"   type="text" name="email" value="{{ old('email') }}" placeholder="{{ __('views.auth.login.input_0') }}" required autofocus >
+                <input class="form-control m-input" type="text" name="email" value="{{ old('email') }}" placeholder="{{ __('views.auth.login.input_0') }}" required autofocus >
             </div>
             <div class="form-group m-form__group">
                 <input class="form-control m-input m-login__form-input--last" type="password" placeholder="{{ __('views.auth.login.input_1') }}" required name="password">
@@ -47,7 +47,7 @@
                     Facebook
                 </a>
             </div>
-        </form>
+        {{ Form::close() }}
     </div>
     <div class="m-stack__item m-stack__item--center">
         <div class="m-login__account">
