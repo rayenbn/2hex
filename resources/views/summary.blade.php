@@ -165,8 +165,8 @@
                                 </td>
 								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
 								<td>{{$order->carton?$order->carton:'None'}}</td>
-								<td>{{ money_format('$%.2n', $order->perdeck) }}</td>
-								<td>{{ money_format('$%.2n', $order->total) }}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $order->perdeck) : '$?.??' }}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $order->total) : '$?.??' }}</td>
 								@if(Session::get('viewonly') == null)
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
@@ -219,7 +219,7 @@
 								<td colspan="3">Print</td>
 								<td colspan="3">{{implode(',', $isfilehere)}}</td>
 								<td colspan="9">{{implode(',', $filename)}}</td>
-								<td>{{$fixedprice}}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $fixedprice) : '$?.??' }}</td>
 							</tr>
                             <!-- <tr>
 								<td colspan="3">Delivery</td>
@@ -235,11 +235,6 @@
 						<tr>
 							<td colspan="14"></td>
 						</tr>
-
-                            
-                            
-                            
-                            
 						</tbody>
 					</table>
 					<div class="m-portlet__head" style="padding-left:0;flex-wrap: wrap;">
@@ -247,7 +242,7 @@
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title" style="padding-left: 20px;">
 									<h3 class="m-portlet__head-text">
-										ORDER TOTAL: ${{$total_price}}
+										ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price) : '$?.??' }}
 									</h3>
 								</div>
 							</div>

@@ -124,7 +124,7 @@ var WizardDemo = function() {
                 });
 
                 r.preventDefault();
-                debugger;
+                // debugger;
                 var formData = new FormData();
                 formData.append('id',$('#saved_order_id').val());
                 formData.append('quantity',app.quantity);
