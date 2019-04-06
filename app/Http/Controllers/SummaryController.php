@@ -61,8 +61,7 @@ class SummaryController extends Controller
 
     public function submitOrder()
     {
-
-       $data = [];
+        $data = [];
         $data['submit'] = 1;
         $data['saved_date'] = new \DateTime();
         $unique = null;
@@ -76,17 +75,7 @@ class SummaryController extends Controller
         $query->update($data);
         $data['name'] = $info['invoice_name'];
 
-        // Mail::send('mail', $data, function($message){
-        //     $name = uniqid(rand(), true).'.xlsx';
-        //     $file =  Excel::store(new OrderExport(Auth::user()->id), $name);
-        //     $message->to('niklas@2hex.com', 'Tutorials Point')->subject
-        //     ('Laravel Testing Mail with Attachment');
-        //     $message->from('goldengolem0815@gmail.com','Test User');
-        //     $message->attach(storage_path('app/'.$name));
-        // });
-
         Mail::send(new \App\Mail\OrderSubmit($query->first(), $data));
-
 
         return redirect()->route('summary');
     }
