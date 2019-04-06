@@ -113,7 +113,6 @@
 							<?php 
 								$total_price = 0; 
 								$total_qty = 0; 
-								$warningshow = 0; 
 								$batch = 0; 
 								$filename = []; 
 								$isfilehere = []; 
@@ -122,7 +121,7 @@
 								setlocale(LC_MONETARY, 'en_US');
 							?>
 							@foreach($orders as $order)
-							<?php $total_price += $order->total; $total_qty += $order->quantity; if($order->quantity <= 40) $warningshow = 1; ?>
+							<?php $total_price += $order->total; $total_qty += $order->quantity;?>
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$order->quantity}}</td>
@@ -290,17 +289,32 @@
                    
 				</div>
             </div>
-            @if($warningshow == 1)
+
+            <!-- TOTAL ORDERS QUANTITY LESS 40 -->
+
+            @if($orders->sum('quantity') <= 40)
+
 			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__icon">
 					<i class="flaticon-exclamation m--font-brand"></i>
 				</div>
 				<div class="m-alert__text">
-                    <font style="color: red">WARNING: Your total order quantity is less than 50 Decks. Please add more decks to run a custom production. For orders of 40 Decks or less we use blank decks from our stock. This means that you can only choose the decks' width, concave and print. <b>(Note to Developer: This red warning should only be shown for orders of 40 decks or less.)</b></font><br>
-					This is a summary of your complete order. Please make sure that everything including your address and contact information is correct before submitting.
+                    <font style="color: red">
+                    	WARNING: Your total order quantity is less than 50 Decks. 
+                    	Please add more decks to run a custom production. 
+                    	For orders of 40 Decks or less we use blank decks from our stock. 
+                    	This means that you can only choose the decks' width, concave and print. 
+                    	<b>(Note to Developer: This red warning should only be shown for orders of 40 decks or less.)</b>
+                    </font>
+                    <br>
+					This is a summary of your complete order. Please make sure that everything including your address 
+					and contact information is correct before submitting.
 				</div>
 			</div>
+
 			@endif
+
+			<!-- VENDOR CODE -->
 
 			@if(!$orders->every->submit)
 
