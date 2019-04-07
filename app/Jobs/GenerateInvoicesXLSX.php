@@ -79,6 +79,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected $costWithoutGlobal = 0;
 
+    protected $date;
+
      /**
      * Types of fees
      * array $feesTypes
@@ -117,6 +119,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->setPropertiesSheet();
         $this->writer = new Xlsx($this->getSpreadsheet());
         $this->drawing = new Drawing();
+        $this->date = now()->timestamp;
     }
     /**
      * Execute the job.
@@ -345,7 +348,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue('G10', 'Company Name:' . $this->user->company_name)
             ->setCellValue('G12', 'European Vat ID (only for EU companies):')
             ->setCellValue('E7', $this->invoiceNumber)
-            ->setCellValue('E8', Date::PHPToExcel(now()->timestamp))
+            ->setCellValue('E8', Date::PHPToExcel($this->date))
             ->getRowDimension(4)
             ->setRowHeight(40);
         $shipinfo = \App\Models\ShipInfo::query()
@@ -498,14 +501,31 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         return $this;
     }
+    
     public function getPathInvoice()
     {
-        return storage_path("app/xlsx/invoices" . str_slug($this->invoiceNumber, '-') . ".xlsx");
+        return storage_path("app/xlsx/invoices_" . str_slug($this->invoiceNumber, '-') . ".xlsx");
     }
+
     public function getInvoiceNumber()
     {
-        return $this->invoiceNumber;
+        return str_slug($this->invoiceNumber, '-');
     }
+
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = str_slug($invoiceNumber, '-');
+
+        return $this;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
     public function write()
     {
         $this->writer->save($this->getPathInvoice());

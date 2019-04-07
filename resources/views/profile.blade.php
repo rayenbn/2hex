@@ -94,29 +94,33 @@
                                                 <h3 class="m-form__section">2. Submitted Orders</h3>
                                             </div>
                                             <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
+                                            
                                             @foreach($submitorders as $order)
                                                 
-                                                <div class="saved-order-list-item">
-                                                    <div>                                                                   
-                                                        <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
-                                                            <div>
-                                                                Order Number: XYZ5432 2019/02/01&nbsp;&nbsp; 
-                                                            </div> 
-                                                            <div>
-                                                                Submitted: {{$order->saved_date}}
-                                                            </div>                                                                      
-                                                        </div>
+                                            <div class="saved-order-list-item">
+                                                <div>                                                                   
+                                                    <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
+                                                        <div>Order Number: #{{$order->invoice_number}}&nbsp;&nbsp;</div> 
+                                                        <div>Submitted: {{$order->saved_date}}</div>                                                                      
                                                     </div>
+                                                </div>
+                                                <div>
                                                     <div>
-                                                        <div>
-                                                            <div class="btn btn-secondary"><a href="/summary/view/{{$order->saved_date}}">View</a></div>
-                                                            <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">re-use</a></div>
-                                                            <div class="btn btn-secondary"><a href="/export_csv/{{$order->saved_date}}">Invoice</a></div>
+                                                        <div class="btn btn-secondary">
+                                                            <a href="/summary/view/{{$order->saved_date}}">View</a>
+                                                        </div>
+                                                        <div class="btn btn-secondary">
+                                                            <a href="/summary/{{$order->saved_date}}">re-use</a>
+                                                        </div>
+                                                        <div class="btn btn-secondary">
+                                                            <a href="{{ route('export.csv.id', $order->saved_date) }}">Invoice</a>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                                 
                                             @endforeach
+                                            
                                             </div>
                                         </div>
                                     </div>

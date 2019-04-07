@@ -45,14 +45,15 @@ class Order extends Model
      */
     protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by','created_at','saved_date','updated_at', 'submit'];
 
-    public function scopeAuth($query)
+    public function scopeAuth($query, $type = true)
     {
         if(auth()->check()){
             $query->where('created_by', '=', auth()->id());
         } else {
             $query->where('created_by', '=', csrf_token());
-        }  
-        return $query->where('usenow', '=', '1');
+        } 
+
+        return $query->where('usenow', '=', $type);
     }
 
 }
