@@ -46,6 +46,20 @@
 		<!-- END: Subheader -->
 		<div class="m-content">
 			
+			@if(session()->has('success'))
+				<div 
+					class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" 
+					role="alert"
+					style="background-color: #008000;"
+				>
+	                <div class="m-alert__icon">
+	                    <i class="flaticon-exclamation-1"></i>
+	                </div>
+	                <div class="m-alert__text">
+	                    {{session()->get('success')}}
+	                </div>
+	            </div>		
+			@endif
             
 			<div class="m-portlet">
 				<div class="m-portlet__head" style="flex-wrap: wrap;height: auto;float: right;">
@@ -237,109 +251,61 @@
 						</tbody>
 					</table>
 					<div class="m-portlet__head" style="padding-left:0;flex-wrap: wrap;">
-					
-							<div class="m-portlet__head-caption">
-								<div class="m-portlet__head-title" style="padding-left: 20px;">
-									<h3 class="m-portlet__head-text">
-										ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price) : '$?.??' }}
-									</h3>
-								</div>
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title" style="padding-left: 20px;">
+								<h3 class="m-portlet__head-text">
+									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price) : '$?.??' }}
+								</h3>
 							</div>
+						</div>
+						<div class="m-portlet__head-tools">
+							@if(Session::get('viewonly') != null)
+							
+							@else
+							<ul class="m-portlet__nav">
 								
-							<div class="m-portlet__head-tools">
-								@if(Session::get('viewonly') != null)
-								
-								@else
-								<ul class="m-portlet__nav">
-									
-									<li class="m-portlet__nav-item">
-										<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
-											<span>
-												<i class="la la-save"></i>
-												<span>ExportInvoice</span>
-											</span>
-										</a>
-									</li>
+								<li class="m-portlet__nav-item">
+									<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
+										<span>
+											<i class="la la-save"></i>
+											<span>ExportInvoice</span>
+										</span>
+									</a>
+								</li>
 
-									<li class="m-portlet__nav-item">
-										<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
-											<span>
-												<i class="la la-save"></i>
-												<span>save for later</span>
-											</span>
-										</a>
-									</li>
-									
-									
-									<li class="m-portlet__nav-item">
-										<a href="/submit_order" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
-											<span>
-												<i class="la la-rocket"></i>
-												<span>SUBMIT</span>
-											</span>
-										</a>
-									</li>
-									
-								</ul>
-								@endif
-							</div>
-						
-						
+								<li class="m-portlet__nav-item">
+									<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<span>
+											<i class="la la-save"></i>
+											<span>save for later</span>
+										</span>
+									</a>
+								</li>
+								
+								
+								<li class="m-portlet__nav-item">
+									<a href="/submit_order" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+										<span>
+											<i class="la la-rocket"></i>
+											<span>SUBMIT</span>
+										</span>
+									</a>
+								</li>
+							</ul>
+							@endif
+						</div>
 					</div>
-                   
 				</div>
             </div>
 
             <!-- TOTAL ORDERS QUANTITY LESS 40 -->
-
-            @if($orders->sum('quantity') <= 40)
-
-			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__icon">
-					<i class="flaticon-exclamation m--font-brand"></i>
-				</div>
-				<div class="m-alert__text">
-                    <font style="color: red">
-                    	WARNING: Your total order quantity is less than 50 Decks. 
-                    	Please add more decks to run a custom production. 
-                    	For orders of 40 Decks or less we use blank decks from our stock. 
-                    	This means that you can only choose the decks' width, concave and print. 
-                    	<b>(Note to Developer: This red warning should only be shown for orders of 40 decks or less.)</b>
-                    </font>
-                    <br>
-					This is a summary of your complete order. Please make sure that everything including your address 
-					and contact information is correct before submitting.
-				</div>
-			</div>
-
+            @if($orders->count() && $orders->sum('quantity') <= 40)
+				@include('partials.warning-quantity-less')
 			@endif
 
 			<!-- VENDOR CODE -->
-
 			@if(!$orders->every->submit)
-
-			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__icon">
-					<i class="flaticon-businesswoman m--font-brand"></i>
-				</div>
-				<div class="m-alert__text">
-					<form class="m-form m-form--fit m-form--label-align-right">
-						<div class="m-portlet__body">
-							<div class="row">
-								<div class="col-3" style="min-width:150px;">
-									<input class="form-control m-input" type="text" value="Vendor Code">
-								</div>
-								<a href="#" class="btn btn-secondary m-btn m-btn--icon m-btn--air">
-									<span>
-										<span>Add</span>
-									</span>
-								</a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-
+				@include('partials.vendor-code')
 			@endif
             
 			<!-- END EXAMPLE TABLE PORTLET-->

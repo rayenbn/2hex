@@ -12,14 +12,13 @@ use App\Exports\OrderExport;
 
 class SummaryController extends Controller
 {
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
         return view('summary');
     }
 
@@ -76,6 +75,8 @@ class SummaryController extends Controller
         $data['name'] = $info['invoice_name'];
 
         Mail::send(new \App\Mail\OrderSubmit($query->first(), $data));
+
+        session()->flash('success', 'Your order has been successfully sent!'); 
 
         return redirect()->route('summary');
     }
