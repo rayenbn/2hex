@@ -240,7 +240,11 @@ function validateColorPanel(){
         dropdownMenus[i].lastElementChild.style.setProperty('background', app.colorData[app.currentColors[i]])
     }
 }
-function gotoStep(step){
+function gotoStep(step, orderPath){
+    if (window.location.href != orderPath) {
+        window.location.href = orderPath;
+        return;
+    }
     app.currentStep = step - 1
     WizardDemo.gotoStep(step)
 }
