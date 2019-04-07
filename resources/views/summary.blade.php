@@ -254,7 +254,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price) : '$?.??' }}
+									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price + $fixedprice) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
@@ -284,12 +284,27 @@
 								
 								
 								<li class="m-portlet__nav-item">
-									<a href="/submit_order" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+									@php $auth = auth()->user(); @endphp
+									@if (strlen($auth->company_name) && strlen($auth->position) && strlen($auth->phone_num))
+									<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
 										<span>
 											<i class="la la-rocket"></i>
 											<span>SUBMIT</span>
 										</span>
 									</a>
+									@else
+									<a 
+										href="javascript:void(0);" 
+										class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+										onclick="alert('Please fill in your complete profile before submitting an order')"
+									>
+										<span>
+											<i class="la la-rocket"></i>
+											<span>SUBMIT</span>
+										</span>
+									</a>
+									@endif
+									
 								</li>
 							</ul>
 							@endif
