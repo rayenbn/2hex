@@ -155,7 +155,7 @@ var WizardDemo = function() {
                 });
 
                 
-            }), $('#save_order').click(function(){
+            }), $('#save_order').click(function(event){
                 $.ajaxSetup({
                   headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -187,7 +187,11 @@ var WizardDemo = function() {
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        window.location.href = "/profile"
+                        event.currentTarget.innerHTML = '<span><i class="la la-check"></i> <span> Use standards</span></span>';
+                        setTimeout(function() {
+                            window.location.href = "/summary";
+                        }, 1000);
+                        
                     }
                 });                
             })
