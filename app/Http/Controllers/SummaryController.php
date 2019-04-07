@@ -12,21 +12,23 @@ use App\Exports\OrderExport;
 
 class SummaryController extends Controller
 {
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
         return view('summary');
     }
 
     public function exportcsv()
     {
-        $orders = Order::auth()->get();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($orders));
+        $queryOrders = Order::auth();
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
+
+        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
+
         return response()->download($exporter->getPathInvoice());
     }
 
@@ -35,13 +37,8 @@ class SummaryController extends Controller
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
 
-        
-        if(Auth::user()){
-            $created_by = Auth::user()->id;
-        }
-        else{
-            $created_by = csrf_token();
-        }
+        $created_by = auth()->check() ? auth()->id() : csrf_token();
+
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         for($i = 0; $i < count($data); $i ++){
@@ -54,39 +51,29 @@ class SummaryController extends Controller
         }
 
         $orders = Order::auth()->get();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($orders));
-        return response()->download($exporter->getPathInvoice());
 
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders);
+        $exporter->setInvoiceNumber($orders->first()->invoice_number);
+        $exporter->setDate($orders->first()->created_at->timestamp);
+
+        dispatch($exporter);
+        
+        return response()->download($exporter->getPathInvoice());
     }
 
     public function submitOrder()
     {
+        $info = ShipInfo::auth()->select('invoice_name')->first(); 
+        $queryOrders = Order::auth();
 
-       $data = [];
-        $data['submit'] = 1;
-        $data['saved_date'] = new \DateTime();
-        $unique = null;
-        if(Auth::user()){
-            $unique = auth()->id();
-        } else {
-            $unique = csrf_token();
-        }
-        $info = ShipInfo::where('created_by','=',$unique)->first(); 
-        $query = Order::where('created_by','=',$unique)->where('usenow','=',1);
-        $query->update($data);
-        $data['name'] = $info['invoice_name'];
+        Mail::send(new \App\Mail\OrderSubmit($info->toArray()));
 
-        // Mail::send('mail', $data, function($message){
-        //     $name = uniqid(rand(), true).'.xlsx';
-        //     $file =  Excel::store(new OrderExport(Auth::user()->id), $name);
-        //     $message->to('niklas@2hex.com', 'Tutorials Point')->subject
-        //     ('Laravel Testing Mail with Attachment');
-        //     $message->from('goldengolem0815@gmail.com','Test User');
-        //     $message->attach(storage_path('app/'.$name));
-        // });
+        $queryOrders->update([
+            'submit' => 1,
+            'saved_date' => now()
+        ]);
 
-        Mail::send(new \App\Mail\OrderSubmit($query->first(), $data));
-
+        session()->flash('success', 'Your order has been successfully sent!'); 
 
         return redirect()->route('summary');
     }

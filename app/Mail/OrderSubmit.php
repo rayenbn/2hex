@@ -10,12 +10,10 @@ class OrderSubmit extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $order;
     public $data;
 
-    public function __construct(Order $order, array $data = [])
+    public function __construct(array $data = [])
     {
-        $this->order = $order;
         $this->data  = $data;
     }
     /**
@@ -25,14 +23,16 @@ class OrderSubmit extends Mailable
      */
     public function build()
     {
-        $orders = Order::auth()->get();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($orders));
-        
+        $queryOrders = Order::auth();
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
+
+        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
+
         return $this
-            ->from('niklas@2hex.com', 'Niklas')
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->to(auth()->user())
             ->subject('2HEX Production Order Confirmation')
-            ->bcc('niklas@2hex.com', 'Niklas2')
+            ->bcc(config('mail.from.address'), config('mail.from.name'))
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

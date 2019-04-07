@@ -32,6 +32,7 @@ class UserConfirmEmail extends Notification
     {
         return (new MailMessage)
             ->subject(__('notification.auth.confirm_email.mail.subject', ['app' => config('app.name')]))
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->markdown('emails.confirm', [
                 'url'   => route('confirm', [$notifiable->confirmation_code]),
                 'user'  => $notifiable->name,

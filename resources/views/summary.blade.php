@@ -46,6 +46,20 @@
 		<!-- END: Subheader -->
 		<div class="m-content">
 			
+			@if(session()->has('success'))
+				<div 
+					class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" 
+					role="alert"
+					style="background-color: #008000;"
+				>
+	                <div class="m-alert__icon">
+	                    <i class="flaticon-exclamation-1"></i>
+	                </div>
+	                <div class="m-alert__text">
+	                    {{session()->get('success')}}
+	                </div>
+	            </div>		
+			@endif
             
 			<div class="m-portlet">
 				<div class="m-portlet__head" style="flex-wrap: wrap;height: auto;float: right;">
@@ -113,7 +127,6 @@
 							<?php 
 								$total_price = 0; 
 								$total_qty = 0; 
-								$warningshow = 0; 
 								$batch = 0; 
 								$filename = []; 
 								$isfilehere = []; 
@@ -122,7 +135,7 @@
 								setlocale(LC_MONETARY, 'en_US');
 							?>
 							@foreach($orders as $order)
-							<?php $total_price += $order->total; $total_qty += $order->quantity; if($order->quantity <= 40) $warningshow = 1; ?>
+							<?php $total_price += $order->total; $total_qty += $order->quantity;?>
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$order->quantity}}</td>
@@ -165,8 +178,8 @@
                                 </td>
 								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
 								<td>{{$order->carton?$order->carton:'None'}}</td>
-								<td>{{ money_format('$%.2n', $order->perdeck) }}</td>
-								<td>{{ money_format('$%.2n', $order->total) }}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $order->perdeck) : '$?.??' }}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $order->total) : '$?.??' }}</td>
 								@if(Session::get('viewonly') == null)
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
@@ -219,7 +232,7 @@
 								<td colspan="3">Print</td>
 								<td colspan="3">{{implode(',', $isfilehere)}}</td>
 								<td colspan="9">{{implode(',', $filename)}}</td>
-								<td>{{$fixedprice}}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $fixedprice) : '$?.??' }}</td>
 							</tr>
                             <!-- <tr>
 								<td colspan="3">Delivery</td>
@@ -235,102 +248,80 @@
 						<tr>
 							<td colspan="14"></td>
 						</tr>
-
-                            
-                            
-                            
-                            
 						</tbody>
 					</table>
 					<div class="m-portlet__head" style="padding-left:0;flex-wrap: wrap;">
-					
-							<div class="m-portlet__head-caption">
-								<div class="m-portlet__head-title" style="padding-left: 20px;">
-									<h3 class="m-portlet__head-text">
-										ORDER TOTAL: ${{$total_price}}
-									</h3>
-								</div>
-							</div>
-								
-							<div class="m-portlet__head-tools">
-								@if(Session::get('viewonly') != null)
-								
-								@else
-								<ul class="m-portlet__nav">
-									
-									<li class="m-portlet__nav-item">
-										<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
-											<span>
-												<i class="la la-save"></i>
-												<span>ExportInvoice</span>
-											</span>
-										</a>
-									</li>
-
-									<li class="m-portlet__nav-item">
-										<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
-											<span>
-												<i class="la la-save"></i>
-												<span>save for later</span>
-											</span>
-										</a>
-									</li>
-									
-									
-									<li class="m-portlet__nav-item">
-										<a href="/submit_order" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
-											<span>
-												<i class="la la-rocket"></i>
-												<span>SUBMIT</span>
-											</span>
-										</a>
-									</li>
-									
-								</ul>
-								@endif
-							</div>
-						
-						
-					</div>
-                   
-				</div>
-            </div>
-            @if($warningshow == 1)
-			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__icon">
-					<i class="flaticon-exclamation m--font-brand"></i>
-				</div>
-				<div class="m-alert__text">
-                    <font style="color: red">WARNING: Your total order quantity is less than 50 Decks. Please add more decks to run a custom production. For orders of 40 Decks or less we use blank decks from our stock. This means that you can only choose the decks' width, concave and print. <b>(Note to Developer: This red warning should only be shown for orders of 40 decks or less.)</b></font><br>
-					This is a summary of your complete order. Please make sure that everything including your address and contact information is correct before submitting.
-				</div>
-			</div>
-			@endif
-
-			<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__icon">
-					<i class="flaticon-businesswoman m--font-brand"></i>
-				</div>
-				<div class="m-alert__text">
-					<form class="m-form m-form--fit m-form--label-align-right">
-						<div class="m-portlet__body">
-							<div class="row">
-
-								<div class="col-3" style="min-width:150px;">
-									<input class="form-control m-input" type="text" value="Vendor Code">
-								</div>
-
-									<a href="#" class="btn btn-secondary m-btn m-btn--icon m-btn--air">
-									<span>
-										<span>Add</span>
-									</span>
-									</a>
-
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title" style="padding-left: 20px;">
+								<h3 class="m-portlet__head-text">
+									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price + $fixedprice) : '$?.??' }}
+								</h3>
 							</div>
 						</div>
-					</form>
+						<div class="m-portlet__head-tools">
+							@if(Session::get('viewonly') != null)
+							
+							@else
+							<ul class="m-portlet__nav">
+								
+								<li class="m-portlet__nav-item">
+									<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
+										<span>
+											<i class="la la-save"></i>
+											<span>ExportInvoice</span>
+										</span>
+									</a>
+								</li>
+
+								<li class="m-portlet__nav-item">
+									<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
+										<span>
+											<i class="la la-save"></i>
+											<span>save for later</span>
+										</span>
+									</a>
+								</li>
+								
+								
+								<li class="m-portlet__nav-item">
+									@php $auth = auth()->user(); @endphp
+									@if (strlen($auth->company_name) && strlen($auth->position) && strlen($auth->phone_num))
+									<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+										<span>
+											<i class="la la-rocket"></i>
+											<span>SUBMIT</span>
+										</span>
+									</a>
+									@else
+									<a 
+										href="javascript:void(0);" 
+										class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+										onclick="alert('Please fill in your complete profile before submitting an order')"
+									>
+										<span>
+											<i class="la la-rocket"></i>
+											<span>SUBMIT</span>
+										</span>
+									</a>
+									@endif
+									
+								</li>
+							</ul>
+							@endif
+						</div>
+					</div>
 				</div>
-			</div>
+            </div>
+
+            <!-- TOTAL ORDERS QUANTITY LESS 40 -->
+            @if($orders->count() && $orders->sum('quantity') <= 40)
+				@include('partials.warning-quantity-less')
+			@endif
+
+			<!-- VENDOR CODE -->
+			@if(!$orders->every->submit)
+				@include('partials.vendor-code')
+			@endif
             
 			<!-- END EXAMPLE TABLE PORTLET-->
 		</div>
