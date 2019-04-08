@@ -284,27 +284,12 @@
 								
 								
 								<li class="m-portlet__nav-item">
-									@php $auth = auth()->user(); @endphp
-									@if (strlen($auth->company_name) && strlen($auth->position) && strlen($auth->phone_num))
 									<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
 										<span>
 											<i class="la la-rocket"></i>
 											<span>SUBMIT</span>
 										</span>
 									</a>
-									@else
-									<a 
-										href="javascript:void(0);" 
-										class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
-										onclick="alert('Please fill in your complete profile before submitting an order')"
-									>
-										<span>
-											<i class="la la-rocket"></i>
-											<span>SUBMIT</span>
-										</span>
-									</a>
-									@endif
-									
 								</li>
 							</ul>
 							@endif
