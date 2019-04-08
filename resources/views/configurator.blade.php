@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="m-grid__item m-grid__item--fluid m-wrapper">
-                    <!-- BEGIN: Subheader -->                   
-
-                    <!-- END: Subheader -->                   
+   <div class="m-grid__item m-grid__item--fluid m-wrapper">                 
                     
         <div class="m-content">
             <div class="row">
@@ -1702,32 +1699,61 @@
                                 </div>
                             </div>
                             <div class="m-separator m-separator--fit"></div>
+
+                            @php
+                                $isAuth = auth()->check();
+                            @endphp
+                            
                             <div class="m-widget1 m-widget1--paddingless">
                                 <div class="m-widget1__item">
                                     <div class="row m-row--no-padding align-items-center">
                                         <div class="col">
-                                            <h3 class="m-widget1__title">Deck</h3>
-                                            <span class="m-widget1__desc">Price per Deck</span>
+                                            <h3 class="m-widget1__title">{{ $isAuth ? 'Deck' : 'Login' }}</h3>
+                                            <span class="m-widget1__desc">{{ $isAuth ? 'Price per Deck' : 'To See Prices' }}</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-brand" v-if="quantity > 0 && size != ''"  id="perdeck">$ @{{perdeck.toFixed(2)}}</span>
+                                            @if ($isAuth)
+                                                <span 
+                                                    class="m-widget1__number m--font-brand" 
+                                                    v-if="quantity > 0 && size != ''"  
+                                                    id="perdeck"
+                                                >
+                                                        $ @{{perdeck.toFixed(2)}}
+                                                </span>
+                                            @else
+                                                <span class="m-widget1__number m--font-danger" id="perdeck">
+                                                    $ ?.??
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                                 <div class="m-widget1__item">
                                     <div class="row m-row--no-padding align-items-center">
                                         <div class="col">
-                                            <h3 class="m-widget1__title">Order</h3>
-                                            <span class="m-widget1__desc">Total of Order</span>
+                                            <h3 class="m-widget1__title">{{ $isAuth ? 'Order' : 'Login' }}</h3>
+                                            <span class="m-widget1__desc">{{ $isAuth ? 'Total of Order' : 'To See Prices' }}</span>
                                         </div>
                                         <div class="col m--align-right">
-                                            <span class="m-widget1__number m--font-danger" v-if="quantity > 0 && size != ''" id="total">$ @{{(perdeck*quantity+fixedprice).toFixed(2)}}</span>
+                                            @if ($isAuth)
+                                                <span 
+                                                    class="m-widget1__number m--font-danger" 
+                                                    v-if="quantity > 0 && size != ''" 
+                                                    id="total"
+                                                >
+                                                    $ @{{(perdeck * quantity + fixedprice).toFixed(2)}}
+                                                </span>
+                                            @else
+                                                <span class="m-widget1__number m--font-danger" id="total">
+                                                    $ ?.??
+                                                </span>
+                                            @endif
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 
-                                
-          <br>
+                                <br>
                                 <a href="javascript:void(0)" id="save_order"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
                                     <span>
                                         <i class="la la-save"></i>

@@ -11,34 +11,28 @@ use App\Models\Order;
 class ProfileController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if(Auth::user()){
-            $created_by = Auth::user()->id;
-        }
-        else{
-            $created_by = csrf_token();
-        }
-        $order1 = Order::where('created_by','=',$created_by)->groupBy('saved_date')->where('submit','=',0)->whereNotNull('saved_date')->select('saved_date')->get();
-        $order2 = Order::where('created_by','=',$created_by)->groupBy('saved_date')->where('submit','=',1)->whereNotNull('saved_date')->select('saved_date')->get();
-        $shipinfo = ShipInfo::where('created_by','=',$created_by)->first();
-        return view('profile', ['shipinfo'=>$shipinfo, 'orders'=>$order1, 'submitorders'=>$order2]);
+        $queryOrders = Order::query()
+            ->where('created_by', auth()->check() ? auth()->id() : csrf_token())
+            ->groupBy('saved_date', 'invoice_number')
+            ->whereNotNull('saved_date')
+            ->select('saved_date');
 
+        $querySubmitOrders = clone $queryOrders;
+
+        $orders = $queryOrders->where('submit', 0)->get();
+        $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
+
+        $shipinfo = ShipInfo::auth()->first();
+
+        return view('profile', compact('orders', 'submitorders', 'shipinfo'));
     }
+
     public function store_address(Request $request)
     {
         $data = $request->all();
@@ -55,6 +49,7 @@ class ProfileController extends Controller
 
         return 'success';
     }
+
     public function detail_save(Request $request)
     {
         $data = $request->all();

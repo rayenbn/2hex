@@ -10,11 +10,13 @@ npm-shrinkwrap.json
 bower_components/
 bootstrap/compiled.php
 bootstrap/cache/
+package-lock.json
 
-storage/
-storage/debugbar/
-storage/framework/views/
-storage/framework/sessions/
+/storage/*.key
+#storage/
+#storage/debugbar/
+#storage/framework/views/
+#storage/framework/sessions/
 
 composer.phar
 composer.lock

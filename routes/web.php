@@ -32,7 +32,7 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'ResetPasswordController@reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset.request');
 
     // Confirmation Routes...
     if (config('auth.users.confirm_email')) {
@@ -66,22 +66,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 });
 
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
-Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index');
-Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show');
+Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
+Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
 Route::get('/getdesign','ConfiguratorController@getdesign');
 Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete');
 Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
 Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
 
-Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index');
+Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index')->name('skateboard.manufacturer');
 Route::get('/export_csv','SummaryController@exportcsv');
-Route::get('/export_csv/{id}','SummaryController@exportcsvbyid');
-Route::get('/submit_order','SummaryController@submitOrder');
+Route::get('/export_csv/{id}','SummaryController@exportcsvbyid')->name('export.csv.id');
+Route::get('/submit_order','SummaryController@submitOrder')->name('orders.submit');
 Route::get('/save_order', 'SummaryController@saveOrder');
 Route::get('/remove_saveorder/{id}','SummaryController@removeOrder');
 Route::get('/getdata','HomeController@getData');

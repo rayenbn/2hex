@@ -1,5 +1,6 @@
 <?php
 namespace App\Jobs;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,6 +15,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+
 class GenerateInvoicesXLSX implements ShouldQueue
 {
     use Dispatchable, Queueable, SerializesModels;
@@ -63,10 +66,49 @@ class GenerateInvoicesXLSX implements ShouldQueue
      */
     protected $user;
     /**
-     * Count Deliveries
-     * int $countDeliveries
+     * Count fees
+     * int $countFees
      */
-    protected $countDeliveries = 0;
+    protected $countFees = 0;
+
+    /**
+     * Drawing object
+     * Drawing $drawing
+     */
+    protected $drawing;
+
+    protected $costWithoutGlobal = 0;
+
+    protected $date;
+
+     /**
+     * Types of fees
+     * array $feesTypes
+     */
+    protected $feesTypes = [
+        'engravery' => [
+            'name' => 'Top Engravery Set Up',
+            'price' => 80
+        ],
+        'topprint' => [
+            'name' => 'Top Print Set Up',
+            'price' => 120
+        ],
+        'bottomprint' => [
+            'name' => 'Bottom Print Set Up',
+            'price' => 120
+        ],
+        'carton' => [
+            'name' => 'Box print Set Up',
+            'price' => 120
+        ],
+        'cardboard' => [
+            'name' => 'Cardboard Set Up',
+            'price' => 500
+        ],
+    ];
+
+
     public function __construct($orders)
     {
         $this->orders = $orders;
@@ -76,6 +118,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->invoiceNumber = invoice_number();
         $this->setPropertiesSheet();
         $this->writer = new Xlsx($this->getSpreadsheet());
+        $this->drawing = new Drawing();
+        $this->date = now()->timestamp;
     }
     /**
      * Execute the job.
@@ -218,6 +262,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->rangeStart = $range;
         return $this;
     }
+    
     private function setDafaultStyles()
     {
         // start + count orders * 8(count rows in single item)
@@ -240,9 +285,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $styles
             ->getFill()
             ->setFillType(Fill::FILL_NONE);
-        // set color inner cell
+        // set color and size inner cell
         $styles
             ->getFont()
+            ->setSize(10)
             ->getColor()
             ->setARGB(Color::COLOR_BLACK);
         // set aligment inner cell
@@ -266,8 +312,24 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $bottomStyles
             ->getFill()
             ->setFillType(Fill::FILL_PATTERN_LIGHTHORIZONTAL);
+
+        $this->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+        $this->getActiveSheet()->getColumnDimension('N')->setWidth(15.0);
+
+
+        // Set logo 
+        $this->drawing->setName('2HEX.com');
+        $this->drawing->setDescription('2HEX.com');
+        $this->drawing->setPath(public_path('/img/2hex.png'));
+        $this->drawing->setOffsetY(50);
+        $this->drawing->setOffsetX(1255);
+        $this->drawing->setWidth(261);
+        $this->drawing->setHeight(75);
+        $this->drawing->setWorksheet($this->getActiveSheet());
+
         return $this;
     }
+
     protected function getStylesRange(string $range)
     {
         return $this->getActiveSheet()->getStyle($range);
@@ -286,7 +348,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue('G10', 'Company Name:' . $this->user->company_name)
             ->setCellValue('G12', 'European Vat ID (only for EU companies):')
             ->setCellValue('E7', $this->invoiceNumber)
-            ->setCellValue('E8', Date::PHPToExcel(now()->timestamp))
+            ->setCellValue('E8', Date::PHPToExcel($this->date))
             ->getRowDimension(4)
             ->setRowHeight(40);
         $shipinfo = \App\Models\ShipInfo::query()
@@ -302,7 +364,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('L%s', 
                     $startTotal = $this->rangeStart 
                     + $this->getCountOrders() * self::ROWS_ITEM + 1 
-                    + $this->countDeliveries + 2
+                    + $this->countFees + 2
                 ), 
                 'Final amount in USD:'
             )
@@ -310,8 +372,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('N%s', 
                     $startTotal
                 ), 
-                $this->orders->sum('total')
+                $this->orders->sum('total') 
+                    + $this->getGlobalDelivery($this->orders->sum('quantity'))
+                    + $this->costWithoutGlobal
             );
+
         // Total styles
         $this->getStylesRange(sprintf('L%1$s:N%1$s', $startTotal))
             ->getFont()
@@ -325,7 +390,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     sprintf('C%s', 
                         $shipsStart = $this->rangeStart 
                             + $this->getCountOrders() * self::ROWS_ITEM + 1 
-                            + $this->countDeliveries + 5
+                            + $this->countFees + 5
                     ), 
                     'Company Name: ' . $shipinfo->shipping_company
                 )
@@ -356,8 +421,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
     }
     protected function setDeliveryCells()
     {
-        // find not empty deliveries
-        $deliveries = $this->orders->map(function($order) {
+        // find not empty order fees
+        $orderFees = $this->orders->map(function($order) {
             return array_filter(
                 $order->only(['bottomprint', 'topprint', 'engravery', 'carton', 'cardboard']), function($image) {
                     return isset($image);
@@ -366,20 +431,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
         })->filter(function($image) {
             return count($image);
         })->values();
-        // Insert rows = count images
+
+        // Insert rows = count fees
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
-                $startImage = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + 1, 
-                $this->countDeliveries = $deliveries->count()
+                $startDelivery = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + 1, 
+                $this->countFees = $this->calculateFees($orderFees) + 1
             ); 
+
         // start + count orders * 8(count rows in single item)
-        $rangeDelivery = sprintf(
+        $rangeFees = sprintf(
             'C%s:N%s', 
-            $startImage,  
-            $startImage + $this->countDeliveries
+            $startDelivery,  
+            $startDelivery + $this->countFees
         );
-        $styles = $this->getStylesRange($rangeDelivery);
+        $styles = $this->getStylesRange($rangeFees);
         // set fill bg
         $styles
             ->getFill()
@@ -390,27 +457,121 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setSize(10)
             ->getColor()
             ->setARGB(Color::COLOR_BLACK);
-        $deliveries = $deliveries->map(function($imageGroup, $indx) use ($startImage){
-            $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $startImage + $indx, $startImage + $indx));
-            $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $startImage + $indx, $startImage + $indx));
-            foreach ($imageGroup as $key => $value) {
-                $this->getActiveSheet()->setCellValue(sprintf('C%s', $startImage + $indx), $key);
-                $this->getActiveSheet()->setCellValue(sprintf('J%s', $startImage + $indx), $value);
+
+        // set currency format cell
+        $styles
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+        $index = 0;
+
+        array_walk_recursive($orderFees, function($value, $key) use($startDelivery, &$index) {
+            $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $pos = $startDelivery + $index, $pos));
+            $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $pos, $pos));
+
+            if (array_key_exists($key,  $this->feesTypes)) {
+                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $this->feesTypes[$key]['name']);
+                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $this->feesTypes[$key]['price']);
+                // plus total fees
+                $this->costWithoutGlobal += $this->feesTypes[$key]['price'];
+            } else {
+                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $key);
+                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), 0);
             }
+            $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value);
+
+            $index++;
         });
+
+        // Global Delivery
+        $this->getActiveSheet()->mergeCells(
+            sprintf('C%s:I%s', $startGlobal = $startDelivery + $this->countFees - 1, $startDelivery + $this->countFees - 1)
+        );
+        $this->getActiveSheet()->mergeCells(
+            sprintf('J%s:M%s', $startGlobal, $startGlobal)
+        );
+         $this->getActiveSheet()->setCellValue(sprintf('C%s', $startGlobal), 'Global delivery');
+         $this->getActiveSheet()->setCellValue(sprintf('J%s', $startGlobal), 'Global delivery');
+
+         $this->getActiveSheet()->setCellValue(
+            sprintf('N%s', $startGlobal), 
+            $this->getGlobalDelivery($this->orders->sum('quantity'))
+        );
+
+
         return $this;
     }
+    
     public function getPathInvoice()
     {
-        return storage_path("app/xlsx/invoices" . str_slug($this->invoiceNumber, '-') . ".xlsx");
+        return storage_path("app/xlsx/invoices_" . str_slug($this->invoiceNumber, '-') . ".xlsx");
     }
+
     public function getInvoiceNumber()
     {
-        return $this->invoiceNumber;
+        return str_slug($this->invoiceNumber, '-');
     }
+
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->invoiceNumber = str_slug($invoiceNumber, '-');
+
+        return $this;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
     public function write()
     {
         $this->writer->save($this->getPathInvoice());
         return $this;
+    }
+
+    /**
+     * Calculate deep count fees 
+     * @param array|Collection $items
+     * @return int
+     */
+    private function calculateFees($items) 
+    {
+        $total = 0;
+        array_walk_recursive($items, function($x) use(&$total) {
+            $total++;
+        });
+
+        return $total;
+    }
+
+
+    /* Calculate global delivery related amount decks */
+    
+    private function getGlobalDelivery($amount)
+    {
+        if ($amount < 20) {
+            return 38;
+        } else if ($amount >= 20 && $amount < 30) {
+            return 52;
+        } else if ($amount >= 30 && $amount < 50) {
+            return 90;
+        } else if ($amount >= 50 && $amount < 100) {
+            return 450;
+        } else if ($amount >= 100 && $amount < 200) {
+            return 650;
+        } else if ($amount >= 200 && $amount < 300) {
+            return 800;
+        } else if ($amount >= 300 && $amount < 500) {
+            return 900;
+        } else if ($amount >= 500 && $amount < 1000) {
+            return 1100;
+        } else if ($amount >= 1000 && $amount < 2000) {
+            return 1300;
+        } else if ($amount >= 2000) {
+            return 1700;
+        }
     }
 }

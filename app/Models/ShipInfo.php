@@ -44,4 +44,15 @@ class ShipInfo extends Model
      * @var array
      */
     protected $fillable = ['invoice_company','invoice_name','invoice_country','invoice_taxid','shipping_company','shipping_address','shipping_city','shipping_state','shipping_postcode','shipping_contactperson','shipping_phone','shipping_country','created_by', 'updated_at'];
+
+    public function scopeAuth($query)
+    {
+        if(auth()->check()){
+            $query->where('created_by', '=', auth()->id());
+        } else {
+            $query->where('created_by', '=', csrf_token());
+        }  
+        
+        return $query;
+    }
 }
