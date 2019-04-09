@@ -39,9 +39,9 @@ $(document).ready(function(){
         });
     }
   });
-  $('input[type="file"]').change(function(){
+  $('input[type="file"]').change(function(event){
       var formData = new FormData();
-      
+      formData.append('typeUpload', event.currentTarget.dataset.typeUpload);
       
       if($(this).attr('filename') == "" && $(this).attr('id') != "engraveryFile" && $(this).attr('id') != "cardboardFile")
         app.fixedprice += 120;

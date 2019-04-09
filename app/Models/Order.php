@@ -56,4 +56,31 @@ class Order extends Model
         return $query->where('usenow', '=', $type);
     }
 
+    public static function getGlobalDelivery()
+    {
+        $amount = static::auth()->sum('quantity');
+
+        if ($amount < 20) {
+            return 38;
+        } else if ($amount >= 20 && $amount < 30) {
+            return 52;
+        } else if ($amount >= 30 && $amount < 50) {
+            return 90;
+        } else if ($amount >= 50 && $amount < 100) {
+            return 450;
+        } else if ($amount >= 100 && $amount < 200) {
+            return 650;
+        } else if ($amount >= 200 && $amount < 300) {
+            return 800;
+        } else if ($amount >= 300 && $amount < 500) {
+            return 900;
+        } else if ($amount >= 500 && $amount < 1000) {
+            return 1100;
+        } else if ($amount >= 1000 && $amount < 2000) {
+            return 1300;
+        } else if ($amount >= 2000) {
+            return 1700;
+        }
+    }
+
 }

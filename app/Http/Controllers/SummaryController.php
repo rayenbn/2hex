@@ -12,6 +12,28 @@ use App\Exports\OrderExport;
 
 class SummaryController extends Controller
 {
+    protected $feesTypes = [
+        'engravery' => [
+            'name' => 'Top Engravery Set Up',
+            'price' => 80
+        ],
+        'topprint' => [
+            'name' => 'Top Print Set Up',
+            'price' => 120
+        ],
+        'bottomprint' => [
+            'name' => 'Bottom Print Set Up',
+            'price' => 120
+        ],
+        'carton' => [
+            'name' => 'Box print Set Up',
+            'price' => 120
+        ],
+        'cardboard' => [
+            'name' => 'Cardboard Set Up',
+            'price' => 500
+        ],
+    ];
     /**
      * Show the application dashboard.
      *
@@ -19,7 +41,43 @@ class SummaryController extends Controller
      */
     public function index()
     {
-        return view('summary');
+        $ordersQuery = Order::auth();
+
+        $orders = (clone $ordersQuery)
+            ->select('bottomprint', 'topprint', 'engravery', 'cardboard', 'carton')
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+        $fees = [];
+
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+                $fees[$key . $value] = [
+                    'image'   => $value,
+                    'batches' => $index,
+                    'price'   => $this->feesTypes[$key]['price'],
+                    'type'    => $this->feesTypes[$key]['name']
+                ];
+            }
+        }
+
+        if (count($fees)) {
+            array_push($fees, [
+                'image' => 'Global delivery', 
+                'batches' => '', 
+                'price' => Order::getGlobalDelivery(), 
+                'type' => 'Global delivery'
+            ]);
+        }
+
+        $sum_fees = array_sum(array_column($fees, 'price'));
+
+        return view('summary', compact('fees', 'sum_fees'));
     }
 
     public function exportcsv()
