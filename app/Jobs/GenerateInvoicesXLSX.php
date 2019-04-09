@@ -342,10 +342,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
     { 
         $this
             ->getActiveSheet()
-            ->setCellValue('G7', 'First and Lastname: ' . $this->user->name)
-            ->setCellValue('G8', 'Email Address: ' . $this->user->email)
-            ->setCellValue('G9', 'Cellphone Number:' . $this->user->phone_num)
-            ->setCellValue('G10', 'Company Name:' . $this->user->company_name)
+            ->setCellValue('G7', 'First and Lastname: ' . (isset($this->user) ? $this->user->name : ''))
+            ->setCellValue('G8', 'Email Address: ' . (isset($this->user) ? $this->user->email : ''))
+            ->setCellValue('G9', 'Cellphone Number:' . (isset($this->user) ? $this->user->phone_num : ''))
+            ->setCellValue('G10', 'Company Name:' . (isset($this->user) ? $this->user->company_name : ''))
             ->setCellValue('G12', 'European Vat ID (only for EU companies):')
             ->setCellValue('E7', $this->invoiceNumber)
             ->setCellValue('E8', Date::PHPToExcel($this->date))
