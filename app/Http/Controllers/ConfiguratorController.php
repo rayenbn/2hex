@@ -99,21 +99,35 @@ class ConfiguratorController extends Controller
     public function show($id)
     {
         $data = Order::where('id','=',$id)->get();
-        $filenames = [];
-        if(Auth::User()){
-            $path = public_path().'/uploads/'.Auth::user()->name;
+
+        $filenames = [
+            'bottom' => [],
+            'top' => [], 
+            'engravery' => [],
+            'cardboard' => [], 
+            'box' => [],
+        ];
+
+        if(!auth()->check()) {
+            return view('configurator', compact('filenames'));
+        }
+
+        $path = '';
+        foreach (['bottom', 'top', 'engravery', 'cardboard', 'box'] as $value) {
+            $path = public_path('uploads/' .  Auth::user()->name . '/' . $value);
             if(\File::exists($path)) {
                 $filesInFolder = \File::files($path);
 
                 foreach($filesInFolder as $filepath) { 
                       $file = pathinfo($filepath);
-                      $filenames[] = $file['filename'].'.'.$file['extension'] ;
+                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
                 } 
             }
-            
         }
-        return view('configurator', ['saved_order'=>$data, 'filenames'=>$filenames]);
+
+        return view('configurator', compact('saved_order', 'filenames'));
     }
+    
     public function delete($id){
         Order::where('id','=',$id)->delete();        
         return redirect()->route('summary');
