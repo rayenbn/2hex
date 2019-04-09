@@ -1792,8 +1792,8 @@
                                 <br>
                                 <a href="javascript:void(0)" id="save_order"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
                                     <span>
-                                        <i class="la la-save"></i>
-                                        <span> save for later</span>
+                                        <i class="la la-send"></i>
+                                        <span>skip next steps</span>
                                     </span>
                                 </a>
                                 <!--end: Form Wizard Step 4-->
