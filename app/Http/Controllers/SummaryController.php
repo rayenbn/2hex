@@ -43,7 +43,8 @@ class SummaryController extends Controller
     {
         $ordersQuery = Order::auth();
 
-        $orders = (clone $ordersQuery)->select('bottomprint', 'topprint', 'engravery', 'cardboard', 'carton')
+        $orders = (clone $ordersQuery)
+            ->select('bottomprint', 'topprint', 'engravery', 'cardboard', 'carton')
             ->get()
             ->map(function($order) {
                 return array_filter($order->attributesToArray());

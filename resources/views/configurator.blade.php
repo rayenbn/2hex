@@ -697,7 +697,14 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="bottomPrintFile" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
+                                                                        <input 
+                                                                            onclick="{{Auth::user()?'return true':'return false'}}" 
+                                                                            type="file"
+                                                                            data-type-upload="bottom" 
+                                                                            class="custom-file-input" 
+                                                                            id="bottomPrintFile" 
+                                                                            @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"
+                                                                        >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                     
@@ -707,11 +714,12 @@
                                                                     <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[4].state}" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
                                                                         Recent file
                                                                     </button>
+
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(isset($filenames))
-                                                                                @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">{{$filename}}</a>
-                                                                                @endforeach
+                                                                        @if(count($filenames['bottom']) || count($filenames['top']))
+                                                                            @foreach(array_merge($filenames['bottom'], $filenames['top']) as $filename)
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">{{$filename}}</a>
+                                                                            @endforeach
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -817,7 +825,14 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="topPrintFile"  @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1">
+                                                                        <input 
+                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false'}}" 
+                                                                            type="file" 
+                                                                            data-type-upload="top"
+                                                                            class="custom-file-input" 
+                                                                            id="topPrintFile"  
+                                                                            @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                                        >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[5].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -826,10 +841,10 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(isset($filenames))
-                                                                                @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"  href="#">{{$filename}}</a>
-                                                                                @endforeach
+                                                                        @if(count($filenames['bottom']) || count($filenames['top']))
+                                                                            @foreach(array_merge($filenames['bottom'], $filenames['top']) as $filename)
+                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"  href="#">{{$filename}}</a>
+                                                                            @endforeach
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -935,7 +950,14 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="engraveryFile"  @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
+                                                                        <input 
+                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
+                                                                            type="file"
+                                                                            data-type-upload="engravery"
+                                                                            class="custom-file-input" 
+                                                                            id="engraveryFile"  
+                                                                            @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
+                                                                        >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[6].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -944,10 +966,10 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(isset($filenames))
-                                                                                @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"  href="#">{{$filename}}</a>
-                                                                                @endforeach
+                                                                        @if(count($filenames['engravery']))
+                                                                            @foreach($filenames['engravery'] as $filename)
+                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"  href="#">{{$filename}}</a>
+                                                                            @endforeach
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -1428,7 +1450,14 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="cardboardFile" @click=" steps[9].state = 1">
+                                                                        <input 
+                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
+                                                                            type="file"
+                                                                            data-type-upload="cardboard" 
+                                                                            class="custom-file-input" 
+                                                                            id="cardboardFile" 
+                                                                            @click=" steps[9].state = 1"
+                                                                        >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[9].state}" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -1437,10 +1466,10 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(isset($filenames))
-                                                                                @foreach($filenames as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" steps[9].state = 1">{{$filename}}</a>
-                                                                                @endforeach
+                                                                        @if(count($filenames['cardboard']))
+                                                                            @foreach($filenames['cardboard'] as $filename)
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" steps[9].state = 1">{{$filename}}</a>
+                                                                            @endforeach
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -1547,7 +1576,14 @@
                                                                     <div class="form-group m-form__group">
                                                                         <div></div>
                                                                         <div class="custom-file">
-                                                                            <input onclick="{{Auth::user()?'return true':'return false'}}" type="file" class="custom-file-input" id="cartonFile"   @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
+                                                                            <input 
+                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
+                                                                                type="file"
+                                                                                data-type-upload="box" 
+                                                                                class="custom-file-input" 
+                                                                                id="cartonFile"   
+                                                                                @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                                            >
                                                                             <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
                                                                         </div>
                                                                     </div>
@@ -1556,8 +1592,8 @@
                                                                             Recent file
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                            @if(isset($filenames))
-                                                                                @foreach($filenames as $filename)
+                                                                            @if(count($filenames['box']))
+                                                                                @foreach($filenames['box'] as $filename)
                                                                                     <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">{{$filename}}</a>
                                                                                 @endforeach
                                                                             @endif

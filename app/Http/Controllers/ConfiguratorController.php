@@ -24,36 +24,34 @@ class ConfiguratorController extends Controller
      */
     public function index()
     {
-        // if(Auth::user()){
-        //     $created_by = Auth::user()->id;
-        // }
-        // else{
-        //     $created_by = csrf_token();
-        // }
-        // $orders = Order::where('created_by','=',$created_by)->where();
-        // $totalquantity = 0;
-        // $totalprice = 0;
-        // for($i = 0; $i < count($orders); $i ++){
-        //     $totalquantity += $orders[$i]['quantity'];
-        //     $totalprice += $orders[$i]['total'];
-        // }
+        $filenames = [
+            'bottom' => [],
+            'top' => [], 
+            'engravery' => [],
+            'cardboard' => [], 
+            'box' => [],
+        ];
 
-        $filenames = [];
-        if(Auth::User()){
-            $path = public_path().'/uploads/'.Auth::user()->name;
+        if(!auth()->check()) {
+            return view('configurator', compact('filenames'));
+        }
+
+        $path = '';
+        foreach (['bottom', 'top', 'engravery', 'cardboard', 'box'] as $value) {
+            $path = public_path('uploads/' .  Auth::user()->name . '/' . $value);
             if(\File::exists($path)) {
                 $filesInFolder = \File::files($path);
 
                 foreach($filesInFolder as $filepath) { 
                       $file = pathinfo($filepath);
-                      $filenames[] = $file['filename'].'.'.$file['extension'] ;
+                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
                 } 
             }
-            
         }
 
-        return view('configurator',['filenames'=>$filenames]);
+        return view('configurator', compact('filenames'));
     }
+
     public function store(Request $request)
     {
         $data = $request->all();
@@ -77,25 +75,27 @@ class ConfiguratorController extends Controller
         // exit();
         return 'success';
     }
+
     public function upload(Request $request)
     {
         if($request->hasFile('file')) {
            $file = $request->file('file');
            
-           //you also need to keep file extension as well
-           //$name = uniqid(rand(), true).'.'.$file->getClientOriginalExtension();;
-            $path = public_path().'/uploads/'.Auth::user()->name;
+            //you also need to keep file extension as well
+            $path = public_path('uploads/' . Auth::user()->name . '/' . $request->get('typeUpload', 'bottom'));
             $name = $file->getClientOriginalName();
+
             if(!\File::exists($path)) {
                 \File::makeDirectory($path, $mode = 0777, true, true);
             }
-           //using the array instead of object
-           
-           $file->move(public_path().'/uploads/'.Auth::user()->name.'/', $name);
+
+            $file->move($path, $name);
+
            return $name;
         }
         return 'failed';
     }
+
     public function show($id)
     {
         $data = Order::where('id','=',$id)->get();
