@@ -124,18 +124,11 @@
 						</thead>
                         
 						<tbody>
-							<?php 
-								$total_price = 0; 
-								$total_qty = 0; 
-								$batch = 0; 
-								$filename = []; 
-								$isfilehere = []; 
-								$fixedprice = 0; 
-								$type=[];
+							@php 
 								setlocale(LC_MONETARY, 'en_US');
-							?>
-							@foreach($orders as $order)
-							<?php $total_price += $order->total; $total_qty += $order->quantity;?>
+							@endphp
+
+							@foreach($orders as $batch => $order)
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$order->quantity}}</td>
@@ -184,77 +177,37 @@
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
 								@endif
-								@php
-									$here = 0;
-                                  	if($order->bottomprint != ""){
-                                  		$filename[] = $order->bottomprint;
-                                  		$fixedprice += 120; 
-                                  		$here = 1;
-                                  	}
-                                  	if($order->topprint != ""){
-                                  		$filename[] = $order->topprint;
-                                  		$fixedprice += 120;
-                                  		$here = 1;
-                                  	}
-                                  	if($order->engravery != ""){
-                                  		$filename[] = $order->engravery;
-                                  		$fixedprice += 80;
-                                  		$here = 1;
-                                  	}
-                                  	if($order->cardboard != ""){
-                                  		$filename[] = $order->cardboard;
-                                  		$fixedprice += 500;
-                                  		$here = 1;
-                                  	}
-                                  	if($order->carton != ""){
-                                  		$filename[] = $order->carton;
-                                  		$fixedprice += 120;
-                                  		$here = 1;
-                                  	}
-                                  	if($here == 1)
-                                  		$isfilehere[] = $batch;
-                                @endphp
 							</tr>
 							@endforeach                          
-
-                            
                             
                             <thead style="background-color: #52a3f0; color: white;">
-							<tr>
-								<td colspan="3">Fixed Cost</td>
-								<td colspan="3">Batches</td>
-								<td colspan="9">Filename</td>
-								<td>Fixed&nbspTotal</td>
-							</tr>
-						   </thead>
-                            
+								<tr>
+									<td colspan="3">Fixed Cost</td>
+									<td colspan="3">Batches</td>
+									<td colspan="9">Filename</td>
+									<td>Fixed&nbspTotal</td>
+								</tr>
+						   	</thead>
+
+                            @foreach($fees as $key => $value)
                             <tr>
-								<td colspan="3">Print</td>
-								<td colspan="3">{{implode(',', $isfilehere)}}</td>
-								<td colspan="9">{{implode(',', $filename)}}</td>
-								<td>{{ auth()->check() ? money_format('$%.2n', $fixedprice) : '$?.??' }}</td>
+								<td colspan="3">{{ $value['type'] }}</td>
+								<td colspan="3">{{ $value['batches'] }}</td>
+								<td colspan="9">{{ $value['image'] }}</td>
+								<td>{{ auth()->check() ? money_format('$%.2n', $value['price']) : '$?.??' }}</td>
 							</tr>
-                            <!-- <tr>
-								<td colspan="3">Delivery</td>
-								<td colspan="3">All</td>
-								<td colspan="9">Global Delivery</td>
-								<td>$800.00</td>
+							@endforeach
+
+							<tr>
+								<td colspan="14"></td>
 							</tr>
-						<tr>
-							<td colspan="6">Vendor Code</td>
-                            <td colspan="9">VbnjjHhSk8cC</td>
-							<td>- $50.00</td>
-						</tr> -->
-						<tr>
-							<td colspan="14"></td>
-						</tr>
 						</tbody>
 					</table>
 					<div class="m-portlet__head" style="padding-left:0;flex-wrap: wrap;">
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $total_price + $fixedprice) : '$?.??' }}
+									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $orders->sum('total') + $sum_fees) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
