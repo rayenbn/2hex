@@ -85,7 +85,7 @@ class SummaryController extends Controller
         $queryOrders = Order::auth();
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
 
-        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
+        $queryOrders->update(['invoice_number' => (string) $exporter->getInvoiceNumber()]);
 
         return response()->download($exporter->getPathInvoice());
     }
