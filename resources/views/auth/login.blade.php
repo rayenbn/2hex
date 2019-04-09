@@ -42,10 +42,13 @@
                     Sign In
                 </button>
                 &nbsp;&nbsp;&nbsp;
+                <!--
+                Facebook Login
                 <a href="{{ route('social.redirect', ['facebook']) }}" class="btn btn-success btn-facebook m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn m-login__btn--primary">
                     <i class="fa fa-facebook"></i>
                     Facebook
-                </a>
+                </a> -->
+
             </div>
         {{ Form::close() }}
     </div>
