@@ -272,7 +272,7 @@
 			@endif
 
 			<!-- VENDOR CODE -->
-			@if(!$orders->every->submit)
+			@if(!$orders->every->submit && !session()->get('viewonly'))
 				@include('partials.vendor-code')
 			@endif
             
