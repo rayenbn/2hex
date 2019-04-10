@@ -57,7 +57,7 @@ class ConfiguratorController extends Controller
         $data = $request->all();
         $data['submit'] = '0';
         if(Auth::user())
-             $data['created_by'] = Auth::user()->id;
+             $data['created_by'] = (string) auth()->id();
         else
             $data['created_by'] = csrf_token();
         if($data['id'] == '')

@@ -139,7 +139,7 @@ class SummaryController extends Controller
     public function saveOrder()
     {
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -171,7 +171,7 @@ class SummaryController extends Controller
 
         
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -195,7 +195,7 @@ class SummaryController extends Controller
 
         
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -215,7 +215,7 @@ class SummaryController extends Controller
     public function removeOrder($id)
     {
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();

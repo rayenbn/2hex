@@ -37,15 +37,17 @@ class ProfileController extends Controller
     {
         $data = $request->all();
         if(Auth::user())
-            $data['created_by'] = Auth::user()->id;
+            $data['created_by'] = (string) auth()->id();
         else
             $data['created_by'] = csrf_token();
 
-        $origin = ShipInfo::where('created_by','=',$data['created_by'])->get();
-        if(count($origin) == 0)
+        $origin = ShipInfo::where('created_by', $data['created_by']);
+
+        if($origin->count() == 0){
             ShipInfo::insert($data);
-        else
+        } else{
             ShipInfo::where('created_by','=',$data['created_by'])->update($data);
+        }
 
         return 'success';
     }
@@ -54,11 +56,11 @@ class ProfileController extends Controller
     {
         $data = $request->all();
         unset($data['_token']);
-        if(Auth::user())
-        {
-            $id = Auth::user()->id;
-            $user = User::where('id','=',$id)->update($data);
+
+        if(auth()->check()) {
+            $user = User::where('id','=', auth()->id())->update($data);
         }
+        
         return redirect()->route('profile');
     }
 }
