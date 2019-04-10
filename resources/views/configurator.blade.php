@@ -1094,7 +1094,7 @@
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
                                                                 <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="randomClicked">
-                                                                    <label>Random Colors</label>
+                                                                    <label>Random</label>
                                                                     <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>
                                                             </div>
