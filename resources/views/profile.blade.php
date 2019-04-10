@@ -173,11 +173,6 @@
                                             </div>
                                         </div>
                                         
-                                        
-                                        
-                                        
-                                        
-                                        
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                         
                                        
@@ -247,8 +242,13 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-7">
-                                                    <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom"  data-toggle="modal" data-target="#m_modal_6">Save changes</button>&nbsp;&nbsp;
-                                                    <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+                                                    <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom"  data-toggle="modal" data-target="#m_modal_6">
+                                                        Save changes
+                                                    </button>
+                                                    &nbsp;&nbsp;
+                                                    <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">
+                                                        Cancel
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -313,7 +313,10 @@
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col-7">
-                                                    <button type="Submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="save_details">Save changes</button>&nbsp;&nbsp;
+                                                    <button type="Submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="save_details">
+                                                        Save changes
+                                                    </button>
+                                                    &nbsp;&nbsp;
                                                     <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
                                                 </div>
                                             </div>

@@ -85,7 +85,7 @@ class SummaryController extends Controller
         $queryOrders = Order::auth();
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
 
-        $queryOrders->update(['invoice_number' => (string) $exporter->getInvoiceNumber()]);
+        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
         return response()->download($exporter->getPathInvoice());
     }
@@ -95,7 +95,7 @@ class SummaryController extends Controller
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
 
-        $created_by = auth()->check() ? auth()->id() : csrf_token();
+        $created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();

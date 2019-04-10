@@ -1093,11 +1093,8 @@
                                                     <div class="m-portlet m-portlet--bordered-semi configurator-color-panel ">
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
-                                                                <!--
-                                                                 <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="randomClicked">
-                                                                 -->
-                                                                <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    <label>Random</label>
+                                                                <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="randomClicked">
+                                                                    <label>Random Colors</label>
                                                                     <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>
                                                             </div>
