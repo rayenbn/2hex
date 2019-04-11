@@ -167,52 +167,49 @@ var app = new Vue({
             if(this.pre_quantity > 0){
                 if(this.total_quantity <= 10)
                   this.perdeck -= 50;
-                else if(this.total_quantity <= 20)
+                else if(this.total_quantity > 10 && this.total_quantity <= 20)
                   this.perdeck -= 40;
-                else if(this.total_quantity <= 30)
+                else if(this.total_quantity > 20 && this.total_quantity < 40)
                   this.perdeck -= 30;
-                else if(this.total_quantity <= 50)
+                else if(this.total_quantity >= 40 && this.total_quantity < 50)
                   this.perdeck -= 10;
-                else if(this.total_quantity <= 100)
+                else if(this.total_quantity >= 50 && this.total_quantity <= 100)
                   this.perdeck -= 4;
-                else if(this.total_quantity <= 200)
+                else if(this.total_quantity > 100 && this.total_quantity <= 200)
                   this.perdeck -= 3;
-                else if(this.total_quantity <= 300)
+                else if(this.total_quantity > 200 && this.total_quantity <= 300)
                   this.perdeck -= 2.5;
-                else if(this.total_quantity <= 500)
+                else if(this.total_quantity > 300 && this.total_quantity <= 500)
                   this.perdeck -= 1.5;
-                else if(this.total_quantity <= 1000)
+                else if(this.total_quantity > 500 && this.total_quantity <= 1000)
                   this.perdeck -= 1;
-                else if(this.total_quantity <= 2000)
-                  this.perdeck -= 0.5;
-                else 
-                  this.perdeck -= 0;                
+                else if(this.total_quantity > 1000)
+                  this.perdeck -= 0.5;               
             }
             this.total_quantity -= (this.pre_quantity * 1);
             this.total_quantity += (this.quantity * 1);
             this.pre_quantity = this.quantity;
+
             if(this.total_quantity <= 10)
               this.perdeck += 50;
-            else if(this.total_quantity <= 20)
+            else if(this.total_quantity > 10 && this.total_quantity <= 20)
               this.perdeck += 40;
-            else if(this.total_quantity <= 30)
+            else if(this.total_quantity > 20 && this.total_quantity < 40)
               this.perdeck += 30;
-            else if(this.total_quantity <= 50)
+            else if(this.total_quantity >= 40 && this.total_quantity < 50)
               this.perdeck += 10;
-            else if(this.total_quantity <= 100)
+            else if(this.total_quantity >= 50 && this.total_quantity <= 100)
               this.perdeck += 4;
-            else if(this.total_quantity <= 200)
+            else if(this.total_quantity > 100 && this.total_quantity <= 200)
               this.perdeck += 3;
-            else if(this.total_quantity <= 300)
+            else if(this.total_quantity > 200 && this.total_quantity <= 300)
               this.perdeck += 2.5;
-            else if(this.total_quantity <= 500)
+            else if( this.total_quantity > 300 && this.total_quantity <= 500)
               this.perdeck += 1.5;
-            else if(this.total_quantity <= 1000)
+            else if(this.total_quantity > 500 && this.total_quantity <= 1000)
               this.perdeck += 1;
-            else if(this.total_quantity <= 2000)
+            else if(this.total_quantity > 1000)
               this.perdeck += 0.5;
-            else 
-              this.perdeck += 0;
         }
     }
 

@@ -69,9 +69,7 @@ class SummaryController extends Controller
 
                         if ($key == 'cardboard') {
                             $fees[$key][$value]['price'] = $this->getPriceDesign($fees[$key][$value]['quantity']);
-                        } else {
-                            $fees[$key][$value]['price'] += $this->feesTypes[$key]['price'] * 0.75;
-                        }
+                        } 
 
                         
                         $sum_fees += $fees[$key][$value]['price'];
