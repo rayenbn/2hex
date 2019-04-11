@@ -189,13 +189,15 @@
 								</tr>
 						   	</thead>
 
-                            @foreach($fees as $key => $value)
-                            <tr>
-								<td colspan="3">{{ $value['type'] }}</td>
-								<td colspan="3">{{ $value['batches'] }}</td>
-								<td colspan="9">{{ $value['image'] }}</td>
-								<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
-							</tr>
+                            @foreach($fees as $key => $group)
+                            	@foreach($group as $k => $value)
+                            		<tr>
+										<td colspan="3">{{ $value['type'] }}</td>
+										<td colspan="3">{{ $value['batches'] }}</td>
+										<td colspan="9">{{ $value['image'] }}</td>
+										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+									</tr>
+                            	@endforeach
 							@endforeach
 
 							<tr>
