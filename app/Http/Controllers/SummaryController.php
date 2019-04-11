@@ -117,6 +117,7 @@ class SummaryController extends Controller
         return view('summary', compact('fees', 'sum_fees'));
     }
 
+
     private function getPriceDesign($quantity)
     {
         $total = 0;
@@ -127,6 +128,7 @@ class SummaryController extends Controller
 
         return 500 + $total;
     }
+
 
     public function exportcsv()
     {
