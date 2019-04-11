@@ -66,7 +66,14 @@ class SummaryController extends Controller
                     if (array_key_exists($value, $fees[$key])) {
                         $fees[$key][$value]['batches'] .= ",{$index}";
                         $fees[$key][$value]['quantity'] += $order['quantity'];
-                        $fees[$key][$value]['price'] = $this->getPriceDesign($fees[$key][$value]['quantity']);
+
+                        if ($key == 'cardboard') {
+                            $fees[$key][$value]['price'] = $this->getPriceDesign($fees[$key][$value]['quantity']);
+                        } else {
+                            $fees[$key][$value]['price'] += $this->feesTypes[$key]['price'] * 0.75;
+                        }
+
+                        
                         $sum_fees += $fees[$key][$value]['price'];
                         continue;
                     }
@@ -77,8 +84,18 @@ class SummaryController extends Controller
                     'batches'  => (string) $index,
                     'type'     => $this->feesTypes[$key]['name'],
                     'quantity' => $order['quantity'],
-                    'price'    => $this->getPriceDesign($order['quantity']),
                 ];
+
+                /*
+                 * Cardboard price calculated 
+                 * Formula: 500 + (quantity - 625) * 0.8
+                 * If (quantity - 625) * 0.8 < 0 then 0
+                 */ 
+                if ($key == 'cardboard') {
+                    $fees[$key][$value]['price'] = $this->getPriceDesign($order['quantity']);
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                }
 
                 // Calculate total sum
                 $sum_fees += $fees[$key][$value]['price'];
