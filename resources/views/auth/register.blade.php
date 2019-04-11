@@ -11,7 +11,11 @@
             </div>
         </div>
         @if (session('status'))
-            <div class="alert alert-success alert-dismissible fade show   m-alert m-alert--air" role="alert">
+            <div 
+                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
+                role="alert"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+            >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 {{ session('status') }}
             </div>

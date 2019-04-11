@@ -43,8 +43,9 @@ class SummaryController extends Controller
     {
         $ordersQuery = Order::auth();
 
+        // Fetching all desing by orders
         $orders = (clone $ordersQuery)
-            ->select('bottomprint', 'topprint', 'engravery', 'cardboard', 'carton')
+            ->select('quantity', 'bottomprint', 'topprint', 'engravery', 'cardboard', 'carton')
             ->get()
             ->map(function($order) {
                 return array_filter($order->attributesToArray());
@@ -52,32 +53,62 @@ class SummaryController extends Controller
             ->toArray();
 
         $fees = [];
+        $sum_fees = 0;
 
         foreach ($orders as $index => $order) {
             $index += 1;
+
             foreach ($order as $key => $value) {
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
-                $fees[$key . $value] = [
-                    'image'   => $value,
-                    'batches' => $index,
-                    'price'   => $this->feesTypes[$key]['price'],
-                    'type'    => $this->feesTypes[$key]['name']
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $order['quantity'];
+                        $fees[$key][$value]['price'] = $this->getPriceDesign($fees[$key][$value]['quantity']);
+                        $sum_fees += $fees[$key][$value]['price'];
+                        continue;
+                    }
+                }
+
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $order['quantity'],
+                    'price'    => $this->getPriceDesign($order['quantity']),
                 ];
+
+                // Calculate total sum
+                $sum_fees += $fees[$key][$value]['price'];
             }
         }
 
+        // Set Global delivery
         if (count($fees)) {
-            array_push($fees, [
+            $fees['global'] = [];
+            array_push($fees['global'], [
                 'image' => 'Global delivery', 
                 'batches' => '', 
-                'price' => Order::getGlobalDelivery(), 
+                'price' => $globalSum = Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
             ]);
+            $sum_fees += $globalSum;
         }
 
-        $sum_fees = array_sum(array_column($fees, 'price'));
-
         return view('summary', compact('fees', 'sum_fees'));
+    }
+
+    private function getPriceDesign($quantity)
+    {
+        $total = 0;
+
+        if (($quantity - 625) * 0.8 > 0) {
+            $total = ($quantity - 625) * 0.8;
+        }
+
+        return 500 + $total;
     }
 
     public function exportcsv()
@@ -85,7 +116,7 @@ class SummaryController extends Controller
         $queryOrders = Order::auth();
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
 
-        $queryOrders->update(['invoice_number' => (string) $exporter->getInvoiceNumber()]);
+        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
         return response()->download($exporter->getPathInvoice());
     }
@@ -95,7 +126,7 @@ class SummaryController extends Controller
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
 
-        $created_by = auth()->check() ? auth()->id() : csrf_token();
+        $created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -139,7 +170,7 @@ class SummaryController extends Controller
     public function saveOrder()
     {
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -171,7 +202,7 @@ class SummaryController extends Controller
 
         
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -195,7 +226,7 @@ class SummaryController extends Controller
 
         
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();
@@ -215,7 +246,7 @@ class SummaryController extends Controller
     public function removeOrder($id)
     {
         if(Auth::user()){
-            $created_by = Auth::user()->id;
+            $created_by = (string) auth()->id();
         }
         else{
             $created_by = csrf_token();

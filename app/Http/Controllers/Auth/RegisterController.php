@@ -122,7 +122,10 @@ class RegisterController extends Controller
 
             $user->notify(new UserConfirmEmail());
 
-            return redirect(route('login'));
+            return back()->with(
+                'status', 
+                'We have sent an email confirmation, please follow &#13;&#10;the link in the email.'
+            );
         }
     }
 }

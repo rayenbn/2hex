@@ -171,8 +171,8 @@
                                 </td>
 								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
 								<td>{{$order->carton?$order->carton:'None'}}</td>
-								<td>{{ auth()->check() ? money_format('$%.2n', $order->perdeck) : '$?.??' }}</td>
-								<td>{{ auth()->check() ? money_format('$%.2n', $order->total) : '$?.??' }}</td>
+								<td>{{ auth()->check() ? money_format('%.2n', $order->perdeck) : '$?.??' }}</td>
+								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
 								@if(Session::get('viewonly') == null)
 								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
 								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
@@ -189,13 +189,15 @@
 								</tr>
 						   	</thead>
 
-                            @foreach($fees as $key => $value)
-                            <tr>
-								<td colspan="3">{{ $value['type'] }}</td>
-								<td colspan="3">{{ $value['batches'] }}</td>
-								<td colspan="9">{{ $value['image'] }}</td>
-								<td>{{ auth()->check() ? money_format('$%.2n', $value['price']) : '$?.??' }}</td>
-							</tr>
+                            @foreach($fees as $key => $group)
+                            	@foreach($group as $k => $value)
+                            		<tr>
+										<td colspan="3">{{ $value['type'] }}</td>
+										<td colspan="3">{{ $value['batches'] }}</td>
+										<td colspan="9">{{ $value['image'] }}</td>
+										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+									</tr>
+                            	@endforeach
 							@endforeach
 
 							<tr>
@@ -207,7 +209,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									ORDER TOTAL: {{ auth()->check() ? money_format('$%.2n', $orders->sum('total') + $sum_fees) : '$?.??' }}
+									ORDER TOTAL: {{ auth()->check() ? money_format('%.2n', $orders->sum('total') + $sum_fees) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
@@ -272,7 +274,7 @@
 			@endif
 
 			<!-- VENDOR CODE -->
-			@if(!$orders->every->submit)
+			@if(!$orders->every->submit && !session()->get('viewonly'))
 				@include('partials.vendor-code')
 			@endif
             

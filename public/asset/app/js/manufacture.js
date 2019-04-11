@@ -2,21 +2,22 @@
 
 var app = new Vue({
     el: '#app',
-    data:{
+    data() {
+        return {
             colorData: {
-                'natural'       : '#FFE4C4', 
-                'brown'         : '#A52A2A',
-                'orange'        : '#FFA500',
-                'red'           : 'red',
+                'natural'        : '#FFE4C4', 
+                'brown'          : '#A52A2A',
+                'orange'         : '#FFA500',
+                'red'            : 'red',
                 'lime green'     : '#32CD32',
-                'black'         : 'black',
-                'yellow'        : 'yellow',
-                'green'         : 'green',
-                'grey'          : 'grey',
-                'purple'        : '#800080',
-                'pink'          : '#FFC0CB',
-                'blue'          : 'blue',
-                'scarlet'       : '#ff2400',
+                'black'          : 'black',
+                'yellow'         : 'yellow',
+                'green'          : 'green',
+                'grey'           : 'grey',
+                'purple'         : '#800080',
+                'pink'           : '#FFC0CB',
+                'blue'           : 'blue',
+                'scarlet'        : '#ff2400',
                 'dark blue'      : '#00008B',
                 'deep violet'    : '#9400D3',
                 'wood red'       : '#65000b',
@@ -38,26 +39,27 @@ var app = new Vue({
             size: "",
             pre_quantity: 0,
             pre_size: "",
-            steps: [ {state: false}, 
-                    {state: true}, 
-                    {state: true}, 
-                    {state: true}, 
-                    {state: false},                      
-                     {state: false, name: ''}, 
-                     {state: false, name: ''}, 
-                     {state: true, name: ''}, 
-                    {   fulldip: {state: false, 
-                                    color: ""}, 
-                        transparent: {state: false, 
-                                        color: ""}, 
-                        metallic: {state: false, 
-                                    color: ""}, 
-                        blacktop: {state: false}, 
-                        blackmidlayer: {state: false}, 
-                        pattern: {state: false}, 
-                    },                     
-                    {state: false, name: ''}, 
-                    {state: false, name: ''}, ],
+            steps: [ 
+                {state: false}, 
+                {state: true}, 
+                {state: true}, 
+                {state: true}, 
+                {state: false},                      
+                {state: false, name: ''}, 
+                {state: false, name: ''}, 
+                {state: true, name: ''}, 
+                {
+                    fulldip: {state: false,color: ""}, 
+                    transparent: {state: false, color: ""}, 
+                    metallic: {state: false, color: ""}, 
+                    blacktop: {state: false}, 
+                    blackmidlayer: {state: false}, 
+                    pattern: {state: false}, 
+                },                     
+                {state: false, name: ''}, 
+                {state: false, name: ''}, 
+            ],
+        }
     },
     computed: {
         progressWidth: function(){
@@ -170,7 +172,7 @@ var app = new Vue({
                 else if(this.total_quantity <= 30)
                   this.perdeck -= 30;
                 else if(this.total_quantity <= 50)
-                  this.perdeck -= 6;
+                  this.perdeck -= 10;
                 else if(this.total_quantity <= 100)
                   this.perdeck -= 4;
                 else if(this.total_quantity <= 200)
@@ -196,7 +198,7 @@ var app = new Vue({
             else if(this.total_quantity <= 30)
               this.perdeck += 30;
             else if(this.total_quantity <= 50)
-              this.perdeck += 6;
+              this.perdeck += 10;
             else if(this.total_quantity <= 100)
               this.perdeck += 4;
             else if(this.total_quantity <= 200)
@@ -224,7 +226,12 @@ function renderProduct(){
         imgArr.push(baseImgURL + app.currentColors[i] + '/000' + (i + 1) + ".png")
     }
     mergeImages(imgArr)
-    .then(b64 => document.getElementById('productCanvas').src = b64);
+    .then(b64 => {
+        let product = document.getElementById('productCanvas');
+        if (product != null) {
+            product.src = b64;
+        }
+    });
 }
 
 function renderRandomProduct(){

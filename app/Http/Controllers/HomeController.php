@@ -27,11 +27,7 @@ class HomeController extends Controller
     }
     public function getData()
     {
-        if(Auth::user())
-            $created_by = Auth::user()->id;
-        else
-            $created_by = csrf_token();
-        $data = Order::where('created_by','=',$created_by)->where('usenow','=',1)->get();
+        $data = Order::auth()->get();
         $quantity = 0;
         $total = 0;
         for($i = 0; $i < count($data); $i ++)
