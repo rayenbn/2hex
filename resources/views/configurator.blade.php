@@ -1680,6 +1680,8 @@
                                                         </span>
                                                     </button>
                                                 </div>
+
+                                                <!-- *No need for this button currently*
                                                 <div class="col-lg-4 m--align-center">
                                                     <button v-if="currentStep == 10" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="summary">
                                                         <span>
@@ -1687,6 +1689,8 @@
                                                         </span>
                                                     </button>
                                                 </div>
+                                                -->
+
                                                 <div class="col-lg-4 m--align-center">
                                                     <button class="btn btn-primary m-btn m-btn--custom m-btn--icon" data-wizard-action="submit">
                                                         <span>

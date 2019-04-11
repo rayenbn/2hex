@@ -80,11 +80,12 @@ class SummaryController extends Controller
         return view('summary', compact('fees', 'sum_fees'));
     }
 
+
     public function exportcsv()
     {
         $queryOrders = Order::auth();
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
-
+        dd($exporter);
         $queryOrders->update(['invoice_number' => (string) $exporter->getInvoiceNumber()]);
 
         return response()->download($exporter->getPathInvoice());
