@@ -25,7 +25,7 @@
   "notification.error": "Whoops!",
   "notification.hello": "Hello!",
   "notification.regards": "Regards,",
-  "notification.auth.confirm_email.mail.subject": ":app confirmation",
+  "notification.auth.confirm_email.mail.subject": "Your :app account confirmation",
   "notification.auth.confirm_email.mail.greeting": "Hello :user!",
   "notification.auth.confirm_email.mail.line.0": "To confirm your account and verify your e-mail address, please click the following button:",
   "notification.auth.confirm_email.mail.line.1": "If you've received this e-mail in error, it's likely that another user entered your e-mail address while trying to create an account for a different email address. If you don't click the link, the account won't be activated.",

@@ -57,7 +57,7 @@ class ConfiguratorController extends Controller
         $data = $request->all();
         $data['submit'] = '0';
         if(Auth::user())
-             $data['created_by'] = Auth::user()->id;
+             $data['created_by'] = (string) auth()->id();
         else
             $data['created_by'] = csrf_token();
         if($data['id'] == '')
@@ -98,7 +98,7 @@ class ConfiguratorController extends Controller
 
     public function show($id)
     {
-        $data = Order::where('id','=',$id)->get();
+        $saved_order = Order::where('id','=',$id)->get();
 
         $filenames = [
             'bottom' => [],
@@ -109,7 +109,7 @@ class ConfiguratorController extends Controller
         ];
 
         if(!auth()->check()) {
-            return view('configurator', compact('filenames'));
+            return view('configurator', compact('filenames', 'saved_order'));
         }
 
         $path = '';
