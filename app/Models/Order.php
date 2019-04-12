@@ -64,8 +64,10 @@ class Order extends Model
             return 38;
         } else if ($amount >= 20 && $amount < 30) {
             return 52;
-        } else if ($amount >= 30 && $amount < 50) {
+        } else if ($amount >= 30 && $amount < 40) {
             return 90;
+        } else if ($amount >= 40 && $amount < 50) {
+            return 120; //added this price
         } else if ($amount >= 50 && $amount < 100) {
             return 450;
         } else if ($amount >= 100 && $amount < 200) {
@@ -78,8 +80,10 @@ class Order extends Model
             return 1100;
         } else if ($amount >= 1000 && $amount < 2000) {
             return 1300;
-        } else if ($amount >= 2000) {
-            return 1700;
+        } else if ($amount >= 2000 && $amount < 5000) {
+            return 1700; //added this price
+        } else if ($amount >= 5000) {
+            return 2300; //added this price
         }
     }
 
