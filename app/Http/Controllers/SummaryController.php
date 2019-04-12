@@ -159,7 +159,7 @@ class SummaryController extends Controller
         $info = ShipInfo::auth()->select('invoice_name')->first(); 
         $queryOrders = Order::auth();
 
-        Mail::send(new \App\Mail\OrderSubmit($info->toArray()));
+        Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
 
         $queryOrders->update([
             'submit' => 1,
