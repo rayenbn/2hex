@@ -220,7 +220,7 @@
 							<ul class="m-portlet__nav">
 								
 								<li class="m-portlet__nav-item">
-									<a href="/export_csv" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
+									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
 										<span>
 											<i class="la la-save"></i>
 											<span>ExportInvoice</span>

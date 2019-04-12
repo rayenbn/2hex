@@ -95,12 +95,12 @@ class SummaryController extends Controller
         }
 
         // Set Global delivery
-        if (count($fees)) {
+        if ($ordersQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => 'Global delivery', 
                 'batches' => '', 
-                'price' => $globalSum = Order::getGlobalDelivery(), 
+                'price' => Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
             ]);
         }
