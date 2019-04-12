@@ -186,7 +186,7 @@ class SummaryController extends Controller
             'usenow' => 0
         ];
         $save_data['usenow'] = 0;
-        $save_data['saved_date'] =new \DateTime();
+        $save_data['saved_date'] = now();
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         for($i = 0; $i < count($data); $i ++){

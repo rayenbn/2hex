@@ -25,12 +25,12 @@ class ProfileController extends Controller
 
         $querySubmitOrders = clone $queryOrders;
 
-        $orders = $queryOrders->where('submit', 0)->get();
+        $unSubmitOrders = $queryOrders->where('submit', 0)->get();
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
 
         $shipinfo = ShipInfo::auth()->first();
 
-        return view('profile', compact('orders', 'submitorders', 'shipinfo'));
+        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo'));
     }
 
     public function store_address(Request $request)

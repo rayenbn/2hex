@@ -48,7 +48,7 @@ class ShipInfo extends Model
     public function scopeAuth($query)
     {
         if(auth()->check()){
-            $query->where('created_by', '=', auth()->id());
+            $query->where('created_by', '=', (string) auth()->id());
         } else {
             $query->where('created_by', '=', csrf_token());
         }  
