@@ -30,9 +30,8 @@ class OrderSubmit extends Mailable
 
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->to(auth()->user())
+            ->bcc('niklas@2hex.com', 'Niklas')
             ->subject('2HEX Production Order Confirmation')
-            ->bcc(config('mail.from.address'), config('mail.from.name'))
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

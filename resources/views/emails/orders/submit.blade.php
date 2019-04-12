@@ -17,7 +17,7 @@
 			We have already received your product details.<p>
 
 			<p style="color: black;">Attached you can find your invoice.<br>
-			You can also find a summary of your order <a href="{{route('summary')}}">here</a></p>
+			You can also find a summary of your order <a href="{{ route('profile') }}#submitted_orders">here</a></p>
 
 			<p style="color: black;">Please pay the invoice within two weeks.<br>
 			Your production will be started right after we receive your payment.</p>

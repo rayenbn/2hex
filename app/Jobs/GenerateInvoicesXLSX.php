@@ -493,7 +493,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         }
 
         // Set Global delivery
-        if (count($fees)) {
+        if ($this->orders->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image'   => 'Global delivery', 
@@ -623,14 +623,16 @@ class GenerateInvoicesXLSX implements ShouldQueue
     
     private function getGlobalDelivery($amount)
     {
-        if ($amount < 20) {
+        if ($amount == 0) {
+            return 0;
+        } else if ($amount < 20) {
             return 38;
         } else if ($amount >= 20 && $amount < 30) {
             return 52;
         } else if ($amount >= 30 && $amount < 40) {
             return 90;
         } else if ($amount >= 40 && $amount < 50) {
-            return 120; //added this price
+            return 120;
         } else if ($amount >= 50 && $amount < 100) {
             return 450;
         } else if ($amount >= 100 && $amount < 200) {
@@ -644,9 +646,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
         } else if ($amount >= 1000 && $amount < 2000) {
             return 1300;
         } else if ($amount >= 2000 && $amount < 5000) {
-            return 1700; //added this price
+            return 1700;
         } else if ($amount >= 5000) {
-            return 2300; //added this price
+            return 2300;
         }
     }
 }

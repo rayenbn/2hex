@@ -95,12 +95,12 @@ class SummaryController extends Controller
         }
 
         // Set Global delivery
-        if (count($fees)) {
+        if ($ordersQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => 'Global delivery', 
                 'batches' => '', 
-                'price' => $globalSum = Order::getGlobalDelivery(), 
+                'price' => Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
             ]);
         }
@@ -159,7 +159,7 @@ class SummaryController extends Controller
         $info = ShipInfo::auth()->select('invoice_name')->first(); 
         $queryOrders = Order::auth();
 
-        Mail::send(new \App\Mail\OrderSubmit($info->toArray()));
+        Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
 
         $queryOrders->update([
             'submit' => 1,
