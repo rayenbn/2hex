@@ -77,7 +77,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
      */
     protected $drawing;
 
-    protected $costWithoutGlobal = 0;
+    protected $finalAmount = 0;
 
     protected $date;
 
@@ -119,7 +119,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->setPropertiesSheet();
         $this->writer = new Xlsx($this->getSpreadsheet());
         $this->drawing = new Drawing();
-        $this->date = now()->timestamp;
+        $this->date = time();
     }
     /**
      * Execute the job.
@@ -152,16 +152,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         return $this->writer;
     }
+
     public function setStartTextBold($textBold, $text)
     {
         $richText = new RichText();
+
         $richText
             ->createTextRun($textBold)
             ->getFont()
+            ->setSize(10)
             ->setBold(true);
+
         $richText->createText($text);
+
         return $richText;
     }
+
     protected function generateOrders()
     {
         $activeSheet = null;
@@ -338,6 +344,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         return $this->orders->count();
     }
+
     protected function setSeparateCell()
     { 
         $this
@@ -351,12 +358,14 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue('E8', Date::PHPToExcel($this->date))
             ->getRowDimension(4)
             ->setRowHeight(40);
+
         $shipinfo = \App\Models\ShipInfo::query()
             ->selectRaw(
                 "*, CONCAT_WS(', ', shipping_address, shipping_city, shipping_state, shipping_postcode) as fulladdress"
             )
-            ->where('created_by','=', auth()->check() ? auth()->id() : csrf_token())
+            ->where('created_by', (string) (auth()->check() ? auth()->id() : csrf_token()))
             ->first();
+
         // Set total cells
         $this
             ->getActiveSheet()
@@ -372,9 +381,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('N%s', 
                     $startTotal
                 ), 
-                $this->orders->sum('total') 
-                    + $this->getGlobalDelivery($this->orders->sum('quantity'))
-                    + $this->costWithoutGlobal
+                $this->finalAmount += $this->orders->sum('total')
             );
 
         // Total styles
@@ -382,6 +389,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getFont()
             ->setSize(16)
             ->setBold(true);
+
+        $this->getStylesRange(sprintf('N%1$s:N%2$s', $startTotal, $startTotal + 5))
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
         if ($shipinfo) {
             $this
                 ->getActiveSheet()
@@ -417,27 +429,107 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getStylesRange('E8')
             ->getNumberFormat()
             ->setFormatCode('dd/mm/yyyy');
+
         return $this;
     }
-    protected function setDeliveryCells()
+
+    private function prepareFees()
     {
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {
             return array_filter(
-                $order->only(['bottomprint', 'topprint', 'engravery', 'carton', 'cardboard']), function($image) {
+                $order->only([
+                    'quantity', 'bottomprint', 'topprint', 'engravery', 'carton', 'cardboard'
+                ]), function($image) {
                     return isset($image);
                 }
             );
         })->filter(function($image) {
             return count($image);
-        })->values();
+        })
+        ->values()
+        ->toArray();
+
+        $fees = [];
+        $sum_fees = 0;
+
+        foreach ($orderFees as $index => $order) {
+            $index += 1;
+
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $order['quantity'];
+
+                        if ($key == 'cardboard') {
+                            $fees[$key][$value]['price'] = Order::getPriceDesign($fees[$key][$value]['quantity']);
+                        }
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $order['quantity'],
+                ];
+
+                /*
+                 * Cardboard price calculated 
+                 * Formula: 500 + (quantity - 625) * 0.8
+                 * If (quantity - 625) * 0.8 < 0 then 0
+                 */ 
+                if ($key == 'cardboard') {
+                    $fees[$key][$value]['price'] = Order::getPriceDesign($order['quantity']);
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                }
+
+            }
+        }
+
+        // Set Global delivery
+        if (count($fees)) {
+            $fees['global'] = [];
+            array_push($fees['global'], [
+                'image'   => 'Global delivery', 
+                'batches' => '', 
+                'price'   => $this->getGlobalDelivery($this->orders->sum('quantity')), 
+                'type'    => 'Global delivery'
+            ]);
+        }
+
+        // Calculate total price
+        foreach ($fees as $key => $value) {
+            array_walk($value, function($f, $k) use(&$sum_fees){
+                $sum_fees += $f['price'];
+            });
+        }
+
+        return [$fees, $sum_fees];
+    }
+
+    protected function setDeliveryCells()
+    {
+        // Prepare orders design
+        $prepared = $this->prepareFees();
+
+        // Set prepared design
+        $orderFees = $prepared[0];
+
+        // Plus total delivery price, with global delivery
+        $this->finalAmount += $prepared[1];
 
         // Insert rows = count fees
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
                 $startDelivery = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + 1, 
-                $this->countFees = $this->calculateFees($orderFees) + 1
+                $this->countFees = $this->calculateFees($orderFees)
             ); 
 
         // start + count orders * 8(count rows in single item)
@@ -463,41 +555,19 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $index = 0;
+        $allFess = [];
+        array_walk($orderFees, function($fees) use (&$allFess){
+            array_push($allFess, ...array_values($fees));
+        });
 
-        array_walk_recursive($orderFees, function($value, $key) use($startDelivery, &$index) {
+        foreach ($allFess as $index => $value) {
             $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $pos = $startDelivery + $index, $pos));
             $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $pos, $pos));
 
-            if (array_key_exists($key,  $this->feesTypes)) {
-                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $this->feesTypes[$key]['name']);
-                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $this->feesTypes[$key]['price']);
-                // plus total fees
-                $this->costWithoutGlobal += $this->feesTypes[$key]['price'];
-            } else {
-                $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $key);
-                $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), 0);
-            }
-            $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value);
-
-            $index++;
-        });
-
-        // Global Delivery
-        $this->getActiveSheet()->mergeCells(
-            sprintf('C%s:I%s', $startGlobal = $startDelivery + $this->countFees - 1, $startDelivery + $this->countFees - 1)
-        );
-        $this->getActiveSheet()->mergeCells(
-            sprintf('J%s:M%s', $startGlobal, $startGlobal)
-        );
-         $this->getActiveSheet()->setCellValue(sprintf('C%s', $startGlobal), 'Global delivery');
-         $this->getActiveSheet()->setCellValue(sprintf('J%s', $startGlobal), 'Global delivery');
-
-         $this->getActiveSheet()->setCellValue(
-            sprintf('N%s', $startGlobal), 
-            $this->getGlobalDelivery($this->orders->sum('quantity'))
-        );
-
+            $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $value['type']);
+            $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $value['price']);
+            $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value['image']);
+        }
 
         return $this;
     }
@@ -540,8 +610,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
     private function calculateFees($items) 
     {
         $total = 0;
-        array_walk_recursive($items, function($x) use(&$total) {
-            $total++;
+
+        array_walk($items, function($fees) use (&$total){
+            $total += count($fees);
         });
 
         return $total;

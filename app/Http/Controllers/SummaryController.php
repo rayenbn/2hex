@@ -68,15 +68,11 @@ class SummaryController extends Controller
                         $fees[$key][$value]['quantity'] += $order['quantity'];
 
                         if ($key == 'cardboard') {
-                            $fees[$key][$value]['price'] = $this->getPriceDesign($fees[$key][$value]['quantity']);
-                        } 
-
-                        
-                        $sum_fees += $fees[$key][$value]['price'];
+                            $fees[$key][$value]['price'] = Order::getPriceDesign($fees[$key][$value]['quantity']);
+                        }
                         continue;
                     }
-                }
-
+                } 
                 $fees[$key][$value] = [
                     'image'    => $value,
                     'batches'  => (string) $index,
@@ -90,13 +86,11 @@ class SummaryController extends Controller
                  * If (quantity - 625) * 0.8 < 0 then 0
                  */ 
                 if ($key == 'cardboard') {
-                    $fees[$key][$value]['price'] = $this->getPriceDesign($order['quantity']);
+                    $fees[$key][$value]['price'] = Order::getPriceDesign($order['quantity']);
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
                 }
 
-                // Calculate total sum
-                $sum_fees += $fees[$key][$value]['price'];
             }
         }
 
@@ -109,24 +103,17 @@ class SummaryController extends Controller
                 'price' => $globalSum = Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
             ]);
-            $sum_fees += $globalSum;
+        }
+
+        // Calculate total price
+        foreach ($fees as $key => $value) {
+            array_walk($value, function($f, $k) use(&$sum_fees){
+                $sum_fees += $f['price'];
+            });
         }
 
         return view('summary', compact('fees', 'sum_fees'));
     }
-
-
-    private function getPriceDesign($quantity)
-    {
-        $total = 0;
-
-        if (($quantity - 625) * 0.8 > 0) {
-            $total = ($quantity - 625) * 0.8;
-        }
-
-        return 500 + $total;
-    }
-
 
     public function exportcsv()
     {
@@ -199,7 +186,7 @@ class SummaryController extends Controller
             'usenow' => 0
         ];
         $save_data['usenow'] = 0;
-        $save_data['saved_date'] =new \DateTime();
+        $save_data['saved_date'] = now();
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         for($i = 0; $i < count($data); $i ++){

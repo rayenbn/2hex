@@ -6,7 +6,7 @@
     <!-- BEGIN: Aside Menu -->
     <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark " m-menu-vertical="1" m-menu-scrollable="1" m-menu-dropdown-timeout="500" style="position: relative;">
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-            <li class="m-menu__item  {{ request()->routeIs('index') ? 'm-menu__item--expanded' : '' }}" aria-haspopup="true">
+            <li class="m-menu__item  {{ request()->routeIs('index') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('index') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-home-2"></i>
                     <span class="m-menu__link-title"> 
@@ -18,7 +18,7 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu 
-                    {{ request()->routeIs('skateboard.manufacturer') ? 'm-menu__item--expanded m-menu__item--open' : '' }}" 
+                    {{ request()->routeIs('skateboard.manufacturer') ? 'm-menu__item--expanded m-menu__item--open m-menu__item--active' : '' }}" 
                 aria-haspopup="true" 
                 m-menu-submenu-toggle="hover"
             >
@@ -54,7 +54,7 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                    {{ (request()->is('skateboard-deck-configurator/*')) ? 'm-menu__item--expanded m-menu__item--open' : '' }}" 
+                    {{ (request()->is('skateboard-deck-configurator/*')) ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' : '' }}" 
                 aria-haspopup="true" 
                 m-menu-submenu-toggle="hover"
             >
@@ -125,7 +125,7 @@
                 </div>
             </li>
             
-            <li class="m-menu__item {{ request()->routeIs('summary') ? 'm-menu__item--expanded' : ''}}" aria-haspopup="true">
+            <li class="m-menu__item {{ request()->routeIs('summary') ? 'm-menu__item--expanded m-menu__item--active' : ''}}" aria-haspopup="true">
                 <a href="{{route('summary')}}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-truck">
                         <span></span>

@@ -83,4 +83,15 @@ class Order extends Model
         }
     }
 
+    public static function getPriceDesign($quantity)
+    {
+        $total = 0;
+
+        if (($quantity - 625) * 0.8 > 0) {
+            $total = ($quantity - 625) * 0.8;
+        }
+
+        return 500 + $total;
+    }
+
 }
