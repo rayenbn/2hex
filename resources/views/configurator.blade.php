@@ -15,7 +15,7 @@
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
-                                        Skateboard Deck Configurator
+                                        Skateboard Deck Factory
                                     </h3>
                                     <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
                                     
@@ -705,7 +705,7 @@
                                                                             id="bottomPrintFile" 
                                                                             @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"
                                                                         >
-                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Choose file</label>
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Upload artwork preview</label>
                                                                     </div>
                                                                     
     
@@ -725,8 +725,10 @@
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Custom Bottom Design</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
+                                                                    Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
+                                                                    Photos or artworks of ≥5 colors are printed in CMYK.<br>
+                                                                    <br>
+                                                                    Optionally you can upload a preview of your artwork and send the full size file by email before the production.<br>
 
                                                                 </div>
                                                             </div>                                                                      
@@ -772,10 +774,8 @@
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Blank Bottom</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        Blank decks are commonly sold to print shops, artists or skateshops that need a reason to sell the same pro quality at a cheaper price.
+
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -850,8 +850,10 @@
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Top Print</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
+                                                                    Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
+                                                                    Photos or artworks of ≥5 colors are printed in CMYK.<br>
+                                                                    <br>
+                                                                    Optionally you can upload a preview of your artwork and send the full size file by email before the production.<br>
 
                                                                 </div>
                                                             </div>                                                                      
@@ -897,10 +899,8 @@
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Blank Top</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                         Not every deck needs a top print.
+                                                                        However top prints are the cherry on top of the creme giving buyers the impression of holding a higher quality deck.
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -921,7 +921,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Top Engravery
+                                                                        Top Engraving
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -974,11 +974,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Top Engravery</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Top Engraving</h3>
+                                                                    Submit your artwork as a one color file in 9" x 33" as vector image.<br>
+                                                                    <br>
+                                                                    Optionally you can upload a preview of your engraving artwork and send the full size file by email before the production.<br>
+
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
@@ -1023,10 +1023,8 @@
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Smooth Top</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                    You already have a top print? In this case you don't need an engraved top.
+                                                                    However if you do not have a top print either, remember that top prints and top engravings give buyers the impression of holding a higher quality deck.
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>

@@ -7,7 +7,7 @@
 		<div class="m-subheader ">
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX' Products</h3>
+					<h3 class="m-subheader__title ">2HEX' Skateboard Factory</h3>
 				</div>
 			</div>
 		</div>
@@ -15,21 +15,44 @@
                     
 		<div class="m-content">
 
-            <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
-                <div class="m-alert__icon">
-                    <i class="flaticon-exclamation-1"></i>
+
+
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text m--font-dark">
+                                    Get Custom Skateboard Decks Made!
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+                        <div class="m-widget17">
+                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                <div>
+                                    <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                        <img src="/skateboard-deck-production/getdecks.jpg" alt="" style="width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="m-widget19__action">
+                            <a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                    <span>
+                                        <span>add decks to order</span>
+                                        <i class="la la-arrow-right"></i>
+                                    </span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="m-alert__text">
-                    We are building up a new web presence. If you need more info, visit
-                    <a href="http://skateboard-factory.com" class="m-link m-link--warning m--font-bold" target="_blank">
-                        our old website.
-                    </a>
-                    or download our
-                    <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
-                        catalog
-                    </a>
-                </div>
-            </div>
+
+
+
+
 
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				
@@ -690,7 +713,26 @@
 
                 </div>
             </div>
+            <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
+                <div class="m-alert__icon">
+                    <i class="flaticon-exclamation-1"></i>
+                </div>
+                <div class="m-alert__text">
+                    We are building up a new web presence. If you need more info, visit
+                    <a href="http://skateboard-factory.com" class="m-link m-link--warning m--font-bold" target="_blank">
+                        our old website.
+                    </a>
+                    or download our
+                    <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
+                        catalog
+                    </a>
+                </div>
+            </div>
+
         </div>
+
+
+
 
 </div>
 @endsection
