@@ -1043,7 +1043,7 @@
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
 
-                                                                <div v-for="partName in partNames"  class="dropdown">
+                                                                <div v-for="partName in partNames" class="dropdown">
                                                                     <div class="btn btn-secondary  dropdown-toggle skate-color-dropdown-menu"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         <label>@{{partName + 1}}. @{{currentColor(partName)}}</label>
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
@@ -1091,7 +1091,13 @@
                                                     <div class="m-portlet m-portlet--bordered-semi configurator-color-panel ">
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
-                                                                <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <div 
+                                                                    class="btn btn-secondary random-button" 
+                                                                    data-toggle="dropdown" 
+                                                                    aria-haspopup="true" 
+                                                                    aria-expanded="false"
+                                                                    @click="randomClicked"
+                                                                >
                                                                     <label>Random</label>
                                                                     <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>
