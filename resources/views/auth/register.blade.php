@@ -7,7 +7,7 @@
                 Sign Up
             </h3>
             <div class="m-login__desc">
-                Enter your details to create your account:
+                Enter your details to create your account.
             </div>
         </div>
         @if (session('status'))
@@ -48,6 +48,10 @@
                     <span class="m-form__help"></span>
                 </div>
             </div>
+        <div class="m-login__desc">
+            By registering you sign up to our skateboard industry insights newsletter and allow our team to contact you.
+            You can opt out by clicking "unsubscribe" at the bottom of every email.
+        </div>
             <div class="m-login__form-action">
                 <button id="m_login_signup_submit" class="btn m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">
                     Sign Up
