@@ -67,6 +67,48 @@ var app = new Vue({
                 width: 100 * this.currentStep / 10 + '%',
             }
         },
+        pricePerDeck: function() {
+            let match = this.size.match(/[0-9.]{3}/) || [];
+            if (!match.length) return 0;
+
+            let value = parseFloat(match[0]);
+
+            if(value < 7.0) {
+                return 0;
+            }else if(value >= 7.0 && value < 8.0) {
+                return 8.5;
+            } else if(value >= 8.0 && value < 8.5) {
+                return 9.5;
+            } else if(value >= 8.5)
+                return 10.0;
+        },
+        quantityPrice() {
+            if(this.total_quantity < 20) {
+                return 50;
+            } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
+                return 40;
+            } else if (this.total_quantity >= 30 && this.total_quantity < 40) {
+                return 30;
+            } else if (this.total_quantity >= 40 && this.total_quantity < 50) {
+                return 10;
+            } else if (this.total_quantity >= 50 && this.total_quantity < 100) {
+                return 6;
+            } else if (this.total_quantity >= 100 && this.total_quantity < 200) {
+                return 4;
+            } else if (this.total_quantity >= 200 && this.total_quantity < 300) {
+                return 3;
+            } else if (this.total_quantity >= 300 && this.total_quantity < 500) {
+                return 2.5;
+            } else if (this.total_quantity >= 500 && this.total_quantity < 1000) {
+                return 1.5;
+            } else if (this.total_quantity >= 1000 && this.total_quantity < 2000) {
+                return 1;
+            } else if (this.total_quantity >= 2000 && this.total_quantity < 5000) {
+                return 0.5;
+            } else if (this.total_quantity >= 5000) {
+                return 0;
+            }
+        }
     },
     create: function(){
         renderProduct()
@@ -153,23 +195,29 @@ var app = new Vue({
                 this.currentStep--;
             
         },
-        sizeChange: function(){
-
+        sizeChange: function(event){
+            
             if(this.pre_size != ""){
+                this.perdeck += this.pricePerDeck;
                 if(this.pre_size < '8')
-                  this.perdeck -= 8.5;
+                    this.perdeck -= 8.5;
                 else if(this.pre_size < '8.5')
-                  this.perdeck -= 9.5;
+                    this.perdeck -= 9.5;
                 else
-                  this.perdeck -= 10;                
+                    this.perdeck -= 10;                      
+            }
+
+            // max diff beetween old perdesk and price per desk
+            if (this.perdeck > 3) {
+                this.perdeck -= this.pricePerDeck;
             }
 
             if(this.size < '8')
-              this.perdeck += 8.5;
+                this.perdeck += 8.5;
             else if(this.size < '8.5')
-              this.perdeck += 9.5;
+                this.perdeck += 9.5;
             else
-              this.perdeck += 10;
+                this.perdeck += 10;
 
             this.pre_size = this.size;
         },
