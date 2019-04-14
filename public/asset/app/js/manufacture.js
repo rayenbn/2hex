@@ -67,6 +67,48 @@ var app = new Vue({
                 width: 100 * this.currentStep / 10 + '%',
             }
         },
+        pricePerDeck: function() {
+            let match = this.size.match(/[0-9.]{3}/) || [];
+            if (!match.length) return 0;
+
+            let value = parseFloat(match[0]);
+
+            if(value < 7.0) {
+                return 0;
+            }else if(value >= 7.0 && value < 8.0) {
+                return 8.5;
+            } else if(value >= 8.0 && value < 8.5) {
+                return 9.5;
+            } else if(value >= 8.5)
+                return 10.0;
+        },
+        quantityPrice() {
+            if(this.total_quantity < 20) {
+                return 50;
+            } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
+                return 40;
+            } else if (this.total_quantity >= 30 && this.total_quantity < 40) {
+                return 30;
+            } else if (this.total_quantity >= 40 && this.total_quantity < 50) {
+                return 10;
+            } else if (this.total_quantity >= 50 && this.total_quantity < 100) {
+                return 6;
+            } else if (this.total_quantity >= 100 && this.total_quantity < 200) {
+                return 4;
+            } else if (this.total_quantity >= 200 && this.total_quantity < 300) {
+                return 3;
+            } else if (this.total_quantity >= 300 && this.total_quantity < 500) {
+                return 2.5;
+            } else if (this.total_quantity >= 500 && this.total_quantity < 1000) {
+                return 1.5;
+            } else if (this.total_quantity >= 1000 && this.total_quantity < 2000) {
+                return 1;
+            } else if (this.total_quantity >= 2000 && this.total_quantity < 5000) {
+                return 0.5;
+            } else if (this.total_quantity >= 5000) {
+                return 0;
+            }
+        }
     },
     create: function(){
         renderProduct()
@@ -85,7 +127,12 @@ var app = new Vue({
             else
                 return 'white';
         },
-        colorClicked: function(event){            
+        colorClicked: function(event){  
+            // check active random colors
+            if (!this.steps[7].state) {
+                this.steps[7].state = 1; 
+                this.currentColors.fill('natural');    
+            }   
             var part, color
             if(event.target.getAttribute('data-part-id') == null){
                 part = parseInt(event.target.parentElement.getAttribute('data-part-id'))
@@ -118,7 +165,26 @@ var app = new Vue({
            renderProduct()
         },
         randomClicked: function(event){
-            renderRandomProduct()
+            if (!this.steps[7].state) {
+                return false;
+            }
+            this.steps[7].state = 0;
+            // Selected colors when don`t 'natural'
+            let selectedColors = this.currentColors.filter(c => c != 'natural').length;
+
+            if (selectedColors >= 1 && selectedColors < 4) {
+                this.perdeck -= 0.4;
+            } else if (selectedColors >= 4 && selectedColors < 5) {
+                this.perdeck -= 0.8;
+            } else if (selectedColors >= 5) {
+                this.perdeck -= 1.2;
+            }
+
+            for(var i = 0; i < this.currentColors.length; i++){
+                this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
+            }
+
+            renderProduct();
         },
         nextStep: function(){
             if(this.currentStep < 10)
@@ -129,23 +195,29 @@ var app = new Vue({
                 this.currentStep--;
             
         },
-        sizeChange: function(){
-
+        sizeChange: function(event){
+            
             if(this.pre_size != ""){
+                this.perdeck += this.pricePerDeck;
                 if(this.pre_size < '8')
-                  this.perdeck -= 8.5;
+                    this.perdeck -= 8.5;
                 else if(this.pre_size < '8.5')
-                  this.perdeck -= 9.5;
+                    this.perdeck -= 9.5;
                 else
-                  this.perdeck -= 10;                
+                    this.perdeck -= 10;                      
+            }
+
+            // max diff beetween old perdesk and price per desk
+            if (this.perdeck > 3) {
+                this.perdeck -= this.pricePerDeck;
             }
 
             if(this.size < '8')
-              this.perdeck += 8.5;
+                this.perdeck += 8.5;
             else if(this.size < '8.5')
-              this.perdeck += 9.5;
+                this.perdeck += 9.5;
             else
-              this.perdeck += 10;
+                this.perdeck += 10;
 
             this.pre_size = this.size;
         },

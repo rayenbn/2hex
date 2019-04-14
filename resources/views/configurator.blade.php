@@ -191,51 +191,58 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>      
-                                                                <select class="form-control" id="size" name="size" @change="sizeChange" style="width:100%;" v-model="size">
-                                                                        <option value="">SELECT</option>
-                                                                        <option value="7.0&quot; x 28&quot; (A1: WB 11.73&quot;, N 6.06&quot;, T 6.0&quot;)">7.0" x 28" (A1: WB 11.73", N 6.06", T 6.0")
-                                                                        </option><option value="7.25&quot; x 29&quot; (B1: WB13.5&quot;: N5.87&quot;, T5.47&quot;)" selected="">7.25" x 29" (B1: WB13.5": N5.87", T5.47")
-                                                                        </option><option value="7.375&quot; x 30&quot; (C1: WB12.81&quot; : N6.81&quot; , T6.18&quot; )">7.375" x 30" (C1: WB12.81" : N6.81" , T6.18" )
-                                                                        </option><option value="7.5&quot; x 30.75&quot; (D1: WB14.02&quot;: N6.40&quot;, T6.16&quot;)">7.5" x 30.75" (D1: WB14.02": N6.40", T6.16")
-                                                                        </option><option value="7.5&quot; x 31&quot; (D2: WB14.02&quot;: N6.59&quot;, T6.20&quot;)">7.5" x 31" (D2: WB14.02": N6.59", T6.20")
-                                                                        </option><option value="7.5&quot; x 31.25&quot; (D3: WB14.02&quot;: N6.73&quot;, T6.34&quot;)">7.5" x 31.25" (D3: WB14.02": N6.73", T6.34")
-                                                                        </option><option value="7.5&quot; x 31.5&quot; (D4: WB14.02&quot;: N6.77&quot;, T6.54&quot;)">7.5" x 31.5" (D4: WB14.02": N6.77", T6.54")
-                                                                        </option><option value="7.625&quot; x 31.125&quot; (E1: WB14.02&quot;: N6.57&quot;, T6.38&quot;)">7.625" x 31.125" (E1: WB14.02": N6.57", T6.38")
-                                                                        </option><option value="7.625&quot; x 31.25&quot; (E2: WB14.02&quot;: N6.73&quot;, T6.34&quot;)">7.625" x 31.25" (E2: WB14.02": N6.73", T6.34")
-                                                                        </option><option value="7.625&quot; x 31.5&quot; (E3: WB14.02&quot;: N6.83&quot;, T6.44&quot;)">7.625" x 31.5" (E3: WB14.02": N6.83", T6.44")
-                                                                        </option><option value="7.75&quot; x 31&quot; (F1: WB 14.02&quot;, N 6.60&quot;, T 6.20&quot;)">7.75" x 31" (F1: WB 14.02", N 6.60", T 6.20")
-                                                                        </option><option value="7.75&quot; x 31.125&quot; (F2: WB14.02&quot;: N6.73&quot;, T6.22&quot;)">7.75" x 31.125" (F2: WB14.02": N6.73", T6.22")
-                                                                        </option><option value="7.75&quot; x 31.5&quot; (F3: WB14.02&quot;: N6.85&quot;, T6.46&quot;)">7.75" x 31.5" (F3: WB14.02": N6.85", T6.46")
-                                                                        </option><option value="7.75&quot; x 31.75&quot; (F4: WB14.02&quot;: N6.93&quot;, T6.65&quot;)">7.75" x 31.75" (F4: WB14.02": N6.93", T6.65")
-                                                                        </option><option value="7.875&quot; x 31.1875&quot; (G1: WB14.02&quot;: N6.77&quot;, T6.22&quot;)">7.875" x 31.1875" (G1: WB14.02": N6.77", T6.22")
-                                                                        </option><option value="7.875&quot; x 31.3&quot; (G2: WB14.02&quot;: N6.75&quot;, T6.36&quot;)">7.875" x 31.3" (G2: WB14.02": N6.75", T6.36")
-                                                                        </option><option value="7.875&quot; x 31.625&quot; (G3: WB 14.25&quot;, N 6.79&quot;, T 6.40&quot;)">7.875" x 31.625" (G3: WB 14.25", N 6.79", T 6.40")
-                                                                        </option><option value="7.875&quot; x 31.875&quot; (G4: WB14.25&quot;: N6.93&quot;, T6.54&quot;)">7.875" x 31.875" (G4: WB14.25": N6.93", T6.54")
-                                                                        </option><option value="8.0&quot; x 31&quot; (H1: WB14.02&quot;: N6.59&quot;, T6.20&quot;)">8.0" x 31" (H1: WB14.02": N6.59", T6.20")
-                                                                        </option><option value="8.0&quot; x 31.375&quot; (H2: WB14.02&quot;: N6.87&quot;, T6.32&quot;)">8.0" x 31.375" (H2: WB14.02": N6.87", T6.32")
-                                                                        </option><option value="8.0&quot; x 31.5&quot; (H3: WB14.02&quot;: N6.93&quot;, T6.38&quot;)">8.0" x 31.5" (H3: WB14.02": N6.93", T6.38")
-                                                                        </option><option value="8.0&quot; x 31.75&quot; (H4: WB14.25&quot;: N6.81&quot;, T6.50&quot;)">8.0" x 31.75" (H4: WB14.25": N6.81", T6.50")
-                                                                        </option><option value="8.0&quot; x 31.75&quot; (H5: WB14.21&quot; : N6.87&quot;, T6.47&quot;)">8.0" x 31.75" (H5: WB14.21" : N6.87", T6.47")
-                                                                        </option><option value="8.0&quot; x 31.875&quot; (H6: WB14.25&quot;: N6.85&quot;, T6.61&quot;)">8.0" x 31.875" (H6: WB14.25": N6.85", T6.61")
-                                                                        </option><option value="8.0&quot; x 32&quot; (H7: WB14.02&quot;: N7.13&quot;, T6.65&quot;)">8.0" x 32" (H7: WB14.02": N7.13", T6.65")
-                                                                        </option><option value="8.125&quot; x 31.5&quot; (I1: WB14.02&quot;: N6.75&quot; , T6.55&quot; )">8.125" x 31.5" (I1: WB14.02": N6.75" , T6.55" )
-                                                                        </option><option value="8.125&quot; x 31.75&quot; (I2: WB14.02&quot;: N6.97&quot;, T6.57&quot;)">8.125" x 31.75" (I2: WB14.02": N6.97", T6.57")
-                                                                        </option><option value="8.125&quot; x 31.875&quot; (I3: WB14.25&quot; : N6.8&quot; , T6.625&quot; )">8.125" x 31.875" (I3: WB14.25" : N6.8" , T6.625" )
-                                                                        </option><option value="8.125&quot; x 31.875&quot; (I4: WB14.5&quot;: N6.85&quot;, T6.34&quot;)">8.125" x 31.875" (I4: WB14.5": N6.85", T6.34")
-                                                                        </option><option value="8.125&quot; x 32&quot; (I5: WB14.25&quot; : N6.9375&quot; , T6.61&quot; )">8.125" x 32" (I5: WB14.25" : N6.9375" , T6.61" )
-                                                                        </option><option value="8.25&quot; x 31.625&quot; (I6: WB14.25&quot; : N6.75&quot; , T6.425&quot; )">8.25" x 31.625" (I6: WB14.25" : N6.75" , T6.425" )
-                                                                        </option><option value="8.25&quot; x 31.75&quot; (J1: WB14.5&quot;: N6.65&quot;, T6.42&quot;)">8.25" x 31.75" (J1: WB14.5": N6.65", T6.42")
-                                                                        </option><option value="8.25&quot; x 32&quot; (J2: WB14.25&quot; : N7.0&quot; , T6.55&quot; )">8.25" x 32" (J2: WB14.25" : N7.0" , T6.55" )
-                                                                        </option><option value="8.25&quot; x 32.56&quot; (J3: WB15&quot;: N6.89&quot;, T6.50&quot;)">8.25" x 32.56" (J3: WB15": N6.89", T6.50")
-                                                                        </option><option value="8.375&quot; x 32.1875&quot;  (K1: WB14.5&quot;: N7.01&quot;, T6.54&quot;)">8.375" x 32.1875"  (K1: WB14.5": N7.01", T6.54")
-                                                                        </option><option value="8.375&quot; x 32.125&quot; (K2: WB14.5&quot;: N6.89&quot;, T6.58&quot;)">8.375" x 32.125" (K2: WB14.5": N6.89", T6.58")
-                                                                        </option><option value="8.5&quot; x 32&quot; (L1: WB14.37&quot;: N6.95&quot;, T6.52&quot;)">8.5" x 32" (L1: WB14.37": N6.95", T6.52")
-                                                                        </option><option value="8.5&quot; x 32.125&quot; (L2: WB14.56&quot;: N6.81&quot;, T6.57&quot;)">8.5" x 32.125" (L2: WB14.56": N6.81", T6.57")
-                                                                        </option><option value="8.5&quot; x 32.5&quot; (L3: WB15&quot;: N6.79&quot;, T6.44&quot;)">8.5" x 32.5" (L3: WB15": N6.79", T6.44")
-                                                                        </option><option value="8.5&quot; x 32.875&quot; (L4: WB15.04&quot;: N6.97&quot;, T6.69&quot;)">8.5" x 32.875" (L4: WB15.04": N6.97", T6.69")
-                                                                        </option><option value="8.75&quot; x 32.5&quot; (M1: WB14.625&quot; : N7.13&quot;, T6.55&quot; )">8.75" x 32.5" (M1: WB14.625" : N7.13", T6.55" )
-                                                                        
-                                                                        </option>
+                                                                <select 
+                                                                    class="form-control" 
+                                                                    id="size" 
+                                                                    name="size" 
+                                                                    @change="sizeChange" 
+                                                                    style="width:100%;" 
+                                                                    v-model="size"
+                                                                >
+                                                                    <option value="" disabled>SELECT</option>
+                                                                    <option value="7.0&quot; x 28&quot; (A1: WB 11.73&quot;, N 6.06&quot;, T 6.0&quot;)">7.0" x 28" (A1: WB 11.73", N 6.06", T 6.0")
+                                                                    </option><option value="7.25&quot; x 29&quot; (B1: WB13.5&quot;: N5.87&quot;, T5.47&quot;)" selected="">7.25" x 29" (B1: WB13.5": N5.87", T5.47")
+                                                                    </option><option value="7.375&quot; x 30&quot; (C1: WB12.81&quot; : N6.81&quot; , T6.18&quot; )">7.375" x 30" (C1: WB12.81" : N6.81" , T6.18" )
+                                                                    </option><option value="7.5&quot; x 30.75&quot; (D1: WB14.02&quot;: N6.40&quot;, T6.16&quot;)">7.5" x 30.75" (D1: WB14.02": N6.40", T6.16")
+                                                                    </option><option value="7.5&quot; x 31&quot; (D2: WB14.02&quot;: N6.59&quot;, T6.20&quot;)">7.5" x 31" (D2: WB14.02": N6.59", T6.20")
+                                                                    </option><option value="7.5&quot; x 31.25&quot; (D3: WB14.02&quot;: N6.73&quot;, T6.34&quot;)">7.5" x 31.25" (D3: WB14.02": N6.73", T6.34")
+                                                                    </option><option value="7.5&quot; x 31.5&quot; (D4: WB14.02&quot;: N6.77&quot;, T6.54&quot;)">7.5" x 31.5" (D4: WB14.02": N6.77", T6.54")
+                                                                    </option><option value="7.625&quot; x 31.125&quot; (E1: WB14.02&quot;: N6.57&quot;, T6.38&quot;)">7.625" x 31.125" (E1: WB14.02": N6.57", T6.38")
+                                                                    </option><option value="7.625&quot; x 31.25&quot; (E2: WB14.02&quot;: N6.73&quot;, T6.34&quot;)">7.625" x 31.25" (E2: WB14.02": N6.73", T6.34")
+                                                                    </option><option value="7.625&quot; x 31.5&quot; (E3: WB14.02&quot;: N6.83&quot;, T6.44&quot;)">7.625" x 31.5" (E3: WB14.02": N6.83", T6.44")
+                                                                    </option><option value="7.75&quot; x 31&quot; (F1: WB 14.02&quot;, N 6.60&quot;, T 6.20&quot;)">7.75" x 31" (F1: WB 14.02", N 6.60", T 6.20")
+                                                                    </option><option value="7.75&quot; x 31.125&quot; (F2: WB14.02&quot;: N6.73&quot;, T6.22&quot;)">7.75" x 31.125" (F2: WB14.02": N6.73", T6.22")
+                                                                    </option><option value="7.75&quot; x 31.5&quot; (F3: WB14.02&quot;: N6.85&quot;, T6.46&quot;)">7.75" x 31.5" (F3: WB14.02": N6.85", T6.46")
+                                                                    </option><option value="7.75&quot; x 31.75&quot; (F4: WB14.02&quot;: N6.93&quot;, T6.65&quot;)">7.75" x 31.75" (F4: WB14.02": N6.93", T6.65")
+                                                                    </option><option value="7.875&quot; x 31.1875&quot; (G1: WB14.02&quot;: N6.77&quot;, T6.22&quot;)">7.875" x 31.1875" (G1: WB14.02": N6.77", T6.22")
+                                                                    </option><option value="7.875&quot; x 31.3&quot; (G2: WB14.02&quot;: N6.75&quot;, T6.36&quot;)">7.875" x 31.3" (G2: WB14.02": N6.75", T6.36")
+                                                                    </option><option value="7.875&quot; x 31.625&quot; (G3: WB 14.25&quot;, N 6.79&quot;, T 6.40&quot;)">7.875" x 31.625" (G3: WB 14.25", N 6.79", T 6.40")
+                                                                    </option><option value="7.875&quot; x 31.875&quot; (G4: WB14.25&quot;: N6.93&quot;, T6.54&quot;)">7.875" x 31.875" (G4: WB14.25": N6.93", T6.54")
+                                                                    </option><option value="8.0&quot; x 31&quot; (H1: WB14.02&quot;: N6.59&quot;, T6.20&quot;)">8.0" x 31" (H1: WB14.02": N6.59", T6.20")
+                                                                    </option><option value="8.0&quot; x 31.375&quot; (H2: WB14.02&quot;: N6.87&quot;, T6.32&quot;)">8.0" x 31.375" (H2: WB14.02": N6.87", T6.32")
+                                                                    </option><option value="8.0&quot; x 31.5&quot; (H3: WB14.02&quot;: N6.93&quot;, T6.38&quot;)">8.0" x 31.5" (H3: WB14.02": N6.93", T6.38")
+                                                                    </option><option value="8.0&quot; x 31.75&quot; (H4: WB14.25&quot;: N6.81&quot;, T6.50&quot;)">8.0" x 31.75" (H4: WB14.25": N6.81", T6.50")
+                                                                    </option><option value="8.0&quot; x 31.75&quot; (H5: WB14.21&quot; : N6.87&quot;, T6.47&quot;)">8.0" x 31.75" (H5: WB14.21" : N6.87", T6.47")
+                                                                    </option><option value="8.0&quot; x 31.875&quot; (H6: WB14.25&quot;: N6.85&quot;, T6.61&quot;)">8.0" x 31.875" (H6: WB14.25": N6.85", T6.61")
+                                                                    </option><option value="8.0&quot; x 32&quot; (H7: WB14.02&quot;: N7.13&quot;, T6.65&quot;)">8.0" x 32" (H7: WB14.02": N7.13", T6.65")
+                                                                    </option><option value="8.125&quot; x 31.5&quot; (I1: WB14.02&quot;: N6.75&quot; , T6.55&quot; )">8.125" x 31.5" (I1: WB14.02": N6.75" , T6.55" )
+                                                                    </option><option value="8.125&quot; x 31.75&quot; (I2: WB14.02&quot;: N6.97&quot;, T6.57&quot;)">8.125" x 31.75" (I2: WB14.02": N6.97", T6.57")
+                                                                    </option><option value="8.125&quot; x 31.875&quot; (I3: WB14.25&quot; : N6.8&quot; , T6.625&quot; )">8.125" x 31.875" (I3: WB14.25" : N6.8" , T6.625" )
+                                                                    </option><option value="8.125&quot; x 31.875&quot; (I4: WB14.5&quot;: N6.85&quot;, T6.34&quot;)">8.125" x 31.875" (I4: WB14.5": N6.85", T6.34")
+                                                                    </option><option value="8.125&quot; x 32&quot; (I5: WB14.25&quot; : N6.9375&quot; , T6.61&quot; )">8.125" x 32" (I5: WB14.25" : N6.9375" , T6.61" )
+                                                                    </option><option value="8.25&quot; x 31.625&quot; (I6: WB14.25&quot; : N6.75&quot; , T6.425&quot; )">8.25" x 31.625" (I6: WB14.25" : N6.75" , T6.425" )
+                                                                    </option><option value="8.25&quot; x 31.75&quot; (J1: WB14.5&quot;: N6.65&quot;, T6.42&quot;)">8.25" x 31.75" (J1: WB14.5": N6.65", T6.42")
+                                                                    </option><option value="8.25&quot; x 32&quot; (J2: WB14.25&quot; : N7.0&quot; , T6.55&quot; )">8.25" x 32" (J2: WB14.25" : N7.0" , T6.55" )
+                                                                    </option><option value="8.25&quot; x 32.56&quot; (J3: WB15&quot;: N6.89&quot;, T6.50&quot;)">8.25" x 32.56" (J3: WB15": N6.89", T6.50")
+                                                                    </option><option value="8.375&quot; x 32.1875&quot;  (K1: WB14.5&quot;: N7.01&quot;, T6.54&quot;)">8.375" x 32.1875"  (K1: WB14.5": N7.01", T6.54")
+                                                                    </option><option value="8.375&quot; x 32.125&quot; (K2: WB14.5&quot;: N6.89&quot;, T6.58&quot;)">8.375" x 32.125" (K2: WB14.5": N6.89", T6.58")
+                                                                    </option><option value="8.5&quot; x 32&quot; (L1: WB14.37&quot;: N6.95&quot;, T6.52&quot;)">8.5" x 32" (L1: WB14.37": N6.95", T6.52")
+                                                                    </option><option value="8.5&quot; x 32.125&quot; (L2: WB14.56&quot;: N6.81&quot;, T6.57&quot;)">8.5" x 32.125" (L2: WB14.56": N6.81", T6.57")
+                                                                    </option><option value="8.5&quot; x 32.5&quot; (L3: WB15&quot;: N6.79&quot;, T6.44&quot;)">8.5" x 32.5" (L3: WB15": N6.79", T6.44")
+                                                                    </option><option value="8.5&quot; x 32.875&quot; (L4: WB15.04&quot;: N6.97&quot;, T6.69&quot;)">8.5" x 32.875" (L4: WB15.04": N6.97", T6.69")
+                                                                    </option><option value="8.75&quot; x 32.5&quot; (M1: WB14.625&quot; : N7.13&quot;, T6.55&quot; )">8.75" x 32.5" (M1: WB14.625" : N7.13", T6.55" )
+                                                                    
+                                                                    </option>
                                                                 </select>
                         
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1043,7 +1050,7 @@
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
 
-                                                                <div v-for="partName in partNames"  class="dropdown">
+                                                                <div v-for="partName in partNames" class="dropdown">
                                                                     <div class="btn btn-secondary  dropdown-toggle skate-color-dropdown-menu"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         <label>@{{partName + 1}}. @{{currentColor(partName)}}</label>
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
@@ -1091,7 +1098,13 @@
                                                     <div class="m-portlet m-portlet--bordered-semi configurator-color-panel ">
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
-                                                                <div class="btn btn-secondary random-button "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <div 
+                                                                    class="btn btn-secondary random-button" 
+                                                                    data-toggle="dropdown" 
+                                                                    aria-haspopup="true" 
+                                                                    aria-expanded="false"
+                                                                    @click="randomClicked"
+                                                                >
                                                                     <label>Random</label>
                                                                     <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>
