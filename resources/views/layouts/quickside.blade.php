@@ -1,6 +1,6 @@
-<!-- begin::Quick Sidebar -->
+
 <div id="m_quick_sidebar" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light" style="padding:0;">
-    <div class="m-quick-sidebar__content m--hide" style="height:100%;">
+    <div class="m-quick-sidebar__content m--show" style="height:100%;">
         <span id="m_quick_sidebar_close" class="m-quick-sidebar__close"><i class="la la-close"></i></span>
         <ul id="m_quick_sidebar_tabs" class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist" style="margin:0;height:50px;">
             <li class="nav-item m-tabs__item">
@@ -12,5 +12,3 @@
         </div>
     </div>
 </div>
-
-<!-- end::Quick Sidebar -->
