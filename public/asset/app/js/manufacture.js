@@ -114,7 +114,6 @@ var app = new Vue({
         renderProduct()
     },
     methods: {
-
         color: function(index){
             if(index < 19)
                 return this.colorNames[index]
@@ -130,7 +129,7 @@ var app = new Vue({
         colorClicked: function(event){  
             // check active random colors
             if (!this.steps[7].state) {
-                this.steps[7].state = 1; 
+                this.steps[7].state = true; 
                 this.currentColors.fill('natural');    
             }   
             var part, color
@@ -165,23 +164,25 @@ var app = new Vue({
            renderProduct()
         },
         randomClicked: function(event){
-            if (!this.steps[7].state) {
-                return false;
-            }
-            this.steps[7].state = 0;
-            // Selected colors when don`t 'natural'
-            let selectedColors = this.currentColors.filter(c => c != 'natural').length;
+            this.steps[7].state = !this.steps[7].state;
 
-            if (selectedColors >= 1 && selectedColors < 4) {
-                this.perdeck -= 0.4;
-            } else if (selectedColors >= 4 && selectedColors < 5) {
-                this.perdeck -= 0.8;
-            } else if (selectedColors >= 5) {
-                this.perdeck -= 1.2;
-            }
+            if (this.steps[7].state) {
+                this.currentColors.fill('natural');   
+            } else {
+                // Selected colors when don`t 'natural'
+                let selectedColors = this.currentColors.filter(c => c != 'natural').length;
 
-            for(var i = 0; i < this.currentColors.length; i++){
-                this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
+                if (selectedColors >= 1 && selectedColors < 4) {
+                    this.perdeck -= 0.4;
+                } else if (selectedColors >= 4 && selectedColors < 5) {
+                    this.perdeck -= 0.8;
+                } else if (selectedColors >= 5) {
+                    this.perdeck -= 1.2;
+                }
+
+                for(var i = 0; i < this.currentColors.length; i++){
+                    this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
+                } 
             }
 
             renderProduct();
