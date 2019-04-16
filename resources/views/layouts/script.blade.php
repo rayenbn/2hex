@@ -1,6 +1,9 @@
 <script>
 
 	$(document).ready(function(){
+		// Get global var $orders via provider
+		app.batchTotal=parseInt("{{$orders->sum('quantity')}}");
+
 		@if(isset($saved_order))
 			@foreach($saved_order as $order)
 

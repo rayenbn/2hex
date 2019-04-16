@@ -54,6 +54,18 @@ class ConfiguratorController extends Controller
 
     public function store(Request $request)
     {
+        // $data = $request->all();
+
+        // $data['submit'] = '0';
+
+        // $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
+
+        // if(empty($data['id'])){
+        //     Order::query()->create(array_except($data, ['id']));
+        // } else {
+        //     Order::where('id','=', $data['id'])->update($data);
+        // }
+        // dispatch(new \App\Jobs\RecalculateOrders(Order::auth()));
         $data = $request->all();
         $data['submit'] = '0';
         if(Auth::user())
@@ -69,10 +81,8 @@ class ConfiguratorController extends Controller
         {
             Order::where('id','=',$data['id'])->update($data);
         }
-       // $request = [ 'quantity' : 30 ];
+
         
-        // var_dump($request);
-        // exit();
         return 'success';
     }
 

@@ -33,6 +33,7 @@ var app = new Vue({
             currentStep: 0,
             quantity: 0,
             total_quantity: 0,
+            batchTotal: 0,
             total: 0,
             fixedprice: 0,
             perdeck: 0,
@@ -67,7 +68,7 @@ var app = new Vue({
                 width: 100 * this.currentStep / 10 + '%',
             }
         },
-        pricePerDeck: function() {
+        sizePrice: function() {
             let match = this.size.match(/[0-9.]{3}/) || [];
             if (!match.length) return 0;
 
@@ -82,7 +83,7 @@ var app = new Vue({
             } else if(value >= 8.5)
                 return 10.0;
         },
-        quantityPrice() {
+        quantityPrice () {
             if(this.total_quantity < 20) {
                 return 50;
             } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
@@ -108,7 +109,11 @@ var app = new Vue({
             } else if (this.total_quantity >= 5000) {
                 return 0;
             }
-        }
+        },
+        deckPrice() {
+            
+            return this.sizePrice + this.quantityPrice;
+        } 
     },
     create: function(){
         renderProduct()
@@ -197,20 +202,13 @@ var app = new Vue({
             
         },
         sizeChange: function(event){
-            
             if(this.pre_size != ""){
-                this.perdeck += this.pricePerDeck;
                 if(this.pre_size < '8')
                     this.perdeck -= 8.5;
                 else if(this.pre_size < '8.5')
                     this.perdeck -= 9.5;
                 else
                     this.perdeck -= 10;                      
-            }
-
-            // max diff beetween old perdesk and price per desk
-            if (this.perdeck > 3) {
-                this.perdeck -= this.pricePerDeck;
             }
 
             if(this.size < '8')
@@ -223,8 +221,6 @@ var app = new Vue({
             this.pre_size = this.size;
         },
         quantityChange: function(){
-
-
             if(this.quantity % 10 != 0){
                  swal({
                     title: "",
@@ -294,6 +290,10 @@ var app = new Vue({
                 this.perdeck += 0;
             }
         }
+    },
+    created() {
+        // Global quantity batches plus current total.
+        this.total_quantity += this.batchTotal;
     }
 
 })
