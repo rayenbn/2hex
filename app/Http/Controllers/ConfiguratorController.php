@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\RecalculateOrders;
 
 class ConfiguratorController extends Controller
 {
@@ -54,35 +55,20 @@ class ConfiguratorController extends Controller
 
     public function store(Request $request)
     {
-        // $data = $request->all();
-
-        // $data['submit'] = '0';
-
-        // $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
-
-        // if(empty($data['id'])){
-        //     Order::query()->create(array_except($data, ['id']));
-        // } else {
-        //     Order::where('id','=', $data['id'])->update($data);
-        // }
-        // dispatch(new \App\Jobs\RecalculateOrders(Order::auth()));
         $data = $request->all();
+
         $data['submit'] = '0';
-        if(Auth::user())
-             $data['created_by'] = (string) auth()->id();
-        else
-            $data['created_by'] = csrf_token();
-        if($data['id'] == '')
-        {
-            $data['created_at'] =new \DateTime();
-            Order::insert($data);
-        }
-        else
-        {
-            Order::where('id','=',$data['id'])->update($data);
+
+        $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
+
+        if(empty($data['id'])){
+            Order::query()->create(array_except($data, ['id']));
+        } else {
+            Order::where('id','=', $data['id'])->update($data);
         }
 
-        
+        dispatch(new RecalculateOrders(Order::auth()->get()));
+
         return 'success';
     }
 
@@ -138,8 +124,12 @@ class ConfiguratorController extends Controller
         return view('configurator', compact('saved_order', 'filenames'));
     }
     
-    public function delete($id){
-        Order::where('id','=',$id)->delete();        
+    public function delete($id)
+    {
+        Order::where('id','=',$id)->delete();
+
+        dispatch(new RecalculateOrders(Order::auth()->get()));  
+
         return redirect()->route('summary');
     }
 
