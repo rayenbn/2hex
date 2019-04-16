@@ -163,7 +163,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setSize(10)
             ->setBold(true);
 
-        $richText->createText($text);
+        $richText->createTextRun($text)
+            ->getFont()
+            ->setSize(10);
 
         return $richText;
     }
