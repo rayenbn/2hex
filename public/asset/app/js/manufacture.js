@@ -200,7 +200,8 @@ var app = new Vue({
                 this.currentStep--;
             
         },
-        sizeChange: function(event){
+        sizeChange: function(event) {
+            
             if(this.pre_size != ""){
                 if(this.pre_size < '8')
                     this.perdeck -= 8.5;
