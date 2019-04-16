@@ -33,6 +33,7 @@ var app = new Vue({
             currentStep: 0,
             quantity: 0,
             total_quantity: 0,
+            batchTotal: 0,
             total: 0,
             fixedprice: 0,
             perdeck: 0,
@@ -67,7 +68,7 @@ var app = new Vue({
                 width: 100 * this.currentStep / 10 + '%',
             }
         },
-        pricePerDeck: function() {
+        sizePrice: function() {
             let match = this.size.match(/[0-9.]{3}/) || [];
             if (!match.length) return 0;
 
@@ -82,7 +83,7 @@ var app = new Vue({
             } else if(value >= 8.5)
                 return 10.0;
         },
-        quantityPrice() {
+        quantityPrice () {
             if(this.total_quantity < 20) {
                 return 50;
             } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
@@ -108,13 +109,16 @@ var app = new Vue({
             } else if (this.total_quantity >= 5000) {
                 return 0;
             }
-        }
+        },
+        deckPrice() {
+            
+            return this.sizePrice + this.quantityPrice;
+        } 
     },
     create: function(){
         renderProduct()
     },
     methods: {
-
         color: function(index){
             if(index < 19)
                 return this.colorNames[index]
@@ -130,7 +134,7 @@ var app = new Vue({
         colorClicked: function(event){  
             // check active random colors
             if (!this.steps[7].state) {
-                this.steps[7].state = 1; 
+                this.steps[7].state = true; 
                 this.currentColors.fill('natural');    
             }   
             var part, color
@@ -165,23 +169,25 @@ var app = new Vue({
            renderProduct()
         },
         randomClicked: function(event){
-            if (!this.steps[7].state) {
-                return false;
-            }
-            this.steps[7].state = 0;
-            // Selected colors when don`t 'natural'
-            let selectedColors = this.currentColors.filter(c => c != 'natural').length;
+            this.steps[7].state = !this.steps[7].state;
 
-            if (selectedColors >= 1 && selectedColors < 4) {
-                this.perdeck -= 0.4;
-            } else if (selectedColors >= 4 && selectedColors < 5) {
-                this.perdeck -= 0.8;
-            } else if (selectedColors >= 5) {
-                this.perdeck -= 1.2;
-            }
+            if (this.steps[7].state) {
+                this.currentColors.fill('natural');   
+            } else {
+                // Selected colors when don`t 'natural'
+                let selectedColors = this.currentColors.filter(c => c != 'natural').length;
 
-            for(var i = 0; i < this.currentColors.length; i++){
-                this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
+                if (selectedColors >= 1 && selectedColors < 4) {
+                    this.perdeck -= 0.4;
+                } else if (selectedColors >= 4 && selectedColors < 5) {
+                    this.perdeck -= 0.8;
+                } else if (selectedColors >= 5) {
+                    this.perdeck -= 1.2;
+                }
+
+                for(var i = 0; i < this.currentColors.length; i++){
+                    this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
+                } 
             }
 
             renderProduct();
@@ -196,20 +202,13 @@ var app = new Vue({
             
         },
         sizeChange: function(event){
-            
             if(this.pre_size != ""){
-                this.perdeck += this.pricePerDeck;
                 if(this.pre_size < '8')
                     this.perdeck -= 8.5;
                 else if(this.pre_size < '8.5')
                     this.perdeck -= 9.5;
                 else
                     this.perdeck -= 10;                      
-            }
-
-            // max diff beetween old perdesk and price per desk
-            if (this.perdeck > 3) {
-                this.perdeck -= this.pricePerDeck;
             }
 
             if(this.size < '8')
@@ -222,8 +221,6 @@ var app = new Vue({
             this.pre_size = this.size;
         },
         quantityChange: function(){
-
-
             if(this.quantity % 10 != 0){
                  swal({
                     title: "",
@@ -293,6 +290,10 @@ var app = new Vue({
                 this.perdeck += 0;
             }
         }
+    },
+    created() {
+        // Global quantity batches plus current total.
+        this.total_quantity += this.batchTotal;
     }
 
 })

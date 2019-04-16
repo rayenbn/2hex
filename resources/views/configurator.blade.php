@@ -1071,22 +1071,22 @@
                                                     <div class="m-portlet m-portlet--bordered-semi product-panel ">
                                                         <div class="m-portlet__head m-portlet__head--fit product-panel-header">
                                                             <div class="m-portlet__head-caption">
-                                                                <div class="m-portlet__head-action">
-                                                                    <a v-if=" steps[7].state" @click=" steps[7].state=! steps[7].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                        <i class="fa fa-check"></i>
-                                                                    </a>
-                                                                    <a v-else @click=" steps[7].state=! steps[7].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                            <i class="fa fa-times"></i>
+                                                                <div class="m-portlet__head-action" >
+                                                                    <a 
+                                                                        @click="randomClicked" 
+                                                                        class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
+                                                                        :class="[steps[7].state ? 'btn-success' : 'btn-secondary']"
+                                                                    >
+                                                                        <i class="fa" :class="[steps[7].state ? 'fa-check' : 'fa-times']"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
-                                                                    <div class="m-widget19__pic m-portlet-fit--sides">
-                                                                        <img id="productCanvas">
-                                                                        
-                                                                    </div>
+                                                                <div class="m-widget19__pic m-portlet-fit--sides">
+                                                                    <img id="productCanvas">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1098,13 +1098,7 @@
                                                     <div class="m-portlet m-portlet--bordered-semi configurator-color-panel ">
                                                         <div class="m-portlet__body">
                                                             <div class="m-widget4">
-                                                                <div 
-                                                                    class="btn btn-secondary random-button" 
-                                                                    data-toggle="dropdown" 
-                                                                    aria-haspopup="true" 
-                                                                    aria-expanded="false"
-                                                                    @click="randomClicked"
-                                                                >
+                                                                <div class="btn random-button">
                                                                     <label>Random</label>
                                                                     <img src="/skateboard-deck-production/random-icon.png">
                                                                 </div>
@@ -1117,11 +1111,12 @@
                                                         <div class="m-portlet__head m-portlet__head--fit product-panel-header" style="position:absolute;">
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-action">
-                                                                    <a v-if="! steps[7].state" @click=" steps[7].state=! steps[7].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                        <i class="fa fa-check"></i>
-                                                                    </a>
-                                                                    <a v-else @click=" steps[7].state=! steps[7].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                            <i class="fa fa-times"></i>
+                                                                    <a 
+                                                                        @click="randomClicked" 
+                                                                        class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
+                                                                        :class="[!steps[7].state ? 'btn-success' : 'btn-secondary']"
+                                                                    >
+                                                                        <i class="fa" :class="[!steps[7].state ? 'fa-check' : 'fa-times']"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>

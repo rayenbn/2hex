@@ -100,4 +100,36 @@ class Order extends Model
         return 500 + $total;
     }
 
+    public static function additionalCostBatches()
+    {
+        $total = static::auth()->sum('quantity');
+
+        if($total < 20) {
+            return 50;
+        } else if ($total >= 20 && $total < 30) {
+            return 40;
+        } else if ($total >= 30 && $total < 40) {
+            return 30;
+        } else if ($total >= 40 && $total < 50) {
+            return 10;
+        } else if ($total >= 50 && $total < 100) {
+            return 6;
+        } else if ($total >= 100 && $total < 200) {
+            return 4;
+        } else if ($total >= 200 && $total < 300) {
+            return 3;
+        } else if ($total >= 300 && $total < 500) {
+            return 2.5;
+        } else if ($total >= 500 && $total < 1000) {
+            return 1.5;
+        } else if ($total >= 1000 && $total < 2000) {
+            return 1;
+        } else if ($total >= 2000 && $total < 5000) {
+            return 0.5;
+        } else if ($total >= 5000) {
+            return 0;
+        }
+
+    }
+
 }
