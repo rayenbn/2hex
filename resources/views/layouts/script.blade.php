@@ -12,6 +12,7 @@
 				app.quantity =decodeHTML("{{$order->quantity}}");
 				app.pre_quantity = decodeHTML("{{$order->quantity}}");
 				app.size = decodeHTML("{{$order->size}}");
+				app.pre_size = decodeHTML("{{$order->size}}");
 				app.concave =decodeHTML("{{$order->concave}}");
 				if(app.concave == "Deep Concave")
 					app.steps[1].state = true;
