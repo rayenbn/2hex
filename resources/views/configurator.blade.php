@@ -1056,7 +1056,14 @@
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
                                                                     </div>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName != 2 && partName != 4">
-                                                                        <div v-for="(colorValue, colorName) in colorData" class="color-dropdown-item" @click="colorClicked" v-bind:data-part-id="partName" v-bind:data-color-name="colorName">
+                                                                        <div 
+                                                                            v-for="(colorValue, colorName) in colorData" 
+                                                                            class="color-dropdown-item" 
+                                                                            @click="colorClicked" 
+                                                                            v-bind:data-part-id="partName" 
+                                                                            v-bind:data-color-name="colorName"
+                                                                            v-if="colorName != 'random'"
+                                                                        >
                                                                             <label>@{{colorName}}</label>
                                                                             <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorValue}"></button>
                                                                         </div>                                                                              
