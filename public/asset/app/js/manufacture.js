@@ -24,6 +24,7 @@ var app = new Vue({
                 'royal purple'   : '#9370DB',
                 'light blue'     : '#87CEFA',
                 'yellowish brown': '#F4A460',
+                'random'         : '#FFE4C4',
             },
             colorNames: ['natural', 'brown', 'orange', 'red', 'lime green', 'black', 'yellow', 'green', 'grey', 'purple', 'pink', 'blue', 'scarlet', 'dark blue', 'deep violet', 'wood red', 'royal purple', 'light blue', 'yellowish brown'],
             partNames: [0, 1, 2, 3, 4, 5, 6],
@@ -120,7 +121,7 @@ var app = new Vue({
     },
     methods: {
         color: function(index){
-            if(index < 19)
+            if(index < 20)
                 return this.colorNames[index]
             else
                 return 'white';
@@ -185,9 +186,7 @@ var app = new Vue({
                     this.perdeck -= 1.2;
                 }
 
-                for(var i = 0; i < this.currentColors.length; i++){
-                    this.currentColors[i] = this.colorNames[parseInt(Math.random() * 100 % 19)]
-                } 
+                this.currentColors.fill('random');
             }
 
             renderProduct();
@@ -303,6 +302,10 @@ function renderProduct(){
     validateColorPanel()    
     var imgArr = []
     for(var i = 0; i < app.currentColors.length; i++){
+        if (app.currentColors[i] == 'random') {
+            imgArr.push(baseImgURL + 'natural/000' + (i + 1) + ".png");
+            continue;
+        }
         imgArr.push(baseImgURL + app.currentColors[i] + '/000' + (i + 1) + ".png")
     }
     mergeImages(imgArr)
@@ -316,7 +319,7 @@ function renderProduct(){
 
 function renderRandomProduct(){
     for(var i = 0; i < app.currentColors.length; i++){
-        app.currentColors[i] = app.colorNames[parseInt(Math.random() * 100 % 19)]
+        app.currentColors[i] = app.colorNames[parseInt(Math.random() * 100 % 20)]
     }    
     renderProduct()
 }
