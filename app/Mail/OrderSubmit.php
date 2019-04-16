@@ -29,8 +29,9 @@ class OrderSubmit extends Mailable
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
         return $this
+
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->bcc('niklas@2hex.com', 'Niklas')
+            ->bcc('niklas@skateboard-factory.com', '2HEXorder')
             ->subject('2HEX Production Order Confirmation')
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
