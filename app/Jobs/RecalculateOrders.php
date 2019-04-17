@@ -87,7 +87,7 @@ class RecalculateOrders
         });
 
         switch (count($selectedColors)) {
-            case 0:
+            case 1:
                 return $price = 0.4;
             case 4:
                 return $price = 0.8;

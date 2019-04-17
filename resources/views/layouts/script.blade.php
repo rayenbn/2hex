@@ -70,6 +70,9 @@
 					app.steps[6].state = false;
 
 				app.currentColors = JSON.parse(decodeHTML("{{$order->veneer}}"));
+				if(app.currentColors.includes('random')) {
+					app.steps[7].state = false;
+				}
 
 				app.steps[8] =JSON.parse(decodeHTML("{{$order->extra}}"));
 

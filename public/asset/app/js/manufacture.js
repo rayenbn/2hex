@@ -27,7 +27,7 @@ var app = new Vue({
                 'random'         : '#FFE4C4',
             },
             colorNames: ['natural', 'brown', 'orange', 'red', 'lime green', 'black', 'yellow', 'green', 'grey', 'purple', 'pink', 'blue', 'scarlet', 'dark blue', 'deep violet', 'wood red', 'royal purple', 'light blue', 'yellowish brown'],
-            partNames: [0, 1, 2, 3, 4, 5, 6],
+            partNames: [],
             currentColors:['natural', 'natural', 'natural', 'natural', 'natural', 'natural', 'natural'],
             title: 'Skateboard Deck Configurator',
             randomColors: [],
@@ -294,6 +294,17 @@ var app = new Vue({
     created() {
         // Global quantity batches plus current total.
         this.total_quantity += this.batchTotal;
+        
+        setTimeout(() => {
+            let length = this.currentColors.length;
+
+            for (i = 0; i < length; i++) {
+                this.$set(this.partNames, i, {});
+                this.$set(this.partNames[i], 'number', i + 1);
+                this.$set(this.partNames[i], 'name', this.currentColor(i));
+                this.$set(this.partNames[i], 'bg', this.colorData[this.currentColors[i]]);
+            }
+        }, 2000);
     }
 
 })
