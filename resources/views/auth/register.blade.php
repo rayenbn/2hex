@@ -48,10 +48,15 @@
                     <span class="m-form__help"></span>
                 </div>
             </div>
+
         <div class="m-login__desc">
-            By registering you sign up to our skateboard industry insights newsletter and allow our team to contact you.
-            You can opt out by clicking "unsubscribe" at the bottom of every email.
+            By registering you agree to our
+            <a href="../imprint" class="m-nav__link">
+                <span class="m-nav__link-text" style="color: #c2acf4;"><b>Terms and Conditions</b></span>
+            </a>.
         </div>
+
+
             <div class="m-login__form-action">
                 <button id="m_login_signup_submit" class="btn m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">
                     Sign Up
@@ -62,7 +67,7 @@
     <div class="m-stack__item m-stack__item--center">
         <div class="m-login__account">
             <span class="m-login__account-msg">
-                Already have account ?
+                Already have an account ?
             </span>
             &nbsp;&nbsp;
             <a href="{{ route('login') }}" id="m_login_signup" class="m-link m-link--focus m-login__account-link">

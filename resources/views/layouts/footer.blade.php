@@ -50,12 +50,12 @@
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../imprint.php" class="m-nav__link">
+                        <a href="../imprint" class="m-nav__link">
                             <span class="m-nav__link-text">Privacy</span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="../imprint.php" class="m-nav__link">
+                        <a href="../imprint" class="m-nav__link">
                             <span class="m-nav__link-text">Terms</span>
                         </a>
                     </li>
