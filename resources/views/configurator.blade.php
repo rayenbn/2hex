@@ -1052,15 +1052,15 @@
 
                                                                 <div v-for="partName in partNames" class="dropdown">
                                                                     <div class="btn btn-secondary  dropdown-toggle skate-color-dropdown-menu"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <label>@{{partName + 1}}. @{{currentColor(partName)}}</label>
-                                                                        <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorData[currentColors[partName]]}"></button>
+                                                                        <label>@{{partName.number}}. @{{partName.name}}</label>
+                                                                        <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: partName.bg}"></button>
                                                                     </div>
-                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName != 2 && partName != 4">
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName.number != 3 && partName.number != 5">
                                                                         <div 
                                                                             v-for="(colorValue, colorName) in colorData" 
                                                                             class="color-dropdown-item" 
                                                                             @click="colorClicked" 
-                                                                            v-bind:data-part-id="partName" 
+                                                                            v-bind:data-part-id="partName.number - 1" 
                                                                             v-bind:data-color-name="colorName"
                                                                             v-if="colorName != 'random'"
                                                                         >
