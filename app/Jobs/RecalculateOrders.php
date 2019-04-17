@@ -85,17 +85,17 @@ class RecalculateOrders
         $selectedColors = array_filter($colors, function($color) {
             return $color != 'natural' && $color != 'random';
         });
+        $countColors = count($selectedColors);
 
-        switch (count($selectedColors)) {
-            case 1:
-                return $price = 0.4;
-            case 4:
-                return $price = 0.8;
-            case 5:
-                return $price = 1.2;
-            default:
-                return $price;
+        if ($countColors >= 1 && $countColors < 4) {
+            return $price = 0.4;
+        } else if ($countColors >= 4 && $countColors < 5) {
+            return $price = 0.8;
+        } else if ($countColors >= 5) {
+            return $price = 1.2;
         }
+
+        return 0;
     }
 
     private function calculateExtra($extra)
