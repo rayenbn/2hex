@@ -1597,7 +1597,7 @@
                                                                     </div>
                                                                 </div>                                                                      
                                                             </div>
-                                                        </div>
+                                                        </dgit add .iv>
                                                         <!--end:: Widgets/Activity-->
                                                     </div>
                                                     
