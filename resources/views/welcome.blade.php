@@ -7,7 +7,7 @@
 		<div class="m-subheader ">
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX' Skateboard Factory</h3>
+					<h3 class="m-subheader__title ">2HEX Skateboard Factory</h3>
 				</div>
 			</div>
 		</div>
@@ -57,13 +57,9 @@
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				
 				<div class="m-alert__text">
-					<h4>Join the revolution!</h4>
-                    Brand managers that make their products at 2HEX want the world to be more open, fun and active.
-					Our partners are unconventional free minds that love to encourage people to go in the sunshine, skate and enjoy their life.
-					Do your part to make this world better for everyone! Make as many people as possible get up, call their friends,
-					step on their boards and live life! We support you with the best products.
-                    Give your customers the highest quality, for big tricks and endless sessions. Cheers! Your 2HEX factories - Accessible from everywhere and at any time.
-                    
+					<h4>We want it to be easy to order the best custom skateboards!</h4>
+                    We do that by giving everyone access to the best production, by showing all production options and making costs transparent.
+                    Sign Up to 2HEX Skateboard Deck Configurator, to see it all!
 				</div>
 			</div>
                         

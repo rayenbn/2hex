@@ -652,9 +652,8 @@
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Epoxy Glue Formula</h3>
-                                                                    Epoxy is a strong and hard glue, making
-                                                                    skateboard decks more durable and stiff.
-                                                                    This leads to more pop and improved deck control.
+                                                                    Epoxy is a strong and hard glue, making skateboard decks more durable and stiff.
+                                                                    This leads to more pop and improved deck control. (Epoxy must be selected if you plan on adding GFRP technology in step 9.)
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -982,7 +981,7 @@
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                         <h3>Top Engraving</h3>
-                                                                    Submit your artwork as a one color file in 9" x 33" as vector image.<br>
+                                                                    Submit artwork in one color 9" x 33" as vector image to show where the max 4" x 4" engraving should be placed. <br>
                                                                     <br>
                                                                     Optionally you can upload a preview of your engraving artwork and send the full size file by email before the production.<br>
 
@@ -1171,11 +1170,8 @@
                                                                 </div>
                                                                 <input onclick="{{Auth::user()?'return true':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Fulldip</h3>
+                                                                    Dye your decks in one opaque color of your choice.
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
@@ -1189,7 +1185,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Transparent Fulldip
+                                                                        Transparent Full Dip
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -1218,11 +1214,8 @@
                                                                 <input v-if="steps[8].transparent.state" v-model="steps[8].transparent.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Transparent Full Dip</h3>
+                                                                    Dye your decks in one transparent color of your choice.
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -1239,7 +1232,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Metallic Fulldip
+                                                                        Metallic Full Dip
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -1267,11 +1260,8 @@
                                                                 </div>
                                                                 <input v-if="steps[8].metallic.state" v-model="steps[8].metallic.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Metallic Full Dip</h3>
+                                                                    Dye your decks in one opaque metallic color of your choice.
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
@@ -1285,7 +1275,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Black Top Fiberglas
+                                                                        Black GFRP Top Layer
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -1313,11 +1303,10 @@
                                                                 </div>
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Black GFRP Top Layer</h3>
+                                                                         Add a top layer of black GFRP glassfiber reinforced plastic for increased durability and an hardcore look.
+                                                                    <br>
+                                                                        Epoxy glue must be used for GFRP decks. Please double check your selection in step 3.
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -1334,7 +1323,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Black Midlayer Fiberglas
+                                                                        Black GFRP Mid Layer
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -1361,11 +1350,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Black GFRP Midlayer</h3>
+                                                                    Add a mid layer of black GFRP glassfiber reinforced plastic for increased durability.
+                                                                    <br>
+                                                                    Epoxy glue must be used for GFRP decks. Please double check your selection in step 3.
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
@@ -1380,7 +1368,7 @@
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-title">
                                                                     <h3 class="m-portlet__head-text">
-                                                                        Pattern Pressed Bottom
+                                                                        HEX Pattern Press
                                                                     </h3>
                                                                 </div>
                                                             </div>
@@ -1407,11 +1395,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>HEX Pattern Press</h3>
+                                                                        Add the hexagon pattern to your decks bottom veneer, to give your decks a more high end feel and look.
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
