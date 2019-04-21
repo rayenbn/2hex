@@ -1469,11 +1469,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>Custom Cardboard Wrap</h3>
+                                                                        Have a custom cardboard printed and folded around your deck, before the shrink wrap is added.
+                                                                    Having a custom cardboard around your deck does not only make it stand out from all other decks when placed in a skate shop's deck rack,
+                                                                    it also lets you communicate to your end users just before they make their purchasing decision.
                                                                 </div>
                                                             </div>                                                                      
                                                         </div>
@@ -1517,11 +1516,8 @@
                                                                 </div>      
                                                                                                     
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deep Concave</h3>
-                                                                                Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                industry scrambled dummy text of the printing.
-                                                                        <br> <br>
-                                                                        Make it full screen in the bottom right corner.                                                                                 
+                                                                        <h3>No Cardboard</h3>
+                                                                        Saves costs and cuts down on paper waste. Cardboards only improve the buying experience, not the ride.
                                                                 </div>                                                                  
                                                             </div>                                                                      
                                                         </div>
@@ -1542,7 +1538,7 @@
                                                                 <div class="m-portlet__head-caption">
                                                                     <div class="m-portlet__head-title">
                                                                         <h3 class="m-portlet__head-text">
-                                                                            Upload artwork for outer box
+                                                                            Custom Printed Cartons
                                                                         </h3>
                                                                     </div>
                                                                 </div>
@@ -1595,11 +1591,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                            <h3>Deep Concave</h3>
-                                                                                    Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                    industry scrambled dummy text of the printing.
-                                                                            <br> <br>
-                                                                            Make it full screen in the bottom right corner.                                                                                 
+                                                                            <h3>Custom Printed Cartons</h3>
+                                                                        Add your logo on both sides of the carton. Please submit the artwork in 40cm(width) x 15cm(height).
+                                                                        Additionally we will print the content details on both ends of the carton showing your brand name, product description, deck name and size.
                                                                     </div>
                                                                 </div>                                                                      
                                                             </div>
@@ -1615,7 +1609,7 @@
                                                                 <div class="m-portlet__head-caption">
                                                                     <div class="m-portlet__head-title">
                                                                         <h3 class="m-portlet__head-text">
-                                                                            No Print on Box
+                                                                            Basic Cartons
                                                                         </h3>
                                                                     </div>
                                                                 </div>
@@ -1643,11 +1637,9 @@
                                                                     </div>      
                                                                                                         
                                                                     <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                            <h3>Deep Concave</h3>
-                                                                                    Used for vert or gaps. y dummy text of the printing and typesetting industry scrambled it to make text of the printing and typesetting industry scrambled a type specimen book text of the dummy text of the printing printing and typesetting
-                                                                                    industry scrambled dummy text of the printing.
-                                                                            <br> <br>
-                                                                            Make it full screen in the bottom right corner.                                                                                 
+                                                                            <h3>Basic Cartons</h3>
+                                                                        Choose our basic cartons to save cost.
+                                                                        Basic Cartons come in blank or with the content details printed on both ends and two sides of the carton, showing your brand name, product description, deck name and size.
                                                                     </div>                                                                  
                                                                 </div>                                                                      
                                                             </div>
@@ -1727,9 +1719,9 @@
                                     </p>
                                     <p>
                                         Choose the specifications that best meet your target groups requirements. All of our decks
-                                        have the highest quality within the selected specification's class.
+                                        have the highest quality within the selected specifications.
                                         Follow the deck price calculation below, to make sure you find the sweet spot
-                                        between the highest quality and the lowest price.
+                                        between the highest quality and the best price.
                                     </p>
                                 </div>
                             </div>
