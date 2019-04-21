@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="m-grid__item m-grid__item--fluid m-wrapper">                 
-                    
+    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+
         <div class="m-content">
             <div class="row">
                 <div class="col-xl-9">
@@ -18,7 +18,7 @@
                                         Skateboard Deck Factory
                                     </h3>
                                     <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
-                                    
+
                                         <li class="m-nav__item">
                                             <a href="/" class="m-nav__link">
                                                 <span class="m-nav__link-text">Home -</span>
@@ -35,26 +35,26 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    
+
                                 </div>
-                            </div>        
-                            
+                            </div>
+
                             <div class="m-portlet__head-tools">
                                 <ul class="m-portlet__nav">
                                     <li class="m-portlet__nav-item">
-                                        
+
                                         <a   data-toggle="m-tooltip" class="m-portlet__nav-link m-portlet__nav-link--icon" data-direction="left" data-width="auto" title="Get help with filling up this form">
                                             <i class="flaticon-info m--icon-font-size-lg3"></i>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            
+
                         </div>
 
                         <!--end: Portlet Head-->
-                        
-                                    
+
+
                         <!--begin: Form Wizard-->
                         <div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
 
@@ -68,45 +68,45 @@
 
                             <!--begin: Form Wizard Head -->
 
-                                <!--begin: Form Wizard Progress -->
-                                <div class="m-wizard__progress">
-                                    <div class="progress" style="height: 2px;">
-                                        <div class="progress-bar m--bg-info" role="progressbar" v-bind:style="progressWidth" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <!--end: Form Wizard Progress -->
+                            <!--begin: Form Wizard Progress -->
+                            <div class="m-wizard__progress">
+                                <div class="progress" style="height: 2px;">
+                                    <div class="progress-bar m--bg-info" role="progressbar" v-bind:style="progressWidth" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <!--end: Form Wizard Progress -->
 
-                                    <!--begin: Form Wizard Nav -->
-                                    <div class="m-wizard__nav">
-                                        <div class="m-wizard__steps">
-                                            
-                                            <div class="m-wizard__step m-wizard__step--current" m-wizard-target="m_wizard_form_step_1">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
-                                            </div>                  
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_3">
-                                            </div>                                                      
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_4">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_5">
-                                            </div>                  
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_6">
-                                            </div>                                                      
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_7">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_8">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_9">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_10">
-                                            </div>
-                                            <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_11">
-                                            </div>
-                                            
+                                <!--begin: Form Wizard Nav -->
+                                <div class="m-wizard__nav">
+                                    <div class="m-wizard__steps">
+
+                                        <div class="m-wizard__step m-wizard__step--current" m-wizard-target="m_wizard_form_step_1">
                                         </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_3">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_4">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_5">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_6">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_7">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_8">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_9">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_10">
+                                        </div>
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_11">
+                                        </div>
+
                                     </div>
+                                </div>
 
                                 <!--end: Form Wizard Nav -->
-                                </div>
+                            </div>
 
                             <!--end: Form Wizard Head -->
 
@@ -122,14 +122,14 @@
                                     <input type="hidden" id="saved_order_id">
                                     <div class="m-portlet__body">
                                         <!--begin: Form Wizard Step 1-->
-                                        
+
                                         <!--end: Form Wizard Step 1-->
                                         <!--begin: Form Wizard Step 2-->
                                         <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -153,7 +153,7 @@
                                                                 <input id="quantity" v-model="quantity" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="quantity" placeholder="30" type="text" @change="quantityChange">
 
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Batch Quantity</h3>
+                                                                    <h3>Batch Quantity</h3>
                                                                     Select the required quantity of your first
                                                                     style of decks. Decks are packed and sold in
                                                                     cartons of ten pieces. The final deck price
@@ -163,13 +163,13 @@
                                                                     You can always go to the summary page to see the price of each batch.
 
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -190,14 +190,14 @@
                                                                             <img src="/skateboard-deck-production/width-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                <select 
-                                                                    class="form-control" 
-                                                                    id="size" 
-                                                                    name="size" 
-                                                                    @change="sizeChange" 
-                                                                    style="width:100%;" 
-                                                                    v-model="size"
+                                                                </div>
+                                                                <select
+                                                                        class="form-control"
+                                                                        id="size"
+                                                                        name="size"
+                                                                        @change="sizeChange"
+                                                                        style="width:100%;"
+                                                                        v-model="size"
                                                                 >
                                                                     <option value="" disabled>SELECT</option>
                                                                     <option value="7.0&quot; x 28&quot; (A1: WB 11.73&quot;, N 6.06&quot;, T 6.0&quot;)">7.0" x 28" (A1: WB 11.73", N 6.06", T 6.0")
@@ -241,235 +241,235 @@
                                                                     </option><option value="8.5&quot; x 32.5&quot; (L3: WB15&quot;: N6.79&quot;, T6.44&quot;)">8.5" x 32.5" (L3: WB15": N6.79", T6.44")
                                                                     </option><option value="8.5&quot; x 32.875&quot; (L4: WB15.04&quot;: N6.97&quot;, T6.69&quot;)">8.5" x 32.875" (L4: WB15.04": N6.97", T6.69")
                                                                     </option><option value="8.75&quot; x 32.5&quot; (M1: WB14.625&quot; : N7.13&quot;, T6.55&quot; )">8.75" x 32.5" (M1: WB14.625" : N7.13", T6.55" )
-                                                                    
+
                                                                     </option>
                                                                 </select>
-                        
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Deck Size</h3>
+                                                                    <h3>Deck Size</h3>
                                                                     Select the deck shape of this batch.
                                                                     Shapes are shown by "Width x Length" as well
                                                                     as "Wheelbase", "Nose" and "Tail". All dimensions
                                                                     are given in inches.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_2">
                                             <div class="row">
                                                 <div class="col-xl-12">
-                                                        <!--begin:: Widgets/Blog-->
-                                                        <div class="m-portlet m-portlet--head-overlay m-portlet--full-height  m-portlet--rounded-force">
-                                                            
-                                                            <div class="m-portlet__body">
-                                                                <div class="m-widget27 m-portlet-fit--sides">
-                                                                    <div class="m-widget27__container">
+                                                    <!--begin:: Widgets/Blog-->
+                                                    <div class="m-portlet m-portlet--head-overlay m-portlet--full-height  m-portlet--rounded-force">
 
-                                                                        <!-- begin::Nav pills -->
-                                                                        <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
-                                                                            <li class="step2-tab-nav nav-item" >
-                                                                                <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">Deep Concave</a>
-                                                                            </li>
-                                                                            <li class="step2-tab-nav nav-item" >
-                                                                                <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">Medium Concave</a>
-                                                                            </li>
-                                                                        </ul>
+                                                        <div class="m-portlet__body">
+                                                            <div class="m-widget27 m-portlet-fit--sides">
+                                                                <div class="m-widget27__container">
 
-                                                                        <!-- end::Nav pills -->
+                                                                    <!-- begin::Nav pills -->
+                                                                    <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
+                                                                        <li class="step2-tab-nav nav-item" >
+                                                                            <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">Deep Concave</a>
+                                                                        </li>
+                                                                        <li class="step2-tab-nav nav-item" >
+                                                                            <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">Medium Concave</a>
+                                                                        </li>
+                                                                    </ul>
 
-                                                                        <!-- begin::Tab Content -->
-                                                                        <div class="m-widget27__tab tab-content m-widget27--no-padding">
-                                                                            <div id="m_personal_income_quater_1" class="tab-pane active">
-                                                                                <div class="row  align-items-center">
-                                                                                    <!-- insert iframe of deck here -->
-                                                                                    <div class="col">
-                                                                                        <div class="col-xl-12">
+                                                                    <!-- end::Nav pills -->
 
-                                                                                            <!--begin:: Widgets/Activity-->
-                                                                                            <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                                                                <div class="m-portlet__head">
-                                                                                                    <div class="m-portlet__head-caption">
-                                                                                                        <div class="m-portlet__head-title"></div>
-                                                                                                    </div>
-                                                                                                    <div class="m-portlet__head-tools">
-                                                                                                        <ul class="m-portlet__nav">
-                                                                                                            <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                                                                <a v-if=" steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                                                                    <i class="fa fa-check"></i>
-                                                                                                                </a>
-                                                                                                                <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                                                        <i class="fa fa-times"></i>
-                                                                                                                </a>
-                                                                                                            </li>
-                                                                                                        </ul>
-                                                                                                    </div>
+                                                                    <!-- begin::Tab Content -->
+                                                                    <div class="m-widget27__tab tab-content m-widget27--no-padding">
+                                                                        <div id="m_personal_income_quater_1" class="tab-pane active">
+                                                                            <div class="row  align-items-center">
+                                                                                <!-- insert iframe of deck here -->
+                                                                                <div class="col">
+                                                                                    <div class="col-xl-12">
+
+                                                                                        <!--begin:: Widgets/Activity-->
+                                                                                        <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                                                                                            <div class="m-portlet__head">
+                                                                                                <div class="m-portlet__head-caption">
+                                                                                                    <div class="m-portlet__head-title"></div>
                                                                                                 </div>
-                                                                                                <div class="m-portlet__body">
-                                                                                                    <div class="m-widget17">
-                                                                                                        <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                                                                                            <div style="height:280px; background-color: white;">
+                                                                                                <div class="m-portlet__head-tools">
+                                                                                                    <ul class="m-portlet__nav">
+                                                                                                        <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
+                                                                                                            <a v-if=" steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                                                                <i class="fa fa-check"></i>
+                                                                                                            </a>
+                                                                                                            <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                                                                <i class="fa fa-times"></i>
+                                                                                                            </a>
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="m-portlet__body">
+                                                                                                <div class="m-widget17">
+                                                                                                    <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                                                                                        <div style="height:280px; background-color: white;">
                                                                                                             <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                                                            
+
                                                                                                                 <iframe height="280" width="90%" style="margin-left:40px; margin-top:0px;" src="https://sketchfab.com/models/0f583557d87a461e8e920741ad39575c/embed" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        </div>
-                                                                                                        
                                                                                                     </div>
-                                                                                                    
-                                                                                                    <div style="padding-top:60px; padding-bottom:20px;" class="m-widget17">
-                                                                                                        <div class="m-widget17__stats">
-                                                                                                            <div class="m-widget17__items m-widget17__items-col1">
-                                                                                                                <div class="m-widget17__item">
+
+                                                                                                </div>
+
+                                                                                                <div style="padding-top:60px; padding-bottom:20px;" class="m-widget17">
+                                                                                                    <div class="m-widget17__stats">
+                                                                                                        <div class="m-widget17__items m-widget17__items-col1">
+                                                                                                            <div class="m-widget17__item">
                                                                                                                     <span class="m-widget17__icon">
                                                                                                                         <i class="flaticon-presentation-1 m--font-brand"></i>
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__subtitle">
+                                                                                                                <span class="m-widget17__subtitle">
                                                                                                                         Better Grip
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__desc">
+                                                                                                                <span class="m-widget17__desc">
                                                                                                                         Sticks better to feet. 
                                                                                                                     </span>
-                                                                                                                </div>
                                                                                                             </div>
-                                                                                                            <div class="m-widget17__items m-widget17__items-col2">
-                                                                                                                <div class="m-widget17__item">
+                                                                                                        </div>
+                                                                                                        <div class="m-widget17__items m-widget17__items-col2">
+                                                                                                            <div class="m-widget17__item">
                                                                                                                     <span class="m-widget17__icon">
                                                                                                                         <i class="flaticon-coins m--font-success"></i>
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__subtitle">
+                                                                                                                <span class="m-widget17__subtitle">
                                                                                                                         $ 0.00
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__desc">
+                                                                                                                <span class="m-widget17__desc">
                                                                                                                         No added cost
                                                                                                                     </span>
-                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    
-                                                                                                    
-                                                                                                    <div style="text-align: justify; color: #9699a4;">
-                                                                                                        <h3>Deep Concave</h3>
-                                                                                                        Deep concave decks are mostly used for vert skateboarding as well as large gaps, as the
-                                                                                                        deep concave makes it easier to keep the deck close to your feet.
-                                                                                                        Select your preferred concave by check marking the upper right corner.
-                                                                                                        
-                                                                                                    </div>
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
                                                                                                 </div>
+
+
+                                                                                                <div style="text-align: justify; color: #9699a4;">
+                                                                                                    <h3>Deep Concave</h3>
+                                                                                                    Deep concave decks are mostly used for vert skateboarding as well as large gaps, as the
+                                                                                                    deep concave makes it easier to keep the deck close to your feet.
+                                                                                                    Select your preferred concave by check marking the upper right corner.
+
+                                                                                                </div>
+
+
+
+
                                                                                             </div>
-                                                                                            <!--end:: Widgets/Activity-->
                                                                                         </div>
+                                                                                        <!--end:: Widgets/Activity-->
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div id="m_personal_income_quater_2" class="tab-pane fade">
-                                                                                <div class="row  align-items-center">
-                                                                                    <div class="col">
-                                                                                        <div class="col-xl-12">
-                                                                                            <!--begin:: Widgets/Activity-->
-                                                                                            <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                                                                <div class="m-portlet__head">
-                                                                                                    <div class="m-portlet__head-caption">
-                                                                                                        <div class="m-portlet__head-title">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="m-portlet__head-tools">
-                                                                                                        <ul class="m-portlet__nav">
-                                                                                                            <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                                                                <a v-if="!steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                                                                    <i class="fa fa-check"></i>
-                                                                                                                </a>
-                                                                                                                <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                                                        <i class="fa fa-times"></i>
-                                                                                                                </a>
-                                                                                                            </li>
-                                                                                                        </ul>
+                                                                        </div>
+                                                                        <div id="m_personal_income_quater_2" class="tab-pane fade">
+                                                                            <div class="row  align-items-center">
+                                                                                <div class="col">
+                                                                                    <div class="col-xl-12">
+                                                                                        <!--begin:: Widgets/Activity-->
+                                                                                        <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                                                                                            <div class="m-portlet__head">
+                                                                                                <div class="m-portlet__head-caption">
+                                                                                                    <div class="m-portlet__head-title">
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="m-portlet__body">
-                                                                                                    <div class="m-widget17">
-                                                                                                        <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                                                                                            <div style="height:280px; background-color: white;">
+                                                                                                <div class="m-portlet__head-tools">
+                                                                                                    <ul class="m-portlet__nav">
+                                                                                                        <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
+                                                                                                            <a v-if="!steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                                                                <i class="fa fa-check"></i>
+                                                                                                            </a>
+                                                                                                            <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                                                                <i class="fa fa-times"></i>
+                                                                                                            </a>
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="m-portlet__body">
+                                                                                                <div class="m-widget17">
+                                                                                                    <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                                                                                        <div style="height:280px; background-color: white;">
                                                                                                             <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                                                                                                 <iframe height="280" width="90%" style="margin-left:40px; margin-top:0px;" src="https://sketchfab.com/models/6998edf0f00e43f09bb6047ebc0a56e5/embed" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        </div>
                                                                                                     </div>
-                                                                                                    <div style="padding-top:60px; padding-bottom:20px;" class="m-widget17">
-                                                                                                        <div class="m-widget17__stats">
-                                                                                                            <div class="m-widget17__items m-widget17__items-col1">
-                                                                                                                <div class="m-widget17__item">
+                                                                                                </div>
+                                                                                                <div style="padding-top:60px; padding-bottom:20px;" class="m-widget17">
+                                                                                                    <div class="m-widget17__stats">
+                                                                                                        <div class="m-widget17__items m-widget17__items-col1">
+                                                                                                            <div class="m-widget17__item">
                                                                                                                     <span class="m-widget17__icon">
                                                                                                                         <i class="flaticon-presentation-1 m--font-brand"></i>
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__subtitle">
+                                                                                                                <span class="m-widget17__subtitle">
                                                                                                                         Flip Control
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__desc">
+                                                                                                                <span class="m-widget17__desc">
                                                                                                                         More precise control.
                                                                                                                     </span>
-                                                                                                                </div>
                                                                                                             </div>
-                                                                                                            <div class="m-widget17__items m-widget17__items-col2">
-                                                                                                                <div class="m-widget17__item">
+                                                                                                        </div>
+                                                                                                        <div class="m-widget17__items m-widget17__items-col2">
+                                                                                                            <div class="m-widget17__item">
                                                                                                                     <span class="m-widget17__icon">
                                                                                                                         <i class="flaticon-coins m--font-success"></i>
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__subtitle">
+                                                                                                                <span class="m-widget17__subtitle">
                                                                                                                         $ 0.00
                                                                                                                     </span>
-                                                                                                                    <span class="m-widget17__desc">
+                                                                                                                <span class="m-widget17__desc">
                                                                                                                         No added cost
                                                                                                                     </span>
-                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    
-                                                                                                    
-                                                                                                    <div style="text-align: justify; color: #9699a4;">
-                                                                                                        <h3>Medium Concave</h3>
-                                                                                                        Medium concave decks are mostly used for street and park skateboarding.
-                                                                                                        The medium concave makes it easier to accurately control the deck,
-                                                                                                        which is essential for flip tricks.
-                                                                                                        Select your preferred concave by check marking the upper right corner.
-                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <div style="text-align: justify; color: #9699a4;">
+                                                                                                    <h3>Medium Concave</h3>
+                                                                                                    Medium concave decks are mostly used for street and park skateboarding.
+                                                                                                    The medium concave makes it easier to accurately control the deck,
+                                                                                                    which is essential for flip tricks.
+                                                                                                    Select your preferred concave by check marking the upper right corner.
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <!--end:: Widgets/Activity-->
                                                                                         </div>
+                                                                                        <!--end:: Widgets/Activity-->
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            
-                                                                        
                                                                         </div>
 
-                                                                        <!-- end::Tab Content -->
+
                                                                     </div>
+
+                                                                    <!-- end::Tab Content -->
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!--end:: Widgets/Blog-->
+                                                    </div>
+                                                    <!--end:: Widgets/Blog-->
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -487,7 +487,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[2].state=! steps[2].state, perdeck -= 1"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -503,20 +503,20 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>European Maple Wood</h3>
+                                                                    <h3>European Maple Wood</h3>
                                                                     European maple is cheaper and lighter, but
                                                                     slightly less durable than American maple.
                                                                     Our European maple wood is sustainably grown in areas
                                                                     of warm summers and ice cold winters - just like
                                                                     our American maple.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -535,7 +535,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[2].state=! steps[2].state, perdeck += 1"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -549,28 +549,28 @@
                                                                             <img src="/skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
+                                                                </div>
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>American Maple Wood</h3>
+                                                                    <h3>American Maple Wood</h3>
                                                                     American maple wood is the standard in professional
                                                                     skateboarding. It is the most durable material and
                                                                     has been used since the beginning of modern skateboarding.
 
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_4">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -588,7 +588,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[3].state=! steps[3].state, perdeck -=0.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -604,18 +604,18 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>American Glue Formula</h3>
+                                                                    <h3>American Glue Formula</h3>
                                                                     This water based glue was invented in
                                                                     America for the purpose of being exclusively
                                                                     used for the production of skateboard decks.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -634,7 +634,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[3].state=! steps[3].state, perdeck +=0.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -648,26 +648,26 @@
                                                                             <img src="/skateboard-deck-production/epoxy-glue-for-skateboard-decks-factory-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
+                                                                </div>
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Epoxy Glue Formula</h3>
+                                                                    <h3>Epoxy Glue Formula</h3>
                                                                     Epoxy is a strong and hard glue, making skateboard decks more durable and stiff.
                                                                     This leads to more pop and improved deck control. (Epoxy must be selected if you plan on adding GFRP technology in step 9.)
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_5">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -685,7 +685,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[4].state=! steps[4].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -703,18 +703,18 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input 
-                                                                            onclick="{{Auth::user()?'return true':'return false'}}" 
-                                                                            type="file"
-                                                                            data-type-upload="bottom" 
-                                                                            class="custom-file-input" 
-                                                                            id="bottomPrintFile" 
-                                                                            @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"
+                                                                        <input
+                                                                                onclick="{{Auth::user()?'return true':'return false'}}"
+                                                                                type="file"
+                                                                                data-type-upload="bottom"
+                                                                                class="custom-file-input"
+                                                                                id="bottomPrintFile"
+                                                                                @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"
                                                                         >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Upload artwork preview</label>
                                                                     </div>
-                                                                    
-    
+
+
                                                                 </div>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[4].state}" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
@@ -730,20 +730,20 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Custom Bottom Design</h3>
+                                                                    <h3>Custom Bottom Design</h3>
                                                                     Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
                                                                     Photos or artworks of ≥5 colors are printed in CMYK.<br>
                                                                     <br>
                                                                     Optionally you can upload a preview of your artwork and send the full size file by email before the production.<br>
 
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -762,7 +762,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[4].state=! steps[4].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -776,26 +776,26 @@
                                                                             <img src="/skateboard-deck-production/blank-skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
-                                                                <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Blank Bottom</h3>
-                                                                        Blank decks are commonly sold to print shops, artists or skateshops that need a reason to sell the same pro quality at a cheaper price.
+                                                                </div>
 
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                                                                    <h3>Blank Bottom</h3>
+                                                                    Blank decks are commonly sold to print shops, artists or skateshops that need a reason to sell the same pro quality at a cheaper price.
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_6">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -813,7 +813,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[5].state=! steps[5].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -831,13 +831,13 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input 
-                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false'}}" 
-                                                                            type="file" 
-                                                                            data-type-upload="top"
-                                                                            class="custom-file-input" 
-                                                                            id="topPrintFile"  
-                                                                            @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                                        <input
+                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false'}}"
+                                                                                type="file"
+                                                                                data-type-upload="top"
+                                                                                class="custom-file-input"
+                                                                                id="topPrintFile"
+                                                                                @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
                                                                         >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[5].state}" for="customFile">Choose file</label>
                                                                     </div>
@@ -855,20 +855,20 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Top Print</h3>
+                                                                    <h3>Top Print</h3>
                                                                     Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
                                                                     Photos or artworks of ≥5 colors are printed in CMYK.<br>
                                                                     <br>
                                                                     Optionally you can upload a preview of your artwork and send the full size file by email before the production.<br>
 
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -887,7 +887,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[5].state=! steps[5].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -901,26 +901,26 @@
                                                                             <img src="/skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
+                                                                </div>
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Blank Top</h3>
-                                                                         Not every deck needs a top print.
-                                                                        However top prints are the cherry on top of the creme giving buyers the impression of holding a higher quality deck.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                    <h3>Blank Top</h3>
+                                                                    Not every deck needs a top print.
+                                                                    However top prints are the cherry on top of the creme giving buyers the impression of holding a higher quality deck.
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_7">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -938,7 +938,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -956,13 +956,13 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input 
-                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
-                                                                            type="file"
-                                                                            data-type-upload="engravery"
-                                                                            class="custom-file-input" 
-                                                                            id="engraveryFile"  
-                                                                            @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
+                                                                        <input
+                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                type="file"
+                                                                                data-type-upload="engravery"
+                                                                                class="custom-file-input"
+                                                                                id="engraveryFile"
+                                                                                @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
                                                                         >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[6].state}" for="customFile">Choose file</label>
                                                                     </div>
@@ -980,19 +980,19 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Top Engraving</h3>
+                                                                    <h3>Top Engraving</h3>
                                                                     Submit artwork in one color 9" x 33" as vector image to show where the max 4" x 4" engraving should be placed. <br>
                                                                     <br>
                                                                     Optionally you can upload a preview of your engraving artwork and send the full size file by email before the production.<br>
 
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -1011,7 +1011,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[6].state=! steps[6].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1025,23 +1025,23 @@
                                                                             <img src="/skateboard-deck-production/blank-skateboard-deck-factory-2hex.jpg" alt="" class="step1-img2">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
+                                                                </div>
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Smooth Top</h3>
+                                                                    <h3>Smooth Top</h3>
                                                                     You already have a top print? In this case you don't need an engraved top.
                                                                     However if you do not have a top print either, remember that top prints and top engravings give buyers the impression of holding a higher quality deck.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_8">
-                                            
+
                                             <!--Begin::Section-->
                                             <div class="row">
                                                 <div class="col-xl-4">
@@ -1055,20 +1055,20 @@
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: partName.bg}"></button>
                                                                     </div>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName.number != 3 && partName.number != 5">
-                                                                        <div 
-                                                                            v-for="(colorValue, colorName) in colorData" 
-                                                                            class="color-dropdown-item" 
-                                                                            @click="colorClicked" 
-                                                                            v-bind:data-part-id="partName.number - 1" 
-                                                                            v-bind:data-color-name="colorName"
-                                                                            v-if="colorName != 'random'"
+                                                                        <div
+                                                                                v-for="(colorValue, colorName) in colorData"
+                                                                                class="color-dropdown-item"
+                                                                                @click="colorClicked"
+                                                                                v-bind:data-part-id="partName.number - 1"
+                                                                                v-bind:data-color-name="colorName"
+                                                                                v-if="colorName != 'random'"
                                                                         >
                                                                             <label>@{{colorName}}</label>
                                                                             <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorValue}"></button>
-                                                                        </div>                                                                              
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1078,10 +1078,10 @@
                                                         <div class="m-portlet__head m-portlet__head--fit product-panel-header">
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-action" >
-                                                                    <a 
-                                                                        @click="randomClicked" 
-                                                                        class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
-                                                                        :class="[steps[7].state ? 'btn-success' : 'btn-secondary']"
+                                                                    <a
+                                                                            @click="randomClicked"
+                                                                            class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
+                                                                            :class="[steps[7].state ? 'btn-success' : 'btn-secondary']"
                                                                     >
                                                                         <i class="fa" :class="[steps[7].state ? 'fa-check' : 'fa-times']"></i>
                                                                     </a>
@@ -1098,7 +1098,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                                
+
                                             <div class="row">
                                                 <div class="col-xl-4">
                                                     <div class="m-portlet m-portlet--bordered-semi configurator-color-panel ">
@@ -1117,10 +1117,10 @@
                                                         <div class="m-portlet__head m-portlet__head--fit product-panel-header" style="position:absolute;">
                                                             <div class="m-portlet__head-caption">
                                                                 <div class="m-portlet__head-action">
-                                                                    <a 
-                                                                        @click="randomClicked" 
-                                                                        class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
-                                                                        :class="[!steps[7].state ? 'btn-success' : 'btn-secondary']"
+                                                                    <a
+                                                                            @click="randomClicked"
+                                                                            class="btn m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
+                                                                            :class="[!steps[7].state ? 'btn-success' : 'btn-secondary']"
                                                                     >
                                                                         <i class="fa" :class="[!steps[7].state ? 'fa-check' : 'fa-times']"></i>
                                                                     </a>
@@ -1130,12 +1130,12 @@
                                                         <img src="/skateboard-deck-production/colored-maple-veneers-for-skateboard-deck-factory-2hex.jpg" alt="">
                                                     </div>
                                                 </div>
-                                            </div>          
+                                            </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_9">
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -1153,7 +1153,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].fulldip.state=!steps[8].fulldip.state, perdeck+=1.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1170,10 +1170,10 @@
                                                                 </div>
                                                                 <input onclick="{{Auth::user()?'return true':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Fulldip</h3>
+                                                                    <h3>Fulldip</h3>
                                                                     Dye your decks in one opaque color of your choice.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
@@ -1196,7 +1196,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].transparent.state=!steps[8].transparent.state, perdeck+=1.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1210,14 +1210,14 @@
                                                                             <img src="/skateboard-deck-production/transparent-full-dip-skateboard-deck-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
+                                                                </div>
                                                                 <input v-if="steps[8].transparent.state" v-model="steps[8].transparent.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
-                                                                                                    
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Transparent Full Dip</h3>
+                                                                    <h3>Transparent Full Dip</h3>
                                                                     Dye your decks in one transparent color of your choice.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
@@ -1225,7 +1225,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -1243,7 +1243,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].metallic.state=!steps[8].metallic.state, perdeck+=3.5"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1260,10 +1260,10 @@
                                                                 </div>
                                                                 <input v-if="steps[8].metallic.state" v-model="steps[8].metallic.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Metallic Full Dip</h3>
+                                                                    <h3>Metallic Full Dip</h3>
                                                                     Dye your decks in one opaque metallic color of your choice.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
@@ -1286,7 +1286,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].blacktop.state=!steps[8].blacktop.state, perdeck+=1.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1301,14 +1301,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                                                    
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Black GFRP Top Layer</h3>
-                                                                         Add a top layer of black GFRP glassfiber reinforced plastic for increased durability and an hardcore look.
+                                                                    <h3>Black GFRP Top Layer</h3>
+                                                                    Add a top layer of black GFRP glassfiber reinforced plastic for increased durability and an hardcore look.
                                                                     <br>
-                                                                        Epoxy glue must be used for GFRP decks. Please double check your selection in step 3.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                    Epoxy glue must be used for GFRP decks. Please double check your selection in step 3.
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
@@ -1316,7 +1316,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -1334,7 +1334,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].blackmidlayer.state=!steps[8].blackmidlayer.state, perdeck+=1.9"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1350,18 +1350,18 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Black GFRP Midlayer</h3>
+                                                                    <h3>Black GFRP Midlayer</h3>
                                                                     Add a mid layer of black GFRP glassfiber reinforced plastic for increased durability.
                                                                     <br>
                                                                     Epoxy glue must be used for GFRP decks. Please double check your selection in step 3.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -1379,7 +1379,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click="steps[8].pattern.state=!steps[8].pattern.state, perdeck+=1.3"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1395,21 +1395,21 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>HEX Pattern Press</h3>
-                                                                        Add the hexagon pattern to your decks bottom veneer, to give your decks a more high end feel and look.
+                                                                    <h3>HEX Pattern Press</h3>
+                                                                    Add the hexagon pattern to your decks bottom veneer, to give your decks a more high end feel and look.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
-                                                </div>                                                          
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_10">
                                             <div class="row">
-                
+
                                                 <div class="col-xl-6">
-                                                    
+
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                                                         <div class="m-portlet__head">
@@ -1427,7 +1427,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[9].state=! steps[9].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1445,13 +1445,13 @@
                                                                 <div class="form-group m-form__group">
                                                                     <div></div>
                                                                     <div class="custom-file">
-                                                                        <input 
-                                                                            onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
-                                                                            type="file"
-                                                                            data-type-upload="cardboard" 
-                                                                            class="custom-file-input" 
-                                                                            id="cardboardFile" 
-                                                                            @click=" steps[9].state = 1"
+                                                                        <input
+                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                type="file"
+                                                                                data-type-upload="cardboard"
+                                                                                class="custom-file-input"
+                                                                                id="cardboardFile"
+                                                                                @click=" steps[9].state = 1"
                                                                         >
                                                                         <label class="custom-file-label unchecked" v-bind:class="{checked: steps[9].state}" for="customFile">Choose file</label>
                                                                     </div>
@@ -1469,18 +1469,18 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>Custom Cardboard Wrap</h3>
-                                                                        Have a custom cardboard printed and folded around your deck, before the shrink wrap is added.
+                                                                    <h3>Custom Cardboard Wrap</h3>
+                                                                    Have a custom cardboard printed and folded around your deck, before the shrink wrap is added.
                                                                     Having a custom cardboard around your deck does not only make it stand out from all other decks when placed in a skate shop's deck rack,
                                                                     it also lets you communicate to your end users just before they make their purchasing decision.
                                                                 </div>
-                                                            </div>                                                                      
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-xl-6">
                                                     <!--begin:: Widgets/Activity-->
                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -1499,7 +1499,7 @@
                                                                             <i class="fa fa-check"></i>
                                                                         </a>
                                                                         <a v-else @click=" steps[9].state=! steps[9].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                <i class="fa fa-times"></i>
+                                                                            <i class="fa fa-times"></i>
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -1513,144 +1513,144 @@
                                                                             <img src="/skateboard-deck-production/skateboard-decks-manufacturer-2hex.jpg" alt="" class="step1-img1">
                                                                         </div>
                                                                     </div>
-                                                                </div>      
-                                                                                                    
+                                                                </div>
+
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                        <h3>No Cardboard</h3>
-                                                                        Saves costs and cuts down on paper waste. Cardboards only improve the buying experience, not the ride.
-                                                                </div>                                                                  
-                                                            </div>                                                                      
+                                                                    <h3>No Cardboard</h3>
+                                                                    Saves costs and cuts down on paper waste. Cardboards only improve the buying experience, not the ride.
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <!--end:: Widgets/Activity-->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_11">
-                                                <div class="row">
-                    
-                                                    <div class="col-xl-6">
-                                                        
-                                                        <!--begin:: Widgets/Activity-->
-                                                        <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                            <div class="m-portlet__head">
-                                                                <div class="m-portlet__head-caption">
-                                                                    <div class="m-portlet__head-title">
-                                                                        <h3 class="m-portlet__head-text">
-                                                                            Custom Printed Cartons
-                                                                        </h3>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="m-portlet__head-tools">
-                                                                    <ul class="m-portlet__nav">
-                                                                        <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                            <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck-=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                                <i class="fa fa-check"></i>
-                                                                            </a>
-                                                                            <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                    <i class="fa fa-times"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
+                                            <div class="row">
+
+                                                <div class="col-xl-6">
+
+                                                    <!--begin:: Widgets/Activity-->
+                                                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                                                        <div class="m-portlet__head">
+                                                            <div class="m-portlet__head-caption">
+                                                                <div class="m-portlet__head-title">
+                                                                    <h3 class="m-portlet__head-text">
+                                                                        Custom Printed Cartons
+                                                                    </h3>
                                                                 </div>
                                                             </div>
-                                                            <div class="m-portlet__body">
-                                                                <div class="m-widget17">
-                                                                    <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                                                        <div >
-                                                                            <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                                <img src="/skateboard-deck-production/skateboard-decks-carton-manufacturer-2hex.jpg" alt=""  class="step1-img1">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group m-form__group">
-                                                                        <div></div>
-                                                                        <div class="custom-file">
-                                                                            <input 
-                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}" 
-                                                                                type="file"
-                                                                                data-type-upload="box" 
-                                                                                class="custom-file-input" 
-                                                                                id="cartonFile"   
-                                                                                @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
-                                                                            >
-                                                                            <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="dropdown">
-                                                                        <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[10].state}" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
-                                                                            Recent file
-                                                                        </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                            @if(count($filenames['box']))
-                                                                                @foreach($filenames['box'] as $filename)
-                                                                                    <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">{{$filename}}</a>
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                    <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                            <h3>Custom Printed Cartons</h3>
-                                                                        Add your logo on both sides of the carton. Please submit the artwork in 40cm(width) x 15cm(height).
-                                                                        Additionally we will print the content details on both ends of the carton showing your brand name, product description, deck name and size.
-                                                                    </div>
-                                                                </div>                                                                      
-                                                            </div>
-                                                        </dgit add .iv>
-                                                        <!--end:: Widgets/Activity-->
-                                                    </div>
-                                                    
-                                                    
-                                                    <div class="col-xl-6">
-                                                        <!--begin:: Widgets/Activity-->
-                                                        <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                            <div class="m-portlet__head">
-                                                                <div class="m-portlet__head-caption">
-                                                                    <div class="m-portlet__head-title">
-                                                                        <h3 class="m-portlet__head-text">
-                                                                            Basic Cartons
-                                                                        </h3>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="m-portlet__head-tools">
-                                                                    <ul class="m-portlet__nav">
-                                                                        <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                            <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                                <i class="fa fa-check"></i>
-                                                                            </a>
-                                                                            <a v-else @click=" steps[10].state=! steps[10].state, perdeck-=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                    <i class="fa fa-times"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-portlet__body">
-                                                                <div class="m-widget17">
-                                                                    <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                                                        <div >
-                                                                            <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
-                                                                                <img src="/skateboard-deck-production/skateboard-decks-carton-factory-2hex.jpg" alt="" class="step1-img1">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>      
-                                                                                                        
-                                                                    <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                                                            <h3>Basic Cartons</h3>
-                                                                        Choose our basic cartons to save cost.
-                                                                        Basic Cartons come in blank or with the content details printed on both ends and two sides of the carton, showing your brand name, product description, deck name and size.
-                                                                    </div>                                                                  
-                                                                </div>                                                                      
+                                                            <div class="m-portlet__head-tools">
+                                                                <ul class="m-portlet__nav">
+                                                                    <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
+                                                                        <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck-=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                            <i class="fa fa-check"></i>
+                                                                        </a>
+                                                                        <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                            <i class="fa fa-times"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                         </div>
-                                                        <!--end:: Widgets/Activity-->
+                                                        <div class="m-portlet__body">
+                                                            <div class="m-widget17">
+                                                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                                                    <div >
+                                                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                                                            <img src="/skateboard-deck-production/skateboard-decks-carton-manufacturer-2hex.jpg" alt=""  class="step1-img1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group m-form__group">
+                                                                    <div></div>
+                                                                    <div class="custom-file">
+                                                                        <input
+                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                type="file"
+                                                                                data-type-upload="box"
+                                                                                class="custom-file-input"
+                                                                                id="cartonFile"
+                                                                                @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                                        >
+                                                                        <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[10].state}" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
+                                                                        Recent file
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        @if(count($filenames['box']))
+                                                                            @foreach($filenames['box'] as $filename)
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">{{$filename}}</a>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                                                                    <h3>Custom Printed Cartons</h3>
+                                                                    Add your logo on both sides of the carton. Please submit the artwork in 40cm(width) x 15cm(height).
+                                                                    Additionally we will print the content details on both ends of the carton showing your brand name, product description, deck name and size.
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    
+                                                    <!--end:: Widgets/Activity-->
                                                 </div>
+
+
+                                                <div class="col-xl-6">
+                                                    <!--begin:: Widgets/Activity-->
+                                                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                                                        <div class="m-portlet__head">
+                                                            <div class="m-portlet__head-caption">
+                                                                <div class="m-portlet__head-title">
+                                                                    <h3 class="m-portlet__head-text">
+                                                                        Basic Cartons
+                                                                    </h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="m-portlet__head-tools">
+                                                                <ul class="m-portlet__nav">
+                                                                    <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
+                                                                        <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                            <i class="fa fa-check"></i>
+                                                                        </a>
+                                                                        <a v-else @click=" steps[10].state=! steps[10].state, perdeck-=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                            <i class="fa fa-times"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="m-portlet__body">
+                                                            <div class="m-widget17">
+                                                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                                                    <div >
+                                                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                                                            <img src="/skateboard-deck-production/skateboard-decks-carton-factory-2hex.jpg" alt="" class="step1-img1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                                                                    <h3>Basic Cartons</h3>
+                                                                    Choose our basic cartons to save cost.
+                                                                    Basic Cartons come in blank or with the content details printed on both ends and two sides of the carton, showing your brand name, product description, deck name and size.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--end:: Widgets/Activity-->
+                                                </div>
+
+                                            </div>
                                         </div>
-                                        
-                                        
+
+
                                         <!--end: Form Wizard Step 2-->
                                     </div>
                                     <!--end: Form Body -->
@@ -1658,7 +1658,7 @@
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                         <div class="m-form__actions m-form__actions">
                                             <div class="row">
-                                                                                                            
+
                                                 <div class="col-lg-4 m--align-center">
                                                     <button class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="prev" @click="prevStep">
                                                         <span>
@@ -1685,7 +1685,7 @@
                                                             <span>Summary</span>
                                                         </span>
                                                     </button>
-                                                    
+
                                                     <button class="btn btn-warning m-btn m-btn--custom m-btn--icon" data-wizard-action="next" @click="nextStep">
                                                         <span>
                                                             <span>Continue</span>&nbsp;&nbsp;
@@ -1706,7 +1706,7 @@
                     </div>
                     <!--End::Main Portlet-->
                 </div>
-                
+
                 <div class="col-xl-3">
                     <div class="m-portlet">
                         <div class="m-portlet__body">
@@ -1730,7 +1730,7 @@
                             @php
                                 $isAuth = auth()->check();
                             @endphp
-                            
+
                             <div class="m-widget1 m-widget1--paddingless">
                                 <div class="m-widget1__item">
                                     <div class="row m-row--no-padding align-items-center">
@@ -1740,10 +1740,10 @@
                                         </div>
                                         <div class="col m--align-right">
                                             @if ($isAuth)
-                                                <span 
-                                                    class="m-widget1__number m--font-brand" 
-                                                    v-if="quantity > 0 && size != ''"  
-                                                    id="perdeck"
+                                                <span
+                                                        class="m-widget1__number m--font-brand"
+                                                        v-if="quantity > 0 && size != ''"
+                                                        id="perdeck"
                                                 >
                                                         $ @{{perdeck.toFixed(2)}}
                                                 </span>
@@ -1763,10 +1763,10 @@
                                         </div>
                                         <div class="col m--align-right">
                                             @if ($isAuth)
-                                                <span 
-                                                    class="m-widget1__number m--font-danger" 
-                                                    v-if="quantity > 0 && size != ''" 
-                                                    id="total"
+                                                <span
+                                                        class="m-widget1__number m--font-danger"
+                                                        v-if="quantity > 0 && size != ''"
+                                                        id="total"
                                                 >
                                                     $ @{{(perdeck * quantity + fixedprice).toFixed(2)}}
                                                 </span>
@@ -1775,11 +1775,11 @@
                                                     $ ?.??
                                                 </span>
                                             @endif
-                                            
+
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <br>
                                 <a href="javascript:void(0)" id="save_order"  class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right">
                                     <span>
@@ -1797,5 +1797,5 @@
         </div>
 
     </div>
-    
+
 @endsection
