@@ -76,15 +76,52 @@
                                     </iframe>
 
                                     <div class="m-form__actions">
-                                        Skateboard decks are the most frequently replaced part of skateboards, which
-                                        makes it a popular first product for skateboard companies. Skateboard decks
-                                        offer a lot of customization options, enabling brands to differentiate from
-                                        the current trend and create their own style.
+                                        <p style="padding: 0 30px;">
+
+                                            Start the configuration process to create a skateboard deck production
+                                            that perfectly fits to your brand - by quality, usage and style!<br>
+                                            <br>
+                                            Skateboard decks are the most frequently replaced part of skateboards, which
+                                            makes it a popular first product for skateboard companies. Skateboard decks
+                                            offer a lot of customization options, enabling brands to differentiate from
+                                            the current trend and create their own style.<br>
+
+                                            <br><br>
+
+                                        <b style="color: #716aca">LOCATIONS</b><br>
+                                            We have two production locations: China and Germany.<br>
+                                            In China we run all major productions, this includes the productions
+                                            of our own stock for Germany as well as the productions for many of the world's leading professional skateboard companies.<br>
+                                            We regularly ship pre-manufactured blank decks to Germany, so that we can offer small quantities and
+                                            fast turn around times to European skateboard businesses.<br>
+                                            <br><br>
+
+                                       <b style="color: #716aca">CUSTOMIZATION BY LOCATION & QUANTITY</b><br>
+                                            Orders of 50 skateboard decks or more will be made in our Chinese production. Here we offer all customization options,
+                                            so that you can make skateboard decks that perfectly fit to your riders' tricks and style!<br>
+                                            If your order 10 to 40 skateboard decks, we will print your designs on pre-manufactured skateboard decks in Germany.
+                                            When ordering decks from our stock, you can only select the deck shape, concave and print.<br>
+                                      <br><br>
+
+                                            <b style="color: #716aca">PRODUCTION & DELIVERY TIME</b><br>
+                                            The production time in China is 6 weeks.<br>
+                                            The production time in Germany is 4 weeks.<br>
+                                            <br>
+                                            <b>Delivery Time for European businesses:</b> <br>
+                                            Delivery from Germany to any European country is 1 week;<br>
+                                            Delivery from China to any European country is 5 weeks.<br>
+                                            If you order 50 or more decks and a fast production and delivery is more important to you than fully customizing your decks,
+                                            then complete and submit your order and answer to our order confirmation email to tell us that you want your production made in Germany.
+                                            We will correct your invoice accordingly.<br>
+                                            <br>
+                                            <b>Delivery Time for Asian businesses:</b><br>
+                                            Delivery from China to any Asian country is 2 weeks;<br>
+                                            Delivery from Germany to any Asian country is 5 weeks.<br>
+                                            <br>
+
+
+                                        </p>
                                     </div>
-                                    <p style="padding: 0 30px;">
-                                        Start the configuration process to create a skateboard deck production
-                                        that perfectly fits to your brand - by quality, usage and style!
-                                    </p>
                                 </div>
                             </div>
                                 <!--end: Form Body -->

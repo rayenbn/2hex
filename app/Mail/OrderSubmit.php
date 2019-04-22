@@ -31,7 +31,7 @@ class OrderSubmit extends Mailable
         return $this
 
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->cc('niklas@skateboard-factory.com', 'SBfactorygit config')
+            ->bcc('niklas@skateboard-factory.com', 'SBfactory')
             ->subject('2HEX Production Order Confirmation')
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
