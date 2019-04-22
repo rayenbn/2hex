@@ -7,7 +7,7 @@
 		<div class="m-subheader ">
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX' Skateboard Factory</h3>
+					<h3 class="m-subheader__title ">2HEX Skateboard Factory</h3>
 				</div>
 			</div>
 		</div>
@@ -17,39 +17,6 @@
 
 
 
-                <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text m--font-dark">
-                                    Get Custom Skateboard Decks Made!
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-portlet__body">
-                        <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                <div>
-                                    <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                        <img src="/skateboard-deck-production/getdecks.jpg" alt="" style="width: 100%;">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <br>
-                        <div class="m-widget19__action">
-                            <a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>add decks to order</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
 
 
 
@@ -57,14 +24,22 @@
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				
 				<div class="m-alert__text">
-					<h4>Join the revolution!</h4>
-                    Brand managers that make their products at 2HEX want the world to be more open, fun and active.
-					Our partners are unconventional free minds that love to encourage people to go in the sunshine, skate and enjoy their life.
-					Do your part to make this world better for everyone! Make as many people as possible get up, call their friends,
-					step on their boards and live life! We support you with the best products.
-                    Give your customers the highest quality, for big tricks and endless sessions. Cheers! Your 2HEX factories - Accessible from everywhere and at any time.
-                    
+                    <h4>We make it easy to order the <u>best</u> custom skateboards!</h4>
+                    We give everyone access to the best production, we show many production options, and we make costs transparent.<br>
+
+                        <a href="{{route('register')}}">
+                            <b>Sign Up</b>
+                        </a>
+                    to see the prices and
+
+                    <a href="{{route('skateboard.manufacturer')}}">
+                        <b>Open</b>
+                    </a>
+
+                    the new Deck Configurator!
+
 				</div>
+
 			</div>
                         
 			<!--Begin::Section-->
@@ -227,7 +202,70 @@
 					<!--end:: Widgets/Activity-->
 				</div>
 
+
+
                 <!-- MANUAL PRODUCTS -->
+
+                <div class="col-xl-4">
+                    <!--begin:: Widgets/Activity-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head"></div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												Fast & Strong
+											</span>
+                                            <span class="m-widget17__desc">
+												We focus on the best quality
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-graph m--font-success"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+                                                Margin
+											</span>
+                                            <span class="m-widget17__desc">
+												highest profit margin
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Skateboard Bearings</h3>
+                                Professional Skateboard Bearings have a high MOQ but a low cost per set. This makes it the highest profit skateboard component.
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                <a href="http://skateboard-factory.com/skateboard-bearings-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
+                                        <span>
+                                            <span>back to our old website</span>
+                                            <i class="la la-arrow-right"></i>
+                                        </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Activity-->
+                </div>
+
                 <div class="col-xl-4">
                     <!--begin:: Widgets/Activity-->
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
@@ -349,72 +387,7 @@
                     <!--end:: Widgets/Activity-->
                 </div>
 
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Fast & Strong
-											</span>
-                                            <span class="m-widget17__desc">
-												We focus on the best quality
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-                                                Margin
-											</span>
-                                            <span class="m-widget17__desc">
-												highest profit margin
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Bearings</h3>
-                                Professional Skateboard Bearings have a high MOQ but a low cost per set. This makes it the highest profit skateboard component.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-bearings-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>back to our old website</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                                <hr>
-                                <a href="http://2hex.com/bearing/skateboard-bearing-factory.php" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>check prices online</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
+
 
                 <div class="col-xl-4">
                     <!--begin:: Widgets/Activity-->
