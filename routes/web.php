@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('dev', function() {
+    return view('blog.show');
+});
 
 
 /**
@@ -102,4 +105,9 @@ Route::group(['as' => 'protection.'], function () {
     Route::get('membership', 'MembershipController@index')->name('membership')->middleware('protection:' . config('protection.membership.product_module_number') . ',protection.membership.failed');
     Route::get('membership/access-denied', 'MembershipController@failed')->name('membership.failed');
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
+});
+
+Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
+    Route::get('/', 'BlogController@index')->name('index');
+    Route::get('/{post}', 'BlogController@show')->name('show');
 });
