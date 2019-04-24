@@ -24,6 +24,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/bundle.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/all.css') }}">
+    @stack('head.scripts')
 
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />
@@ -69,6 +70,7 @@
 <script src="{{ asset('asset/app/js/script.js') }}"></script>
 
 @include('layouts.script')
+@stack('footer.scripts')
 <!--end::Base Scripts -->  
 
 </html>

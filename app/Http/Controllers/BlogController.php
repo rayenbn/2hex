@@ -23,4 +23,26 @@ class BlogController extends Controller
 
     	return view('blog.show', compact('post'));
     } 
+
+    public function create()
+    {
+        return view('blog.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required|string', 'image' => 'required', 'content' => 'required', 'active' => 'required'
+        ]);
+
+        $data['user_id'] = auth()->id();
+        $data['slug'] = str_slug($data['title']);
+        $data['active'] = $data['active'] == 'on' ? true : false;
+        $data['image'] = '/uploads/posts/' . $data['image'];
+
+        Post::create($data);
+
+        return back()->with('message', 'You success created new post!');
+        
+    }
 }

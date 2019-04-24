@@ -109,5 +109,7 @@ Route::group(['as' => 'protection.'], function () {
 
 Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
     Route::get('/', 'BlogController@index')->name('index');
+    Route::get('/create', 'BlogController@create')->name('create');
     Route::get('/{post}', 'BlogController@show')->name('show');
+    Route::post('/', 'BlogController@store')->name('store');
 });
