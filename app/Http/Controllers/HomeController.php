@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
+
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Show the application dashboard.
@@ -23,8 +17,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $posts = Post::query()
+            ->orderBy('created_at', 'desc')
+            ->whereActive(true)
+            ->with('author')
+            ->take(2)
+            ->get();
+
+        return view('welcome', compact('posts'));
     }
+
     public function getData()
     {
         $data = Order::auth()->get();

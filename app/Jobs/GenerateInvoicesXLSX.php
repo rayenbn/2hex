@@ -108,6 +108,14 @@ class GenerateInvoicesXLSX implements ShouldQueue
         ],
     ];
 
+    protected $specialsTitle = [
+        'fulldip'       => 'Fulldip',
+        'transparent'   => 'Transp. F.dip',
+        'metallic'      => 'Metallic dip',
+        'blacktop'      => 'Top Fiberglass',
+        'blackmidlayer' => 'Mid Fiberglass',
+        'pattern'       => 'Pattern Press',
+    ];
 
     public function __construct($orders)
     {
@@ -211,32 +219,28 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 foreach (json_decode($order->veneer) as $key => $value) {
                     $activeSheet->setCellValue(sprintf('I%s', $this->rangeStart + $key), $value);
                 }
+
                 // Column J
-                $extras = json_decode($order->extra);
+                $extras = (array) json_decode($order->extra);
+                // Filter only state equals TRUE
+                $extras = array_filter($extras, function($item) {
+                    return $item->state;
+                });
+                // Print specials for order 
+                foreach (array_keys($extras) as $index => $value) {
+                   $activeSheet->setCellValue(sprintf(
+                        'J%s', $this->rangeStart + $index), 
+                        $this->setStartTextBold("{$this->specialsTitle[$value]}: ", (property_exists($extras[$value], 'color')
+                            ? preg_replace( '/[^0-9a-zA-Z]/', '', $extras[$value]->color)
+                            : 'Yes')
+                        )
+                    );
+                }
                 $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart), 
-                    $this->setStartTextBold('Top Fiberglas: ', $extras->blacktop->state ? 'Yes' : 'No')
+                    'J%s', $this->rangeStart + count($extras)), 
+                    $this->setStartTextBold("Shrink Wrap: ", 'Yes')
                 );
-                $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart + 1),
-                    $this->setStartTextBold('Mid Fiberglas: ', $extras->metallic->state ? $extras->metallic->color : 'None')
-                );
-                $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart + 2), 
-                    $this->setStartTextBold('Fulldip: ', $extras->fulldip->state ? $extras->fulldip->color : 'None')
-                );
-                $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart + 3), 
-                    $this->setStartTextBold('Transp. Fulldip: ', $extras->transparent->state ? $extras->transparent->color : 'None')
-                );
-                $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart + 4), 
-                    $this->setStartTextBold('Pattern Press: ', $extras->pattern->state ? 'Yes' : 'No')
-                );
-                $activeSheet->setCellValue(sprintf(
-                    'J%s', $this->rangeStart + 5), 
-                    $this->setStartTextBold('Shrink Wrap: ', $extras->blackmidlayer->state ? 'Yes' : 'No')
-                );
+
                 // Column K
                 $activeSheet->mergeCells(sprintf('K%s:K%s', $this->rangeStart, $endRange = $this->rangeStart + 3));
                 $activeSheet->mergeCells(sprintf('K%s:K%s', $endRange + 1, $endRange + 4));

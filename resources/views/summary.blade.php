@@ -158,24 +158,42 @@
                                     </ol>
                                 </td>
                                 <td>
-                                	<?php $count = 0 ?>
-                                	@foreach(json_decode($order->extra) as $index => $extra)
-                                	 @if($extra->state == true)
-                                	 	@if($count != 0)
+                                	<?php 
+                                		$count = 0;
+                                		$extraTitle = [
+                                			'fulldip' => 'Fulldip',
+                                			'transparent' => 'Transp. F.dip',
+                                			'metallic' => 'Metallic dip',
+                                			'blacktop' => 'Top Fiberglass',
+                                			'blackmidlayer' => 'Mid Fiberglass',
+                                			'pattern' => 'Pattern Press',
+                                		];
+                            		?>
+                                	@foreach(json_decode($order->extra) as $key => $extra)
+                                	 	@if($extra->state == true)
+                                	 		@if($count != 0)
                                      		<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
+                                     		@endif
+                                     		{{ $extraTitle[$key] }}
+                                     		{{ isset($extra->color) 
+                                     				? " :" . preg_replace( '/[^0-9a-zA-Z]/', '', $extra->color) 
+                                     				: ' : Yes' 
+                                     		}} 
+                                     		<br>
+                                     		<?php $count ++ ?>
                                      	@endif
-                                     	{{$index}}{{isset($extra->color)?' : '.$extra->color:''}}<br>
-                                     	<?php $count ++ ?>
-                                     @endif
                                     @endforeach
+                                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
+                                    Shrink Wrap: Yes
                                 </td>
-								<td>{{$order->cardboard?$order->cardboard:'None'}}</td>
-								<td>{{$order->carton?$order->carton:'None'}}</td>
+								<td>{{$order->cardboard ? $order->cardboard : 'None'}}</td>
+								<td>{{$order->carton ? $order->carton : 'None'}}</td>
 								<td>{{ auth()->check() ? money_format('%.2n', $order->perdeck) : '$?.??' }}</td>
 								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
+								
 								@if(Session::get('viewonly') == null)
-								<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
-								<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
+									<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
+									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
 								@endif
 							</tr>
 							@endforeach                          

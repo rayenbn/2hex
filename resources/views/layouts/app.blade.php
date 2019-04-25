@@ -9,8 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!--begin::Web font -->
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script src="{{ asset('/js/webfont.js') }}"></script>
     <script>
       WebFont.load({
         google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
@@ -19,19 +20,14 @@
         }
       });
     </script>
-    <!--end::Web font -->
-    <!--begin::Base Styles -->  
-    <!--begin::Page Vendors -->
-    <link href="../../../asset/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-    <!--end::Page Vendors -->
-    <link href="../../../asset/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="../../../asset/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="../../../css/leftsidebar.css" rel="stylesheet" type="text/css" />
-    <link href="../../../css/style.css" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('/js/jquery.min.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ mix('/css/bundle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ mix('/css/all.css') }}">
+    @stack('head.scripts')
 
     <!--end::Base Styles -->
-    <link rel="shortcut icon" href="../../../asset/app/media/img/logos/favicon.ico" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />
 </head>
 <!-- end::Head -->
 
@@ -57,26 +53,24 @@
     @include('layouts.analystics')
 </body>
 
+
 <!--begin::Base Scripts -->
-<script src="{{asset('asset/vendors/base/vendors.bundle.js')}}"></script>
-<script src="{{asset('asset/demo/default/base/scripts.bundle.js')}}"></script>
+<script src="{{ mix('/js/all.js') }}"></script>
 
-
-
-<script src="{{asset('asset/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 <script src="{{asset('asset/demo/default/custom/components/calendar/basic.js')}}"></script>
 
 
 <script src="{{asset('asset/demo/default/custom/crud/forms/widgets/select2.js')}}" type="text/javascript"></script>
 <script src="{{asset('asset/demo/default/custom/crud/forms/widgets/bootstrap-touchspin.js')}}" type="text/javascript"></script>
 
-<script src="{{asset('asset/demo/default/custom/crud/wizard/wizard.js')}}" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/merge-images"></script>
-    <script src="{{asset('asset/app/js/manufacture.js')}}"></script>
-    <script src="{{asset('asset/app/js/script.js')}}"></script>
+<script src="{{ asset('asset/demo/default/custom/crud/wizard/wizard.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/vue.js') }}"></script>
+<script src="{{ asset('/js/index.umd.js') }}"></script>
+<script src="{{ asset('asset/app/js/manufacture.js') }}"></script>
+<script src="{{ asset('asset/app/js/script.js') }}"></script>
 
-    @include('layouts.script')
+@include('layouts.script')
+@stack('footer.scripts')
 <!--end::Base Scripts -->  
 
 </html>
