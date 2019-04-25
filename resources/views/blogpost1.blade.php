@@ -452,7 +452,6 @@
 			</div>
 		</div>
 
-        <!--
 		<div class="m-subheader ">
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
@@ -460,10 +459,8 @@
 				</div>
 			</div>
 		</div>
-        -->
 
-		 <div class="m-content">
-         <!--
+		<div class="m-content">
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="m-portlet m-portlet--full-height ">
@@ -498,7 +495,6 @@
 
                 </div>
             </div>
-            -->
             <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
                 <div class="m-alert__icon">
                     <i class="flaticon-exclamation-1"></i>

@@ -98,6 +98,7 @@ Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');
+Route::get('/blogpost1', function() { return view('blogpost1');});
 /**
  * Membership
  */

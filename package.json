@@ -19,6 +19,7 @@
     "jquery": "3.2.1",
     "laravel-mix": "0.*",
     "pace-progress": "^1.0.2",
+    "run": "^1.4.0",
     "select2": "^4.0.3",
     "vue": "^2.1.10"
   }
