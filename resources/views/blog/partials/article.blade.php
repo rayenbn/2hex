@@ -8,7 +8,7 @@
                 <a href="{{ route('blog.show', $article->slug) }}">{{ $article->title }}</a>
             </h4>
             <span class="m-widget5__desc">
-                {{ str_limit(strip_tags($article->content), 60,'...') }}
+                {{ str_limit(strip_tags(html_entity_decode($article->content)), 60,'...') }}
             </span>
             <div class="m-widget5__info">
                 <span class="m-widget5__author">
