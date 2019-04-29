@@ -487,7 +487,7 @@
                                 </div>
                             @endif
 
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->check() && auth()->user()->isAdmin())
     							<div class="m-portlet__head-caption">
                                     <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
                                 </div>

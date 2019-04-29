@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="m-widget5__content">
-        @if(auth()->user()->isAdmin())
+        @if(auth()->check() && auth()->user()->isAdmin())
             <form action="{{ route('blog.destroy', $article->id) }}" method="POST">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
