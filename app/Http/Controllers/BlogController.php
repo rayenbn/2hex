@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Scopes\SearchScope;
+use Validator;
 
 class BlogController extends Controller
 {
@@ -17,9 +18,12 @@ class BlogController extends Controller
 		return $posts;
     }
 
-    public function show(Post $post)
+    public function show($slug)
     {
-    	$post->load('author');
+        $post = Post::query()
+            ->with('author')
+            ->where('slug', $slug)
+            ->firstOrFail();
 
     	return view('blog.show', compact('post'));
     } 
@@ -31,18 +35,61 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string', 'image' => 'required', 'content' => 'required', 'active' => 'required'
+        $validator = Validator::make($request->all(), [
+            'title'   => 'required|string',
+            'image'   => 'required', 
+            'content' => 'required', 
         ]);
 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $data = $validator->getData();
+
         $data['user_id'] = auth()->id();
-        $data['slug'] = str_slug($data['title']);
-        $data['active'] = $data['active'] == 'on' ? true : false;
-        $data['image'] = '/uploads/posts/' . $data['image'];
+        $data['active'] = array_key_exists('active', $data) ? true : false;
 
         Post::create($data);
 
-        return back()->with('message', 'You success created new post!');
+        return redirect('/')->with('message', 'You success created new post!');
         
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return redirect('/')->with('message', 'You success deleted post!');
+
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $validator = Validator::make($request->all(), [
+            'title'   => 'required|string',
+            'image'   => 'required', 
+            'content' => 'required', 
+            'active'  => 'nullable', 
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data = $validator->getData();
+        $data['active'] = array_key_exists('active', $data) ? true : false;
+
+        $post->update($data);
+
+        return back()->with('message', 'You success updated post!');
+    }
+
+    public function edit(Post $post)
+    {
+        return view('blog.create', compact('post'));
     }
 }

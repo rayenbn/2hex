@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/bundle.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/all.css') }}">
     @stack('head.scripts')
+    @stack('head.styles')
 
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />

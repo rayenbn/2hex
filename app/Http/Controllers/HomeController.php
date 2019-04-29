@@ -21,8 +21,7 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->whereActive(true)
             ->with('author')
-            ->take(2)
-            ->get();
+            ->paginate(4);
 
         return view('welcome', compact('posts'));
     }

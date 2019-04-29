@@ -1,10 +1,26 @@
 @extends('layouts.app')
+@push('head.scripts')
+    <script>
+        if (location.hash) {
+            let target = location.hash;
+            let el = document.querySelector(target);
+            if (el) {
+                window.scrollTop = el.offsetTop;
+            }
+        }
+    </script>
+@endpush
 
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
-
+    
 		<!-- BEGIN: Subheader -->
 		<div class="m-subheader ">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                {{ session()->get('message')}}
+                </div>
+            @endif
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
 					<h3 class="m-subheader__title ">2HEX Skateboard Factory</h3>
@@ -14,22 +30,13 @@
 		<!-- END: Subheader -->
                     
 		<div class="m-content">
-
-
-
-
-
-
-
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				
 				<div class="m-alert__text">
                     <h4>We make it easy to order the <u>best</u> custom skateboards!</h4>
                     We give everyone access to the best production, we show many production options, and we make costs transparent.<br>
-
-                        <a href="{{route('register')}}">
-                            <b>Sign Up</b>
-                        </a>
+                    <a href="{{route('register')}}">
+                        <b>Sign Up</b>
+                    </a>
                     to see the prices and
 
                     <a href="{{route('skateboard.manufacturer')}}">
@@ -37,9 +44,7 @@
                     </a>
 
                     the new Deck Configurator!
-
 				</div>
-
 			</div>
                         
 			<!--Begin::Section-->
@@ -462,8 +467,8 @@
 		</div>
         -->
 
-		 <div class="m-content">
-         <!--
+		 <div class="m-content" id="blog">
+         
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="m-portlet m-portlet--full-height ">
@@ -475,7 +480,18 @@
 									</h3>
 								</div>
 							</div>
-							
+                            
+                            @if($posts->count())
+                                <div class="m-portlet__head-caption">
+                                    {{ $posts->fragment('blog')->links() }}
+                                </div>
+                            @endif
+
+                            @if(auth()->check() && auth()->user()->isAdmin())
+    							<div class="m-portlet__head-caption">
+                                    <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
+                                </div>
+                            @endif
 						</div>
 						<div class="m-portlet__body">
 
@@ -498,7 +514,7 @@
 
                 </div>
             </div>
-            -->
+            
             <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
                 <div class="m-alert__icon">
                     <i class="flaticon-exclamation-1"></i>

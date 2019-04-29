@@ -76,7 +76,7 @@ class ConfiguratorController extends Controller
     {
         if($request->hasFile('file')) {
            $file = $request->file('file');
-           
+
             //you also need to keep file extension as well
             $path = public_path('uploads/' . Auth::user()->name . '/' . $request->get('typeUpload', 'bottom'));
             $name = $file->getClientOriginalName();

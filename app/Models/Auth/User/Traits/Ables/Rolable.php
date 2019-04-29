@@ -45,4 +45,9 @@ trait Rolable
 
         return ($all) ? ($hasRoles == count($roles)) : ($hasRoles);
     }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(\App\Models\Auth\Role\Role::ADMIN);
+    }
 }

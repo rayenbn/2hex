@@ -27,5 +27,13 @@
         </div>
     </div>
     <div class="m-widget5__content">
+        @if(auth()->check() && auth()->user()->isAdmin())
+            <form action="{{ route('blog.destroy', $article->id) }}" method="POST">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <a href="{{ route('blog.edit', $article->id) }}" class="btn btn-outline-warning">Edit</a>
+                <button type="submit" class="btn btn-outline-danger">Remove</button>
+            </form>
+        @endif
     </div>
 </div>
