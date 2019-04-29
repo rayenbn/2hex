@@ -34,6 +34,6 @@ class Post extends Model
 
     public function setContentAttribute($value)
     {
-        $this->attributes['content'] = remove_specials_symbols($value);
+        $this->attributes['content'] = remove_specials_symbols( htmlspecialchars($value, ENT_QUOTES));
     }
 }

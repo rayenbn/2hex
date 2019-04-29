@@ -37,6 +37,7 @@
 		    automatic_uploads : false,
 		    relative_urls: false,
 		    min_height: 500,
+		    entity_encoding: "numeric", 
 
 			images_upload_handler: function (blobInfo, success, failure) {
 				var xhr, formData;
