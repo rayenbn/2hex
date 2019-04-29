@@ -44,7 +44,7 @@
                                     <h2 class="m-portlet__head-text mt-5" id="imprint">
                                          {{$post->title}}
                                     </h2>
-									<p>{!! $post->content !!}</p>                                          
+									<p>{!! html_entity_decode($post->content) !!}</p>                                          
                                 </div>
                             </div>
                         </div>
