@@ -105,7 +105,6 @@ Route::group(['as' => 'protection.'], function () {
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
 });
 
-Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
     // Route::get('/', 'BlogController@index')->name('index');
@@ -115,6 +114,7 @@ Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], func
     Route::get('/{post}/edit', 'BlogController@edit')->name('edit');
     Route::put('/{post}', 'BlogController@update')->name('update');
 });
+Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 
 
