@@ -50,7 +50,7 @@
                         </div>
 					</div>
 				</div>   
-				@if(auth()->user()->isAdmin())
+				@if(auth()->check() && auth()->user()->isAdmin())
 					<div class="col-md-3">
 						<form action="{{ route('blog.destroy', $post->id) }}" method="POST" class="r-side-flex">
 			                {{ csrf_field() }}
