@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
         parent::report($exception);
 
         //send error to developers emails
-        $this->sendReport($exception);
+        //$this->sendReport($exception);
     }
 
     /**

@@ -1,15 +1,18 @@
 @extends('layouts.app')
+
 @push('head.scripts')
     <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=re1puig8wwns5dt6o4ys4k2pmzmltdnmw4xhbctutrdcazl4"></script>
     <script>
 		tinymce.init({
 		    selector: '#content',
-		    plugins : 'autolink link image imagetools lists charmap preview table emoticons checklist wordcount',
-		    toolbar: "numlist bullist checklist emoticons wordcount",
+		    plugins : 'autolink link image imagetools lists charmap preview table emoticons checklist wordcount advcode',
+		    toolbar: "numlist bullist checklist emoticons wordcount code",
 		    images_upload_url : '/upload.php',
 		    automatic_uploads : false,
+		    relative_urls: false,
+		    min_height: 500,
 
-			images_upload_handler : function(blobInfo, success, failure) {
+			images_upload_handler: function (blobInfo, success, failure) {
 				var xhr, formData;
 
 				xhr = new XMLHttpRequest();
@@ -17,39 +20,55 @@
 				xhr.open('POST', '/upload.php');
 
 				xhr.onload = function() {
-					var json;
+				  var json;
 
-					if (xhr.status != 200) {
-						failure('HTTP Error: ' + xhr.status);
-						return;
-					}
+				  if (xhr.status < 200 || xhr.status >= 300) {
+					failure('HTTP Error: ' + xhr.status);
+					return;
+				  }
 
-					json = JSON.parse(xhr.responseText);
+				  json = JSON.parse(xhr.responseText);
 
-					if (!json || typeof json.file_path != 'string') {
-						failure('Invalid JSON: ' + xhr.responseText);
-						return;
-					}
+				  if (!json || typeof json.location != 'string') {
+					failure('Invalid JSON: ' + xhr.responseText);
+					return;
+				  }
 
-					success(json.file_path);
+				  success(json.location);
 				};
 
 				formData = new FormData();
 				formData.append('file', blobInfo.blob(), blobInfo.filename());
 
 				xhr.send(formData);
-			},
+			}
 		});
-		var loadFile = function(event) {
-	    var output = document.getElementById('output');
-		    output.src = URL.createObjectURL(event.target.files[0]);
-		};
+
   </script>
 @endpush
 
 @section('content')
+	@php 
+		$isEdit = isset($post);
+		$action = $isEdit ? route('blog.update', $post->id) : route('blog.store');
+	@endphp
+
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
 		<div class="m-content">
+			@if ($errors->any())
+			 	<div class="alert alert-danger" role="alert">
+			  		<ul>
+			     		@foreach ($errors->all() as $error)
+			  				<li><span>{{$error}}</span></li>
+			     		@endforeach
+			  		</ul>
+				</div>
+			@endif
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                {{ session()->get('message')}}
+                </div>
+            @endif
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="m-portlet">
@@ -57,41 +76,72 @@
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
 									<h3 class="m-portlet__head-text" id="imprint">
-										Page creation posts
+										Page creation a new post
 									</h3>
 								</div>
+								@if($isEdit)
+									<div class="m-portlet__head-title">
+										<a class="btn btn-link" href="{{ route('blog.show', $post->slug) }}">Show post</a>
+									</div>
+								@endif
+								
 							</div>
 						</div>
 
-                        <form method="POST" action="{{ route('blog.store')}}"> 
+                        <form method="POST" action="{{ $action }}" enctype="multipart/form-data"> 
                         	{{ csrf_field() }}
+
+                        	@if($isEdit)
+								{{ method_field('PUT') }}
+							@endif
+
+							<input type="hidden" id="image" name="image" value="{{ $isEdit ? $post->image : '' }}">
+
 							<div class="container">
 								<div class="row">
 									<div class="col-md-8">
 									  	<div class="form-group">
 									    	<label for="title">Title</label>
-									    	<input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+									    	<input 
+									    		type="text" 
+									    		class="form-control" 
+									    		id="title" 
+									    		name="title" 
+									    		placeholder="Enter title"
+									    		value="{{$isEdit ? $post->title : ''}}"
+								    		>
 									  	</div>
-										 <div class="form-group form-check">
-										    <input type="checkbox" class="form-check-input" id="active" name="active" checked="true">
-										    <label class="form-check-label" for="active">Active</label>
-										 </div>
-										 <div class="form-group">
+										<div class="custom-control custom-checkbox mb-3">
+										  	<input 
+										    	type="checkbox" 
+										    	class="custom-control-input" 
+										    	id="active" 
+										    	name="active"
+									    	>
+										  	<label class="custom-control-label" for="active">Active</label>
+										</div>
+										<div class="form-group">
 										    <label for="content">Content</label>
-										    <textarea name="content" id="content">Next, use our Get Started docs to setup Tiny!</textarea>
-										 </div>
-										 <button type="submit" class="btn btn-primary">Submit</button>
+										    <textarea name="content" id="content">
+										    </textarea>
+										</div>
+										<div class="form-group">
+											@if($isEdit)
+											<button type="submit" class="btn btn-primary">Update</button>
+											@else
+												<button type="submit" class="btn btn-primary">Submit</button>
+											@endif
+										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="panel panel-default">
-										  	<div class="panel-heading">Preview image:</div>
-										  	<div class="panel-body">
-										    	<div>
-													<img id="output"/ height="100">
-										  			<input type="file" accept="image/*" onchange="loadFile(event)" name="image">
-												</div>
-										  </div>
-										</div>
+									        <label class="panel-heading">Preview image:</label>
+									        <div class="upload-btn-wrapper">
+											  	<button class="upload-btn" >Upload a file</button>
+											  	<input type="file" accept="image/*" onchange="loadPreview(event)"/>
+											</div>
+									        <img id='output' height="100" class="mt-4" src="{{ $isEdit ? $post->image : '' }}"/>
+									    </div>
 									</div>
 								</div>
 	                        </div>
@@ -102,5 +152,48 @@
 			</div>
 		</div>
 	</div>
-	
+
 @endsection
+
+@push('footer.scripts')
+	<script>
+		@if (isset($post))
+			$('#content').html('{!! $post->content !!}');
+			$('#active').prop('checked', "{{ $post->active }}" == true ? true : false);
+		@else
+			$('#active').prop('checked', true);
+		@endif
+		
+
+		var loadPreview = function(event) {
+			event.preventDefault();
+			var formData, file;
+	    	var output = document.getElementById('output');
+	    	// var imageInput = document.getElementById('image');
+
+	    	var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/upload.php");
+			xhr.onload = function() {
+			  	var json;
+
+			  	if (xhr.status < 200 || xhr.status >= 300) {
+					failure('HTTP Error: ' + xhr.status);
+					return;
+			  	}
+
+			  	json = JSON.parse(xhr.responseText);
+
+			  	if (!json || typeof json.location != 'string') {
+					failure('Invalid JSON: ' + xhr.responseText);
+					return;
+			  	}
+		    	output.src = json.location;
+		    	document.getElementById("image").value = json.location;
+			}
+			formData = new FormData();
+			file = event.target.files[0];
+			formData.append('file', file, file.name);
+			xhr.send(formData);
+		};
+	</script>
+@endpush

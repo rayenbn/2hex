@@ -119,3 +119,15 @@ if (!function_exists('invoice_number')) {
         );
     }
 }
+
+if (!function_exists('remove_specials_symbols')) {
+    /**
+     * @return string
+     */
+    function remove_specials_symbols($value)
+    {
+        $chars = array("\r\n", '\\n', '\\r', "\n", "\r", "\t", "\0", "\x0B");
+        
+        return str_replace($chars, "" , $value);
+    }
+}

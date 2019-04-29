@@ -75,8 +75,9 @@ class ConfiguratorController extends Controller
     public function upload(Request $request)
     {
         if($request->hasFile('file')) {
+           dd($file);
            $file = $request->file('file');
-           
+
             //you also need to keep file extension as well
             $path = public_path('uploads/' . Auth::user()->name . '/' . $request->get('typeUpload', 'bottom'));
             $name = $file->getClientOriginalName();
@@ -89,6 +90,7 @@ class ConfiguratorController extends Controller
 
            return $name;
         }
+        dd(2);
         return 'failed';
     }
 

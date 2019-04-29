@@ -4,7 +4,7 @@
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
 		<div class="m-content">
 			<div class="row">
-				<div class="col-xl-9">
+				<div class="col-md-9">
 					<div class="m-portlet">
 						<div class="m-portlet__head">
 							<div class="m-portlet__head-caption">
@@ -25,7 +25,7 @@
                                     	style="width: 100%"
                                 	>
 									<br>
-                                    <h2 class="m-portlet__head-text" id="imprint">
+                                    <h2 class="m-portlet__head-text mt-5" id="imprint">
                                          {{$post->title}}
                                     </h2>
 									<p>{!! $post->content !!}</p>                                          
@@ -34,6 +34,17 @@
                         </div>
 					</div>
 				</div>   
+				@if(auth()->user()->isAdmin())
+					<div class="col-md-3">
+						<form action="{{ route('blog.destroy', $post->id) }}" method="POST" class="r-side-flex">
+			                {{ csrf_field() }}
+			                {{ method_field('DELETE') }}
+							<a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
+							<a href="{{ route('blog.edit', $post->id) }}" class="btn btn-outline-warning">Edit</a>
+			                <button type="submit" class="btn btn-outline-danger">Remove</button>
+			            </form>
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>

@@ -10,9 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('dev', function() {
-    return view('blog.show');
-});
+Route::get('dev', function() {});
 
 
 /**
@@ -108,8 +106,11 @@ Route::group(['as' => 'protection.'], function () {
 });
 
 Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
-    Route::get('/', 'BlogController@index')->name('index');
+    // Route::get('/', 'BlogController@index')->name('index');
     Route::get('/create', 'BlogController@create')->name('create');
-    Route::get('/{post}', 'BlogController@show')->name('show');
+    Route::get('/{id}', 'BlogController@show')->name('show');
     Route::post('/', 'BlogController@store')->name('store');
+    Route::delete('/{post}', 'BlogController@destroy')->name('destroy');
+    Route::get('/{post}/edit', 'BlogController@edit')->name('edit');
+    Route::put('/{post}', 'BlogController@update')->name('update');
 });

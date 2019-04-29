@@ -28,6 +28,9 @@ class Role extends Model
     use RoleScopes,
         RoleRelations;
 
+    const ADMIN = 1;
+    const AUTHENTICATED = 2;
+
     /**
      * The database table used by the model.
      *

@@ -9,11 +9,9 @@
 		<meta name="description" content="Latest updates and statistic charts">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 
-		<link href="../assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="../assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="../assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-
-        <?php include 'navigation/analytics.php';?>
+		<link href="{{asset('asset/vendors/base/vendors.bundle.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('asset/demo/default/base/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('asset/vendors/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
 	</head>
 
 	<!-- end::Head -->
@@ -25,13 +23,11 @@
 		<div class="m-grid m-grid--hor m-grid--root m-page">
 
             
-            <?php include 'navigation/header.php';?>
 
 
 			<!-- begin::Body -->
 			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
 
-                <?php include 'navigation/menuleft.php';?>
 
 				<div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -156,13 +152,11 @@
 
 			<!-- end:: Body -->
 
-            <?php include 'navigation/footer.php';?>
 
 		</div>
 
 		<!-- end:: Page -->
 
-        <?php include 'navigation/quick-sidebar.php';?>
 
 		<!-- begin::Scroll Top -->
 		<div id="m_scroll_top" class="m-scroll-top">
@@ -170,10 +164,19 @@
 		</div>
 
 
-		<script src="../assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-		<script src="../assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
-		<script src="../assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
-		<script src="../assets/app/js/dashboard.js" type="text/javascript"></script>
+        <!--begin::Global Theme Bundle -->
+        <script src="{{ asset(' asset/vendors/base/vendors.bundle.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(' asset/demo/default/base/scripts.bundle.js') }}" type="text/javascript"></script>
+
+        <!--end::Global Theme Bundle -->
+
+        <!--begin::Page Vendors -->
+        <script src="{{ asset(' asset/vendors/custom/fullcalendar/fullcalendar.bundle.js') }}" type="text/javascript"></script>
+
+        <!--end::Page Vendors -->
+
+        <!--begin::Page Scripts -->
+        <script src="{{ asset(' asset/app/js/dashboard.js') }}" type="text/javascript"></script>
 
 	</body>
 
