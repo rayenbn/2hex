@@ -1,5 +1,21 @@
 @extends('layouts.app')
-
+@push('head.styles')
+	<style>
+		.r-side-flex {
+		    display: -webkit-box;
+		    display: -ms-flexbox;
+		    display: flex;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		        -ms-flex-direction: column;
+		            flex-direction: column;
+		    position: fixed;
+		}
+		.r-side-flex .btn {
+		    margin: 5px;
+		}
+	</style>
+@endpush
 @section('content')
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
 		<div class="m-content">

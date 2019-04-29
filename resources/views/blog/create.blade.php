@@ -1,5 +1,31 @@
 @extends('layouts.app')
+@push('head.styles')
+	<style>
+		.upload-btn-wrapper {
+		    position: relative;
+		    overflow: hidden;
+		}
 
+		.upload-btn {
+		    border: 2px solid gray;
+		    color: gray;
+		    background-color: white;
+		    padding: 8px 20px;
+		    border-radius: 8px;
+		    font-size: 20px;
+		    font-weight: bold;
+		}
+
+		.upload-btn-wrapper input[type=file] {
+		    font-size: 100px;
+		    position: absolute;
+		    left: 0;
+		    top: 0;
+		    opacity: 0;
+		    width: 100%;
+		}
+	</style>
+@endpush
 @push('head.scripts')
     <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=re1puig8wwns5dt6o4ys4k2pmzmltdnmw4xhbctutrdcazl4"></script>
     <script>
