@@ -19,6 +19,12 @@
         "source": "https://github.com/Labs64/laravel-boilerplate",
         "docs": "https://github.com/Labs64/laravel-boilerplate"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/itlead/promocodes"
+        }
+    ],
     "require": {
         "php": ">=7.0",
         "albertcht/invisible-recaptcha": "^1.4",
@@ -32,7 +38,8 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.5.*",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "itlead/promocodes": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
