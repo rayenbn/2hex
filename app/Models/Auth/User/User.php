@@ -11,6 +11,7 @@ use App\Models\Auth\User\Traits\Ables\Rolable;
 use App\Models\Auth\User\Traits\Scopes\UserScopes;
 use App\Models\Auth\User\Traits\Relations\UserRelations;
 use Kyslik\ColumnSortable\Sortable;
+use Itlead\Promocodes\Traits\Discountabble;
 
 /**
  * App\Models\Auth\User\User
@@ -58,7 +59,8 @@ class User extends Authenticatable
         Notifiable,
         SoftDeletes,
         Sortable,
-        Protectable;
+        Protectable,
+        Discountabble;
 
     public $sortable = ['name', 'email', 'created_at', 'updated_at'];
 
