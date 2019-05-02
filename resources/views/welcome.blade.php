@@ -9,6 +9,8 @@
             }
         }
     </script>
+
+    <meta name="google-site-verification" content="Rda4X-ni7CsAy_pqqFhXeRbf_WToW3o1vpnu5peqMp4" />
 @endpush
 
 @section('content')
@@ -46,6 +48,8 @@
                     the new Deck Configurator!
 				</div>
 			</div>
+
+
                         
 			<!--Begin::Section-->
 			<div class="row">
