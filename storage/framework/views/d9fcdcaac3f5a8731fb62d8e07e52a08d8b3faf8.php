@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@push('head.scripts')
+<?php $__env->startPush('head.scripts'); ?>
     <script>
         if (location.hash) {
             let target = location.hash;
@@ -9,18 +8,19 @@
             }
         }
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
     
 		<!-- BEGIN: Subheader -->
 		<div class="m-subheader ">
-            @if(session()->has('message'))
+            <?php if(session()->has('message')): ?>
                 <div class="alert alert-success">
-                {{ session()->get('message')}}
+                <?php echo e(session()->get('message')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?>
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
 					<h3 class="m-subheader__title ">2HEX Skateboard Factory</h3>
@@ -34,15 +34,15 @@
 				<div class="m-alert__text">
                     <h4>2HEX gives everyone access to the best skateboard production!</h4>
                     2HEX shows all customization options and makes cost calculations transparent.
-                    <a href="{{route('register')}}">
+                    <a href="<?php echo e(route('register')); ?>">
                         <b>Sign Up</b>
                     </a>
                     and select the perfect
 
-                    <a href="{{route('skateboard.manufacturer')}}">
+                    <a href="<?php echo e(route('skateboard.manufacturer')); ?>">
                         <b>deck set up </b>
                     </a>for your brand.
-                    <img src="{{ asset('/skateboard-deck-production/top.jpg') }}" alt="" style="width: 100%;">
+                    <img src="<?php echo e(asset('/skateboard-deck-production/top.jpg')); ?>" alt="" style="width: 100%;">
 				</div>
 			</div>
 
@@ -195,7 +195,7 @@
 							</div>
 							<br>
 							<div class="m-widget19__action">
-								<a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+								<a href="<?php echo e(route('skateboard.manufacturer')); ?>" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
                                         <span>add decks to order</span>
                                         <i class="la la-arrow-right"></i>
@@ -482,17 +482,18 @@
 								</div>
 							</div>
                             
-                            @if($posts->count())
+                            <?php if($posts->count()): ?>
                                 <div class="m-portlet__head-caption">
-                                    {{ $posts->fragment('blog')->links() }}
-                                </div>
-                            @endif
+                                    <?php echo e($posts->fragment('blog')->links()); ?>
 
-                            @if(auth()->check() && auth()->user()->isAdmin())
-    							<div class="m-portlet__head-caption">
-                                    <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
                                 </div>
-                            @endif
+                            <?php endif; ?>
+
+                            <?php if(auth()->check() && auth()->user()->isAdmin()): ?>
+    							<div class="m-portlet__head-caption">
+                                    <a href="<?php echo e(route('blog.create')); ?>" class="btn btn-outline-success">New Post</a>
+                                </div>
+                            <?php endif; ?>
 						</div>
 						<div class="m-portlet__body">
 
@@ -500,11 +501,11 @@
 								<div class="tab-pane active" id="m_widget5_tab1_content" aria-expanded="true">
                                     <div class="m-widget5">
 
-                                        @forelse ($posts as $article)
-                                            @include('blog.partials.article', ['article' => $article])
-                                        @empty
+                                        <?php $__empty_1 = true; $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $article): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                            <?php echo $__env->make('blog.partials.article', ['article' => $article], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                             <p>We haven't published anything yet, but soon there will be something to read here.</p>
-                                        @endforelse
+                                        <?php endif; ?>
 
                                     </div>
                                 </div>
@@ -534,4 +535,5 @@
 
         </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
