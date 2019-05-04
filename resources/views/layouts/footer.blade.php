@@ -7,7 +7,7 @@
 
             <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
 							<span class="m-footer__copyright">
-								2019 &copy; Software by <a href="../imprint.php" class="m-link">2HEX</a>.
+								2019 &copy; Software by <a href="../imprint" class="m-link">2HEX</a>.
 							</span>
             </div>
 

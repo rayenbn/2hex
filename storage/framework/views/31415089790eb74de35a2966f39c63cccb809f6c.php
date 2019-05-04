@@ -91,7 +91,7 @@
 							<div class="m-portlet__padding-x"> </div>
 							<div class="m-form m-form--label-align-left- m-form--state-">
 								<div class="m-form__actions m-form__actions">
-									<p><br>
+									<p>
                                         By using our services, you understand and accept that 2HEX uses Cookies and third party code as described above.<br>
 										You understand and agree that 2HEX exclusively uses the district court of Ulm, Germany.<br>
 										By registering you sign up to our skateboard industry insights newsletter and allow our team to contact you.<br>
