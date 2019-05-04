@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
    <div class="m-grid__item m-grid__item--fluid m-wrapper">                        
         <div class="m-content">
             <div class="row">
@@ -77,7 +75,7 @@
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                         <div class="m-form__actions" style="text-align: center; padding: 15px 0;">
                                             <a
-                                                    href="{{route('get.skateboard.configurator')}}"
+                                                    href="<?php echo e(route('get.skateboard.configurator')); ?>"
                                                     id="start_purchase"
                                                     class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                             >
@@ -142,7 +140,7 @@
                             <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                 <div class="m-form__actions" style="text-align: center; padding: 15px 0;">
                                     <a 
-                                        href="{{route('get.skateboard.configurator')}}" 
+                                        href="<?php echo e(route('get.skateboard.configurator')); ?>" 
                                         id="start_purchase" 
                                         class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                     >
@@ -173,4 +171,5 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
