@@ -3,17 +3,21 @@
 		<i class="flaticon-businesswoman m--font-brand"></i>
 	</div>
 	<div class="m-alert__text">
-		<form class="m-form m-form--fit m-form--label-align-right">
+		<form 
+			class="m-form m-form--fit m-form--label-align-right" 
+			id="vendor-code-form" 
+			action="{{ route('vendor.code.apply') }}"
+			method="POST" 
+		>
+			<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 			<div class="m-portlet__body">
 				<div class="row">
 					<div class="col-3" style="min-width:150px;">
-						<input class="form-control m-input" type="text" value="Vendor Code">
+						<input class="form-control m-input" type="text" value="" placeholder="Vendor Code" name="promocode">
 					</div>
-					<a href="#" class="btn btn-secondary m-btn m-btn--icon m-btn--air">
-						<span>
-							<span>Add</span>
-						</span>
-					</a>
+					<button type="submit" class="btn btn-secondary m-btn m-btn--icon m-btn--air" id="vendor-code-btn">
+						Add
+					</button>
 				</div>
 			</div>
 		</form>

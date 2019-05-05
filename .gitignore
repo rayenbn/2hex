@@ -41,6 +41,10 @@ _ide_helper.php
 .rocketeer/
 
 /public/js/all.js
+/public/js/app.js
+/public/js/manifest.js
+/public/js/vendor.js
+
 /public/css/all.css
 /public/css/bundle.css
 /packages/
