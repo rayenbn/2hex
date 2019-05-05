@@ -42,7 +42,7 @@
                     <a href="{{route('skateboard.manufacturer')}}">
                         <b>deck set up </b>
                     </a>for your brand.
-                    <img src="{{ asset('/skateboard-deck-production/top.jpg') }}" alt="" style="width: 100%;">
+                    <img src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" alt="" style="width: 100%;">
 				</div>
 			</div>
 

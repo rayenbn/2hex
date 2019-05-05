@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
         <div class="m-content">
@@ -704,7 +702,7 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input
-                                                                                onclick="{{Auth::user()?'return true':'return false'}}"
+                                                                                onclick="<?php echo e(Auth::user()?'return true':'return false'); ?>"
                                                                                 type="file"
                                                                                 data-type-upload="bottom"
                                                                                 class="custom-file-input"
@@ -722,11 +720,11 @@
                                                                     </button>
 
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(count($filenames['bottom']) || count($filenames['top']))
-                                                                            @foreach(array_merge($filenames['bottom'], $filenames['top']) as $filename)
-                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">{{$filename}}</a>
-                                                                            @endforeach
-                                                                        @endif
+                                                                        <?php if(count($filenames['bottom']) || count($filenames['top'])): ?>
+                                                                            <?php $__currentLoopData = array_merge($filenames['bottom'], $filenames['top']); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $filename): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"><?php echo e($filename); ?></a>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -832,7 +830,7 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input
-                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false'}}"
+                                                                                onclick="<?php echo e(Auth::user() ? 'return true' : 'return false'); ?>"
                                                                                 type="file"
                                                                                 data-type-upload="top"
                                                                                 class="custom-file-input"
@@ -847,11 +845,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(count($filenames['bottom']) || count($filenames['top']))
-                                                                            @foreach(array_merge($filenames['bottom'], $filenames['top']) as $filename)
-                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"  href="#">{{$filename}}</a>
-                                                                            @endforeach
-                                                                        @endif
+                                                                        <?php if(count($filenames['bottom']) || count($filenames['top'])): ?>
+                                                                            <?php $__currentLoopData = array_merge($filenames['bottom'], $filenames['top']); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $filename): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"  href="#"><?php echo e($filename); ?></a>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -957,7 +955,7 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input
-                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                onclick="<?php echo e(Auth::user() ? 'return true' : 'return false'); ?>"
                                                                                 type="file"
                                                                                 data-type-upload="engravery"
                                                                                 class="custom-file-input"
@@ -972,11 +970,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(count($filenames['engravery']))
-                                                                            @foreach($filenames['engravery'] as $filename)
-                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"  href="#">{{$filename}}</a>
-                                                                            @endforeach
-                                                                        @endif
+                                                                        <?php if(count($filenames['engravery'])): ?>
+                                                                            <?php $__currentLoopData = $filenames['engravery']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $filename): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <a class="dropdown-item file-dropdown" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"  href="#"><?php echo e($filename); ?></a>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1051,7 +1049,7 @@
 
                                                                 <div v-for="partName in partNames" class="dropdown">
                                                                     <div class="btn btn-secondary  dropdown-toggle skate-color-dropdown-menu"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <label>@{{partName.number}}. @{{partName.name}}</label>
+                                                                        <label>{{partName.number}}. {{partName.name}}</label>
                                                                         <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: partName.bg}"></button>
                                                                     </div>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2" v-if="partName.number != 3 && partName.number != 5">
@@ -1063,7 +1061,7 @@
                                                                                 v-bind:data-color-name="colorName"
                                                                                 v-if="colorName != 'random'"
                                                                         >
-                                                                            <label>@{{colorName}}</label>
+                                                                            <label>{{colorName}}</label>
                                                                             <button class="btn m-btn btn-configurator-drop-btn" v-bind:style="{background: colorValue}"></button>
                                                                         </div>
                                                                     </div>
@@ -1168,7 +1166,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <input onclick="{{Auth::user()?'return true':'return false'}}" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
+                                                                <input onclick="<?php echo e(Auth::user()?'return true':'return false'); ?>" v-if="steps[8].fulldip.state" v-model="steps[8].fulldip.color" class="form-control m-input" type="text" value="" id="example-text-input" placeholder="Enter Pantone Color" style="margin-top:20px;">
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                     <h3>Fulldip</h3>
                                                                     Dye your decks in one opaque color of your choice.
@@ -1446,7 +1444,7 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input
-                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                onclick="<?php echo e(Auth::user() ? 'return true' : 'return false'); ?>"
                                                                                 type="file"
                                                                                 data-type-upload="cardboard"
                                                                                 class="custom-file-input"
@@ -1461,11 +1459,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(count($filenames['cardboard']))
-                                                                            @foreach($filenames['cardboard'] as $filename)
-                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" steps[9].state = 1">{{$filename}}</a>
-                                                                            @endforeach
-                                                                        @endif
+                                                                        <?php if(count($filenames['cardboard'])): ?>
+                                                                            <?php $__currentLoopData = $filenames['cardboard']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $filename): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" steps[9].state = 1"><?php echo e($filename); ?></a>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1568,7 +1566,7 @@
                                                                     <div></div>
                                                                     <div class="custom-file">
                                                                         <input
-                                                                                onclick="{{ Auth::user() ? 'return true' : 'return false' }}"
+                                                                                onclick="<?php echo e(Auth::user() ? 'return true' : 'return false'); ?>"
                                                                                 type="file"
                                                                                 data-type-upload="box"
                                                                                 class="custom-file-input"
@@ -1583,11 +1581,11 @@
                                                                         Recent file
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        @if(count($filenames['box']))
-                                                                            @foreach($filenames['box'] as $filename)
-                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">{{$filename}}</a>
-                                                                            @endforeach
-                                                                        @endif
+                                                                        <?php if(count($filenames['box'])): ?>
+                                                                            <?php $__currentLoopData = $filenames['box']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $filename): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                <a class="dropdown-item file-dropdown"  href="#" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"><?php echo e($filename); ?></a>
+                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -1727,54 +1725,54 @@
                             </div>
                             <div class="m-separator m-separator--fit"></div>
 
-                            @php
+                            <?php
                                 $isAuth = auth()->check();
-                            @endphp
+                            ?>
 
                             <div class="m-widget1 m-widget1--paddingless">
                                 <div class="m-widget1__item">
                                     <div class="row m-row--no-padding align-items-center">
                                         <div class="col">
-                                            <h3 class="m-widget1__title">{{ $isAuth ? 'Deck' : 'Login' }}</h3>
-                                            <span class="m-widget1__desc">{{ $isAuth ? 'Price per Deck' : 'To See Prices' }}</span>
+                                            <h3 class="m-widget1__title"><?php echo e($isAuth ? 'Deck' : 'Login'); ?></h3>
+                                            <span class="m-widget1__desc"><?php echo e($isAuth ? 'Price per Deck' : 'To See Prices'); ?></span>
                                         </div>
                                         <div class="col m--align-right">
-                                            @if ($isAuth)
+                                            <?php if($isAuth): ?>
                                                 <span
                                                         class="m-widget1__number m--font-brand"
                                                         v-if="quantity > 0 && size != ''"
                                                         id="perdeck"
                                                 >
-                                                        $ @{{perdeck.toFixed(2)}}
+                                                        $ {{perdeck.toFixed(2)}}
                                                 </span>
-                                            @else
+                                            <?php else: ?>
                                                 <span class="m-widget1__number m--font-danger" id="perdeck">
                                                     $ ?.??
                                                 </span>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="m-widget1__item">
                                     <div class="row m-row--no-padding align-items-center">
                                         <div class="col">
-                                            <h3 class="m-widget1__title">{{ $isAuth ? 'Order' : 'Login' }}</h3>
-                                            <span class="m-widget1__desc">{{ $isAuth ? 'Total of Order' : 'To See Prices' }}</span>
+                                            <h3 class="m-widget1__title"><?php echo e($isAuth ? 'Order' : 'Login'); ?></h3>
+                                            <span class="m-widget1__desc"><?php echo e($isAuth ? 'Total of Order' : 'To See Prices'); ?></span>
                                         </div>
                                         <div class="col m--align-right">
-                                            @if ($isAuth)
+                                            <?php if($isAuth): ?>
                                                 <span
                                                         class="m-widget1__number m--font-danger"
                                                         v-if="quantity > 0 && size != ''"
                                                         id="total"
                                                 >
-                                                    $ @{{(perdeck * quantity + fixedprice).toFixed(2)}}
+                                                    $ {{(perdeck * quantity + fixedprice).toFixed(2)}}
                                                 </span>
-                                            @else
+                                            <?php else: ?>
                                                 <span class="m-widget1__number m--font-danger" id="total">
                                                     $ ?.??
                                                 </span>
-                                            @endif
+                                            <?php endif; ?>
 
                                         </div>
                                     </div>
@@ -1798,4 +1796,6 @@
 
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

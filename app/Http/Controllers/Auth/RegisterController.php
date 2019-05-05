@@ -124,7 +124,7 @@ class RegisterController extends Controller
 
             return back()->with(
                 'status', 
-                'We have sent an email confirmation, please follow &#13;&#10;the link in the email.'
+                'Check your inbox (AND SPAM FOLDER) and follow &#13;&#10;the link in the email.'
             );
         }
     }
