@@ -73,11 +73,6 @@
 <script src="{{ asset('asset/app/js/manufacture.js') }}"></script>
 <script src="{{ asset('asset/app/js/script.js') }}"></script>
 
-<!-- Vue components -->
-<!-- <script src="{{ mix('/js/manifest.js') }}"></script>
-<script src="{{ mix('/js/vendor.js') }}"></script>
-<script src="{{ mix('/js/app.js') }}"></script> -->
-
 
 @include('layouts.script')
 @stack('footer.scripts')
