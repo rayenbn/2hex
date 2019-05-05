@@ -187,7 +187,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         AlbertCht\InvisibleReCaptcha\InvisibleReCaptchaServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Itlead\Promocodes\PromocodesServiceProvider::class,
+        // Itlead\Promocodes\PromocodesServiceProvider::class,
         
         /*
          * Application Service Providers...
@@ -263,7 +263,7 @@ return [
         'ToJs' => \App\Helpers\ToJs\Facades\ToJsFacade::class,
         'Meta' => \App\Helpers\Meta\Facades\MetaFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Promocodes' => Itlead\Promocodes\Facades\Promocodes::class,
+        // 'Promocodes' => Itlead\Promocodes\Facades\Promocodes::class,
     ],
 
 ];
