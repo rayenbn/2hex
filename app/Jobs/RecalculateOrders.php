@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
+use Itlead\Promocodes\Models\Promocode;
+use Itlead\Promocodes\Pivots\PromocodeUser;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Order;
 
 class RecalculateOrders
 {
@@ -36,6 +39,8 @@ class RecalculateOrders
                 'total' => (float) ($deckPrice * $order->quantity)
             ]);
         });
+
+        $this->updatePromocode();
     }
 
     private function calculatePerdeck($order)
@@ -182,5 +187,40 @@ class RecalculateOrders
             return 9.5;
         } else if($size >= 8.5)
             return 10.0;
+    }
+
+    private function updatePromocode()
+    {
+
+        $promocode = $this->orders->count() ? $this->orders->first()->promocode : false;
+
+        if (!$promocode) return;
+
+
+        $orederIds = $this->orders->pluck('id')->toArray();
+
+        $query = Order::query()->whereIn('id', $orederIds);
+
+        if ($query->whereNotNull('promocode_id')->count()) {
+            $order = (clone $query)->whereNotNull('promocode_id')->select('promocode_id')->first();
+            Order::query()
+                ->whereIn('id', $orederIds)
+                ->update(['promocode_id' => $order->promocode_id]);
+        }
+
+        $total = $this->orders->sum('total');
+
+        if (($promocode->is_supplement && $total < 300) 
+            || (!$promocode->is_supplement && $total < 500)
+        ) {
+            Order::query()
+                ->whereIn('id', $orederIds)
+                ->update(['promocode_id' => null]);
+
+            PromocodeUser::query()
+                ->where('user_id', auth()->id())
+                ->where('promocode_id', $promocode->id)
+                ->delete();
+        }
     }
 }

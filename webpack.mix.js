@@ -157,7 +157,12 @@ mix.styles([
     'public/asset/vendors/base/vendors.bundle.js',
     'public/asset/demo/default/base/scripts.bundle.js',
     'public/asset/vendors/custom/fullcalendar/fullcalendar.bundle.js',
+    'public/js/scripts.js',
 ], 'public/js/all.js');
+
+
+// mix.js('resources/assets/js/app.js', 'public/js')
+//     .extract(['vue']);
  
 if (mix.inProduction()) {
     mix.version();
