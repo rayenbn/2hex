@@ -81,6 +81,18 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected $date;
 
+    /**
+     * If some order contain promocode
+     * boolean $hasPromocode
+     */
+    protected $hasPromocode = false;
+
+    /**
+     * Reward for promocode
+     * int $rewardPromocode
+     */
+    protected $rewardPromocode = 0;
+
      /**
      * Types of fees
      * array $feesTypes
@@ -139,6 +151,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this
             ->generateOrders()
             ->setDeliveryCells()
+            ->setDiscountRow()
             ->setDafaultStyles()
             ->setSeparateCell()
             ->write();
@@ -378,7 +391,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue(
                 sprintf('L%s', 
                     $startTotal = $this->rangeStart 
-                    + $this->getCountOrders() * self::ROWS_ITEM + 1 
+                    + $this->getCountOrders() * self::ROWS_ITEM + 1 + ($this->hasPromocode ? 1 : 0)
                     + $this->countFees + 2
                 ), 
                 'Final amount in USD:'
@@ -387,7 +400,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('N%s', 
                     $startTotal
                 ), 
-                $this->finalAmount += $this->orders->sum('total')
+                $this->finalAmount += $this->orders->sum('total') - $this->rewardPromocode
             );
 
         // Total styles
@@ -574,6 +587,35 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $value['price']);
             $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value['image']);
         }
+
+        return $this;
+    }
+
+    protected function setDiscountRow()
+    {
+        $query = Order::query()
+            ->whereIn('orders.id', $this->orders->pluck('id')->toArray())
+            ->whereNotNull('promocode_id');
+
+        if (! $query->count()) return $this;
+
+        // Promocode is exists
+        $this->hasPromocode = true;
+
+        // Get rewart promocode with order
+        $order = $query->leftJoin('promocodes as p', 'p.id', 'orders.promocode_id')->first(['reward']);
+
+        $activeSheet = $this->getActiveSheet();
+
+        $activeSheet
+            ->insertNewRowBefore(
+                $start = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + $this->countFees + 1, 
+                1 // + 1 row
+            );
+        $activeSheet->mergeCells(sprintf('C%s:M%s', $start, $start));
+
+        $activeSheet->setCellValue(sprintf('C%s', $start), "Discount");
+        $activeSheet->setCellValue(sprintf('N%s', $start), $this->rewardPromocode = $order->reward);
 
         return $this;
     }

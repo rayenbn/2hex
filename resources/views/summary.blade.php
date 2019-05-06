@@ -218,8 +218,22 @@
                             	@endforeach
 							@endforeach
 
+							@if(! empty($orders->first()->promocode_id))
+								@php 
+									$promocode = $orders->first()->promocode; 
+								@endphp
+								<tr>
+									<td colspan="3">Discount</td>
+									<td colspan="3"></td>
+									<td colspan="9"></td>
+									<td>{{ $promocode->type == 'fixed' 
+										? money_format('%.2n', $promocode->reward)
+										: ($promocode->reward . '%')}}</td>
+								</tr>		
+							@endif
+
 							<tr>
-								<td colspan="14"></td>
+								<td colspan="16"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -227,7 +241,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									ORDER TOTAL: {{ auth()->check() ? money_format('%.2n', $orders->sum('total') + $sum_fees) : '$?.??' }}
+									ORDER TOTAL: {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
@@ -294,6 +308,7 @@
 			<!-- VENDOR CODE -->
 			@if(!$orders->every->submit && !session()->get('viewonly'))
 				@include('partials.vendor-code')
+				<!-- <vendor-code /> -->
 			@endif
             
 			<!-- END EXAMPLE TABLE PORTLET-->

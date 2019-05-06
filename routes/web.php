@@ -117,5 +117,10 @@ Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], func
 Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 
+Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
+
+
+
+
 
 

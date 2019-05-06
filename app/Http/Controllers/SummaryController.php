@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrderExport;
+// use App\Jobs\RecalculateOrders;
+use Itlead\Promocodes\Models\Promocode;
 
 class SummaryController extends Controller
 {
@@ -112,7 +114,25 @@ class SummaryController extends Controller
             });
         }
 
-        return view('summary', compact('fees', 'sum_fees'));
+        // calculate total 
+        $totalOrders = $ordersQuery->sum('total') + $sum_fees;
+
+        $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
+
+        if ($promocode) {
+
+            switch ($promocode->type) {
+                case Promocode::FIXED :
+                    $totalOrders -= $promocode->reward;
+                    break;
+                
+                case Promocode::PERCENT:
+                    $totalOrders -= $totalOrders * $promocode->reward / 100;
+                    break;
+            }
+        }
+
+        return view('summary', compact('fees', 'totalOrders'));
     }
 
     public function exportcsv()
@@ -257,5 +277,38 @@ class SummaryController extends Controller
         }
         Order::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         return redirect()->route('profile');
+    }
+
+    public function applyPromocode(Request $request)
+    {
+        $this->validate($request, ['promocode' => 'required|min:2']);
+
+        $checkCode = $request->get('promocode', '');
+
+        $promocode = \Promocodes::check($checkCode);
+
+        if (!$promocode) {
+            return response()->json(["errors" => "The given data was invalid."], 400);
+        }
+
+        $queryOrders = Order::auth();
+        $totalOrders = $queryOrders->sum('total');
+
+        if (($promocode->is_supplement && $totalOrders >= 300) 
+            || (!$promocode->is_supplement && $totalOrders >= 500)
+        ) {
+            $response = \Promocodes::apply($checkCode);
+
+            list($code, $promocode) = $response;
+
+            // dispatch(new RecalculateOrders($queryOrders->get()));
+
+            // set discount for all orders
+            $queryOrders->update(['promocode_id' => $promocode->id]);
+
+            return response()->json($code);
+        }
+
+        return response()->json(["errors" => "The given data was invalid."], 400);
     }
 }

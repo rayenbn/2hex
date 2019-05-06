@@ -39,7 +39,7 @@
         <!-- Header -->
         @include('layouts.header')
                                                                                 
-        <div id="app" class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
             @include('layouts.menuleft')
             <!-- Main Content -->
             @yield('content')
@@ -66,10 +66,14 @@
 <script src="{{asset('asset/demo/default/custom/crud/forms/widgets/bootstrap-touchspin.js')}}" type="text/javascript"></script>
 
 <script src="{{ asset('asset/demo/default/custom/crud/wizard/wizard.js') }}" type="text/javascript"></script>
+
+
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script src="{{ asset('/js/index.umd.js') }}"></script>
 <script src="{{ asset('asset/app/js/manufacture.js') }}"></script>
 <script src="{{ asset('asset/app/js/script.js') }}"></script>
+
+
 
 @include('layouts.script')
 @stack('footer.scripts')
