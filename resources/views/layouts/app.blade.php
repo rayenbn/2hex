@@ -72,8 +72,8 @@
 <script src="{{ asset('/js/index.umd.js') }}"></script>
 <script src="{{ asset('asset/app/js/manufacture.js') }}"></script>
 <script src="{{ asset('asset/app/js/script.js') }}"></script>
-<script src="{{ asset('/js/scripts.js') }}"></script>
 
+<script src="{{ asset('/js/scripts.js') }}"></script>
 
 @include('layouts.script')
 @stack('footer.scripts')
