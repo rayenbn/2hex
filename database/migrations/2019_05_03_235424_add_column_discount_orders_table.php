@@ -14,11 +14,7 @@ class AddColumnDiscountOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedInteger('promocode_id')->nullable();
-            $table->foreign('promocode_id')
-                ->references('id')
-                ->on('promocodes')
-                ->onDelete('cascade');
+            $table->json('promocode')->nullable();
         });
 
     }
@@ -31,8 +27,7 @@ class AddColumnDiscountOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign(['promocode_id']);
-            $table->dropColumn('promocode_id');
+            $table->dropColumn('promocode');
         });
     }
 }

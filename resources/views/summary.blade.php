@@ -218,14 +218,14 @@
                             	@endforeach
 							@endforeach
 
-							@if(! empty($orders->first()->promocode_id))
+							@if(! empty($orders->first()->promocode))
 								@php 
-									$promocode = $orders->first()->promocode; 
+									$promocode = json_decode($orders->first()->promocode); 
 								@endphp
 								<tr>
 									<td colspan="3">Discount</td>
 									<td colspan="3"></td>
-									<td colspan="9"></td>
+									<td colspan="9">{{ $promocode->code }}</td>
 									<td>{{ $promocode->type == 'fixed' 
 										? money_format('%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>

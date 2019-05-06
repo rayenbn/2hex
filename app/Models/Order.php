@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Itlead\Promocodes\Models\Promocode;
 
 /**
  * App\Models\Auth\User\SocialAccount
@@ -131,10 +130,4 @@ class Order extends Model
             return 0;
         }
     }
-
-    public function promocode()
-    {
-        return $this->belongsTo(Promocode::class);
-    }
-
 }
