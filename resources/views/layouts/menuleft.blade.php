@@ -111,7 +111,7 @@
 
                         @endforelse
                         
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                        <li id="btn-add-batch" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="{{ route('skateboard.manufacturer') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-bullet--dot">
                                     <span></span>
