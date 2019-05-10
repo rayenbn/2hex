@@ -31,7 +31,7 @@
                     </li>
 
                     <li class="m-nav__item">
-                        <a href="https://www.instagram.com/2hex_skateboard_factory" target="_blank" class="m-nav__link">
+                        <a href="https://www.instagram.com/2hexskateboardfactory" target="_blank" class="m-nav__link">
                             <span class="m-widget17__icon">
                              <i class="flaticon-instagram-logo"></i>
                             </span>
