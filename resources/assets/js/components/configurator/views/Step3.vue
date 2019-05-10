@@ -125,20 +125,15 @@
 <script>
     export default {
 		name: 'skateboard-decks-step-3',
-        props: {
-            state: {
-                type: Boolean,
-                default: true
-            },
-            price: {
-                type: Number,
-                default: 0
-            }
-        },
         data() {
             return {
-                perdeck: this.price
+                state: true
             }
+        },
+        watch: {
+            state: _.debounce(function(newVal){
+                this.$store.commit('configurator/changeState', { index: 2, data: newVal });
+            }, 500)
         }
     }
 </script>

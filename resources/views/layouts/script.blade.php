@@ -1,3 +1,4 @@
+{{--
 <script>
 
 	$(document).ready(function(){
@@ -137,3 +138,4 @@
 		return decodedString;
 	}
 </script>
+--}}

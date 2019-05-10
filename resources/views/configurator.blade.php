@@ -3,7 +3,8 @@
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
         <skateboard-decks-configurator
-            :user="{{ auth()->user() }}"
+            :user="{{ json_encode(auth()->user()) }}"
+            :order="{{ json_encode($saved_order ?? null) }}"
         />
     </div>
 @endsection

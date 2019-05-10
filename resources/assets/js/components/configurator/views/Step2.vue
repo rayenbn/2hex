@@ -29,20 +29,13 @@
                                                             <div class="m-portlet__head-tools">
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                        <a 
-                                                                            v-if="state" 
-                                                                            @click="state = !state"   
-                                                                            class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
-                                                                        >
-                                                                            <i class="fa fa-check"></i>
-                                                                        </a>
-                                                                        <a 
-                                                                            v-else 
+                                                                        <button
                                                                             @click="state = !state"    
-                                                                            class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill"
+                                                                            class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
+                                                                            :class="[state ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                                                         >
-                                                                            <i class="fa fa-times"></i>
-                                                                        </a>
+                                                                            <i class="fa" :class="[state ? 'fa-check' : 'fa-times']"></i>
+                                                                        </button>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -120,20 +113,13 @@
                                                                         class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" 
                                                                         m-dropdown-toggle="hover"
                                                                     >
-                                                                        <a 
-                                                                            v-if="state" 
-                                                                            @click=" state = !state"
-                                                                            class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill"
-                                                                        >
-                                                                            <i class="fa fa-check"></i>
-                                                                        </a>
-                                                                        <a 
-                                                                            v-else 
+                                                                        <button
                                                                             @click="state = !state"    
-                                                                            class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill"
+                                                                            class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
+                                                                            :class="[state ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                                                         >
-                                                                            <i class="fa fa-times"></i>
-                                                                        </a>
+                                                                            <i class="fa" :class="[state ? 'fa-check' : 'fa-times']"></i>
+                                                                        </button>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -209,11 +195,15 @@
 <script>
     export default {
 		name: 'skateboard-decks-step-2',
-        props: {
-            state: {
-                type: Boolean,
-                default: true
+        data() {
+            return {
+                state: true
             }
+        },
+        watch: {
+            state: _.debounce(function(newVal){
+                this.$store.commit('configurator/changeState', {index: 1, data: newVal });
+            }, 500)
         }
     }
 </script>

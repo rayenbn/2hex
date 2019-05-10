@@ -118,8 +118,8 @@
                 <input type="hidden" id="saved_order_id">
                 <div class="m-portlet__body">
                     <skateboard-decks-step-1 @quantityChange="quantityChange" @sizeChange="sizeChange"/>
-                    <skateboard-decks-step-2 :state="steps[1].state"/>
-                    <skateboard-decks-step-3 :state="steps[2].state" :price="perdeck"/>
+                    <skateboard-decks-step-2 />
+                    <skateboard-decks-step-3 />
                
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_4">
                                             <div class="row">
@@ -1362,8 +1362,14 @@
     	name: 'skateboard-decks-configurator',
     	props: {
     		user: {
-    			type: [Array, Object]
-    		}
+                type: Object,
+                default: null
+            },
+            order: {
+                type: Object,
+                default: null
+            }
+                
     	},
     	components: {
     		skateboardDecksStep1,
@@ -1394,7 +1400,18 @@
 	                'yellowish brown': '#F4A460',
 	                'random'         : '#FFE4C4',
 	            },
-	            colorNames: ['natural', 'brown', 'orange', 'red', 'lime green', 'black', 'yellow', 'green', 'grey', 'purple', 'pink', 'blue', 'scarlet', 'dark blue', 'deep violet', 'wood red', 'royal purple', 'light blue', 'yellowish brown'],
+	            colorNames: [
+                    'natural', 'brown', 
+                    'orange', 'red', 
+                    'lime green', 'black', 
+                    'yellow', 'green', 
+                    'grey', 'purple', 
+                    'pink', 'blue', 
+                    'scarlet', 'dark blue', 
+                    'deep violet', 'wood red', 
+                    'royal purple', 'light blue', 
+                    'yellowish brown'
+                ],
 	            partNames: [],
 	            currentColors:['natural', 'natural', 'natural', 'natural', 'natural', 'natural', 'natural'],
 	            title: 'Skateboard Deck Configurator',
@@ -1409,35 +1426,38 @@
 	            size: "",
 	            pre_quantity: 0,
 	            pre_size: "",
-	            steps: [ 
-	                {state: false}, 
-	                {state: true}, 
-	                {state: true}, 
-	                {state: true}, 
-	                {state: false},                      
-	                {state: false, name: ''}, 
-	                {state: false, name: ''}, 
-	                {state: true, name: ''}, 
-	                {
-	                    fulldip: {state: false,color: ""}, 
-	                    transparent: {state: false, color: ""}, 
-	                    metallic: {state: false, color: ""}, 
-	                    blacktop: {state: false}, 
-	                    blackmidlayer: {state: false}, 
-	                    pattern: {state: false}, 
-	                },                     
-	                {state: false, name: ''}, 
-	                {state: false, name: ''}, 
-	            ],
+	            // steps: [ 
+	            //     {state: false}, 
+	            //     {state: true}, 
+	            //     {state: true}, 
+	            //     {state: true}, 
+	            //     {state: false},                      
+	            //     {state: false, name: ''}, 
+	            //     {state: false, name: ''}, 
+	            //     {state: true, name: ''}, 
+	            //     {
+	            //         fulldip: {state: false,color: ""}, 
+	            //         transparent: {state: false, color: ""}, 
+	            //         metallic: {state: false, color: ""}, 
+	            //         blacktop: {state: false}, 
+	            //         blackmidlayer: {state: false}, 
+	            //         pattern: {state: false}, 
+	            //     },                     
+	            //     {state: false, name: ''}, 
+	            //     {state: false, name: ''}, 
+	            // ],
             };
         },
         computed: {
-	        progressWidth: function(){
+        	steps() {
+        		return this.$store.getters['configurator/skateboardSteps'];
+        	},
+	        progressWidth(){
 	            return {
 	                width: 100 * this.currentStep / 10 + '%',
 	            }
 	        },
-	        sizePrice: function() {
+	        sizePrice() {
 	            let match = this.size.match(/[0-9.]{3}/) || [];
 	            if (!match.length) return 0;
 
@@ -1452,7 +1472,7 @@
 	            } else if(value >= 8.5)
 	                return 10.0;
 	        },
-	        quantityPrice () {
+	        quantityPrice() {
 	            if(this.total_quantity < 20) {
 	                return 50;
 	            } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
@@ -1480,18 +1500,11 @@
 	            }
 	        },
 	        deckPrice() {
-	            
 	            return this.sizePrice + this.quantityPrice;
 	        } 
 	    },
         methods: {
         	save(event) {
-                $.ajaxSetup({
-                  headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  }
-                });
-
                 var formData = new FormData();
                 formData.append('id',$('#saved_order_id').val());
                 formData.append('quantity',this.quantity);
@@ -1509,21 +1522,14 @@
                 formData.append('perdeck',this.perdeck);
                 formData.append('total',(this.quantity*app.perdeck + this.fixedprice).toFixed(2));
                 formData.append('fixedprice',this.fixedprice);
-                
-                $.ajax({
-                    url: '/skateboard-deck-configurator',
-                    type: 'post',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data){
-                        event.currentTarget.innerHTML = '<span><i class="la la-check"></i> <span> Use standards</span></span>';
-                        setTimeout(function() {
-                            window.location.href = "/summary";
-                        }, 1000);
-                        
-                    }
-                });                
+
+                axios.post('/skateboard-deck-configurator', formData)
+                    .then((response) => {
+                        window.location.href = "/summary";
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });               
         	},
 	        color(index){
 	            if(index < 20)

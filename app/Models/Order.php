@@ -45,6 +45,15 @@ class Order extends Model
      */
     protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by','created_at','saved_date','updated_at', 'submit'];
 
+    public static function boot() 
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
+        });
+    }
+
     public function scopeAuth($query, $type = true)
     {
         if(auth()->check()){

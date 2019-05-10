@@ -57,7 +57,7 @@
 
 
 <!--begin::Base Scripts -->
-<script src="{{ mix('/js/all.js') }}"></script>
+
 
 <script src="{{asset('asset/demo/default/custom/components/calendar/basic.js')}}"></script>
 
@@ -71,13 +71,13 @@
 <!-- <script src=" asset('/js/vue.js') }}"></script> -->
 <script src="{{ asset('/js/index.umd.js') }}"></script>
 <!-- <script src=" asset('asset/app/js/manufacture.js') }}"></script> -->
-<script src="{{ asset('asset/app/js/script.js') }}"></script>
+<!-- <script src="{{ asset('asset/app/js/script.js') }}"></script> -->
 
-<!-- Vue -->
-<script src="{{ mix('/js/manifest.js') }}"></script>
-<script src="{{ mix('/js/vendor.js') }}"></script>
-<script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{ mix('/mix/all.js') }}"></script>
 
+<script src="{{ mix('/mix/manifest.js') }}"></script>
+<script src="{{ mix('/mix/vendor.js') }}"></script>
+<script src="{{ mix('/mix/app.js') }}"></script>
 
 @include('layouts.script')
 @stack('footer.scripts')

@@ -1,4 +1,7 @@
+import "./bootstrap";
 import Vue from "vue";
+
+import store from "./store";
 
 import commonComponents from './components';
 
@@ -7,5 +10,6 @@ commonComponents.forEach(component => {
 });
 
 export default new Vue({
-  el: "#app"
+  el: "#app",
+  store
 });

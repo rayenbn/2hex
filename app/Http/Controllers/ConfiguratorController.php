@@ -59,7 +59,7 @@ class ConfiguratorController extends Controller
 
         $data['submit'] = '0';
 
-        $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
+        // $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
 
         if(empty($data['id'])){
             Order::query()->create(array_except($data, ['id']));
@@ -94,7 +94,7 @@ class ConfiguratorController extends Controller
 
     public function show($id)
     {
-        $saved_order = Order::where('id','=',$id)->get();
+        $saved_order = Order::find($id);
 
         $filenames = [
             'bottom' => [],
