@@ -147,7 +147,12 @@
                 </a>
             </li>
                 
-            <li class="m-menu__item " aria-haspopup="true"><a class="m-menu__link "><span></span><span class="m-menu__link-text" id = "totalconprice">TOTAL: $0.00</span></a></li>
+            <li class="m-menu__item " aria-haspopup="true">
+                <a class="m-menu__link ">
+                    <span></span>
+                    <span class="m-menu__link-text" id = "totalconprice">TOTAL: $ {{ number_format($orders->sum('total'), 2, '.', '')  }}</span>
+                </a>
+            </li>
             
             <hr>
         </ul>

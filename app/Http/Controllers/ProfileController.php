@@ -49,7 +49,7 @@ class ProfileController extends Controller
             ShipInfo::where('created_by','=',$data['created_by'])->update($data);
         }
 
-        return 'success';
+        return redirect()->route('profile');
     }
 
     public function detail_save(Request $request)

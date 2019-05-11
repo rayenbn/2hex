@@ -137,6 +137,16 @@ let mix = require('laravel-mix');
  |--------------------------------------------------------------------------
  |
  */
+
+ mix.webpackConfig({
+    resolve: {
+        extensions: ['.js', '.vue'],
+        alias: {
+            '@': path.resolve(__dirname, 'resources/assets/js'),
+        },
+    },
+});
+ 
 mix.options({
     processCssUrls: false
 });

@@ -1522,10 +1522,16 @@
                 formData.append('perdeck',this.perdeck);
                 formData.append('total',(this.quantity*app.perdeck + this.fixedprice).toFixed(2));
                 formData.append('fixedprice',this.fixedprice);
-
                 axios.post('/skateboard-deck-configurator', formData)
                     .then((response) => {
-                        window.location.href = "/summary";
+                        // document.getElementById('demo').innerHTML = 'Hey There';
+                        console.log(event.target.tagName);
+                        // document.getElementById('demo').innerHTML = 'Hey There';
+                        // event.target.innerHTML = '<span><i class="la la-check"></i> <span> Use standards</span></span>';
+                        // setTimeout(() => {
+                        //     window.location.href = "/summary";
+                        // }, 1000);
+
                     })
                     .catch((error) => {
                         console.error(error);
