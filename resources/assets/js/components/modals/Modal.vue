@@ -8,7 +8,7 @@
                         <slot name="header">
                             default header
                         </slot>
-                        <button class="close" @click="closeModal">
+                        <button class="close" @click.prevent="closeModal">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
