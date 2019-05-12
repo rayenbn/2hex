@@ -43,7 +43,28 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by','created_at','saved_date','updated_at', 'submit'];
+    protected $fillable = [
+        'quantity',
+        'size',
+        'concave',
+        'wood',
+        'glue',
+        'bottomprint',
+        'topprint',
+        'engravery',
+        'veneer',
+        'extra',
+        'cardboard',
+        'carton',
+        'perdeck',
+        'total',
+        'created_by',
+        'created_at',
+        'saved_date',
+        'updated_at', 
+        'submit', 
+        'is_grip'
+    ];
 
     public static function boot() 
     {

@@ -52,7 +52,7 @@
         <!-- end::Scroll Top -->        
 
     </div>
-    @include('layouts.analystics')
+    {{-- @include('layouts.analystics') --}}
 </body>
 
 
@@ -79,7 +79,7 @@
 <script src="{{ mix('/mix/vendor.js') }}"></script>
 <script src="{{ mix('/mix/app.js') }}"></script>
 
-@include('layouts.script')
+{{-- @include('layouts.script') --}}
 @stack('footer.scripts')
 <!--end::Base Scripts -->  
 

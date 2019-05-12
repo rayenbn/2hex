@@ -9,10 +9,10 @@
 
                                 <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
                                     <li class="step2-tab-nav nav-item" >
-                                        <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">Deep Concave</a>
+                                        <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">OS780</a>
                                     </li>
                                     <li class="step2-tab-nav nav-item" >
-                                        <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">Medium Concave</a>
+                                        <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">HS780</a>
                                     </li>
                                 </ul>
 
@@ -30,11 +30,11 @@
                                                                 <ul class="m-portlet__nav">
                                                                     <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
                                                                         <button
-                                                                            @click="state = !state"    
+                                                                            @click="status = !status"    
                                                                             class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                            :class="[state ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
+                                                                            :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                                                         >
-                                                                            <i class="fa" :class="[state ? 'fa-check' : 'fa-times']"></i>
+                                                                            <i class="fa" :class="[status ? 'fa-check' : 'fa-times']"></i>
                                                                         </button>
                                                                     </li>
                                                                 </ul>
@@ -114,11 +114,11 @@
                                                                         m-dropdown-toggle="hover"
                                                                     >
                                                                         <button
-                                                                            @click="state = !state"    
+                                                                            @click="status = !status"    
                                                                             class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                            :class="[state ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
+                                                                            :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                                                         >
-                                                                            <i class="fa" :class="[state ? 'fa-check' : 'fa-times']"></i>
+                                                                            <i class="fa" :class="[status ? 'fa-check' : 'fa-times']"></i>
                                                                         </button>
                                                                     </li>
                                                                 </ul>
@@ -195,15 +195,21 @@
 <script>
     export default {
 		name: 'skateboard-decks-step-2',
+        props: {
+            state: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
-                state: true
+                status: this.state
             }
         },
         watch: {
-            state: _.debounce(function(newVal){
-                this.$store.commit('configurator/changeState', {index: 1, data: newVal });
-            }, 500)
+            status(val){
+                this.$emit('stateChange', val);
+            }
         }
     }
 </script>

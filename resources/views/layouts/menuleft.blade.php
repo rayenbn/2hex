@@ -43,6 +43,13 @@
                                 <span class="m-menu__link-text">Skateboard Decks</span>
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
+                            <a href="{{ route('griptape.index') }}" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Grip Tape</span>
+                                <i class="m-menu__ver-arrow"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
