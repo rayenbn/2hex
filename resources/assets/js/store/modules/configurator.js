@@ -2,6 +2,7 @@ export default {
     namespaced: true,
     state: {
         skateboard: {
+            perdeck: 0,
             steps: [ 
                 {state: false}, 
                 {state: true}, 
@@ -29,7 +30,8 @@ export default {
         getStepByIndex: state => index => {
             return state.skateboard.steps[index];
         },
-    	skateboardSteps: state => state.skateboard.steps,
+        skateboardSteps: state => state.skateboard.steps,
+    	skateboardPerdeck: state => state.skateboard.perdeck,
     },
     mutations: {
         changeState(state, payload) {

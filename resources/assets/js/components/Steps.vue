@@ -37,8 +37,8 @@
 					"Bottom Print",
 					"Top Print",
 					"Engravery",
-					"Engravery",
 					"Veneer Colors",
+					"Specials",
 					"Cardboard",
 					"Box"
 				]

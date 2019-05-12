@@ -25,7 +25,7 @@
                             </div>
                             <input 
                             	id="quantity" 
-                            	v-model="quantity" 
+                            	v-model.number="quantity" 
                             	type="text" 
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
@@ -74,9 +74,9 @@
                                 class="form-control"
                                 id="size"
                                 name="size"
-                                @change="sizeChange"
                                 style="width:100%;"
                                 v-model="size"
+                                @change="sizeChange"
                             >
                                 <option value="" disabled>SELECT</option>
                                 <option v-for="(size, index) in sizes" :key="index">{{ size }}</option>
@@ -153,6 +153,18 @@
 		},
 		methods: {
 			quantityChange(){
+                if(this.quantity % 10 != 0){
+                     swal({
+                        title: "",
+                        text: "Select Only quantities in steps of 10 (10, 20, ...)",
+                        type: "warning",
+                        confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                    }).then((value) => {
+                    });
+                    this.quantity = 0;
+                    return;
+                }
+
 	            this.$emit('quantityChange', this.quantity)
 	        },
 	        sizeChange(event) {

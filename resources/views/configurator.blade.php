@@ -5,6 +5,8 @@
         <skateboard-decks-configurator
             :user="{{ json_encode(auth()->user()) }}"
             :order="{{ json_encode($saved_order ?? null) }}"
+            :batchtotal="{{ $orders->sum('quantity') }}"
+            :filenames="{{ json_encode($filenames) }}"
         />
     </div>
 @endsection
