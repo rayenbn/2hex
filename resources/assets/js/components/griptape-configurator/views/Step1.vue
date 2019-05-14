@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Batch Quantity</h3>
+                                <h3 class="m-portlet__head-text">Quantity</h3>
                             </div>
                         </div>
                     </div>
@@ -14,7 +14,10 @@
                         <div class="m-widget17">
                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                 <div>
-                                    <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
+                                        style="min-height: 286px"
+                                    >
                                         <img 
                                         	src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" 
                                         	alt="" 
@@ -26,22 +29,18 @@
                             <input 
                             	id="quantity" 
                             	v-model.number="step_quantity" 
-                            	type="text" 
+                            	type="number" 
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
                             	placeholder="30" 
                             	@change="quantityChange"
+                                step="200"
+                                min="0"
                         	>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Batch Quantity</h3>
-                                Select the required quantity of your first
-                                style of decks. Decks are packed and sold in
-                                cartons of ten pieces. The final deck price
-                                depends on your deck specifications as well as your
-                                total order quantity of all batches together.
-                                With every batch you add, your previous batched get cheaper as well.
-                                You can always go to the summary page to see the price of each batch.
+                                <h3>Quantity</h3>
+                                Quisque hendrerit sapien nisl, in placerat leo tempor vel. In sagittis laoreet venenatis. Nulla interdum dui et sem malesuada, at dictum metus sagittis. Aliquam erat volutpat. Duis accumsan dictum lorem, ac cursus nunc vulputate id. Suspendisse potenti. Nulla mattis posuere nisl. Duis iaculis varius vehicula.
                             </div>
                         </div>
                     </div>
@@ -61,7 +60,10 @@
                         <div class="m-widget17">
                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                 <div>
-                                    <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
+                                        style="min-height: 286px"
+                                    >
                                         <img 
                                         	src="/skateboard-deck-production/width-skateboard-decks-manufacturer-2hex.jpg" 
                                         	alt="" 
@@ -90,11 +92,8 @@
                             </select>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Deck Size</h3>
-                                Select the deck shape of this batch.
-                                Shapes are shown by "Width x Length" as well
-                                as "Wheelbase", "Nose" and "Tail". All dimensions
-                                are given in inches.
+                                <h3>Size</h3>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim nisl venenatis, sodales velit non, bibendum dui. Suspendisse sit amet dolor ut ante blandit ullamcorper. Aliquam et ante odio. Praesent a augue non lectus pharetra molestie et at turpis. Vestibulum auctor ipsum eu velit ultrices, a dapibus odio feugiat. Phasellus gravida mollis nunc, quis rutrum magna aliquam et. Sed porttitor sollicitudin ante.
                             </div>
                         </div>
                     </div>
@@ -130,10 +129,10 @@
 		},
 		methods: {
 			quantityChange(){
-                if(this.step_quantity % 10 != 0){
+                if(this.step_quantity % 200 != 0){
                      swal({
                         title: "",
-                        text: "Select Only quantities in steps of 10 (10, 20, ...)",
+                        text: "Select Only quantities in steps of 200 (200, 400, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     }).then((value) => {

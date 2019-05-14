@@ -196,8 +196,67 @@
 									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
 								@endif
 							</tr>
+							
 							@endforeach                          
-                            
+                            <thead style="background-color: #52a3f0; color: white;">
+								<tr>
+	                                <th>Batch</th>
+									<th>Pcs</th>
+									<th>Size</th>
+									<th>Grip Color</th>
+									<th>Grit</th>
+									<th>Perforation</th>
+									<th>Die Cut</th>
+									<th>Top Print</th>
+									<th>Backpaper</th>
+									<th>Backpaper Print</th>
+									<th>Carton Print</th>
+	                                <th></th>
+	                                <th>Grip Price</th>
+	                                <th>Batch&nbspTotal</th>
+	                                @if(Session::get('viewonly') == null)
+	                                <th>Edit</th>
+	                                <th>Remove</th>
+	                                @endif
+								</tr>
+							</thead>
+							@foreach($grips as $batch => $grip)
+							<tr>
+								<td>{{++$batch}}</td>
+								<td>{{$grip->quantity}}</td>
+								<td>{{json_decode($grip->size)->name}}
+                                </td>
+								<td>{{$grip->color}}</td>
+								<td>{{$grip->grit}}</td>
+								<td>{{$grip->perforation ? 'Yes' : 'No'}}</td>
+								<td>{{$grip->die_cut}}</td>
+								<td>
+                                    {{$grip->top_print ?? 'None'}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->top_print_color ?? 'None'}}
+                                </td>
+                                <td>{{$grip->backpaper}}</td>
+                                <td>{{$grip->backpaper}}</td>
+								<td>
+                                    {{$grip->backpaper_print ?? 'None'}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->backpaper_print_color ?? 'None'}}
+                                </td>
+                                <td>
+                                    {{$grip->carton_print ?? 'None'}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->carton_print_color ?? 'None'}}
+                                </td>
+                                <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
+                                <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
+                      			
+							</tr>
+							
+							@endforeach
+
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
 									<td colspan="3">Fixed Cost</td>

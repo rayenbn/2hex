@@ -95,6 +95,7 @@ Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');
 
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
+Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
 
 /**
  * Membership

@@ -15,7 +15,9 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function($view) {
-            $view->with('orders',  \App\Models\Order::auth()->get());
+            $view
+                ->with('orders',  \App\Models\Order::auth()->get())
+                ->with('grips',  \App\Models\GripTape::auth()->get());
         });
     }
 

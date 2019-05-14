@@ -13,7 +13,15 @@
                         <div class="m-portlet__padding-x"></div>
                         <div class="m-wizard__progress">
                             <div class="progress" style="height: 2px;">
-                                <div class="progress-bar m--bg-info" role="progressbar" v-bind:style="progressWidth" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="progressWidth" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                >
+                                </div>
                             </div>
 
                             <div class="m-wizard__nav">
@@ -36,10 +44,6 @@
                                     </div>
                                     <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_9">
                                     </div>
-                                    <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_10">
-                                    </div>
-                                    <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_11">
-                                    </div>
 
                                 </div>
                             </div>
@@ -53,8 +57,7 @@
                                 method="POST" 
                                 action="/skateboard-deck-configurator"
                             >
-
-                                <input type="hidden" id="saved_order_id">
+                                <input type="hidden" v-model="id" name="id">
 
                                 <div class="m-portlet__body">
                                     
@@ -69,41 +72,59 @@
                                     
                                     <!-- Step 2 -->
                                     <skateboard-decks-step-2 
-                                        :state="steps[1].state" 
-                                        @stateChange="(val) => {steps[1].state = val}"
+                                        :state="steps.grit.state" 
+                                        @stateChange="(val) => {steps.grit.state = val}"
                                     />
 
                                     <!-- Step 3 -->
                                     <skateboard-decks-step-3
-                                        :state="steps[2].state" 
-                                        @stateChange="(val) => {steps[2].state = val}"
+                                        :state="steps.perforation.state" 
+                                        @stateChange="(val) => {steps.perforation.state = val}"
                                     />
 
                                     <!-- Step 4 -->
                                     <skateboard-decks-step-4
-                                        :state="steps[3].state" 
-                                        @stateChange="(val) => {steps[3].state = val}"
+                                        :options="steps.topPrint"
+                                        :files="filenames.top" 
+                                        @stateChange="(val) => {steps.topPrint.state = val}"
+                                        @fileChange="(val) => {steps.topPrint.file = val}"
                                     />
 
                                     <!-- Step 5 -->
                                     <skateboard-decks-step-5
-                                        :state="steps[4].state"
-                                        :files="filenames.bottom.concat(filenames.top)" 
-                                        @stateChange="(val) => {steps[4].state = val}"
+                                        :options="steps.dieCut"
+                                        :files="filenames.diecut" 
+                                        @stateChange="(val) => {steps.dieCut.state = val}"
+                                        @fileChange="(val) => {steps.dieCut.file = val}"
                                     />
 
                                     <!-- Step 6 -->
                                     <skateboard-decks-step-6
-                                        :state="steps[5].state"
-                                        :files="filenames.bottom.concat(filenames.top)" 
-                                        @stateChange="(val) => {steps[5].state = val}"
+                                        :options="steps.coloredGriptape"
+                                        @stateChange="(val) => {steps.coloredGriptape.state = val}"
+                                        @colorChange="(val) => {steps.coloredGriptape.color = val}"
                                     />
 
                                     <!-- Step 7 -->
                                     <skateboard-decks-step-7
-                                        :state="steps[6].state"
-                                        :files="filenames.engravery" 
-                                        @stateChange="(val) => {steps[6].state = val}"
+                                        :state="steps.backpaper.state"
+                                        @stateChange="(val) => {steps.backpaper.state = val}"
+                                    />
+
+                                    <!-- Step 8 -->
+                                    <skateboard-decks-step-8
+                                        :options="steps.backpaperPrint"
+                                        :files="filenames.backpaper" 
+                                        @stateChange="(val) => {steps.backpaperPrint.state = val}"
+                                        @fileChange="(val) => {steps.backpaperPrint.file = val}"
+                                    />
+
+                                    <!-- Step 9 -->
+                                    <skateboard-decks-step-9
+                                        :options="steps.cartonPrint"
+                                        :files="filenames.carton" 
+                                        @stateChange="(val) => {steps.cartonPrint.state = val}"
+                                        @fileChange="(val) => {steps.cartonPrint.file = val}"
                                     />
 
                                 </div>
@@ -113,9 +134,14 @@
                                         <div class="row">
 
                                             <div class="col-lg-4 m--align-center">
-                                                <button class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="prev" @click="prevStep">
+                                                <button 
+                                                    class="btn btn-secondary m-btn m-btn--custom m-btn--icon" 
+                                                    data-wizard-action="prev" 
+                                                    @click="prevStep"
+                                                >
                                                     <span>
-                                                        <i class="la la-arrow-left"></i>&nbsp;&nbsp;
+                                                        <i class="la la-arrow-left"></i>
+                                                        &nbsp;&nbsp;
                                                         <span>Back</span>
                                                     </span>
                                                 </button>
@@ -124,12 +150,13 @@
 
                                             <div class="col-lg-4 m--align-center">
                                                 <button 
-                                                    v-if="additionalCost > 0"
+                                                    @click="save"
                                                     class="btn btn-primary m-btn m-btn--custom m-btn--icon" 
                                                     data-wizard-action="submit" 
                                                 >
                                                     <span>
-                                                        <i class="la la-check"></i>&nbsp;&nbsp;
+                                                        <i class="la la-check"></i>
+                                                        &nbsp;&nbsp;
                                                         <span>Summary</span>
                                                     </span>
                                                 </button>
@@ -185,11 +212,11 @@
                                         <span
                                             class="m-widget1__number m--font-brand"
                                             v-if="quantity > 0 && size != '' && user"
-                                            id="perdeck"
+                                            id="baseprice"
                                         >
                                             $ {{ basePrice.toFixed(2) }}
                                         </span>
-                                        <span class="m-widget1__number m--font-danger" id="perdeck" v-else>
+                                        <span class="m-widget1__number m--font-danger" id="baseprice" v-else>
                                             $ ?.??
                                         </span>
                                     </div>
@@ -217,8 +244,8 @@
                             </div>
 
                             <br>
-                            <button 
-                                v-if="additionalCost > 0"
+                            <button
+                                @click="save" 
                                 id="save_order" 
                                 class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right" 
                             >
@@ -244,6 +271,8 @@
     import skateboardDecksStep5 from './views/Step5.vue';
     import skateboardDecksStep6 from './views/Step6.vue';
     import skateboardDecksStep7 from './views/Step7.vue';
+    import skateboardDecksStep8 from './views/Step8.vue';
+    import skateboardDecksStep9 from './views/Step9.vue';
 	import HeadConfigurator from './views/HeadConfigurator.vue';
 
     export default {
@@ -278,10 +307,17 @@
             skateboardDecksStep5,
             skateboardDecksStep6,
             skateboardDecksStep7,
+            skateboardDecksStep8,
+            skateboardDecksStep9,
             HeadConfigurator
     	},
         data() {
             return {
+                id: "",
+	            quantity: 0,
+	            size: "",
+                currentStep: 1,
+                fixedprice: 0,
                 headLinks: [
                     {name: 'Home', href: '/'},
                     {name: 'Configurator', href: '/grip-tape-configurator'},
@@ -292,110 +328,71 @@
                     {name: '10" x 45"', value: 2.45},
                     {name: '11" x 720"', value: 39},
                 ],
-	            quantity: 0,
-	            size: "",
-                currentStep: 1,
-                fixedprice: 0,
-                steps: [ 
-                    {state: false}, 
-                    {state: false}, 
-                    {state: false}, 
-                    {state: false}, 
-                    {state: false},                      
-                    {state: false, name: ''}, 
-                    {state: false, name: ''}, 
-                    {state: true, name: ''}, 
-                    {
-                        fulldip: {state: false,color: ""}, 
-                        transparent: {state: false, color: ""}, 
-                        metallic: {state: false, color: ""}, 
-                        blacktop: {state: false}, 
-                        blackmidlayer: {state: false}, 
-                        pattern: {state: false}, 
-                    },                     
-                    {state: false, name: ''}, 
-                    {state: false, name: ''}, 
-                ]
+                steps: {
+                    grit:            {state: false},
+                    perforation:     {state: false},
+                    topPrint:        {state: false, file: null},
+                    dieCut:          {state: false, file: null},
+                    coloredGriptape: {state: false, color: null},
+                    backpaper:       {state: false},
+                    backpaperPrint:  {state: false, file: null},
+                    cartonPrint:     {state: false, file: null},
+                }
             }
         },
         methods: {
             nextStep(){
-                if(this.currentStep < 10)
+                if(this.currentStep < 9){
                     this.currentStep++;
+                }
             },
             prevStep(){
-                if(this.currentStep > 0)
+                if(this.currentStep > 0){
                     this.currentStep--;
-            },
-            quantityChange(quantity){
-
-                this.quantity = quantity;
-
-                // if(this.pre_quantity > 0){
-                //     if(this.total_quantity < 1170) {
-
-                //     } else if (this.total_quantity >= 1170 && this.total_quantity < 3000) {
-                //         this.perdeck -= 1;
-                //     } else if (this.total_quantity >= 3000 && this.total_quantity < 6000) {
-                //         this.perdeck -= 0.8;
-                //     } else if (this.total_quantity >= 6000 && this.total_quantity < 8000) {
-                //         this.perdeck -= 0.5;
-                //     } else if (this.total_quantity >= 8000 && this.total_quantity < 12000) {
-                //         this.perdeck -= 0.4;
-                //     } else if (this.total_quantity >= 12000 && this.total_quantity < 20000) {
-                //         this.perdeck -= 0.3;
-                //     } else if (this.total_quantity >= 20000 && this.total_quantity < 30000) {
-                //         this.perdeck -= 0.25;
-                //     } else if (this.total_quantity >= 30000) {
-                //         this.perdeck -= 0.20;
-                // }
-
-                // this.total_quantity -= (this.pre_quantity * 1);
-                // this.total_quantity += (this.quantity * 1);
-                // this.pre_quantity = this.quantity;
-
-                // if(this.total_quantity < 20) {
-                //     this.perdeck += 50;
-                // } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
-                //     this.perdeck += 40;
-                // } else if (this.total_quantity >= 30 && this.total_quantity < 40) {
-                //     this.perdeck += 30;
-                // } else if (this.total_quantity >= 40 && this.total_quantity < 50) {
-                //     this.perdeck += 10;
-                // } else if (this.total_quantity >= 50 && this.total_quantity < 100) {
-                //     this.perdeck += 6;
-                // } else if (this.total_quantity >= 100 && this.total_quantity < 200) {
-                //     this.perdeck += 4;
-                // } else if (this.total_quantity >= 200 && this.total_quantity < 300) {
-                //     this.perdeck += 3;
-                // } else if (this.total_quantity >= 300 && this.total_quantity < 500) {
-                //     this.perdeck += 2.5;
-                // } else if (this.total_quantity >= 500 && this.total_quantity < 1000) {
-                //     this.perdeck += 1.5;
-                // } else if (this.total_quantity >= 1000 && this.total_quantity < 2000) {
-                //     this.perdeck += 1;
-                // } else if (this.total_quantity >= 2000 && this.total_quantity < 5000) {
-                //     this.perdeck += 0.5;
-                // } else if (this.total_quantity >= 5000) {
-                //     this.perdeck += 0;
-                // }
-            },
-            sizeChange(size) {
-
-                if(this.pre_size){
-                    this.perdeck -= this.size.value;                      
                 }
-
-                this.size = size;
-
-                this.perdeck += this.size.value;
-                this.pre_size = this.size;     
             },
+            save(event) {
+                var formData = new FormData();
+
+                formData.append('id', this.id);
+                formData.append('quantity',this.quantity);
+                formData.append('size', JSON.stringify(this.size));
+                formData.append('grit', this.steps.grit.state ? 'HS780': 'OS780');
+                formData.append('perforation', this.steps.perforation.state ? 1 : 0);
+                formData.append('top_print', this.steps.topPrint.state 
+                    && this.steps.topPrint.file ? this.steps.topPrint.file : "");
+                formData.append('top_print_color',this.steps.topPrint.state 
+                    && this.steps.topPrint.file ? this.steps.topPrint.file : "");
+                formData.append('die_cut',this.steps.dieCut.state ? this.steps.dieCut.file : "");
+                formData.append('color',this.steps.coloredGriptape.state ? this.steps.coloredGriptape.color.name : "");
+                formData.append('backpaper',this.steps.backpaper.state ? 'White' : 'Brown');
+                formData.append('backpaper_print', this.steps.backpaperPrint.state 
+                    && this.steps.backpaperPrint.file ? this.steps.backpaperPrint.file : "");
+                formData.append('backpaper_print_color',this.steps.backpaperPrint.state 
+                    && this.steps.backpaperPrint.file ? this.steps.backpaperPrint.file : "");
+                formData.append('carton_print',this.steps.cartonPrint.state 
+                    && this.steps.cartonPrint.file ? this.steps.cartonPrint.file : "");
+                formData.append('carton_print_color',this.steps.cartonPrint.state 
+                    && this.steps.cartonPrint.file ? this.steps.cartonPrint.file : "");
+                formData.append('price', this.basePrice.toFixed(2));
+                formData.append('total', (this.basePrice * this.quantity + this.fixedprice).toFixed(2));
+                formData.append('fixed_cost',this.fixedprice.toFixed(2));
+                
+                axios.post('/grip-tape-configurator', formData)
+                    .then((response) => {
+                        setTimeout(() => {
+                            window.location.href = "/summary";
+                        }, 1000);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    }); 
+            }
         },
         computed: {
             progressWidth(){
                 return {
-                    width: 100 * this.currentStep / 10 + '%',
+                    width: 100 * this.currentStep / 9 + '%',
                 }
             },
             deliveryWeight() {
@@ -438,27 +435,24 @@
                     case (this.orderTotal >= 8000 && this.orderTotal < 12000): return 0.4;
                     case (this.orderTotal >= 20000 && this.orderTotal < 30000): return 0.25;
                     case (this.orderTotal >= 50000): return 0.2;
-                    default: return 0;
+                    default: return 1;
                 }
             },
             basePrice() {
                 if (this.size) {
                     return this.size.value + this.additionalCost
-                        + (this.steps[1].state ? 1.2 : 0)
-                        + (this.steps[2].state ? 0.2 : 0) // Wood
-                        + (this.steps[3].state ? 0.6 : 0) // Glue
-                        + (this.steps[4].state ? 0.3 : 0) // Bottom Print
-                        + (this.steps[5].state ? 0.9 : 0) // Top Print
-                        //+ (this.steps[6].state ? 0.0 : 0) // Top Engraving
-
-
+                        + (this.steps.grit.state ? 1.2 : 0) // Grit
+                        + (this.steps.perforation.state ? 0.2 : 0) // Perforation
+                        + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
+                        + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
+                        + (this.steps.coloredGriptape.state ? 0.9 : 0) // Colored Griptape
+                        // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
+                         + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
+                         + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
                 }
 
                 return 0;
             }
-        },
-        created() {
-            // this.total_quantity += this.sumquantity;
-	    }
+        }
     };
 </script>

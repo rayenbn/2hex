@@ -1,5 +1,5 @@
 <template>
-	<div class="m-wizard__form-step" id="m_wizard_form_step_3">
+    <div class="m-wizard__form-step" id="m_wizard_form_step_2">
         <div class="row">
             <div class="col-xl-6">
 
@@ -8,7 +8,7 @@
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                                 <h3 class="m-portlet__head-text">
-                                    European Maple Wood
+                                    OS780
                                 </h3>
                             </div>
                         </div>
@@ -43,12 +43,8 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>European Maple Wood</h3>
-                                European maple is cheaper and lighter, but
-                                slightly less durable than American maple.
-                                Our European maple wood is sustainably grown in areas
-                                of warm summers and ice cold winters - just like
-                                our American maple.
+                                <h3>OS780</h3>
+                                Aenean fringilla mi tristique imperdiet aliquam. Praesent a odio et nunc iaculis auctor id non justo. In hac habitasse platea dictumst. Phasellus dui ipsum, dapibus eget erat nec, auctor ultricies dolor. Nullam sit amet tempus elit, non semper nunc. Suspendisse vel tincidunt nisl, sit amet porta libero. Fusce scelerisque purus a leo maximus aliquam. Duis mauris sapien, vehicula quis leo suscipit, molestie viverra sapien. Vivamus vitae ipsum lacus. In hac habitasse platea dictumst.
                             </div>
                         </div>
                     </div>
@@ -61,7 +57,7 @@
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                                 <h3 class="m-portlet__head-text">
-                                    American Maple Wood
+                                    HS780
                                 </h3>
                             </div>
                         </div>
@@ -97,10 +93,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>American Maple Wood</h3>
-                                American maple wood is the standard in professional
-                                skateboarding. It is the most durable material and
-                                has been used since the beginning of modern skateboarding.
+                                <h3>HS780</h3>
+                                Proin ac erat et eros euismod hendrerit. Aliquam venenatis, quam in volutpat mollis, risus ipsum hendrerit felis, auctor lacinia nunc purus sagittis lacus. Pellentesque pharetra tristique sem ut feugiat. Donec cursus arcu non augue cursus imperdiet. Proin eu lorem tortor. Proin eu orci in lacus lobortis finibus et in ante.
                             </div>
                         </div>
                     </div>
@@ -112,7 +106,7 @@
 
 <script>
     export default {
-        name: 'skateboard-decks-step-3',
+		name: 'skateboard-decks-step-2',
         props: {
             state: {
                 type: Boolean,
