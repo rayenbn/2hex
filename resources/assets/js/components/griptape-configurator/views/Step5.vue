@@ -114,20 +114,22 @@
                             </div>
                             <div class="dropdown">
                                 <button 
-                                    class="btn btn-secondary dropdown-toggle unchecked" 
+                                    class="btn btn-secondary dropdown-toggle" 
                                     type="button" 
-                                    id="dropdownMenuButton" 
+                                    id="step-5-recent" 
                                     data-toggle="dropdown" 
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
                                     style="width:100%;" 
-                                    :class="{checked: step_options.state}" 
                                     @click="step_options.state = true"
+                                    :class="[step_options.state && step_options.file 
+                                        ? 'checked' : 'unchecked'
+                                    ]" 
                                 >
-                                    Recent file
+                                    {{ step_options.file ? step_options.file : 'Recent file' }}
                                 </button>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-menu" aria-labelledby="step-5-recent">
                                     <a 
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown"  

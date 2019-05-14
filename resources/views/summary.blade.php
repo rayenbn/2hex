@@ -69,16 +69,26 @@
 					</div>
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
 						@if(Session::get('viewonly') == null)
-						<ul class="m-portlet__nav">
-							<li class="m-portlet__nav-item">
-								<a href="/skateboard-deck-configurator" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
-									<span>
-										<i class="la la-cart-plus"></i>
-										<span>Add Batch</span>
-									</span>
-								</a>
-							</li>
-						</ul>
+						<div class="dropdown">
+						  	<button 
+						  		class="btn btn-secondary dropdown-toggle" 
+						  		type="button" 
+						  		data-toggle="dropdown" 
+						  		aria-haspopup="true" 
+						  		aria-expanded="false"
+						  		id="actions"
+					  		/>
+						    	Add batch
+						  	</button>
+						  	<div class="dropdown-menu" aria-labelledby="actions">
+						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
+						  			Add grip tapes
+						  		</a>
+						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
+						  			Add decks
+						  		</a>
+						  	</div>
+						</div>
                         
                         <ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
@@ -228,31 +238,39 @@
                                 </td>
 								<td>{{$grip->color}}</td>
 								<td>{{$grip->grit}}</td>
-								<td>{{$grip->perforation ? 'Yes' : 'No'}}</td>
+								<td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
 								<td>{{$grip->die_cut}}</td>
 								<td>
-                                    {{$grip->top_print ?? 'None'}}<br>
+                                    {{$grip->top_print ?? ''}}<br>
 									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                                     <br>
-                                    {{$grip->top_print_color ?? 'None'}}
+                                    {{$grip->top_print_color ?? ''}}
                                 </td>
-                                <td>{{$grip->backpaper}}</td>
                                 <td>{{$grip->backpaper}}</td>
 								<td>
-                                    {{$grip->backpaper_print ?? 'None'}}<br>
+                                    {{$grip->backpaper_print ?? ''}}<br>
 									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                                     <br>
-                                    {{$grip->backpaper_print_color ?? 'None'}}
+                                    {{$grip->backpaper_print_color ?? ''}}
                                 </td>
                                 <td>
-                                    {{$grip->carton_print ?? 'None'}}<br>
+                                    {{$grip->carton_print ?? ''}}<br>
 									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                                     <br>
-                                    {{$grip->carton_print_color ?? 'None'}}
+                                    {{$grip->carton_print_color ?? ''}}
                                 </td>
+                                <td></td>
                                 <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
                                 <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
-                      			
+
+                      			@if(Session::get('viewonly') == null)
+								<td>
+									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-success">Edit</a></td>
+								<td>
+									<a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-danger">Remove</a>
+								</td>
+								@endif
+								
 							</tr>
 							
 							@endforeach

@@ -96,6 +96,8 @@ Route::get('/newsletter','NewsController@index');
 
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
 Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
+Route::get('/grip-tape-configurator/{id}', 'GripTapeConfigurator@show')->name('griptape.show');
+Route::get('/grip-tape-remove/{id}', 'GripTapeConfigurator@destroy')->name('griptape.destroy');
 
 /**
  * Membership

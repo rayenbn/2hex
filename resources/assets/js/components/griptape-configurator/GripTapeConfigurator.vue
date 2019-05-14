@@ -88,6 +88,7 @@
                                         :files="filenames.top" 
                                         @stateChange="(val) => {steps.topPrint.state = val}"
                                         @fileChange="(val) => {steps.topPrint.file = val}"
+                                        @colorChange="(val) => {steps.topPrint.color = val}"
                                     />
 
                                     <!-- Step 5 -->
@@ -117,6 +118,7 @@
                                         :files="filenames.backpaper" 
                                         @stateChange="(val) => {steps.backpaperPrint.state = val}"
                                         @fileChange="(val) => {steps.backpaperPrint.file = val}"
+                                        @colorChange="(val) => {steps.backpaperPrint.color = val}"
                                     />
 
                                     <!-- Step 9 -->
@@ -125,6 +127,7 @@
                                         :files="filenames.carton" 
                                         @stateChange="(val) => {steps.cartonPrint.state = val}"
                                         @fileChange="(val) => {steps.cartonPrint.file = val}"
+                                        @colorChange="(val) => {steps.cartonPrint.color = val}"
                                     />
 
                                 </div>
@@ -234,7 +237,7 @@
                                             v-if="quantity > 0 && size != '' && user"
                                             id="total"
                                         >
-                                            $ {{(basePrice * quantity + fixedprice).toFixed(2)}}
+                                            $ {{ total }}
                                         </span>
                                         <span class="m-widget1__number m--font-danger" id="total" v-else>
                                             $ ?.??
@@ -282,7 +285,7 @@
                 type: Object,
                 default: null
             },
-            order: {
+            griptape: {
                 type: Object,
                 default: null
             },
@@ -331,12 +334,12 @@
                 steps: {
                     grit:            {state: false},
                     perforation:     {state: false},
-                    topPrint:        {state: false, file: null},
+                    topPrint:        {state: false, file: null, color: null},
                     dieCut:          {state: false, file: null},
                     coloredGriptape: {state: false, color: null},
                     backpaper:       {state: false},
-                    backpaperPrint:  {state: false, file: null},
-                    cartonPrint:     {state: false, file: null},
+                    backpaperPrint:  {state: false, file: null, color: null},
+                    cartonPrint:     {state: false, file: null, color: null},
                 }
             }
         },
@@ -359,23 +362,32 @@
                 formData.append('size', JSON.stringify(this.size));
                 formData.append('grit', this.steps.grit.state ? 'HS780': 'OS780');
                 formData.append('perforation', this.steps.perforation.state ? 1 : 0);
+
                 formData.append('top_print', this.steps.topPrint.state 
                     && this.steps.topPrint.file ? this.steps.topPrint.file : "");
+
                 formData.append('top_print_color',this.steps.topPrint.state 
-                    && this.steps.topPrint.file ? this.steps.topPrint.file : "");
+                    && this.steps.topPrint.color ? this.steps.topPrint.color : "");
+
                 formData.append('die_cut',this.steps.dieCut.state ? this.steps.dieCut.file : "");
-                formData.append('color',this.steps.coloredGriptape.state ? this.steps.coloredGriptape.color.name : "");
+                formData.append('color',this.steps.coloredGriptape.state 
+                    ? this.steps.coloredGriptape.color.name : "");
+
                 formData.append('backpaper',this.steps.backpaper.state ? 'White' : 'Brown');
                 formData.append('backpaper_print', this.steps.backpaperPrint.state 
                     && this.steps.backpaperPrint.file ? this.steps.backpaperPrint.file : "");
+
                 formData.append('backpaper_print_color',this.steps.backpaperPrint.state 
-                    && this.steps.backpaperPrint.file ? this.steps.backpaperPrint.file : "");
+                    && this.steps.backpaperPrint.color ? this.steps.backpaperPrint.color : "");
+
                 formData.append('carton_print',this.steps.cartonPrint.state 
                     && this.steps.cartonPrint.file ? this.steps.cartonPrint.file : "");
+
                 formData.append('carton_print_color',this.steps.cartonPrint.state 
-                    && this.steps.cartonPrint.file ? this.steps.cartonPrint.file : "");
+                    && this.steps.cartonPrint.color ? this.steps.cartonPrint.color : "");
+
                 formData.append('price', this.basePrice.toFixed(2));
-                formData.append('total', (this.basePrice * this.quantity + this.fixedprice).toFixed(2));
+                formData.append('total', this.total);
                 formData.append('fixed_cost',this.fixedprice.toFixed(2));
                 
                 axios.post('/grip-tape-configurator', formData)
@@ -387,7 +399,65 @@
                     .catch((error) => {
                         console.error(error);
                     }); 
-            }
+            },
+            initGripTape() {
+                if (this.griptape) {
+                    this.id = this.griptape.id;
+                    this.fixedprice = +this.griptape.fixed_cost;
+
+                    // Step 1
+                    this.quantity = this.griptape.quantity;
+                    this.size = JSON.parse(this.griptape.size);
+
+                    // Step 2
+                    if(this.griptape.grit == "HS780"){
+                        this.steps.grit.state = true;
+                    }
+
+                    // Step 3
+                    if(this.griptape.perforation){
+                        this.steps.perforation.state = true;
+                    }
+
+                    // Step 4
+                    if(this.griptape.top_print || this.griptape.top_print_color){
+                        this.steps.topPrint.state = true;
+                        this.steps.topPrint.file = this.griptape.top_print;
+                        this.steps.topPrint.color = this.griptape.top_print_color;
+                    }
+
+                    // Step 5
+                    if(this.griptape.die_cut){
+                        this.steps.dieCut.state = true;
+                        this.steps.dieCut.file = this.griptape.die_cut;
+                    }
+
+                    // Step 6
+                    if(this.griptape.color){
+                        this.steps.coloredGriptape.state = true;
+                        this.steps.coloredGriptape.color = this.griptape.color;
+                    }
+
+                    // Step 7
+                    if(this.griptape.backpaper == 'White'){
+                        this.steps.backpaper.state = true;
+                    }
+
+                    // Step 8
+                    if(this.griptape.backpaper_print || this.griptape.backpaper_print_color){
+                        this.steps.backpaperPrint.state = true;
+                        this.steps.backpaperPrint.file = this.griptape.backpaper_print;
+                        this.steps.backpaperPrint.color = this.griptape.backpaper_print_color;
+                    }
+
+                    // Step 9
+                    if(this.griptape.carton_print || this.griptape.carton_print_color){
+                        this.steps.cartonPrint.state = true;
+                        this.steps.cartonPrint.file = this.griptape.carton_print;
+                        this.steps.cartonPrint.color = this.griptape.carton_print_color;
+                    }
+                }
+            },
         },
         computed: {
             progressWidth(){
@@ -452,7 +522,13 @@
                 }
 
                 return 0;
+            },
+            total() {
+                return (this.basePrice * this.quantity + this.fixedprice).toFixed(2);
             }
+        },
+        created() {
+            this.initGripTape();
         }
     };
 </script>

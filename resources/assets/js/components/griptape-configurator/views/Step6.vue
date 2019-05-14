@@ -114,6 +114,12 @@
             if (!this.step_options.state) {
                 this.step_options.color = this.colors[0];
             }
+            if (typeof this.step_options.color === 'string') {
+                let color = this.colors.find(c => c.name == this.step_options.color);
+                if (color) {
+                    this.step_options.color = color;
+                }
+            }
         }
     }
 </script>

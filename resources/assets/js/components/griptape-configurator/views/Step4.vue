@@ -108,19 +108,21 @@
                             </div>
                             <div class="dropdown">
                                 <button 
-                                    class="btn btn-secondary dropdown-toggle unchecked" 
+                                    class="btn btn-secondary dropdown-toggle" 
                                     type="button" 
-                                    id="dropdownMenuButton" 
+                                    id="step-4-recent" 
                                     data-toggle="dropdown" 
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
                                     style="width:100%;" 
-                                    :class="{checked: step_options.state}" 
+                                    :class="[step_options.state && step_options.file 
+                                        ? 'checked' : 'unchecked'
+                                    ]" 
                                     @click="step_options.state = true"
                                 >
-                                    Recent file
+                                    {{ step_options.file ? step_options.file : 'Recent file' }}
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-menu" aria-labelledby="step-4-recent">
                                     <a 
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
@@ -131,6 +133,29 @@
                                     </a>
                                 </div>
                             </div>
+                            <br>
+                            <color-btn 
+                                :color="step_color" 
+                                labelledby="step-4-colors"
+                                @colorChange="(val) => step_color = val"
+                            >
+                                <template slot="btn">
+                                    <button 
+                                        id="step-4-colors"
+                                        class="btn btn-secondary dropdown-toggle" 
+                                        type="button" 
+                                        data-toggle="dropdown" 
+                                        aria-haspopup="true" 
+                                        aria-expanded="false" 
+                                        style="width:100%;" 
+                                        @click="step_options.state = true"
+                                        :class="[step_options.state && step_color ? 'checked' : 'unchecked']" 
+                                    >
+                                        {{ step_color ? step_color : 'How many colors are in your design?' }}
+                                    </button>
+                                </template>
+                            </color-btn>
+
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Top Print</h3>
                                 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec malesuada eros sed tincidunt dignissim. Sed hendrerit, nisl at consequat accumsan, nunc velit feugiat velit, eget luctus nisl tellus at arcu. Etiam blandit neque id sodales convallis. 
@@ -145,9 +170,26 @@
 
 <script>
     import upload from '../mixins/uploadFile';
+    import ColorBtn from './ColorBtn';
 
     export default {
         name: 'skateboard-decks-step-4',
-        mixins: [upload]
+        mixins: [upload],
+        components: {
+            ColorBtn
+        },
+        data() {
+            return {
+                step_color: null
+            }
+        },
+        watch: {
+            step_color(val) {
+                this.$emit('colorChange', val);
+            }
+        },
+        created() {
+            this.step_color = this.options.color;
+        }
     }
 </script>

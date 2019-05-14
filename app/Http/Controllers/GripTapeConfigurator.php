@@ -36,6 +36,37 @@ class GripTapeConfigurator extends Controller
     	return view('configurator.griptape', compact('filenames'));
     }
 
+    public function show($id)
+    {
+        $griptape = GripTape::find($id);
+
+        $filenames = [
+            'carton'    => [],
+            'backpaper' => [],
+            'diecut'    => [],
+            'top'       => []
+        ];
+
+        if(!auth()->check()) {
+            return view('configurator.griptape', compact('filenames', 'griptape'));
+        }
+
+        $path = '';
+        foreach (array_keys($filenames) as $value) {
+            $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
+            if(\File::exists($path)) {
+                $filesInFolder = \File::files($path);
+
+                foreach($filesInFolder as $filepath) { 
+                      $file = pathinfo($filepath);
+                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
+                } 
+            }
+        }
+
+        return view('configurator.griptape', compact('filenames', 'griptape'));
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -52,5 +83,14 @@ class GripTapeConfigurator extends Controller
         }
 
         // dispatch(new RecalculateOrders(Order::auth()->get()));
+    }
+
+    public function destroy($id)
+    {
+        GripTape::where('id','=',$id)->delete();
+
+        // dispatch(new RecalculateOrders(Order::auth()->get()));  
+
+        return redirect()->route('summary');
     }
 }
