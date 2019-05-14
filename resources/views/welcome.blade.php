@@ -23,7 +23,7 @@
             @endif
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX Skateboard Factory</h3>
+					<h3 class="m-subheader__title ">2HEX Your Skateboard Manufacturer</h3>
 				</div>
 			</div>
 		</div>
