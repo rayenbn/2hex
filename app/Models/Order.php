@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Itlead\Promocodes\Models\Promocode;
 
 /**
  * App\Models\Auth\User\SocialAccount
@@ -44,7 +43,37 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['quantity','size','concave','wood','glue','bottomprint','topprint','engravery','veneer','extra','cardboard','carton','perdeck','total','created_by','created_at','saved_date','updated_at', 'submit'];
+    protected $fillable = [
+        'quantity',
+        'size',
+        'concave',
+        'wood',
+        'glue',
+        'bottomprint',
+        'topprint',
+        'engravery',
+        'veneer',
+        'extra',
+        'cardboard',
+        'carton',
+        'perdeck',
+        'total',
+        'created_by',
+        'created_at',
+        'saved_date',
+        'updated_at', 
+        'submit', 
+        'is_grip'
+    ];
+
+    public static function boot() 
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
+        });
+    }
 
     public function scopeAuth($query, $type = true)
     {
@@ -131,10 +160,4 @@ class Order extends Model
             return 0;
         }
     }
-
-    public function promocode()
-    {
-        return $this->belongsTo(Promocode::class);
-    }
-
 }

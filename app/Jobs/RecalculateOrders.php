@@ -191,35 +191,33 @@ class RecalculateOrders
 
     private function updatePromocode()
     {
-
         $promocode = $this->orders->count() ? $this->orders->first()->promocode : false;
-
         if (!$promocode) return;
-
 
         $orederIds = $this->orders->pluck('id')->toArray();
 
         $query = Order::query()->whereIn('id', $orederIds);
 
-        if ($query->whereNotNull('promocode_id')->count()) {
-            $order = (clone $query)->whereNotNull('promocode_id')->select('promocode_id')->first();
+        if ($query->whereNotNull('promocode')->count()) {
+            $order = (clone $query)->whereNotNull('promocode')->select('promocode')->first();
             Order::query()
                 ->whereIn('id', $orederIds)
-                ->update(['promocode_id' => $order->promocode_id]);
+                ->update(['promocode' => $order->promocode]);
         }
 
         $total = $this->orders->sum('total');
+
+        $promocode = json_decode($promocode);
 
         if (($promocode->is_supplement && $total < 300) 
             || (!$promocode->is_supplement && $total < 500)
         ) {
             Order::query()
                 ->whereIn('id', $orederIds)
-                ->update(['promocode_id' => null]);
-
+                ->update(['promocode' => null]);
             PromocodeUser::query()
                 ->where('user_id', auth()->id())
-                ->where('promocode_id', $promocode->id)
+                ->where('promocode', $promocode->code)
                 ->delete();
         }
     }

@@ -595,15 +595,15 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         $query = Order::query()
             ->whereIn('orders.id', $this->orders->pluck('id')->toArray())
-            ->whereNotNull('promocode_id');
+            ->whereNotNull('promocode');
 
         if (! $query->count()) return $this;
 
         // Promocode is exists
         $this->hasPromocode = true;
 
-        // Get rewart promocode with order
-        $order = $query->leftJoin('promocodes as p', 'p.id', 'orders.promocode_id')->first(['reward']);
+        // Get promocode
+        $promocode = json_decode($query->first()->promocode);
 
         $activeSheet = $this->getActiveSheet();
 
@@ -612,10 +612,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $start = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + $this->countFees + 1, 
                 1 // + 1 row
             );
-        $activeSheet->mergeCells(sprintf('C%s:M%s', $start, $start));
+        $activeSheet->mergeCells(sprintf('C%s:I%s', $start, $start));
+        $activeSheet->mergeCells(sprintf('J%s:M%s', $start, $start));
 
         $activeSheet->setCellValue(sprintf('C%s', $start), "Discount");
-        $activeSheet->setCellValue(sprintf('N%s', $start), $this->rewardPromocode = $order->reward);
+        $activeSheet->setCellValue(sprintf('J%s', $start), $promocode->code);
+        $activeSheet->setCellValue(sprintf('N%s', $start), $this->rewardPromocode = $promocode->reward);
 
         return $this;
     }

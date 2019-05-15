@@ -120,6 +120,8 @@ class SummaryController extends Controller
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
         if ($promocode) {
+            
+            $promocode = json_decode($promocode);
 
             switch ($promocode->type) {
                 case Promocode::FIXED :
@@ -301,10 +303,12 @@ class SummaryController extends Controller
 
             list($code, $promocode) = $response;
 
-            // dispatch(new RecalculateOrders($queryOrders->get()));
-
             // set discount for all orders
-            $queryOrders->update(['promocode_id' => $promocode->id]);
+            $queryOrders->update([
+                'promocode' => json_encode(
+                    array_merge($promocode->toArray(), ['code' => $code])
+                )
+            ]);
 
             return response()->json($code);
         }

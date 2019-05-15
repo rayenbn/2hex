@@ -87,15 +87,18 @@ Route::get('/save_order', 'SummaryController@saveOrder');
 Route::get('/remove_saveorder/{id}','SummaryController@removeOrder');
 Route::get('/getdata','HomeController@getData');
 
-
-
-
 Route::get('/summary', 'SummaryController@index')->name('summary');
 Route::get('/summary/{id}', 'SummaryController@load');
 Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');
+
+Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
+Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
+Route::get('/grip-tape-configurator/{id}', 'GripTapeConfigurator@show')->name('griptape.show');
+Route::get('/grip-tape-remove/{id}', 'GripTapeConfigurator@destroy')->name('griptape.destroy');
+
 /**
  * Membership
  */

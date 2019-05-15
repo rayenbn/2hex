@@ -69,16 +69,32 @@
 					</div>
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
 						@if(Session::get('viewonly') == null)
-						<ul class="m-portlet__nav">
-							<li class="m-portlet__nav-item">
-								<a href="/skateboard-deck-configurator" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
-									<span>
-										<i class="la la-cart-plus"></i>
-										<span>Add Batch</span>
-									</span>
-								</a>
-							</li>
-						</ul>
+						
+						<div class="dropdown">
+						  	<button 
+						  		class="btn btn-secondary dropdown-toggle" 
+						  		type="button" 
+						  		data-toggle="dropdown" 
+						  		aria-haspopup="true" 
+						  		aria-expanded="false"
+						  		id="actions"
+					  		>
+						    	Add batch
+						  	</button>
+
+						  	
+						  	<div class="dropdown-menu" aria-labelledby="actions">
+						  		@if(auth()->check() && auth()->user()->isAdmin())  
+						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
+						  			Add grip tapes
+						  		</a>
+						  		@endif
+						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
+						  			Add decks
+						  		</a>
+						  	</div>
+
+						</div>
                         
                         <ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
@@ -196,8 +212,79 @@
 									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
 								@endif
 							</tr>
-							@endforeach                          
-                            
+							
+							@endforeach  
+
+							@if(auth()->check() && auth()->user()->isAdmin())   
+
+                            <thead style="background-color: #52a3f0; color: white;">
+								<tr>
+	                                <th>Batch</th>
+									<th>Pcs</th>
+									<th>Size</th>
+									<th>Grip Color</th>
+									<th>Grit</th>
+									<th>Perforation</th>
+									<th>Die Cut</th>
+									<th>Top Print</th>
+									<th>Backpaper</th>
+									<th>Backpaper Print</th>
+									<th>Carton Print</th>
+	                                <th></th>
+	                                <th>Grip Price</th>
+	                                <th>Batch&nbspTotal</th>
+	                                @if(Session::get('viewonly') == null)
+	                                <th>Edit</th>
+	                                <th>Remove</th>
+	                                @endif
+								</tr>
+							</thead>
+							@foreach($grips as $batch => $grip)
+							<tr>
+								<td>{{++$batch}}</td>
+								<td>{{$grip->quantity}}</td>
+								<td>{{json_decode($grip->size)->name}}
+                                </td>
+								<td>{{$grip->color}}</td>
+								<td>{{$grip->grit}}</td>
+								<td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
+								<td>{{$grip->die_cut}}</td>
+								<td>
+                                    {{$grip->top_print ?? ''}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->top_print_color ?? ''}}
+                                </td>
+                                <td>{{$grip->backpaper}}</td>
+								<td>
+                                    {{$grip->backpaper_print ?? ''}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->backpaper_print_color ?? ''}}
+                                </td>
+                                <td>
+                                    {{$grip->carton_print ?? ''}}<br>
+									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                                    <br>
+                                    {{$grip->carton_print_color ?? ''}}
+                                </td>
+                                <td></td>
+                                <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
+                                <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
+
+                      			@if(Session::get('viewonly') == null)
+								<td>
+									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-success">Edit</a></td>
+								<td>
+									<a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-danger">Remove</a>
+								</td>
+								@endif
+								
+							</tr>
+							@endforeach
+
+							@endif
+
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
 									<td colspan="3">Fixed Cost</td>
@@ -218,14 +305,14 @@
                             	@endforeach
 							@endforeach
 
-							@if(! empty($orders->first()->promocode_id))
+							@if(! empty($orders->first()->promocode))
 								@php 
-									$promocode = $orders->first()->promocode; 
+									$promocode = json_decode($orders->first()->promocode); 
 								@endphp
 								<tr>
 									<td colspan="3">Discount</td>
 									<td colspan="3"></td>
-									<td colspan="9"></td>
+									<td colspan="9">{{ $promocode->code }}</td>
 									<td>{{ $promocode->type == 'fixed' 
 										? money_format('%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>
