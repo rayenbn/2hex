@@ -69,6 +69,7 @@
 					</div>
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
 						@if(Session::get('viewonly') == null)
+						
 						<div class="dropdown">
 						  	<button 
 						  		class="btn btn-secondary dropdown-toggle" 
@@ -77,17 +78,22 @@
 						  		aria-haspopup="true" 
 						  		aria-expanded="false"
 						  		id="actions"
-					  		/>
+					  		>
 						    	Add batch
 						  	</button>
+
+						  	
 						  	<div class="dropdown-menu" aria-labelledby="actions">
+						  		@if(auth()->check() && auth()->user()->isAdmin())  
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
 						  			Add grip tapes
 						  		</a>
+						  		@endif
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 						  			Add decks
 						  		</a>
 						  	</div>
+
 						</div>
                         
                         <ul class="m-portlet__nav">
@@ -207,7 +213,10 @@
 								@endif
 							</tr>
 							
-							@endforeach                          
+							@endforeach  
+
+							@if(auth()->check() && auth()->user()->isAdmin())   
+
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
 	                                <th>Batch</th>
@@ -272,8 +281,9 @@
 								@endif
 								
 							</tr>
-							
 							@endforeach
+
+							@endif
 
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>

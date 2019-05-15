@@ -43,6 +43,7 @@
                                 <span class="m-menu__link-text">Skateboard Decks</span>
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
+                            @if(auth()->check() && auth()->user()->isAdmin())  
                             <a href="{{ route('griptape.index') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
@@ -50,6 +51,7 @@
                                 <span class="m-menu__link-text">Grip Tape</span>
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
+                            @endif
                         </li>
                     </ul>
                 </div>
