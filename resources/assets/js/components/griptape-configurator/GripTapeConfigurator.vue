@@ -65,7 +65,6 @@
                                     <skateboard-decks-step-1 
                                         :quantity="quantity"
                                         :size="size"
-                                        :sizes="sizes"
                                         @quantityChange="(val) => {quantity = val}"
                                         @sizeChange="(val) => {size = val}"
                                     />
@@ -214,7 +213,7 @@
                                     <div class="col m--align-right">
                                         <span
                                             class="m-widget1__number m--font-brand"
-                                            v-if="quantity > 0 && size != '' && user"
+                                            v-if="quantity > 0 && size && user"
                                             id="baseprice"
                                         >
                                             $ {{ basePrice.toFixed(2) }}
@@ -234,7 +233,7 @@
                                     <div class="col m--align-right">
                                         <span
                                             class="m-widget1__number m--font-danger"
-                                            v-if="quantity > 0 && size != '' && user"
+                                            v-if="quantity > 0 && size && user"
                                             id="total"
                                         >
                                             $ {{ total }}
@@ -318,18 +317,12 @@
             return {
                 id: "",
 	            quantity: 0,
-	            size: "",
+	            size: null,
                 currentStep: 1,
                 fixedprice: 0,
                 headLinks: [
                     {name: 'Home', href: '/'},
                     {name: 'Configurator', href: '/grip-tape-configurator'},
-                ],
-                sizes: [
-                    {name: '9" x 33"', value: 1.45},
-                    {name: '9" x 720"', value: 29},
-                    {name: '10" x 45"', value: 2.45},
-                    {name: '11" x 720"', value: 39},
                 ],
                 steps: {
                     grit:            {state: false},
@@ -359,7 +352,7 @@
 
                 formData.append('id', this.id);
                 formData.append('quantity',this.quantity);
-                formData.append('size', JSON.stringify(this.size));
+                formData.append('size', this.size.name);
                 formData.append('grit', this.steps.grit.state ? 'HS780': 'OS780');
                 formData.append('perforation', this.steps.perforation.state ? 1 : 0);
 
@@ -407,7 +400,7 @@
 
                     // Step 1
                     this.quantity = this.griptape.quantity;
-                    this.size = JSON.parse(this.griptape.size);
+                    this.size = this.griptape.size;
 
                     // Step 2
                     if(this.griptape.grit == "HS780"){

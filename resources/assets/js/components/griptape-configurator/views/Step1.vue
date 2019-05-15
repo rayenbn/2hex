@@ -80,7 +80,7 @@
                                 v-model="step_size"
                                 @change="sizeChange"
                             >
-                                <option value="" disabled>SELECT</option>
+                                <option value="null" disabled>SELECT</option>
                                 <option 
                                     :value="size" 
                                     v-for="(size, index) in sizes" 
@@ -115,16 +115,18 @@
             size: {
                 type: [Object, String],
                 default: ""
-            },
-            sizes: {
-                type: Array,
-                default: () => []
             }
         },
 		data() {
 			return {
 				step_quantity: this.quantity,
 				step_size: this.size,
+                sizes: [
+                    {name: '9" x 33"', value: 1.45},
+                    {name: '9" x 720"', value: 29},
+                    {name: '10" x 45"', value: 2.45},
+                    {name: '11" x 720"', value: 39},
+                ],
 			}
 		},
 		methods: {
@@ -145,7 +147,14 @@
 	        sizeChange(event) {
 	            this.$emit('sizeChange', this.step_size)
 	        },
-		}
+		},
+        created() {
+            if (typeof this.step_size === 'string') {
+                let size = this.sizes.find(s => s.name == this.step_size);
+                this.step_size = size;
+                this.sizeChange();
+            }   
+        }
 
     }
 </script>

@@ -243,7 +243,7 @@
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$grip->quantity}}</td>
-								<td>{{json_decode($grip->size)->name}}
+								<td>{{$grip->size}}
                                 </td>
 								<td>{{$grip->color}}</td>
 								<td>{{$grip->grit}}</td>
