@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\RecalculateOrders;
 
@@ -67,7 +67,7 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        dispatch(new RecalculateOrders(Order::auth()->get()));
+        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
 
         return 'success';
     }
@@ -128,7 +128,7 @@ class ConfiguratorController extends Controller
     {
         Order::where('id','=',$id)->delete();
 
-        dispatch(new RecalculateOrders(Order::auth()->get()));  
+        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
 
         return redirect()->route('summary');
     }

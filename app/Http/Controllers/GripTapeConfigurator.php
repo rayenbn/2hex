@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\GripTape;
+use App\Models\{GripTape, Order};
+use App\Jobs\RecalculateOrders;
 
 class GripTapeConfigurator extends Controller
 {
@@ -82,14 +83,14 @@ class GripTapeConfigurator extends Controller
             GripTape::where('id','=', $data['id'])->update($data);
         }
 
-        // dispatch(new RecalculateOrders(Order::auth()->get()));
+        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
     }
 
     public function destroy($id)
     {
         GripTape::where('id','=',$id)->delete();
 
-        // dispatch(new RecalculateOrders(Order::auth()->get()));  
+        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));  
 
         return redirect()->route('summary');
     }

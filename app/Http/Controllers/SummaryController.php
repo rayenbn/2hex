@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -44,6 +44,11 @@ class SummaryController extends Controller
     public function index()
     {
         $ordersQuery = Order::auth();
+        $gripQuery = GripTape::auth();
+
+                // Order weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
+            + ($gripQuery->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -97,10 +102,10 @@ class SummaryController extends Controller
         }
 
         // Set Global delivery
-        if ($ordersQuery->count()) {
+        if ($ordersQuery->count() || $gripQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
-                'image' => 'Global delivery', 
+                'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
                 'batches' => '', 
                 'price' => Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
@@ -115,7 +120,7 @@ class SummaryController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 

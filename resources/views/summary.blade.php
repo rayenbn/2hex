@@ -314,7 +314,7 @@
 									<td colspan="3"></td>
 									<td colspan="9">{{ $promocode->code }}</td>
 									<td>{{ $promocode->type == 'fixed' 
-										? money_format('%.2n', $promocode->reward)
+										? money_format('-%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>
 								</tr>		
 							@endif

@@ -8,6 +8,11 @@ class GripTape extends Model
 {
     protected $table = 'grip_tapes';
     protected $guarded = ['id'];
+    
+    /**
+     * 1 Grip Tape
+     */
+    const GRIPTAPE_WEIGHT = 0.155;
 
     public static function boot() 
     {
