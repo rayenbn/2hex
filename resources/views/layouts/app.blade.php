@@ -52,7 +52,12 @@
         <!-- end::Scroll Top -->        
 
     </div>
-    {{-- @include('layouts.analystics') --}}
+
+    <!-- Include analystics scripts, only production -->
+    @if(env('APP_ENV') === 'production' )
+        @include('layouts.analystics')
+    @endif
+
 </body>
 
 
