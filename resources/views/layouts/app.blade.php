@@ -54,9 +54,7 @@
     </div>
 
     <!-- Include analystics scripts, only production -->
-    @if(env('APP_ENV') === 'production' )
-        @include('layouts.analystics')
-    @endif
+    @include('layouts.analystics')
 
 </body>
 
