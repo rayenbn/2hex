@@ -17,7 +17,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click="toggleStatus"    
+                                        @click.native="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[!status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -66,7 +66,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click="toggleStatus"    
+                                        @click.native="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
