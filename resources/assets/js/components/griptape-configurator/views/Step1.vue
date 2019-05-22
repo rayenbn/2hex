@@ -33,7 +33,7 @@
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
                             	placeholder="30" 
-                            	@change="quantityChange"
+                            	@change.prevent="quantityChange"
                                 step="200"
                                 min="0"
                         	>
@@ -78,7 +78,7 @@
                                 name="size"
                                 style="width:100%;"
                                 v-model="step_size"
-                                @change="sizeChange"
+                                @change.prevent="sizeChange"
                             >
                                 <option value="null" disabled>SELECT</option>
                                 <option 
@@ -137,15 +137,14 @@
                         text: "Select Only quantities in steps of 200 (200, 400, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    }).then((value) => {
                     });
                     this.step_quantity = 0;
                 }
 
-	            this.$emit('quantityChange', this.step_quantity)
+	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {
-	            this.$emit('sizeChange', this.step_size)
+	            this.$emit('sizeChange', this.step_size);
 	        },
 		},
         created() {

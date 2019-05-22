@@ -7,9 +7,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                    OS780
-                                </h3>
+                                <h3 class="m-portlet__head-text">OS780</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -19,7 +17,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click="status = !status"    
+                                        @click="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[!status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -68,7 +66,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click="status = !status"    
+                                        @click="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -119,8 +117,13 @@
             }
         },
         watch: {
-            status(val){
+            status: _.debounce(function(val){
                 this.$emit('stateChange', val);
+            }, 300)
+        },
+        methods: {
+            toggleStatus() {
+                this.status = !this.status;
             }
         }
     }
