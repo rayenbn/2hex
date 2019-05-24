@@ -33,7 +33,7 @@
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
                             	placeholder="30" 
-                            	@change="quantityChange"
+                            	@change.prevent="quantityChange"
                                 step="200"
                                 min="0"
                         	>
@@ -78,9 +78,9 @@
                                 name="size"
                                 style="width:100%;"
                                 v-model="step_size"
-                                @change="sizeChange"
+                                @change.prevent="sizeChange"
                             >
-                                <option value="" disabled>SELECT</option>
+                                <option value="null" disabled>SELECT</option>
                                 <option 
                                     :value="size" 
                                     v-for="(size, index) in sizes" 
@@ -115,16 +115,18 @@
             size: {
                 type: [Object, String],
                 default: ""
-            },
-            sizes: {
-                type: Array,
-                default: () => []
             }
         },
 		data() {
 			return {
 				step_quantity: this.quantity,
 				step_size: this.size,
+                sizes: [
+                    {name: '9" x 33"', value: 1.45},
+                    {name: '9" x 720"', value: 29},
+                    {name: '10" x 45"', value: 2.45},
+                    {name: '11" x 720"', value: 39},
+                ],
 			}
 		},
 		methods: {
@@ -135,17 +137,23 @@
                         text: "Select Only quantities in steps of 200 (200, 400, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    }).then((value) => {
                     });
                     this.step_quantity = 0;
                 }
 
-	            this.$emit('quantityChange', this.step_quantity)
+	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {
-	            this.$emit('sizeChange', this.step_size)
+	            this.$emit('sizeChange', this.step_size);
 	        },
-		}
+		},
+        created() {
+            if (typeof this.step_size === 'string') {
+                let size = this.sizes.find(s => s.name == this.step_size);
+                this.step_size = size;
+                this.sizeChange();
+            }   
+        }
 
     }
 </script>

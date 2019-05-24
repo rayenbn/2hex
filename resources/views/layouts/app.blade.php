@@ -52,7 +52,10 @@
         <!-- end::Scroll Top -->        
 
     </div>
-    {{-- @include('layouts.analystics') --}}
+
+    <!-- Include analystics scripts, only production -->
+    @include('layouts.analystics')
+
 </body>
 
 

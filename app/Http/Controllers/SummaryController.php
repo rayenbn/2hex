@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -35,6 +35,23 @@ class SummaryController extends Controller
             'name' => 'Cardboard Set Up',
             'price' => 500
         ],
+        // Grip tapes
+        'top_print' => [
+            'name' => 'Grip Top Print',
+            'price' => 30
+        ],
+        'die_cut' => [
+            'name' => 'Grip tape die_cut',
+            'price' => 80
+        ],
+        'carton_print' => [
+            'name' => 'Griptape Carton Print',
+            'price' => 95
+        ],
+        'backpaper_print' => [
+            'name' => 'Griptape Backpaper Print',
+            'price' => 45
+        ],
     ];
     /**
      * Show the application dashboard.
@@ -44,6 +61,11 @@ class SummaryController extends Controller
     public function index()
     {
         $ordersQuery = Order::auth();
+        $gripQuery = GripTape::auth();
+
+                // Order weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
+            + ($gripQuery->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -51,6 +73,15 @@ class SummaryController extends Controller
             ->get()
             ->map(function($order) {
                 return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = (clone $gripQuery)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
             })
             ->toArray();
 
@@ -96,11 +127,55 @@ class SummaryController extends Controller
             }
         }
 
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $grip['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $grip['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+            }
+        }
+
         // Set Global delivery
-        if ($ordersQuery->count()) {
+        if ($ordersQuery->count() || $gripQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
-                'image' => 'Global delivery', 
+                'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
                 'batches' => '', 
                 'price' => Order::getGlobalDelivery(), 
                 'type' => 'Global delivery'
@@ -115,7 +190,7 @@ class SummaryController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 

@@ -243,7 +243,7 @@
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$grip->quantity}}</td>
-								<td>{{json_decode($grip->size)->name}}
+								<td>{{$grip->size}}
                                 </td>
 								<td>{{$grip->color}}</td>
 								<td>{{$grip->grit}}</td>
@@ -289,7 +289,8 @@
 								<tr>
 									<td colspan="3">Fixed Cost</td>
 									<td colspan="3">Batches</td>
-									<td colspan="9">Filename</td>
+									<td colspan="1">Colors</td>
+									<td colspan="8">Filename</td>
 									<td>Fixed&nbspTotal</td>
 								</tr>
 						   	</thead>
@@ -299,7 +300,8 @@
                             		<tr>
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
-										<td colspan="9">{{ $value['image'] }}</td>
+										<td colspan="1">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
+										<td colspan="8">{{ $value['image'] }}</td>
 										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 									</tr>
                             	@endforeach
@@ -312,9 +314,11 @@
 								<tr>
 									<td colspan="3">Discount</td>
 									<td colspan="3"></td>
-									<td colspan="9">{{ $promocode->code }}</td>
+									<td colspan="1"></td>
+
+									<td colspan="8">{{ $promocode->code }}</td>
 									<td>{{ $promocode->type == 'fixed' 
-										? money_format('%.2n', $promocode->reward)
+										? money_format('-%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>
 								</tr>		
 							@endif

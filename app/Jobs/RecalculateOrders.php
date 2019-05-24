@@ -5,7 +5,7 @@ namespace App\Jobs;
 use Itlead\Promocodes\Models\Promocode;
 use Itlead\Promocodes\Pivots\PromocodeUser;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 
 class RecalculateOrders
 {
@@ -13,12 +13,21 @@ class RecalculateOrders
 
 
     protected $orders;
+    protected $griptapes;
 
     protected $totalQuantity;
 
-    public function __construct($orders)
+    protected $gripSizes = [
+        '9" x 33"'   => 1.45,
+        '9" x 720"'  =>  29,
+        '10" x 45"'  => 2.45,
+        '11" x 720"' => 39,
+    ];
+
+    public function __construct($orders, $griptapes)
     {
         $this->orders = $orders;
+        $this->griptapes = $griptapes;
         $this->totalQuantity = $this->orders->sum('quantity');
     }
 
@@ -37,6 +46,15 @@ class RecalculateOrders
             $order->update([
                 'perdeck' => $deckPrice,
                 'total' => (float) ($deckPrice * $order->quantity)
+            ]);
+        });
+
+        $this->griptapes->map(function($griptape){
+            $price = $this->calculateGripPrice($griptape);
+
+            $griptape->update([
+                'price' => $price,
+                'total' => (float) ($price * $griptape->quantity)
             ]);
         });
 
@@ -101,6 +119,73 @@ class RecalculateOrders
         }
 
         return 0;
+    }
+
+    private function calculateGripPrice($griptape)
+    {
+        $orderTotal = $this->calculateGripOrderTotal($griptape);
+        $additionalCost = $this->calculateGripAdditionalPrice($orderTotal);
+
+        return $this->gripSizes[$griptape->size] 
+            + $additionalCost
+            + ($griptape->grit === 'HS780' ? 1.2 : 0)
+            + ($griptape->perforation ? 0.2 : 0)
+            + (isset($griptape->top_print) ||  isset($griptape->top_print_color) ? 0.6 : 0)
+            + (isset($griptape->die_cut) ? 0.3 : 0)
+            + (isset($griptape->color) ? 0.9 : 0)
+            + (isset($griptape->backpaper_print) ||  isset($griptape->backpaper_print_color) ? 0.35 : 0);
+            + (isset($griptape->carton_print) ||  isset($griptape->carton_print_color) ? 0.02 : 0);
+    }
+
+    private function calculateGripAdditionalPrice($total)
+    {
+        switch(true) {
+            case ($total >= 1170 && $total < 3000): return 1;
+            case ($total >= 3000 && $total < 6000): return 0.8;
+            case ($total >= 6000 && $total < 8000): return 0.5;
+            case ($total >= 8000 && $total < 12000): return 0.4;
+            case ($total >= 20000 && $total < 30000): return 0.25;
+            case ($total >= 50000): return 0.2;
+            default: return 1;
+        }
+    }
+
+    private function calculateGripDeliveryWeight($quantity)
+    {
+        return ($this->totalQuantity * Order::SKATEBOARD_WEIGHT) + ($quantity * GripTape::GRIPTAPE_WEIGHT);
+    }
+
+    private function calculateGripDeliveryPrice($weight) 
+    {
+        switch(true) {
+            case ($weight <= 13): return 38;
+            case ($weight > 13 && $weight <= 26): return 52;
+            case ($weight > 26 && $weight <= 39): return 90;
+            case ($weight > 39 && $weight <= 65): return 450;
+            case ($weight > 65 && $weight <= 130): return 650;
+            case ($weight > 130 && $weight <= 260): return 800;
+            case ($weight > 260 && $weight <= 390): return 900;
+            case ($weight > 390 && $weight <= 650): return 1100;
+            case ($weight > 650 && $weight <= 975): return 1200;
+            case ($weight > 975 && $weight <= 1300): return 1300;
+            case ($weight > 1300 && $weight <= 1950): return 1500;
+            case ($weight > 1950 && $weight <= 2600): return 1700;
+            case ($weight > 2600 && $weight <= 3900): return 1980;
+            case ($weight > 3900 && $weight <= 6500): return 2250;
+            case ($weight > 6500 && $weight <= 9100): return 2720;
+            case ($weight > 9100 && $weight <= 11700): return 3200;
+            case ($weight > 11700): return 3600;
+            default: return 0;
+        }
+    }
+
+    private function calculateGripOrderTotal($griptape) 
+    {
+        $weight = $this->calculateGripDeliveryWeight($griptape->quantity);
+
+        return $this->getSumTotalOrders() 
+            + ($griptape->quantity * $this->gripSizes[$griptape->size]) 
+            + $this->calculateGripDeliveryPrice($weight);
     }
 
     private function calculateExtra($extra)
@@ -220,5 +305,10 @@ class RecalculateOrders
                 ->where('promocode', $promocode->code)
                 ->delete();
         }
+    }
+
+    public function getSumTotalOrders()
+    {
+        return $this->orders->sum('total');
     }
 }

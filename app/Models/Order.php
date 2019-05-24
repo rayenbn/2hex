@@ -66,6 +66,11 @@ class Order extends Model
         'is_grip'
     ];
 
+    /**
+     * 1 Skateboard Deck
+     */
+    const SKATEBOARD_WEIGHT = 1.3; 
+
     public static function boot() 
     {
         parent::boot();
