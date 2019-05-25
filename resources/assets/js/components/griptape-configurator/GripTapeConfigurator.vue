@@ -453,6 +453,15 @@
             },
         },
         computed: {
+            gripPrice() {
+                return this.$store.getters['griptapeConfigurator/getGriptapePrice'];
+            },
+            gripQuantity() {
+                return this.$store.getters['griptapeConfigurator/getGriptapeQuantity'];
+            },
+            gripSize() {
+                return this.$store.getters['griptapeConfigurator/getGriptapeSize'];
+            },
             progressWidth(){
                 return {
                     width: 100 * this.currentStep / 9 + '%',
@@ -488,7 +497,7 @@
                     return this.sumorders + (this.quantity * this.size.value) + this.deliveryPrice;
                 }
 
-                return 0;
+                return this.sumorders;
             },
             additionalCost() {
                 switch(true) {

@@ -141,9 +141,12 @@
                     this.step_quantity = 0;
                 }
 
+                this.$store.commit('griptapeConfigurator/setQuantity', this.step_quantity);
+
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {
+                this.$store.commit('griptapeConfigurator/setSize', this.step_size);
 	            this.$emit('sizeChange', this.step_size);
 	        },
 		},

@@ -6,7 +6,7 @@
             :user="{{ json_encode(auth()->user()) }}"
             :griptape="{{ json_encode($griptape ?? null) }}"
             :quantityorders="{{ $orders->sum('quantity') }}"
-            :sumorders="{{ $orders->sum('total') }}"
+            :sumorders="{{ $orders->sum('total') + $grips->sum('total') }}"
             :filenames="{{ json_encode($filenames) }}"
         />
     </div>

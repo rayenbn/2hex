@@ -17,7 +17,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click.native="toggleStatus"    
+                                        @click.prevent="changePrice"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[!status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -54,9 +54,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                    HS780
-                                </h3>
+                                <h3 class="m-portlet__head-text">HS780</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -66,7 +64,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click.native="toggleStatus"    
+                                        @click.prevent="changePrice"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -103,6 +101,8 @@
 </template>
 
 <script>
+    import {GRIP_GRIT_PRICE} from '@/constants';
+
     export default {
 		name: 'skateboard-decks-step-2',
         props: {
@@ -122,8 +122,12 @@
             }, 300)
         },
         methods: {
-            toggleStatus() {
+            changePrice() {
                 this.status = !this.status;
+                this.$store.commit(
+                    'griptapeConfigurator/changePrice', 
+                    this.status ? GRIP_GRIT_PRICE : -GRIP_GRIT_PRICE
+                );
             }
         }
     }

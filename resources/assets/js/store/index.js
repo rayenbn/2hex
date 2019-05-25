@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import configurator from "./modules/configurator";
+import griptapeConfigurator from "./modules/griptape-configurator";
 
 Vue.use(Vuex);
 
@@ -11,6 +11,6 @@ export default new Vuex.Store({
     actions: {},
     getters: {},
     modules: {
-        configurator
+        griptapeConfigurator
     }
 });
