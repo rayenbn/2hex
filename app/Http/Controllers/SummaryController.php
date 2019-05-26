@@ -177,7 +177,7 @@ class SummaryController extends Controller
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
                 'batches' => '', 
-                'price' => Order::getGlobalDelivery(), 
+                'price' => get_global_delivery($weight), 
                 'type' => 'Global delivery'
             ]);
         }

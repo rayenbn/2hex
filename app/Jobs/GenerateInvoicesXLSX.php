@@ -724,7 +724,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             array_push($fees['global'], [
                 'image'   => $this->user ? $weight . ' KG' : '$?.??',
                 'batches' => '', 
-                'price'   => $this->getGlobalDelivery($this->orders->sum('quantity')), 
+                'price'   => get_global_delivery($weight), 
                 'type'    => 'Global delivery'
             ]);
         }
@@ -875,39 +875,5 @@ class GenerateInvoicesXLSX implements ShouldQueue
         });
 
         return $total;
-    }
-
-
-    /* Calculate global delivery related amount decks */
-    
-    private function getGlobalDelivery($amount)
-    {
-        if ($amount == 0) {
-            return 0;
-        } else if ($amount < 20) {
-            return 38;
-        } else if ($amount >= 20 && $amount < 30) {
-            return 52;
-        } else if ($amount >= 30 && $amount < 40) {
-            return 90;
-        } else if ($amount >= 40 && $amount < 50) {
-            return 120;
-        } else if ($amount >= 50 && $amount < 100) {
-            return 450;
-        } else if ($amount >= 100 && $amount < 200) {
-            return 650;
-        } else if ($amount >= 200 && $amount < 300) {
-            return 800;
-        } else if ($amount >= 300 && $amount < 500) {
-            return 900;
-        } else if ($amount >= 500 && $amount < 1000) {
-            return 1100;
-        } else if ($amount >= 1000 && $amount < 2000) {
-            return 1300;
-        } else if ($amount >= 2000 && $amount < 5000) {
-            return 1700;
-        } else if ($amount >= 5000) {
-            return 2300;
-        }
     }
 }
