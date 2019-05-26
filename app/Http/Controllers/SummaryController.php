@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrderExport;
-// use App\Jobs\RecalculateOrders;
 use Itlead\Promocodes\Models\Promocode;
+use Cookie;
 
 class SummaryController extends Controller
 {
@@ -208,6 +208,8 @@ class SummaryController extends Controller
                     break;
             }
         }
+
+        Cookie::queue('orderTotal', $totalOrders);
 
         return view('summary', compact('fees', 'totalOrders'));
     }
