@@ -22,7 +22,9 @@ class OrderSubmit extends Mailable
     public function build()
     {
         $queryOrders = Order::auth();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
+        $gripQuery = GripTape::auth();
+
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 

@@ -8,6 +8,7 @@
             :quantityskateboards="{{ $orders->sum('quantity') }}"
             :sumskateboards="{{ $orders->sum('total') }}"
             :sumgrips="{{ $grips->sum('total') }}"
+            :quantitygrips="{{ $grips->sum('quantity') }}"
             :filenames="{{ json_encode($filenames) }}"
         />
     </div>

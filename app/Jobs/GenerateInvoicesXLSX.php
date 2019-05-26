@@ -5,7 +5,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -30,6 +30,13 @@ class GenerateInvoicesXLSX implements ShouldQueue
      * Collection $orders
      */
     protected $orders;
+
+    /**
+     * List grips
+     * Collection $grips
+     */
+    protected $grips;
+
     /**
      * Working spreadsheet
      * PhpSpreadsheet $spreadsheet
@@ -118,6 +125,23 @@ class GenerateInvoicesXLSX implements ShouldQueue
             'name' => 'Cardboard Set Up',
             'price' => 500
         ],
+        // Grip tapes
+        'top_print' => [
+            'name' => 'Grip Top Print',
+            'price' => 30
+        ],
+        'die_cut' => [
+            'name' => 'Griptape Die Cut',
+            'price' => 80
+        ],
+        'carton_print' => [
+            'name' => 'Griptape Carton Print',
+            'price' => 95
+        ],
+        'backpaper_print' => [
+            'name' => 'Griptape Backpaper Print',
+            'price' => 45
+        ]
     ];
 
     protected $specialsTitle = [
@@ -129,9 +153,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
         'pattern'       => 'Pattern Press',
     ];
 
-    public function __construct($orders)
+    public function __construct($orders, $grips)
     {
         $this->orders = $orders;
+        $this->grips = $grips;
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
         $this->spreadsheet = IOFactory::createReader('Xlsx')->load($this->pathTemplate);
@@ -150,6 +175,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         $this
             ->generateOrders()
+            ->generateGrips()
             ->setDeliveryCells()
             ->setDiscountRow()
             ->setDafaultStyles()
@@ -204,10 +230,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
                 $activeSheet->setCellValue(sprintf('C%s', $this->rangeStart), $order->quantity);
                 $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Skateboard Decks');
-                // Colimn D
+                // Column D
                 $activeSheet->mergeCells(sprintf('D%s:D%s', $this->rangeStart, $this->rangeStart + 7));
                 $activeSheet->setCellValue(sprintf('D%s', $this->rangeStart), $order->size);
-                // Colimn E
+                // Column E
                 $activeSheet->mergeCells(sprintf('E%s:E%s', $this->rangeStart, $this->rangeStart + 7));
                 $activeSheet->setCellValue(sprintf('E%s', $this->rangeStart), $order->concave);
                 // Column F
@@ -272,16 +298,136 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->setCellValue(
                     sprintf('L%s', $endRange + 1), $this->setStartTextBold('Carton Print: ', $order->carton)
                 );
-                // Colimn M
+                // Column M
                 $activeSheet->mergeCells(sprintf('M%s:M%s', $this->rangeStart, $this->rangeStart + 7));
                 $activeSheet->setCellValue(sprintf('M%s', $this->rangeStart), $order->perdeck);
-                // Colimn N
+                // Column N
                 $activeSheet->mergeCells(sprintf('N%s:N%s', $this->rangeStart, $this->rangeStart + 7));
                 $activeSheet->setCellValue(sprintf('N%s', $this->rangeStart), $order->total);
             }
         });
         return $this; 
     }
+
+    protected function generateGrips()
+    {
+        $activeSheet = $this->getActiveSheet();
+        // Insert head Grip Tapes
+        $activeSheet->insertNewRowBefore($gripRowStart = ($this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM));
+        $activeSheet->setCellValue('C' . $gripRowStart, 'Quantity');
+        $activeSheet->setCellValue('D' . $gripRowStart, 'Size');
+        $activeSheet->setCellValue('E' . $gripRowStart, 'Grip Color');
+        $activeSheet->setCellValue('F' . $gripRowStart, 'Grit');
+        $activeSheet->setCellValue('G' . $gripRowStart, 'Perforation');
+        $activeSheet->setCellValue('H' . $gripRowStart, 'Die Cut');
+        $activeSheet->setCellValue('I' . $gripRowStart, 'Top Print');
+        $activeSheet->setCellValue('J' . $gripRowStart, 'Backpaper');
+        $activeSheet->setCellValue('K' . $gripRowStart, 'Backpaper Print');
+        $activeSheet->setCellValue('L' . $gripRowStart, 'Carton Print');
+        $activeSheet->setCellValue('M' . $gripRowStart, 'Price p. grip');
+        $activeSheet->setCellValue('N' . $gripRowStart, 'Total of Row');
+
+        $gripRowStart += 1; // after head row
+
+        if ($this->getCountGrips() <= 0) return $this;
+
+        $this->grips->map(function(GripTape $grip, $index) use ($gripRowStart, $activeSheet) {
+
+            $activeSheet->insertNewRowBefore($gripRowStart, self::ROWS_ITEM);
+            
+            foreach ($activeSheet->getRowIterator($gripRowStart, self::ROWS_ITEM) as $row) {
+                // Column C
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $gripRowStart, $endRange = $gripRowStart + 3));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
+                $activeSheet->setCellValue(sprintf('C%s', $gripRowStart), $grip->quantity);
+                $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Grip Tapes');
+                // Column D
+                $activeSheet->mergeCells(sprintf('D%s:D%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('D%s', $gripRowStart), $grip->size);
+                // Column E
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('E%s', $gripRowStart), ucwords($grip->color));
+                // Column F
+                $activeSheet->mergeCells(sprintf('F%s:F%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('F%s', $gripRowStart), $grip->grit);
+
+                // Column G
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('G%s', $gripRowStart), $grip->perforation ? 'Yes' : 'No');
+
+                // Column H
+                $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $grip->die_cut);
+                
+                // Column I
+                $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $grip->top_print);
+                $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->top_print_color));
+
+                // Column J
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('J%s', $gripRowStart), $grip->backpaper);
+
+                // Column K
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $grip->backpaper_print);
+                $activeSheet->setCellValue(sprintf('K%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->backpaper_print_color));
+
+                // Column L
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $grip->carton_print);
+                $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->carton_print_color));
+
+                // Column M
+                $activeSheet->mergeCells(sprintf('M%s:M%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('M%s', $gripRowStart), $grip->price);
+
+                // Column N
+                $activeSheet->mergeCells(sprintf('N%s:N%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('N%s', $gripRowStart), $grip->total);
+            }
+        });
+
+        // ------------- Set styles --------------
+
+        // start + count grips * 8(count rows in single item)
+        $range = sprintf(
+            'C%s:N%s', 
+            $gripRowStart,
+            $gripRowStart + ($this->getCountGrips() * self::ROWS_ITEM) - 1
+        ); 
+
+        $styles = $this->getStylesRange($range);
+        // set fill bg
+        $styles
+            ->getFill()
+            ->setFillType(Fill::FILL_NONE);
+        // set color and size inner cell
+        $styles
+            ->getFont()
+            ->setSize(10)
+            ->getColor()
+            ->setARGB(Color::COLOR_BLACK);
+        // set aligment inner cell
+        $styles
+            ->getAlignment()
+            ->setVertical(Alignment::VERTICAL_CENTER)
+            ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+            ->setWrapText(true);
+
+        $rangeCurrency = sprintf(
+            'M%s:N%s', 
+            $gripRowStart,  
+            $gripRowStart + ($this->getCountGrips() * self::ROWS_ITEM)
+        );
+        // set currency format for cells
+        $this->getStylesRange($rangeCurrency)
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+        return $this;
+    }
+
     private function setStartRange(int $range)
     {
         $this->rangeStart = $range;
@@ -359,9 +505,15 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         return $this->getActiveSheet()->getStyle($range);
     }
+
     public function getCountOrders()
     {
         return $this->orders->count();
+    }
+
+    public function getCountGrips()
+    {
+        return $this->grips->count();
     }
 
     protected function setSeparateCell()
@@ -391,7 +543,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue(
                 sprintf('L%s', 
                     $startTotal = $this->rangeStart 
-                    + $this->getCountOrders() * self::ROWS_ITEM + 1 + ($this->hasPromocode ? 1 : 0)
+                    + ($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM + 2 + ($this->hasPromocode ? 1 : 0)
                     + $this->countFees + 2
                 ), 
                 'Final amount in USD:'
@@ -400,7 +552,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 sprintf('N%s', 
                     $startTotal
                 ), 
-                $this->finalAmount += $this->orders->sum('total') - $this->rewardPromocode
+                $this->finalAmount += $this->orders->sum('total') + $this->grips->sum('total') - $this->rewardPromocode
             );
 
         // Total styles
@@ -420,7 +572,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 ->setCellValue(
                     sprintf('C%s', 
                         $shipsStart = $this->rangeStart 
-                            + $this->getCountOrders() * self::ROWS_ITEM + 1 
+                            + ($this->getCountOrders() + $this->getCountGrips())* self::ROWS_ITEM + 1 
                             + $this->countFees + 5
                     ), 
                     'Company Name: ' . $shipinfo->shipping_company
@@ -454,6 +606,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     private function prepareFees()
     {
+        // Order weight
+        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
+            + ($this->grips->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
+
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {
             return array_filter(
@@ -468,6 +624,13 @@ class GenerateInvoicesXLSX implements ShouldQueue
         })
         ->values()
         ->toArray();
+
+        // Fetching all desing by griptapes
+        $gripTapes = $this->grips
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
 
         $fees = [];
         $sum_fees = 0;
@@ -511,11 +674,55 @@ class GenerateInvoicesXLSX implements ShouldQueue
             }
         }
 
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $grip['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $grip['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+            }
+        }
+
         // Set Global delivery
-        if ($this->orders->count()) {
+        if ($this->getCountOrders() || $this->getCountGrips()) {
             $fees['global'] = [];
             array_push($fees['global'], [
-                'image'   => 'Global delivery', 
+                'image'   => $this->user ? $weight . ' KG' : '$?.??',
                 'batches' => '', 
                 'price'   => $this->getGlobalDelivery($this->orders->sum('quantity')), 
                 'type'    => 'Global delivery'
@@ -547,7 +754,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
-                $startDelivery = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + 1, 
+                $startDelivery = $this->rangeStart + (($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM) + 2, 
                 $this->countFees = $this->calculateFees($orderFees)
             ); 
 
@@ -609,7 +816,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         $activeSheet
             ->insertNewRowBefore(
-                $start = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM + $this->countFees + 1, 
+                $start = $this->rangeStart + ($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM + $this->countFees + 2, 
                 1 // + 1 row
             );
         $activeSheet->mergeCells(sprintf('C%s:I%s', $start, $start));
@@ -617,7 +824,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         $activeSheet->setCellValue(sprintf('C%s', $start), "Discount");
         $activeSheet->setCellValue(sprintf('J%s', $start), $promocode->code);
-        $activeSheet->setCellValue(sprintf('N%s', $start), $this->rewardPromocode = $promocode->reward);
+        $this->rewardPromocode = $promocode->reward;
+
+        $activeSheet->setCellValue(sprintf('N%s', $start), '-' . $this->rewardPromocode);
 
         return $this;
     }

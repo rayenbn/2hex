@@ -315,6 +315,10 @@
                 type: Number,
                 default: 0
             },
+            quantitygrips: {
+                type: Number,
+                default: 0
+            },
             sumskateboards: {
                 type: Number,
                 default: 0

@@ -63,7 +63,7 @@ class SummaryController extends Controller
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
 
-                // Order weight
+        // Order weight
         $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
             + ($gripQuery->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
 
@@ -215,7 +215,9 @@ class SummaryController extends Controller
     public function exportcsv()
     {
         $queryOrders = Order::auth();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
+        $gripQuery = GripTape::auth();
+
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
@@ -241,8 +243,9 @@ class SummaryController extends Controller
         }
 
         $orders = Order::auth()->get();
+        $grips = GripTape::auth()->get();
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips);
         $exporter->setInvoiceNumber($orders->first()->invoice_number);
         $exporter->setDate($orders->first()->created_at->timestamp);
 
