@@ -140,9 +140,6 @@
                     });
                     this.step_quantity = 0;
                 }
-
-                this.$store.commit('griptapeConfigurator/setQuantity', this.step_quantity);
-
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {

@@ -17,7 +17,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click.prevent="changePrice"    
+                                        @click.prevent="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[!status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -64,7 +64,7 @@
                                     m-dropdown-toggle="hover"
                                 >
                                     <button
-                                        @click.prevent="changePrice"    
+                                        @click.prevent="toggleStatus"    
                                         class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
                                         :class="[status ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
                                     >
@@ -101,8 +101,6 @@
 </template>
 
 <script>
-    import {GRIP_GRIT_PRICE} from '@/constants';
-
     export default {
 		name: 'skateboard-decks-step-2',
         props: {
@@ -122,12 +120,8 @@
             }, 300)
         },
         methods: {
-            changePrice() {
+            toggleStatus() {
                 this.status = !this.status;
-                this.$store.commit(
-                    'griptapeConfigurator/changePrice', 
-                    this.status ? GRIP_GRIT_PRICE : -GRIP_GRIT_PRICE
-                );
             }
         }
     }

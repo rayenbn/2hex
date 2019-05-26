@@ -190,9 +190,9 @@
             }
         },
         watch: {
-            step_color(val) {
+            step_color: _.debounce(function(val){
                 this.$emit('colorChange', val);
-            }
+            }, 300)
         },
         created() {
             this.step_color = this.options.color;
