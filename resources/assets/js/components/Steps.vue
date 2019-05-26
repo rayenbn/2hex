@@ -46,7 +46,13 @@
 		},
 		methods: {
 			goToStep(step, orderPath) {
-			    if (window.location.href != orderPath && orderPath != '') {
+				let url = window.location.href;
+
+				if (window.location.protocol === 'https:') {
+					url = 'https:' + window.location.href.substring(window.location.protocol.length);
+				}
+
+			    if (url != orderPath && orderPath != '') {
 			        window.location.href = orderPath;
 			        return;
 			    }
