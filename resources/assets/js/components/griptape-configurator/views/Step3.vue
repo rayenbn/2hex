@@ -115,9 +115,9 @@
             }
         },
         watch: {
-            status(val){
+            status: _.debounce(function(val){
                 this.$emit('stateChange', val);
-            }
+            }, 300)
         }
     }
 </script>

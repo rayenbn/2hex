@@ -363,14 +363,32 @@
 								
 								<li class="m-portlet__nav-item">
 									@php $auth = auth()->user(); @endphp
-
-									@if ($auth && strlen($auth->company_name) && strlen($auth->position) && strlen($auth->phone_num))
-									<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
-										<span>
-											<i class="la la-rocket"></i>
-											<span>SUBMIT</span>
-										</span>
-									</a>
+									
+									@if (
+										$auth 
+										&& strlen($auth->company_name) 
+										&& strlen($auth->position) 
+										&& strlen($auth->phone_num)
+									)
+										@if($grips->sum('quantity') > 0 && $totalOrders > 1170)
+											<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+												<span>
+													<i class="la la-rocket"></i>
+													<span>SUBMIT</span>
+												</span>
+											</a>
+										@else
+											<a 
+											href="javascript:void(0);" 
+											class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+											onclick="alert('Your order is too small to add custom grip tapes. Please order at least a total of 400 grip tapes or 50 decks to enable grip tapes.')"
+										>
+											<span>
+												<i class="la la-rocket"></i>
+												<span>SUBMIT</span>
+											</span>
+										</a>
+										@endif
 									@else
 									<a 
 										href="javascript:void(0);" 

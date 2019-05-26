@@ -131,3 +131,32 @@ if (!function_exists('remove_specials_symbols')) {
         return str_replace($chars, "" , $value);
     }
 }
+
+if (!function_exists('get_global_delivery')) {
+    /**
+     * @return string
+     */
+    function get_global_delivery($weight)
+    {
+       switch(true) {
+            case ($weight <= 13): return 38;
+            case ($weight > 13   && $weight <= 26): return 52;
+            case ($weight > 26   && $weight <= 39): return 90;
+            case ($weight > 39   && $weight <= 65): return 450;
+            case ($weight > 65   && $weight <= 130): return 650;
+            case ($weight > 130  && $weight <= 260): return 800;
+            case ($weight > 260  && $weight <= 390): return 900;
+            case ($weight > 390  && $weight <= 650): return 1100;
+            case ($weight > 650  && $weight <= 975): return 1200;
+            case ($weight > 975  && $weight <= 1300): return 1300;
+            case ($weight > 1300 && $weight <= 1950): return 1500;
+            case ($weight > 1950 && $weight <= 2600): return 1700;
+            case ($weight > 2600 && $weight <= 3900): return 1980;
+            case ($weight > 3900 && $weight <= 6500): return 2250;
+            case ($weight > 6500 && $weight <= 9100): return 2720;
+            case ($weight > 9100 && $weight <= 11700): return 3200;
+            case ($weight > 11700): return 3600;
+            default: return 0;
+        } 
+    }
+}

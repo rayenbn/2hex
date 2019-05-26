@@ -144,7 +144,8 @@ class RecalculateOrders
             case ($total >= 3000 && $total < 6000): return 0.8;
             case ($total >= 6000 && $total < 8000): return 0.5;
             case ($total >= 8000 && $total < 12000): return 0.4;
-            case ($total >= 20000 && $total < 30000): return 0.25;
+            case ($total >= 12000 && $total < 20000): return 0.3;
+            case ($total >= 20000 && $total < 50000): return 0.25;
             case ($total >= 50000): return 0.2;
             default: return 1;
         }

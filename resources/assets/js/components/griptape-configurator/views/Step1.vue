@@ -32,8 +32,9 @@
                             	type="number" 
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
-                            	placeholder="30" 
+                            	placeholder="200" 
                             	@change.prevent="quantityChange"
+                                @keydown.enter.prevent="quantityChange"
                                 step="200"
                                 min="0"
                         	>
@@ -140,7 +141,6 @@
                     });
                     this.step_quantity = 0;
                 }
-
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {

@@ -65,43 +65,59 @@
                                     <skateboard-decks-step-1 
                                         :quantity="quantity"
                                         :size="size"
-                                        @quantityChange="(val) => {quantity = val}"
-                                        @sizeChange="(val) => {size = val}"
+                                        @quantityChange="quantityChange"
+                                        @sizeChange="sizeChange"
                                     />
                                     
                                     <!-- Step 2 -->
                                     <skateboard-decks-step-2 
                                         :state="steps.grit.state" 
-                                        @stateChange="(val) => {steps.grit.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.grit.state = val; 
+                                            steps.grit.state ? price += 1.2 : price -= 1.2; 
+                                        }"
                                     />
 
                                     <!-- Step 3 -->
                                     <skateboard-decks-step-3
                                         :state="steps.perforation.state" 
-                                        @stateChange="(val) => {steps.perforation.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.perforation.state = val;
+                                            steps.perforation.state ? price += 0.2 : price -= 0.2;
+                                        }"
                                     />
 
                                     <!-- Step 4 -->
                                     <skateboard-decks-step-4
                                         :options="steps.topPrint"
                                         :files="filenames.top" 
-                                        @stateChange="(val) => {steps.topPrint.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.topPrint.state = val;
+                                            steps.topPrint.state ? price += 0.6 : price -= 0.6;
+                                        }"
                                         @fileChange="(val) => {steps.topPrint.file = val}"
                                         @colorChange="(val) => {steps.topPrint.color = val}"
+
                                     />
 
                                     <!-- Step 5 -->
                                     <skateboard-decks-step-5
                                         :options="steps.dieCut"
                                         :files="filenames.diecut" 
-                                        @stateChange="(val) => {steps.dieCut.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.dieCut.state = val;
+                                            steps.dieCut.state ? price += 0.3 : price -= 0.3;
+                                        }"
                                         @fileChange="(val) => {steps.dieCut.file = val}"
                                     />
 
                                     <!-- Step 6 -->
                                     <skateboard-decks-step-6
                                         :options="steps.coloredGriptape"
-                                        @stateChange="(val) => {steps.coloredGriptape.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.coloredGriptape.state = val;
+                                            steps.coloredGriptape.state ? price += 0.9 : price -= 0.9;
+                                        }"
                                         @colorChange="(val) => {steps.coloredGriptape.color = val}"
                                     />
 
@@ -115,7 +131,11 @@
                                     <skateboard-decks-step-8
                                         :options="steps.backpaperPrint"
                                         :files="filenames.backpaper" 
-                                        @stateChange="(val) => {steps.backpaperPrint.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.backpaperPrint.state = val;
+                                            steps.backpaperPrint.state ? price += 0.35 : price -= 0.35;
+
+                                        }"
                                         @fileChange="(val) => {steps.backpaperPrint.file = val}"
                                         @colorChange="(val) => {steps.backpaperPrint.color = val}"
                                     />
@@ -124,7 +144,10 @@
                                     <skateboard-decks-step-9
                                         :options="steps.cartonPrint"
                                         :files="filenames.carton" 
-                                        @stateChange="(val) => {steps.cartonPrint.state = val}"
+                                        @stateChange="(val) => {
+                                            steps.cartonPrint.state = val;
+                                            steps.cartonPrint.state ? price += 0.02 : price -= 0.02;
+                                        }"
                                         @fileChange="(val) => {steps.cartonPrint.file = val}"
                                         @colorChange="(val) => {steps.cartonPrint.color = val}"
                                     />
@@ -214,11 +237,11 @@
                                         <span
                                             class="m-widget1__number m--font-brand"
                                             v-if="quantity > 0 && size && user"
-                                            id="baseprice"
+                                            id="price"
                                         >
-                                            $ {{ basePrice.toFixed(2) }}
+                                            $ {{ price.toFixed(2) }}
                                         </span>
-                                        <span class="m-widget1__number m--font-danger" id="baseprice" v-else>
+                                        <span class="m-widget1__number m--font-danger" id="price" v-else>
                                             $ ?.??
                                         </span>
                                     </div>
@@ -288,11 +311,19 @@
                 type: Object,
                 default: null
             },
-            quantityorders: {
+            quantityskateboards: {
                 type: Number,
                 default: 0
             },
-            sumorders: {
+            quantitygrips: {
+                type: Number,
+                default: 0
+            },
+            sumskateboards: {
+                type: Number,
+                default: 0
+            },
+            sumgrips: {
                 type: Number,
                 default: 0
             },
@@ -319,7 +350,9 @@
 	            quantity: 0,
 	            size: null,
                 currentStep: 1,
-                fixedprice: 0,
+                additionalCost: 0,
+                orderTotal: 0,
+                price: 0,
                 headLinks: [
                     {name: 'Home', href: '/'},
                     {name: 'Configurator', href: '/grip-tape-configurator'},
@@ -337,6 +370,66 @@
             }
         },
         methods: {
+            calculateTotal() {
+                this.orderTotal = this.sumskateboards 
+                    + (this.quantity * (this.size ? this.size.value : 0))
+                    + this.deliveryPrice;
+            },
+            calculatePrice() {
+                if (this.size) {
+
+                    this.price = this.size.value + this.additionalCost
+                        + (this.steps.grit.state ? 1.2 : 0) // Grit
+                        + (this.steps.perforation.state ? 0.2 : 0) // Perforation
+                        + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
+                        + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
+                        + (this.steps.coloredGriptape.state ? 0.9 : 0) // Colored Griptape
+                        // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
+                         + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
+                         + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
+                } else {
+                    this.price = 0;
+                }
+            },
+            quantityChange(quantity) {
+                // set new quantity
+                this.quantity = quantity;
+                // recalculate total
+                this.calculateTotal();
+
+                switch(true) {
+                    case (this.orderTotal >= 1170  && this.orderTotal < 3000) : this.additionalCost = 1;   break;
+                    case (this.orderTotal >= 3000  && this.orderTotal < 6000) : this.additionalCost = 0.8; break;
+                    case (this.orderTotal >= 6000  && this.orderTotal < 8000) : this.additionalCost = 0.5; break;
+                    case (this.orderTotal >= 8000  && this.orderTotal < 12000): this.additionalCost = 0.4; break;
+                    case (this.orderTotal >= 12000 && this.orderTotal < 20000): this.additionalCost = 0.3; break;
+                    // TODO  maybe 50000 instead 30000 ?
+                    case (this.orderTotal >= 20000 && this.orderTotal < 50000): this.additionalCost = 0.25; break; 
+                    case (this.orderTotal >= 50000): this.additionalCost = 0.2; break;
+                    default: this.additionalCost = 1;
+                }
+
+                this.calculatePrice();
+            },
+            sizeChange(size) {
+                this.size = size;
+                // recalculate total
+                this.calculateTotal();
+
+                switch(true) {
+                    case (this.orderTotal >= 1170  && this.orderTotal < 3000) : this.additionalCost = 1;   break;
+                    case (this.orderTotal >= 3000  && this.orderTotal < 6000) : this.additionalCost = 0.8; break;
+                    case (this.orderTotal >= 6000  && this.orderTotal < 8000) : this.additionalCost = 0.5; break;
+                    case (this.orderTotal >= 8000  && this.orderTotal < 12000): this.additionalCost = 0.4; break;
+                    case (this.orderTotal >= 12000 && this.orderTotal < 20000): this.additionalCost = 0.3; break;
+                    // TODO  maybe 50000 instead 30000 ?
+                    case (this.orderTotal >= 20000 && this.orderTotal < 50000): this.additionalCost = 0.25; break; 
+                    case (this.orderTotal >= 50000): this.additionalCost = 0.2; break;
+                    default: this.additionalCost = 1;
+                }
+
+                this.calculatePrice();
+            },
             nextStep(){
                 if(this.currentStep < 9){
                     this.currentStep++;
@@ -379,9 +472,8 @@
                 formData.append('carton_print_color',this.steps.cartonPrint.state 
                     && this.steps.cartonPrint.color ? this.steps.cartonPrint.color : "");
 
-                formData.append('price', this.basePrice.toFixed(2));
+                formData.append('price', this.price);
                 formData.append('total', this.total);
-                formData.append('fixed_cost',this.fixedprice.toFixed(2));
                 
                 axios.post('/grip-tape-configurator', formData)
                     .then((response) => {
@@ -396,11 +488,11 @@
             initGripTape() {
                 if (this.griptape) {
                     this.id = this.griptape.id;
-                    this.fixedprice = +this.griptape.fixed_cost;
 
                     // Step 1
                     this.quantity = this.griptape.quantity;
                     this.size = this.griptape.size;
+                    this.price = this.griptape.price;
 
                     // Step 2
                     if(this.griptape.grit == "HS780"){
@@ -459,7 +551,7 @@
                 }
             },
             deliveryWeight() {
-                return (this.quantityorders * SKATEBOARD_WEIGHT) + (this.quantity * GRIPTAPE_WEIGHT);
+                return (this.quantityskateboards * SKATEBOARD_WEIGHT) + (this.quantity * GRIPTAPE_WEIGHT);
             },
             deliveryPrice() {
                 switch(true) {
@@ -483,41 +575,8 @@
                     default: return 0;
                 }
             },
-            orderTotal() {
-                if (this.size) {
-                    return this.sumorders + (this.quantity * this.size.value) + this.deliveryPrice;
-                }
-
-                return 0;
-            },
-            additionalCost() {
-                switch(true) {
-                    case (this.orderTotal >= 1170 && this.orderTotal < 3000): return 1;
-                    case (this.orderTotal >= 3000 && this.orderTotal < 6000): return 0.8;
-                    case (this.orderTotal >= 6000 && this.orderTotal < 8000): return 0.5;
-                    case (this.orderTotal >= 8000 && this.orderTotal < 12000): return 0.4;
-                    case (this.orderTotal >= 20000 && this.orderTotal < 30000): return 0.25;
-                    case (this.orderTotal >= 50000): return 0.2;
-                    default: return 1;
-                }
-            },
-            basePrice() {
-                if (this.size) {
-                    return this.size.value + this.additionalCost
-                        + (this.steps.grit.state ? 1.2 : 0) // Grit
-                        + (this.steps.perforation.state ? 0.2 : 0) // Perforation
-                        + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
-                        + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
-                        + (this.steps.coloredGriptape.state ? 0.9 : 0) // Colored Griptape
-                        // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
-                         + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
-                         + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
-                }
-
-                return 0;
-            },
             total() {
-                return (this.basePrice * this.quantity + this.fixedprice).toFixed(2);
+                return (this.price * this.quantity).toFixed(2);
             }
         },
         created() {

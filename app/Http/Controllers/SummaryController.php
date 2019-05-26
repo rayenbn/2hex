@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrderExport;
-// use App\Jobs\RecalculateOrders;
 use Itlead\Promocodes\Models\Promocode;
+use Cookie;
 
 class SummaryController extends Controller
 {
@@ -63,7 +63,7 @@ class SummaryController extends Controller
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
 
-                // Order weight
+        // Order weight
         $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
             + ($gripQuery->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
 
@@ -177,7 +177,7 @@ class SummaryController extends Controller
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
                 'batches' => '', 
-                'price' => Order::getGlobalDelivery(), 
+                'price' => get_global_delivery($weight), 
                 'type' => 'Global delivery'
             ]);
         }
@@ -209,13 +209,17 @@ class SummaryController extends Controller
             }
         }
 
+        Cookie::queue('orderTotal', $totalOrders);
+
         return view('summary', compact('fees', 'totalOrders'));
     }
 
     public function exportcsv()
     {
         $queryOrders = Order::auth();
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get()));
+        $gripQuery = GripTape::auth();
+
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
@@ -241,8 +245,9 @@ class SummaryController extends Controller
         }
 
         $orders = Order::auth()->get();
+        $grips = GripTape::auth()->get();
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips);
         $exporter->setInvoiceNumber($orders->first()->invoice_number);
         $exporter->setDate($orders->first()->created_at->timestamp);
 

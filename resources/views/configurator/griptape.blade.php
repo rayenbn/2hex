@@ -5,8 +5,10 @@
         <grip-tape-configurator
             :user="{{ json_encode(auth()->user()) }}"
             :griptape="{{ json_encode($griptape ?? null) }}"
-            :quantityorders="{{ $orders->sum('quantity') }}"
-            :sumorders="{{ $orders->sum('total') }}"
+            :quantityskateboards="{{ $orders->sum('quantity') }}"
+            :sumskateboards="{{ $orders->sum('total') }}"
+            :sumgrips="{{ $grips->sum('total') }}"
+            :quantitygrips="{{ $grips->sum('quantity') }}"
             :filenames="{{ json_encode($filenames) }}"
         />
     </div>

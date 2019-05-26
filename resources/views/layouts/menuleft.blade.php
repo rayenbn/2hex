@@ -159,7 +159,12 @@
             <li class="m-menu__item " aria-haspopup="true">
                 <a class="m-menu__link ">
                     <span></span>
-                    <span class="m-menu__link-text" id = "totalconprice">TOTAL: $ {{ number_format($orders->sum('total'), 2, '.', '')  }}</span>
+                    @php 
+                        $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total'));
+                    @endphp
+                    <span class="m-menu__link-text" id = "totalconprice">
+                        TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '?.??' }}
+                    </span>
                 </a>
             </li>
             

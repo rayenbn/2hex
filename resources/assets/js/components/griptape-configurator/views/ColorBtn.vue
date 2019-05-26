@@ -45,5 +45,10 @@
                 this.$emit('colorChange', val);
             }
         },
+        created() {
+            if (!this.color) {
+                this.btnColor = this.colors[this.colors.length - 1];
+            }
+        }
 	}
 </script>
