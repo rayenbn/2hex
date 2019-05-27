@@ -2,7 +2,7 @@
 namespace App\Mail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 
 class OrderSubmit extends Mailable
 {
@@ -31,7 +31,6 @@ class OrderSubmit extends Mailable
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->bcc('niklas@skateboard-factory.com', 'SBfactory')
-	        ->bcc('sinyukov.denis2015@yandex.ru', 'Denis Sinyukov')
             ->subject('2HEX Production Order Confirmation')
             ->attach($exporter->getPathInvoice(), [
                 'as' => $exporter->getInvoiceNumber() . '.xlsx',
