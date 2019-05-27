@@ -94,6 +94,7 @@ Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index');
 
+Route::get('/skateboard-griptape-manufacturer', 'GripTapeConfigurator@manufacturer')->name('griptape.manufacturer');
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
 Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
 Route::get('/grip-tape-configurator/{id}', 'GripTapeConfigurator@show')->name('griptape.show');
