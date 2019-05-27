@@ -80,7 +80,7 @@
                         
                         <li 
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                            {{ (secure_url(URL::route('show.skateboard.configurator', [$order->id], false)) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+                            {{ (route('show.skateboard.configurator', $order->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
                             aria-haspopup="true" 
                             m-menu-submenu-toggle="hover"
                         >
