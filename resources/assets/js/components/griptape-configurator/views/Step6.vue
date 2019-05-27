@@ -26,7 +26,7 @@
                                     class="color-dropdown-item"
                                     :data-part-id="index"
                                     :data-color-name="color.name"
-                                    @click="() => {step_options.color = color; step_options.state = true;}"
+                                    @click="() => {step_options.color = color;}"
                                 >
                                     <label>{{ color.name }}</label>
                                     <button 
@@ -41,7 +41,7 @@
             </div>
             <div class="col-xl-8">
                 <div class="m-portlet m-portlet--bordered-semi product-panel ">
-                    <div class="m-portlet__head m-portlet__head--fit product-panel-header">
+                    <!-- <div class="m-portlet__head m-portlet__head--fit product-panel-header">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-action" >
                                 <a
@@ -53,14 +53,14 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="m-portlet__body">
                         <div class="m-widget4">
                             <div class="m-widget19__pic m-portlet-fit--sides">
                                 <img 
                                     id="productCanvas" 
-                                    :src="step_options.color.image" 
                                     width="500"
+                                    :src="step_options.color.image" 
                                     :title="step_options.color.name" 
                                     :alt="step_options.color.name" 
                                 >
@@ -85,7 +85,6 @@
         data() {
             return {
                 step_options: {
-                    state: this.options.state || false,
                     color: this.options.color || null,
                 },
                 colors: [
@@ -103,16 +102,13 @@
             }
         },
         watch: {
-            'step_options.state'(val){
-                this.$emit('stateChange', val);
-            },
             'step_options.color'(val){
                 this.$emit('colorChange', val);
             }
         },
         created() {
-            if (!this.step_options.state) {
-                this.step_options.color = this.colors[0];
+            if (!this.step_options.color) {
+                this.step_options.color = this.colors[0]; // black color
             }
             if (typeof this.step_options.color === 'string') {
                 let color = this.colors.find(c => c.name == this.step_options.color);

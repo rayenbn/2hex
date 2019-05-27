@@ -114,11 +114,11 @@
                                     <!-- Step 6 -->
                                     <skateboard-decks-step-6
                                         :options="steps.coloredGriptape"
-                                        @stateChange="(val) => {
-                                            steps.coloredGriptape.state = val;
-                                            steps.coloredGriptape.state ? price += 0.9 : price -= 0.9;
+                                        @colorChange="(val) => {
+                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' ?  price -= 0.9 : price -= 0;
+                                            steps.coloredGriptape.color = val;
+                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' ?  price += 0.9 : price += 0;
                                         }"
-                                        @colorChange="(val) => {steps.coloredGriptape.color = val}"
                                     />
 
                                     <!-- Step 7 -->
@@ -362,7 +362,7 @@
                     perforation:     {state: false},
                     topPrint:        {state: false, file: null, color: null},
                     dieCut:          {state: false, file: null},
-                    coloredGriptape: {state: false, color: null},
+                    coloredGriptape: {color: null},
                     backpaper:       {state: false},
                     backpaperPrint:  {state: false, file: null, color: null},
                     cartonPrint:     {state: false, file: null, color: null},
@@ -383,7 +383,7 @@
                         + (this.steps.perforation.state ? 0.2 : 0) // Perforation
                         + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
                         + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
-                        + (this.steps.coloredGriptape.state ? 0.9 : 0) // Colored Griptape
+                        + (this.steps.coloredGriptape.color.name !== 'black' ? 0.9 : 0) // Colored Griptape
                         // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
                          + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
                          + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
@@ -456,8 +456,8 @@
                     && this.steps.topPrint.color ? this.steps.topPrint.color : "");
 
                 formData.append('die_cut',this.steps.dieCut.state ? this.steps.dieCut.file : "");
-                formData.append('color',this.steps.coloredGriptape.state 
-                    ? this.steps.coloredGriptape.color.name : "");
+                formData.append('color', this.steps.coloredGriptape.color 
+                    ? this.steps.coloredGriptape.color.name : 'black');
 
                 formData.append('backpaper',this.steps.backpaper.state ? 'White' : 'Brown');
                 formData.append('backpaper_print', this.steps.backpaperPrint.state 
@@ -519,7 +519,6 @@
 
                     // Step 6
                     if(this.griptape.color){
-                        this.steps.coloredGriptape.state = true;
                         this.steps.coloredGriptape.color = this.griptape.color;
                     }
 
