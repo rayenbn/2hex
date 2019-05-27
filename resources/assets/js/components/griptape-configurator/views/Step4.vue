@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">No Top Print</h3>
+                                <h3 class="m-portlet__head-text">Blank Grip Tape</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -41,8 +41,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>No Top Print</h3>
-                                Ut volutpat viverra arcu, at molestie elit. Praesent sed velit metus. Nullam eget tortor iaculis, placerat turpis eu, laoreet lectus. In a tincidunt dui. Maecenas at egestas nibh, lacinia tincidunt massa. Sed eleifend ac justo in fringilla. Morbi eget urna malesuada, volutpat ligula nec, hendrerit ipsum.
+                                <h3>Blank Grip Tape</h3>
+                                Griptape without top print is the standard in professional skateboarding. Most skateboarders prefer this classic black look.
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Top Print</h3>
+                                <h3 class="m-portlet__head-text">Top Print on Griptape</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -158,7 +158,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Top Print</h3>
-                                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec malesuada eros sed tincidunt dignissim. Sed hendrerit, nisl at consequat accumsan, nunc velit feugiat velit, eget luctus nisl tellus at arcu. Etiam blandit neque id sodales convallis. 
+                                2HEX uses thin but opaque ink to print on griptapes. This keeps the grip while not compromising on print quality. The top of a griptape is the most visible part of a skateboard. If you want your brand name seen, this is the spot to print it!
                             </div>
                         </div>
                     </div>

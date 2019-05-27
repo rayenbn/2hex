@@ -44,7 +44,7 @@
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
                             @if(auth()->check() && auth()->user()->isAdmin())  
-                            <a href="{{ route('griptape.index') }}" class="m-menu__link m-menu__toggle">
+                            <a href="{{ route('griptape.manufacturer') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

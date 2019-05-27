@@ -132,7 +132,7 @@ class RecalculateOrders
             + ($griptape->perforation ? 0.2 : 0)
             + (isset($griptape->top_print) ||  isset($griptape->top_print_color) ? 0.6 : 0)
             + (isset($griptape->die_cut) ? 0.3 : 0)
-            + (isset($griptape->color) ? 0.9 : 0)
+            + (isset($griptape->color) && $griptape->color !== 'black' ? 0.9 : 0)
             + (isset($griptape->backpaper_print) ||  isset($griptape->backpaper_print_color) ? 0.35 : 0);
             + (isset($griptape->carton_print) ||  isset($griptape->carton_print_color) ? 0.02 : 0);
     }

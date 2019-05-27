@@ -94,4 +94,9 @@ class GripTapeConfigurator extends Controller
 
         return redirect()->route('summary');
     }
+
+    public function manufacturer()
+    {
+        return view('configurator.manufacturer');
+    }
 }
