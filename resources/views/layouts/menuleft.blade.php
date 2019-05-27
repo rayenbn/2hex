@@ -95,7 +95,7 @@
                                 <span class="m-menu__arrow"></span>
 
                                 <!-- Steps vue -->
-                                <steps :path="{{ json_encode(route('show.skateboard.configurator', $order->id)) }}"/>
+                                <steps :path="{{ json_encode(secure_url('show.skateboard.configurator', $order->id)) }}"/>
                             </div>
                         </li>
 
