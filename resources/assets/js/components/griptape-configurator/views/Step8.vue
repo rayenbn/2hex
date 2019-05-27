@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">No Backpaper Print</h3>
+                                <h3 class="m-portlet__head-text">Blank Back Paper</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -44,8 +44,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Blank Backpaper Print</h3>
-                                Duis in lobortis risus, vel auctor ex. Ut ac cursus massa. Maecenas ultricies ac quam ac tempus. Nunc ac ligula non sapien efficitur rutrum et eget lorem. In elementum mi eu diam cursus faucibus. Suspendisse efficitur tortor tincidunt, aliquam tellus ac, ullamcorper sem. Aenean in tellus in lorem venenatis porta ac ac quam. 
+                                <h3>Blank Back Paper</h3>
+                                If you plan on selling griptapes on a low price point without damaging the image of your brand, than not adding a back paper print is the best option.
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Backpaper Print</h3>
+                                <h3 class="m-portlet__head-text">Back Paper Print</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -163,8 +163,8 @@
                                 </template>
                             </color-btn>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Custom Backpaper Design</h3>
-                                Nulla odio felis, vulputate in quam ac, sodales volutpat ipsum. Quisque in nisl urna. Vestibulum placerat tincidunt est ut posuere. Donec id diam lacinia, gravida odio nec, ultricies ante.
+                                <h3>Back Paper Print</h3>
+                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
                             </div>
                         </div>
                     </div>

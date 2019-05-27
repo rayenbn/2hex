@@ -41,7 +41,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Quantity</h3>
-                                Quisque hendrerit sapien nisl, in placerat leo tempor vel. In sagittis laoreet venenatis. Nulla interdum dui et sem malesuada, at dictum metus sagittis. Aliquam erat volutpat. Duis accumsan dictum lorem, ac cursus nunc vulputate id. Suspendisse potenti. Nulla mattis posuere nisl. Duis iaculis varius vehicula.
+                                Skateboard griptapes are produced in batches of 200. Select the required quantity of your first style of grip tapes. The final griptape price depends on your griptape specifications as well as your total order quantity. With every batch or product you add, your previous batches get cheaper.
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Size</h3>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dignissim nisl venenatis, sodales velit non, bibendum dui. Suspendisse sit amet dolor ut ante blandit ullamcorper. Aliquam et ante odio. Praesent a augue non lectus pharetra molestie et at turpis. Vestibulum auctor ipsum eu velit ultrices, a dapibus odio feugiat. Phasellus gravida mollis nunc, quis rutrum magna aliquam et. Sed porttitor sollicitudin ante.
+                                Select the griptape size of this batch. Griptape sizes are shown by "width x length". Dimensions are given in inches. Griptapes with a length of 720" are sold in rolls, all other griptapes are sold in stacked sheets.
                             </div>
                         </div>
                     </div>

@@ -7,7 +7,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">No Perforation</h3>
+                                <h3 class="m-portlet__head-text">Unpunctured</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -41,8 +41,8 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>No Perforation</h3>
-                                Duis non neque non nisl tempor hendrerit. Quisque mattis, purus vel blandit consequat, tortor sapien ultrices lectus, ornare porttitor mauris libero sit amet mauris. Praesent et urna iaculis leo luctus placerat sed ut ex. Nullam sit amet blandit sapien, ut vehicula ipsum. 
+                                <h3>Unpunctured</h3>
+                                Unpunctured griptape has no perforation. None perforated griptape is preferred by amateur skateboarders to its lower cost.
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Perforation</h3>
+                                <h3 class="m-portlet__head-text">Perforated</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -89,8 +89,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Perforation</h3>
-                                Aliquam congue nulla et augue tristique, nec rhoncus tellus tempus. Etiam ac luctus magna. Morbi vel nunc mollis, volutpat est et, viverra purus. Integer auctor tristique nibh, quis luctus nisi pellentesque quis. Maecenas lacus erat, hendrerit ut urna id, pulvinar pulvinar diam.
+                                <h3>Perforated</h3>
+                                Perforated griptape is the standard in professional skateboarding. It is being punctured with barely visible evenly distributed 0.4mm holes. These small holes prevent the creation of air bubbles between deck and griptape, which leads to better deck control.
                             </div>
                         </div>
                     </div>

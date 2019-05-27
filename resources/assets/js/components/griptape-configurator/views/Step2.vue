@@ -7,7 +7,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">OS780</h3>
+                                <h3 class="m-portlet__head-text">OS780 Technology</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -41,8 +41,8 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>OS780</h3>
-                                Aenean fringilla mi tristique imperdiet aliquam. Praesent a odio et nunc iaculis auctor id non justo. In hac habitasse platea dictumst. Phasellus dui ipsum, dapibus eget erat nec, auctor ultricies dolor. Nullam sit amet tempus elit, non semper nunc. Suspendisse vel tincidunt nisl, sit amet porta libero. Fusce scelerisque purus a leo maximus aliquam. Duis mauris sapien, vehicula quis leo suscipit, molestie viverra sapien. Vivamus vitae ipsum lacus. In hac habitasse platea dictumst.
+                                <h3>OS780 Technology</h3>
+                                OS780 griptape technology is the standard for professional skateboarding. 
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">HS780</h3>
+                                <h3 class="m-portlet__head-text">HS780 Technology</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -89,8 +89,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>HS780</h3>
-                                Proin ac erat et eros euismod hendrerit. Aliquam venenatis, quam in volutpat mollis, risus ipsum hendrerit felis, auctor lacinia nunc purus sagittis lacus. Pellentesque pharetra tristique sem ut feugiat. Donec cursus arcu non augue cursus imperdiet. Proin eu lorem tortor. Proin eu orci in lacus lobortis finibus et in ante.
+                                <h3>HS780 Technology</h3>
+                                HS780 is the highest quality in skateboard griptape technology. HS780 uses more precisely cut sand crystals and a stronger glue. This leads to the griptape having a longer life before offering reduced grip. The HS780 back paper has a protective film, to prevent moisture from impacting the glue.
                             </div>
                         </div>
                     </div>

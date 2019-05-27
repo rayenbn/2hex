@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Brown Backpaper</h3>
+                                <h3 class="m-portlet__head-text">Brown Back Paper</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Brown Backpaper</h3>
-                                Fusce augue magna, scelerisque sed libero ut, posuere posuere libero. Aenean tincidunt lacinia ultricies. Mauris eu felis at ligula rhoncus commodo at at dolor. Donec pretium molestie mi, ut iaculis ipsum commodo eget. Cras dapibus cursus metus, id dignissim augue aliquet ac. Donec tempus elit est, eget sollicitudin libero elementum a. Quisque pellentesque, urna non fringilla tincidunt, tellus sapien gravida nulla, at ullamcorper nisl nisi a libero.
+                                <h3>Brown Back Paper</h3>
+                                Brown back paper is the standard in skateboarding. Brown back paper is not bleached. This makes it more environmentally friendly.
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">White Backpaper</h3>
+                                <h3 class="m-portlet__head-text">White Back Paper</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -91,8 +91,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>White Backpaper</h3>
-                                Cras sit amet venenatis dolor, sed aliquam massa. Cras suscipit posuere diam, et aliquet justo feugiat semper. Cras dictum ligula lacus, at cursus odio venenatis elementum. Sed a ante sapien. Duis id ligula dictum, ornare erat at, sagittis magna. In sit amet iaculis leo, sed placerat est. Maecenas malesuada leo quis mollis auctor. In hac habitasse platea dictumst.
+                                <h3>White Back Paper</h3>
+                                White back paper is bleached for a better contrast to black back paper prints. White back paper is especially important if full color prints are being added to the back paper in the next configuration step.
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">No Die Cut</h3>
+                                <h3 class="m-portlet__head-text">Uncut</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -44,8 +44,8 @@
                             </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Blank Die Cut</h3>
-                                Aenean a ex nec lacus mollis finibus. Vivamus vitae semper urna, sit amet scelerisque justo. Sed at lectus eu nunc accumsan interdum. Pellentesque vehicula nisl urna, ac auctor sem posuere non. Sed tincidunt erat sit amet lacus varius maximus.
+                                <h3>Uncut</h3>
+                                Griptape without die cut  is the standard in professional skateboarding. Most skateboarders prefer their griptapes uncut.
                             </div>
                         </div>
                     </div>
@@ -141,8 +141,8 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Custom Die Cut Design</h3>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis, diam nec ultrices blandit, est nisi condimentum libero, eu consectetur enim odio nec quam. Proin vel euismod nibh. Nam tellus ante, rutrum eget massa et, feugiat auctor diam. Ut a nunc dolor. Aliquam erat volutpat. Praesent a ipsum iaculis tortor cursus aliquet vel ullamcorper ipsum. Pellentesque sit amet dictum leo.
+                                <h3>Die Cut</h3>
+                                Die cutting is a great way to present your brand. It is a process in which a small shape of up to 8 x 8 cm is cut into a griptape and its back paper. Please note that letters like P or O lose their middle circle during die cutting, therefor only use logos or letters like X or M.
                             </div>
                         </div>
                     </div>

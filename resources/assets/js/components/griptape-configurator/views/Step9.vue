@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">No Carton Print</h3>
+                                <h3 class="m-portlet__head-text">Blank Carton</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -45,7 +45,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Blank Carton</h3>
-                                Ut egestas hendrerit pharetra. Donec pellentesque diam quis iaculis finibus. Morbi malesuada et libero at pellentesque. Morbi sed purus libero. Maecenas non orci risus. Vestibulum vestibulum, turpis at tincidunt luctus, justo massa bibendum velit, sit amet pharetra dui nisi a arcu. Vestibulum volutpat consequat luctus.
+                                The standard for most skateboard productions. Most skateboard griptapes come in blank cartons to keep production costs low while not compromising on griptape quality. 
                             </div>
                         </div>
                     </div>
@@ -163,8 +163,8 @@
                                 </template>
                             </color-btn>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Custom Carton Design</h3>
-                                Sed tempus elementum ipsum, in consequat metus consequat non. Curabitur ullamcorper laoreet nibh sed auctor. Aliquam sit amet tortor turpis. Donec ac massa mi. Quisque fringilla faucibus ipsum non eleifend. Pellentesque a arcu sed nisl suscipit commodo.
+                                <h3>Carton Print</h3>
+                                Adding a custom print to your griptape cartons is the best way to communicate your brand image and product specifications to skateboard distributors and skate shops. Adding a professional carton print is the cherry on top of the cream, it is what sets the best brands apart from the rest.
                             </div>
                         </div>
                     </div>
