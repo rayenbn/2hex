@@ -77,10 +77,10 @@
                     <ul class="m-menu__subnav">
 
                         @forelse ($orders as $key => $order)
-
+                        
                         <li 
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                            {{ (route('show.skateboard.configurator', $order->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+                            {{ (secure_url(URL::route('show.skateboard.configurator', [$order->id], false)) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
                             aria-haspopup="true" 
                             m-menu-submenu-toggle="hover"
                         >
@@ -93,9 +93,8 @@
                             </a>
                             <div class="m-menu__submenu ">
                                 <span class="m-menu__arrow"></span>
-
                                 <!-- Steps vue -->
-                                <steps :path="{{ json_encode(secure_url('show.skateboard.configurator', $order->id)) }}"/>
+                                <steps :path="{{ json_encode(secure_url(URL::route('show.skateboard.configurator', [$order->id], false))) }}"/>
                             </div>
                         </li>
 
