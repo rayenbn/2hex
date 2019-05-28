@@ -12,7 +12,8 @@
 				<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 					<span></span>
 				</i>
-				<span class="m-menu__link-text" >{{ index }}. {{ step }}</span></a>
+				<span class="m-menu__link-text" >{{ index }}. {{ step }}</span>
+			</a>
 		</li>
     </ul>
 </template>
@@ -24,12 +25,37 @@
 			path: {
 				type: String,
 				default: ""
+			},
+			type: {
+				type: String,
+				required: true,
+				validator: function (value) {
+			    	return ['griptape', 'skateboard'].indexOf(value) !== -1;
+			    }
 			}
 		},
 		data() {
 			return {
-				currentStep: 0,
-				steps: [
+				currentStep: 0
+			}
+		},
+		computed: {
+			steps() {
+				if (this.type === "griptape") {
+					return [
+						"Quantity and Size",
+						"Technology",
+						"Perforated",
+						"Top Print",
+						"Die Cut",
+						"Color",
+						"Paper",
+						"Paper Print",
+						"Box"
+					];
+				}
+
+				return [
 					"Quantity and Size",
 					"Wood",
 					"Glue",
@@ -41,15 +67,18 @@
 					"Specials",
 					"Cardboard",
 					"Box"
-				]
+				];
+			},
+			location() {
+				return window.location.href.substring(window.location.protocol.length);
 			}
 		},
 		methods: {
 			goToStep(step, orderPath) {
-				let url = window.location.href;
+				let url = 'http:' + this.location;
 
 				if (window.location.protocol === 'https:') {
-					url = 'https:' + window.location.href.substring(window.location.protocol.length);
+					url = 'https:' + this.location;
 				}
 
 			    if (url != orderPath && orderPath != '') {

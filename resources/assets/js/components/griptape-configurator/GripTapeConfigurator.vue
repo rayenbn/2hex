@@ -383,7 +383,10 @@
                         + (this.steps.perforation.state ? 0.2 : 0) // Perforation
                         + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
                         + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
-                        + (this.steps.coloredGriptape.color.name !== 'black' ? 0.9 : 0) // Colored Griptape
+                        + (this.steps.coloredGriptape.color && this.steps.coloredGriptape.color.name !== 'black' 
+                            ? 0.9 
+                            : 0
+                        ) // Colored Griptape
                         // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
                          + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
                          + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
