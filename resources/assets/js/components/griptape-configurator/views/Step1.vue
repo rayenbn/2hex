@@ -19,10 +19,12 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                        	src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" 
-                                        	alt="" 
-                                        	class="step1-img1"
-                                    	>
+                                            :src="images.q" 
+                                            class="step1-img1" 
+                                            alt="Quantity" 
+                                            title="Quantity"
+                                            height="250" 
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -66,10 +68,12 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                        	src="/skateboard-deck-production/width-skateboard-decks-manufacturer-2hex.jpg" 
-                                        	alt="" 
-                                        	class="step1-img1"
-                                    	>
+                                            :src="images.s" 
+                                            class="step1-img1" 
+                                            alt="Size" 
+                                            title="Size"
+                                            height="250" 
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -141,12 +145,28 @@
                     });
                     this.step_quantity = 0;
                 }
+                this.$store.commit('gripTapeConfigurator/setQuantity', this.step_quantity);
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
 	        sizeChange(event) {
+                this.$store.commit('gripTapeConfigurator/setSize', this.step_size);
 	            this.$emit('sizeChange', this.step_size);
 	        },
 		},
+        computed: {
+            images() {
+                if (this.step_size && typeof this.step_size === 'object') {
+                    switch(this.step_size.name) {
+                        case '9" x 33"': return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+                        case '9" x 720"': return {q: '/img/griptape/1.2.jpg', s: '/img/griptape/2.2.jpg'};
+                        case '10" x 45"': return {q: '/img/griptape/1.3.jpg', s: '/img/griptape/2.3.jpg'};
+                        case '11" x 720"': return {q: '/img/griptape/1.4.jpg', s: '/img/griptape/2.4.jpg'};
+                        default: return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+                    }
+                }
+                return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+            }
+        },
         created() {
             if (typeof this.step_size === 'string') {
                 let size = this.sizes.find(s => s.name == this.step_size);

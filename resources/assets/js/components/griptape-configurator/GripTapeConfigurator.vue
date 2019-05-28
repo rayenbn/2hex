@@ -74,7 +74,7 @@
                                         :state="steps.grit.state" 
                                         @stateChange="(val) => {
                                             steps.grit.state = val; 
-                                            steps.grit.state ? price += 1.2 : price -= 1.2; 
+                                            steps.grit.state ? price += prices.grit : price -= prices.grit; 
                                         }"
                                     />
 
@@ -83,7 +83,7 @@
                                         :state="steps.perforation.state" 
                                         @stateChange="(val) => {
                                             steps.perforation.state = val;
-                                            steps.perforation.state ? price += 0.2 : price -= 0.2;
+                                            steps.perforation.state ? price += prices.perforation : price -= prices.perforation;
                                         }"
                                     />
 
@@ -93,7 +93,7 @@
                                         :files="filenames.top" 
                                         @stateChange="(val) => {
                                             steps.topPrint.state = val;
-                                            steps.topPrint.state ? price += 0.6 : price -= 0.6;
+                                            steps.topPrint.state ? price += prices.topPrint : price -= prices.topPrint;
                                         }"
                                         @fileChange="(val) => {steps.topPrint.file = val}"
                                         @colorChange="(val) => {steps.topPrint.color = val}"
@@ -106,7 +106,7 @@
                                         :files="filenames.diecut" 
                                         @stateChange="(val) => {
                                             steps.dieCut.state = val;
-                                            steps.dieCut.state ? price += 0.3 : price -= 0.3;
+                                            steps.dieCut.state ? price += prices.dieCut : price -= prices.dieCut;
                                         }"
                                         @fileChange="(val) => {steps.dieCut.file = val}"
                                     />
@@ -115,9 +115,13 @@
                                     <skateboard-decks-step-6
                                         :options="steps.coloredGriptape"
                                         @colorChange="(val) => {
-                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' ?  price -= 0.9 : price -= 0;
+                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' 
+                                                ? price -= prices.coloredGriptape
+                                                : price -= 0;
                                             steps.coloredGriptape.color = val;
-                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' ?  price += 0.9 : price += 0;
+                                            steps.coloredGriptape.color && steps.coloredGriptape.color.name !== 'black' 
+                                                ? price += prices.coloredGriptape
+                                                : price += 0;
                                         }"
                                     />
 
@@ -133,7 +137,7 @@
                                         :files="filenames.backpaper" 
                                         @stateChange="(val) => {
                                             steps.backpaperPrint.state = val;
-                                            steps.backpaperPrint.state ? price += 0.35 : price -= 0.35;
+                                            steps.backpaperPrint.state ? price += prices.backpaperPrint : price -= prices.backpaperPrint;
 
                                         }"
                                         @fileChange="(val) => {steps.backpaperPrint.file = val}"
@@ -146,7 +150,7 @@
                                         :files="filenames.carton" 
                                         @stateChange="(val) => {
                                             steps.cartonPrint.state = val;
-                                            steps.cartonPrint.state ? price += 0.02 : price -= 0.02;
+                                            steps.cartonPrint.state ? price += prices.cartonPrint : price -= prices.cartonPrint;
                                         }"
                                         @fileChange="(val) => {steps.cartonPrint.file = val}"
                                         @colorChange="(val) => {steps.cartonPrint.color = val}"
@@ -379,17 +383,17 @@
                 if (this.size) {
 
                     this.price = this.size.value + this.additionalCost
-                        + (this.steps.grit.state ? 1.2 : 0) // Grit
-                        + (this.steps.perforation.state ? 0.2 : 0) // Perforation
-                        + (this.steps.topPrint.state ? 0.6 : 0) // Top Print
-                        + (this.steps.dieCut.state ? 0.3 : 0) // Die Cut
+                        + (this.steps.grit.state ? this.prices.grit : 0) // Grit
+                        + (this.steps.perforation.state ? this.prices.perforation : 0) // Perforation
+                        + (this.steps.topPrint.state ? this.prices.topPrint : 0) // Top Print
+                        + (this.steps.dieCut.state ? this.prices.dieCut : 0) // Die Cut
                         + (this.steps.coloredGriptape.color && this.steps.coloredGriptape.color.name !== 'black' 
-                            ? 0.9 
+                            ? this.prices.coloredGriptape
                             : 0
                         ) // Colored Griptape
                         // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
-                         + (this.steps.backpaperPrint.state ? 0.35 : 0) // Backpaper Print
-                         + (this.steps.cartonPrint.state ? 0.02 : 0) // Carton Print
+                         + (this.steps.backpaperPrint.state ? this.prices.backpaperPrint : 0) // Backpaper Print
+                         + (this.steps.cartonPrint.state ? this.prices.cartonPrint : 0) // Carton Print
                 } else {
                     this.price = 0;
                 }
@@ -579,6 +583,63 @@
             },
             total() {
                 return (this.price * this.quantity).toFixed(2);
+            },
+            prices() {
+                if (this.size) {
+                    switch(this.size.name) {
+                        case '9" x 33"': return {
+                            grit: 1.2,
+                            perforation: 0.2,
+                            topPrint: 0.6,
+                            dieCut: 0.3,
+                            coloredGriptape: 0.9,
+                            backpaper: 0,
+                            backpaperPrint: 0.35,
+                            cartonPrint: 0.02
+                        };
+                        case '9" x 720"': return {
+                            grit: 26.18,
+                            perforation: 4.36,
+                            topPrint: 13.09,
+                            dieCut: 6.55,
+                            coloredGriptape: 19.64,
+                            backpaper: 0,
+                            backpaperPrint: 7.64,
+                            cartonPrint: 0.02
+                        };
+                        case '10" x 45"': return {
+                            grit: 1.82,
+                            perforation: 0.3,
+                            topPrint: 0.91,
+                            dieCut: 0.45,
+                            coloredGriptape: 1.36,
+                            backpaper: 0,
+                            backpaperPrint: 0.53,
+                            cartonPrint: 0.02
+                        };
+                        case '11" x 720"': return {
+                            grit: 32,
+                            perforation: 5.33,
+                            topPrint: 16,
+                            dieCut: 8,
+                            coloredGriptape: 24,
+                            backpaper: 0,
+                            backpaperPrint: 9.33,
+                            cartonPrint: 0.02
+                        };
+                    }
+                }
+
+                return {
+                    grit: 1.2,
+                    perforation: 0.2,
+                    topPrint: 0.6,
+                    dieCut: 0.3,
+                    coloredGriptape: 0.9,
+                    backpaper: 0,
+                    backpaperPrint: 0.35,
+                    cartonPrint: 0.02
+                };
             }
         },
         created() {
