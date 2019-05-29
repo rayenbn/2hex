@@ -214,17 +214,13 @@
                 <div class="m-portlet">
                     <div class="m-portlet__body">
                         <div class="m-section">
-                            <h2 class="m-section__heading">How to build the best skateboard deck?</h2>
+                            <h2 class="m-section__heading">How to choose the best skateboard griptape?</h2>
                             <div class="m-section__content">
                                 <p>
-                                    Know your target group! Do they skate vert or street? Are you users price sensitive
-                                    or do they want the deck to be the most durable with the highest pop?
+                                    Know your target group! Do they want a big print and colorful designs or do they ride plain black griptapes without any logo? Are you users price sensitive or do they require the highest quality?
                                 </p>
                                 <p>
-                                    Choose the specifications that best meet your target groups requirements. All of our decks
-                                    have the highest quality within the selected specifications.
-                                    Follow the deck price calculation below, to make sure you find the sweet spot
-                                    between the highest quality and the best price.
+                                    Choose the specifications that best meet your target groups requirements. All of our griptapes have the highest quality within the selected specifications. If you are not sure, what sells best: Go to the skatepark and ask your local skaters what they currently ride!
                                 </p>
                             </div>
                         </div>
