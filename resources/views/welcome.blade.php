@@ -207,8 +207,11 @@
 					</div>
 					<!--end:: Widgets/Activity-->
 				</div>
-
-
+                
+                <!-- Grip Tape -->
+                <div class="col-xl-4">
+                    @include('widgets.grip-tape-widget')
+                </div>
 
                 <!-- MANUAL PRODUCTS -->
 
