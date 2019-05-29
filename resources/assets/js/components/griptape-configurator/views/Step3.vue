@@ -7,7 +7,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Unpunctured</h3>
+                                <h3 class="m-portlet__head-text" style="color: #FFFFFF">Unpunctured</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -33,9 +33,11 @@
                                 <div>
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/skateboard-deck-production/european-maple-for-skateboard-deck-manufacturer-2hex.jpg" 
-                                            alt=""  
+                                            src="/img/griptape/3.1.jpg" 
+                                            alt="Unpunctured"  
+                                            title="Unpunctured" 
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -54,7 +56,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Perforated</h3>
+                                <h3 class="m-portlet__head-text" style="color: #FFFFFF">Perforated</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -80,9 +82,11 @@
                                 <div >
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" 
-                                            alt="" 
+                                            src="/img/griptape/3.2.jpg" 
+                                            alt="Perforated"  
+                                            title="Perforated" 
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Uncut</h3>
+                                <h3 class="m-portlet__head-text" style="color: #FFFFFF">Uncut</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -35,10 +35,13 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/skateboard-deck-production/blank-skateboard-decks-manufacturer-2hex.jpg" 
-                                            alt="" 
+                                            src="/img/griptape/4.1.jpg" 
+                                            alt="Uncut" 
+                                            title="Uncut" 
                                             class="step1-img2"
+                                            height="250"
                                         >
+
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +60,7 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Die Cut</h3>
+                                <h3 class="m-portlet__head-text" style="color: #FFFFFF">Die Cut</h3>
                             </div>
                         </div>
                         <div class="m-portlet__head-tools">
@@ -83,9 +86,11 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/skateboard-deck-production/heat-transfer-print-skateboard-decks-manufacturer-2hex-com.jpg" 
-                                            alt=""  
+                                            src="/img/griptape/4.2.jpg" 
+                                            alt="Die Cut" 
+                                            title="Die Cut" 
                                             class="step1-img2"
+                                            height="250"
                                         >
                                     </div>
                                 </div>

@@ -33,9 +33,11 @@
                                 <div>
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/skateboard-deck-production/european-maple-for-skateboard-deck-manufacturer-2hex.jpg" 
-                                            alt=""  
+                                            src="/img/griptape/2.1.jpg" 
+                                            alt="OS780 Technology"  
+                                            title="OS780 Technology" 
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -80,9 +82,11 @@
                                 <div >
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" 
-                                            alt="" 
+                                            src="/img/griptape/2.2.jpg" 
+                                            alt="HS780 Technology" 
+                                            title="HS780 Technology"
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>

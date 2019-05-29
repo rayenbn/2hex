@@ -18,7 +18,11 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu 
-                    {{ request()->routeIs('skateboard.manufacturer') ? 'm-menu__item--expanded m-menu__item--open m-menu__item--active' : '' }}" 
+                    {{ 
+                        request()->routeIs('skateboard.manufacturer') || request()->routeIs('griptape.manufacturer') 
+                        ? 'm-menu__item--expanded m-menu__item--open m-menu__item--active' 
+                        : '' 
+                    }}" 
                 aria-haspopup="true" 
                 m-menu-submenu-toggle="hover"
             >
@@ -32,7 +36,8 @@
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
                         <li 
-                            class="m-menu__item  m-menu__item--submenu" 
+                            class="m-menu__item  m-menu__item--submenu 
+                                {{ request()->routeIs('skateboard.manufacturer') ? 'm-menu__item--active' : '' }}" 
                             aria-haspopup="true" 
                             m-menu-submenu-toggle="hover"
                         >
@@ -43,7 +48,15 @@
                                 <span class="m-menu__link-text">Skateboard Decks</span>
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
-                            @if(auth()->check() && auth()->user()->isAdmin())  
+                        </li>
+
+                        @if(auth()->check() && auth()->user()->isAdmin()) 
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu 
+                                {{ request()->routeIs('griptape.manufacturer') ? 'm-menu__item--active' : '' }}" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
                             <a href="{{ route('griptape.manufacturer') }}" class="m-menu__link m-menu__toggle">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
@@ -51,8 +64,8 @@
                                 <span class="m-menu__link-text">Grip Tape</span>
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
-                            @endif
                         </li>
+                        @endif
                     </ul>
                 </div>
             </li>
@@ -63,7 +76,10 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                    {{ (request()->is('skateboard-deck-configurator*')) ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' : '' }}" 
+                    {{ (request()->is('skateboard-deck-configurator*') || request()->is('grip-tape-configurator*'))
+                        ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
+                        : '' 
+                    }}" 
                 aria-haspopup="true" 
                 m-menu-submenu-toggle="hover"
             >
@@ -76,7 +92,7 @@
                 <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
-                        @forelse ($orders as $key => $order)
+                        @foreach ($orders as $key => $order)
                         
                         <li 
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
@@ -94,19 +110,50 @@
                             <div class="m-menu__submenu ">
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
-                                <steps :path="{{ json_encode(secure_url(URL::route('show.skateboard.configurator', [$order->id], false))) }}"/>
+                                <steps 
+                                    :path="{{ json_encode(route('show.skateboard.configurator', $order->id)) }}"
+                                    type="skateboard"
+                                />
                             </div>
                         </li>
 
-                        @empty
+                        @endforeach
 
+                        @foreach ($grips as $key => $grip)
+                        
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
+                            {{ (route('griptape.show', $grip->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Grip Tape Batch {{++$key}}</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <!-- Steps vue -->
+                                <steps 
+                                    :path="{{ json_encode(route('griptape.show', $grip->id)) }}"
+                                    type="griptape"
+                                />
+                            </div>
+                        </li>
+
+                        @endforeach
+                        
+                        @if ($orders->count() == 0 && $grips->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>
                             </div>
                         </li>
+                        @endif
 
-                        @endforelse
 
                         @if (request()->routeIs('get.skateboard.configurator'))
 
@@ -119,14 +166,42 @@
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
-                                <span class="m-menu__link-text">S.B. Deck Batch {{ $orders->count() ? $orders->count() + 1 : 1}}</span>
+                                <span class="m-menu__link-text">
+                                    S.B. Deck Batch {{ $orders->count() ? $orders->count() + 1 : 1}}
+                                </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="m-menu__submenu ">
                                 <span class="m-menu__arrow"></span>
 
                                 <!-- Steps vue -->
-                                <steps/>
+                                <steps type="skateboard"/>
+                            </div>
+                        </li>
+
+                        @endif
+
+                        @if (request()->routeIs('griptape.index'))
+
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                    Grip Tape Batch {{ $grips->count() ? $grips->count() + 1 : 1}}
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+
+                                <!-- Steps vue -->
+                                <steps type="griptape"/>
                             </div>
                         </li>
 
@@ -146,7 +221,15 @@
                 </div>
             </li>
             
-            <li class="m-menu__item {{ request()->routeIs('summary') ? 'm-menu__item--expanded m-menu__item--active' : ''}}" aria-haspopup="true">
+            <li 
+                class="m-menu__item 
+                    {{ 
+                        request()->routeIs('summary') 
+                            ? 'm-menu__item--expanded m-menu__item--active' 
+                            : ''
+                    }}" 
+                aria-haspopup="true"
+            >
                 <a href="{{route('summary')}}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-truck">
                         <span></span>

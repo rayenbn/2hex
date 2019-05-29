@@ -607,8 +607,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
     private function prepareFees()
     {
         // Order weight
-        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
-            + ($this->grips->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
+        $gripWeight = $this->grips->reduce(function($carry, $item) {
+            return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
+        }, 0);
+
+        // total weight
+        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT)  + $gripWeight;
 
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {

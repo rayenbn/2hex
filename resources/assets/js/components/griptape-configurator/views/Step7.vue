@@ -32,9 +32,11 @@
                                 <div>
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/skateboard-deck-production/european-maple-for-skateboard-deck-manufacturer-2hex.jpg" 
-                                            alt=""  
+                                            src="/img/griptape/6.1.jpg" 
+                                            alt="Brown Back Paper" 
+                                            title="Brown Back Paper" 
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -82,9 +84,11 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/skateboard-deck-production/american-maple-for-skateboard-decks-factory-2hex.jpg" 
-                                            alt="" 
+                                            src="/img/griptape/6.2.jpg" 
+                                            alt="White Back Paper" 
+                                            title="White Back Paper" 
                                             class="step1-img1"
+                                            height="250"
                                         >
                                     </div>
                                 </div>

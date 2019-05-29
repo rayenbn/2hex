@@ -88,16 +88,16 @@
                     color: this.options.color || null,
                 },
                 colors: [
-                    {name: 'black'     , value : 'black', image: 'https://dummyimage.com/500x400/000000/000000'},
-                    {name: 'purple'    , value : '#800080', image: 'https://dummyimage.com/500x400/800080/000000'},
-                    {name: 'dark blue' , value : '#00008B', image: 'https://dummyimage.com/500x400/00008b/000000'},
-                    {name: 'light blue', value : '#87CEFA', image: 'https://dummyimage.com/500x400/87cefa/000000'},
-                    {name: 'dark green', value : '#32CD32', image: 'https://dummyimage.com/500x400/32cd32/000000'}, // TODO what this color?
-                    {name: 'green'     , value : 'green', image: 'https://dummyimage.com/500x400/008000/000000'},
-                    {name: 'yellow'    , value : 'yellow', image: 'https://dummyimage.com/500x400/ffff00/000000'},
-                    {name: 'orange'    , value : '#FFA500', image: 'https://dummyimage.com/500x400/ffa600/000000'},
-                    {name: 'pink'      , value : '#FFC0CB', image: 'https://dummyimage.com/500x400/ffc0cb/000000'},
-                    {name: 'red'       , value : 'red', image: 'https://dummyimage.com/500x400/ff0000/000000'},
+                    {name: 'black'     , value : 'black',   image: '/img/griptape/colors/Color-Grips---Black.jpg'},
+                    {name: 'purple'    , value : '#800080', image: '/img/griptape/colors/Color-Grips---Purple.jpg'},
+                    {name: 'dark blue' , value : '#00008B', image: '/img/griptape/colors/Color-Grips---Dark-Blue.jpg'},
+                    {name: 'light blue', value : '#87CEFA', image: '/img/griptape/colors/Color-Grips---Light-Blue.jpg'},
+                    {name: 'dark green', value : '#32CD32', image: '/img/griptape/colors/Color-Grips---Dark-Green.jpg'},
+                    {name: 'green'     , value : 'green',   image: '/img/griptape/colors/Color-Grips---Green.jpg'},
+                    {name: 'yellow'    , value : 'yellow',  image: '/img/griptape/colors/Color-Grips---Yellow.jpg'},
+                    {name: 'orange'    , value : '#FFA500', image: '/img/griptape/colors/Color-Grips---Orange.jpg'},
+                    {name: 'pink'      , value : '#FFC0CB', image: '/img/griptape/colors/Color-Grips---Pink.jpg'},
+                    {name: 'red'       , value : 'red',     image: '/img/griptape/colors/Color-Grips---Red.jpg'},
                 ]
             }
         },
