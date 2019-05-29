@@ -39,7 +39,6 @@
                                             alt="Blank Back Paper" 
                                             title="Blank Back Paper" 
                                             class="step1-img2"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -89,7 +88,6 @@
                                             alt="Back Paper Print" 
                                             title="Back Paper Print" 
                                             class="step1-img2"
-                                            height="250"
                                         >
                                     </div>
                                 </div>

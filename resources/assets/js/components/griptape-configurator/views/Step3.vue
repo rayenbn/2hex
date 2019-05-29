@@ -37,7 +37,6 @@
                                             alt="Unpunctured"  
                                             title="Unpunctured" 
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -86,7 +85,6 @@
                                             alt="Perforated"  
                                             title="Perforated" 
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>

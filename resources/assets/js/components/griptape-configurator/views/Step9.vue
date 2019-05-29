@@ -39,7 +39,6 @@
                                             alt="Blank Carton" 
                                             title="Blank Carton" 
                                             class="step1-img2"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -89,7 +88,6 @@
                                             alt="Carton Print" 
                                             title="Carton Print" 
                                             class="step1-img2"
-                                            height="250"
                                         >
                                     </div>
                                 </div>

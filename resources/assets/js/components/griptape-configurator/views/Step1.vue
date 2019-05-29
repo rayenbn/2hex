@@ -23,7 +23,6 @@
                                             class="step1-img1" 
                                             alt="Quantity" 
                                             title="Quantity"
-                                            height="250" 
                                         >
                                     </div>
                                 </div>
@@ -72,7 +71,6 @@
                                             class="step1-img1" 
                                             alt="Size" 
                                             title="Size"
-                                            height="250" 
                                         >
                                     </div>
                                 </div>

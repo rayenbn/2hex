@@ -268,14 +268,16 @@ class SummaryController extends Controller
 
         Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
 
+        $now = now();
+
         $queryOrders->update([
             'submit' => 1,
-            'saved_date' => now()
+            'saved_date' => $now
         ]);
 
         $queryGripTapes->update([
             'submit' => 1,
-            'saved_date' => now()
+            'saved_date' => $now
         ]);
 
         session()->flash('success', 'Your order has been successfully sent!'); 
@@ -372,7 +374,7 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
-        $grips = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
