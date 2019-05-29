@@ -264,10 +264,16 @@ class SummaryController extends Controller
     {
         $info = ShipInfo::auth()->select('invoice_name')->first(); 
         $queryOrders = Order::auth();
+        $queryGripTapes = GripTape::auth();
 
         Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
 
         $queryOrders->update([
+            'submit' => 1,
+            'saved_date' => now()
+        ]);
+
+        $queryGripTapes->update([
             'submit' => 1,
             'saved_date' => now()
         ]);
@@ -287,20 +293,27 @@ class SummaryController extends Controller
         }
 
         $data = Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
+        $grips = GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
 
-        $save_data = [
-            'usenow' => 0
-        ];
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
             $array = json_decode(json_encode($data[$i]), true);
 
             Order::insert($array);
+        }
+
+        for($i = 0; $i < count($grips); $i ++){
+            unset($grips[$i]['id']);
+            unset($grips[$i]['saved_date']);
+            $array = json_decode(json_encode($grips[$i]), true);
+            GripTape::insert($array);
         }
 
         return redirect()->route('summary');   
@@ -318,7 +331,11 @@ class SummaryController extends Controller
             $created_by = csrf_token();
         }
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
@@ -327,6 +344,16 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($data[$i]), true);
             Order::insert($array);
         }
+
+        for($i = 0; $i < count($grips); $i ++){
+            unset($grips[$i]['id']);
+            unset($grips[$i]['saved_date']);
+            unset($grips[$i]['usenow']);
+            unset($grips[$i]['submit']);
+            $array = json_decode(json_encode($grips[$i]), true);
+            GripTape::insert($array);
+        }
+
         return redirect()->route('summary');   
     } 
     public function view($id)
@@ -342,7 +369,11 @@ class SummaryController extends Controller
             $created_by = csrf_token();
         }
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $grips = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
@@ -351,6 +382,15 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($data[$i]), true);
             Order::insert($array);
         }
+        for($i = 0; $i < count($grips); $i ++){
+            unset($grips[$i]['id']);
+            unset($grips[$i]['saved_date']);
+            unset($grips[$i]['usenow']);
+            unset($grips[$i]['submit']);
+            $array = json_decode(json_encode($grips[$i]), true);
+            GripTape::insert($array);
+        }
+
         return redirect()->route('summary')->with(['viewonly'=>1]);   
     }
     public function removeOrder($id)
@@ -362,6 +402,8 @@ class SummaryController extends Controller
             $created_by = csrf_token();
         }
         Order::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        GripTape::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+
         return redirect()->route('profile');
     }
 
