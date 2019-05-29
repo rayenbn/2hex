@@ -36,7 +36,6 @@
                                             alt="Brown Back Paper" 
                                             title="Brown Back Paper" 
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -88,7 +87,6 @@
                                             alt="White Back Paper" 
                                             title="White Back Paper" 
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>

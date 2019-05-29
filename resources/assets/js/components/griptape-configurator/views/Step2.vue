@@ -37,7 +37,6 @@
                                             alt="OS780 Technology"  
                                             title="OS780 Technology" 
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
@@ -86,7 +85,6 @@
                                             alt="HS780 Technology" 
                                             title="HS780 Technology"
                                             class="step1-img1"
-                                            height="250"
                                         >
                                     </div>
                                 </div>

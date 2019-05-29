@@ -39,7 +39,6 @@
                                             alt="Uncut" 
                                             title="Uncut" 
                                             class="step1-img2"
-                                            height="250"
                                         >
 
                                     </div>
@@ -90,7 +89,6 @@
                                             alt="Die Cut" 
                                             title="Die Cut" 
                                             class="step1-img2"
-                                            height="250"
                                         >
                                     </div>
                                 </div>
