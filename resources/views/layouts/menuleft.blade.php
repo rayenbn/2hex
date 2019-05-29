@@ -111,7 +111,7 @@
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
                                 <steps 
-                                    :path="{{ json_encode(route('show.skateboard.configurator', $order->id)) }}"
+                                    :path="{{ json_encode(secure_url(route('show.skateboard.configurator', $order->id, false))) }}"
                                     type="skateboard"
                                 />
                             </div>
@@ -138,7 +138,7 @@
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
                                 <steps 
-                                    :path="{{ json_encode(route('griptape.show', $grip->id)) }}"
+                                    :path="{{ json_encode(secure_url(route('griptape.show', $grip->id, false))) }}"
                                     type="griptape"
                                 />
                             </div>
