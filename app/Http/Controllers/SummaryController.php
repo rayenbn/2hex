@@ -64,8 +64,12 @@ class SummaryController extends Controller
         $gripQuery = GripTape::auth();
 
         // Order weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) 
-            + ($gripQuery->sum('quantity') * GripTape::GRIPTAPE_WEIGHT);
+        $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
+            return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
+        }, 0);
+
+        // total weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight;
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
