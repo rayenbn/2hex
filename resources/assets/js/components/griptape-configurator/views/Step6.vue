@@ -98,7 +98,7 @@
                     {name: 'orange'      , value : '#FFA500', image: '/img/griptape/colors/Color-Grips---Orange.jpg'},
                     {name: 'pink'        , value : '#FFC0CB', image: '/img/griptape/colors/Color-Grips---Pink.jpg'},
                     {name: 'red'         , value : 'red',     image: '/img/griptape/colors/Color-Grips---Red.jpg'},
-                    {name: 'transparent' , value : '#FFFFFF', image: '/img/griptape/colors/Color-Grips---Transparent.jpg'},
+                    {name: 'transparent' , value : '#FFFFFF', image: '/img/griptape/colors/transparent-skateboard-griptape.jpg'},
                 ]
             }
         },

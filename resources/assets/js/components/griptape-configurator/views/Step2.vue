@@ -33,7 +33,7 @@
                                 <div>
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/img/griptape/2.1.jpg" 
+                                            src="/img/griptape/4.1.jpg" 
                                             alt="OS780 Technology"  
                                             title="OS780 Technology" 
                                             class="step1-img1"
@@ -81,7 +81,7 @@
                                 <div >
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="/img/griptape/2.2.jpg" 
+                                            src="/img/griptape/4.1.jpg" 
                                             alt="HS780 Technology" 
                                             title="HS780 Technology"
                                             class="step1-img1"

@@ -1875,7 +1875,6 @@
                 currentColors:['natural', 'natural', 'natural', 'natural', 'natural', 'natural', 'natural'],
                 title: 'Skateboard Deck Configurator',
                 randomColors: [],
-                currentStep: 1,
                 quantity: 0,
                 total_quantity: 0,
                 orderId: '',
@@ -1913,51 +1912,12 @@
                     width: 100 * this.currentStep / 10 + '%',
                 }
             },
-            // sizePrice() {
-            //     let match = this.size.match(/[0-9.]{3}/) || [];
-            //     if (!match.length) return 0;
-
-            //     let value = parseFloat(match[0]);
-
-            //     if(value < 7.0) {
-            //         return 0;
-            //     }else if(value >= 7.0 && value < 8.0) {
-            //         return 8.5;
-            //     } else if(value >= 8.0 && value < 8.5) {
-            //         return 9.5;
-            //     } else if(value >= 8.5)
-            //         return 10.0;
-            // },
-            // quantityPrice () {
-            //     if(this.total_quantity < 20) {
-            //         return 50;
-            //     } else if (this.total_quantity >= 20 && this.total_quantity < 30) {
-            //         return 40;
-            //     } else if (this.total_quantity >= 30 && this.total_quantity < 40) {
-            //         return 30;
-            //     } else if (this.total_quantity >= 40 && this.total_quantity < 50) {
-            //         return 10;
-            //     } else if (this.total_quantity >= 50 && this.total_quantity < 100) {
-            //         return 6;
-            //     } else if (this.total_quantity >= 100 && this.total_quantity < 200) {
-            //         return 4;
-            //     } else if (this.total_quantity >= 200 && this.total_quantity < 300) {
-            //         return 3;
-            //     } else if (this.total_quantity >= 300 && this.total_quantity < 500) {
-            //         return 2.5;
-            //     } else if (this.total_quantity >= 500 && this.total_quantity < 1000) {
-            //         return 1.5;
-            //     } else if (this.total_quantity >= 1000 && this.total_quantity < 2000) {
-            //         return 1;
-            //     } else if (this.total_quantity >= 2000 && this.total_quantity < 5000) {
-            //         return 0.5;
-            //     } else if (this.total_quantity >= 5000) {
-            //         return 0;
-            //     }
-            // },
-            // deckPrice() {
-            //     return this.sizePrice + this.quantityPrice;
-            // } 
+            currentStep: {
+                get() {
+                    return this.$store.getters.getCurrentStep;
+                },
+                set(val) {}
+            }
         },
         methods: {
         	save(event) {
@@ -2064,12 +2024,14 @@
 	            this.renderProduct();
 	        },
 	        nextStep(){
-	            if(this.currentStep < 10)
-	                this.currentStep++;
+	            if(this.currentStep < 10){
+                    this.$store.commit('changeStep', ++this.currentStep);
+                }
 	        },
 	        prevStep(){
-	            if(this.currentStep > 0)
-	                this.currentStep--;
+	            if(this.currentStep > 0) {
+                    this.$store.commit('changeStep', --this.currentStep);
+                }
 	        },
             sizeChange(event) {
                 
@@ -2325,6 +2287,7 @@
             this.initOrder();
         },
         created() {
+            this.$store.commit('changeStep', 1);
             this.renderProduct();
 	        // Global quantity batches plus current total.
 	        this.total_quantity += this.batchtotal;
