@@ -433,14 +433,10 @@
                 this.calculatePrice();
             },
             nextStep(){
-                if(this.currentStep < 9){
-                    this.$store.commit('changeStep', ++this.currentStep);
-                }
+                this.$store.commit('changeStep', ++this.currentStep);
             },
             prevStep(){
-                if(this.currentStep > 0){
-                    this.$store.commit('changeStep', --this.currentStep);
-                }
+                this.$store.commit('changeStep', --this.currentStep);
             },
             save(event) {
                 var formData = new FormData();
