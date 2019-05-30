@@ -34,11 +34,6 @@
 			    }
 			}
 		},
-		data() {
-			return {
-				currentStep: 0
-			}
-		},
 		computed: {
 			steps() {
 				if (this.type === "griptape") {
@@ -71,6 +66,9 @@
 			},
 			location() {
 				return window.location.href.substring(window.location.protocol.length);
+			},
+			currentStep() {
+				return this.$store.getters.getCurrentStep;
 			}
 		},
 		methods: {
@@ -85,13 +83,13 @@
 			        window.location.href = orderPath;
 			        return;
 			    }
-			    this.currentStep = step;
+			    this.$store.commit('changeStep', step);
 			    WizardDemo.gotoStep(step)
 			}
 		},
 		mounted() {
 			if (this.path === window.location.href || this.path.length === 0) {
-				this.currentStep = 1;
+				this.$store.commit('changeStep', 1);
 			}
 		}
 	}

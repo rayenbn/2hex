@@ -230,8 +230,8 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <h3 class="m-widget1__title">{{ user ? 'Deck' : 'Login' }}</h3>
-                                        <span class="m-widget1__desc">{{ user ? 'Price per Deck' : 'To See Prices' }}</span>
+                                        <h3 class="m-widget1__title">{{ user ? 'Griptape' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ user ? 'Price per Grip' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span
@@ -250,8 +250,8 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <h3 class="m-widget1__title">{{ user ? 'Order' : 'Login' }}</h3>
-                                        <span class="m-widget1__desc">{{ user ? 'Total of Order' : 'To See Prices' }}</span>
+                                        <h3 class="m-widget1__title">{{ user ? 'Batch' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ user ? 'Total of Batch' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span
@@ -349,7 +349,6 @@
                 id: "",
 	            quantity: 0,
 	            size: null,
-                currentStep: 1,
                 additionalCost: 0,
                 orderTotal: 0,
                 price: 0,
@@ -435,12 +434,12 @@
             },
             nextStep(){
                 if(this.currentStep < 9){
-                    this.currentStep++;
+                    this.$store.commit('changeStep', ++this.currentStep);
                 }
             },
             prevStep(){
                 if(this.currentStep > 0){
-                    this.currentStep--;
+                    this.$store.commit('changeStep', --this.currentStep);
                 }
             },
             save(event) {
@@ -547,6 +546,12 @@
             },
         },
         computed: {
+            currentStep: {
+                get() {
+                    return this.$store.getters.getCurrentStep;
+                },
+                set(val) {}
+            },
             progressWidth(){
                 return {
                     width: 100 * this.currentStep / 9 + '%',
@@ -644,6 +649,7 @@
             }
         },
         created() {
+            this.$store.commit('changeStep', 1);
             this.initGripTape();
         }
     };

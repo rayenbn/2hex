@@ -72,9 +72,9 @@
                                 <!--begin: Form Body -->
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                     <div id="preview" style="
-                                        height: 500px;
-                                        background-image: url(/img/griptape/1.1.jpg);
-                                        background-size: 100% 600px;
+                                        height: 250px;
+                                        background-image: url(/img/griptape/custom-skateboard-griptapes-2hex.jpg);
+                                        background-size: contain;
                                         background-repeat: no-repeat;
                                     "></div>
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
