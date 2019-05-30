@@ -2024,14 +2024,10 @@
 	            this.renderProduct();
 	        },
 	        nextStep(){
-	            if(this.currentStep < 10){
-                    this.$store.commit('changeStep', ++this.currentStep);
-                }
+                this.$store.commit('changeStep', ++this.currentStep);
 	        },
 	        prevStep(){
-	            if(this.currentStep > 0) {
-                    this.$store.commit('changeStep', --this.currentStep);
-                }
+                this.$store.commit('changeStep', --this.currentStep);
 	        },
             sizeChange(event) {
                 
