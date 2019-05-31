@@ -90,23 +90,12 @@
                             </div>
                             <div class="form-group m-form__group">
                                 <div></div>
-                                <div class="custom-file">
-                                    <input
-                                        type="file"
-                                        data-type-upload="top"
-                                        class="custom-file-input"
-                                        id="topPrintFile"
-                                        @click="step_options.state = true"
-                                        @change.prevent="uploadFile"
-                                    >
-                                    <label 
-                                        class="custom-file-label unchecked" 
-                                        :class="{checked: step_options.state}" 
-                                        for="customFile"
-                                    >
-                                        Choose file
-                                    </label>
-                                </div>
+                                <btn-file-upload
+                                    data-type-upload="top"
+                                    id="topPrintFile"
+                                    @btnClick="step_options.state = true"
+                                    @btnChange="prepareFile"
+                                />
                             </div>
                             <div class="dropdown">
                                 <button 
@@ -167,21 +156,53 @@
                 </div>
             </div>
         </div>
+        <!-- Modal set name file -->
+        <modal v-if="showModal" @close="clearFile">
+            <h3 slot="header">Enter the file name</h3>
+            <div slot="body">
+                <input type="text" class="form-control" v-model="fileName" placeholder="Enter the file name"> 
+            </div>
+            <div slot="footer">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary" 
+                    @click.prevent="clearFile"
+                >
+                    Cancell
+                </button>
+                <button
+                    :disabled="!checkFileName(fileName)"
+                    type="button" 
+                    class="btn btn-primary"
+                    @click.prevent="uploadFile"
+                >
+                    Upload
+                </button>
+            </div>
+        </modal>
     </div>
 </template>
 
 <script>
     import upload from '../mixins/uploadFile';
     import ColorBtn from './ColorBtn';
+    import BtnFileUpload from '@/components/BtnFileUpload';
+    import Modal from '@/components/modals/Modal';
 
     export default {
         name: 'skateboard-decks-step-4',
         mixins: [upload],
         components: {
-            ColorBtn
+            ColorBtn,
+            BtnFileUpload,
+            Modal
         },
         data() {
             return {
+                file: null,
+                fileName: '',
+                typeUpload: '',
+                showModal: false,
                 step_color: null
             }
         },
@@ -189,6 +210,47 @@
             step_color: _.debounce(function(val){
                 this.$emit('colorChange', val);
             }, 300)
+        },
+        methods: {
+            checkFileName(name) {
+                return (/[a-zA-Z0-9_-]{2,}\.[a-zA-Z0-9]{3,}$/i).test(name);
+            },
+            prepareFile(event) {
+                if (event.target.files.length === 0) {
+                    this.clearFile();
+
+                    return false;
+                }
+                this.showModal = true;
+                this.file = event.target.files[0];
+                this.fileName = this.file.name;
+                this.typeUpload = event.target.dataset.typeUpload;
+            },
+            clearFile() {
+                this.file = null;
+                this.fileName = '';
+                this.typeUpload = '';
+                this.showModal = false;
+            },
+            uploadFile() {
+                let formData = new FormData();
+
+                formData.append('file', this.file);
+                formData.append('typeUpload', this.typeUpload);
+                formData.append('fileName', this.fileName);
+
+                axios.post('/configurator-fileupload', formData, {
+                    headers: {'Content-Type': 'multipart/form-data'}
+                })
+                    .then(response => response.data)
+                    .then(response => {
+                        this.showModal = false;
+                        this.step_options.file = response;
+                    })
+                    .catch(error => {
+                        this.showModal = false;
+                    });
+            }
         },
         created() {
             this.step_color = this.options.color;
