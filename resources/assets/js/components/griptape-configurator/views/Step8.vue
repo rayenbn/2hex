@@ -99,9 +99,9 @@
                                         type="file"
                                         data-type-upload="backpaper"
                                         class="custom-file-input"
-                                        id="backpaperPrintFile"
+                                        id="step-8-upload"
                                         @click="step_options.state = true"
-                                        @change.prevent="uploadFile"
+                                        @change.prevent="prepareFile"
                                     >
                                     <label 
                                         class="custom-file-label unchecked" 
