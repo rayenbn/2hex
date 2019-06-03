@@ -83,7 +83,7 @@ Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index')->nam
 Route::get('/export_csv','SummaryController@exportcsv')->name('export.invoice');
 Route::get('/export_csv/{id}','SummaryController@exportcsvbyid')->name('export.csv.id');
 Route::get('/submit_order','SummaryController@submitOrder')->name('orders.submit');
-Route::post('/save_order', 'SummaryController@saveOrder');
+Route::get('/save_order', 'SummaryController@saveOrder');
 Route::get('/remove_saveorder/{id}','SummaryController@removeOrder');
 Route::get('/getdata','HomeController@getData');
 
