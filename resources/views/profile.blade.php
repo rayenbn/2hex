@@ -78,7 +78,7 @@
                                                     <div class="saved-order-list-item">
                                                         <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">Continue</a></div>
                                                         <div class="btn btn-secondary">
-                                                            Saved order: {{$order->saved_date}}
+                                                            Saved order: {{$order->saved_name}}
                                                         </div>
                                                         <div class="btn btn-secondary">
                                                             <a class="remove_button" href="/remove_saveorder/{{$order->saved_date}}">Remove</a>

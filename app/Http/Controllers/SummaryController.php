@@ -285,7 +285,7 @@ class SummaryController extends Controller
         return redirect()->route('summary');
     }
 
-    public function saveOrder()
+    public function saveOrder(Request $request)
     {
         if(Auth::user()){
             $created_by = (string) auth()->id();
@@ -299,6 +299,7 @@ class SummaryController extends Controller
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
+        $save_data['saved_name'] = $request->get('name', $save_data['saved_date']);
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);

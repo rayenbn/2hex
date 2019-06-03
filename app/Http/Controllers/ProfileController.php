@@ -19,9 +19,9 @@ class ProfileController extends Controller
     {
         $queryOrders = Order::query()
             ->where('created_by', auth()->check() ? auth()->id() : csrf_token())
-            ->groupBy('saved_date', 'invoice_number')
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
             ->whereNotNull('saved_date')
-            ->select('saved_date');
+            ->select(['saved_date', 'saved_name']);
 
         $querySubmitOrders = clone $queryOrders;
 

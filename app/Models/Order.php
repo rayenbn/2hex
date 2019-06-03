@@ -63,7 +63,7 @@ class Order extends Model
         'saved_date',
         'updated_at', 
         'submit', 
-        'is_grip'
+        'saved_name'
     ];
 
     /**

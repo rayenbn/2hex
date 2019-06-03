@@ -10,6 +10,6 @@ commonComponents.forEach(component => {
 });
 
 export default new Vue({
-  el: "#app",
-  store
+  	el: "#app",
+  	store
 });
