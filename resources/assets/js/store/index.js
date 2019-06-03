@@ -7,16 +7,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-    	currentStep: 0
+    	currentStep: 0,
+        isSaveOrderLater: false
     },
     mutations: {
     	changeStep(state, payload) {
     		state.currentStep = payload;
-    	}
+    	},
+        changeIsLaterModal(state, payload) {
+            state.isSaveOrderLater = payload;
+        }
     },
     actions: {},
     getters: {
-    	getCurrentStep: state => state.currentStep
+        getCurrentStep: state => state.currentStep,
+    	getIsLater: state => state.isSaveOrderLater,
     },
     modules: {
     	gripTapeConfigurator

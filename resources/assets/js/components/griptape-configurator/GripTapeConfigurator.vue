@@ -371,8 +371,9 @@
         methods: {
             calculateTotal() {
                 this.orderTotal = this.sumskateboards 
-                    + (this.quantity * (this.size ? this.size.value : 0))
-                    + this.deliveryPrice;
+                    + this.sumgrips
+                    + (this.quantity * (this.size ? this.size.value : 0));
+                    // + this.deliveryPrice;
             },
             calculatePrice() {
                 if (this.size) {

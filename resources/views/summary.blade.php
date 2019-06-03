@@ -352,12 +352,7 @@
 								</li> -->
 
 								<li class="m-portlet__nav-item">
-									<a href="/save_order" class="btn btn-secondary m-btn m-btn--custom m-btn--icon">
-										<span>
-											<i class="la la-save"></i>
-											<span>save for later</span>
-										</span>
-									</a>
+									<btn-order-later/>
 								</li>
 								
 								
@@ -423,4 +418,5 @@
 			<!-- END EXAMPLE TABLE PORTLET-->
 		</div>
 	</div>
+	<change-name-order-modal/>
 @endsection
