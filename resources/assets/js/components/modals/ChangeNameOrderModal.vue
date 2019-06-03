@@ -44,7 +44,7 @@
         },
         methods: {
             save(event) {
-                axios.post('/save_order', {name: this.name})
+                axios.post('/save_order/', {name: this.name})
                     .then((response) => {
                         this.close();
                         setTimeout(() => {
