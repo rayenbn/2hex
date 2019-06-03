@@ -1,27 +1,28 @@
 <template>
-    <modal v-if="show" @close="close">
-        <h3 slot="header">Enter the name</h3>
-        <div slot="body">
-            <input type="text" class="form-control" v-model="name" placeholder="Enter the name"> 
-        </div>
-        <div slot="footer">
-            <button 
-                type="button" 
-                class="btn btn-secondary" 
-                @click.prevent="close"
-            >
-                Cancell
-            </button>
-            <button
-                :disabled="!name.length"
-                type="button" 
-                class="btn btn-primary"
-                @click.prevent="save"
-            >
-                Save
-            </button>
-        </div>
-    </modal>
+    <form action="/save_order" method="GET">
+        <modal v-if="show" @close="close">
+            <h3 slot="header">Enter the name</h3>
+            <div slot="body">
+                <input type="text" name="name" class="form-control" v-model="name" placeholder="Enter the name"> 
+            </div>
+            <div slot="footer">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary" 
+                    @click.prevent="close"
+                >
+                    Cancell
+                </button>
+                <button
+                    type="submit"
+                    :disabled="!name.length"
+                    class="btn btn-primary"
+                >
+                    Save
+                </button>
+            </div>
+        </modal>
+    </form>
 </template>
 
 <script>
@@ -43,18 +44,18 @@
             }
         },
         methods: {
-            save(event) {
-                axios.get('/save_order', {name: this.name})
-                    .then((response) => {
-                        this.close();
-                        setTimeout(() => {
-                            window.location.href = response.request.responseURL || "/summary";
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    }); 
-            },
+            // save(event) {
+            //     axios.get('/save_order', {name: this.name})
+            //         .then((response) => {
+            //             this.close();
+            //             setTimeout(() => {
+            //                 window.location.href = response.request.responseURL || "/summary";
+            //             }, 1000);
+            //         })
+            //         .catch((error) => {
+            //             console.error(error);
+            //         }); 
+            // },
             close() {
                 this.name = '';
                 this.$store.commit('changeIsLaterModal', false);
