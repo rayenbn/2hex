@@ -11,9 +11,9 @@
                 </p>
             </div>
             <div slot="body">
-                <ul v-if="errors" class="alert alert-danger">
+                <!-- <ul v-if="errors" class="alert alert-danger">
                     <li v-for="(e, key, index) in errors" v-text="errors[key][index]"></li>
-                </ul>
+                </ul> -->
                 <input 
                     type="text" 
                     name="name" 
@@ -30,11 +30,11 @@
                 >
                     Cancell
                 </button>
+                    <!-- @click.prevent="save" -->
                 <button
                     :disabled="!name.length"
                     type="submit"
                     class="btn btn-primary"
-                    @click.prevent="save"
                 >
                     Save
                 </button>
@@ -54,7 +54,7 @@
         data() {
             return {
                 name: '',
-                errors: null
+                // errors: null
             };
         },
         computed: {
@@ -63,20 +63,20 @@
             }
         },
         methods: {
-            save(event) {
-                axios.get('/save_order', { params: {name: this.name} })
-                    .then((response) => {
-                        this.close();
-                        this.errors = null;
-                        setTimeout(() => {
-                            window.location.href = response.request.responseURL || "/summary";
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        this.errors = error.response.data && error.response.data.errors;
-                        console.error(error);
-                    }); 
-            },
+            // save(event) {
+            //     axios.get('/save_order', { params: {name: this.name} })
+            //         .then((response) => {
+            //             this.close();
+            //             this.errors = null;
+            //             setTimeout(() => {
+            //                 window.location.href = response.request.responseURL || "/summary";
+            //             }, 1000);
+            //         })
+            //         .catch((error) => {
+            //             this.errors = error.response.data && error.response.data.errors;
+            //             console.error(error);
+            //         }); 
+            // },
             close() {
                 this.name = '';
                 this.$store.commit('changeIsLaterModal', false);
