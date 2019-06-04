@@ -80,7 +80,7 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/img/griptape/topprint.jpg" 
+                                            src="/img/griptape/custom-griptape-print-2hex-skateboard-manufacturer.jpg" 
                                             alt="Top Print on Griptape" 
                                             title="Top Print on Griptape"  
                                             class="step1-img2"
