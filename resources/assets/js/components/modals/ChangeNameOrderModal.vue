@@ -64,7 +64,7 @@
         },
         methods: {
             save(event) {
-                axios.post('/save_order', {name: this.name})
+                axios.get('/save_order', { params: {name: this.name} })
                     .then((response) => {
                         this.close();
                         this.errors = null;
