@@ -238,7 +238,11 @@ class SummaryController extends Controller
         $created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
@@ -248,12 +252,25 @@ class SummaryController extends Controller
             Order::insert($array);
         }
 
+        for($i = 0; $i < count($grips); $i ++){
+            unset($grips[$i]['id']);
+            unset($grips[$i]['saved_date']);
+            unset($grips[$i]['usenow']);
+            unset($grips[$i]['submit']);
+            $array = json_decode(json_encode($grips[$i]), true);
+            GripTape::insert($array);
+        }
+
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
 
         $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips);
-        $exporter->setInvoiceNumber($orders->first()->invoice_number);
-        $exporter->setDate($orders->first()->created_at->timestamp);
+
+        $model = $orders->count() ? $orders->first() : $grips->first();
+
+        $exporter->setInvoiceNumber($model->invoice_number);
+
+        $exporter->setDate($model->created_at->timestamp);
 
         dispatch($exporter);
         
@@ -287,6 +304,8 @@ class SummaryController extends Controller
 
     public function saveOrder(Request $request)
     {
+        $this->validate($request, ['name' => 'required|string']);
+
         if(Auth::user()){
             $created_by = (string) auth()->id();
         }

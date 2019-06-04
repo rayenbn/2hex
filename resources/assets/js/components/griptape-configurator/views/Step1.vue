@@ -156,8 +156,8 @@
                 if (this.step_size && typeof this.step_size === 'object') {
                     switch(this.step_size.name) {
                         case '9" x 33"': return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
-                        case '9" x 720"': return {q: '/img/griptape/1.2.jpg', s: '/img/griptape/2.2.jpg'};
-                        case '10" x 45"': return {q: '/img/griptape/1.3.jpg', s: '/img/griptape/2.3.jpg'};
+                        case '9" x 720"': return {q: '/img/griptape/1.3.jpg', s: '/img/griptape/2.3.jpg'};
+                        case '10" x 45"': return {q: '/img/griptape/1.2.jpg', s: '/img/griptape/2.2.jpg'};
                         case '11" x 720"': return {q: '/img/griptape/1.4.jpg', s: '/img/griptape/2.4.jpg'};
                         default: return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
                     }

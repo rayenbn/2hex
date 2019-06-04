@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
-use App\Models\Order;
+use App\Models\{Order, GripTape};
 
 class ProfileController extends Controller
 {
@@ -23,10 +23,26 @@ class ProfileController extends Controller
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
+        $queryGrips = GripTape::query()
+            ->where('created_by', auth()->check() ? auth()->id() : csrf_token())
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
         $querySubmitOrders = clone $queryOrders;
+        $querySubmitGrips = clone $queryGrips;
 
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
+
+        $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($grip);
+        });
+
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
+
+        $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
+            $submitorders->push($grip);
+        });
 
         $shipinfo = ShipInfo::auth()->first();
 

@@ -26,14 +26,17 @@ class OrderSubmit extends Mailable
 
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
 
-        $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
+        $invoiceNumber = $exporter->getInvoiceNumber();
+
+        $queryOrders->update(['invoice_number' => $invoiceNumber]);
+        $gripQuery->update(['invoice_number'   => $invoiceNumber]);
 
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->bcc('niklas@skateboard-factory.com', 'SBfactory')
             ->subject('2HEX Production Order Confirmation')
             ->attach($exporter->getPathInvoice(), [
-                'as' => $exporter->getInvoiceNumber() . '.xlsx',
+                'as' => $invoiceNumber . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ])
             ->markdown('emails.orders.submit');
