@@ -2404,7 +2404,6 @@
                 }
 
                 if(this.order.topprint_color){
-            console.log(this.order.top_print_color);
                     this.steps[5].state = true;
                     this.steps[5].color = this.order.topprint_color;
                 }
