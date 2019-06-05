@@ -366,14 +366,14 @@
 							@else
 							<ul class="m-portlet__nav">
 								
-								<li class="m-portlet__nav-item">
+								<!-- <li class="m-portlet__nav-item">
 									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
 										<span>
 											<i class="la la-save"></i>
 											<span>ExportInvoice</span>
 										</span>
 									</a>
-								</li>
+								</li> -->
 
 								<li class="m-portlet__nav-item">
 									<btn-order-later/>
