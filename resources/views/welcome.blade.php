@@ -32,21 +32,23 @@
 		<div class="m-content">
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__text">
-                    <h4>2HEX gives everyone access to the best skateboard production!</h4>
-                    2HEX shows all customization options and makes cost calculations transparent.
-                    <a href="{{route('register')}}">
-                        <b>Sign Up</b>
-                    </a>
-                    and select the perfect
+                    <h4>
+                        <a href="{{route('register')}}">Sign Up</a> 
+                        and choose the best 
+                        <a href="{{route('skateboard.manufacturer')}}">decks</a> and 
+                        <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
+                    </h4>
 
-                    <a href="{{route('skateboard.manufacturer')}}">
-                        <b>deck set up </b>
-                    </a>for your brand.
-                    <img src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" alt="" style="width: 100%;">
+                    2HEX gives everyone access to the best skateboard production! 2HEX shows all skateboard customization options and makes cost calculations transparent.
+
+                    <img 
+                        src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" 
+                        alt="2HEX Your Skateboard Manufacturer" 
+                        title="2HEX Your Skateboard Manufacturer" 
+                        style="width: 100%;"
+                    />
 				</div>
 			</div>
-
-
                         
 			<!--Begin::Section-->
 			<div class="row">

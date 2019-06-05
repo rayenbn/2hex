@@ -40,3 +40,6 @@
                src="https://www.facebook.com/tr?id=643088989460732&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Facebook Pixel Code -->
+
+<script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+<script type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us18.list-manage.com","uuid":"3ffa2bfeb7dcab28a2a6db016","lid":"b3f2c689bd","uniqueMethods":true}) })</script>
