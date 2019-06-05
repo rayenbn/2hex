@@ -46,7 +46,7 @@ class GripTape extends Model
             case 'CMYK':
                 return 4;
             default: 
-                return null;
+                return '-';
         }
     }
 

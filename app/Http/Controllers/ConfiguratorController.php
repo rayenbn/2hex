@@ -67,7 +67,7 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
+        // dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
 
         return 'success';
     }
