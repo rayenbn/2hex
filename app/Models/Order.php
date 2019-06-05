@@ -63,7 +63,10 @@ class Order extends Model
         'saved_date',
         'updated_at', 
         'submit', 
-        'saved_name'
+        'saved_name',
+        'bottomprint_color',
+        'topprint_color',
+        'carton_color'
     ];
 
     /**
@@ -163,6 +166,22 @@ class Order extends Model
             return 0.5;
         } else if ($total >= 5000) {
             return 0;
+        }
+    }
+
+    public static function colorCount($value)
+    {
+        switch ($value) {
+            case '1 color':
+                return 1;
+            case '2 color':
+                return 2;
+            case '3 color':
+                return 3;
+            case 'CMYK':
+                return 4;
+            default: 
+                return '-';
         }
     }
 }

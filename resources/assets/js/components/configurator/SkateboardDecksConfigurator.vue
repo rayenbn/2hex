@@ -679,11 +679,21 @@
 
                                             </div>
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[4].state}" @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1">
+                                                <button 
+                                                    class="btn btn-secondary dropdown-toggle unchecked" 
+                                                    type="button" 
+                                                    id="step-5-recent" 
+                                                    data-toggle="dropdown" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    style="width:100%;" 
+                                                    v-bind:class="{checked: steps[4].state}" 
+                                                    @click=" perdeck += steps[4].state ? 0 : 0.75, steps[4].state = 1"
+                                                >
                                                     Recent file
                                                 </button>
 
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <div class="dropdown-menu" aria-labelledby="step-5-recent">
                                                     <a 
                                                         v-for="file in (filenames.bottom.concat(filenames.top))"
                                                         class="dropdown-item file-dropdown"  
@@ -694,6 +704,29 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                            <br>
+                                            <color-btn 
+                                                :color="steps[4].color" 
+                                                labelledby="step-5-colors"
+                                                @colorChange="(val) => steps[4].color = val"
+                                            >
+                                                <template slot="btn">
+                                                    <button 
+                                                        id="step-5-colors"
+                                                        class="btn btn-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        data-toggle="dropdown" 
+                                                        aria-haspopup="true" 
+                                                        aria-expanded="false" 
+                                                        style="width:100%;" 
+                                                        @click="perdeck += steps[4].state ? 0 : 0.75, steps[4].state = true"
+                                                        :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']" 
+                                                    >
+                                                        {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
+                                                    </button>
+                                                </template>
+                                            </color-btn>
+
                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                 <h3>Custom Bottom Design</h3>
                                                 Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
@@ -809,10 +842,20 @@
                                                 </div>
                                             </div>
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[5].state}" @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1">
+                                                <button 
+                                                    class="btn btn-secondary dropdown-toggle unchecked" 
+                                                    type="button" 
+                                                    id="step-6-recent" 
+                                                    data-toggle="dropdown" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    style="width:100%;" 
+                                                    v-bind:class="{checked: steps[5].state}" 
+                                                    @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                >
                                                     Recent file
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <div class="dropdown-menu" aria-labelledby="step-6-recent">
                                                     <a 
                                                         v-for="file in (filenames.bottom.concat(filenames.top))"
                                                         class="dropdown-item file-dropdown" 
@@ -823,6 +866,28 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                            <br>
+                                            <color-btn 
+                                                :color="steps[5].color" 
+                                                labelledby="step-6-colors"
+                                                @colorChange="(val) => steps[5].color = val"
+                                            >
+                                                <template slot="btn">
+                                                    <button 
+                                                        id="step-6-colors"
+                                                        class="btn btn-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        data-toggle="dropdown" 
+                                                        aria-haspopup="true" 
+                                                        aria-expanded="false" 
+                                                        style="width:100%;" 
+                                                        @click="perdeck += steps[5].state ? 0 : 0.75, steps[5].state = true"
+                                                        :class="[steps[5].state && steps[5].color ? 'checked' : 'unchecked']" 
+                                                    >
+                                                        {{ steps[5].color ? steps[5].color : 'How many colors are in your design?' }}
+                                                    </button>
+                                                </template>
+                                            </color-btn>
                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                 <h3>Top Print</h3>
                                                 Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
@@ -1557,10 +1622,20 @@
                                                 </div>
                                             </div>
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[10].state}" @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1">
+                                                <button 
+                                                    class="btn btn-secondary dropdown-toggle unchecked" 
+                                                    type="button" 
+                                                    id="step-11-recent" 
+                                                    data-toggle="dropdown" 
+                                                    aria-haspopup="true" 
+                                                    aria-expanded="false" 
+                                                    style="width:100%;" 
+                                                    v-bind:class="{checked: steps[10].state}" 
+                                                    @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                >
                                                     Recent file
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <div class="dropdown-menu" aria-labelledby="step-11-recent">
                                                     <a 
                                                         v-for="file in filenames.box"
                                                         class="dropdown-item file-dropdown"  
@@ -1571,6 +1646,28 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                            <br>
+                                            <color-btn 
+                                                :color="steps[10].color" 
+                                                labelledby="step-11-colors"
+                                                @colorChange="(val) => steps[10].color = val"
+                                            >
+                                                <template slot="btn">
+                                                    <button 
+                                                        id="step-11-colors"
+                                                        class="btn btn-secondary dropdown-toggle" 
+                                                        type="button" 
+                                                        data-toggle="dropdown" 
+                                                        aria-haspopup="true" 
+                                                        aria-expanded="false" 
+                                                        style="width:100%;" 
+                                                        @click="perdeck += steps[10].state ? 0 : 0.15, steps[10].state = true"
+                                                        :class="[steps[10].state && steps[10].color ? 'checked' : 'unchecked']" 
+                                                    >
+                                                        {{ steps[10].color ? steps[10].color : 'How many colors are in your design?' }}
+                                                    </button>
+                                                </template>
+                                            </color-btn>
                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                 <h3>Custom Printed Cartons</h3>
                                                 Add your logo on both sides of the carton. Please submit the artwork in 40cm(width) x 15cm(height).
@@ -1783,6 +1880,8 @@
 </template>
 
 <script>
+    import ColorBtn from '@/components/griptape-configurator/views/ColorBtn';
+
     export default {
     	name: 'skateboard-decks-configurator',
     	props: {
@@ -1803,6 +1902,9 @@
                 default: null
             }
     	},
+        components: {
+            ColorBtn
+        },
         data() {
             return {
                 sizes: [
@@ -1889,8 +1991,8 @@
                     {state: true}, 
                     {state: true}, 
                     {state: true}, 
-                    {state: false},                      
-                    {state: false, name: ''}, 
+                    {state: false, color: null},                      
+                    {state: false, name: '', color: null}, 
                     {state: false, name: ''}, 
                     {state: true, name: ''}, 
                     {
@@ -1902,7 +2004,7 @@
                         pattern: {state: false}, 
                     },                     
                     {state: false, name: ''}, 
-                    {state: false, name: ''}, 
+                    {state: false, name: '', color: null}, 
                 ],
             }
         },
@@ -1922,22 +2024,38 @@
         methods: {
         	save(event) {
                 var formData = new FormData();
+                let bottom = document.getElementById('bottomPrintFile');
+                let top = document.getElementById('topPrintFile');
+                let engravery = document.getElementById('engraveryFile');
+                let cardboard = document.getElementById('cardboardFile');
+                let carton = document.getElementById('cartonFile');
+
+
                 formData.append('id', this.orderId);
                 formData.append('quantity',this.quantity);
                 formData.append('size', this.size);
                 formData.append('concave',this.steps[1].state ? 'Deep Concave' : 'Mediumn Concave');
                 formData.append('wood',this.steps[2].state ? 'European Maple Wood' : 'American Maple Wood');
                 formData.append('glue',this.steps[3].state ? 'American Glue' : 'Epoxy Glue');
-                formData.append('bottomprint',this.steps[4].state ? document.getElementById('bottomPrintFile').getAttribute('fileName') : '');
-                formData.append('topprint',this.steps[5].state ? document.getElementById('topPrintFile').getAttribute('fileName') : '');
-                formData.append('engravery',this.steps[6].state ? document.getElementById('engraveryFile').getAttribute('fileName') : '');
+                formData.append('bottomprint', this.steps[4].state && bottom.hasAttribute('fileName') ? bottom.getAttribute('fileName') : '');
+                formData.append('topprint',this.steps[5].state && top.hasAttribute('fileName') ? top.getAttribute('fileName') : '');
+                formData.append('engravery',this.steps[6].state && engravery.hasAttribute('fileName') ? engravery.getAttribute('fileName') : '');
                 formData.append('veneer',JSON.stringify(this.currentColors));
                 formData.append('extra',JSON.stringify(this.steps[8]));
-                formData.append('cardboard',this.steps[9].state ? document.getElementById('cardboardFile').getAttribute('fileName') : '');
-                formData.append('carton',this.steps[10].state ? document.getElementById('cartonFile').getAttribute('fileName') : '');
+                formData.append('cardboard',this.steps[9].state && cardboard.hasAttribute('fileName') ? cardboard.getAttribute('fileName') : '');
+                formData.append('carton',this.steps[10].state && carton.hasAttribute('fileName') ? carton.getAttribute('fileName') : '');
                 formData.append('perdeck',this.perdeck);
                 formData.append('total',(this.quantity * this.perdeck + this.fixedprice).toFixed(2));
                 formData.append('fixedprice',this.fixedprice);
+
+                formData.append('bottomprint_color', this.steps[4].state 
+                    && this.steps[4].color ? this.steps[4].color : "");
+
+                formData.append('topprint_color', this.steps[5].state 
+                    && this.steps[5].color ? this.steps[5].color : "");
+
+                formData.append('carton_color', this.steps[10].state 
+                    && this.steps[10].color ? this.steps[10].color : "");
                 
                 axios.post('/skateboard-deck-configurator', formData)
                     .then((response) => {
@@ -2168,24 +2286,21 @@
 
                     if(this.order.bottomprint){
                         this.steps[4].state = true;
-                        $('button',$('#m_wizard_form_step_5')).html(this.order.bottomprint);
-                        setTimeout(function(){
-                            $('button',$('#m_wizard_form_step_5')).removeClass('unchecked');
-                        }, 1000);
-                        
+                        let step5 = document.getElementById('step-5-recent');
+                        step5.innerHTML = this.order.bottomprint;
+                        step5.classList.remove('unchecked');
+
                         $('input',$('#m_wizard_form_step_5')).attr('fileName',this.order.bottomprint);
-                    } else
-                        this.steps[4].state = false;
+                    }
 
                     if(this.order.topprint){
-                        $('button',$('#m_wizard_form_step_6')).html(this.order.topprint);
-                        setTimeout(function(){
-                            $('button',$('#m_wizard_form_step_6')).removeClass('unchecked');
-                        }, 1000);
-                        $('input',$('#m_wizard_form_step_6')).attr('fileName',this.order.topprint);
                         this.steps[5].state = true;
-                    } else
-                        this.steps[5].state = false;
+                        let step6 = document.getElementById('step-6-recent');
+                        step6.innerHTML = this.order.topprint;
+                        step6.classList.remove('unchecked')
+    
+                        $('input',$('#m_wizard_form_step_6')).attr('fileName',this.order.topprint);
+                    }
 
                     if(this.order.engravery){
                         this.steps[6].state = true;
@@ -2216,14 +2331,13 @@
 
                     
                     if(this.order.carton){
-                        this.steps[9].state = true;
-                        $('button',$('#m_wizard_form_step_11')).html(this.order.carton);
-                        setTimeout(function(){
-                            $('button',$('#m_wizard_form_step_11')).removeClass('unchecked');
-                        }, 1000);
+                        this.steps[10].state = true;
+                        let step11 = document.getElementById('step-11-recent');
+                        step11.innerHTML = this.order.carton;
+                        step11.classList.remove('unchecked');
+                    
                         $('input',$('#m_wizard_form_step_11')).attr('fileName',this.order.carton);
-                    } else
-                        this.steps[9].state = false;
+                    } 
 
                     this.perdeck = +this.order.perdeck;
                     this.total = +this.order.total;
@@ -2283,6 +2397,22 @@
             this.initOrder();
         },
         created() {
+            if (this.order) {
+                if(this.order.bottomprint_color){
+                    this.steps[4].state = true;
+                    this.steps[4].color = this.order.bottomprint_color;
+                }
+
+                if(this.order.topprint_color){
+                    this.steps[5].state = true;
+                    this.steps[5].color = this.order.topprint_color;
+                }
+
+                if(this.order.carton_color){
+                    this.steps[10].state = true;
+                    this.steps[10].color = this.order.carton_color;
+                }
+            }
             this.$store.commit('changeStep', 1);
             this.renderProduct();
 	        // Global quantity batches plus current total.

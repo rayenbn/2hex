@@ -219,9 +219,24 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected function generateOrders()
     {
-        $activeSheet = null;
+        $activeSheet = $this->getActiveSheet();
+        // Insert head Grip Tapes
+        $activeSheet->setCellValue('C' . 17, 'Quantity');
+        $activeSheet->setCellValue('D' . 17, 'Size');
+        $activeSheet->setCellValue('E' . 17, 'Concave');
+        $activeSheet->setCellValue('F' . 17, 'Materials');
+        $activeSheet->setCellValue('G' . 17, 'Print');
+        $activeSheet->setCellValue('H' . 17, 'Top Engravery');
+        $activeSheet->setCellValue('I' . 17, 'Veneer Colors');
+        $activeSheet->setCellValue('J' . 17, 'Specials');
+        $activeSheet->setCellValue('K' . 17, 'Cardboard Wrap');
+        $activeSheet->setCellValue('L' . 17, 'Carton Print');
+        $activeSheet->setCellValue('M' . 17, 'Price p. deck');
+        $activeSheet->setCellValue('N' . 17, 'Total of Row');
+
+
         $this->orders->map(function(Order $order, $index) use ($activeSheet) {
-            $activeSheet = $this->getActiveSheet();
+
             $activeSheet->insertNewRowBefore($this->rangeStart, self::ROWS_ITEM);
             
             foreach ($activeSheet->getRowIterator($this->rangeStart, self::ROWS_ITEM) as $row) {
@@ -242,17 +257,24 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->setCellValue(sprintf('F%s', $this->rangeStart), $order->wood);
                 $activeSheet->setCellValue(sprintf('F%s', $endRange + 1), $order->glue);
                 // Column G
-                $activeSheet->mergeCells(sprintf('G%s:G%s', $this->rangeStart, $endRange = $this->rangeStart + 3));
-                $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 1, $endRange + 4));
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $this->rangeStart, $endRange = $this->rangeStart + 2));
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 2, $endRange + 4));
+
                 $activeSheet->setCellValue(
                     sprintf('G%s', $this->rangeStart), $this->setStartTextBold('Bottom: ', $order->bottomprint)
                 );
                 $activeSheet->setCellValue(
-                    sprintf('G%s', $endRange + 1), $this->setStartTextBold('Top: ', $order->topprint)
+                    sprintf('G%s', $endRange + 1), 'colors: ' . Order::colorCount($order->bottomprint_color)
+                );
+                $activeSheet->setCellValue(
+                    sprintf('G%s', $endRange + 2), $this->setStartTextBold('Top: ', $order->topprint)
+                );
+                $activeSheet->setCellValue(
+                    sprintf('G%s', $endRange + 5), 'colors: ' . Order::colorCount($order->topprint_color)
                 );
                 // Column H
                 $activeSheet->mergeCells(sprintf('H%s:H%s', $this->rangeStart, $this->rangeStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $this->rangeStart), $order->engravery);
+                $activeSheet->setCellValue(sprintf('H%s', $this->rangeStart), 'Engravery: ' . $order->engravery);
                
                 // Column I
                 foreach (json_decode($order->veneer) as $key => $value) {
@@ -281,22 +303,17 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 );
 
                 // Column K
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $this->rangeStart, $endRange = $this->rangeStart + 3));
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $endRange + 1, $endRange + 4));
-                $activeSheet->setCellValue(
-                    sprintf('K%s', $this->rangeStart), $this->setStartTextBold('Bottom: ', $order->bottomprint)
-                );
-                $activeSheet->setCellValue(
-                    sprintf('K%s', $endRange + 1), $this->setStartTextBold('Top: ', $order->topprint)
-                );
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $this->rangeStart, $this->rangeStart + 7));
+                $activeSheet->setCellValue(sprintf('K%s', $this->rangeStart), 'Cardboard: ' . $order->cardboard);
+
                 // Column L
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $this->rangeStart, $endRange = $this->rangeStart + 3));
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $endRange + 1, $endRange + 4));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $this->rangeStart, $endRange = $this->rangeStart + 6));
+              
                 $activeSheet->setCellValue(
-                    sprintf('L%s', $this->rangeStart), $this->setStartTextBold('Cardboard: ', $order->cardboard)
+                    sprintf('L%s', $this->rangeStart), $this->setStartTextBold('Carton Print: ', $order->carton)
                 );
                 $activeSheet->setCellValue(
-                    sprintf('L%s', $endRange + 1), $this->setStartTextBold('Carton Print: ', $order->carton)
+                    sprintf('L%s', $endRange + 1), 'colors: ' . Order::colorCount($order->carton_color)
                 );
                 // Column M
                 $activeSheet->mergeCells(sprintf('M%s:M%s', $this->rangeStart, $this->rangeStart + 7));
@@ -617,9 +634,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {
             return array_filter(
-                $order->only([
-                    'quantity', 'bottomprint', 'topprint', 'engravery', 'carton', 'cardboard'
-                ]), function($image) {
+                $order->toArray(), function($image) {
                     return isset($image);
                 }
             );
@@ -643,7 +658,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $index += 1;
 
             foreach ($order as $key => $value) {
-                if (!array_key_exists($key,  $this->feesTypes)) continue;
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
 
                 // If same design
                 if (array_key_exists($key, $fees)) {
@@ -651,9 +666,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
                         $fees[$key][$value]['batches'] .= ",{$index}";
                         $fees[$key][$value]['quantity'] += $order['quantity'];
 
-                        if ($key == 'cardboard') {
-                            $fees[$key][$value]['price'] = Order::getPriceDesign($fees[$key][$value]['quantity']);
-                        }
+                        // if ($key == 'cardboard') {
+                        //     $fees[$key][$value]['price'] = Order::getPriceDesign($fees[$key][$value]['quantity']);
+                        // }
                         continue;
                     }
                 } 
@@ -662,18 +677,38 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     'batches'  => (string) $index,
                     'type'     => $this->feesTypes[$key]['name'],
                     'quantity' => $order['quantity'],
+                    'color'    => 1
                 ];
+
+                if (array_key_exists($key . '_color', $order)) {
+                    switch ($order[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
 
                 /*
                  * Cardboard price calculated 
                  * Formula: 500 + (quantity - 625) * 0.8
                  * If (quantity - 625) * 0.8 < 0 then 0
                  */ 
-                if ($key == 'cardboard') {
-                    $fees[$key][$value]['price'] = Order::getPriceDesign($order['quantity']);
-                } else {
-                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
-                }
+                // if ($key == 'cardboard') {
+                //     $fees[$key][$value]['price'] = Order::getPriceDesign($order['quantity']);
+                // } else {
+                //     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                // }
 
             }
         }

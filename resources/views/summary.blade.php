@@ -154,12 +154,28 @@
 								<td>{{$order->wood}}</td>
 								<td>{{$order->glue}}</td>
 
-                                <td>
-                                    <b>Bottom</b><br>
-                                    {{$order->bottomprint?$order->bottomprint:'None'}}<br>
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    <b>Top</b><br>
-                                    {{$order->topprint?$order->topprint:'None'}}
+								<td>
+									<div>
+										<span style="margin-top: 15px; display: block;">
+											<b>Bottom</b><br>
+		                                    {{$order->bottomprint ? $order->bottomprint : 'None'}}<br>
+											<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
+										</span>
+										<span>
+											colors: {{$order->bottomprint_color ?? ''}}
+	                                    	<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
+										</span>
+									</div>
+									<div>
+										<span style="margin-top: 15px; display: block;">
+											<b>Top</b><br>
+		                                    {{$order->topprint ? $order->topprint : 'None'}}<br>
+											<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
+										</span>
+										<span>
+											colors: {{$order->topprint_color ?? ''}}
+										</span>
+									</div>
                                 </td>
 
                                 <td>{{$order->engravery?$order->engravery:'None'}}</td>
@@ -203,7 +219,16 @@
                                     Shrink Wrap: Yes
                                 </td>
 								<td>{{$order->cardboard ? $order->cardboard : 'None'}}</td>
-								<td>{{$order->carton ? $order->carton : 'None'}}</td>
+								<td>
+									<div>
+										<p style="margin: 30px 0px;">
+											{{$order->carton ? $order->carton : 'None'}}
+											<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+										</p>
+										<p>colors: {{$order->carton_color ?? ''}}</p>
+									</div>
+                                </td>
+
 								<td>{{ auth()->check() ? money_format('%.2n', $order->perdeck) : '$?.??' }}</td>
 								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
 								
@@ -243,8 +268,7 @@
 							<tr>
 								<td>{{++$batch}}</td>
 								<td>{{$grip->quantity}}</td>
-								<td>{{$grip->size}}
-                                </td>
+								<td>{{$grip->size}}</td>
 								<td>{{$grip->color}}</td>
 								<td>{{$grip->grit}}</td>
 								<td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
@@ -342,14 +366,14 @@
 							@else
 							<ul class="m-portlet__nav">
 								
-								<!-- <li class="m-portlet__nav-item">
+								<li class="m-portlet__nav-item">
 									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
 										<span>
 											<i class="la la-save"></i>
 											<span>ExportInvoice</span>
 										</span>
 									</a>
-								</li> -->
+								</li>
 
 								<li class="m-portlet__nav-item">
 									<btn-order-later/>
