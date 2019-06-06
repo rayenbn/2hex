@@ -130,8 +130,11 @@ class SummaryController extends Controller
                     }
                 }
 
-                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
-
+                if ($key === 'bottomprint' || $key === 'topprint') {
+                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                }
             }
         }
 
