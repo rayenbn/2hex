@@ -39,7 +39,7 @@
                         <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
                     </h4>
 
-                    2HEX gives everyone access to the best skateboard production! 2HEX shows all skateboard customization options and makes cost calculations transparent.
+                    We give everyone access to the highest quality skateboard production! We make skateboard customization options and cost calculations transparent.
 
                     <img 
                         src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" 
