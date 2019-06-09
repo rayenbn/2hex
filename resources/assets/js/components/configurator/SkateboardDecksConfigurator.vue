@@ -224,10 +224,10 @@
                                             <div class="m-widget27__container">
 
                                                 <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
-                                                    <li class="step2-tab-nav nav-item" >
+                                                    <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                         <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">Deep Concave</a>
                                                     </li>
-                                                    <li class="step2-tab-nav nav-item" >
+                                                    <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                         <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">Medium Concave</a>
                                                     </li>
                                                 </ul>
@@ -238,24 +238,7 @@
                                                             <div class="col">
                                                                 <div class="col-xl-12">
                                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                                        <div class="m-portlet__head">
-                                                                            <div class="m-portlet__head-caption">
-                                                                                <div class="m-portlet__head-title"></div>
-                                                                            </div>
-                                                                            <div class="m-portlet__head-tools">
-                                                                                <ul class="m-portlet__nav">
-                                                                                    <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                                        
-                                                                                        <a v-if=" steps[1].state" @click=" steps[1].state=! steps[1].state"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                                                                                            <i class="fa fa-check"></i>
-                                                                                        </a>
-                                                                                        <a v-else @click=" steps[1].state=! steps[1].state"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
-                                                                                            <i class="fa fa-times"></i>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
+                                                                        
                                                                         <div class="m-portlet__body">
                                                                             <div class="m-widget17">
                                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
@@ -319,27 +302,7 @@
                                                             <div class="col">
                                                                 <div class="col-xl-12">
                                                                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                                                                        <div class="m-portlet__head">
-                                                                            <div class="m-portlet__head-caption">
-                                                                                <div class="m-portlet__head-title"></div>
-                                                                            </div>
-                                                                            <div class="m-portlet__head-tools">
-                                                                                <ul class="m-portlet__nav">
-                                                                                    <li 
-                                                                                        class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" 
-                                                                                        m-dropdown-toggle="hover"
-                                                                                    >
-                                                                                        <button
-                                                                                            @click="steps[1].state = !steps[1].state"    
-                                                                                            class="btn m-btn m-btn--icon m-btn--icon-only m-btn--pill"
-                                                                                            :class="[steps[1].state ? 'btn-success m-btn--custom' : 'btn-secondary btn-lg']"
-                                                                                        >
-                                                                                            <i class="fa" :class="[steps[1].state ? 'fa-check' : 'fa-times']"></i>
-                                                                                        </button>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
+                                                                        
                                                                         <div class="m-portlet__body">
                                                                             <div class="m-widget17">
                                                                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
@@ -2034,7 +1997,7 @@
                 formData.append('id', this.orderId);
                 formData.append('quantity',this.quantity);
                 formData.append('size', this.size);
-                formData.append('concave',this.steps[1].state ? 'Deep Concave' : 'Mediumn Concave');
+                formData.append('concave',this.steps[1].state ? 'Deep Concave' : 'Medium Concave');
                 formData.append('wood',this.steps[2].state ? 'European Maple Wood' : 'American Maple Wood');
                 formData.append('glue',this.steps[3].state ? 'American Glue' : 'Epoxy Glue');
                 formData.append('bottomprint', this.steps[4].state && bottom.hasAttribute('fileName') ? bottom.getAttribute('fileName') : '');

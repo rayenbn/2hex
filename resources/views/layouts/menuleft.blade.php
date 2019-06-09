@@ -50,7 +50,6 @@
                             </a>
                         </li>
 
-                        @if(auth()->check() && auth()->user()->isAdmin()) 
                         <li 
                             class="m-menu__item  m-menu__item--submenu 
                                 {{ request()->routeIs('griptape.manufacturer') ? 'm-menu__item--active' : '' }}" 
@@ -65,7 +64,6 @@
                                 <i class="m-menu__ver-arrow"></i>
                             </a>
                         </li>
-                        @endif
                     </ul>
                 </div>
             </li>

@@ -84,11 +84,9 @@
 
 						  	
 						  	<div class="dropdown-menu" aria-labelledby="actions">
-						  		@if(auth()->check() && auth()->user()->isAdmin())  
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
 						  			Add grip tapes
 						  		</a>
-						  		@endif
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 						  			Add decks
 						  		</a>

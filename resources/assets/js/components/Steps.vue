@@ -52,9 +52,9 @@
 
 				return [
 					"Quantity and Size",
+					"Concave",
 					"Wood",
 					"Glue",
-					"Concave",
 					"Bottom Print",
 					"Top Print",
 					"Engravery",
