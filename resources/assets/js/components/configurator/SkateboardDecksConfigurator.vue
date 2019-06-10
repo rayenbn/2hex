@@ -225,15 +225,33 @@
 
                                                 <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
-                                                        <a class="nav-link active" data-toggle="pill" href="#m_personal_income_quater_1">Deep Concave</a>
+                                                        <a 
+                                                            :class="{'active' : steps[1].state}"
+                                                            class="nav-link" 
+                                                            data-toggle="pill" 
+                                                            href="#m_personal_income_quater_1"
+                                                        >
+                                                            Deep Concave
+                                                        </a>
                                                     </li>
                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
-                                                        <a class="nav-link" data-toggle="pill" href="#m_personal_income_quater_2">Medium Concave</a>
+                                                        <a 
+                                                            :class="{'active' : !steps[1].state}"
+                                                            class="nav-link" 
+                                                            data-toggle="pill" 
+                                                            href="#m_personal_income_quater_2"
+                                                        >
+                                                            Medium Concave
+                                                        </a>
                                                     </li>
                                                 </ul>
 
                                                 <div class="m-widget27__tab tab-content m-widget27--no-padding">
-                                                    <div id="m_personal_income_quater_1" class="tab-pane active">
+                                                    <div 
+                                                        id="m_personal_income_quater_1" 
+                                                        class="tab-pane" 
+                                                        :class="[steps[1].state ? 'active' : 'fade']"
+                                                    >
                                                         <div class="row  align-items-center">
                                                             <div class="col">
                                                                 <div class="col-xl-12">
@@ -297,7 +315,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="m_personal_income_quater_2" class="tab-pane fade">
+                                                    <div 
+                                                        id="m_personal_income_quater_2" 
+                                                        class="tab-pane" 
+                                                        :class="[!steps[1].state ? 'active' : 'fade']"
+                                                    >
                                                         <div class="row  align-items-center">
                                                             <div class="col">
                                                                 <div class="col-xl-12">
