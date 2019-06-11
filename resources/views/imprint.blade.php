@@ -34,7 +34,7 @@
                                         Registered HRB 736860<br>
                                         Tax ID 88003/22072<br>
                                         <br>
-										<img src="img/image.png" width="45%">
+										Message us: <a href="{{route('inquiries')}}">here</a>.
 									</p>
                                             <p>
                                                Funded by the University of Ulm, the German Ministry of Economics, the European Union.

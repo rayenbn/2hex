@@ -22,11 +22,8 @@
                     <div id="mc_embed_signup_scroll" style="max-width: 700px;">
                         <h2>Send your production inquiry</h2>
                         <div>
-                            <p><font style="color:red"> Warning: We get tons of emails from kids.</font> <br>
-                                Please be as detailed as possible to make sure we understand that you work for a real business.</p>
-                            <p>Before answering we will check your website or social media page.
-                                We also differentiate between kids and real businesses by seeing if gmail or company email addresses are used.</p>
-                            <p>Private inquiries can currently not be answered.</p>
+                            <p>Please be as detailed as possible.</p>
+                            <p>Before answering we will check your website and social media page.</p>
 
                         </div>
                         <br>
