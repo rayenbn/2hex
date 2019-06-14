@@ -238,8 +238,6 @@
 							
 							@endforeach  
 
-							@if(auth()->check() && auth()->user()->isAdmin())   
-
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
 	                                <th>Batch</th>
@@ -304,8 +302,6 @@
 								
 							</tr>
 							@endforeach
-
-							@endif
 
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
