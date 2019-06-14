@@ -2008,6 +2008,13 @@
         },
         methods: {
         	save(event) {
+
+                if (this.quantity <= 0) {
+                    alert("Product quantity may not be 0. Please check your quantities.");
+                    
+                    return false;
+                }
+
                 var formData = new FormData();
                 let bottom = document.getElementById('bottomPrintFile');
                 let top = document.getElementById('topPrintFile');

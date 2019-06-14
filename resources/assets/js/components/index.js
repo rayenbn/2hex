@@ -10,6 +10,7 @@ import FormDeliveryAddress from './forms/DeliveryAddress.vue';
 
 // Modals
 import ChangeNameOrderModal from './modals/ChangeNameOrderModal.vue';
+import SubmitOrderModal from './modals/SubmitOrderModal.vue';
 
 export default [
     VendorCode,
@@ -19,5 +20,6 @@ export default [
     FormUserDetails,
     FormDeliveryAddress,
     ChangeNameOrderModal,
-    BtnOrderLater
+    BtnOrderLater,
+    SubmitOrderModal
 ];
