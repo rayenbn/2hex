@@ -284,6 +284,12 @@
 				axios.post('/address_save', this.info)
                     .then((response) => {
                         this.showModal = false;
+                        this.$notify({
+                            group: 'main',
+                            type: 'success',
+                            title: 'Invoice & Delivery Address',
+                            text: 'changes saved'
+                        });
                     	setTimeout(() => {
                            	window.location.href = response.request.responseURL;
                         }, 1000);
