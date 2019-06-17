@@ -149,12 +149,20 @@
 			save() {
 				axios.post('/detail_save', this.userProfile)
                     .then((response) => {
-                    	setTimeout(() => {
-                           	window.location.href = response.request.responseURL;
-                        }, 1000);
+                        this.$notify({
+                            group: 'main',
+                            type: 'success',
+                            title: 'My Details',
+                            text: 'changes saved'
+                        });
                     })
-                    .catch((error) => {
-                        console.error(error);
+                    .catch((e) => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'My Details',
+                            text: e.message
+                        });
                     });  
 			}
 		},

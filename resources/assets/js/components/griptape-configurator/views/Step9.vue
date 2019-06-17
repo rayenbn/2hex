@@ -99,9 +99,9 @@
                                         type="file"
                                         data-type-upload="carton"
                                         class="custom-file-input"
-                                        id="cartonPrintFile"
+                                        id="step-9-upload"
                                         @click="step_options.state = true"
-                                        @change.prevent="uploadFile"
+                                        @change.prevent="prepareFile"
                                     >
                                     <label 
                                         class="custom-file-label unchecked" 

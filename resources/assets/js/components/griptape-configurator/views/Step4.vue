@@ -95,9 +95,9 @@
                                         type="file"
                                         data-type-upload="top"
                                         class="custom-file-input"
-                                        id="topPrintFile"
+                                        id="step-4-upload"
                                         @click="step_options.state = true"
-                                        @change.prevent="uploadFile"
+                                        @change.prevent="prepareFile"
                                     >
                                     <label 
                                         class="custom-file-label unchecked" 
@@ -173,12 +173,14 @@
 <script>
     import upload from '../mixins/uploadFile';
     import ColorBtn from './ColorBtn';
+    import BtnFileUpload from '@/components/BtnFileUpload';
 
     export default {
         name: 'skateboard-decks-step-4',
         mixins: [upload],
         components: {
-            ColorBtn
+            ColorBtn,
+            BtnFileUpload,
         },
         data() {
             return {

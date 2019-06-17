@@ -290,12 +290,14 @@
                             title: 'Invoice & Delivery Address',
                             text: 'changes saved'
                         });
-                    	setTimeout(() => {
-                           	window.location.href = response.request.responseURL;
-                        }, 1000);
                     })
-                    .catch((error) => {
-                        console.error(error);
+                    .catch((e) => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Invoice & Delivery Address',
+                            text: e.message
+                        });
                     });  
 			}
 		},
