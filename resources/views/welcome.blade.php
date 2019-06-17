@@ -109,11 +109,11 @@
 
                             </div>
                             <div style="text-align: justify; color: #9699a4;">
-                                <h3>Catalog</h3>
-                                Signup to our newsletter to download our complete catalog!<br>
-                                <br>
-                                Please note that we can currently only offer manual sales to existing companies.
-                                Our minimum order quantity is 3000 USD for any production.
+                                <h3>Catalog & Newsletter</h3>
+                                Signup to our newsletter and download our product catalog!<br>
+                                The catalog is filled with numerous high definition photos
+                                of 2HEX skateboard products. The newsletter brings you the
+                                most important skateboard production updates; right to your inbox.
                             </div>
                             <br>
                             <div class="m-widget19__action">
@@ -215,250 +215,83 @@
                     @include('widgets.grip-tape-widget')
                 </div>
 
+
+
+                <div class="col-xl-4">
+                    <!--begin:: Widgets/Activity-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head">
+
+                            <div class="m-portlet__head m-portlet__head--fit">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-action">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/skateboard-deck-production/skateboard-manufacturer-samples-widget.jpg" alt="" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+                                                Test
+											</span>
+                                            <span class="m-widget17__desc">
+												Test the 2HEX product quality.
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-graph m--font-success"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												Quality
+											</span>
+                                            <span class="m-widget17__desc">
+												Great quality sells best!
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Deck & Grip Samples</h3>
+                                Order a sample pack with decks and griptapes. Test our samples to feel the
+                                high product quality offered at 2HEX. You can order between one and three
+                                decks with your required shape, concave and other specifications. Each deck
+                                comes with a separately packed griptape.
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                <a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                    <span>
+                                        <span>order samples</span>
+                                        <i class="la la-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Activity-->
+                </div>
+
+
                 <!-- MANUAL PRODUCTS -->
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Fast & Strong
-											</span>
-                                            <span class="m-widget17__desc">
-												We focus on the best quality
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-                                                Margin
-											</span>
-                                            <span class="m-widget17__desc">
-												highest profit margin
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Bearings</h3>
-                                Professional Skateboard Bearings have a high MOQ but a low cost per set. This makes it the highest profit skateboard component.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-bearings-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>back to our old website</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/complete-skateboard-factory.jpg" alt="complete skateboards manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Margin
-											</span>
-                                            <span class="m-widget17__desc">
-												Good margins
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Turnaround
-											</span>
-                                            <span class="m-widget17__desc">
-												Sells fastest in skate shops!
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Complete Skateboards</h3>
-                                Complete Skateboards are the most profitable product within the skateboard industry.
-                                Once your build up your brand image with great decks, completes let you live from the skateboard business.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-completes-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>back to our old website</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/skateboard-wheels-factory.jpg" alt="skateboard wheels manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Urethana
-											</span>
-                                            <span class="m-widget17__desc">
-												differentiate by Urethane
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Sells Well
-											</span>
-                                            <span class="m-widget17__desc">
-                                                a repetitive seller
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Wheels</h3>
-                                Skateboard Wheels are a popular second product because of low total production costs.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-wheels-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>back to our old website</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/skateboard-truck-factory.jpg" alt="skateboard trucks manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Control
-											</span>
-                                            <span class="m-widget17__desc">
-												Perfect Turn Control
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Image
-											</span>
-                                            <span class="m-widget17__desc">
-												giving brands the core image
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Trucks</h3>
-                                Custom made professional Skateboard Trucks push any brands image! It is the product that lets you distinguish between big and small brands.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-truck-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>back to our old website</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
 
 			</div>
 		</div>

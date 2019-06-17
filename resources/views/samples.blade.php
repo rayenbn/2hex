@@ -1,542 +1,132 @@
 @extends('layouts.app')
-@push('head.scripts')
-    <script>
-        if (location.hash) {
-            let target = location.hash;
-            let el = document.querySelector(target);
-            if (el) {
-                window.scrollTop = el.offsetTop;
-            }
-        }
-    </script>
-@endpush
 
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
-    
-		<!-- BEGIN: Subheader -->
-		<div class="m-subheader ">
-            @if(session()->has('message'))
-                <div class="alert alert-success">
-                {{ session()->get('message')}}
-                </div>
-            @endif
-			<div class="d-flex align-items-center">
-				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX Your Skateboard Manufacturer</h3>
-				</div>
-			</div>
-		</div>
-		<!-- END: Subheader -->
-                    
-		<div class="m-content">
-            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__text">
-                    <h4>
-                        <a href="{{route('register')}}">Sign Up</a> 
-                        and choose the best 
-                        <a href="{{route('skateboard.manufacturer')}}">decks</a> and 
-                        <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
-                    </h4>
 
-                    We give everyone access to the highest quality skateboard production! We make skateboard customization options and cost calculations transparent.
 
-                    <img 
-                        src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" 
-                        alt="2HEX Your Skateboard Manufacturer" 
-                        title="2HEX Your Skateboard Manufacturer" 
-                        style="width: 100%;"
-                    />
-				</div>
-			</div>
-                        
-			<!--Begin::Section-->
-			<div class="row">
+        <div class="m-content">
+            <div class="row">
+                <div class="m-portlet">
 
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
+
+
+                    <!-- Begin Mailchimp Signup Form -->
+                    <link href="../../../css/classic-10_7.css" rel="stylesheet" type="text/css" />
+                    <div id="mc_embed_signup">
+                        <form action="https://2hex.us20.list-manage.com/subscribe/post?u=ed37e5935117eca6b96cc7cb2&amp;id=90af28c734" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                            <div id="mc_embed_signup_scroll">
+                                <h2>Sample Order Form</h2>
+                                <div>
+                                    <p>Select your sample decks and fill in your details.</p>
+                                    <p>Your samples will be sent with one grip tape per deck and <b>a 50 USD discount code*</b> for your first production.</p>
+                                    <br><br>
                                 </div>
-                            </div>
-
-                            <div class="m-portlet__head m-portlet__head--fit">
-                                <div class="m-portlet__head-caption">
-                                    <div class="m-portlet__head-action">
+                                <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                                <div class="mc-field-group">
+                                    <label for="mce-MMERGE5">Deck Sample #1 (Size, Concave...)  <span class="asterisk">*</span>
+                                    </label>
+                                    <input type="text" value="" name="MMERGE5" class="required" id="mce-MMERGE5">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-MMERGE6">Deck Sample #2 (Size, Concave...) </label>
+                                    <input type="text" value="" name="MMERGE6" class="" id="mce-MMERGE6">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-MMERGE7">Deck Sample #3 (Size, Concave...) </label>
+                                    <input type="text" value="" name="MMERGE7" class="" id="mce-MMERGE7">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+                                    </label>
+                                    <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-FNAME">First Name  <span class="asterisk">*</span>
+                                    </label>
+                                    <input type="text" value="" name="FNAME" class="required" id="mce-FNAME">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-LNAME">Last Name  <span class="asterisk">*</span>
+                                    </label>
+                                    <input type="text" value="" name="LNAME" class="required" id="mce-LNAME">
+                                </div>
+                                <div class="mc-address-group">
+                                    <div class="mc-field-group">
+                                        <label for="mce-ADDRESS-addr1">Address  <span class="asterisk">*</span>
+                                        </label>
+                                        <input type="text" value="" maxlength="70" name="ADDRESS[addr1]" id="mce-ADDRESS-addr1" class="required">
+                                    </div>
+                                    <div class="mc-field-group">
+                                        <label for="mce-ADDRESS-addr2">Address Line 2</label>
+                                        <input type="text" value="" maxlength="70" name="ADDRESS[addr2]" id="mce-ADDRESS-addr2">
+                                    </div>
+                                    <div class="mc-field-group size1of2">
+                                        <label for="mce-ADDRESS-city">City</label>
+                                        <input type="text" value="" maxlength="40" name="ADDRESS[city]" id="mce-ADDRESS-city" class="required">
+                                    </div>
+                                    <div class="mc-field-group size1of2">
+                                        <label for="mce-ADDRESS-state">State/Province/Region</label>
+                                        <input type="text" value="" maxlength="20" name="ADDRESS[state]" id="mce-ADDRESS-state" class="required">
+                                    </div>
+                                    <div class="mc-field-group size1of2">
+                                        <label for="mce-ADDRESS-zip">Postal / Zip Code</label>
+                                        <input type="text" value="" maxlength="10" name="ADDRESS[zip]" id="mce-ADDRESS-zip" class="required">
+                                    </div>
+                                    <div class="mc-field-group size1of2">
+                                        <label for="mce-ADDRESS-country">Country</label>
+                                        <select name="ADDRESS[country]" id="mce-ADDRESS-country" class="required"><option value="164" selected>USA</option><option value="286">Aaland Islands</option><option value="274">Afghanistan</option><option value="2">Albania</option><option value="3">Algeria</option><option value="178">American Samoa</option><option value="4">Andorra</option><option value="5">Angola</option><option value="176">Anguilla</option><option value="175">Antigua And Barbuda</option><option value="6">Argentina</option><option value="7">Armenia</option><option value="179">Aruba</option><option value="8">Australia</option><option value="9">Austria</option><option value="10">Azerbaijan</option><option value="11">Bahamas</option><option value="12">Bahrain</option><option value="13">Bangladesh</option><option value="14">Barbados</option><option value="15">Belarus</option><option value="16">Belgium</option><option value="17">Belize</option><option value="18">Benin</option><option value="19">Bermuda</option><option value="20">Bhutan</option><option value="21">Bolivia</option><option value="325">Bonaire, Saint Eustatius and Saba</option><option value="22">Bosnia and Herzegovina</option><option value="23">Botswana</option><option value="181">Bouvet Island</option><option value="24">Brazil</option><option value="180">Brunei Darussalam</option><option value="25">Bulgaria</option><option value="26">Burkina Faso</option><option value="27">Burundi</option><option value="28">Cambodia</option><option value="29">Cameroon</option><option value="30">Canada</option><option value="31">Cape Verde</option><option value="32">Cayman Islands</option><option value="33">Central African Republic</option><option value="34">Chad</option><option value="35">Chile</option><option value="36">China</option><option value="185">Christmas Island</option><option value="37">Colombia</option><option value="204">Comoros</option><option value="38">Congo</option><option value="183">Cook Islands</option><option value="268">Costa Rica</option><option value="275">Cote D'Ivoire</option><option value="40">Croatia</option><option value="276">Cuba</option><option value="298">Curacao</option><option value="41">Cyprus</option><option value="42">Czech Republic</option><option value="318">Democratic Republic of the Congo</option><option value="43">Denmark</option><option value="44">Djibouti</option><option value="289">Dominica</option><option value="187">Dominican Republic</option><option value="45">Ecuador</option><option value="46">Egypt</option><option value="47">El Salvador</option><option value="48">Equatorial Guinea</option><option value="49">Eritrea</option><option value="50">Estonia</option><option value="51">Ethiopia</option><option value="189">Falkland Islands</option><option value="191">Faroe Islands</option><option value="52">Fiji</option><option value="53">Finland</option><option value="54">France</option><option value="193">French Guiana</option><option value="277">French Polynesia</option><option value="56">Gabon</option><option value="57">Gambia</option><option value="58">Georgia</option><option value="59">Germany</option><option value="60">Ghana</option><option value="194">Gibraltar</option><option value="61">Greece</option><option value="195">Greenland</option><option value="192">Grenada</option><option value="196">Guadeloupe</option><option value="62">Guam</option><option value="198">Guatemala</option><option value="270">Guernsey</option><option value="63">Guinea</option><option value="65">Guyana</option><option value="200">Haiti</option><option value="66">Honduras</option><option value="67">Hong Kong</option><option value="68">Hungary</option><option value="69">Iceland</option><option value="70">India</option><option value="71">Indonesia</option><option value="278">Iran</option><option value="279">Iraq</option><option value="74">Ireland</option><option value="323">Isle of Man</option><option value="75">Israel</option><option value="76">Italy</option><option value="202">Jamaica</option><option value="78">Japan</option><option value="288">Jersey  (Channel Islands)</option><option value="79">Jordan</option><option value="80">Kazakhstan</option><option value="81">Kenya</option><option value="203">Kiribati</option><option value="82">Kuwait</option><option value="83">Kyrgyzstan</option><option value="84">Lao People's Democratic Republic</option><option value="85">Latvia</option><option value="86">Lebanon</option><option value="87">Lesotho</option><option value="88">Liberia</option><option value="281">Libya</option><option value="90">Liechtenstein</option><option value="91">Lithuania</option><option value="92">Luxembourg</option><option value="208">Macau</option><option value="93">Macedonia</option><option value="94">Madagascar</option><option value="95">Malawi</option><option value="96">Malaysia</option><option value="97">Maldives</option><option value="98">Mali</option><option value="99">Malta</option><option value="207">Marshall Islands</option><option value="210">Martinique</option><option value="100">Mauritania</option><option value="212">Mauritius</option><option value="241">Mayotte</option><option value="101">Mexico</option><option value="102">Moldova, Republic of</option><option value="103">Monaco</option><option value="104">Mongolia</option><option value="290">Montenegro</option><option value="294">Montserrat</option><option value="105">Morocco</option><option value="106">Mozambique</option><option value="242">Myanmar</option><option value="107">Namibia</option><option value="108">Nepal</option><option value="109">Netherlands</option><option value="110">Netherlands Antilles</option><option value="213">New Caledonia</option><option value="111">New Zealand</option><option value="112">Nicaragua</option><option value="113">Niger</option><option value="114">Nigeria</option><option value="217">Niue</option><option value="214">Norfolk Island</option><option value="272">North Korea</option><option value="116">Norway</option><option value="117">Oman</option><option value="118">Pakistan</option><option value="222">Palau</option><option value="282">Palestine</option><option value="119">Panama</option><option value="219">Papua New Guinea</option><option value="120">Paraguay</option><option value="121">Peru</option><option value="122">Philippines</option><option value="221">Pitcairn</option><option value="123">Poland</option><option value="124">Portugal</option><option value="126">Qatar</option><option value="315">Republic of Kosovo</option><option value="127">Reunion</option><option value="128">Romania</option><option value="129">Russia</option><option value="130">Rwanda</option><option value="205">Saint Kitts and Nevis</option><option value="206">Saint Lucia</option><option value="324">Saint Martin</option><option value="237">Saint Vincent and the Grenadines</option><option value="132">Samoa (Independent)</option><option value="227">San Marino</option><option value="255">Sao Tome and Principe</option><option value="133">Saudi Arabia</option><option value="134">Senegal</option><option value="326">Serbia</option><option value="135">Seychelles</option><option value="136">Sierra Leone</option><option value="137">Singapore</option><option value="302">Sint Maarten</option><option value="138">Slovakia</option><option value="139">Slovenia</option><option value="223">Solomon Islands</option><option value="140">Somalia</option><option value="141">South Africa</option><option value="257">South Georgia and the South Sandwich Islands</option><option value="142">South Korea</option><option value="311">South Sudan</option><option value="143">Spain</option><option value="144">Sri Lanka</option><option value="293">Sudan</option><option value="146">Suriname</option><option value="225">Svalbard and Jan Mayen Islands</option><option value="147">Swaziland</option><option value="148">Sweden</option><option value="149">Switzerland</option><option value="285">Syria</option><option value="152">Taiwan</option><option value="260">Tajikistan</option><option value="153">Tanzania</option><option value="154">Thailand</option><option value="233">Timor-Leste</option><option value="155">Togo</option><option value="232">Tonga</option><option value="234">Trinidad and Tobago</option><option value="156">Tunisia</option><option value="157">Turkey</option><option value="158">Turkmenistan</option><option value="287">Turks &amp; Caicos Islands</option><option value="159">Uganda</option><option value="161">Ukraine</option><option value="162">United Arab Emirates</option><option value="262">United Kingdom</option><option value="163">Uruguay</option><option value="165">Uzbekistan</option><option value="239">Vanuatu</option><option value="166">Vatican City State (Holy See)</option><option value="167">Venezuela</option><option value="168">Vietnam</option><option value="169">Virgin Islands (British)</option><option value="238">Virgin Islands (U.S.)</option><option value="188">Western Sahara</option><option value="170">Yemen</option><option value="173">Zambia</option><option value="174">Zimbabwe</option></select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="" style="width: 100%;">
-                                        </div>
-                                    </div>
+                                <div class="mc-field-group size1of2">
+                                    <label for="mce-PHONE">Phone Number  <span class="asterisk">*</span>
+                                    </label>
+                                    <input type="text" name="PHONE" class="required" value="" id="mce-PHONE">
                                 </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Our Offer
-											</span>
-                                            <span class="m-widget17__desc">
-												See our major products
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Best
-											</span>
-                                            <span class="m-widget17__desc">
-												See best sellers
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display:none"></div>
+                                    <div class="response" id="mce-success-response" style="display:none"></div>
+                                </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ed37e5935117eca6b96cc7cb2_90af28c734" tabindex="-1" value=""></div>
+                                <div class="clear"><input type="submit" value="Order Samples" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
 
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Catalog</h3>
-                                Signup to our newsletter to download our complete catalog!<br>
+                                <h2><br>Calculate your sample order cost:</h2>
+                                <div>
+                                    <p><br>
+                                        = 28 USD per custom deck sample with grip tape</p>
+                                    <p>+ 10 USD pick, pack and prepare international customs documents</p>
+                                    <p>+ 102 USD International Airfreight Express<br></p>
+                                    <hr>
+                                    <p>Total: $________ ($140 if 1 deck / $168 if 2 decks / $196 if 3 decks)</p>
+                                    <br>
+                                    <p>To order samples, submit this order form and transfer the PayPal payment.</p>
+                                    <p>You will be contacted by a 2HEX sales manager.</p>
+                                </div>
+                                <div>
+                                    <p> <b>To be paid by PayPal to: niklas@skateboard-factory.com </b> </p>
+                                </div>
                                 <br>
-                                Please note that we can currently only offer manual sales to existing companies.
-                                Our minimum order quantity is 3000 USD for any production.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="newsletter" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>get our catalog</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
+                                <br>
+                                <div>
+
+                                    <p style="font-size: 0.8em">
+                                The discount must be used by you, and for one order of at least 200 decks.<br>
+                                A maximum of one discount code can be used per order.<br>
+                                By ordering samples you subscribe to our newsletter. (can be unsubscribed)<br>
+                                By ordering samples you  allow us to contact you.<br>
+                                    </p>
                             </div>
 
-                        </div>
+                            </div>
+                        </form>
                     </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
+                    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[5]='MMERGE5';ftypes[5]='text';fnames[6]='MMERGE6';ftypes[6]='text';fnames[7]='MMERGE7';ftypes[7]='text';fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                    <!--End mc_embed_signup-->
 
-				<div class="col-xl-4">
-					<!--begin:: Widgets/Activity-->
-					<div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-						<div class="m-portlet__head">
-							<div class="m-portlet__head-caption">
-								<div class="m-portlet__head-title">
-									<h3 class="m-portlet__head-text m--font-dark">
-										Skateboard Decks
-									</h3>
-								</div>
-							</div>
+                    <br>
 
-							<div class="m-portlet__head m-portlet__head--fit">
-								<div class="m-portlet__head-caption">
-									<div class="m-portlet__head-action">
-
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="m-portlet__body">
-							<div class="m-widget17">
-								<div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-									<div>
-										<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-											<img src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt="" style="width: 100%;">
-										</div>
-									</div>
-								</div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Shapes
-											</span>
-                                            <span class="m-widget17__desc">
-												Check our big list of shapes
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Sales
-											</span>
-                                            <span class="m-widget17__desc">
-												Our bestseller!
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-							</div>
-							<div style="text-align: justify; color: #9699a4;">
-								<h3>Skateboard Decks</h3>
-								Skateboard decks are the most frequently replaced part of skateboards, which
-								makes it a popular first product for skateboard companies. Skateboard decks
-								offer a lot of customization options, enabling brands to differentiate from
-								the current trend and create their own style.
-							</div>
-							<br>
-							<div class="m-widget19__action">
-								<a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>add decks to order</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-								</a>
-							</div>
-
-						</div>
-					</div>
-					<!--end:: Widgets/Activity-->
-				</div>
-                
-                <!-- Grip Tape -->
-                <div class="col-xl-4">
-                    @include('widgets.grip-tape-widget')
-                </div>
-
-                <!-- MANUAL PRODUCTS -->
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/bearings.png" alt="skateboard bearings manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Fast & Strong
-											</span>
-                                            <span class="m-widget17__desc">
-												We focus on the best quality
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-                                                Margin
-											</span>
-                                            <span class="m-widget17__desc">
-												highest profit margin
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Bearings</h3>
-                                Professional Skateboard Bearings have a high MOQ but a low cost per set. This makes it the highest profit skateboard component.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-bearings-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>back to our old website</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/complete-skateboard-factory.jpg" alt="complete skateboards manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Margin
-											</span>
-                                            <span class="m-widget17__desc">
-												Good margins
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Turnaround
-											</span>
-                                            <span class="m-widget17__desc">
-												Sells fastest in skate shops!
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Complete Skateboards</h3>
-                                Complete Skateboards are the most profitable product within the skateboard industry.
-                                Once your build up your brand image with great decks, completes let you live from the skateboard business.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-completes-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>back to our old website</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/skateboard-wheels-factory.jpg" alt="skateboard wheels manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Urethana
-											</span>
-                                            <span class="m-widget17__desc">
-												differentiate by Urethane
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Sells Well
-											</span>
-                                            <span class="m-widget17__desc">
-                                                a repetitive seller
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Wheels</h3>
-                                Skateboard Wheels are a popular second product because of low total production costs.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-wheels-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>back to our old website</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-
-
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head"></div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/manual/skateboard-truck-factory.jpg" alt="skateboard trucks manufacturer" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Control
-											</span>
-                                            <span class="m-widget17__desc">
-												Perfect Turn Control
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Image
-											</span>
-                                            <span class="m-widget17__desc">
-												giving brands the core image
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Skateboard Trucks</h3>
-                                Custom made professional Skateboard Trucks push any brands image! It is the product that lets you distinguish between big and small brands.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="http://skateboard-factory.com/skateboard-truck-factory.html" class="btn btn-sm btn-primary m-btn--pill  btn-brand">
-                                        <span>
-                                            <span>back to our old website</span>
-                                            <i class="la la-arrow-right"></i>
-                                        </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
-
-			</div>
-		</div>
-
-        <!--
-		<div class="m-subheader ">
-			<div class="d-flex align-items-center">
-				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX' Blog</h3>
-				</div>
-			</div>
-		</div>
-        -->
-
-		 <div class="m-content" id="blog">
-         
-			<div class="row">
-				<div class="col-xl-12">
-					<div class="m-portlet m-portlet--full-height ">
-						<div class="m-portlet__head">
-							<div class="m-portlet__head-caption">
-								<div class="m-portlet__head-title">
-									<h3 class="m-portlet__head-text">
-                                        The Skateboard Company Founder's Blog
-									</h3>
-								</div>
-							</div>
-                            
-                            @if($posts->count())
-                                <div class="m-portlet__head-caption">
-                                    {{ $posts->fragment('blog')->links() }}
-                                </div>
-                            @endif
-
-                            @if(auth()->check() && auth()->user()->isAdmin())
-    							<div class="m-portlet__head-caption">
-                                    <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
-                                </div>
-                            @endif
-						</div>
-						<div class="m-portlet__body">
-
-							<div class="tab-content">
-								<div class="tab-pane active" id="m_widget5_tab1_content" aria-expanded="true">
-                                    <div class="m-widget5">
-
-                                        @forelse ($posts as $article)
-                                            @include('blog.partials.article', ['article' => $article])
-                                        @empty
-                                            <p>We haven't published anything yet, but soon there will be something to read here.</p>
-                                        @endforelse
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
 
                 </div>
             </div>
-            
-            <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
-                <div class="m-alert__icon">
-                    <i class="flaticon-exclamation-1"></i>
-                </div>
-                <div class="m-alert__text">
-                    We are building up a new web presence. If you need more info, visit
-                    <a href="http://skateboard-factory.com" class="m-link m-link--warning m--font-bold" target="_blank">
-                        our old website.
-                    </a>
-                    or download our
-                    <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
-                        catalog
-                    </a>
-                </div>
-            </div>
-
         </div>
-</div>
+    </div>
 @endsection
