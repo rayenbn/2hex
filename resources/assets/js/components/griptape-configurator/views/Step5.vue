@@ -100,9 +100,9 @@
                                         type="file"
                                         data-type-upload="diecut"
                                         class="custom-file-input"
-                                        id="diecutPrintFile"
+                                        id="step-5-upload"
                                         @click="step_options.state = true"
-                                        @change.prevent="uploadFile"
+                                        @change.prevent="prepareFile"
                                     >
                                     <label 
                                         class="custom-file-label unchecked" 
