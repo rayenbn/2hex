@@ -296,12 +296,14 @@ class SummaryController extends Controller
 
         $queryOrders->update([
             'submit' => 1,
-            'saved_date' => $now
+            'saved_date' => $now,
+            'usenow' => 0
         ]);
 
         $queryGripTapes->update([
             'submit' => 1,
-            'saved_date' => $now
+            'saved_date' => $now,
+            'usenow' => 0
         ]);
 
         session()->flash('success', 'Your order has been successfully sent!'); 
