@@ -170,7 +170,7 @@
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
                                 <steps 
-                                    :path="{{ json_encode(route('griptape.show', $grip->id, false)) }}"
+                                    :path="{{ json_encode(route('griptape.show', $grip->id)) }}"
                                     type="griptape"
                                 />
                             </div>
