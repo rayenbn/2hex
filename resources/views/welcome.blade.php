@@ -277,7 +277,7 @@
                             </div>
                             <br>
                             <div class="m-widget19__action">
-                                <a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                <a href="samples" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
                                         <span>order samples</span>
                                         <i class="la la-arrow-right"></i>
