@@ -81,13 +81,19 @@ class ConfiguratorController extends Controller
             $path = public_path('uploads/' . Auth::user()->name . '/' . $request->get('typeUpload', 'bottom'));
             $name = $request->get('fileName', $file->getClientOriginalName());
 
-            if(!\File::exists($path)) {
-                \File::makeDirectory($path, $mode = 0777, true, true);
+            try {
+                if(!\File::exists($path)) {
+                    \File::makeDirectory($path, $mode = 0777, true, true);
+                }
+
+                $file->move($path, $name);
+
+                return $name;
+
+            } catch (\Exception $e) {
+                return 'failed';
             }
 
-            $file->move($path, $name);
-
-           return $name;
         }
         return 'failed';
     }

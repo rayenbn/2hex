@@ -460,14 +460,31 @@
                             input.nextElementSibling.innerHTML = response;
                             input.nextElementSibling.classList.remove("unchecked");
                             document.getElementById('step-'+ this.stepUpload +'-recent').innerHTML = response;
+                            this.$notify({
+                                group: 'main',
+                                type: 'success',
+                                title: 'Upload file',
+                                text: "File uploaded successfully"
+                            });
                         } else {
-                            console.error('Error upload file. Please check file.');
+                            this.$notify({
+                                group: 'main',
+                                type: 'error',
+                                title: 'Upload file',
+                                text: "File upload error"
+                            });
+
                         }
                         this.showModal = false;
                     })
                     .catch(error => {
                         this.showModal = false;
-                        console.log(error);
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Upload file',
+                            text: "File upload error"
+                        });
                     });
             },
             calculateTotal() {

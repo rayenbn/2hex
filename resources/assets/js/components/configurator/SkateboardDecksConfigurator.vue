@@ -113,7 +113,13 @@
             1) Use m-form--label-align-left class to alight the form input lables to the right
             2) Use m-form--state class to highlight input control borders on form validation
         -->
-            <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" method="POST" action="/skateboard-deck-configurator">
+            <form 
+                class="m-form m-form--label-align-left- m-form--state-" 
+                id="m_form" 
+                method="POST" 
+                action="/skateboard-deck-configurator" 
+                enctype="multipart/form-data"
+            >
                 <!--begin: Form Body -->
                 <input type="hidden" id="saved_order_id" v-model="orderId">
                 <div class="m-portlet__body">
@@ -2378,10 +2384,30 @@
                             target.nextElementSibling.classList.remove("unchecked");
                             $('button', target.parentNode.parentNode.nextElementSibling).addClass("unchecked");
                             $('button', target.parentNode.parentNode.nextElementSibling).html(response);
+
+                            this.$notify({
+                                group: 'main',
+                                type: 'success',
+                                title: 'Upload file',
+                                text: "File uploaded successfully"
+                            });
+
+                        } else {
+                            this.$notify({
+                                group: 'main',
+                                type: 'error',
+                                title: 'Upload file',
+                                text: "File upload error"
+                            });
                         }
                     })
                     .catch(error => {
-                        console.error(error);
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Upload file',
+                            text: "File upload error"
+                        });
                     })
             }
         },
