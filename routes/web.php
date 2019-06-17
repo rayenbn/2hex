@@ -68,7 +68,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/inquiries', 'InquiriesController@index');
+Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
@@ -92,8 +92,8 @@ Route::get('/summary/{id}', 'SummaryController@load');
 Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
 Route::get('/affiliate','AffiliateController@index');
-Route::get('/newsletter','NewsController@index');
-Route::get('/samples','SamplesController@index');
+Route::get('/newsletter','NewsController@index')->name('newsletter');
+Route::get('/samples','SamplesController@index')->name('samples');
 
 Route::get('/skateboard-griptape-manufacturer', 'GripTapeConfigurator@manufacturer')->name('griptape.manufacturer');
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
