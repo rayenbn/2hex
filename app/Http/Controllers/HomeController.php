@@ -22,7 +22,6 @@ class HomeController extends Controller
             ->whereActive(true)
             ->with('author')
             ->paginate(4);
-
         return view('welcome', compact('posts'));
     }
 

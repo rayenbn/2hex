@@ -47,6 +47,7 @@
 		<div class="m-content">
 			
 			@if(session()->has('success'))
+				<submit-order-modal></submit-order-modal>
 				<div 
 					class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" 
 					role="alert"
@@ -238,8 +239,6 @@
 							
 							@endforeach  
 
-							@if(auth()->check() && auth()->user()->isAdmin())   
-
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
 	                                <th>Batch</th>
@@ -304,8 +303,6 @@
 								
 							</tr>
 							@endforeach
-
-							@endif
 
                             <thead style="background-color: #52a3f0; color: white;">
 								<tr>
@@ -377,7 +374,6 @@
 									<btn-order-later/>
 								</li>
 								
-								
 								<li class="m-portlet__nav-item">
 									@php $auth = auth()->user(); @endphp
 									
@@ -387,7 +383,7 @@
 										&& strlen($auth->position) 
 										&& strlen($auth->phone_num)
 									)
-										@if($grips->sum('quantity') > 0 && $totalOrders > 1170)
+										@if(($grips->sum('quantity') == 0 && $totalOrders > 1170) || ($totalOrders > 1170 && $grips->sum('quantity') > 0))
 											<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
 												<span>
 													<i class="la la-rocket"></i>
@@ -440,5 +436,5 @@
 			<!-- END EXAMPLE TABLE PORTLET-->
 		</div>
 	</div>
-	<change-name-order-modal/>
+	<change-name-order-modal></change-name-order-modal>
 @endsection
