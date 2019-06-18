@@ -90,7 +90,8 @@
                                     <!-- Step 4 -->
                                     <skateboard-decks-step-4
                                         :options="steps.topPrint"
-                                        :files="filenames.top" 
+                                        :files="filenames.top"
+                                        :uploadProgress="steps.topPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.topPrint.state = val;
                                             steps.topPrint.state ? price += prices.topPrint : price -= prices.topPrint;
@@ -105,6 +106,7 @@
                                     <skateboard-decks-step-5
                                         :options="steps.dieCut"
                                         :files="filenames.diecut" 
+                                        :uploadProgress="steps.dieCut.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.dieCut.state = val;
                                             steps.dieCut.state ? price += prices.dieCut : price -= prices.dieCut;
@@ -137,6 +139,7 @@
                                     <skateboard-decks-step-8
                                         :options="steps.backpaperPrint"
                                         :files="filenames.backpaper" 
+                                        :uploadProgress="steps.backpaperPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.backpaperPrint.state = val;
                                             steps.backpaperPrint.state ? price += prices.backpaperPrint : price -= prices.backpaperPrint;
@@ -151,6 +154,7 @@
                                     <skateboard-decks-step-9
                                         :options="steps.cartonPrint"
                                         :files="filenames.carton" 
+                                        :uploadProgress="steps.cartonPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.cartonPrint.state = val;
                                             steps.cartonPrint.state ? price += prices.cartonPrint : price -= prices.cartonPrint;
@@ -394,12 +398,12 @@
                 steps: {
                     grit:            {state: false},
                     perforation:     {state: false},
-                    topPrint:        {state: false, file: null, color: null},
-                    dieCut:          {state: false, file: null},
+                    topPrint:        {state: false, file: null, color: null, uploadProgress: 0},
+                    dieCut:          {state: false, file: null, uploadProgress: 0},
                     coloredGriptape: {color: null},
                     backpaper:       {state: false},
-                    backpaperPrint:  {state: false, file: null, color: null},
-                    cartonPrint:     {state: false, file: null, color: null},
+                    backpaperPrint:  {state: false, file: null, color: null, uploadProgress: 0},
+                    cartonPrint:     {state: false, file: null, color: null, uploadProgress: 0},
                 }
             }
         },
@@ -411,7 +415,7 @@
                 this.typeUpload = e.target.dataset.typeUpload;
             },
             checkFileName(name) {
-                return (/[a-zA-Z0-9_-]{1,}\.[a-zA-Z0-9]{3,}$/i).test(name);
+                return (/[a-zA-Z0-9_-]{1,}\.[a-zA-Z0-9]{2,}$/i).test(name);
             },
             clearFile() {
                 this.file = null;
@@ -434,27 +438,37 @@
                 }
 
                 let formData = new FormData();
+                let numStep = event.target.dataset.step;
 
                 formData.append('typeUpload', this.typeUpload);
                 formData.append('fileName', this.fileName);
                 formData.append('file', this.file);
 
-                axios.post('/configurator-fileupload', formData)
+
+                let step = null;
+                switch(this.stepUpload) {
+                    case 4: step = 'topPrint'; break;
+                    case 5: step = 'dieCut'; break;
+                    case 8: step = 'backpaperPrint'; break;
+                    case 9: step = 'cartonPrint'; break;
+                }
+
+                let input = document.getElementById('step-'+ this.stepUpload +'-upload');
+                let options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress:  progressEvent => {
+                        this.steps[step].uploadProgress = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+                    }
+                };
+
+                axios.post('/configurator-fileupload', formData, options)
                     .then(response => response.data)
                     .then(response => {
-                        let step = null;
-                        switch(this.stepUpload) {
-                            case 4: step = 'topPrint'; break;
-                            case 5: step = 'dieCut'; break;
-                            case 8: step = 'backpaperPrint'; break;
-                            case 9: step = 'cartonPrint'; break;
-                        }
-
                         if (step) {
                             this.steps[step].file = response;
                         }
-
-                        let input = document.getElementById('step-'+ this.stepUpload +'-upload');
 
                         if(response != 'failed' && input){
                             input.nextElementSibling.innerHTML = response;
@@ -467,6 +481,8 @@
                                 text: "File uploaded successfully"
                             });
                         } else {
+                            input.nextElementSibling.classList.add("unchecked");
+                            this.steps[numStep].uploadProgress = 0;
                             this.$notify({
                                 group: 'main',
                                 type: 'error',
@@ -478,7 +494,9 @@
                         this.showModal = false;
                     })
                     .catch(error => {
+                        input.nextElementSibling.classList.add("unchecked");
                         this.showModal = false;
+                        this.steps[step].uploadProgress = 0;
                         this.$notify({
                             group: 'main',
                             type: 'error',
@@ -776,3 +794,11 @@
         }
     };
 </script>
+<style scoped>
+    ::v-deep .checked{
+        border: 1px solid #36a3f7 !important;
+    }
+    ::v-deep .unchecked{
+        border: 1px solid #ced4da !important;
+    }
+</style>

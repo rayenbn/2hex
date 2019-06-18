@@ -99,6 +99,7 @@
                                     <input
                                         type="file"
                                         data-type-upload="diecut"
+                                        data-step="dieCut"
                                         class="custom-file-input"
                                         id="step-5-upload"
                                         @click="step_options.state = true"
@@ -114,6 +115,17 @@
                                 </div>
 
 
+                            </div>
+                            <div class="progress mb-3" style="height: 2px;">
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="'width:' + uploadProgress + '%'" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                >
+                                </div>
                             </div>
                             <div class="dropdown">
                                 <button 
@@ -160,6 +172,12 @@
 
     export default {
         name: 'skateboard-decks-step-5',
-        mixins: [upload]
+        mixins: [upload],
+        props: {
+            uploadProgress: {
+                type: Number,
+                default: 0
+            } 
+        }
     }
 </script>

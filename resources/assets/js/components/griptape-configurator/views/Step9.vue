@@ -98,6 +98,7 @@
                                     <input
                                         type="file"
                                         data-type-upload="carton"
+                                        data-step="cartonPrint"
                                         class="custom-file-input"
                                         id="step-9-upload"
                                         @click="step_options.state = true"
@@ -111,9 +112,20 @@
                                         Upload artwork preview
                                     </label>
                                 </div>
-
-
                             </div>
+
+                            <div class="progress mb-3" style="height: 2px;">
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="'width:' + uploadProgress + '%'" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                >
+                                </div>
+                            </div>
+
                             <div class="dropdown">
                                 <button 
                                     class="btn btn-secondary dropdown-toggle" 
@@ -183,6 +195,12 @@
     export default {
         name: 'skateboard-decks-step-9',
         mixins: [upload],
+        props: {
+            uploadProgress: {
+                type: Number,
+                default: 0
+            } 
+        },
         components: {
             ColorBtn
         },
