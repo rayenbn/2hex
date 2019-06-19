@@ -195,7 +195,7 @@
                                                 </div>
                                             </div>
                                             <select
-                                                class="form-control"
+                                                class="form-control m-select2" 
                                                 id="size"
                                                 name="size"
                                                 style="width:100%;"
@@ -2523,6 +2523,12 @@
                     this.quantityChange();
                 });
             }, 2000);
+
+            // Listen change size
+            $('#size').on('select2:select', (e) => {
+                this.size = e.params.data.text;
+                this.sizeChange();
+            });
         },
         created() {
             if (this.order) {

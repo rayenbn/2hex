@@ -68,4 +68,8 @@ $(document).ready(function(){
         verticalupclass: 'la la-angle-up',
         verticaldownclass: 'la la-angle-down'
     });
+
+    $('#size').select2({
+        placeholder: "Select a size"
+    });
 });

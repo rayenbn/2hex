@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <select
-                                class="form-control"
+                                class="form-control m-select2"
                                 id="size"
                                 name="size"
                                 style="width:100%;"
@@ -181,6 +181,14 @@
                     this.quantityChange();
                 });
             }, 2000);
+
+            let value = '';
+            // Listen change size
+            $('#size').on('select2:select', (e) => {
+                value = e.params.data.text.trim();
+                this.step_size = this.sizes.find(s => s.name == value);
+                this.sizeChange();
+            });
         }
 
     }
