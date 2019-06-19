@@ -19,11 +19,12 @@ $(document).ready(function(){
 
 	$('.file-dropdown').click(function(){
 	    var filename = $(this).html();
+	    let parent = $(this).parent().parent().prev().prev();
 	    $(this).parent().prev().html(filename);
-	    $('input[type="file"]', $(this).parent().parent().prev()).attr('fileName',filename);
-	    $('input[type="file"]', $(this).parent().parent().prev()).removeClass('unchecked');
-	    $('label', $(this).parent().parent().prev()).html(filename);
-	    $('label', $(this).parent().parent().prev()).addClass('unchecked')
+	    $('input[type="file"]', parent).attr('fileName',filename);
+	    // $('button', parent).removeClass('unchecked');
+	    $('label', parent).html(filename);
+	    // $('label', parent.addClass('unchecked')
 	});
 
 	$("#vendor-code-form").submit(function(e) {
