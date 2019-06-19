@@ -2514,6 +2514,15 @@
         },
         mounted() {
             this.initOrder();
+
+            setTimeout(() => {
+                let inputQuantity = document.getElementById("quantity");
+                // Fire event plus/minus quantity
+                document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
+                    this.quantity = parseInt(inputQuantity.value);
+                    this.quantityChange();
+                });
+            }, 2000);
         },
         created() {
             if (this.order) {
