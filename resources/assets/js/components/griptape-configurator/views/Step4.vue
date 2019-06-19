@@ -95,6 +95,7 @@
                                         type="file"
                                         data-type-upload="top"
                                         class="custom-file-input"
+                                        data-step="topPrint"
                                         id="step-4-upload"
                                         @click="step_options.state = true"
                                         @change.prevent="prepareFile"
@@ -106,6 +107,17 @@
                                     >
                                         Choose file
                                     </label>
+                                </div>
+                            </div>
+                            <div class="progress mb-3" style="height: 2px;">
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="'width:' + uploadProgress + '%'" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                >
                                 </div>
                             </div>
                             <div class="dropdown">
@@ -178,6 +190,12 @@
     export default {
         name: 'skateboard-decks-step-4',
         mixins: [upload],
+        props: {
+            uploadProgress: {
+                type: Number,
+                default: 0
+            } 
+        },
         components: {
             ColorBtn,
             BtnFileUpload,

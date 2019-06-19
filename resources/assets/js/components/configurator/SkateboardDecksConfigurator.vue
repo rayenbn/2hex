@@ -659,15 +659,33 @@
                                                         onclick="() => {user ? true : false}"
                                                         type="file"
                                                         data-type-upload="bottom"
+                                                        data-step="4"
                                                         class="custom-file-input"
                                                         id="bottomPrintFile"
-                                                        @click=" perdeck += steps[4].state?0:0.75, steps[4].state = 1"
+                                                        @click=" perdeck += steps[4].state ? 0 : 0.75, steps[4].state = 1"
                                                         @change.prevent="uploadFile"
                                                     >
-                                                    <label class="custom-file-label unchecked" v-bind:class="{checked: steps[4].state}" for="customFile">Upload artwork preview</label>
+                                                    <label 
+                                                        class="custom-file-label unchecked" 
+                                                        v-bind:class="{checked: steps[4].state}" 
+                                                        for="customFile"
+                                                    >
+                                                        Upload artwork preview
+                                                    </label>
                                                 </div>
 
 
+                                            </div>
+                                            <div class="progress mb-3" style="height: 2px;">
+                                                <div 
+                                                    class="progress-bar m--bg-info" 
+                                                    role="progressbar" 
+                                                    :style="'width:' + steps[4].uploadProgress + '%'" 
+                                                    aria-valuenow="65" 
+                                                    aria-valuemin="0" 
+                                                    aria-valuemax="100"
+                                                >
+                                                </div>
                                             </div>
                                             <div class="dropdown">
                                                 <button 
@@ -821,15 +839,33 @@
                                                 <div></div>
                                                 <div class="custom-file">
                                                     <input
-                                                            onclick="() => { user ? true : false}"
-                                                            type="file"
-                                                            data-type-upload="top"
-                                                            class="custom-file-input"
-                                                            id="topPrintFile"
-                                                            @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
-                                                            @change.prevent="uploadFile"
+                                                        onclick="() => { user ? true : false}"
+                                                        type="file"
+                                                        data-type-upload="top"
+                                                        data-step="5"
+                                                        class="custom-file-input"
+                                                        id="topPrintFile"
+                                                        @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                        @change.prevent="uploadFile"
                                                     >
-                                                    <label class="custom-file-label unchecked" v-bind:class="{checked: steps[5].state}" for="customFile">Choose file</label>
+                                                    <label 
+                                                        class="custom-file-label unchecked" 
+                                                        v-bind:class="{checked: steps[5].state}" 
+                                                        for="customFile"
+                                                    >
+                                                        Choose file
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 2px;">
+                                                <div 
+                                                    class="progress-bar m--bg-info" 
+                                                    role="progressbar" 
+                                                    :style="'width:' + steps[5].uploadProgress + '%'" 
+                                                    aria-valuenow="65" 
+                                                    aria-valuemin="0" 
+                                                    aria-valuemax="100"
+                                                >
                                                 </div>
                                             </div>
                                             <div class="dropdown">
@@ -982,15 +1018,33 @@
                                                 <div></div>
                                                 <div class="custom-file">
                                                     <input
-                                                            onclick="() => { user ? true : false}"
-                                                            type="file"
-                                                            data-type-upload="engravery"
-                                                            class="custom-file-input"
-                                                            id="engraveryFile"
-                                                            @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
-                                                            @change.prevent="uploadFile"
+                                                        onclick="() => { user ? true : false}"
+                                                        type="file"
+                                                        data-type-upload="engravery"
+                                                        data-step="6"
+                                                        class="custom-file-input"
+                                                        id="engraveryFile"
+                                                        @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
+                                                        @change.prevent="uploadFile"
                                                     >
-                                                    <label class="custom-file-label unchecked" v-bind:class="{checked: steps[6].state}" for="customFile">Choose file</label>
+                                                    <label 
+                                                        class="custom-file-label unchecked" 
+                                                        v-bind:class="{checked: steps[6].state}" 
+                                                        for="customFile"
+                                                    >
+                                                        Choose file
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 2px;">
+                                                <div 
+                                                    class="progress-bar m--bg-info" 
+                                                    role="progressbar" 
+                                                    :style="'width:' + steps[6].uploadProgress + '%'" 
+                                                    aria-valuenow="65" 
+                                                    aria-valuemin="0" 
+                                                    aria-valuemax="100"
+                                                >
                                                 </div>
                                             </div>
                                             <div class="dropdown">
@@ -1475,15 +1529,33 @@
                                                 <div></div>
                                                 <div class="custom-file">
                                                     <input
-                                                            onclick="() => { user ? true : false}"
-                                                            type="file"
-                                                            data-type-upload="cardboard"
-                                                            class="custom-file-input"
-                                                            id="cardboardFile"
-                                                            @click=" steps[9].state = 1"
-                                                            @change.prevent="uploadFile"
+                                                        onclick="() => { user ? true : false}"
+                                                        type="file"
+                                                        data-type-upload="cardboard"
+                                                        data-step="9"
+                                                        class="custom-file-input"
+                                                        id="cardboardFile"
+                                                        @click="steps[9].state = 1"
+                                                        @change.prevent="uploadFile"
                                                     >
-                                                    <label class="custom-file-label unchecked" v-bind:class="{checked: steps[9].state}" for="customFile">Choose file</label>
+                                                    <label 
+                                                        class="custom-file-label unchecked" 
+                                                        v-bind:class="{checked: steps[9].state}" 
+                                                        for="customFile"
+                                                    >
+                                                        Choose file
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 2px;">
+                                                <div 
+                                                    class="progress-bar m--bg-info" 
+                                                    role="progressbar" 
+                                                    :style="'width:' + steps[9].uploadProgress + '%'" 
+                                                    aria-valuenow="65" 
+                                                    aria-valuemin="0" 
+                                                    aria-valuemax="100"
+                                                >
                                                 </div>
                                             </div>
                                             <div class="dropdown">
@@ -1601,15 +1673,33 @@
                                                 <div></div>
                                                 <div class="custom-file">
                                                     <input
-                                                            onclick="() => { user ? true : false}"
-                                                            type="file"
-                                                            data-type-upload="box"
-                                                            class="custom-file-input"
-                                                            id="cartonFile"
-                                                            @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
-                                                            @change.prevent="uploadFile"
+                                                        onclick="() => { user ? true : false}"
+                                                        type="file"
+                                                        data-type-upload="box"
+                                                        data-step="10"
+                                                        class="custom-file-input"
+                                                        id="cartonFile"
+                                                        @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                        @change.prevent="uploadFile"
                                                     >
-                                                    <label class="custom-file-label unchecked" v-bind:class="{checked: steps[10].state}" for="customFile">Choose file</label>
+                                                    <label 
+                                                        class="custom-file-label unchecked" 
+                                                        v-bind:class="{checked: steps[10].state}" 
+                                                        for="customFile"
+                                                    >
+                                                        Choose file
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 2px;">
+                                                <div 
+                                                    class="progress-bar m--bg-info" 
+                                                    role="progressbar" 
+                                                    :style="'width:' + steps[10].uploadProgress + '%'" 
+                                                    aria-valuenow="65" 
+                                                    aria-valuemin="0" 
+                                                    aria-valuemax="100"
+                                                >
                                                 </div>
                                             </div>
                                             <div class="dropdown">
@@ -1982,9 +2072,9 @@
                     {state: true}, 
                     {state: true}, 
                     {state: true}, 
-                    {state: false, color: null},                      
-                    {state: false, name: '', color: null}, 
-                    {state: false, name: ''}, 
+                    {state: false, color: null, uploadProgress: 0},                      
+                    {state: false, name: '', color: null, uploadProgress: 0}, 
+                    {state: false, name: '', uploadProgress: 0}, 
                     {state: true, name: ''}, 
                     {
                         fulldip: {state: false,color: ""}, 
@@ -1994,8 +2084,8 @@
                         blackmidlayer: {state: false}, 
                         pattern: {state: false}, 
                     },                     
-                    {state: false, name: ''}, 
-                    {state: false, name: '', color: null}, 
+                    {state: false, name: '', uploadProgress: 0}, 
+                    {state: false, name: '', color: null, uploadProgress: 0}, 
                 ],
             }
         },
@@ -2364,6 +2454,7 @@
                 let formData = new FormData();
                 let filename = target.getAttribute('filename');
                 let id = target.getAttribute('id');
+                let numStep = target.dataset.step;
 
                 formData.append('typeUpload', target.dataset.typeUpload);
 
@@ -2376,7 +2467,16 @@
 
                 formData.append('file', target.files[0]);
 
-                axios.post('/configurator-fileupload', formData)
+                let options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress:  progressEvent => {
+                        this.steps[numStep].uploadProgress = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+                    }
+                };
+
+                axios.post('/configurator-fileupload', formData, options)
                     .then(response => response.data)
                     .then(response => {
                         if(response != 'failed'){
@@ -2402,6 +2502,7 @@
                         }
                     })
                     .catch(error => {
+                        this.steps[numStep].uploadProgress = 0;
                         this.$notify({
                             group: 'main',
                             type: 'error',
@@ -2413,6 +2514,15 @@
         },
         mounted() {
             this.initOrder();
+
+            setTimeout(() => {
+                let inputQuantity = document.getElementById("quantity");
+                // Fire event plus/minus quantity
+                document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
+                    this.quantity = parseInt(inputQuantity.value);
+                    this.quantityChange();
+                });
+            }, 2000);
         },
         created() {
             if (this.order) {
@@ -2447,3 +2557,11 @@
 	    }
     };
 </script>
+<style scoped>
+    .checked {
+        border: 1px solid #36a3f7 !important;
+    }
+    .unchecked {
+        border: 1px solid #ced4da !important;
+    }
+</style>

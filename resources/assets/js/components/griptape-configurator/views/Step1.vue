@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <input 
-                            	id="quantity" 
+                            	id="quantity_grip" 
                             	v-model.number="step_quantity" 
                             	type="number" 
                             	class="form-control bootstrap-touchspin-vertical-btn" 
@@ -171,6 +171,16 @@
                 this.step_size = size;
                 this.sizeChange();
             }   
+        },
+        mounted() {
+            setTimeout(() => {
+                let inputQuantity = document.getElementById("quantity_grip");
+                // Fire event plus/minus quantity
+                document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
+                    this.step_quantity = parseInt(inputQuantity.value);
+                    this.quantityChange();
+                });
+            }, 2000);
         }
 
     }
