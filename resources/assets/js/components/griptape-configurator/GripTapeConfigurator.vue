@@ -98,7 +98,7 @@
                                         }"
                                         @fileChange="(val) => {steps.topPrint.file = val}"
                                         @colorChange="(val) => {steps.topPrint.color = val}"
-                                        @prepareFile="(e) => { prepareFile(e); stepUpload = 4; }"
+                                        @prepareFile="(e) => { stepUpload = 4; uploadFile(e); }"
 
                                     />
 
@@ -112,7 +112,7 @@
                                             steps.dieCut.state ? price += prices.dieCut : price -= prices.dieCut;
                                         }"
                                         @fileChange="(val) => {steps.dieCut.file = val}"
-                                        @prepareFile="(e) => { prepareFile(e); stepUpload = 5; }"
+                                        @prepareFile="(e) => { stepUpload = 5; uploadFile(e); }"
                                     />
 
                                     <!-- Step 6 -->
@@ -147,7 +147,7 @@
                                         }"
                                         @fileChange="(val) => {steps.backpaperPrint.file = val}"
                                         @colorChange="(val) => {steps.backpaperPrint.color = val}"
-                                        @prepareFile="(e) => { prepareFile(e); stepUpload = 8; }"
+                                        @prepareFile="(e) => { stepUpload = 8; uploadFile(e); }"
                                     />
 
                                     <!-- Step 9 -->
@@ -161,7 +161,7 @@
                                         }"
                                         @fileChange="(val) => {steps.cartonPrint.file = val}"
                                         @colorChange="(val) => {steps.cartonPrint.color = val}"
-                                        @prepareFile="(e) => { prepareFile(e); stepUpload = 9; }"
+                                        @prepareFile="(e) => {  stepUpload = 9; uploadFile(e); }"
                                     />
 
                                 </div>
@@ -292,30 +292,6 @@
                 </div>
             </div>
         </div>
-        <!-- Modal set name file -->
-        <modal v-if="showModal" @close="clearFile">
-            <h3 slot="header">Enter the file name</h3>
-            <div slot="body">
-                <input type="text" class="form-control" v-model="fileName" placeholder="Enter the file name"> 
-            </div>
-            <div slot="footer">
-                <button 
-                    type="button" 
-                    class="btn btn-secondary" 
-                    @click.prevent="clearFile"
-                >
-                    Cancell
-                </button>
-                <button
-                    :disabled="!checkFileName(fileName)"
-                    type="button" 
-                    class="btn btn-primary"
-                    @click.prevent="uploadFile"
-                >
-                    Upload
-                </button>
-            </div>
-        </modal>
     </div>
 </template>
 
@@ -331,7 +307,6 @@
     import skateboardDecksStep8 from './views/Step8.vue';
     import skateboardDecksStep9 from './views/Step9.vue';
 	import HeadConfigurator from './views/HeadConfigurator.vue';
-    import Modal from '@/components/modals/Modal';
 
     export default {
     	name: 'grip-tape-configurator',
@@ -376,7 +351,6 @@
             skateboardDecksStep8,
             skateboardDecksStep9,
             HeadConfigurator,
-            Modal
     	},
         data() {
             return {
@@ -386,7 +360,6 @@
                 additionalCost: 0,
                 orderTotal: 0,
                 price: 0,
-                showModal: false,
                 fileName: '',
                 file: null,
                 typeUpload: '',
@@ -408,22 +381,6 @@
             }
         },
         methods: {
-            prepareFile(e) {
-                this.showModal = true;
-                this.file = e.target.files[0];
-                this.fileName = this.file ? this.file.name : '';
-                this.typeUpload = e.target.dataset.typeUpload;
-            },
-            checkFileName(name) {
-                return (/[a-zA-Z0-9_-]{1,}\.[a-zA-Z0-9]{2,}$/i).test(name);
-            },
-            clearFile() {
-                this.file = null;
-                this.stepUpload = null;
-                this.fileName = '';
-                this.typeUpload = '';
-                this.showModal = false;
-            },
             uploadFile(event) {
                 if(document.body.getAttribute('signed') == 0){
                     swal({
@@ -438,12 +395,15 @@
                 }
 
                 let formData = new FormData();
-                let numStep = event.target.dataset.step;
+
+                this.file = event.target.files[0];
+                this.fileName = this.file ? this.file.name : '';
+                this.typeUpload = event.target.dataset.typeUpload;
+
 
                 formData.append('typeUpload', this.typeUpload);
                 formData.append('fileName', this.fileName);
                 formData.append('file', this.file);
-
 
                 let step = null;
                 switch(this.stepUpload) {
@@ -482,7 +442,7 @@
                             });
                         } else {
                             input.nextElementSibling.classList.add("unchecked");
-                            this.steps[numStep].uploadProgress = 0;
+                            this.steps[step].uploadProgress = 0;
                             this.$notify({
                                 group: 'main',
                                 type: 'error',
@@ -491,11 +451,9 @@
                             });
 
                         }
-                        this.showModal = false;
                     })
                     .catch(error => {
                         input.nextElementSibling.classList.add("unchecked");
-                        this.showModal = false;
                         this.steps[step].uploadProgress = 0;
                         this.$notify({
                             group: 'main',
