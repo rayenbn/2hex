@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="m-portlet__body-separator"></div>
-                                Please keep your address up to date, so that we can arrange a seemless delivery.
+                                Please keep your address up to date, so that we can arrange a seamless delivery.
                             <div class="m-portlet__body-separator"></div>
                         </div>
                     </div>

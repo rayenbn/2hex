@@ -30,16 +30,26 @@
 		<!-- END: Subheader -->
                     
 		<div class="m-content">
-            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-				<div class="m-alert__text">
+
+
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
+                <div class="m-alert__text">
                     <h4>
                         <a href="{{route('register')}}">Sign Up</a> 
                         and choose the best 
-                        <a href="{{route('skateboard.manufacturer')}}">decks</a> and 
+                        <a href="{{route('skateboard.manufacturer')}}">decks</a> and
                         <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
                     </h4>
 
                     We give everyone access to the highest quality skateboard production! We make skateboard customization options and cost calculations transparent.
+
+
+                </div>
+            </div>
+
+
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
+				<div class="m-alert__text">
 
                     <img 
                         src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" 

@@ -155,13 +155,25 @@
                                     </div>
                                 </div>
                                 @else
-                                <a href="/login" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
+                                <li class="m-nav__item">
+                                <a href="/register" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
 
                                              <span class="m-topbar__userpic">
-                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login Or SignUp</span>
+                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Register</span>
                                              </span>
-
                                 </a>
+                                </li>
+
+                                <li class="m-nav__item">
+                                    <a href="/login" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
+
+                                        <span class="m-topbar__userpic">
+                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login</span>
+                                             </span>
+                                    </a>
+                                </li>
+
+
                                 @endif 
                             </li>
                             <li id="m_quick_sidebar_toggle" class="m-nav__item">
