@@ -2105,9 +2105,15 @@
         methods: {
         	save(event) {
 
-                if (this.quantity <= 0) {
-                    alert("Product quantity may not be 0. Please check your quantities.");
-                    
+                if (this.quantity < 50 || !this.size.length) {
+                     swal({
+                        title: "",
+                        text: "Please enter correct skateboard decks quantity. Minimum is 50 decks.",
+                        type: "warning",
+                        confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                    });
+                    this.quantity = 50;
+
                     return false;
                 }
 
@@ -2262,7 +2268,6 @@
                         text: "Select Only quantities in steps of 10 (10, 20, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    }).then((value) => {
                     });
                     this.quantity = this.pre_quantity;
                     return false;

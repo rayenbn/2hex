@@ -6,6 +6,7 @@ use App\Models\Auth\User\User;
 use App\Notifications\Auth\ConfirmEmail;
 use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Uuid;
+use App\Mail\AccountConfirmed;
 
 class ConfirmController extends Controller
 {
@@ -29,6 +30,8 @@ class ConfirmController extends Controller
     {
         $user->confirmed = true;
         $user->save();
+
+        \Mail::to($user)->send(new AccountConfirmed());
 
         auth()->login($user);
 
