@@ -19,7 +19,10 @@
     }
     
     // Accept upload if there was no origin, or if it is an accepted origin
-    $name = hash('sha256', $temp['name'] . strval(time()));
+    //$name = hash('sha256', $temp['name'] . strval(time()));
+
+    $name = $temp['name'];
+
     $mimeType = 'image/jpg';
     switch ($temp['type']) { 
       case "image/gif": 
@@ -36,7 +39,7 @@
           break;
       }
 
-    $filetowrite = $imageFolder . $name . $mimeType;
+    $filetowrite = $imageFolder . $name;
 
     // Create folder if dont exists
     if (!file_exists($imageFolder)) {
