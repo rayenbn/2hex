@@ -2265,7 +2265,7 @@
                 if(this.quantity % 10 != 0){
                      swal({
                         title: "",
-                        text: "Select Only quantities in steps of 50 (50, 100, ...)",
+                        text: "Select Only quantities in steps of 10 (10, 20, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     });
