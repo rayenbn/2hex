@@ -50,7 +50,7 @@ $(document).ready(function(){
     $("#quantity").TouchSpin({
         min: 0,
         max: 1000000000,
-        step: 10,
+        step: 50,
         buttondown_class: 'btn btn-secondary',
         buttonup_class: 'btn btn-secondary',
         verticalbuttons: true,
