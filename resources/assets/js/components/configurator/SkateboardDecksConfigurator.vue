@@ -2105,9 +2105,15 @@
         methods: {
         	save(event) {
 
-                if (this.quantity <= 0) {
-                    alert("Product quantity may not be 0. Please check your quantities.");
-                    
+                if (this.quantity < 50 || !this.size.length) {
+                     swal({
+                        title: "",
+                        text: "Please enter correct skateboard decks quantity. Minimum is 50 decks.",
+                        type: "warning",
+                        confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                    });
+                    this.quantity = 50;
+
                     return false;
                 }
 
@@ -2256,13 +2262,12 @@
                 this.pre_size = this.size;
             },
 	        quantityChange(){
-                if(this.quantity % 50 != 0){
+                if(this.quantity % 10 != 0){
                      swal({
                         title: "",
                         text: "Select Only quantities in steps of 50 (50, 100, ...)",
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    }).then((value) => {
                     });
                     this.quantity = this.pre_quantity;
                     return false;
