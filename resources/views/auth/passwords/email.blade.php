@@ -4,10 +4,10 @@
     <div class="m-login__forget-password">
         <div class="m-login__head">
             <h3 class="m-login__title">
-                Forgotten Password ?
+                reset your password
             </h3>
             <div class="m-login__desc">
-                Enter your email to reset your password:
+                Enter your email and request a link to reset your password:
             </div>
         </div>
         @if (session('status'))

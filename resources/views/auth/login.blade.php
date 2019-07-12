@@ -33,7 +33,7 @@
                 </div>
                 <div class="col m--align-right m-login__form-right">
                     <a href="{{ route('password.request') }}" id="m_login_forget_password" class="m-link">
-                        Forget Password ?
+                        Reset Password
                     </a>
                 </div>
             </div>

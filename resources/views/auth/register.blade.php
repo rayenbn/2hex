@@ -7,7 +7,7 @@
                 Sign Up
             </h3>
             <div class="m-login__desc">
-                Enter your details to create your account.
+                Enter your details to create an account.
             </div>
         </div>
         @if (session('status'))

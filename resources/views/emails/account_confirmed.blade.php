@@ -11,8 +11,8 @@
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
 			<h1 style="color: #E35D6F">WELCOME TO 2HEX</h1>
-			<p style="color: black;">Congrats for subscribing to the 2HEX S.B. Newsletter!</p>
-			<p style="color: black;">Watch the video of Niklas, your sales contact at 2HEX.</p>
+			<p style="color: black;">Congrats for registering on 2HEX!</p>
+			<p style="color: black;">Meet Niklas, your personal sales contact:</p>
 
 			<video poster="{{asset('img/2HEX-Video.png')}}" width="100%" height="50%" controls="controls">
 				<source src="https://www.youtube.com/watch?v=cJs7LPAxLeI" type="video/mp4" />
@@ -32,10 +32,19 @@
 			 </ol>
 
 			<p style="color: black; margin-top: 20px;">
-				Thanks for using 2HEX!
-				<br>
-				Regards,
-				your 2HEX team
+				Let’s not loose anymore time: Place your brand’s custom production order now!<br>
+				→ <a href="https://www.2hex.com/skateboard-deck-manufacturer">Custom Skateboard Decks</a><br>
+				→ <a href="https://www.2hex.com/skateboard-griptape-manufacturer">Custom Grip Tapes</a>
+			</p>
+
+			<p style="color: black; margin-top: 20px;">
+			And remember: You can add multiple batches of the same product in different sizes.
+			The more batches you add, the cheaper each product gets!
+			</p>
+
+			<p style="color: black; margin-top: 20px;">
+				Thanks for using 2HEX! <br>
+				Regards, your 2HEX team
 			</p>
         </td>
     </tr>
