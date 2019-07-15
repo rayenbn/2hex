@@ -48,7 +48,7 @@ $(document).ready(function(){
 	});
 
     $("#quantity").TouchSpin({
-        min: 0,
+        min: 50,
         max: 1000000000,
         step: 10,
         buttondown_class: 'btn btn-secondary',
