@@ -35,13 +35,13 @@
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
                 <div class="m-alert__text">
                     <h4>
-                        <a href="{{route('register')}}">Sign Up</a> 
-                        and choose the best 
+                        <a href="{{route('register')}}">Register</a> 
+                        to make the best 
                         <a href="{{route('skateboard.manufacturer')}}">decks</a> and
                         <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
                     </h4>
 
-                    We give everyone access to the highest quality skateboard production! We make skateboard customization options and cost calculations transparent.
+                    We give everyone access to the highest quality skateboard production by making customization options and cost calculations transparent.
 
 
                 </div>
@@ -50,7 +50,6 @@
 
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__text">
-
                     <img 
                         src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}" 
                         alt="2HEX Your Skateboard Manufacturer" 
@@ -369,14 +368,14 @@
                     <i class="flaticon-exclamation-1"></i>
                 </div>
                 <div class="m-alert__text">
-                    We are building up a new web presence. If you need more info, visit
-                    <a href="http://skateboard-factory.com" class="m-link m-link--warning m--font-bold" target="_blank">
-                        our old website.
-                    </a>
-                    or download our
+                    We are still developing this web presence. If you need more info, download our
                     <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
                         catalog
                     </a>
+                    or send us a
+                    <a href="inquiries" class="m-link m-link--warning m--font-bold" target="_blank">
+                        message
+                    </a>.
                 </div>
             </div>
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
    <div class="m-grid__item m-grid__item--fluid m-wrapper">                        
         <div class="m-content">
             <div class="row">
@@ -156,13 +157,31 @@
                         <!--end: Form Wizard-->
                     <!--End::Main Portlet-->
                 </div>
-                
+
+
                 <div class="col-xl-3">
                     <div class="m-portlet">
                         <div class="m-portlet__body">
                             <div class="m-section">
-                                <h2 class="m-section__heading">Skateboard Decks</h2>
+
+                                <h2 class="m-section__heading" style="color: #5867dd">Plan your order!</h2>
+
                                 <div class="m-section__content">
+                                    <p>
+                                        We will now take you to the deck configurator.
+                                    </p>
+                                    <p>
+
+                                        If you want your design in multiple sizes, add a new batch for each size.
+                                        The more batches you add, the further the price drops.
+                                    </p>
+
+
+
+
+                                    <a href="{{route('get.skateboard.configurator')}}">
+                                        <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>
+
                                     <img alt="" src="/skateboard-deck-production/width-skateboard-decks-factory-2hex.jpg" style="width: 100%" />
                                 </div>
                             </div>

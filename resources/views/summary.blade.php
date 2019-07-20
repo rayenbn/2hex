@@ -70,31 +70,33 @@
 					</div>
 					<div class="m-portlet__head-tools" style="flex-wrap:wrap;">
 						@if(Session::get('viewonly') == null)
-						
+
 						<div class="dropdown">
 						  	<button 
-						  		class="btn btn-secondary dropdown-toggle" 
-						  		type="button" 
-						  		data-toggle="dropdown" 
+						  		class="btn m-btn dropdown-toggle dropdown-toggle-split m-btn--gradient-from-primary m-btn--gradient-to-info"
+						  		type="button"
+						  		data-toggle="dropdown"
 						  		aria-haspopup="true" 
 						  		aria-expanded="false"
 						  		id="actions"
 					  		>
-						    	Add batch
+						    	Add More
 						  	</button>
 
-						  	
+
 						  	<div class="dropdown-menu" aria-labelledby="actions">
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
-						  			Add grip tapes
+						  			Add Griptapes
 						  		</a>
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-						  			Add decks
+						  			Add Decks
 						  		</a>
 						  	</div>
 
 						</div>
-                        
+
+
+
                         <ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
 								<a href="profile#m_user_profile_tab_2" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
@@ -232,8 +234,8 @@
 								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
 								
 								@if(Session::get('viewonly') == null)
-									<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-success">Edit</a></td>
-									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-danger">Remove</a></td>
+									<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info">Edit</a></td>
+									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-outline-danger">Remove</a></td>
 								@endif
 							</tr>
 							
@@ -384,7 +386,7 @@
 										&& strlen($auth->phone_num)
 									)
 										@if(($grips->sum('quantity') == 0 && $totalOrders > 1170) || ($totalOrders > 1170 && $grips->sum('quantity') > 0))
-											<a href="{{ route('orders.submit') }}" class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
+											<a href="{{ route('orders.submit') }}" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
 												<span>
 													<i class="la la-rocket"></i>
 													<span>SUBMIT</span>
