@@ -27,8 +27,8 @@
 												<b>Industry 4.0.</b>
 											</p>
 									<p>
-										2HEX connects you with the skateboard production over the internet. 2HEX let's you create your custom products online, automatically forwards your order to the production line, and arranges
-										the delivery right to your doorstep. 2HEX let's you manage your productions from your phone - anywhere and at any time.
+										2HEX connects you with the skateboard production over the internet. 2HEX lets you create your custom products online, automatically forwards your order to the production line, and arranges
+										the delivery right to your doorstep. 2HEX lets you manage your productions from your phone - anywhere and at any time.
 									</p>
 
 
