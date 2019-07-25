@@ -29,6 +29,10 @@ class NewsController extends Controller
     {
         return view('inquiries');   
     }
+    public function book()
+    {
+        return view('book');
+    }
     public function profile()
     {
         return view('profile');   

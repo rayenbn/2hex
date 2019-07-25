@@ -69,6 +69,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
+Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
