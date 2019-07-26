@@ -96,7 +96,7 @@ Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index')->name('newsletter');
 Route::get('/samples','SamplesController@index')->name('samples');
 Route::get('/about','AboutController@index')->name('about');
-Route::get('/skateboardfaq','skateboardFAQController@index')->name('skateboardfaq');
+Route::get('/skateboardfaq','SkateboardFAQController@index')->name('skateboardfaq');
 
 Route::get('/skateboard-griptape-manufacturer', 'GripTapeConfigurator@manufacturer')->name('griptape.manufacturer');
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
