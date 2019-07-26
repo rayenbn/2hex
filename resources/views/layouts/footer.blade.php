@@ -44,21 +44,19 @@
                             <span class="m-nav__link-text">Affiliates</span>
                         </a>
                     </li>
+
                     <li class="m-nav__item">
-                        <a href="../imprint" class="m-nav__link">
-                            <span class="m-nav__link-text">Imprint</span>
+                        <a href="../skateboardfaq" class="m-nav__link">
+                            <span class="m-nav__link-text">FAQ</span>
                         </a>
                     </li>
+
                     <li class="m-nav__item">
                         <a href="../imprint" class="m-nav__link">
-                            <span class="m-nav__link-text">Privacy</span>
+                            <span class="m-nav__link-text">Legal</span>
                         </a>
                     </li>
-                    <li class="m-nav__item">
-                        <a href="../imprint" class="m-nav__link">
-                            <span class="m-nav__link-text">Terms</span>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </div>
