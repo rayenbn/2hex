@@ -12,9 +12,9 @@
 						<div class="m-portlet__head">
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
-									<h3 class="m-portlet__head-text" id="imprint">
-										SKATEBOARD SUPPLIER FAQ
-									</h3>
+									<h1 class="m-portlet__head-text" id="imprint">
+										Skateboard Supplier FAQ
+									</h1>
 								</div>
 							</div>
 						</div>
@@ -205,11 +205,216 @@
 					</div>
 				</div>
 
-                
+
+
+				<div class="col-xl-9">
+					<div class="m-portlet">
+						<div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+									<h1 class="m-portlet__head-text" id="imprint";>
+										Skateboard Supplier
+									</h1>
+								</div>
+							</div>
+						</div>
+
+						<div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+							<div class="m-portlet__padding-x"> </div>
+							<div class="m-form m-form--label-align-left- m-form--state-">
+								<div class="m-form__actions m-form__actions">
+
+									<br>
+									<p>
+									<h2 style="font-size: 120%; color: #6610f2">Is 2HEX a skateboard supplier?</h2>
+									</p>
+									<p>
+										2HEX is a skateboard supplier, supplying hundreds of skateboard companies with the highest quality skateboard components.<br>
+										<br>
+										A skateboard supplier is a business that supplies skateboard components. It is not necessarily a manufacturer. 2HEX keeps
+										manufacturing to a minimum. 2HEX is a skateboard supplier focusing on offering skateboard companies the best quality skateboards at the
+										lowest prices. To reach this goal we constantly compare all skateboard factories world wide, to find the best quality and negotiate
+										the best prices for 2HEX' users.<br>
+										Every year the factory with the best offer changes. We have found that we can be the best skateboard supplier by partnering with the
+										best factories instead of manufacturing ourselves. This is also why Nike and Adidas do not own any shoe factories. Just like Nike and Adidas
+										we work closely with our partnering skateboard factories, to provide them with any missing information required to produce the world's best skateboards.<br>
+										<br>
+									</p>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 
-                
+				<div class="col-xl-9">
+					<div class="m-portlet">
+						<div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+									<h1 class="m-portlet__head-text" id="imprint";>
+										Skateboard Manufacturer
+									</h1>
+								</div>
+							</div>
+						</div>
+
+						<div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+							<div class="m-portlet__padding-x"> </div>
+							<div class="m-form m-form--label-align-left- m-form--state-">
+								<div class="m-form__actions m-form__actions">
+
+									<br>
+									<p>
+									<h2 style="font-size: 120%; color: #6610f2">Is 2HEX a skateboard manufacturer?</h2>
+									</p>
+									<p>
+										2HEX was a skateboard manufacturer until 2015. Since 2012 we outsourced more and more steps of our production.
+										In 2015 we outsourced the last  skateboard production processes to our partners, so that we had
+										the required time to enable our customers to run the best productions. Meanwhile our partners outsourced their skateboard sales to 2HEX
+										so that they could fully focus on developing their skateboard productions. Since then 2HEX has helped to setup multiple skateboard
+										factories. 2HEX could therefor be considered a "skateboard factory manufacturer".<br>
+										<br>
+										By selling thousands of skateboards every month, we get tons of helpful feedback from skateboard company founders world wide. This information
+										is forwarded to our skateboard manufacturing partners. Over the years we have optimized every detail, from where the shrink seal must be placed when
+										shrink wrapping decks, to printing deck information on the front and back of cartons and logos on the sides, so that they are easier to be stocked at
+										our clients' warehouses.
+									</p>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="col-xl-9">
+					<div class="m-portlet">
+						<div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+									<h1 class="m-portlet__head-text" id="imprint",>
+										Skateboard Factory
+									</h1>
+								</div>
+							</div>
+						</div>
+
+						<div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+							<div class="m-portlet__padding-x"> </div>
+							<div class="m-form m-form--label-align-left- m-form--state-">
+								<div class="m-form__actions m-form__actions">
+									<p>
+									<h2 style="font-size: 120%; color: #6610f2">Does 2HEX own a skateboard factory?</h2>
+									</p>
+									<p>
+										2HEX does not own any skateboard factory. Like Nike and Adidas we help our partners build up factories, so that one party can spend all of their
+										time on manufacturing and the second party (being 2HEX) can fully focus on helping skateboard companies plan perfect productions.<br>
+										<br>
+										2HEX used to own a skateboard production in 2012 (at that time under the name of Precision Skateboard Factory).
+										However with a quickly growing demand for skateboard components, we started outsourcing more and more of our production to meet the required quantities.
+										Our team spent more time in the production, than helping customers get their production plans straight.<br>
+										<br>
+										To make sure that we can handle all of our customers' productions we have helped partners build up their factories and better their products' quality.
+										Today we still help our partners build up their skateboard factories, to ensure that we have enough supplies of high quality skateboards for our customers.<br>
+										<br>
+										It can be in a factory's best interest to use low cost materials or to speed up the production to lower production costs.
+										This can lead to a conflict of interest between a skateboard factory and the skateboard company / buyer.
+										Being independent from the skateboard production, it is in 2HEX best interest to continuously supply the highest quality skateboard components.
+										Unlike companies with small production orders, 2HEX has a strong influence on its partners with skateboard factories. Our skateboard factory partners know
+										that they can loose us and therefor hundreds of clients if only one order is produced at a lower quality. This helps us ensure that every production is arranged at
+										the same quality, as the productions of our largest customers.<br>
+										<br>
+
+									</p>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-xl-9">
+					<div class="m-portlet">
+						<div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+									<h1 class="m-portlet__head-text" id="imprint" ;>
+										Skateboard Warehouse
+									</h1>
+								</div>
+							</div>
+						</div>
+
+						<div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+							<div class="m-portlet__padding-x"> </div>
+							<div class="m-form m-form--label-align-left- m-form--state-">
+								<div class="m-form__actions m-form__actions">
+									<p>
+									<h2 style="font-size: 120%; color: #6610f2">Does 2HEX own a skateboard warehouse?</h2>
+									</p>
+									<p>
+										Yes, 2HEX has two skateboard warehouses.
+										2HEX stocks most of its goods at its partner's skateboard warehouses. Here at 2HEX we want to spend all of our time to support
+										our skateboard company customers to arrange the best productions. Keeping a skateboard warehouse, as well as picking skateboard components and packing them
+										takes a lot of time. Therefor we have outsourced this work to our partners skateboard warehouses as early as possible. This allows us to spend all of our time
+										on helping skateboard companies to get the best skateboard productions.<br>
+										<br>
+										However in spite of this effort to outsource all manual skateboard warehousing and packing labour, 2HEX still stocks skateboard components in Europe and Asia. We try to minimize our skateboard
+										warehouses where possible. Because generally the skateboard factories that we have either helped build up or partnered with for a long time are faster at picking
+										and packing and have more suitable personal to do so. Our staff is highly educated and trained and we do not want them packing parcels in warehouses.
+									</p>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="col-xl-9">
+					<div class="m-portlet">
+						<div class="m-portlet__head">
+							<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+									<h1 class="m-portlet__head-text" id="imprint">
+										Custom Skateboards / OEM Skateboards
+									</h1>
+								</div>
+							</div>
+						</div>
+
+						<div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
+							<div class="m-portlet__padding-x"> </div>
+							<div class="m-form m-form--label-align-left- m-form--state-">
+								<div class="m-form__actions m-form__actions">
+									<p>
+									<h2 style="font-size: 120%; color: #6610f2">Does 2HEX make OEM skateboards / custom skateboards?</h2>
+									</p>
+									<p>
+										"OEM Skateboards" stands for "Original Equipment Manufacturing of Skateboards". This means, that a manufacturer makes
+										custom designed products for other companies' brands. <br>
+										<br>
+										Custom skateboards are skateboards which have been customized to meet special requirements. Customizing skateboards can mean that only a custom print is added to the skateboards, or that everything down
+										to the outline of the shape is custom made according to the buyers' requirements.<br>
+										<br>
+										2HEX makes fully customized OEM skateboards. We do not own any skateboard brand ourselves, because we fully focus on our customers' skateboard companies.
+										2HEX arranges skateboard productions for other skateboard companies' original skateboard brands. These products are fully customized according to the customers' requirements.
+									</p>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
                
 			</div>
 		</div>
