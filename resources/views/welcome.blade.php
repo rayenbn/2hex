@@ -1,4 +1,7 @@
 @extends('layouts.app')
+
+@section('title', 'SKATEBOARD MANUFACTURER')
+
 @push('head.scripts')
     <script>
         if (location.hash) {
@@ -9,6 +12,11 @@
             }
         }
     </script>
+@endpush
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard manufacturer manufacturing skateboards, skateboard decks, skateboard wheels, skateboard griptapes and high quality complete skateboards.">
+    <meta name="keywords" content="skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Germany, Australia, Europe, England, Great Britain, Board, skateboard production">
 @endpush
 
 @section('content')

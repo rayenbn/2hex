@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'SKATEBOARD PRODUCTION CONFIGURATOR')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard configurator summary. A manufacturer of skateboards, skateboard decks, skateboard wheels, skateboard griptapes and high quality complete skateboards.">
+
+	<meta name="keywords" content="skateboard production configurator, skateboard configurator, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Germany, Australia, Europe, England, Great Britain, Board, skateboard production">
+@endpush
+
 @section('content')
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <!-- BEGIN: Subheader -->

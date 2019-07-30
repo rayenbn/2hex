@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'SKATEBOARD GRIPTAPES MANUFACTURER')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard griptapes manufacturer manufacturing skateboards, griptapes, decks, skateboard-components and skateboard wheels">
+
+    <meta name="keywords" content="skateboard griptape manufacturer, skateboard griptape supplier, skateboard griptape factory, skateboard, griptape, longboard griptape manufacturer, manufacturer, longboard, factory, supplier, skateboard decks manufacturer, skateboard decks supplier, 2hex, skateboard wheels manufacturer, skateboard wheels supplier, Germany, Australia, Europe, England, Great Britain, Board, Production.">
+@endpush
+
 @section('content')
    <div class="m-grid__item m-grid__item--fluid m-wrapper">                        
         <div class="m-content">
@@ -13,7 +21,7 @@
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
-                                    <h3 class="m-portlet__head-text">
+                                    <h1 class="m-portlet__head-text">
                                         Grip Tape Configurator
                                         <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
                                     
@@ -39,7 +47,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </h3>
+                                    </h1>
                                 </div>
                             </div>       
                             <div class="m-portlet__head-tools">

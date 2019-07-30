@@ -4,7 +4,7 @@
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8" />
-    <title>2HEX | Products</title>
+    <title>@yield('title', '2HEX | Products')</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -24,12 +24,17 @@
 
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/bundle.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/all.css') }}">
-    @stack('head.scripts')
-    @stack('head.styles')
-
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />
+
+    @stack('head.scripts')
+    @stack('head.styles')
+    
+    @stack('head.meta')
+    <meta name="author" content="{{ config('meta.defaults.author', '2HEX Skateboard Manufacturer') }}">
+
     <meta name="google-site-verification" content="Rda4X-ni7CsAy_pqqFhXeRbf_WToW3o1vpnu5peqMp4" />
+
 </head>
 <!-- end::Head -->
 

@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'ABOUT 2HEX SKATEBOARD MANUFACTURER')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard factory. A skateboard manufacturer of skateboard decks, skateboard wheels, skateboard griptapes and high quality complete skateboards.">
+
+	<meta name="keywords" content="2hex, skateboard, skateboard manufacturer, skateboard supplier, skateboard factory, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, Germany, Australia, Europe, England, Great Britain, Board, skateboard production">
+@endpush
+
 @section('content')
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
 

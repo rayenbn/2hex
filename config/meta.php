@@ -13,7 +13,7 @@ return [
         'title' => env('META_TITLE', config('app.name')),
         'description' => env('META_DESCRIPTION'),
         'keywords' => env('META_KEYWORDS'),
-        'author' => env('META_AUTHOR'),
+        'author' => env('META_AUTHOR', '2HEX Skateboard Manufacturer'),
         'copyright' => env('META_COPYRIGHT'),
         'robots' => env('META_ROBOTS', 'INDEX, FOLLOW'),
 

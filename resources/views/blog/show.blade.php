@@ -1,4 +1,13 @@
 @extends('layouts.app')
+
+@section('title', 'SKATEBOARD MANUFACTURER BLOG')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard manufacturer blog. {{$post->title}}">
+
+	<meta name="keywords" content="{{$post->title}}, skateboard manufacturer blog, skateboard factory blog, skateboard supplier blog, skateboard company blog, skateboard company founder, how to start a skateboard company, how to build a skateboard company, how to found a skateboard company, skateboard decks manufacturer, skateboard decks supplier, skateboard decks factory, skateboard, decks, manufacturer, factory, supplier, skateboard griptape manufacturer, skateboard griptape supplier, 2hex, skateboard wheels manufacturer, skateboard wheels supplier, Germany, Australia, Europe, England, Great Britain, Board, Production.">
+@endpush
+
 @push('head.styles')
 	<style>
 		.r-side-flex {
