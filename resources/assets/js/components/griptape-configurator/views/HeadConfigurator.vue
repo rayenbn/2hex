@@ -3,7 +3,7 @@
 
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
-                <h3 class="m-portlet__head-text">{{ title }}</h3>
+                <h1 class="m-portlet__head-text">{{ title }}</h1>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
                     <li v-for="link in links" :key="link.name" class="m-nav__item" >
                         <a :href="link.href">
