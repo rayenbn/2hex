@@ -23,7 +23,7 @@
             @endif
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h3 class="m-subheader__title ">2HEX Your Skateboard Manufacturer</h3>
+					<h1 class="m-subheader__title ">2HEX Skateboard Manufacturer</h1>
 				</div>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                     <div>
                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="" style="width: 100%;">
+                                            <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="skateboard manufacturer catalog" style="width: 100%;">
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@
 								<div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
 									<div>
 										<div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-											<img src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt="" style="width: 100%;">
+											<img src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" alt="skateboard decks manufacturer" style="width: 100%;">
 										</div>
 									</div>
 								</div>
@@ -244,7 +244,7 @@
                                 <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
                                     <div>
                                         <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/skateboard-manufacturer-samples-widget.jpg" alt="" style="width: 100%;">
+                                            <img src="/skateboard-deck-production/skateboard-manufacturer-samples-widget.jpg" alt="skateboard manufacturer" style="width: 100%;">
                                         </div>
                                     </div>
                                 </div>
@@ -323,9 +323,9 @@
 						<div class="m-portlet__head">
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
-									<h3 class="m-portlet__head-text">
-                                        The Skateboard Company Founder's Blog
-									</h3>
+									<h2 class="m-portlet__head-text">
+                                        The Skateboard Manufacturer Blog
+									</h2>
 								</div>
 							</div>
                             

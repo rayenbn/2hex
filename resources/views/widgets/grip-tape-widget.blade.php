@@ -7,8 +7,8 @@
                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
                         <img 
                             src="/img/griptape/skateboard-griptape-factory-widget.jpg" 
-                            alt="grip tape bearings manufacturer"
-                            title="grip tape bearings manufacturer"
+                            alt="grip tape manufacturer"
+                            title="grip tape manufacturer"
                             style="width: 100%;"
                         >
                     </div>

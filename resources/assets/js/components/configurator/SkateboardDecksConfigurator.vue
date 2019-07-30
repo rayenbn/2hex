@@ -10,9 +10,9 @@
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
+                                <h1 class="m-portlet__head-text">
                                     Skateboard Deck Factory
-                                </h3>
+                                </h1>
                                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
 
                                     <li class="m-nav__item">

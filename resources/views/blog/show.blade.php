@@ -25,9 +25,9 @@
 						<div class="m-portlet__head">
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
-									<h3 class="m-portlet__head-text" id="imprint">
-										The Skateboard Company Founder's Blog
-									</h3>
+									<h1 class="m-portlet__head-text" id="imprint">
+										The Skateboard Manufacturer Blog
+									</h1>
 								</div>
 							</div>
 						</div>
