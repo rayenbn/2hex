@@ -5,7 +5,9 @@
 <head>
     <meta charset="utf-8" />
     <title>@yield('title', '2HEX | Products')</title>
-    <meta name="description" content="Latest updates and statistic charts">
+    @stack('head.meta')
+    <meta name="author" content="{{ config('meta.defaults.author', '2HEX Skateboard Manufacturer') }}">
+    <meta name="google-site-verification" content="Rda4X-ni7CsAy_pqqFhXeRbf_WToW3o1vpnu5peqMp4" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,11 +31,6 @@
 
     @stack('head.scripts')
     @stack('head.styles')
-    
-    @stack('head.meta')
-    <meta name="author" content="{{ config('meta.defaults.author', '2HEX Skateboard Manufacturer') }}">
-
-    <meta name="google-site-verification" content="Rda4X-ni7CsAy_pqqFhXeRbf_WToW3o1vpnu5peqMp4" />
 
 </head>
 <!-- end::Head -->
