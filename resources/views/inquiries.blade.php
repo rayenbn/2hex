@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'CONTACT YOUR SKATEBOARD MANUFACTURER')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard factory contact page.  Leave us a message to run your custom skateboard production with 2HEX, your oem skateboard manufacturer.">
+
+    <meta name="keywords" content="2HEX contact, skateboard factory contact, skateboard manufacturer contact, skateboard manufacturer, skateboard supplier, skateboard factory">
+@endpush
+
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 

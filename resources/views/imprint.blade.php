@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'SKATEBOARD MANUFACTURER AGREEMENTS')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard manufacturer legal agreements, terms and conditions, and privacy on this skateboard factory website.">
+
+    <meta name="keywords" content="skateboard factory agreement, skateboard manufacturer legal, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, skateboard production">
+@endpush
+
 @section('content')
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
 

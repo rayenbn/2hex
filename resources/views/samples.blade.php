@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'SKATEBOARD MANUFACTURER SAMPLES')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard manufacturer production samples. Order skateboard production samples from the 2HEX skateboard factory.">
+
+    <meta name="keywords" content="skateboard production samples, skateboard samples, skateboard manufacturer, samples, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, skateboard production">
+@endpush
+
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
