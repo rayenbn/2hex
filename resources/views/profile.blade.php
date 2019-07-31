@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title', 'SKATEBOARD PRODUCTION PROFILE')
+
+@push('head.meta')
+    <meta name="description" content="2HEX skateboard production profile. 2HEX skateboard production profile lets you check on your production process at 2HEX skateboard factory.">
+
+    <meta name="keywords" content="skateboard production profile, skateboard company profile, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Board, skateboard production">
+@endpush
+
 @section('content')
     <!-- Start Content -->
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
