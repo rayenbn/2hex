@@ -29,7 +29,7 @@
                         <div class="m-login__container">
                             <div class="m-login__logo">
                                 <img 
-                                    src="{{ asset('/img/2HEX-logo2.png') }}" 
+                                    src="{{ asset('/img/2HEXlogo.png') }}"
                                     width="300"
                                     title="2HEX.com" 
                                     alt="2HEX.com" 

@@ -10,7 +10,7 @@
 
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="/" class="m-brand__logo-wrapper">
-                            <img alt="" src="{{asset('img/2HEX-logo2.png')}}"/>
+                            <img alt="" src="{{asset('img/2HEXlogo.png')}}"/>
                         </a>
                     </div>
 
