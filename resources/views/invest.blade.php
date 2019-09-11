@@ -35,12 +35,12 @@
 												<b>Login to test our demo account.</b>
 											</p>
 											<br>
-											<p>user: niklas@2hex.com</p>
-											<p>password: niklas@2hex.com</p>
+											<p>user: 1@2hex.com</p>
+											<p>password: HjkuL78!</p>
 											<br>
 											<p>To receive an automatic invoice by email:</p>
-											<p>Go to profile "Niklas V", "my details" and enter your email address.<br>
-												Then go to "Your Summary" to submit the prepared order.</p>
+											<p>Go to "Investor" -> "My profile" -> My Details" -> Enter your email address.<br>
+												Then go to "Your Summary" and submit the prepared example order.</p>
 											<br>
 											<br>
 											<p><b>Important Pages:</b></p>
