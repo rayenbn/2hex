@@ -38,21 +38,20 @@
 											<p>user: niklas@2hex.com</p>
 											<p>password: niklas@2hex.com</p>
 											<br>
-											<p>to receive an automatic invoice by email:</p>
-											<p>go to profile "Niklas V", "my details" and enter your email address. Then go to "Your Summary" to submit the prepared order</p>
+											<p>To receive an automatic invoice by email:</p>
+											<p>Go to profile "Niklas V", "my details" and enter your email address.<br>
+												Then go to "Your Summary" to submit the prepared order.</p>
 											<br>
 											<br>
-											<p>important pages</p>
-											<p><a href="https://www.2hex.com/login" class="m-nav__link">login</a></p>
-											<p><a href="https://www.2hex.com/skateboard-deck-configurator" class="m-nav__link">select your custom production specifications</a></p>
-											<p><a href="https://www.2hex.com/summary" class="m-nav__link">see a summary of your order</a></p>
+											<p><b>Important Pages:</b></p>
+											<p>• <a href="https://www.2hex.com/login" class="m-nav__link">Login</a></p>
+											<p>• <a href="https://www.2hex.com/skateboard-deck-configurator" class="m-nav__link">Select your custom production specifications</a></p>
+											<p>• <a href="https://www.2hex.com/summary" class="m-nav__link">See a summary of your order</a></p>
 											<br>
 											<br>
 											<iframe width="560" height="315" src="https://www.youtube.com/embed/bbmKqR-MFkg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 											<br>
 											<br>
-
-									<img alt="" src="/img/skatefactory-phone-wifi.svg" style="width: 20%" />
 										</div>
                             </div>
                         </div>
