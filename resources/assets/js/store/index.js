@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import gripTapeConfigurator from './modules/griptape-configurator';
+import SkateboardWheelConfigurator from './modules/skateboard-wheel-configurator';
 
 Vue.use(Vuex);
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     	getIsLater: state => state.isSaveOrderLater,
     },
     modules: {
-    	gripTapeConfigurator
+    	gripTapeConfigurator,
+        SkateboardWheelConfigurator
     }
 });
