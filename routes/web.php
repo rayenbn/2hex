@@ -111,6 +111,7 @@ Route::get('/grip-tape-remove/{id}', 'GripTapeConfigurator@destroy')->name('grip
 Route::group(['as' => 'wheels.'], function () {
     Route::get('/skateboard-wheel-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
     Route::get('/skateboard-wheel-configurator', 'WheelController@configurator')->name('configurator');
+    Route::post('/skateboard-wheel-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
 });
 
 /**

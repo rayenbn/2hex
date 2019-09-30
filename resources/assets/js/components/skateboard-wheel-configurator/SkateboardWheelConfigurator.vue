@@ -59,6 +59,13 @@
                                 <div class="m-portlet__body">
                                     
                                     <skateboard-wheel-step-1 />
+                                    <skateboard-wheel-step-2 />
+                                    <skateboard-wheel-step-3 />
+                                    <skateboard-wheel-step-4 />
+                                    <skateboard-wheel-step-5 />
+                                    <skateboard-wheel-step-6 />
+                                    <skateboard-wheel-step-7 />
+                                    <skateboard-wheel-step-8 />
 
                                 </div>
 
@@ -82,8 +89,8 @@
 
 
                                             <div class="col-lg-4 m--align-center">
-                                                    <!-- @click="save" -->
                                                 <button 
+                                                    @click="saveWheel"
                                                     class="btn btn-primary m-btn m-btn--custom m-btn--icon" 
                                                     data-wizard-action="submit" 
                                                 >
@@ -134,17 +141,18 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <!-- <h3 class="m-widget1__title">user ? 'Griptape' : 'Login' }}</h3> -->
-                                        <!-- <span class="m-widget1__desc"> user ? 'Price per Grip' : 'To See Prices' }}</span> -->
+                                        <h3 class="m-widget1__title">{{ auth ? 'Wheel' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ auth ? 'Price per set' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span
                                             class="m-widget1__number m--font-brand"
-                                            id="price"
+                                            id="perSet"
+                                            v-if="auth"
                                         >
-                                            <!-- $  price.toFixed(2) }} -->
+                                            ${{ perSetPrice.toFixed(2) }}
                                         </span>
-                                        <span class="m-widget1__number m--font-danger" id="price" >
+                                        <span v-else class="m-widget1__number m--font-danger" id="perSetPrice" >
                                             $ ?.??
                                         </span>
                                     </div>
@@ -153,18 +161,18 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <!-- <h3 class="m-widget1__title"> user ? 'Batch' : 'Login' }}</h3> -->
-                                        <!-- <span class="m-widget1__desc"> user ? 'Total of Batch' : 'To See Prices' }}</span> -->
+                                        <h3 class="m-widget1__title">{{ auth ? 'Batch' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ auth ? 'Total of Batch' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
-                                            <!-- v-if="quantity > 0 && size && user" -->
                                         <span
+                                            v-if="auth"
                                             class="m-widget1__number m--font-danger"
                                             id="total"
                                         >
-                                            <!-- $ {{ total }} -->
+                                            $ {{ totalBatch }}
                                         </span>
-                                        <span class="m-widget1__number m--font-danger" id="total" >
+                                        <span v-else class="m-widget1__number m--font-danger" id="total" >
                                             $ ?.??
                                         </span>
                                     </div>
@@ -172,8 +180,8 @@
                             </div>
 
                             <br>
-                                <!-- @click="save"  -->
                             <button
+                                @click="saveWheel" 
                                 id="save_order" 
                                 class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right" 
                             >
@@ -193,16 +201,42 @@
 <script>
     import HeadConfigurator from './views/HeadConfigurator.vue';
     import SkateboardWheelStep1 from './views/Step1.vue';
+    import SkateboardWheelStep2 from './views/Step2.vue';
+    import SkateboardWheelStep3 from './views/Step3.vue';
+    import SkateboardWheelStep4 from './views/Step4.vue';
+    import SkateboardWheelStep5 from './views/Step5.vue';
+    import SkateboardWheelStep6 from './views/Step6.vue';
+    import SkateboardWheelStep7 from './views/Step7.vue';
+    import SkateboardWheelStep8 from './views/Step8.vue';
 
     const COUNT_STEPS = 8; 
 
     export default {
     	name: 'skateboard-wheel-configurator',
     	props: {
+            total_sum: {
+                type: Number,
+                default: 0
+            },
+            total_quantity: {
+                type: Number,
+                default: 0
+            },
+            auth: {
+                type: Number,
+                default: 0
+            },
     	},
     	components: {
             HeadConfigurator,
-            SkateboardWheelStep1
+            SkateboardWheelStep1,
+            SkateboardWheelStep2,
+            SkateboardWheelStep3,
+            SkateboardWheelStep4,
+            SkateboardWheelStep5,
+            SkateboardWheelStep6,
+            SkateboardWheelStep7,
+            SkateboardWheelStep8,
     	},
         data() {
             return {
@@ -220,6 +254,15 @@
                 },
                 set(val) {}
             },
+            perSetPrice() {
+                return this.$store.getters['SkateboardWheelConfigurator/getPerSetPrice'];
+            },
+            quantity() {
+                return this.$store.getters['SkateboardWheelConfigurator/getQuantity'];
+            },
+            totalBatch() {
+                return (this.perSetPrice * this.quantity).toFixed(2);
+            },
             progressWidth(){
                 return {
                     width: 100 * this.currentStep / COUNT_STEPS + '%',
@@ -233,8 +276,17 @@
             prevStep(){
                 this.$store.commit('changeStep', --this.currentStep);
             },
+            saveWheel() {
+                this.$store.dispatch('SkateboardWheelConfigurator/saveWheel');
+            }
         },
         created() {
+            this.$store.dispatch('SkateboardWheelConfigurator/getHanbook');
+            this.$store.commit('SkateboardWheelConfigurator/setSessionInfo', {
+                totalSum: this.total_sum,
+                totalQuantity: this.total_quantity,
+                isAuth: this.auth
+            });
         }
     };
 </script>

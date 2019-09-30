@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(UsersSeeder::class);
-         $this->call(RolesSeeder::class);
-         $this->call(UsersRolesSeeder::class);
-         factory(Post::class, 20, [])->create();
+         $this->call(CreateShapesSeeder::class);
+         $this->call(CreateColorTypeSeeder::class);
+         $this->call(InitSiteOptionsSeeder::class);
+         $this->call(WheelHardnessSeeder::class);
     }
 }

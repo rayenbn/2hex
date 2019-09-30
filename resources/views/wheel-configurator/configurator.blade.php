@@ -10,7 +10,11 @@
 
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
-    	<skateboard-wheel-configurator>
+    	<skateboard-wheel-configurator
+    		:total_sum="{{ $totalSum }}"
+    		:total_quantity="{{ $quantityTotal }}"
+    		:auth="{{ $authUser ? 1 : 0 }}"
+		>
     		
     	</skateboard-wheel-configurator>
     </div>

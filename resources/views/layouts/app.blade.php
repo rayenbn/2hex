@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/bundle.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ mix('/mix/css/app.css') }}">
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />
 

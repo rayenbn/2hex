@@ -1,0 +1,230 @@
+<template>
+    <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">Shapes</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+                        <div class="m-widget17">
+                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                <div >
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
+                                        style="min-height: 286px"
+                                    >
+                                        <img 
+                                            src="#" 
+                                            alt="Top Print on Griptape" 
+                                            title="Top Print on Griptape"  
+                                            class="step1-img2"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <select
+                                class="form-control m-select2"
+                                id="shape"
+                                name="shape"
+                                v-model="shape"
+                                style="width:100%;"
+                            >
+                                <option value="null" disabled>SELECT</option>
+                                <option 
+                                    :value="index" 
+                                    v-for="(shape, index) in shapes" 
+                                    :key="'shape-' + index"
+                                >
+                                    {{ shape.name }}
+                                </option>
+                            </select>
+                            
+                            <template v-if="shape && shape.is_custom">
+                                
+                                <div class="form-group m-form__group">
+                                    <div></div>
+                                    <div class="custom-file">
+                                        <input
+                                            type="file"
+                                            data-type-upload="shapes"
+                                            class="custom-file-input"
+                                            data-step="shape-wheels"
+                                            id="step-2-upload"
+                                            @change.prevent="uploadFile($event, 2)"
+                                        >
+                                        <label 
+                                            class="custom-file-label unchecked" 
+                                            for="customFile"
+                                        >
+                                            Choose file
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="progress mb-3" style="height: 2px;">
+                                    <div 
+                                        class="progress-bar m--bg-info" 
+                                        role="progressbar" 
+                                        aria-valuenow="65" 
+                                        aria-valuemin="0" 
+                                        aria-valuemax="100"
+                                        :style="'width:' + uploadProgress + '%'" 
+                                    >
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button 
+                                        class="btn btn-secondary dropdown-toggle checked" 
+                                        type="button" 
+                                        id="step-2-recent" 
+                                        data-toggle="dropdown" 
+                                        aria-haspopup="true" 
+                                        aria-expanded="false" 
+                                        style="width:100%;" 
+                                    >
+                                        <!-- @click="step_options.state = true" -->
+                                        Recent file
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="step-2-recent">
+                                        <a 
+                                            v-for="file in 0"
+                                            class="dropdown-item file-dropdown" 
+                                            href="#"
+                                        >
+                                            <!-- @click="() => {step_options.file = file; step_options.state = true;}" -->
+                                            {{ file }}
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </template>
+
+
+                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                                <h3>Shapes</h3>
+                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">Sizes</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+                        <div class="m-widget17">
+                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                <div >
+                                    <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                        <img 
+                                            src="#" 
+                                            alt="" 
+                                            title=""
+                                            class="step1-img1"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <select
+                                class="form-control m-select2"
+                                id="shape_size"
+                                name="shape_size"
+                                v-model="size"
+                                style="width:100%;"
+                            >
+                                <option value="null" disabled>SELECT</option>
+
+                                <template v-if="shape">
+                                    <option 
+                                        :value="index" 
+                                        v-for="(size, index) in shape.sizes" 
+                                        :key="'size' + index"
+                                    >
+                                        {{ size.size }}
+                                    </option>
+                                </template>
+                                
+                            </select>
+
+                            <template v-if="shape && size">
+                                <input
+                                    disabled
+                                    type="text" 
+                                    class="form-control mt-2 mb-2" 
+                                    placeholder="Contact patch" 
+                                    :value="size.contact_patch"
+                                >
+                            </template>
+
+                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                                <h3>Sizes</h3>
+                                HS780 is the highest quality in skateboard griptape technology. HS780 uses more precisely cut sand crystals and a stronger glue. This leads to the griptape having a longer life before offering reduced grip. The HS780 back paper has a protective film, to prevent moisture from impacting the glue.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import uploaFile from '../mixins/uploadFile';
+
+    export default {
+		name: 'skateboard-wheel-step-2',
+        mixins: [uploaFile],
+        data() {
+            return {
+                shape: null,
+                size: null,
+                uploadProgress: 0
+            }
+        },
+        methods: {
+        },
+        computed: {
+            shapes() {
+                return this.$store.getters['SkateboardWheelConfigurator/getShapes'];
+            }
+        },
+        watch: {
+            shape: _.debounce(function(newVal){
+                this.size = null;
+                $("#shape_size").select2({ placeholder: "SELECT" });
+                this.$store.commit('SkateboardWheelConfigurator/changeShape', this.shape);
+            }, 500),
+        },
+        mounted() {
+            let queryShape = $("#shape");
+
+            queryShape.select2();
+
+            queryShape.on('select2:select', (e) => {
+                this.shape = this.shapes[e.params.data.id];
+            });
+
+            let queryShapeSize = $("#shape_size");
+
+            queryShapeSize.select2();
+
+            queryShapeSize.on('select2:select', (e) => {
+                this.size = this.shape.sizes[e.params.data.id];
+
+                this.$store.commit('SkateboardWheelConfigurator/changeSize', this.size);
+            });
+        }
+    }
+</script>

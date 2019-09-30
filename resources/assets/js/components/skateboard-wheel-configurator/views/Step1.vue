@@ -33,11 +33,10 @@
                             	class="form-control bootstrap-touchspin-vertical-btn" 
                             	name="quantity" 
                             	placeholder="200" 
-                                step="200"
+                                step="100"
                                 min="0"
                             	@change.prevent="validateQuantity"
                         	>
-                                <!-- @keydown.enter.prevent="changeQuantity" -->
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Quantity</h3>
@@ -87,18 +86,18 @@
                                     v-for="(type, index) in types" 
                                     :key="index"
                                 >
-                                    {{ type.title }}
+                                    {{ type.name }}
                                 </option>
                             </select>
-                            
+
                             <template v-if="type">
                                 <input
-                                    v-for="(color, index) in type.colorsCount"
+                                    v-for="(color, index) in type.count_colors"
                                     type="text" 
                                     class="form-control mt-2 mb-2" 
                                     placeholder="Enter Pantone Color" 
-                                    v-model="type.pantoneColors[index]"
-                                    @input="onChangePantone" 
+                                    v-model="type.colors[index]"
+                                    @input="onChangeColor" 
                                 >
                             </template>
 
@@ -116,42 +115,27 @@
 </template>
 
 <script>
-    import TypeColor from '../Classes/TypeColor.js';
-
     export default {
 		name: 'skateboard-wheel-step-1',
-        props: {
-
-        },
 		data() {
 			return {
                 quantity: 0,
 				type: null,
-                types: [
-                    new TypeColor('Basic White', 0),
-                    new TypeColor('Urethane Color Code', 1, 0.25),
-                    new TypeColor('Dual Durometer', 2, 1.25),
-                    new TypeColor('Sandwich', 3, 1.35),
-                    new TypeColor('Glow in the Dark', 1, 1.04),
-                    new TypeColor('Dual Mixed Colors', 2, 0.95),
-                    new TypeColor('Dual Fully Mixed Colors', 2, 0.93),
-                    new TypeColor('Core', 2, 1.25),
-                    new TypeColor('Transparent', 2, 0.23),
-                ],
 			}
 		},
+        computed: {
+            types() {
+                return this.$store.getters['SkateboardWheelConfigurator/getTypes'];
+            }
+        },
         watch: {
             quantity: _.debounce(function(newVal, oldVal){
-                if (newVal % 200 != 0) {
-                    this.quantity = 2000;
-                }
-
-                this.changeQuantity();
-            }, 2000)
+                this.validateQuantity();
+            }, 1000)
         },
 		methods: {
             validateQuantity() {
-                if(this.quantity % 200 != 0){
+                if(this.quantity % 100 != 0){
                      swal({
                         title: "",
                         text: "Select Only quantities in steps of 200 (200, 400, ...)",
@@ -160,29 +144,25 @@
                     });
                     this.quantity = 2000;
                 }
+                this.changeQuantity();
             },
 
             changeQuantity: _.debounce(function (e) {
                 this.$store.commit('SkateboardWheelConfigurator/changeQuantity', this.quantity);
-            }, 2000),
+            }, 500),
 
-            onChangePantone: _.debounce(function (e) {
+            onChangeColor: _.debounce(function (e) {
                 this.$store.commit('SkateboardWheelConfigurator/changeType', this.type);
-            }, 2000)
+            }, 500)
 		},
-        computed: {
-        },
         created() {
             this.quantity = this.$store.state.SkateboardWheelConfigurator.quantity;
             this.type = this.$store.state.SkateboardWheelConfigurator.type;
         },
         mounted() {
-
             let queryType = $("#type");
 
-            queryType.select2({
-                placeholder: "Select a type"
-            });
+            queryType.select2();
 
             // Listen change select with color types
             queryType.on('select2:select', (e) => {
@@ -196,7 +176,7 @@
             queryQuanity.TouchSpin({
                 min: 0,
                 max: 1000000000,
-                step: 200,
+                step: 100,
                 buttondown_class: 'btn btn-secondary',
                 buttonup_class: 'btn btn-secondary',
                 verticalbuttons: true,

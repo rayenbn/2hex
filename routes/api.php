@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1', 'namespace' => '\API'], function () {
+
+	Route::group(['as' => 'wheels.', 'prefix' => 'wheels'], function () {
+		Route::get('/handbook', 'WheelController@getHanbook')->name('getHanbook');
+	});
 });
+

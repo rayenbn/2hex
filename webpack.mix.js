@@ -162,6 +162,7 @@ mix.styles([
     'public/css/style.css',
 ], 'public/css/all.css');
 
+mix.sass('resources/assets/sass/app.scss', 'public/mix/css');
 
  mix.scripts([
     'public/asset/vendors/base/vendors.bundle.js',

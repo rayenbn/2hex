@@ -52,5 +52,9 @@ class AppServiceProvider extends ServiceProvider
              */
             //$loader->alias('Debugbar', \Barryvdh\Debugbar\Facade::class);
         }
+
+        $this->app->singleton('wheels', function($app) {
+            return new \App\Facades\WheelManager();
+        });
     }
 }
