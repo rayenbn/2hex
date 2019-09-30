@@ -99,6 +99,9 @@
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 						  			Add Decks
 						  		</a>
+								<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
+									Saved Batches
+								</a>
 						  	</div>
 
 						</div>
@@ -143,7 +146,6 @@
                                 <th>Batch&nbspTotal</th>
                                 @if(Session::get('viewonly') == null)
                                 <th>Edit</th>
-                                <th>Remove</th>
                                 @endif
 							</tr>
 						</thead>
@@ -242,8 +244,23 @@
 								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
 								
 								@if(Session::get('viewonly') == null)
-									<td><a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info">Edit</a></td>
-									<td><a href="skateboard-remove/{{$order->id}}" class="btn btn-outline-danger">Remove</a></td>
+									<td>
+										<!--
+										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info btn-sm">Edit Batch</a>
+										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info btn-sm">Save Batch</a>
+										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn m-btn--pill btn-outline-success btn-sm">+</a>
+										<a href="skateboard-remove/{{$order->id}}" class="btn m-btn--pill btn-outline-danger btn-sm">-</a>
+										-->
+										<div class="btn-group" role="group" aria-label="First group">
+											<button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
+											<button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
+										</div>
+										<div class="btn-group" role="group" aria-label="First group">
+											<button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
+											<button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
+										</div>
+
+									</td>
 								@endif
 							</tr>
 							
@@ -267,7 +284,6 @@
 	                                <th>Batch&nbspTotal</th>
 	                                @if(Session::get('viewonly') == null)
 	                                <th>Edit</th>
-	                                <th>Remove</th>
 	                                @endif
 								</tr>
 							</thead>
@@ -305,9 +321,19 @@
 
                       			@if(Session::get('viewonly') == null)
 								<td>
-									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-success">Edit</a></td>
-								<td>
-									<a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-danger">Remove</a>
+									<div class="btn-group" role="group" aria-label="First group">
+										<button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
+										<button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
+									</div>
+									<div class="btn-group" role="group" aria-label="First group">
+										<button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
+										<button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
+									</div>
+									<!--
+									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Edit</a>
+									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Save</a>
+									<a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-outline-danger btn-sm">Remove</a>
+									-->
 								</td>
 								@endif
 								
@@ -319,7 +345,7 @@
 									<td colspan="3">Fixed Cost</td>
 									<td colspan="3">Batches</td>
 									<td colspan="1">Colors</td>
-									<td colspan="8">Filename</td>
+									<td colspan="7">Filename</td>
 									<td>Fixed&nbspTotal</td>
 								</tr>
 						   	</thead>
@@ -330,7 +356,7 @@
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
 										<td colspan="1">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-										<td colspan="8">{{ $value['image'] }}</td>
+										<td colspan="7">{{ $value['image'] }}</td>
 										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 									</tr>
                             	@endforeach
