@@ -9,6 +9,8 @@
 @endpush
 
 @section('content')
+	@php $isAdmin = auth()->check() && auth()->user()->isAdmin(); @endphp
+
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <!-- BEGIN: Subheader -->
 		<div class="m-subheader ">
@@ -99,14 +101,16 @@
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 						  			Add Decks
 						  		</a>
+
+						  		@if($isAdmin)
 								<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 									Saved Batches
 								</a>
+								@endif
+								
 						  	</div>
 
 						</div>
-
-
 
                         <ul class="m-portlet__nav">
 							<li class="m-portlet__nav-item">
