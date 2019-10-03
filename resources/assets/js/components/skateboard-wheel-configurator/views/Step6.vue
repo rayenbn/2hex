@@ -161,7 +161,6 @@
         data() {
             return {}
         },
-
         computed: {
             placement: {
                 get() {

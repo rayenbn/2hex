@@ -33,11 +33,6 @@ class InitSiteOptionsSeeder extends Seeder
         ]);
 
         Option::query()->firstOrCreate([
-            'option_name' => 'wheel_placement_price',
-            'option_value' => 0.05,
-        ]);
-
-        Option::query()->firstOrCreate([
             'option_name' => 'wheel_cardboard_price',
             'option_value' => 0.35,
         ]);

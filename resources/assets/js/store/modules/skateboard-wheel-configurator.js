@@ -34,14 +34,12 @@ export default {
         printCardboardColors: null,
         printCardboardFile: null,
         isPrintCarton: false,
-        // printCartonColors: null,
         printCartonFile: null,
         hardnessList: [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
             '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
             '98A', '99A', '100A', '101A', '102A', '83B', '84B',
-        ]
-
+        ],
     },
     getters: {
         getSHR: state => state.shr,
@@ -50,6 +48,8 @@ export default {
         getPerSet: state => state.perSet,
         getPerSet: state => state.perSet,
         getPlacement: state => state.placement,
+        getShape: state => state.shape,
+        getSize: state => state.size,
 
         getFrontPrint: state => state.isFrontPrint,
         getFrontPrintColors: state => state.frontPrintColors,
@@ -69,12 +69,52 @@ export default {
         getQuantity: state => state.quantity,
         getType: state => state.type,
         getHardness: state => state.hardness,
+        getHardnessPrice: state => {
+            let index = state.hardnessList.findIndex(h => h == state.hardness);
+            console.log(index, name);
+            let hardness_id = 1;
+
+            if (index == -1 || state.size == null) {
+                return 0;
+            }
+
+            // <= 94A
+            if (index <= 16) {
+                hardness_id = 1;
+
+            // = 95A
+            } else if (index == 17) {
+                hardness_id = 2;
+
+            // > 95A and <= 101A
+            } else if (index > 17 && index <= 23) {
+                hardness_id = 3;
+
+            // >= 102A
+            } else if (index > 23 && index <= 24) {
+                hardness_id = 4;
+
+            // 84B
+            } else {
+                hardness_id = 5;
+            }
+
+            let hardness = state.sizePrices.find(size => {
+                return size.size_id == state.size.size_id && size.hardness_id == hardness_id
+            }) || null;
+
+            if (hardness == null) {
+                return 0;
+            }
+
+            return parseFloat(hardness.price);
+        },
         getPerSetPrice: (state, getters) => {
             // If shr enabled, calculate without base price
             return (state.shr == false ? state.basePrice : 0) 
                 + state.perSet 
                 + getters.typePrice 
-                + getters.shapePrice
+                + getters.getHardnessPrice
                 + getters.frontPrice
                 + getters.backPrice
                 + state.placementPrice
@@ -82,24 +122,6 @@ export default {
         },
         typePrice: state => {
             return (state.type ? parseFloat(state.type.price) : 0) * state.profitMargin;
-        },
-        shapePrice: (state, getters) => {
-
-            if (!state.size || !state.sizePrices.length ) {
-                return 0;
-            }
-            
-            // Base harndess price + shr price (if enable shr)
-            return parseFloat(getters.hardnessPrice[0].price) + (state.shr ? parseFloat(getters.hardnessPrice[1].price) : 0);
-        },
-        hardnessPrice: state => {
-            if (!state.size || !state.sizePrices) return 0;
-
-            // Base price and SHR
-            return state.sizePrices.filter(size => {
-                return (size.hardness_id == HARDNESS.HS_90_94A && size.size_id == state.size.size_id)
-                    || (size.hardness_id == HARDNESS.HS_102A && size.size_id == state.size.size_id);
-            });
         },
         frontPrice: state => {
             if (state.isFrontPrint == false) {
@@ -136,15 +158,11 @@ export default {
             state.profitMargin = parseFloat(payload.wheel_profit_margin);
             state.colorPrice = parseFloat(payload.wheel_color_price);
             state.colorMargin = parseFloat(payload.wheel_color_profit_margin);
-            state.placementPrice = parseFloat(payload.wheel_placement_price);
             state.cartonPrice = parseFloat(payload.wheel_carton_price);
         },
         setShapes(state, payload) {
             state.shapes = payload;
         },
-        // setBasePrice(state, payload) {
-        //     state.basePrice = payload;
-        // },
         setColorPrice(state, payload) {
             state.colorPrice = payload;
         },
@@ -182,11 +200,9 @@ export default {
             state.isFrontPrint = payload; 
         },
         changeFrontPrintColors(state, payload) {
-            // state.isFrontPrint = true;
             state.frontPrintColors = payload;
         },
         changeFrontPrintFile(state, payload) {
-            // state.isFrontPrint = true;
             state.frontPrintFile = payload;
 
             if (state.isBackPrint == false) {
@@ -213,6 +229,13 @@ export default {
         },
         changePlacement(state, payload) {
             state.placement = payload;
+
+            switch(payload) {
+                case PLACEMENTS.SQUARE: state.placementPrice = 0; break;
+                case PLACEMENTS.ROLL: state.placementPrice = 0.05; break;
+                case PLACEMENTS.LINE: state.placementPrice = 0.08; break;
+                default: state.placementPrice = 0;
+            }
         },
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
@@ -283,7 +306,7 @@ export default {
                 }
 
                 formData.append('price', getters.getPerSetPrice);
-                formData.append('total', getters.getPerSetPrice + state.quantity);
+                formData.append('total', getters.getPerSetPrice * state.quantity);
 
                 axios.post('/skateboard-wheel-configurator', formData)
                     .then(repsonse => repsonse.data)

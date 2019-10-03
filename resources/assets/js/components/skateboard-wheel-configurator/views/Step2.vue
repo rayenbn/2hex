@@ -188,24 +188,34 @@
         mixins: [uploaFile],
         data() {
             return {
-                shape: null,
-                size: null,
                 uploadProgress: 0
             }
-        },
-        methods: {
         },
         computed: {
             shapes() {
                 return this.$store.getters['SkateboardWheelConfigurator/getShapes'];
+            },
+            shape: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getShape'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeShape', newVal);
+                }
+            },
+            size: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getSize'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeSize', newVal);
+                }
             }
         },
         watch: {
-            shape: _.debounce(function(newVal){
-                this.size = null;
+            shape() {
                 $("#shape_size").select2({ placeholder: "SELECT" });
-                this.$store.commit('SkateboardWheelConfigurator/changeShape', this.shape);
-            }, 500),
+            },
         },
         mounted() {
             let queryShape = $("#shape");
@@ -222,8 +232,6 @@
 
             queryShapeSize.on('select2:select', (e) => {
                 this.size = this.shape.sizes[e.params.data.id];
-
-                this.$store.commit('SkateboardWheelConfigurator/changeSize', this.size);
             });
         }
     }
