@@ -1345,13 +1345,188 @@ class CreateShapesSeeder extends Seeder
 	        		'order' => 0
 	        	],
         		'sizes' => [
-        			['size' => '50*29mm', 'contact_patch' => '16.0mm-16.5mm'],
-					['size' => '51*30mm', 'contact_patch' => '16.0mm-16.5mm'],
-					['size' => '52*31mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '53*31mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '54*32mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '55*32mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '56*33mm', 'contact_patch' => '17.5mm-18.0mm'],
+        			[
+                        'size' => '50*29mm',
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.85
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.91
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.03
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 2.93
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.72
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '51*30mm', 
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.85
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.91
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.03
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 2.93
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.72
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '52*31mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.97
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.21
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.11
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.99
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '53*31mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.94
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.97
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.12
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.08
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.96
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '54*32mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.09
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.18
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.33
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.29
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.08
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '55*32mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.24
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.3
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.52
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.47
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.42
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '56*33mm', 
+                        'contact_patch' => '17.5mm-18.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.24
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.3
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.52
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.47
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.42
+                            ]
+                        ]
+                    ],
         		]
         	],
         	[
@@ -1361,13 +1536,188 @@ class CreateShapesSeeder extends Seeder
 	        		'order' => 1
 	        	],
         		'sizes' => [
-        			['size' => '50*28mm', 'contact_patch' => '16.0mm-16.5mm'],
-					['size' => '51*28mm', 'contact_patch' => '16.0mm-16.5mm'],
-					['size' => '52*30mm', 'contact_patch' => '16.0mm-16.5mm'],
-					['size' => '53*31mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '54*32mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '55*32mm', 'contact_patch' => '16.5mm-17.0mm'],
-					['size' => '56*33mm', 'contact_patch' => '16.5mm-17.0mm'],
+        			[
+                        'size' => '50*28mm', 
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.85
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.91
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.03
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 2.93
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.72
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '51*28mm', 
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.85
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.91
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.03
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 2.93
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.72
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '52*30mm', 
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.97
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.21
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.11
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.99
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '53*31mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 1.94
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 1.97
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.12
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.08
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 3.96
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '54*32mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.24
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.3
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.52
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.47
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.42
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '55*32mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.24
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.3
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.52
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.47
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.42
+                            ]
+                        ]
+                    ],
+					[
+                        'size' => '56*33mm', 
+                        'contact_patch' => '16.5mm-17.0mm',
+                        'prices' => [
+                            [
+                                'hardness_id' => self::HARDNESS_90_94A,
+                                'price' => 2.58
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_95A,
+                                'price' => 2.64
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_100A,
+                                'price' => 2.88
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_102A,
+                                'price' => 3.93
+                            ],
+                            [
+                                'hardness_id' => self::HARDNESS_83B,
+                                'price' => 4.93
+                            ]
+                        ]
+                    ],
 
         		]
         	],

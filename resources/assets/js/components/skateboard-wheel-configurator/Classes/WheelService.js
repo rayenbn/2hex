@@ -41,7 +41,7 @@ export default class WheelSertice {
 				case quantity < 600 : perSet = 1.2; break;
 				case quantity >= 600 && quantity < 900 : perSet = 0.7; break;
 				case quantity >= 900 && quantity < 1200 : perSet = 0.7; break;
-				case quantity >= 1200 && quantity < 1900 : perSet = 0.93; break;
+				case quantity >= 1200 && quantity < 1900 : perSet = 0.65; break;
 				case quantity >= 1900 : perSet = 0.6; break;
 			} 
 		}
@@ -76,17 +76,7 @@ export default class WheelSertice {
 			} 
 		}
 
-		else if (total >= 30000 && total < 50000) {
-			switch (true) {
-				case quantity < 600 : perSet = 0.9; break;
-				case quantity >= 600 && quantity < 900 : perSet = 0.55; break;
-				case quantity >= 900 && quantity < 1200 : perSet = 0.33; break;
-				case quantity >= 1200 && quantity < 1900 : perSet = 0.33; break;
-				case quantity >= 1900 : perSet = 0.27; break;
-			} 
-		}
-
-		else if (total >= 50000) {
+		else if (total >= 30000) {
 			switch (true) {
 				case quantity < 600 : perSet = 0.8; break;
 				case quantity >= 600 && quantity < 900 : perSet = 0.5; break;

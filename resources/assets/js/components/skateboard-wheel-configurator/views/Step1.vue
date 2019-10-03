@@ -35,7 +35,6 @@
                             	placeholder="200" 
                                 step="100"
                                 min="0"
-                            	@change.prevent="validateQuantity"
                         	>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -117,48 +116,45 @@
 <script>
     export default {
 		name: 'skateboard-wheel-step-1',
-		data() {
-			return {
-                quantity: 0,
-				type: null,
-			}
-		},
         computed: {
             types() {
                 return this.$store.getters['SkateboardWheelConfigurator/getTypes'];
+            },
+            quantity: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getQuantity'];
+                },
+                set: _.debounce(function (newVal) {
+                    if (newVal == this.quantity) return;
+
+                    if(newVal % 100 != 0){
+                         swal({
+                            title: "",
+                            text: "Select Only quantities in steps of 100 (100, 200, ...)",
+                            type: "warning",
+                            confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                        });
+                        newVal = 2000;
+                    }
+
+                    this.$store.commit('SkateboardWheelConfigurator/changeQuantity', newVal);
+
+                }, 1000)
+            },
+            type: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getType'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeType', newVal);   
+                }
             }
         },
-        watch: {
-            quantity: _.debounce(function(newVal, oldVal){
-                this.validateQuantity();
-            }, 1000)
-        },
 		methods: {
-            validateQuantity() {
-                if(this.quantity % 100 != 0){
-                     swal({
-                        title: "",
-                        text: "Select Only quantities in steps of 200 (200, 400, ...)",
-                        type: "warning",
-                        confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    });
-                    this.quantity = 2000;
-                }
-                this.changeQuantity();
-            },
-
-            changeQuantity: _.debounce(function (e) {
-                this.$store.commit('SkateboardWheelConfigurator/changeQuantity', this.quantity);
-            }, 500),
-
             onChangeColor: _.debounce(function (e) {
                 this.$store.commit('SkateboardWheelConfigurator/changeType', this.type);
-            }, 500)
+            }, 1000)
 		},
-        created() {
-            this.quantity = this.$store.state.SkateboardWheelConfigurator.quantity;
-            this.type = this.$store.state.SkateboardWheelConfigurator.type;
-        },
         mounted() {
             let queryType = $("#type");
 
@@ -167,7 +163,6 @@
             // Listen change select with color types
             queryType.on('select2:select', (e) => {
                 this.type = this.types[e.params.data.id];
-                this.$store.commit('SkateboardWheelConfigurator/changeType', this.type);
             });
 
             let quantityField = document.getElementById('quantity_wheel');

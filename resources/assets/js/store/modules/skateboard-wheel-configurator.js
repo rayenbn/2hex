@@ -34,7 +34,7 @@ export default {
         printCardboardColors: null,
         printCardboardFile: null,
         isPrintCarton: false,
-        printCartonColors: null,
+        // printCartonColors: null,
         printCartonFile: null,
         hardnessList: [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
@@ -64,10 +64,10 @@ export default {
         getPrintCardboardFile: state => state.printCardboardFile,
 
         getPrintCarton: state => state.isPrintCarton,
-        getPrintCartonColors: state => state.printCartonColors,
         getPrintCartonFile: state => state.printCartonFile,
 
         getQuantity: state => state.quantity,
+        getType: state => state.type,
         getHardness: state => state.hardness,
         getPerSetPrice: (state, getters) => {
             // If shr enabled, calculate without base price
@@ -226,9 +226,6 @@ export default {
         changePrintCarton(state, payload) {
             state.isPrintCarton = payload;
         },
-        changePrintCartonColors(state, payload) {
-            state.printCartonColors = payload;
-        },
         changePrintCartonFile(state, payload) {
             state.printCartonFile = payload;
         },
@@ -252,7 +249,7 @@ export default {
                     });
             })
         },
-        saveWheel({commit, state }) {
+        saveWheel({commit, state , getters}) {
             return new Promise((resolve, reject) => {
 
                 var formData = new FormData();
@@ -283,11 +280,10 @@ export default {
 
                 if (state.isPrintCarton) {
                     formData.append('carton_print', state.printCartonFile ? state.printCartonFile : null);
-                    formData.append('carton_colors', state.printCartonColors);
                 }
 
-                formData.append('price', 0);
-                formData.append('total', 0);
+                formData.append('price', getters.getPerSetPrice);
+                formData.append('total', getters.getPerSetPrice + state.quantity);
 
                 axios.post('/skateboard-wheel-configurator', formData)
                     .then(repsonse => repsonse.data)
