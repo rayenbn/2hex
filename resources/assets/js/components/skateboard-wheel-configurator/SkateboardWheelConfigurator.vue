@@ -226,6 +226,14 @@
                 type: Number,
                 default: 0
             },
+            wheel: {
+                type: Object,
+                default: null
+            },
+            reirect_uri: {
+                type: String,
+                default: '/'
+            }
     	},
     	components: {
             HeadConfigurator,
@@ -277,16 +285,42 @@
                 this.$store.commit('changeStep', --this.currentStep);
             },
             saveWheel() {
-                this.$store.dispatch('SkateboardWheelConfigurator/saveWheel');
+                this.$store.dispatch('SkateboardWheelConfigurator/saveWheel')
+                    .then(() => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'success',
+                            title: 'Wheel Configurator',
+                            text: "Wheel succesfully saved"
+                        });
+
+                        setTimeout(() => {
+                            window.location = this.reirect_uri;
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Wheel Configurator',
+                            text: "Wheel not saved. Please reload  page."
+                        });
+                    });
             }
         },
         created() {
-            this.$store.dispatch('SkateboardWheelConfigurator/getHanbook');
-            this.$store.commit('SkateboardWheelConfigurator/setSessionInfo', {
-                totalSum: this.total_sum,
-                totalQuantity: this.total_quantity,
-                isAuth: this.auth
-            });
+            this.$store.dispatch('SkateboardWheelConfigurator/getHanbook')
+                .then(() => {
+                    this.$store.commit('SkateboardWheelConfigurator/setSessionInfo', {
+                        totalSum: this.total_sum,
+                        totalQuantity: this.total_quantity,
+                        isAuth: this.auth
+                    });
+                    if (this.wheel != null) {
+                        this.$store.commit('SkateboardWheelConfigurator/setWheel', this.wheel);
+                    }
+
+                });
         }
     };
 </script>

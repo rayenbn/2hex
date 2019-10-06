@@ -11,9 +11,10 @@
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
     	<skateboard-wheel-configurator
-    		:total_sum="{{ $totalSum }}"
-    		:total_quantity="{{ $quantityTotal }}"
-    		:auth="{{ $authUser ? 1 : 0 }}"
+    		:total_sum="{{ $orders->sum('total') + $grips->sum('total') + $wheels->sum('total')}}"
+    		:total_quantity="{{ $orders->sum('quantity') + $grips->sum('quantity') + $wheels->sum('quantity') }}"
+    		:auth="{{ auth()->check() ? 1 : 0 }}"
+            :wheel="{{ json_encode($wheel ?? null) }}"
 		>
     		
     	</skateboard-wheel-configurator>

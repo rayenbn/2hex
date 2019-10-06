@@ -46,7 +46,7 @@ export default {
                             text: "File uploaded successfully"
                         });
                     } else {
-                        input.nextElementSibling.classList.add("unchecked");
+                        // input.nextElementSibling.classList.add("unchecked");
                         this.uploadProgress = 0;
                         this.$notify({
                             group: 'main',

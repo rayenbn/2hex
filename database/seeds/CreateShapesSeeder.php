@@ -82,7 +82,8 @@ class CreateShapesSeeder extends Seeder
                     ],
         			[
                         'size' => '51*31mm', 
-                        'contact_patch' => '16.0mm-16.5mm','prices' => [
+                        'contact_patch' => '16.0mm-16.5mm',
+                        'prices' => [
                             [
                                 'hardness_id' => self::HARDNESS_90_94A,
                                 'price' => 1.61

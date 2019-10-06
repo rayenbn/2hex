@@ -42,4 +42,19 @@ class WheelController extends Controller
 
         return redirect()->back();
     }
+
+    /**    
+     * Show wheel by id
+     *
+     * @param int $wheelId Identifier of the Wheel
+     *
+     * @return View
+     */
+    public function show(int $wheelId) : View
+    {
+        /** @var Wheel $wheel*/
+        $wheel = Wheel::query()->whereKey($wheelId)->first();
+
+        return view('wheel-configurator.configurator', compact('wheel'));
+    }
 }

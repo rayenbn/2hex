@@ -16,10 +16,12 @@ class CreateWheelsTable extends Migration
         Schema::create('wheels', function (Blueprint $table) {
             $table->increments('wheel_id');
             $table->unsignedInteger('quantity')->default(0);
-            $table->unsignedInteger('type_id');
-            $table->json('type_colors')->nullable();
-            $table->unsignedInteger('shape_id');
+            $table->string('type');
+            $table->string('type_colors')->nullable();
+            $table->string('shape');
             $table->string('shape_print')->nullable();
+            $table->string('size');
+            $table->string('contact_patch');
             $table->string('hardness');
             $table->boolean('is_shr')->default(false);
             $table->string('top_print')->nullable();
@@ -37,16 +39,6 @@ class CreateWheelsTable extends Migration
             $table->timestamp('saved_date')->nullable();
             $table->boolean('usenow')->default(true);
             $table->timestamps();
-
-            $table->foreign('type_id')
-                ->references('type_id')
-                ->on('wheel_types')
-                ->onDelete('cascade');
-
-            $table->foreign('shape_id')
-                ->references('shape_id')
-                ->on('wheel_shapes')
-                ->onDelete('cascade');
         });
     }
 

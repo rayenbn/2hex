@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+         $this->call(WheelHardnessSeeder::class);
          $this->call(CreateShapesSeeder::class);
          $this->call(CreateColorTypeSeeder::class);
          $this->call(InitSiteOptionsSeeder::class);
-         $this->call(WheelHardnessSeeder::class);
     }
 }

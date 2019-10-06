@@ -146,7 +146,7 @@
                     return this.$store.getters['SkateboardWheelConfigurator/getType'];
                 },
                 set(newVal) {
-                    this.$store.commit('SkateboardWheelConfigurator/changeType', newVal);   
+                    this.$store.commit('SkateboardWheelConfigurator/changeType', newVal);
                 }
             }
         },

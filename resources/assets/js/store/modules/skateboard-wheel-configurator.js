@@ -1,5 +1,6 @@
 import {PLACEMENTS, HARDNESS} from '@/constants.js';
-import WheelService from '@/components/skateboard-wheel-configurator/Classes/WheelService.js'
+import WheelService from '@/components/skateboard-wheel-configurator/Classes/WheelService.js';
+import Vue from 'vue';
 
 export default {
     namespaced: true,
@@ -46,7 +47,6 @@ export default {
         getTypes: state => state.types,
         getShapes: state => state.shapes,
         getPerSet: state => state.perSet,
-        getPerSet: state => state.perSet,
         getPlacement: state => state.placement,
         getShape: state => state.shape,
         getSize: state => state.size,
@@ -71,7 +71,6 @@ export default {
         getHardness: state => state.hardness,
         getHardnessPrice: state => {
             let index = state.hardnessList.findIndex(h => h == state.hardness);
-            console.log(index, name);
             let hardness_id = 1;
 
             if (index == -1 || state.size == null) {
@@ -139,6 +138,75 @@ export default {
         },
     },
     mutations: {
+        setWheel(state, payload) {
+            state.quantity = payload.quantity;
+            state.totalQuantity -= payload.quantity;
+            let typeIndex = state.types.findIndex(type => type.name == payload.type);
+
+            state.type = state.types[typeIndex];
+
+            state.type.colors = payload.type_colors.split(',');
+
+            let shapeIndex = state.shapes.findIndex(shape => shape.name == payload.shape);
+            state.shape = state.shapes[shapeIndex];
+
+            let shapeSizeIndex = state.shape.sizes.findIndex(size => size.size == payload.size);
+
+            Vue.nextTick(() => {
+                state.size = state.shape.sizes[shapeSizeIndex];
+                $("#shape_size").val(shapeSizeIndex).trigger('change');
+            });
+
+            state.hardness = payload.hardness;
+            state.shr = payload.is_shr;
+
+            if (payload.top_print) {
+                state.isFrontPrint = 1;
+                state.frontPrintFile = payload.top_print;
+                state.frontPrintColors = payload.top_colors;
+
+                Vue.nextTick(() => {
+                    document.getElementById('step-4-recent').innerHTML = payload.top_print;
+                });
+            }
+
+            if (payload.back_print) {
+                state.isBackPrint = 1;
+                state.backPrintFile = payload.back_print;
+                state.backPrintColors = payload.back_colors;
+
+                Vue.nextTick(() => {
+                    document.getElementById('step-5-recent').innerHTML = payload.back_print;
+                });
+            }
+
+            state.placement = payload.placement;
+            state.placementPrice = WheelService.calculatePlacementPrice(payload.placement);
+
+            if (payload.cardboard_print) {
+                state.isPrintCardboard = 1;
+                state.printCardboardFile = payload.cardboard_print;
+                state.printCardboardColors = payload.cardboard_colors;
+
+                Vue.nextTick(() => {
+                    document.getElementById('step-7-recent').innerHTML = payload.cardboard_print;
+                });
+            }
+
+            if (payload.carton_print) {
+                state.isPrintCarton = 1;
+                state.printCartonFile = payload.carton_print;
+
+                Vue.nextTick(() => {
+                    document.getElementById('step-8-recent').innerHTML = payload.carton_print;
+                });
+            }
+
+            Vue.nextTick(() => {
+                $("#type").val(typeIndex).trigger('change'); 
+                $("#shape").val(shapeIndex).trigger('change');
+            });
+        },
         setSessionInfo(state, payload) {
             state.isAuth = payload.isAuth;
             state.totalQuantity = payload.totalQuantity;
@@ -230,12 +298,7 @@ export default {
         changePlacement(state, payload) {
             state.placement = payload;
 
-            switch(payload) {
-                case PLACEMENTS.SQUARE: state.placementPrice = 0; break;
-                case PLACEMENTS.ROLL: state.placementPrice = 0.05; break;
-                case PLACEMENTS.LINE: state.placementPrice = 0.08; break;
-                default: state.placementPrice = 0;
-            }
+            state.placementPrice = WheelService.calculatePlacementPrice(payload);
         },
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
@@ -251,7 +314,7 @@ export default {
         },
         changePrintCartonFile(state, payload) {
             state.printCartonFile = payload;
-        },
+        }
     },
     actions: {
         getHanbook({commit, state }) {
@@ -277,32 +340,34 @@ export default {
 
                 var formData = new FormData();
                 formData.append('quantity', state.quantity);
-                formData.append('type_id', state.type.type_id);
-                formData.append('type_colors', JSON.stringify(state.type.colors));
-                formData.append('shape_id', state.shape.shape_id);
+                formData.append('type', state.type.name);
+                formData.append('type_colors', state.type.colors.length ? state.type.colors.join(',') : '');
+                formData.append('shape', state.shape.name);
                 formData.append('shape_print', null); // TODO need implements
+                formData.append('size', state.size.size);
+                formData.append('contact_patch', state.size.contact_patch);
                 formData.append('hardness', state.hardness);
                 formData.append('is_shr', state.shr ? 1 : 0);
 
-                if (state.isFrontPrint) {
-                    formData.append('top_print', state.frontPrintFile ? state.frontPrintFile : null);
+                if (state.isFrontPrint && state.frontPrintFile) {
+                    formData.append('top_print', state.frontPrintFile);
                     formData.append('top_colors', state.frontPrintColors);
                 }
 
-                if (state.isBackPrint) {
-                    formData.append('back_print', state.backPrintFile ? state.frontPrintFile : null);
+                if (state.isBackPrint && state.backPrintFile) {
+                    formData.append('back_print', state.backPrintFile);
                     formData.append('back_colors', state.backPrintColors);
                 }
 
                 formData.append('placement', state.placement);
 
-                if (state.isPrintCardboard) {
-                    formData.append('cardboard_print', state.printCardboardFile ? state.printCardboardFile : null);
+                if (state.isPrintCardboard && state.printCardboardFile) {
+                    formData.append('cardboard_print', state.printCardboardFile);
                     formData.append('cardboard_colors', state.printCardboardColors);
                 }
 
-                if (state.isPrintCarton) {
-                    formData.append('carton_print', state.printCartonFile ? state.printCartonFile : null);
+                if (state.isPrintCarton && state.printCartonFile) {
+                    formData.append('carton_print', state.printCartonFile);
                 }
 
                 formData.append('price', getters.getPerSetPrice);

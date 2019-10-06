@@ -30,7 +30,7 @@
 				type: String,
 				required: true,
 				validator: function (value) {
-			    	return ['griptape', 'skateboard'].indexOf(value) !== -1;
+			    	return ['griptape', 'skateboard', 'wheel'].indexOf(value) !== -1;
 			    }
 			}
 		},
@@ -47,6 +47,17 @@
 						"Paper",
 						"Paper Print",
 						"Box"
+					];
+				} else if (this.type === "wheel") {
+					return [
+						"Quantity & Types",
+						"Shapes & Sizes",
+						"Material & Hardness",
+						"Print Front of Wheels",
+						"Print Back of Wheels",
+						"Wheels Placement",
+						"Cardboard",
+						"Carton Print",
 					];
 				}
 

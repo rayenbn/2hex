@@ -48,7 +48,7 @@
                                         data-type-upload="cartonPrint"
                                         class="custom-file-input"
                                         data-step="cartonPrint"
-                                        id="step-7-upload"
+                                        id="step-8-upload"
                                         @click="isPrintCarton = true"
                                         @change.prevent="uploadFile($event, 8)"
                                     >

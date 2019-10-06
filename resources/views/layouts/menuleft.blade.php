@@ -126,8 +126,35 @@
                         </li>
 
                         @endforeach
+
+                        @foreach($wheels as $key => $wheel)
                         
-                        @if ($orders->count() == 0 && $grips->count() == 0)
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
+                            {{ (route('wheels.configurator.show', $wheel->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Wheel Batch {{++$key}}</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <!-- Steps vue -->
+                                <steps 
+                                    :path="{{ json_encode(route('wheels.configurator.show', $wheel->wheel_id)) }}"
+                                    type="wheel"
+                                />
+                            </div>
+                        </li>
+
+                        @endforeach
+                        
+                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>
@@ -183,6 +210,32 @@
 
                                 <!-- Steps vue -->
                                 <steps type="griptape"/>
+                            </div>
+                        </li>
+
+                        @endif
+
+                        @if (request()->routeIs('whhels.configurator'))
+
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                    Wheel Batch {{ $wheels->count() ? $wheels->count() + 1 : 1}}
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+
+                                <!-- Steps vue -->
+                                <steps type="skateboard"/>
                             </div>
                         </li>
 

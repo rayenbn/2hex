@@ -1,3 +1,4 @@
+import {PLACEMENTS} from '@/constants.js';
 
 export default class WheelSertice {
 
@@ -104,4 +105,14 @@ export default class WheelSertice {
 
    		return parseFloat((color * colorMargin * colorPrice).toFixed(2));
    	}
+
+   	static calculatePlacementPrice(placement) {
+		switch(placement) {
+            case PLACEMENTS.SQUARE: return 0;
+            case PLACEMENTS.ROLL: return 0.05;
+            case PLACEMENTS.LINE: return 0.08; 
+        }
+
+        return 0;
+   	} 
 }
