@@ -9,7 +9,10 @@
 @endpush
 
 @section('content')
-	@php $isAdmin = auth()->check() && auth()->user()->isAdmin(); @endphp
+	@php 
+		$isAdmin = auth()->check() && auth()->user()->isAdmin();
+		setlocale(LC_MONETARY, 'en_US');
+	@endphp
 
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <!-- BEGIN: Subheader -->
@@ -128,223 +131,22 @@
       
 				</div>
 				<div class="m-portlet__body">
-
-					<!--begin: Datatable (color options: #4CAF50, #586ad5, #8933eb, #52a3f0 or #60bca4) -->
-					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
-						<thead style="background-color: #52a3f0; color: white;">
-							<tr>
-                                
-                                <th>Batch</th>
-								<th>Pcs</th>
-								<th>Size</th>
-								<th>Concave</th>
-								<th>Wood</th>
-								<th>Glue</th>
-								<th>Print</th>
-								<th>Top Engravery</th>
-								<th>Veneer&nbspColors</th>
-								<th>Specials</th>
-								<th>Cardboard Wrap</th>
-                                <th>Carton Print</th>
-                                <th>Deck&nbspPrice</th>
-                                <th>Batch&nbspTotal</th>
-                                @if(Session::get('viewonly') == null)
-                                <th>Edit</th>
-                                @endif
-							</tr>
-						</thead>
-                        
-						<tbody>
-							@php 
-								setlocale(LC_MONETARY, 'en_US');
-							@endphp
-
-							@foreach($orders as $batch => $order)
-							<tr>
-								<td>{{++$batch}}</td>
-								<td>{{$order->quantity}}</td>
-								<td>{{$order->size}}
-                                </td>
-								<td>{{$order->concave}}</td>
-								<td>{{$order->wood}}</td>
-								<td>{{$order->glue}}</td>
-
-								<td>
-									<div>
-										<span style="margin-top: 15px; display: block;">
-											<b>Bottom</b><br>
-		                                    {{$order->bottomprint ? $order->bottomprint : 'None'}}<br>
-											<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
-										</span>
-										<span>
-											colors: {{$order->bottomprint_color ?? ''}}
-	                                    	<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
-										</span>
-									</div>
-									<div>
-										<span style="margin-top: 15px; display: block;">
-											<b>Top</b><br>
-		                                    {{$order->topprint ? $order->topprint : 'None'}}<br>
-											<hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
-										</span>
-										<span>
-											colors: {{$order->topprint_color ?? ''}}
-										</span>
-									</div>
-                                </td>
-
-                                <td>{{$order->engravery?$order->engravery:'None'}}</td>
-								<td>
-                                    <ol style="padding-left:0; list-style-position:inside;">
-                                    	
-                                    
-                                    	@foreach(json_decode($order->veneer) as $veneer)
-                                        <li>{{$veneer}}</li>
-                                       	@endforeach 
-
-                                    </ol>
-                                </td>
-                                <td>
-                                	<?php 
-                                		$count = 0;
-                                		$extraTitle = [
-                                			'fulldip' => 'Fulldip',
-                                			'transparent' => 'Transp. F.dip',
-                                			'metallic' => 'Metallic dip',
-                                			'blacktop' => 'Top Fiberglass',
-                                			'blackmidlayer' => 'Mid Fiberglass',
-                                			'pattern' => 'Pattern Press',
-                                		];
-                            		?>
-                                	@foreach(json_decode($order->extra) as $key => $extra)
-                                	 	@if($extra->state == true)
-                                	 		@if($count != 0)
-                                     		<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
-                                     		@endif
-                                     		{{ $extraTitle[$key] }}
-                                     		{{ isset($extra->color) 
-                                     				? " :" . preg_replace( '/[^0-9a-zA-Z]/', '', $extra->color) 
-                                     				: ' : Yes' 
-                                     		}} 
-                                     		<br>
-                                     		<?php $count ++ ?>
-                                     	@endif
-                                    @endforeach
-                                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
-                                    Shrink Wrap: Yes
-                                </td>
-								<td>{{$order->cardboard ? $order->cardboard : 'None'}}</td>
-								<td>
-									<div>
-										<p style="margin: 30px 0px;">
-											{{$order->carton ? $order->carton : 'None'}}
-											<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-										</p>
-										<p>colors: {{$order->carton_color ?? ''}}</p>
-									</div>
-                                </td>
-
-								<td>{{ auth()->check() ? money_format('%.2n', $order->perdeck) : '$?.??' }}</td>
-								<td>{{ auth()->check() ? money_format('%.2n', $order->total) : '$?.??' }}</td>
-								
-								@if(Session::get('viewonly') == null)
-									<td>
-										<!--
-										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info btn-sm">Edit Batch</a>
-										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info btn-sm">Save Batch</a>
-										<a href="skateboard-deck-configurator/{{$order->id}}" class="btn m-btn--pill btn-outline-success btn-sm">+</a>
-										<a href="skateboard-remove/{{$order->id}}" class="btn m-btn--pill btn-outline-danger btn-sm">-</a>
-										-->
-										<div class="btn-group" role="group" aria-label="First group">
-											<button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
-											<button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
-										</div>
-										<div class="btn-group" role="group" aria-label="First group">
-											<button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
-											<button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
-										</div>
-
-									</td>
-								@endif
-							</tr>
+					<div class="pane pane--table2">
+					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
+						<tr>
+							@if(count($orders) > 0)
+								@include('partials.skateboards', ['skateboards' => $orders])
+							@endif
 							
-							@endforeach  
+							@if(count($grips) > 0)
+								@include('partials.grips', ['grips' => $grips])
+							@endif
 
-                            <thead style="background-color: #52a3f0; color: white;">
-								<tr>
-	                                <th>Batch</th>
-									<th>Pcs</th>
-									<th>Size</th>
-									<th>Grip Color</th>
-									<th>Grit</th>
-									<th>Perforation</th>
-									<th>Die Cut</th>
-									<th>Top Print</th>
-									<th>Backpaper</th>
-									<th>Backpaper Print</th>
-									<th>Carton Print</th>
-	                                <th></th>
-	                                <th>Grip Price</th>
-	                                <th>Batch&nbspTotal</th>
-	                                @if(Session::get('viewonly') == null)
-	                                <th>Edit</th>
-	                                @endif
-								</tr>
-							</thead>
-							@foreach($grips as $batch => $grip)
-							<tr>
-								<td>{{++$batch}}</td>
-								<td>{{$grip->quantity}}</td>
-								<td>{{$grip->size}}</td>
-								<td>{{$grip->color}}</td>
-								<td>{{$grip->grit}}</td>
-								<td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
-								<td>{{$grip->die_cut}}</td>
-								<td>
-                                    {{$grip->top_print ?? ''}}<br>
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    <br>
-                                    {{$grip->top_print_color ?? ''}}
-                                </td>
-                                <td>{{$grip->backpaper}}</td>
-								<td>
-                                    {{$grip->backpaper_print ?? ''}}<br>
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    <br>
-                                    {{$grip->backpaper_print_color ?? ''}}
-                                </td>
-                                <td>
-                                    {{$grip->carton_print ?? ''}}<br>
-									<hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                                    <br>
-                                    {{$grip->carton_print_color ?? ''}}
-                                </td>
-                                <td></td>
-                                <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
-                                <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
+							@if(count($wheels) > 0)
+								@include('partials.wheels', ['wheels' => $wheels])
+							@endif
 
-                      			@if(Session::get('viewonly') == null)
-								<td>
-									<div class="btn-group" role="group" aria-label="First group">
-										<button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
-										<button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
-									</div>
-									<div class="btn-group" role="group" aria-label="First group">
-										<button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
-										<button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
-									</div>
-									<!--
-									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Edit</a>
-									<a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Save</a>
-									<a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-outline-danger btn-sm">Remove</a>
-									-->
-								</td>
-								@endif
-								
-							</tr>
-							@endforeach
-
-                            <thead style="background-color: #52a3f0; color: white;">
+							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
 									<td colspan="3">Fixed Cost</td>
 									<td colspan="3">Batches</td>
@@ -385,8 +187,13 @@
 							<tr>
 								<td colspan="16"></td>
 							</tr>
-						</tbody>
+						</tr>
+
 					</table>
+					</div>
+
+					<!--begin: Datatable (color options: #4CAF50, #586ad5, #8933eb, #52a3f0 or #60bca4) -->
+			
 					<div class="m-portlet__head" style="padding-left:0;flex-wrap: wrap;">
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
