@@ -121,7 +121,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Print on Wheels</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Upload your custom artwork and select the number of colors used in your design. If you have used more than 3 colors, select "CMYK".
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>No Print on Wheels</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Wheels can be ordered without print. This is often the case for custom moulded wheels which have the logo inside the mould.
                             </div>
                         </div>
                     </div>

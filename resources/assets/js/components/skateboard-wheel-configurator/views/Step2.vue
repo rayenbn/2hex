@@ -106,7 +106,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Shapes</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                2HEX offers a wide variety of skateboard wheel shapes. Still not satisfied? Get your own wheels mould!
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Sizes</h3>
-                                HS780 is the highest quality in skateboard griptape technology. HS780 uses more precisely cut sand crystals and a stronger glue. This leads to the griptape having a longer life before offering reduced grip. The HS780 back paper has a protective film, to prevent moisture from impacting the glue.
+                                Choose your custom skateboard wheels size for this batch. If you want multiple sizes, you will need to add one batch per size. Each shape comes with different proportions of height, width and contact patch.
                             </div>
                         </div>
                     </div>

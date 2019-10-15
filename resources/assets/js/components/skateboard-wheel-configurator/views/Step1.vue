@@ -39,7 +39,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Quantity</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Select the quantity of your first batch of skateboard wheels. The final price per set of wheels depends on your total order size. Add more batches of wheels or any other product and all the prices will decrease. You can always go to the summary page to see the price of each batch.
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Types</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                While white wheels are the standard in professional skateboarding, there are many other great options to customize your skateboard wheels! The minimum quantity depends on your selected style.
                             </div>
                         </div>
                     </div>

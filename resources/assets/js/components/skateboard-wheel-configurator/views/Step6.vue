@@ -44,7 +44,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Pack as Square</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Skateboard wheels are commonly shrink wrapped in this square shape.
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Pack in Line</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                The second most common way to pack skateboard wheels is as a line. This can help wheels to stand out in skateshops.
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Pack as Roll</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Some brands prefer to pack their wheels as rolls. These brands often add a custom cardboard to wrap around the wheels.
                             </div>
                         </div>
                     </div>

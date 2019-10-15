@@ -120,8 +120,8 @@
                             </color-btn>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Print on Cardboard</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                <h3>Custom Cardboard</h3>
+                                Add a custom cardboard to pack your wheels. Custom cardboards cost 0.35 USD. The minimum production quantity is 1500 cardboards. If you can't use up all cardboards for this order, we will stock the rest for your next order within one year.
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>No Cardboard</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                To save costs, it is most suitable to not use a custom wheels packaging cardboard if your total ordered quantity is below 600 sets of wheels.
                             </div>
                         </div>
                     </div>

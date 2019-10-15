@@ -46,13 +46,13 @@
                         <div class="m-widget17 col-xl-6">
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>SHR</h3>
-                                SHR stands for super high rebound. Standard wheels are commonly used for complete skateboards. SHR Super high rebound wheels are sold separatelly and mostly used by competitive skateboarders. 
+                                SHR stands for super high rebound. Standard "HR" wheels are commonly used on beginner skateboards. SHR Super high rebound wheels are sold separatelly and mostly used by competitive skateboarders. 
                             </div>
                         </div>
                         <div class="m-widget17 col-xl-6">
                              <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Hardness</h3>
-                                99A is a standard skateboard wheel. 100A to 102A are often used by competitive skateboarders. 83B and 84B are the hardest wheels and often preferred by the best skateboarders. Softer wheels are easier to ride, while harder wheels enable skateboarders to slide into the right position.
+                                99A is the average hardness for skateboard wheels. 100A to 102A are often used for street or pool skateboarding. 83B and 84B are the hardest wheels and most flat spot resistant. Softer wheels are easier to ride, while harder wheels enable skateboarders to slide into the right position.
                             </div>
                         </div>
                     </div>

@@ -122,7 +122,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Print on back of wheels</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                Wheels can be printed on from both sides. Either select the same image as used on the front of the wheel or upload another design and add the number of colors used.
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>No Print on back of Wheels</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                The standard in professional skateboarding is to only print on one side of the wheels. Skateboaders often prefer to let the white side face the outside of the skateboard.
                             </div>
                         </div>
                     </div>

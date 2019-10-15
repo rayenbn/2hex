@@ -99,8 +99,8 @@
                             <br>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Print on back of wheels</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                <h3>Print on Carton</h3>
+                                Show that you have a professional company when delivering your wheels to skate shops! Professional skateboard companies use custom cartons to fulfill orders. The screens for the production of custom cartons are kept for one year.
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>No Print on Carton</h3>
-                                The standard in professional skateboarding. Printing on back paper is the most common way to brand griptapes without directly printing on the griptapes top.
+                                For small orders of up to 1000 sets of wheels it is best to use cartons without print to keep the costs low. If you have already ordered custom printed cartons from 2HEX before, and your second order is placed within one year, you do not have to pay for the set up a second time.
                             </div>
                         </div>
                     </div>
