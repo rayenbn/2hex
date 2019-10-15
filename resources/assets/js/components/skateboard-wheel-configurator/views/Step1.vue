@@ -116,6 +116,11 @@
 <script>
     export default {
 		name: 'skateboard-wheel-step-1',
+        data() {
+            return {
+                minPerBatch: 100
+            }
+        },
         computed: {
             types() {
                 return this.$store.getters['SkateboardWheelConfigurator/getTypes'];
@@ -127,14 +132,16 @@
                 set: _.debounce(function (newVal) {
                     if (newVal == this.quantity) return;
 
-                    if(newVal % 100 != 0){
-                         swal({
-                            title: "",
-                            text: "Select Only quantities in steps of 100 (100, 200, ...)",
-                            type: "warning",
-                            confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                        });
-                        newVal = 2000;
+                    // check Basic White type
+                    if (this.type && this.type.name != this.types[0]['name']) {
+                        this.minPerBatch = 300;
+                    } else {
+                        this.minPerBatch = 100;
+                    }
+
+                    if(newVal % 100 != 0 || newVal < this.minPerBatch){
+                        this.showAlert();
+                        newVal = 300;
                     }
 
                     this.$store.commit('SkateboardWheelConfigurator/changeQuantity', newVal);
@@ -147,10 +154,30 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changeType', newVal);
+
+                    // check Basic White type
+                    if (newVal.name != this.types[0]['name']) {
+                        this.minPerBatch = 300;
+                    } else {
+                        this.minPerBatch = 100;
+                    }
+
+                    if(this.quantity % 100 != 0 || this.quantity < this.minPerBatch){
+                        this.showAlert();
+                        this.quantity = 300;
+                    }
                 }
             }
         },
 		methods: {
+            showAlert(message) {
+                swal({
+                    title: "",
+                    text: 'Select Only quantities in steps of 100 (100, 200, ...). If Type ≠ Basic White, then minimum for batch is 300',
+                    type: "warning",
+                    confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                });
+            },
             onChangeColor: _.debounce(function (e) {
                 this.$store.commit('SkateboardWheelConfigurator/changeType', this.type);
             }, 1000)

@@ -22,7 +22,7 @@ export default {
         shape: null,
         size: null,
         sizePrices: [],
-        hardness: '98A',
+        hardness: '94A',
         shr: false,
         isFrontPrint: false,
         frontPrintColors: null,
@@ -109,8 +109,8 @@ export default {
             return parseFloat(hardness.price);
         },
         getPerSetPrice: (state, getters) => {
-            // If shr enabled, calculate without base price
-            return (state.shr == false ? state.basePrice : 0) 
+            // If shape size was selected then calculate without base price
+            return (state.size ? 0 : state.basePrice) 
                 + state.perSet 
                 + getters.typePrice 
                 + getters.getHardnessPrice
