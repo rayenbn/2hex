@@ -18,7 +18,8 @@
                                         class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
                                         style="min-height: 286px"
                                     >
-                                        <img 
+                                        <img
+                                            :src="quantityImage"
                                             class="step1-img1" 
                                             alt="Quantity" 
                                             title="Quantity"
@@ -64,7 +65,7 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src=""
+                                            :src="typeImage"
                                             class="step1-img1" 
                                             alt="Size" 
                                             title="Size"
@@ -114,14 +115,90 @@
 </template>
 
 <script>
+    const quantityImages = [
+        '/img/Wheels/2hex-skateboard-wheels-quantity/200-skateboard-wheels-bulk-2hex-skateboard-factory.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-quantity/400-skateboard-wheels-bulk-2hex.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-quantity/skateboard-wheels-bulk-2hex-4000.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-quantity/1200-skateboard-wheels-bulk-2hex-skateboard-factory.jpg',
+    ];
+
+    const typeImages = [
+        '/img/Wheels/skateboard-wheel-types/white-skateboard-wheels-2hex-skateboard-supplier.jpg',
+        '/img/Wheels/skateboard-wheel-types/2hex-custom-color-code-skateboard-wheels.jpg',
+        '/img/Wheels/skateboard-wheel-types/custom-dual-durometer-skateboard-wheels-by-2hex.jpg',
+        '/img/Wheels/skateboard-wheel-types/custom-sandwich-skateboard-wheels-by-2hex.jpg',
+        '/img/Wheels/skateboard-wheel-types/glow-in-the-dark-skateboard-wheels-manufacturer-2hex.jpg.jpg',
+        '/img/Wheels/skateboard-wheel-types/dual-mixed-wheels-2hex-skateboard-factory.jpg',
+        '/img/Wheels/skateboard-wheel-types/custom-mixed-color-skateboard-wheels-by-2hex.jpg.jpg',
+        '/img/Wheels/skateboard-wheel-types/core-skateboard-wheels-manufacturer-2hex.jpg.jpg',
+        '/img/Wheels/skateboard-wheel-types/tansparent-skateboard-wheels-factory.jpg',
+    ];
+
     export default {
 		name: 'skateboard-wheel-step-1',
         data() {
             return {
-                minPerBatch: 100
+                minPerBatch: 100,
             }
         },
         computed: {
+            quantityImage() {
+                if (this.quantity <= 300) {
+                    return quantityImages[0];
+
+                } else if (this.quantity > 300 && this.quantity <= 900) {
+                    return quantityImages[1];
+
+                } else if (this.quantity > 900 && this.quantity <= 2000) {
+                    return quantityImages[2];
+
+                } else if (this.quantity > 2000) {
+                    return quantityImages[3];
+                }
+            },
+            typeImage() {
+                if (! this.type) {
+                    // Basic White
+                    return typeImages[0];
+                }
+
+                //Basic White
+                if (this.type.type_id == 1) {
+                    return typeImages[0];
+                
+                // Urethane Color Code
+                } else if (this.type.type_id == 2) {
+                    return typeImages[1];
+                
+                // Dual Durometer
+                } else if (this.type.type_id == 3) {
+                    return typeImages[2];
+                
+                // Sandwich
+                } else if (this.type.type_id == 4) {
+                    return typeImages[3];
+                
+                // Glow in the Dark
+                } else if (this.type.type_id == 5) {
+                    return typeImages[4];
+                
+                // Dual Mixed Colors
+                } else if (this.type.type_id == 6) {
+                    return typeImages[5];
+
+                // Dual Fully Mixed Colors
+                } else if (this.type.type_id == 7) {
+                    return typeImages[6];
+                
+                // Core
+                } else if (this.type.type_id == 8) {
+                    return typeImages[7];
+            
+                // Transparent
+                } else if (this.type.type_id == 9) {
+                    return typeImages[8];
+                }
+            },
             types() {
                 return this.$store.getters['SkateboardWheelConfigurator/getTypes'];
             },

@@ -128,9 +128,9 @@
                                 <div >
                                     <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
                                         <img 
-                                            src="#" 
-                                            alt="" 
-                                            title=""
+                                            src="/img/Wheels/wheels-size-and-width-measurement-2hex.jpg" 
+                                            alt="Choose your custom skateboard wheels size for this batch." 
+                                            title="Choose your custom skateboard wheels size for this batch."
                                             class="step1-img1"
                                         >
                                     </div>

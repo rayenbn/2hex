@@ -89,7 +89,7 @@ class CreateColorTypeSeeder extends Seeder
         		'name' => 'Transparent',
 	        	'color_type' => [
 	        		'is_active' => true,
-	        		'count_colors' => 2,
+	        		'count_colors' => 1,
 	        		'price' => 0.23,
 	        		'order' => 8,
 	        	]

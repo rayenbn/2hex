@@ -5,11 +5,11 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__body">
                         <img 
-                            src="https://fakeimg.pl/286/"
+                            src="/img/Wheels//custom-skateboard-wheels-manufacturer-hardness-2hex-factory.jpg"
                             class="d-block" 
-                            alt="" 
-                            title=""
-                            style="min-height: 286px"
+                            alt="Hardness" 
+                            title="Hardness"
+                            style="min-height: 286px; height: 286px; width: 100%;"
                         >
                     </div>
                     <div class="d-flex m-portlet__body">
