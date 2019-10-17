@@ -3,16 +3,9 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                    <div class="m-portlet__body">
-                        <img 
-                            src="/img/Wheels//custom-skateboard-wheels-manufacturer-hardness-2hex-factory.jpg"
-                            class="d-block" 
-                            alt="Hardness" 
-                            title="Hardness"
-                            style="min-height: 286px; height: 286px; width: 100%;"
-                        >
+                    <div class="m-portlet__body step-img">
                     </div>
-                    <div class="d-flex m-portlet__body">
+                    <div class="d-flex m-portlet__body" style="padding-bottom: 0;">
                         <div class="m-widget17 col-xl-4">
                             <input
                                 disabled
@@ -21,6 +14,21 @@
                                 placeholder="" 
                                 :value="hardness"
                             >
+                        </div>
+                        <div class="m-widget17 col-xl-8 hardness-rule">
+                            <vue-slider 
+                                v-model="hardness" 
+                                :data="hardnessList"
+                                @change="onChangeSlider"
+                                ref="slider"
+                                :processStyle="{ backgroundColor: 'inherit' }"
+                                :railStyle="{backgroundColor: 'inherit'}"
+                            >
+                            </vue-slider>
+                        </div>
+                    </div>
+                    <div class="d-flex m-portlet__body" style="padding-top: 0;">
+                        <div class="m-widget17 col-xl-4">
                             <div class="shr">
                                 <span class="text-uppercase">SHR</span>
                                 <label class="switch">
@@ -28,18 +36,6 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                        </div>
-                        <div class="m-widget17 col-xl-8">
-                            <vue-slider 
-                                v-model="hardness" 
-                                :marks="true"
-                                :hide-label="true"
-                                :data="hardnessList"
-                                @change="onChangeSlider"
-                                ref="slider"
-                                :tooltip="'always'"
-                            >
-                            </vue-slider>
                         </div>
                     </div>
                     <div class="m-portlet__body row">
@@ -73,7 +69,8 @@
             VueSlider
         },
         data() {
-            return {}
+            return {
+            }
         },
         computed: {
             hardness: {
@@ -89,6 +86,10 @@
                     return this.$store.getters['SkateboardWheelConfigurator/getSHR'];
                 },
                 set(newVal) {
+                    if (this.$refs.slider.getIndex() >= 15 && newVal == false) {
+                        newVal = true;
+                    }
+
                     this.$store.commit('SkateboardWheelConfigurator/changeSHR', newVal);
                 }
             },
@@ -98,8 +99,10 @@
         },
         methods: {
             onChangeSlider() {
-                if (this.$refs.slider.getIndex() >= 23) {
+                if (this.$refs.slider.getIndex() >= 15) {
                     this.isSHR = true;
+                } else {
+                    this.isSHR = false;
                 }
             }
         }
@@ -125,7 +128,26 @@
     justify-content: flex-start;
     margin-top: 30px;
 }
+
 .shr span {
     padding-right: 30px;
+}
+.m-portlet.m-portlet--full-height .m-portlet__body.step-img {
+    background-image: url(/img/Wheels/custom-skateboard-wheels-manufacturer-hardness-2hex-factory.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 370px;
+    background-position: center;
+}
+#m_wizard_form_step_3 .hardness-rule {
+    background-image: url(/img/Wheels/hardnessRule.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 70px;
+}
+
+>>> .vue-slider.vue-slider-ltr {
+    top: 34%;
+    margin-left: 42px;
 }
 </style>

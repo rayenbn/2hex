@@ -16,14 +16,18 @@
                                 <div >
                                     <div 
                                         class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
-                                        style="min-height: 286px"
+                                        style="min-height: 286px; position: relative;"
                                     >
-                                        <img 
-                                            src="#" 
-                                            alt="Top Print on Griptape" 
-                                            title="Top Print on Griptape"  
-                                            class="step1-img2"
-                                        >
+                                        <!-- <div id="loader"/> -->
+                                        
+                                        <model-obj 
+                                            src="/img/Wheels/V15331.obj"
+                                            :width="300"
+                                            :height="300"
+                                            @on-progress="onProgress"
+                                            ref="shapeModel"
+                                            :scale="{ x: 0.7, y: 0.7, z: 0.7}"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -182,13 +186,15 @@
 
 <script>
     import uploaFile from '../mixins/uploadFile';
+    import { ModelObj } from 'vue-3d-model';
 
     export default {
 		name: 'skateboard-wheel-step-2',
         mixins: [uploaFile],
+        components: { ModelObj },
         data() {
             return {
-                uploadProgress: 0
+                uploadProgress: 0,
             }
         },
         computed: {
@@ -217,6 +223,17 @@
                 $("#shape_size").select2({ placeholder: "SELECT" });
             },
         },
+        methods: {
+            onProgress(event) {
+
+                if (event.loaded === event.total) {
+                    let canvas = this.$refs.shapeModel.$refs.canvas;
+
+                    canvas.style.display = "block";
+                    canvas.style.margin = "0 auto";
+                }
+            }
+        },
         mounted() {
             let queryShape = $("#shape");
 
@@ -236,3 +253,56 @@
         }
     }
 </script>
+<style scoped>
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from { bottom:-100px; opacity:0 } 
+      to { bottom:0px; opacity:1 }
+    }
+
+    @keyframes animatebottom { 
+      from{ bottom:-100px; opacity:0 } 
+      to{ bottom:0; opacity:1 }
+    }
+
+    canvas {
+        display: block;
+        margin: 0 auto;
+    }
+</style>

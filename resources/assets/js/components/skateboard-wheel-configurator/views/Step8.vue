@@ -32,9 +32,9 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/img/griptape/custom-griptape-print-2hex-skateboard-manufacturer.jpg" 
-                                            alt="Top Print on Griptape" 
-                                            title="Top Print on Griptape"  
+                                            src="/img/Wheels/custom-skateboard-wheels-manufacturer-carton-2hex.jpg" 
+                                            alt="Print on Carton" 
+                                            title="Print on Carton"  
                                             class="step1-img2"
                                         >
                                     </div>
@@ -138,9 +138,9 @@
                                         style="min-height: 286px"
                                     >
                                         <img 
-                                            src="/img/griptape/4.1.jpg"
-                                            alt="Blank Grip Tape" 
-                                            title="Blank Grip Tape"
+                                            src="/img/Wheels/custom-skateboard-wheels-manufacturer-carton-without-print-2hex-supplies.jpg"
+                                            alt="No Print on Carton" 
+                                            title="No Print on Carton"
                                             class="step1-img2"
                                         >
                                     </div>

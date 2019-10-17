@@ -22,7 +22,7 @@ export default {
         shape: null,
         size: null,
         sizePrices: [],
-        hardness: '94A',
+        hardness: '90A',
         shr: false,
         isFrontPrint: false,
         frontPrintColors: null,
@@ -36,11 +36,16 @@ export default {
         printCardboardFile: null,
         isPrintCarton: false,
         printCartonFile: null,
-        hardnessList: [
+        // hardnessList: [
+        //     '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
+        //     '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
+        //     '98A', '99A', '100A', '101A', '102A', '83B', '84B',
+        // ],
+        hardnessList : [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
-            '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
-            '98A', '99A', '100A', '101A', '102A', '83B', '84B',
-        ],
+            '88A', '89A', '90A', '100A', '101A', '102A', '83B', '84B', '84B', '84B', 
+            '84B', '84B', '84B'
+        ]
     },
     getters: {
         getSHR: state => state.shr,
