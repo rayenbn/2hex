@@ -7,7 +7,7 @@ export default {
     state: {
         isAuth: false,
         totalQuantity: 0,
-        totalSum: 0,
+        totalSum: 8270,
         basePrice: 0,
         cartonPrice: 0,
         placementPrice: 0,
@@ -215,7 +215,7 @@ export default {
         setSessionInfo(state, payload) {
             state.isAuth = payload.isAuth;
             state.totalQuantity = payload.totalQuantity;
-            state.totalSum = payload.totalSum;
+            //state.totalSum = payload.totalSum;
 
             state.perSet = WheelService.calculatePerSet(payload.totalSum, payload.totalQuantity);
         },

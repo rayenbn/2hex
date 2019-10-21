@@ -30,14 +30,19 @@ class CreateWheelsTable extends Migration
             $table->string('back_colors')->nullable();
             $table->string('placement');
             $table->string('cardboard_print')->nullable();
+            // TODO delete cardboard_colors
             $table->string('cardboard_colors')->nullable();
+
             $table->string('carton_print')->nullable();
-            $table->double('price', 8, 2)->default(0.0);
-            $table->double('total', 8, 2)->default(0.0);
-            $table->string('created_by')->nullable();
-            $table->boolean('submit')->default(false);
-            $table->timestamp('saved_date')->nullable();
+            $table->string('carton_colors')->nullable();
+            $table->decimal('price')->default(0.0);
+            $table->decimal('total')->default(0.0);
+            $table->decimal('fix_cost')->default(0.0);
             $table->boolean('usenow')->default(true);
+            $table->boolean('submit')->default(false);
+            $table->string('created_by')->nullable();
+            $table->timestamp('saved_date')->nullable();
+
             $table->timestamps();
         });
     }

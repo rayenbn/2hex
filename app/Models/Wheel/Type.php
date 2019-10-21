@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 /**
- * @property int        $type_id
- * @property string     $name
- * @property string     $slug
- * @property boolean    $is_active
- * @property int        $count_colors
- * @property double     $price
- * @property int        $order
- * @property string     $created_at
- * @property string     $updated_at
+ * @property int     $type_id
+ * @property string  $name
+ * @property string  $slug
+ * @property boolean $is_active
+ * @property int     $count_colors
+ * @property double  $price
+ * @property int     $order
+ * @property string  $created_at
+ * @property string  $updated_at
  */
 class Type extends Model
 {

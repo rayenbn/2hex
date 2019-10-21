@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Order, GripTape};
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\RecalculateOrders;
+use App\Models\Wheel\Wheel;
 
 class ConfiguratorController extends Controller
 {
@@ -67,7 +68,13 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->get(), 
+                GripTape::auth()->get(),
+                Wheel::auth()->where('submit', 0)->get()
+            )
+        );
 
         return 'success';
     }
@@ -134,7 +141,13 @@ class ConfiguratorController extends Controller
     {
         Order::where('id','=',$id)->delete();
 
-        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->get(), 
+                GripTape::auth()->get(),
+                Wheel::auth()->where('submit', 0)->get()
+            )
+        );
 
         return redirect()->route('summary');
     }

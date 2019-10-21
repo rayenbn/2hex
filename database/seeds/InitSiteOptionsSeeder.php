@@ -38,11 +38,6 @@ class InitSiteOptionsSeeder extends Seeder
         ]);
 
         Option::query()->firstOrCreate([
-            'option_name' => 'wheel_cardboard_price',
-            'option_value' => 0.35,
-        ]);
-
-        Option::query()->firstOrCreate([
             'option_name' => 'wheel_cardboard_fix_cost',
             'option_value' => 525,
         ]);
@@ -60,6 +55,11 @@ class InitSiteOptionsSeeder extends Seeder
         Option::query()->firstOrCreate([
             'option_name' => 'wheel_shape_fix_cost',
             'option_value' => 2000,
+        ]);
+
+        Option::query()->firstOrCreate([
+            'option_name' => 'wheel_color_fix_cost',
+            'option_value' => 20,
         ]);
     }
 }

@@ -8,6 +8,13 @@ use App\Traits\Authable;
 class Wheel extends Model
 {
     use Authable;
+
+    /**
+     * Type of placements
+     */
+    const PLACEMENT_SQUARE = 'square';
+    const PLACEMENT_ROLL = 'roll';
+    const PLACEMENT_LINE = 'line';
     
     /**
      * The primary key for the model.
