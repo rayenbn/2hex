@@ -36,15 +36,11 @@ export default {
         printCardboardFile: null,
         isPrintCarton: false,
         printCartonFile: null,
-        // hardnessList: [
-        //     '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
-        //     '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
-        //     '98A', '99A', '100A', '101A', '102A', '83B', '84B',
-        // ],
-        hardnessList : [
+        hardnessList: [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
-            '88A', '89A', '90A', '100A', '101A', '102A', '83B', '84B', '84B', '84B', 
-            '84B', '84B', '84B'
+            '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
+            '98A', '99A', '100A', '101A', '102A', '83B', '84B', '84B', '84B', '84B', 
+            '84B', '84B'
         ]
     },
     getters: {
@@ -74,49 +70,58 @@ export default {
         getQuantity: state => state.quantity,
         getType: state => state.type,
         getHardness: state => state.hardness,
-        getHardnessPrice: state => {
-            let index = state.hardnessList.findIndex(h => h == state.hardness);
-            let hardness_id = 1;
-
-            if (index == -1 || state.size == null) {
-                return 0;
+        getHardnessPrice: (state, getters) => {
+            if (! state.shape || ! state.size) {
+                return state.basePrice;
             }
 
-            // <= 94A
-            if (index <= 16) {
-                hardness_id = 1;
+            let match = state.hardness.match(/([0-9]+)([a-zA-Z]+)/i);
 
-            // = 95A
-            } else if (index == 17) {
-                hardness_id = 2;
+            let hardnessNum = parseInt(match[1]);
+            let hardness = HARDNESS.HS_100A;
 
-            // > 95A and <= 101A
-            } else if (index > 17 && index <= 23) {
-                hardness_id = 3;
+            if (getters.getSHR == true) {
 
-            // >= 102A
-            } else if (index > 23 && index <= 24) {
-                hardness_id = 4;
-
-            // 84B
+                if (hardnessNum >= 83 && hardnessNum <= 84 && match[2] == 'B') {
+                    // 83-84B
+                    hardness = HARDNESS.HS_83B;
+                } else {
+                    // 102A SHR
+                    hardness = HARDNESS.HS_102A;
+                }
             } else {
-                hardness_id = 5;
+                if (hardnessNum <= 94 && match[2] == 'A') {
+                    // 90-94A
+                    hardness = HARDNESS.HS_90_94A;
+                } else if (hardnessNum >= 95 && hardnessNum < 100 && match[2] == 'A') {
+                    // <= 95A
+                    hardness = HARDNESS.HS_95A;
+                } else if (hardnessNum >= 100 && hardnessNum < 102 && match[2] == 'A') {
+                    // less 102A
+                    hardness = HARDNESS.HS_100A;
+                } else if (hardnessNum >= 83 && match[2] == 'B') {
+                    // 83-84B SHR
+                    hardness = HARDNESS.HS_83B;
+                } else {
+                    // 102A SHR
+                    hardness = HARDNESS.HS_102A;
+                }
             }
 
-            let hardness = state.sizePrices.find(size => {
-                return size.size_id == state.size.size_id && size.hardness_id == hardness_id
+            let hardnessprice = state.sizePrices.find(price => {
+                return price.hardness_id == hardness && price.size_id == state.size.size_id
             }) || null;
 
-            if (hardness == null) {
-                return 0;
+            if (hardnessprice == null) {
+                hardnessprice = state.basePrice;
+            } else {
+                hardnessprice = hardnessprice.price;
             }
 
-            return parseFloat(hardness.price);
+            return parseFloat(hardnessprice);
         },
         getPerSetPrice: (state, getters) => {
-            // If shape size was selected then calculate without base price
-            return (state.size ? 0 : state.basePrice) 
-                + state.perSet 
+            return state.perSet 
                 + getters.typePrice 
                 + getters.getHardnessPrice
                 + getters.frontPrice
@@ -150,7 +155,7 @@ export default {
 
             state.type = state.types[typeIndex];
 
-            state.type.colors = payload.type_colors.split(',');
+            state.type.colors = payload.type_colors ? payload.type_colors.split(',') : [];
 
             let shapeIndex = state.shapes.findIndex(shape => shape.name == payload.shape);
             state.shape = state.shapes[shapeIndex];
@@ -379,9 +384,9 @@ export default {
                 formData.append('total', getters.getPerSetPrice * state.quantity);
 
                 axios.post('/skateboard-wheel-configurator', formData)
-                    .then(repsonse => repsonse.data)
+                    // .then(repsonse => repsonse.data)
                     .then(repsonse => {
-                        resolve();
+                        resolve(repsonse);
                     })
                     .catch(error => {
                         reject(error);

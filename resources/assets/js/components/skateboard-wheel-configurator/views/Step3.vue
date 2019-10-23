@@ -5,17 +5,8 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__body step-img">
                     </div>
-                    <div class="d-flex m-portlet__body" style="padding-bottom: 0;">
-                        <div class="m-widget17 col-xl-4">
-                            <input
-                                disabled
-                                type="text" 
-                                class="form-control mt-2 mb-2" 
-                                placeholder="" 
-                                :value="hardness"
-                            >
-                        </div>
-                        <div class="m-widget17 col-xl-8 hardness-rule">
+                    <div class="d-flex m-portlet__body mt-4" style="padding-bottom: 0;">
+                        <div class="m-widget17 col-xl-12 hardness-rule">
                             <vue-slider 
                                 v-model="hardness" 
                                 :data="hardnessList"
@@ -28,8 +19,8 @@
                         </div>
                     </div>
                     <div class="d-flex m-portlet__body" style="padding-top: 0;">
-                        <div class="m-widget17 col-xl-4">
-                            <div class="shr">
+                        <div class="m-widget17 col-xl-3">
+                            <div class="shr mt-2 mb-2">
                                 <span class="text-uppercase">SHR</span>
                                 <label class="switch">
                                     <input type="checkbox" name="srr" v-model="isSHR">
@@ -37,8 +28,17 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="m-widget17 col-xl-4">
+                            <input
+                                disabled
+                                type="text" 
+                                class="form-control mt-2 mb-2" 
+                                placeholder="" 
+                                :value="hardness"
+                            >
+                        </div>
                     </div>
-                    <div class="m-portlet__body row">
+                    <div class="m-portlet__body d-flex">
                         <div class="m-widget17 col-xl-6">
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>SHR</h3>
@@ -68,10 +68,6 @@
         components: {
             VueSlider
         },
-        data() {
-            return {
-            }
-        },
         computed: {
             hardness: {
                 get() {
@@ -86,10 +82,6 @@
                     return this.$store.getters['SkateboardWheelConfigurator/getSHR'];
                 },
                 set(newVal) {
-                    if (this.$refs.slider.getIndex() >= 15 && newVal == false) {
-                        newVal = true;
-                    }
-
                     this.$store.commit('SkateboardWheelConfigurator/changeSHR', newVal);
                 }
             },
@@ -99,10 +91,9 @@
         },
         methods: {
             onChangeSlider() {
-                if (this.$refs.slider.getIndex() >= 15) {
+                // 24 = 102A SHR
+                if (this.$refs.slider.getIndex() >= 24) {
                     this.isSHR = true;
-                } else {
-                    this.isSHR = false;
                 }
             }
         }
@@ -140,14 +131,14 @@
     background-position: center;
 }
 #m_wizard_form_step_3 .hardness-rule {
-    background-image: url(/img/Wheels/hardnessRule.jpg);
+    background-image: url(/img/Wheels/rule.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 70px;
+    height: 77px;
 }
 
 >>> .vue-slider.vue-slider-ltr {
     top: 34%;
-    margin-left: 42px;
+    margin-left: 57px;
 }
 </style>

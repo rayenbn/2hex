@@ -150,7 +150,7 @@
                                             id="perSet"
                                             v-if="auth"
                                         >
-                                            ${{ perSetPrice.toFixed(2) }}
+                                            ${{ perSetPrice && perSetPrice.toFixed(2) }}
                                         </span>
                                         <span v-else class="m-widget1__number m--font-danger" id="perSetPrice" >
                                             $ ?.??
@@ -286,7 +286,7 @@
             },
             saveWheel() {
                 this.$store.dispatch('SkateboardWheelConfigurator/saveWheel')
-                    .then(() => {
+                    .then((response) => {
                         this.$notify({
                             group: 'main',
                             type: 'success',
@@ -295,7 +295,7 @@
                         });
 
                         setTimeout(() => {
-                            window.location = this.reirect_uri;
+                            window.location = response.request.responseURL
                         }, 1500);
                     })
                     .catch(err => {

@@ -40,7 +40,7 @@ class WheelController extends Controller
 
     	$wheel =  Wheel::query()->create($payload);
 
-        return redirect()->back();
+        return redirect()->route('summary');
     }
 
     /**    
