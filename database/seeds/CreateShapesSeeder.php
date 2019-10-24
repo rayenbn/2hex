@@ -1836,10 +1836,10 @@ class CreateShapesSeeder extends Seeder
         		]
         	],
         	[
-    			'name' => 'Spitfire',
+    			'name' => 'S Wheel',
         		'shape' => [
-	        		'is_active' => false,
-	        		'order' => 12
+	        		'is_active' => true,
+	        		'order' => 11
 	        	],
         		'sizes' => [
         			['size' => ' 50*28mm', 'contact_patch' => '16.0mm-16.5mm'],
@@ -1855,7 +1855,7 @@ class CreateShapesSeeder extends Seeder
     			'name' => 'Custom shape',
         		'shape' => [
 	        		'is_active' => true,
-	        		'order' => 11,
+	        		'order' => 12,
                     'is_custom' => true
 	        	],
         		'sizes' => [

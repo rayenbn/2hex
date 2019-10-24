@@ -11,26 +11,63 @@
                         </div>
                     </div>
                     <div class="m-portlet__body">
+                        
                         <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                <div >
+                                <div 
+                                    v-show="objView"
+                                    class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides"
+                                >
                                     <div 
                                         class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
                                         style="min-height: 286px; position: relative;"
                                     >
-                                        <!-- <div id="loader"/> -->
-                                        
-                                        <model-obj 
-                                            src="/img/Wheels/V15331.obj"
-                                            :width="300"
-                                            :height="300"
-                                            @on-progress="onProgress"
-                                            ref="shapeModel"
-                                            :scale="{ x: 0.7, y: 0.7, z: 0.7}"
-                                        />
+                                            <model-obj
+                                                v-show="objView" 
+                                                src="/img/Wheels/V15331.obj"
+                                                :width="300"
+                                                :height="300"
+                                                @on-progress="onProgress"
+                                                ref="shapeModel"
+                                                :scale="{ x: 0.7, y: 0.7, z: 0.7}"
+                                            />
                                     </div>
                                 </div>
-                            </div>
+
+                                <div v-show="!objView">
+                                    <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                        <div>
+                                            <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 286px">
+                                                <img 
+                                                    :src="shapeImage" 
+                                                    alt="Shapes" 
+                                                    title="Shapes"
+                                                    class="step1-img1"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
+                                <li class="step2-tab-nav nav-item">
+                                    <button
+                                        :class="{'active' : !objView}"
+                                        class="nav-link toggle-view"
+                                        @click="objView = !objView"
+                                    >
+                                        Photo
+                                    </button>
+                                </li>
+                                <li class="step2-tab-nav nav-item">
+                                    <button
+                                        :class="{'active' : objView}"
+                                        class="nav-link toggle-view"
+                                        @click="objView = !objView"
+                                    >
+                                        3D Preview
+                                    </button>
+                                </li>
+                            </ul>
                             <select
                                 class="form-control m-select2"
                                 id="shape"
@@ -188,6 +225,22 @@
     import uploaFile from '../mixins/uploadFile';
     import { ModelObj } from 'vue-3d-model';
 
+    const shapeImages = [
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/N-shape-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/R-shape-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V1-shape-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V2-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V3-customskateboard-wheels-2HEX-skateboardmanufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V4_customskateboard-wheels-2HEX-skateboardmanufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V5_2HEX-custom-skateboard-wheels.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V6_2HEX-custom-skateboard-wheels.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/V7_2HEX-custom-skateboard-wheels.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/X_2HEX-custom-skateboard-wheels.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/XB_2HEX-custom-skateboard-wheels.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/S-Shapecustomskateboard-wheels-2HEX-skateboardmanufacturer.jpg',
+        '/img/Wheels/2hex-skateboard-wheels-factory-shapes/custom-shape-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
+    ];
+
     export default {
 		name: 'skateboard-wheel-step-2',
         mixins: [uploaFile],
@@ -195,9 +248,55 @@
         data() {
             return {
                 uploadProgress: 0,
+                objView: false,
             }
         },
         computed: {
+            shapeImage() {
+                if (! this.shape) {
+                    return shapeImages[12]; // custom
+                }
+
+                if (this.shape.shape_id == 3) {
+                    return shapeImages[2]; //V1
+
+                } else if (this.shape.shape_id == 4) {
+                    return shapeImages[3]; //V2
+
+                } else if (this.shape.shape_id == 5) {
+                    return shapeImages[4]; //V3
+
+                } else if (this.shape.shape_id == 6) {
+                    return shapeImages[5]; //V4
+
+                } else if (this.shape.shape_id == 7) {
+                    return shapeImages[6]; //V5
+
+                } else if (this.shape.shape_id == 8) {
+                    return shapeImages[7]; //V6
+
+                } else if (this.shape.shape_id == 9) {
+                    return shapeImages[8]; // V7
+
+                } else if (this.shape.shape_id == 10) {
+                    return shapeImages[9]; // X
+
+                } else if (this.shape.shape_id == 11) {
+                    return shapeImages[10]; // XB
+
+                } else if (this.shape.shape_id == 1) {
+                    return shapeImages[0]; // N
+
+                } else if (this.shape.shape_id == 2) {
+                    return shapeImages[1]; //R
+
+                } else if (this.shape.shape_id == 12) {
+                    return shapeImages[11]; //S
+
+                } else if (this.shape.shape_id == 13) {
+                    return shapeImages[12]; // custom
+                }
+            },
             shapes() {
                 return this.$store.getters['SkateboardWheelConfigurator/getShapes'];
             },
@@ -304,5 +403,13 @@
     canvas {
         display: block;
         margin: 0 auto;
+    }
+    .toggle-view {
+        cursor: pointer;
+        border: 0;
+        width: 100%;
+    }
+    .nav-fill .nav-item {
+        flex: 49%;
     }
 </style>
