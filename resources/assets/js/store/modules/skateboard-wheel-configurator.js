@@ -5,6 +5,7 @@ import Vue from 'vue';
 export default {
     namespaced: true,
     state: {
+        wheelId: null,
         isAuth: false,
         totalQuantity: 0,
         totalSum: 8270,
@@ -32,9 +33,9 @@ export default {
         backPrintFile: null,
         placement: PLACEMENTS.SQUARE,
         isPrintCardboard: false,
-        printCardboardColors: null,
         printCardboardFile: null,
         isPrintCarton: false,
+        printCartonColors: null,
         printCartonFile: null,
         hardnessList: [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
@@ -61,10 +62,10 @@ export default {
         getBackPrintFile: state => state.backPrintFile,
 
         getPrintCardboard: state => state.isPrintCardboard,
-        getPrintCardboardColors: state => state.printCardboardColors,
         getPrintCardboardFile: state => state.printCardboardFile,
 
         getPrintCarton: state => state.isPrintCarton,
+        getPrintCartonColors: state => state.printCartonColors,
         getPrintCartonFile: state => state.printCartonFile,
 
         getQuantity: state => state.quantity,
@@ -149,6 +150,7 @@ export default {
     },
     mutations: {
         setWheel(state, payload) {
+            state.wheelId = payload.wheel_id;
             state.quantity = payload.quantity;
             state.totalQuantity -= payload.quantity;
             let typeIndex = state.types.findIndex(type => type.name == payload.type);
@@ -196,7 +198,6 @@ export default {
             if (payload.cardboard_print) {
                 state.isPrintCardboard = 1;
                 state.printCardboardFile = payload.cardboard_print;
-                state.printCardboardColors = payload.cardboard_colors;
 
                 Vue.nextTick(() => {
                     document.getElementById('step-7-recent').innerHTML = payload.cardboard_print;
@@ -206,6 +207,7 @@ export default {
             if (payload.carton_print) {
                 state.isPrintCarton = 1;
                 state.printCartonFile = payload.carton_print;
+                state.printCartonColors = payload.carton_colors;
 
                 Vue.nextTick(() => {
                     document.getElementById('step-8-recent').innerHTML = payload.carton_print;
@@ -313,8 +315,8 @@ export default {
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
         },
-        changePrintCardboardColors(state, payload) {
-            state.printCardboardColors = payload;
+        changePrintCartonColors(state, payload) {
+            state.printCartonColors = payload;
         },
         changePrintCardboardFile(state, payload) {
             state.printCardboardFile = payload;
@@ -373,18 +375,27 @@ export default {
 
                 if (state.isPrintCardboard && state.printCardboardFile) {
                     formData.append('cardboard_print', state.printCardboardFile);
-                    formData.append('cardboard_colors', state.printCardboardColors);
                 }
 
                 if (state.isPrintCarton && state.printCartonFile) {
                     formData.append('carton_print', state.printCartonFile);
+                    formData.append('carton_colors', state.printCartonColors);
                 }
 
                 formData.append('price', getters.getPerSetPrice);
                 formData.append('total', getters.getPerSetPrice * state.quantity);
 
-                axios.post('/skateboard-wheel-configurator', formData)
-                    // .then(repsonse => repsonse.data)
+                let path = '/skateboard-wheel-configurator';
+
+                if (state.wheelId !== null) {
+                    path = `/skateboard-wheel-configurator/${state.wheelId}`;
+                }
+    
+                axios({
+                    method: 'POST',
+                    url: path,
+                    data: formData
+                })
                     .then(repsonse => {
                         resolve(repsonse);
                     })

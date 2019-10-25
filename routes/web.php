@@ -113,6 +113,7 @@ Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
     Route::get('/skateboard-wheel-configurator', 'WheelController@configurator')->name('configurator');
     Route::get('/skateboard-wheel-configurator/{id}', 'WheelController@show')->name('configurator.show');
     Route::post('/skateboard-wheel-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
+    Route::post('/skateboard-wheel-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
 });
 
 /**

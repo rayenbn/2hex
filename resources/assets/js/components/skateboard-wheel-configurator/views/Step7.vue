@@ -96,28 +96,6 @@
                                     </a>
                                 </div>
                             </div>
-                            <br>
-                            <color-btn
-                                :color="countColors"
-                                labelledby="step-7-colors"
-                                @colorChange="(val) => countColors = val"
-                            >
-                                <template slot="btn">
-                                    <button 
-                                        id="step-7-colors"
-                                        class="btn btn-secondary dropdown-toggle" 
-                                        type="button" 
-                                        data-toggle="dropdown" 
-                                        aria-haspopup="true" 
-                                        aria-expanded="false" 
-                                        style="width:100%;" 
-                                        @click="isPrintCardboard = true"
-                                        :class="[isPrintCardboard && countColors ? 'checked' : 'unchecked']" 
-                                    >
-                                        {{ countColors ? countColors : 'How many colors are in your design?' }}
-                                    </button>
-                                </template>
-                            </color-btn>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Custom Cardboard</h3>
@@ -182,14 +160,10 @@
 </template>
 
 <script>
-    import ColorBtn from '@/components/ColorBtn';
     import uploaFile from '../mixins/uploadFile';
 
     export default {
         name: 'skateboard-wheel-step-7',
-        components: {
-            ColorBtn
-        },
         mixins: [uploaFile],
         data() {
             return {
@@ -205,14 +179,6 @@
                     if (this.isPrintCardboard == newVal) return;
 
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCardboard', newVal);
-                }
-            },
-            countColors: {
-                get() {
-                    return this.$store.getters['SkateboardWheelConfigurator/getPrintCardboardColors'];
-                },
-                set(newVal) {
-                    this.$store.commit('SkateboardWheelConfigurator/changePrintCardboardColors', newVal);
                 }
             },
             filePrint: {

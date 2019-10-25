@@ -30,9 +30,6 @@ class CreateWheelsTable extends Migration
             $table->string('back_colors')->nullable();
             $table->string('placement');
             $table->string('cardboard_print')->nullable();
-            // TODO delete cardboard_colors
-            $table->string('cardboard_colors')->nullable();
-
             $table->string('carton_print')->nullable();
             $table->string('carton_colors')->nullable();
             $table->decimal('price')->default(0.0);
