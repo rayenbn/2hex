@@ -57,7 +57,9 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                    {{ (request()->is('skateboard-deck-configurator*') || request()->is('grip-tape-configurator*'))
+                    {{ (request()->is('skateboard-deck-configurator*') 
+                        || request()->is('grip-tape-configurator*')
+                        || request()->is('skateboard-wheel-configurator*'))
                         ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
                         : '' 
                     }}" 
@@ -130,8 +132,10 @@
                         @foreach($wheels as $key => $wheel)
                         
                         <li 
+
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                            {{ (route('wheels.configurator.show', $wheel->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+                            {{ (route('wheels.configurator.show', $wheel->wheel_id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+
                             aria-haspopup="true" 
                             m-menu-submenu-toggle="hover"
                         >
@@ -215,7 +219,7 @@
 
                         @endif
 
-                        @if (request()->routeIs('whhels.configurator'))
+                        @if (request()->routeIs('wheels.configurator'))
 
                         <li 
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
@@ -235,7 +239,7 @@
                                 <span class="m-menu__arrow"></span>
 
                                 <!-- Steps vue -->
-                                <steps type="skateboard"/>
+                                <steps type="wheel"/>
                             </div>
                         </li>
 
