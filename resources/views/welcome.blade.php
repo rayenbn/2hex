@@ -12,6 +12,8 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="/ism/css/my-slider.css"/>
+    <script src="/ism/js/ism-2.2.min.js"></script>
 @endpush
 
 @push('head.meta')
@@ -29,13 +31,14 @@
                 {{ session()->get('message')}}
                 </div>
             @endif
+
 			<div class="d-flex align-items-center">
 				<div class="mr-auto">
-					<h1 class="m-subheader__title ">2HEX Skateboard Manufacturer</h1>
-				</div>
-			</div>
-		</div>
-		<!-- END: Subheader -->
+                    <!-- <h1 class="m-subheader__title ">2HEX Skateboard Manufacturer</h1> -->
+                </div>
+            </div>
+        </div>
+        <!-- END: Subheader -->
                     
 		<div class="m-content">
 
@@ -56,6 +59,31 @@
             </div>
 
 
+            <div class="m--margin-bottom-30">
+
+                <div class="ism-slider" data-play_type="loop" data-radio_type="thumbnail" id="my-slider">
+                    <ol>
+                        <li>
+                            <img
+                                    src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}"
+                                    alt="2HEX Your Skateboard Manufacturer"
+                                    title="2HEX Your Skateboard Manufacturer"
+                                    style="width: 100%;"
+                            >
+                        </li>
+
+                        <li>
+                            <img src="/ism/image/slides/2HEX-skateboard-wheels-manufacturer-factory.jpg">
+                        </li>
+                        <li>
+                            <img src="/ism/image/slides/2HEX-skateboard-griptape-manufacturer-factory.jpg">
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <!--
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 				<div class="m-alert__text">
                     <img 
@@ -66,6 +94,7 @@
                     />
 				</div>
 			</div>
+            -->
                         
 			<!--Begin::Section-->
 			<div class="row">
