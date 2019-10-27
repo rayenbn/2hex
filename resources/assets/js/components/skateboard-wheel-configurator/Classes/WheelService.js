@@ -3,7 +3,6 @@ import {PLACEMENTS} from '@/constants.js';
 export default class WheelSertice {
 
 	static calculatePerSet(total, quantity) {
-
 		let perSet = 0;
 
 		if (total < 1170) {

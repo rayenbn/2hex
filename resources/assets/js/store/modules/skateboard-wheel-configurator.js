@@ -8,7 +8,7 @@ export default {
         wheelId: null,
         isAuth: false,
         totalQuantity: 0,
-        totalSum: 8270,
+        totalSum: 0,
         basePrice: 0,
         cartonPrice: 0,
         placementPrice: 0,
@@ -19,6 +19,7 @@ export default {
         shapes: [],
         quantity: 2000,
         perSet: 0,
+        perSetPrice: 0,
         type: null,
         shape: null,
         size: null,
@@ -122,13 +123,15 @@ export default {
             return parseFloat(hardnessprice);
         },
         getPerSetPrice: (state, getters) => {
-            return state.perSet 
+            state.perSetPrice =  state.perSet 
                 + getters.typePrice 
                 + getters.getHardnessPrice
                 + getters.frontPrice
                 + getters.backPrice
                 + state.placementPrice
                 + (state.isPrintCarton ? state.cartonPrice : 0);
+
+            return state.perSetPrice;
         },
         typePrice: state => {
             return (state.type ? parseFloat(state.type.price) : 0) * state.profitMargin;
@@ -222,9 +225,12 @@ export default {
         setSessionInfo(state, payload) {
             state.isAuth = payload.isAuth;
             state.totalQuantity = payload.totalQuantity;
-            //state.totalSum = payload.totalSum;
+            state.totalSum = payload.totalSum;
 
-            state.perSet = WheelService.calculatePerSet(payload.totalSum, payload.totalQuantity);
+            state.perSet = WheelService.calculatePerSet(
+                state.totalSum + (state.quantity * state.perSetPrice), 
+                state.totalQuantity + state.quantity
+            );
         },
         setTypes(state, payload) {
             state.types = payload;
@@ -258,7 +264,10 @@ export default {
     	changeQuantity(state, payload) {
     		state.quantity = payload;
 
-            state.perSet = WheelService.calculatePerSet(state.totalSum, state.totalQuantity + payload);
+            state.perSet = WheelService.calculatePerSet(
+                state.totalSum + (state.quantity * state.perSetPrice), 
+                state.totalQuantity + state.quantity
+            );
     	},
     	changeType(state, payload) {
     		state.type = payload;
@@ -288,14 +297,13 @@ export default {
             if (state.isBackPrint == false) {
 
                 state.isBackPrint = true;
-                state.backPrintFile = payload;
+                state.backPrintFile = state.frontPrintFile;
                 state.backPrintColors = state.frontPrintColors;
 
                 let input = document.getElementById('step-5-upload');
-                input.nextElementSibling.innerHTML = payload;
+                input.nextElementSibling.innerHTML = state.frontPrintFile;
                 input.nextElementSibling.classList.remove("unchecked");
-                document.getElementById('step-5-recent').innerHTML = payload;
-
+                document.getElementById('step-5-recent').innerHTML = state.frontPrintFile;
             }
         },
         changeBackPrint(state, payload) {
@@ -310,7 +318,7 @@ export default {
         changePlacement(state, payload) {
             state.placement = payload;
 
-            state.placementPrice = WheelService.calculatePlacementPrice(payload);
+            state.placementPrice = WheelService.calculatePlacementPrice(state.placement);
         },
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
