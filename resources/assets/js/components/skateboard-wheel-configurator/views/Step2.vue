@@ -92,14 +92,15 @@
                                     <div class="custom-file">
                                         <input
                                             type="file"
-                                            data-type-upload="shapes"
+                                            data-type-upload="wheel-shape"
                                             class="custom-file-input"
                                             data-step="shape-wheels"
                                             id="step-2-upload"
                                             @change.prevent="uploadFile($event, 2)"
                                         >
                                         <label 
-                                            class="custom-file-label unchecked" 
+                                            class="custom-file-label unchecked"
+                                            :class="{checked: filePrint}" 
                                             for="customFile"
                                         >
                                             Choose file
@@ -119,16 +120,16 @@
                                 </div>
                                 <div class="dropdown">
                                     <button 
-                                        class="btn btn-secondary dropdown-toggle checked" 
+                                        class="btn btn-secondary dropdown-toggle" 
                                         type="button" 
                                         id="step-2-recent" 
                                         data-toggle="dropdown" 
                                         aria-haspopup="true" 
                                         aria-expanded="false" 
                                         style="width:100%;" 
+                                        :class="[filePrint ? 'checked' : 'unchecked']" 
                                     >
-                                        <!-- @click="step_options.state = true" -->
-                                        Recent file
+                                         Recent file
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="step-2-recent">
                                         <a 
@@ -136,7 +137,6 @@
                                             class="dropdown-item file-dropdown" 
                                             href="#"
                                         >
-                                            <!-- @click="() => {step_options.file = file; step_options.state = true;}" -->
                                             {{ file }}
                                         </a>
                                     </div>
@@ -306,6 +306,14 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changeShape', newVal);
+                }
+            },
+            filePrint: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getShapePrint'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/setShapePrint', newVal);
                 }
             },
             size: {

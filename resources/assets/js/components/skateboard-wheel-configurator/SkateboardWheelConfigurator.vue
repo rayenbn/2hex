@@ -233,6 +233,10 @@
             reirect_uri: {
                 type: String,
                 default: '/'
+            },
+            filenames: {
+                type: Object,
+                default: null
             }
     	},
     	components: {

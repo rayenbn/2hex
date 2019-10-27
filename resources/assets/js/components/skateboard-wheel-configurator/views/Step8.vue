@@ -45,7 +45,7 @@
                                 <div class="custom-file">
                                     <input
                                         type="file"
-                                        data-type-upload="cartonPrint"
+                                        data-type-upload="wheel-carton"
                                         class="custom-file-input"
                                         data-step="cartonPrint"
                                         id="step-8-upload"

@@ -15,6 +15,7 @@
     		:total_quantity="{{ $orders->sum('quantity') + $grips->sum('quantity') + $wheels->sum('quantity') }}"
     		:auth="{{ auth()->check() ? 1 : 0 }}"
             :wheel="{{ json_encode($wheel ?? null) }}"
+            :filenames="{{ json_encode($filenames) }}"
 		>
     		
     	</skateboard-wheel-configurator>

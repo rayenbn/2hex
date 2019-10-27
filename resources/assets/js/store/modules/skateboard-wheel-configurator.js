@@ -17,6 +17,7 @@ export default {
         colorPrice: 0,
         types: [],
         shapes: [],
+        shapePrint: null,
         quantity: 2000,
         perSet: 0,
         perSetPrice: 0,
@@ -49,6 +50,7 @@ export default {
         getSHR: state => state.shr,
         getTypes: state => state.types,
         getShapes: state => state.shapes,
+        getShapePrint: state => state.shapePrint,
         getPerSet: state => state.perSet,
         getPlacement: state => state.placement,
         getShape: state => state.shape,
@@ -249,6 +251,9 @@ export default {
         setShapes(state, payload) {
             state.shapes = payload;
         },
+        setShapePrint(state, payload) {
+            state.shapePrint = payload;
+        },
         setColorPrice(state, payload) {
             state.colorPrice = payload;
         },
@@ -363,7 +368,11 @@ export default {
                 formData.append('type', state.type.name);
                 formData.append('type_colors', state.type.colors.length ? state.type.colors.join(',') : '');
                 formData.append('shape', state.shape.name);
-                formData.append('shape_print', null); // TODO need implements
+
+                if (state.shape.is_custom) {
+                    formData.append('shape_print', getters.getShapePrint);
+                }
+                
                 formData.append('size', state.size.size);
                 formData.append('contact_patch', state.size.contact_patch);
                 formData.append('hardness', state.hardness);

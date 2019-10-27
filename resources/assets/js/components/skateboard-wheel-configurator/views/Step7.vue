@@ -45,7 +45,7 @@
                                 <div class="custom-file">
                                     <input
                                         type="file"
-                                        data-type-upload="cardboard"
+                                        data-type-upload="wheel-cardboard"
                                         class="custom-file-input"
                                         data-step="cardboard"
                                         id="step-7-upload"

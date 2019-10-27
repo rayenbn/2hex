@@ -45,9 +45,9 @@
                                 <div class="custom-file">
                                     <input
                                         type="file"
-                                        data-type-upload="top"
+                                        data-type-upload="wheel-front"
                                         class="custom-file-input"
-                                        data-step="top-wheels"
+                                        data-step="front-wheels"
                                         id="step-4-upload"
                                         @change.prevent="uploadFile($event, 4)"
                                         @click="isFrontPrint = true"

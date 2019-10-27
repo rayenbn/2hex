@@ -45,9 +45,9 @@
                                 <div class="custom-file">
                                     <input
                                         type="file"
-                                        data-type-upload="wheels-back"
+                                        data-type-upload="wheel-back"
                                         class="custom-file-input"
-                                        data-step="wheels-back"
+                                        data-step="wheel-back"
                                         id="step-5-upload"
                                         @click="isBackPrint = true"
                                         @change.prevent="uploadFile($event, 5)"
