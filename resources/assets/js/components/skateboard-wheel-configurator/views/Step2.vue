@@ -21,15 +21,18 @@
                                         class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
                                         style="min-height: 286px; position: relative;"
                                     >
+                                        <keep-alive>
                                             <model-obj
-                                                v-show="objView" 
-                                                src="/img/Wheels/V15331.obj"
+                                                :key="'obj-' + shape3d"
+                                                v-if="objView" 
+                                                :src="shape3d"
                                                 :width="300"
                                                 :height="300"
                                                 @on-progress="onProgress"
                                                 ref="shapeModel"
                                                 :scale="{ x: 0.7, y: 0.7, z: 0.7}"
                                             />
+                                        </keep-alive>
                                     </div>
                                 </div>
 
@@ -241,6 +244,22 @@
         '/img/Wheels/2hex-skateboard-wheels-factory-shapes/custom-shape-custom-skateboard-wheels-2HEX-skateboard-manufacturer.jpg',
     ];
 
+    const shape3dObjects = [
+        '/img/Wheels/3D/V15331.obj',
+        '/img/Wheels/3D/V25230.obj',
+        '/img/Wheels/3D/V35331.obj',
+        '/img/Wheels/3D/V45230.obj',
+        '/img/Wheels/3D/V55333.obj',
+        '/img/Wheels/3D/V55334.obj',
+        '/img/Wheels/3D/V65233.obj',
+        '/img/Wheels/3D/V75233.obj',
+        '/img/Wheels/3D/X.obj',
+        '/img/Wheels/3D/XB.obj',
+        '/img/Wheels/3D/SS5233.obj',
+        '/img/Wheels/3D/RS5230.obj',
+        '/img/Wheels/3D/NS5332.obj',
+    ];
+
     export default {
 		name: 'skateboard-wheel-step-2',
         mixins: [uploaFile],
@@ -249,51 +268,80 @@
             return {
                 uploadProgress: 0,
                 objView: false,
+                shape3d: null,
             }
         },
         computed: {
             shapeImage() {
                 if (! this.shape) {
+                    this.shape3d = shape3dObjects[0];
+
                     return shapeImages[12]; // custom
                 }
 
                 if (this.shape.shape_id == 3) {
+                    this.shape3d = shape3dObjects[0];
+
                     return shapeImages[2]; //V1
 
                 } else if (this.shape.shape_id == 4) {
+                    this.shape3d = shape3dObjects[1];
+
                     return shapeImages[3]; //V2
 
                 } else if (this.shape.shape_id == 5) {
+                    this.shape3d = shape3dObjects[2];
+
                     return shapeImages[4]; //V3
 
                 } else if (this.shape.shape_id == 6) {
+                    this.shape3d = shape3dObjects[3];
+
                     return shapeImages[5]; //V4
 
                 } else if (this.shape.shape_id == 7) {
+                    this.shape3d = shape3dObjects[4];
+
                     return shapeImages[6]; //V5
 
                 } else if (this.shape.shape_id == 8) {
+                    this.shape3d = shape3dObjects[6];
+
                     return shapeImages[7]; //V6
 
                 } else if (this.shape.shape_id == 9) {
+                    this.shape3d = shape3dObjects[7];
+
                     return shapeImages[8]; // V7
 
                 } else if (this.shape.shape_id == 10) {
+                    this.shape3d = shape3dObjects[8];
+
                     return shapeImages[9]; // X
 
                 } else if (this.shape.shape_id == 11) {
+                    this.shape3d = shape3dObjects[9];
+
                     return shapeImages[10]; // XB
 
                 } else if (this.shape.shape_id == 1) {
+                    this.shape3d = shape3dObjects[12];
+
                     return shapeImages[0]; // N
 
                 } else if (this.shape.shape_id == 2) {
+                    this.shape3d = shape3dObjects[11];
+
                     return shapeImages[1]; //R
 
                 } else if (this.shape.shape_id == 12) {
+                    this.shape3d = shape3dObjects[10];
+
                     return shapeImages[11]; //S
 
                 } else if (this.shape.shape_id == 13) {
+                    this.shape3d = shape3dObjects[5];
+
                     return shapeImages[12]; // custom
                 }
             },
@@ -357,6 +405,9 @@
             queryShapeSize.on('select2:select', (e) => {
                 this.size = this.shape.sizes[e.params.data.id];
             });
+        },
+        created() {
+            this.shape3d = shape3dObjects[0];
         }
     }
 </script>
