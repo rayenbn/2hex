@@ -11,6 +11,7 @@ export default {
         totalSum: 0,
         basePrice: 0,
         cartonPrice: 0,
+        cardboardPrice: 0,
         placementPrice: 0,
         profitMargin: 0,
         colorMargin: 0,
@@ -25,13 +26,13 @@ export default {
         shape: null,
         size: null,
         sizePrices: [],
-        hardness: '90A',
+        hardness: '94A',
         shr: false,
         isFrontPrint: false,
-        frontPrintColors: null,
+        frontPrintColors: '1 color',
         frontPrintFile: null,
         isBackPrint: false,
-        backPrintColors: null,
+        backPrintColors: '1 color',
         backPrintFile: null,
         placement: PLACEMENTS.SQUARE,
         isPrintCardboard: false,
@@ -97,12 +98,16 @@ export default {
                 if (hardnessNum <= 94 && match[2] == 'A') {
                     // 90-94A
                     hardness = HARDNESS.HS_90_94A;
-                } else if (hardnessNum >= 95 && hardnessNum < 100 && match[2] == 'A') {
+                } else if (hardnessNum == 95 && match[2] == 'A') {
                     // <= 95A
                     hardness = HARDNESS.HS_95A;
-                } else if (hardnessNum >= 100 && hardnessNum < 102 && match[2] == 'A') {
+                } else if (hardnessNum > 95 && hardnessNum <= 100 && match[2] == 'A') {
                     // less 102A
                     hardness = HARDNESS.HS_100A;
+                } else if (hardnessNum > 100 && hardnessNum <= 102 && match[2] == 'A') {
+                    // 102A SHR
+                    hardness = HARDNESS.HS_102A;
+
                 } else if (hardnessNum >= 83 && match[2] == 'B') {
                     // 83-84B SHR
                     hardness = HARDNESS.HS_83B;
@@ -131,6 +136,7 @@ export default {
                 + getters.frontPrice
                 + getters.backPrice
                 + state.placementPrice
+                + (state.isPrintCardboard ? state.cardboardPrice : 0)
                 + (state.isPrintCarton ? state.cartonPrice : 0);
 
             return state.perSetPrice;
@@ -247,6 +253,7 @@ export default {
             state.colorPrice = parseFloat(payload.wheel_color_price);
             state.colorMargin = parseFloat(payload.wheel_color_profit_margin);
             state.cartonPrice = parseFloat(payload.wheel_carton_price);
+            state.cardboardPrice = parseFloat(payload.wheel_cardboard_price);
         },
         setShapes(state, payload) {
             state.shapes = payload;
@@ -353,7 +360,36 @@ export default {
 
                         commit('setOptions', repsonse.options);
 
-                        resolve();
+                    })
+                    .then(response => {
+
+                        if (state.wheelId == null) {
+                            // Base White by default
+                            state.type = state.types[0];
+                            let shapeIndex = state.shapes.findIndex(shape => shape.shape_id == 1) || 0;
+                            // Set N Wheel by default
+                            state.shape = state.shapes[shapeIndex];
+
+                            // Set base
+                            Vue.nextTick(() => {
+                                $("#type").val(0).trigger('change');
+                                $("#shape").val(shapeIndex).trigger('change');
+                            });
+                        }
+                    })
+                    .then(response => {
+
+                        if (state.wheelId == null) {
+                            state.size = state.shape.sizes[0];
+
+                            Vue.nextTick(() => {
+                                // 50*30 mm by default
+                                $("#shape_size").val(0).trigger('change');
+                            });
+                        }
+                    })
+                    .then(response => {
+                        resolve(response);
                     })
                     .catch(error => {
                         reject(error);

@@ -122,6 +122,35 @@ class WheelController extends Controller
         /** @var Wheel $wheel*/
         $wheel = Wheel::query()->whereKey($wheelId)->first();
 
-        return view('wheel-configurator.configurator', compact('wheel'));
+        $filenames = [
+            'wheel-shape'     => [],
+            'wheel-front'     => [],
+            'wheel-back'      => [],
+            'wheel-cardboard' => [],
+            'wheel-carton'    => [],
+        ];
+
+        $user = auth()->user();
+
+        if (empty($user)) {
+            return view('wheel-configurator.configurator', compact('wheel', 'filenames'));
+        }
+
+        $path = '';
+        
+        foreach (array_keys($filenames) as $value) {
+            $path = public_path('uploads/' .  $user->name . '/' . $value);
+
+            if(\File::exists($path)) {
+                $filesInFolder = \File::files($path);
+
+                foreach($filesInFolder as $filepath) { 
+                      $file = pathinfo($filepath);
+                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
+                } 
+            }
+        }
+
+        return view('wheel-configurator.configurator', compact('wheel', 'filenames'));
     }
 }

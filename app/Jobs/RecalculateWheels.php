@@ -159,7 +159,7 @@ class RecalculateWheels implements Orderable
 				+ $this->getFrontPrintPrice($wheel, $colorPrice, $colorProfit, $colorFixCost)
 				+ $this->getBackPrintPrice($wheel, $colorPrice, $colorProfit, $colorFixCost)
 				+ $this->getPlacementPrice($wheel->placement)
-				+ $this->getCardboardPrice($quantitySum, $cardboardPrice, $cardboardFixCost, $wheel->cardboard_print)
+				+ $this->getCardboardPrice($wheel->quantity, $cardboardPrice, $cardboardFixCost, $wheel->cardboard_print)
 				+ $this->getCartonPrice($cartonPrice, $cartonFixCost, $wheel->carton_print);
 
 			// Update recalculated wheel
@@ -199,7 +199,7 @@ class RecalculateWheels implements Orderable
 	 * @return float
 	 */
 	protected function getCardboardPrice(
-		int $totalQuantity, 
+		int $quantity, 
 		float $cardboardPrice, 
 		float $cardboardFixCost,
 		?string $cardboard = null
@@ -209,14 +209,9 @@ class RecalculateWheels implements Orderable
 			return 0;
 		}
 
-		$this->fixCost += $cardboardFixCost;
+		$this->fixCost += ($cardboardFixCost - ($cardboardPrice * intval($quantity)));
 
-		// first 1500 cardboards free
-		if ($totalQuantity > 1500) {
-			return $cardboardPrice;
-		}
-
-		return 0;
+		return $cardboardPrice;
 	}
 
 	/**	
@@ -383,24 +378,30 @@ class RecalculateWheels implements Orderable
 				// 83-84B
 				$hardness = $this->hardnesses->get(4);
 			} else {
-				// 102A SHR
+				// 101 - 102A SHR
 				$hardness = $this->hardnesses->get(3);
 			}
 		} else {
 			if ($hardnessNum <= 94 && $hardness[2] == 'A') {
 				// 90-94A
 				$hardness = $this->hardnesses->get(0);
-			} else if ($hardnessNum >= 95 && $hardnessNum < 100 && $hardness[2] == 'A') {
-				// <= 95A
+			} else if ($hardnessNum == 95 && $hardness[2] == 'A') {
+				// 95A
 				$hardness = $this->hardnesses->get(1);
-			} else if ($hardnessNum >= 100 && $hardnessNum < 102 && $hardness[2] == 'A') {
-				// less 102A
+
+			} else if ($hardnessNum > 95 && $hardnessNum <= 100 && $hardness[2] == 'A') {
+				// 96A - 100A
 				$hardness = $this->hardnesses->get(2);
+
+			} else if ($hardnessNum > 100 && $hardnessNum <= 102 && $hardness[2] == 'A') {
+				// 101- 102A SHR
+				$hardness = $this->hardnesses->get(3);
+
 			} else if ($hardnessNum >= 83 && $hardness[2] == 'B') {
 				// 83-84B SHR
 				$hardness = $this->hardnesses->get(4);
 			} else {
-				// 102A SHR
+				// 101 - 102A SHR
 				$hardness = $this->hardnesses->get(3);
 			}
 		}
