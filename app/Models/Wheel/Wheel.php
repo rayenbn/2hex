@@ -15,6 +15,9 @@ class Wheel extends Model
     const PLACEMENT_SQUARE = 'square';
     const PLACEMENT_ROLL = 'roll';
     const PLACEMENT_LINE = 'line';
+
+    // 0.25 KG per wheel
+    const WHEEL_WEIGHT = 0.25; 
     
     /**
      * The primary key for the model.

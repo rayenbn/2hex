@@ -106,9 +106,12 @@
 						  		</a>
 
 						  		@if($isAdmin)
-								<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-									Saved Batches
-								</a>
+									<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
+										Add Wheel
+									</a>
+									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
+										Saved Batches
+									</a>
 								@endif
 								
 						  	</div>

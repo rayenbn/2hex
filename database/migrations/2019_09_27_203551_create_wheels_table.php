@@ -39,6 +39,8 @@ class CreateWheelsTable extends Migration
             $table->boolean('submit')->default(false);
             $table->string('created_by')->nullable();
             $table->timestamp('saved_date')->nullable();
+            $table->string('saved_name')->nullable();
+            $table->string('invoice_number')->nullable();
 
             $table->timestamps();
         });
