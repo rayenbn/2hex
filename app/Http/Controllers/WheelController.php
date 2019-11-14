@@ -153,4 +153,36 @@ class WheelController extends Controller
 
         return view('wheel-configurator.configurator', compact('wheel', 'filenames'));
     }
+
+    public function destroy(int $id)
+    {
+        Wheel::find($id)->delete();
+
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->get(), 
+                GripTape::auth()->get(),
+                Wheel::auth()->where('submit', 0)->get()
+            )
+        );  
+
+        return redirect()->route('summary');
+    }
+
+    /**
+     * Copy Wheel by id
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function copy(int $id) : \Illuminate\Http\RedirectResponse
+    {
+        $wheel = Wheel::query()->find($id);
+
+        $cloneWhhel = $wheel->replicate();
+        $cloneWhhel->push();
+
+        return redirect()->route('summary');
+    }
 }

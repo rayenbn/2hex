@@ -73,12 +73,15 @@ Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
+
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
-Route::get('/getdesign','ConfiguratorController@getdesign');
-Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete');
-Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
+Route::post('/skateboard-deck-configurator/{id}/copy', 'ConfiguratorController@copy')->name('copy.skateboard.configurator');
+Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete')->name('delete.skateboard.configurator');
 Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
+
+Route::get('/getdesign','ConfiguratorController@getdesign');
+Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
 
 Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index')->name('skateboard.manufacturer');
 Route::get('/export_csv','SummaryController@exportcsv')->name('export.invoice');
@@ -104,6 +107,7 @@ Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('gript
 Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
 Route::get('/grip-tape-configurator/{id}', 'GripTapeConfigurator@show')->name('griptape.show');
 Route::get('/grip-tape-remove/{id}', 'GripTapeConfigurator@destroy')->name('griptape.destroy');
+Route::post('/grip-tape-configurator/{id}/copy', 'GripTapeConfigurator@copy')->name('griptape.copy');
 
 /**
  * WHEELS CONFIGURATOR
@@ -114,6 +118,9 @@ Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
     Route::get('/skateboard-wheel-configurator/{id}', 'WheelController@show')->name('configurator.show');
     Route::post('/skateboard-wheel-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
     Route::post('/skateboard-wheel-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
+    Route::get('/skateboard-wheel-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
+    Route::post('/skateboard-wheel-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
+
 });
 
 /**

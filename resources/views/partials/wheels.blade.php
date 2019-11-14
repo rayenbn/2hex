@@ -62,19 +62,28 @@
             @if(Session::get('viewonly') == null)
             <td>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
-                    <button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
+                    <form action="{{route('wheels.configurator.copy', $wheel->wheel_id)}}" method="POST">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="m-btn btn btn-secondary" title="Duplicate">
+                            <i class="la la-files-o"></i>
+                        </button>
+                    </form>
+                    <form action="{{route('wheels.configurator.delete', $wheel->wheel_id)}}" method="GET">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="m-btn btn btn-secondary" title="Delete">
+                            <i class="la la-scissors"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
-                    <button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
+                    <button type="button" class="m-btn btn btn-secondary">
+                        <i class="la la-floppy-o"></i>
+                    </button>
+                    <a class="m-btn btn btn-secondary" href="{{route('wheels.configurator.show', $wheel->wheel_id)}}" title="Edit">
+                        <i class="la la-italic"></i>
+                    </a>
                 </div>
-                
-                {{--
-                <a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Edit</a>
-                <a href="{{route('griptape.show', $grip->id)}}" class="btn btn-outline-info btn-sm">Save</a>
-                <a href="{{route('griptape.destroy', $grip->id)}}" class="btn btn-outline-danger btn-sm">Remove</a>
-                --}}
+
             </td>
             @endif
 

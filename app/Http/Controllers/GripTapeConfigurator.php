@@ -112,4 +112,21 @@ class GripTapeConfigurator extends Controller
     {
         return view('configurator.manufacturer');
     }
+
+    /**
+     * Copy Grip Tape by id
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function copy(int $id) : \Illuminate\Http\RedirectResponse
+    {
+        $grip = GripTape::query()->find($id);
+
+        $cloneGrip = $grip->replicate();
+        $cloneGrip->push();
+
+        return redirect()->route('summary');
+    }
 }

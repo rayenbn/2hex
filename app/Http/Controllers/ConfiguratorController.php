@@ -11,15 +11,6 @@ use App\Models\Wheel\Wheel;
 class ConfiguratorController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -148,6 +139,23 @@ class ConfiguratorController extends Controller
                 Wheel::auth()->where('submit', 0)->get()
             )
         );
+
+        return redirect()->route('summary');
+    }
+
+    /**
+     * Copy SB deck by id
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function copy(int $id) : \Illuminate\Http\RedirectResponse
+    {
+        $deck = Order::query()->find($id);
+
+        $cloneDeck = $deck->replicate();
+        $cloneDeck->push();
 
         return redirect()->route('summary');
     }

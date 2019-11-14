@@ -115,12 +115,26 @@
                     --}}
                     
                     <div class="btn-group" role="group" aria-label="First group">
-                        <button type="button" class="m-btn btn btn-secondary"><i class="la la-files-o"></i></button>
-                        <button type="button" class="m-btn btn btn-secondary"><i class="la la-scissors"></i></button>
+                        <form action="{{route('copy.skateboard.configurator', $skateboard->id)}}" method="POST">
+                            {!! csrf_field() !!}
+                            <button type="submit" class="m-btn btn btn-secondary" title="Duplicate">
+                                <i class="la la-files-o"></i>
+                            </button>
+                        </form>
+                        <form action="{{route('delete.skateboard.configurator', $skateboard->id)}}" method="GET">
+                            {!! csrf_field() !!}
+                            <button type="submit" class="m-btn btn btn-secondary" title="Delete">
+                                <i class="la la-scissors"></i>
+                            </button>
+                        </form>
                     </div>
                     <div class="btn-group" role="group" aria-label="First group">
-                        <button type="button" class="m-btn btn btn-secondary"><i class="la la-floppy-o"></i></button>
-                        <button type="button" class="m-btn btn btn-secondary"><i class="la la-italic"></i></button>
+                        <button type="button" class="m-btn btn btn-secondary">
+                            <i class="la la-floppy-o"></i>
+                        </button>
+                        <a class="m-btn btn btn-secondary" href="{{route('show.skateboard.configurator', $skateboard->id)}}" title="Edit">
+                            <i class="la la-italic"></i>
+                        </a>
                     </div>
 
                 </td>
