@@ -330,7 +330,11 @@ class SummaryController extends Controller
 
         // TODO add wheels to invoice
 
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
+            $queryOrders->get(), 
+            $gripQuery->get(), 
+            $wheelQuery->get()
+        ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
@@ -385,7 +389,7 @@ class SummaryController extends Controller
 
         // TODO add wheels to invoice
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels);
 
         $model = $orders->count() ? $orders->first() : $grips->first();
 
