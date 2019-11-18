@@ -87,14 +87,47 @@
             },
             hardnessList() {
                 return this.$store.state.SkateboardWheelConfigurator.hardnessList;
-            }
+            },
+            size() {
+                return this.$store.getters['SkateboardWheelConfigurator/getSize'];
+            },
+        },
+        watch: {
+            hardness: _.debounce(function() {
+                if (!this.size) {
+                    return;
+                }
+
+                let meta = this.size.size.match(/\d{2}/);
+                let hardnessMatch = this.hardness.match(/(\d{2})(\w){1}/);
+
+                meta = parseInt(meta[0]);
+
+                // wheels size =< 53mm, only enable 90A to 84B
+                if (meta <= 53 && parseInt(hardnessMatch[1]) < 90 && hardnessMatch[2] == 'A') {
+                    this.$refs.slider.setValue('90A');
+
+                // wheels size 54 - 56mm, enable 85A to 84B
+                } else if (meta > 53 && meta <= 56 && parseInt(hardnessMatch[1]) < 85 && hardnessMatch[2] == 'A') {
+                    this.$refs.slider.setValue('85A');
+                
+                } 
+                // wheels size >= 57mm, enable 78A to 84B
+                // else if (meta > 56 && parseInt(hardnessMatch[1]) < 78 && hardnessMatch[2] == 'A') {
+                //     this.$refs.slider.setValue('78A');
+                // }
+
+                this.$refs.slider.blur();
+            }, 1000)
         },
         methods: {
             onChangeSlider() {
-                // 24 = 102A SHR
-                if (this.$refs.slider.getIndex() >= 24) {
+
+                // enable SHR if more or equals 102A SHR
+                if (this.$refs.slider.getValue() === '102A') {
                     this.isSHR = true;
                 }
+
             }
         }
     }

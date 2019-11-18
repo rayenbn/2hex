@@ -160,6 +160,9 @@ export default {
         },
     },
     mutations: {
+        setHardnessList(state, payload) {
+            state.hardnessList = payload
+        },
         setWheel(state, payload) {
             state.wheelId = payload.wheel_id;
             state.quantity = payload.quantity;
@@ -290,6 +293,24 @@ export default {
         },
         changeSize(state, payload) {
             state.size = payload;
+
+            if (!state.size) {
+                return;
+            }
+
+            let meta = state.size.size.match(/\d{2}/);
+            let hardnessMatch = state.hardness.match(/(\d{2})(\w){1}/);
+
+            meta = parseInt(meta[0]);
+
+            // wheels size =< 53mm, only enable 90A to 84B
+            if (meta <= 53 && parseInt(hardnessMatch[1]) < 90 && hardnessMatch[2] == 'A') {
+                state.hardness = '90A';
+
+            // wheels size 54 - 56mm, enable 85A to 84B
+            } else if (meta > 53 && meta <= 56 && parseInt(hardnessMatch[1]) < 85 && hardnessMatch[2] == 'A') {
+                state.hardness = '85A';
+            }
         },
         changeHardness(state, payload) {
             state.hardness = payload;
