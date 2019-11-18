@@ -136,9 +136,10 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="step-2-recent">
                                         <a 
-                                            v-for="file in 0"
+                                            v-for="file in files"
                                             class="dropdown-item file-dropdown" 
-                                            href="#"
+                                            href="javascript:void(0);"
+                                            @click="selectCustomFile(file)"
                                         >
                                             {{ file }}
                                         </a>
@@ -272,6 +273,9 @@
             }
         },
         computed: {
+            files() {
+                return this.$store.getters['SkateboardWheelConfigurator/recentFilesByType']('wheel-shape'); 
+            },
             shapeImage() {
                 if (! this.shape) {
                     this.shape3d = shape3dObjects[0];
@@ -379,6 +383,18 @@
             },
         },
         methods: {
+            selectCustomFile(file) {
+                this.filePrint = file;
+
+                this.$nextTick(() => {
+                    document.getElementById('step-2-recent').innerHTML = file;
+
+                    let uploadInput = document.getElementById('step-2-upload');
+                    uploadInput.nextElementSibling.innerHTML = file;
+                    // uploadInput.nextElementSibling.classList.remove("unchecked");
+                    
+                });
+            },
             onProgress(event) {
 
                 if (event.loaded === event.total) {

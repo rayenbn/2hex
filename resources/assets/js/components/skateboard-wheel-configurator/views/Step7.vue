@@ -88,9 +88,10 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="step-7-recent">
                                     <a 
-                                        v-for="file in 0"
+                                        v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        href="#"
+                                        href="javascript:void(0);"
+                                        @click="selectCustomFile(file)"
                                     >
                                         {{ file }}
                                     </a>
@@ -188,6 +189,22 @@
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCardboardFile', newVal);
                 }
+            },
+            files() {
+                return this.$store.getters['SkateboardWheelConfigurator/recentFilesByType']('wheel-cardboard');
+            }
+        },
+        methods: {
+            selectCustomFile(file) {
+                this.filePrint = file;
+                this.isPrintCardboard = true;
+
+                this.$nextTick(() => {
+                    document.getElementById('step-7-recent').innerHTML = file;
+
+                    let uploadInput = document.getElementById('step-7-upload');
+                    uploadInput.nextElementSibling.innerHTML = file;
+                });
             },
         }
     }

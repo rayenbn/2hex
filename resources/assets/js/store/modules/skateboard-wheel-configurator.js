@@ -45,7 +45,8 @@ export default {
             '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
             '98A', '99A', '100A', '101A', '102A', '83B', '84B', '84B', '84B', '84B', 
             '84B', '84B'
-        ]
+        ],
+        recentFiles: []
     },
     getters: {
         getSHR: state => state.shr,
@@ -158,6 +159,9 @@ export default {
 
             return WheelService.calculateColorPrice(state.backPrintColors, state.colorMargin, state.colorPrice);
         },
+        recentFilesByType: state => type => {
+            return state.recentFiles[type];
+        }
     },
     mutations: {
         setHardnessList(state, payload) {
@@ -237,6 +241,7 @@ export default {
             state.isAuth = payload.isAuth;
             state.totalQuantity = payload.totalQuantity;
             state.totalSum = payload.totalSum;
+            state.recentFiles = payload.recentFiles;
 
             state.perSet = WheelService.calculatePerSet(
                 state.totalSum + (state.quantity * state.perSetPrice), 

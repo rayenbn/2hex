@@ -88,9 +88,10 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="step-5-recent">
                                     <a 
-                                        v-for="file in 0"
+                                        v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        href="#"
+                                        href="javascript:void(0);"
+                                        @click="selectCustomFile(file)"
                                     >
                                         {{ file }}
                                     </a>
@@ -226,7 +227,25 @@
             },
             isSameFile() {
                 return this.$store.getters['SkateboardWheelConfigurator/getFrontPrintFile'] == this.filePrint && this.filePrint != null;
+            },
+            files() {
+                return this.$store.getters['SkateboardWheelConfigurator/recentFilesByType']('wheel-back');
             }
+        },
+        methods: {
+            selectCustomFile(file) {
+                this.filePrint = file;
+                this.isBackPrint = true;
+
+                this.$nextTick(() => {
+                    document.getElementById('step-5-recent').innerHTML = file;
+
+                    let uploadInput = document.getElementById('step-5-upload');
+                    uploadInput.nextElementSibling.innerHTML = file;
+                    // uploadInput.nextElementSibling.classList.remove("unchecked");
+                    
+                });
+            },
         }
     }
 </script>

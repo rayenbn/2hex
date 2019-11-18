@@ -318,7 +318,8 @@
                     this.$store.commit('SkateboardWheelConfigurator/setSessionInfo', {
                         totalSum: this.total_sum,
                         totalQuantity: this.total_quantity,
-                        isAuth: this.auth
+                        isAuth: this.auth,
+                        recentFiles: this.filenames
                     });
                     if (this.wheel != null) {
                         this.$store.commit('SkateboardWheelConfigurator/setWheel', this.wheel);

@@ -88,9 +88,10 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="step-4-recent">
                                     <a 
-                                        v-for="file in 0"
+                                        v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        href="#"
+                                        href="javascript:void(0);"
+                                        @click="selectCustomFile(file)"
                                     >
                                         {{ file }}
                                     </a>
@@ -222,7 +223,25 @@
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changeFrontPrintFile', newVal);
                 }
+            },
+            files() {
+                return this.$store.getters['SkateboardWheelConfigurator/recentFilesByType']('wheel-front'); 
             }
+        },
+        methods: {
+            selectCustomFile(file) {
+                this.filePrint = file;
+                this.isFrontPrint = true;
+
+                this.$nextTick(() => {
+                    document.getElementById('step-4-recent').innerHTML = file;
+
+                    let uploadInput = document.getElementById('step-4-upload');
+                    uploadInput.nextElementSibling.innerHTML = file;
+                    // uploadInput.nextElementSibling.classList.remove("unchecked");
+                    
+                });
+            },
         }
     }
 </script>

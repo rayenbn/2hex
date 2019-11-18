@@ -88,9 +88,10 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="step-8-recent">
                                     <a 
-                                        v-for="file in 0"
+                                        v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        href="#"
+                                        href="javascript:void(0);"
+                                        @click="() => {filePrint = file; isPrintCarton = true;}"
                                     >
                                         {{ file }}
                                     </a>
@@ -193,7 +194,7 @@
         },
         data() {
             return {
-                uploadProgress: 0
+                uploadProgress: 0,
             }
         },
         computed: {
@@ -223,6 +224,9 @@
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCartonFile', newVal);
                 }
             },
+            files() {
+                return this.$store.getters['SkateboardWheelConfigurator/recentFilesByType']('wheel-carton'); 
+            }
         }
     }
 </script>
