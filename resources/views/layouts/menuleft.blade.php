@@ -34,10 +34,7 @@
                     </span>
                 </a>
             </li>
-            
-            @php $isAdmin = auth()->check() && auth()->user()->isAdmin(); @endphp
-            
-            @if($isAdmin)
+
             <li class="m-menu__item  {{ request()->routeIs('wheels.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('wheels.manufacturer') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
@@ -48,7 +45,6 @@
                     </span>
                 </a>
             </li>
-            @endif
 
 
             <li class="m-menu__section ">
@@ -285,7 +281,7 @@
                         $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total'));
                     @endphp
                     <span class="m-menu__link-text" id = "totalconprice">
-                        TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}
+                        USD TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}
                     </span>
                 </a>
             </li>

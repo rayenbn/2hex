@@ -23,7 +23,7 @@
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
                                     <h1 class="m-portlet__head-text">
-                                        Skateboard Wheel Configurator
+                                        Skateboard Wheels Configurator
                                         <ul class="m-subheader__breadcrumbs m-nav m-nav--inline" id="breadcrumbs">
                                     
                                             <li class="m-nav__item">
@@ -32,13 +32,8 @@
                                                 </a>
                                             </li>
                                             <li class="m-nav__item">
-                                                <a href="skateboard-deck-manufacturer" class="m-nav__link">
-                                                    <span class="m-nav__link-text">Configurator -</span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="skateboard-deck-configurator" class="m-nav__link">
-                                                    <span class="m-nav__link-text">SB Deck</span>
+                                                <a href="skateboard-wheel-manufacturer" class="m-nav__link">
+                                                    <span class="m-nav__link-text">Wheels Configurator</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -74,15 +69,13 @@
                             <div class="m-form m-form--label-align-left- m-form--state-">
                                 <!--begin: Form Body -->
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                    <iframe 
-                                        width="100%" 
-                                        height="220" 
-                                        src="https://sketchfab.com/models/0f583557d87a461e8e920741ad39575c/embed" 
-                                        frameborder="0" 
-                                        allow="autoplay; fullscreen; vr" 
-                                        mozallowfullscreen="true" 
-                                        webkitallowfullscreen="true">
-                                    </iframe>
+
+                                    <div id="preview" style="
+                                        height: 300px;
+                                        background-image: url(/img/Wheels/2hex-custom-skateboard-wheels.jpg);
+                                        background-size: contain;
+                                        background-repeat: no-repeat;
+                                    "></div>
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                         <div class="m-form__actions" style="text-align: center; padding: 15px 0;">
                                             <a
@@ -90,7 +83,7 @@
                                                 id="start_purchase"
                                                 class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                             >
-                                                select your wheel
+                                                develope your wheels
                                                 <i class="la la-arrow-right"></i>
                                             </a>
                                         </div>
@@ -98,46 +91,33 @@
 
                                     <div class="m-form__actions">
                                         <p style="padding: 0 30px;">
-
-                                            Start the configuration process to create a skateboard deck production
-                                            that perfectly fits to your brand - by quality, specifications and style!<br>
+                                            Start the development of your own skateboard wheels. Take your time to develop an innovative new style of wheels
+                                            OR simply keep the preset to order standard skateboard wheels.<br>
                                             <br>
-                                            Skateboard decks are the most frequently replaced part of skateboards, which
-                                            makes it a popular first product for skateboard companies. Skateboard decks
-                                            offer a lot of customization options, enabling brands to differentiate from
+                                            Skateboard wheels offer a lot of customization options, enabling skateboard brands to differentiate from
                                             the current trend and create their own style.<br>
 
                                             <br><br>
 
                                         <b style="color: #716aca">LOCATIONS</b><br>
-                                            We have two production locations: China and Germany.<br>
-                                            In China we run all major productions, this includes the productions
-                                            of our own stock for Germany as well as the productions for many of the world's leading professional skateboard companies.<br>
-                                            We regularly ship pre-manufactured blank decks to Germany, so that we can offer small quantities and
-                                            fast turn around times to European skateboard businesses.<br>
+                                            2HEX is a German company, with productions all over the world.
+                                            Our skateboard wheels are manufactured in China. To save on shipping costs and time, we will not ship skateboard wheels to Germany before
+                                            forwarding the wheels to you. Instead, your custom skateboard wheels will be sent directly to your door.<br>
                                             <br><br>
 
-                                       <b style="color: #716aca">CUSTOMIZATION BY LOCATION & QUANTITY</b><br>
-                                            Orders of 50 skateboard decks or more will be made in our Chinese production. Here we offer all customization options,
-                                            so that you can make skateboard decks that perfectly fit to your riders' tricks and style!<br>
-                                            If your order 10 to 40 skateboard decks, we will print your designs on pre-manufactured skateboard decks in Germany.
-                                            When ordering decks from our stock, you can only select the deck shape, concave and print.<br>
-                                      <br><br>
+                                            <b style="color: #716aca">PRODUCTION TIME</b><br>
+                                            The production time of custom skateboard wheels is 6 weeks.<br>
+                                            <br><br>
 
-                                            <b style="color: #716aca">PRODUCTION & DELIVERY TIME</b><br>
-                                            The production time in China is 6 weeks.<br>
-                                            The production time in Germany is 4 weeks.<br>
+                                            <b>DELIVERY TIME TO EUROPE, AMERICA and REST OF THE WORLD</b> <br>
+                                            Up to 400 sets of skateboard wheels (or 100 KG), the cheapest and fastest option is airfreight. The delivery takes 10 working days.<br>
+                                            If you order 500 sets of wheels, or if you add other products to reach a weight of over 110 KG the goods will be delivered by Ocean Freight.
+                                            This delivery will take 6 weeks, door to door.<br>
                                             <br>
-                                            <b>Delivery Time for European businesses:</b> <br>
-                                            Delivery from Germany to any European country is 1 week;<br>
-                                            Delivery from China to any European country is 5 weeks.<br>
-                                            If you order 50 or more decks and a fast production and delivery is more important to you than fully customizing your decks,
-                                            then complete and submit your order and answer to our order confirmation email to tell us that you want your production made in Germany.
-                                            We will correct your invoice accordingly.<br>
-                                            <br>
-                                            <b>Delivery Time for Asian businesses:</b><br>
-                                            Delivery from China to any Asian country is 2 weeks;<br>
-                                            Delivery from Germany to any Asian country is 5 weeks.<br>
+                                            <b>DELIVERY TIME TO ASIA</b><br>
+                                            p to 400 sets of skateboard wheels (or 100 KG), the cheapest and fastest option is airfreight. The delivery takes 8 working days.<br>
+                                            If you order 500 sets of wheels, or if you add other products to reach a weight of over 110 KG the goods will be delivered by Ocean or Land.
+                                            This delivery will take 3 weeks, door to door.<br>
                                             <br>
 
 
@@ -161,11 +141,17 @@
 
                                 <div class="m-section__content">
                                     <p>
-                                        We will now take you to the deck configurator.
+                                        Skateboard wheels configurator FAQ.
                                     </p>
                                     <p>
-
-                                        If you want your design in multiple sizes, add a new batch for each size.
+                                        Follow the notes on the right side, to learn how to best use the configurator.
+                                    </p>
+                                    <p>
+                                        One design in multiple sizes?<br>
+                                        1. create a first batch<br>
+                                        2. duplicate your first batch<br>
+                                        3. edit the new batch to change the size<br>
+                                        <br>
                                         The more batches you add, the further the price drops.
                                     </p>
 
@@ -175,7 +161,7 @@
                                     <a href="{{route('get.skateboard.configurator')}}">
                                         <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>
 
-                                    <img alt="" src="/skateboard-deck-production/width-skateboard-decks-factory-2hex.jpg" style="width: 100%" />
+                                    <img alt="" src="/img/Wheels/2hex-skateboard-wheels-factory.jpg" style="width: 100%" />
                                 </div>
                             </div>
                             <!--end: Form Body -->

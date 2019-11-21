@@ -99,82 +99,6 @@
 			<!--Begin::Section-->
 			<div class="row">
 
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
-                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                        <div class="m-portlet__head">
-                            <div class="m-portlet__head-caption">
-                                <div class="m-portlet__head-title">
-                                </div>
-                            </div>
-
-                            <div class="m-portlet__head m-portlet__head--fit">
-                                <div class="m-portlet__head-caption">
-                                    <div class="m-portlet__head-action">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-portlet__body">
-                            <div class="m-widget17">
-                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
-                                    <div>
-                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
-                                            <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="skateboard manufacturer catalog" style="width: 100%;">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget17__stats">
-                                    <div class="m-widget17__items m-widget17__items-col1">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Our Offer
-											</span>
-                                            <span class="m-widget17__desc">
-												See our major products
-											</span>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget17__items m-widget17__items-col2">
-                                        <div class="m-widget17__item">
-											<span class="m-widget17__icon">
-												<i class="flaticon-graph m--font-success"></i>
-											</span>
-                                            <span class="m-widget17__subtitle">
-												Best
-											</span>
-                                            <span class="m-widget17__desc">
-												See best sellers
-											</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div style="text-align: justify; color: #9699a4;">
-                                <h3>Catalog & Newsletter</h3>
-                                Signup to our newsletter and download our product catalog!<br>
-                                The catalog is filled with numerous high definition photos
-                                of 2HEX skateboard products. The newsletter brings you the
-                                most important skateboard production updates; right to your inbox.
-                            </div>
-                            <br>
-                            <div class="m-widget19__action">
-                                <a href="newsletter" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
-                                    <span>
-                                        <span>get our catalog</span>
-                                        <i class="la la-arrow-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--end:: Widgets/Activity-->
-                </div>
 
 				<div class="col-xl-4">
 					<!--begin:: Widgets/Activity-->
@@ -255,7 +179,92 @@
 					</div>
 					<!--end:: Widgets/Activity-->
 				</div>
-                
+
+
+                <div class="col-xl-4">
+                    <!--begin:: Wheels-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text m--font-dark">
+                                        Skateboard Wheels
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="m-portlet__head m-portlet__head--fit">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-action">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/img/Wheels/skateboard-wheels-print/custom-skateboard-wheels-factory-banner-2hex.jpg" alt="custom skateboard wheels manufacturer" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												Shapes
+											</span>
+                                            <span class="m-widget17__desc">
+												Check our big list of shapes
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-graph m--font-success"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												OEM
+											</span>
+                                            <span class="m-widget17__desc">
+												Add your print and packaging
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Skateboard Wheels</h3>
+                                Create your own skateboard wheels technology! Create your own shapes, urethane,
+                                color and print. To make a perfect first impression, wrap a cardboard around your
+                                custom packed wheels and have them shipped to you in cartons with your company's
+                                product details and logo!
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                    <a href="skateboard-wheel-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                    <span>
+                                        <span>add wheels to order</span>
+                                        <i class="la la-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Activity-->
+                </div>
+
+
+
+
+
                 <!-- Grip Tape -->
                 <div class="col-xl-4">
                     @include('widgets.grip-tape-widget')
@@ -264,7 +273,7 @@
 
 
                 <div class="col-xl-4">
-                    <!--begin:: Widgets/Activity-->
+                    <!--begin:: samples-->
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                         <div class="m-portlet__head">
 
@@ -333,7 +342,86 @@
 
                         </div>
                     </div>
-                    <!--end:: Widgets/Activity-->
+                    <!--end:: samples-->
+                </div>
+
+
+
+                <div class="col-xl-4">
+                    <!--begin:: newsletter-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                </div>
+                            </div>
+
+                            <div class="m-portlet__head m-portlet__head--fit">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-action">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/skateboard-deck-production/skateboard-production-factory-manufacturer-catalog.jpg" alt="skateboard manufacturer catalog" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												Our Offer
+											</span>
+                                            <span class="m-widget17__desc">
+												See our major products
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+											<span class="m-widget17__icon">
+												<i class="flaticon-graph m--font-success"></i>
+											</span>
+                                            <span class="m-widget17__subtitle">
+												Best
+											</span>
+                                            <span class="m-widget17__desc">
+												See best sellers
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Catalog & Newsletter</h3>
+                                Signup to our newsletter and download our product catalog!<br>
+                                The catalog is filled with numerous high definition photos
+                                of 2HEX skateboard products. The newsletter brings you the
+                                most important skateboard production updates; right to your inbox.
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                <a href="newsletter" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                    <span>
+                                        <span>get our catalog</span>
+                                        <i class="la la-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end:: newsletter-->
                 </div>
 
 
@@ -399,20 +487,20 @@
 
                 </div>
             </div>
-            
-            <div class="alert alert-brand m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
+
+            <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
                 <div class="m-alert__icon">
                     <i class="flaticon-exclamation-1"></i>
                 </div>
                 <div class="m-alert__text">
-                    We are still developing this web presence. If you need more info, download our
+                    Download the 2HEX
                     <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
                         catalog
                     </a>
-                    or send us a
+                    or
                     <a href="inquiries" class="m-link m-link--warning m--font-bold" target="_blank">
                         message
-                    </a>.
+                    </a> us.
                 </div>
             </div>
 

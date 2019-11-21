@@ -104,11 +104,10 @@
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 						  			Add Decks
 						  		</a>
-
+								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
+									Add Wheel
+								</a>s
 						  		@if($isAdmin)
-									<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
-										Add Wheel
-									</a>
 									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 										Saved Batches
 									</a>
@@ -201,7 +200,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									ORDER TOTAL: {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
+									USD TOTAL:  {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
