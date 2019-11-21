@@ -113,13 +113,13 @@ Route::post('/grip-tape-configurator/{id}/copy', 'GripTapeConfigurator@copy')->n
  * WHEELS CONFIGURATOR
  */
 Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
-    Route::get('/skateboard-wheel-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
-    Route::get('/skateboard-wheel-configurator', 'WheelController@configurator')->name('configurator');
-    Route::get('/skateboard-wheel-configurator/{id}', 'WheelController@show')->name('configurator.show');
-    Route::post('/skateboard-wheel-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
-    Route::post('/skateboard-wheel-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
-    Route::get('/skateboard-wheel-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
-    Route::post('/skateboard-wheel-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
+    Route::get('/skateboard-wheels-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
+    Route::get('/skateboard-wheels-configurator', 'WheelController@configurator')->name('configurator');
+    Route::get('/skateboard-wheels-configurator/{id}', 'WheelController@show')->name('configurator.show');
+    Route::post('/skateboard-wheels-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
+    Route::post('/skateboard-wheels-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
+    Route::get('/skateboard-wheels-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
+    Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
 
 });
 

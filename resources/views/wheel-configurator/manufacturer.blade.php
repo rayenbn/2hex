@@ -32,7 +32,7 @@
                                                 </a>
                                             </li>
                                             <li class="m-nav__item">
-                                                <a href="skateboard-wheel-manufacturer" class="m-nav__link">
+                                                <a href="skateboard-wheels-manufacturer" class="m-nav__link">
                                                     <span class="m-nav__link-text">Wheels Configurator</span>
                                                 </a>
                                             </li>
@@ -146,17 +146,6 @@
                                     <p>
                                         Follow the notes on the right side, to learn how to best use the configurator.
                                     </p>
-                                    <p>
-                                        One design in multiple sizes?<br>
-                                        1. create a first batch<br>
-                                        2. duplicate your first batch<br>
-                                        3. edit the new batch to change the size<br>
-                                        <br>
-                                        The more batches you add, the further the price drops.
-                                    </p>
-
-
-
 
                                     <a href="{{route('get.skateboard.configurator')}}">
                                         <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>

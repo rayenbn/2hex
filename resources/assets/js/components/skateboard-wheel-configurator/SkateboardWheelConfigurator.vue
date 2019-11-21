@@ -54,8 +54,6 @@
                                 method="POST" 
                                 action="#"
                             >
-                                <input type="hidden" v-model="id" name="id">
-
                                 <div class="m-portlet__body">
                                     
                                     <skateboard-wheel-step-1 />
@@ -125,15 +123,8 @@
                 <div class="m-portlet">
                     <div class="m-portlet__body">
                         <div class="m-section">
-                            <h2 class="m-section__heading">How to choose the best skateboard griptape?</h2>
-                            <div class="m-section__content">
-                                <p>
-                                    Know your target group! Do they want a big print and colorful designs or do they ride plain black griptapes without any logo? Are you users price sensitive or do they require the highest quality?
-                                </p>
-                                <p>
-                                    Choose the specifications that best meet your target groups requirements. All of our griptapes have the highest quality within the selected specifications. If you are not sure, what sells best: Go to the skatepark and ask your local skaters what they currently ride!
-                                </p>
-                            </div>
+                            <h2 class="m-section__heading" v-html="stepInfo.head"></h2>
+                            <div class="m-section__content" v-html="stepInfo.content"></div>
                         </div>
                         <div class="m-separator m-separator--fit"></div>
 
@@ -254,9 +245,17 @@
             return {
                 headLinks: [
                     {name: 'Home', href: '/'},
-                    {name: 'Configurator', href: '/skateboard-wheel-manufacturer'},
+                    {name: 'Configurator', href: '/skateboard-wheels-manufacturer'},
                 ],
-                id: null
+                stepInfo: {
+                    head: '',
+                    content: ''
+                }
+            }
+        },
+        watch: {
+            currentStep(newVal) {
+                this.changeStepInfo(newVal);
             }
         },
         computed: {
@@ -282,6 +281,62 @@
             },
         },
         methods: {
+            changeStepInfo(step) {
+                switch(step) {
+                    case 1: 
+                        this.stepInfo.head = 'Your first batch of wheels!';
+                        this.stepInfo.content = 'A batch consists of all skateboard wheels in one size and style. Each batch must have at least 100 sets of wheels. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
+                       break;
+                    case 2:
+                        this.stepInfo.head = 'Select shape and size!';
+                        this.stepInfo.content = 'Below the skateboard wheel size, you will find the contact patch width. This is the surface of the wheel touching the ground. Note: If you change the wheels shape or upload a custom shape, remember to select the wheels size.';
+                        break;
+                    case 3:
+                        this.stepInfo.head = 'Anti Flat Spot Urethane';
+                        this.stepInfo.content = 'The bigger the wheels, the softer they can be made. If you cannot select your required softness, go back one step and select bigger wheels.';
+                        break;
+                    case 4:
+                        this.stepInfo.head = 'One design in multiple sizes?';
+                        this.stepInfo.content = 
+                            '<p> \
+                                1. Create a first batch of wheels.<br> \
+                                2. On summary page: duplicate your first batch.<br> \
+                                3. Edit the new batch to change the size but keep your design.<br> \
+                            </p>';
+                        break;
+                    case 5:
+                        this.stepInfo.head = 'One design in multiple sizes?';
+                        this.stepInfo.content =
+                            '<p> \
+                                1. Create a first batch of wheels.<br> \
+                                2. On summary page: duplicate your first batch.<br> \
+                                3. Edit the new batch to change the size but keep your design.<br> \
+                            </p>';
+                        break;
+                    case 6:
+                        this.stepInfo.head = 'Reduce waste?';
+                        this.stepInfo.content = 
+                            'You do not want to shrink wrap the wheels in plastic? We’ve got you! \
+                            <hr>\
+                            <p>\
+                                1. Select “pack as square”.<br>\
+                                2. Submit your order.<br>\
+                                3. Email us “pack wheels un-wrapped in bulk”.<br>\
+                            </p>';
+                        break;
+                    case 7:
+                        this.stepInfo.head = 'Custom Cardboard?';
+                        this.stepInfo.content = 'The minimum for a cardboard production is 1500 pcs. Each cardboard costs 0.35 USD, this means that if you select “cardboards” your total order price will increase by 525 USD. If you order less than 1500 sets of wheels, we will keep your left-over cardboards for your next order and up to one year after your previous order.  ';
+                        break;
+                    case 8:
+                        this.stepInfo.head = 'Changes required?';
+                        this.stepInfo.content = 'You can click on the steps in the left-side navigation to go back and change any specification of your skateboard wheels batch. Otherwise click “Summary”, to see all batches and edit your complete order of all products. ';
+                        break;
+                    default: 
+                        this.stepInfo.head = '';
+                        this.stepInfo.content = '';
+                }
+            },
             nextStep(){
                 this.$store.commit('changeStep', ++this.currentStep);
             },

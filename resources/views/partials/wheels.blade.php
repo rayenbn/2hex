@@ -76,7 +76,7 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <button type="button" class="m-btn btn btn-secondary">
+                    <button type="button" class="m-btn btn btn-secondary btn-dev">
                         <i class="la la-floppy-o"></i>
                     </button>
                     <a class="m-btn btn btn-secondary" href="{{route('wheels.configurator.show', $wheel->wheel_id)}}" title="Edit">

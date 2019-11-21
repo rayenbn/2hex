@@ -248,7 +248,7 @@
                             </div>
                             <br>
                             <div class="m-widget19__action">
-                                    <a href="skateboard-wheel-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                    <a href="skateboard-wheels-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
                                         <span>add wheels to order</span>
                                         <i class="la la-arrow-right"></i>

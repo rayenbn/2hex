@@ -15,6 +15,12 @@ $(document).ready(function(){
 			$('.m-tabs__link').eq(0).removeClass('active')
 			$('.m-tabs__link').eq(2).addClass('active')
 		}
+		if(sub == "#submitted_orders"){
+			$('#m_user_profile_tab_4').addClass('active');
+			$('#m_user_profile_tab_1').removeClass('active');
+			$('.m-tabs__link').eq(0).removeClass('active')
+			$('.m-tabs__link').eq(3).addClass('active')
+		}
 	}
 
 	$('.file-dropdown').click(function(){

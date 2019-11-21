@@ -794,7 +794,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 'image'   => $this->user ? $weight . ' KG' : '$?.??',
                 'batches' => '', 
                 'price'   => get_global_delivery($weight), 
-                'type'    => 'Global delivery'
+                'type'    => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
             ]);
         }
 

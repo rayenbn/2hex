@@ -262,7 +262,11 @@ trait WheelGenerator
                 if ($key === 'top_print' || $key === 'back_print') {
                     $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
                 } else if ($key === 'cardboard_print'){
-                    $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    }
                 } else if ($key === 'carton_print'){
                     $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
                 } else {

@@ -464,10 +464,10 @@ export default {
                 formData.append('price', getters.getPerSetPrice);
                 formData.append('total', getters.getPerSetPrice * state.quantity);
 
-                let path = '/skateboard-wheel-configurator';
+                let path = '/skateboard-wheels-configurator';
 
                 if (state.wheelId !== null) {
-                    path = `/skateboard-wheel-configurator/${state.wheelId}`;
+                    path = `/skateboard-wheels-configurator/${state.wheelId}`;
                 }
     
                 axios({

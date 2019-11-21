@@ -55,7 +55,7 @@
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
                     {{ (request()->is('skateboard-deck-configurator*') 
                         || request()->is('grip-tape-configurator*')
-                        || request()->is('skateboard-wheel-configurator*'))
+                        || request()->is('skateboard-wheels-configurator*'))
                         ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
                         : '' 
                     }}" 
