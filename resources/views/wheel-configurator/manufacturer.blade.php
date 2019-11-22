@@ -147,7 +147,7 @@
                                         Follow the notes on the right side, to learn how to best use the configurator.
                                     </p>
 
-                                    <a href="{{route('get.skateboard.configurator')}}">
+                                    <a href="{{route('wheels.configurator')}}">
                                         <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>
 
                                     <img alt="" src="/img/Wheels/2hex-skateboard-wheels-factory.jpg" style="width: 100%" />
