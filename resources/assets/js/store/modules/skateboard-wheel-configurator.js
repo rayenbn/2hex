@@ -294,7 +294,12 @@ export default {
     	},
         changeShape(state, payload) {
             state.shape = payload;
-            state.size = null;
+
+            // Selecting first size by default
+            Vue.nextTick(() => {
+                state.size = state.shape.sizes[0];
+                $("#shape_size").val(0).trigger('change');
+            });
         },
         changeSize(state, payload) {
             state.size = payload;
