@@ -11,7 +11,6 @@
             <th>Wheels Placement</th>
             <th>Cardboard Wrap</th>
             <th>Carton Print</th>
-            <th></th>
             <th>Set Price</th>
             <th>Batch Total</th>
 
@@ -24,7 +23,7 @@
        @foreach($wheels as $batch => $wheel)
 
         <tr>
-            <td>{{++$batch}}</td>
+            <td>Skateboard Wheels Batch #{{++$batch}}</td>
             <td>{{$wheel->quantity}}</td>
             <td>{{$wheel->type}}</td>
             <td>{{$wheel->shape}}</td>
@@ -55,7 +54,6 @@
                 <br>
                 colors: {{$wheel->cardboard_colors ?? ''}}
             </td>
-            <td></td>
             <td>{{ auth()->check() ? money_format('%.2n', $wheel->price) : '$?.??' }}</td>
             <td>{{ auth()->check() ? money_format('%.2n', $wheel->total) : '$?.??' }}</td>
 

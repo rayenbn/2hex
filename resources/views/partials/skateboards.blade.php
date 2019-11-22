@@ -1,11 +1,10 @@
     <thead style="background-color: #52a3f0; color: white;">
         <tr>
-            <th>Batch</th>
+            <th>Deck Batch</th>
             <th>Pcs</th>
             <th>Size</th>
             <th>Concave</th>
-            <th>Wood</th>
-            <th>Glue</th>
+            <th>Materials</th>
             <th>Print</th>
             <th>Top Engravery</th>
             <th>Veneer&nbspColors</th>
@@ -24,12 +23,23 @@
         @foreach($skateboards as $batch => $skateboard)
 
         <tr>
-            <td>{{++$batch}}</td>
+            <td>Skateboard Deck Batch #{{++$batch}}</td>
             <td>{{$skateboard->quantity}}</td>
             <td>{{$skateboard->size}}</td>
             <td>{{$skateboard->concave}}</td>
-            <td>{{$skateboard->wood}}</td>
-            <td>{{$skateboard->glue}}</td>
+            <td>
+                <div>
+                    <span style="margin-top: 15px; display: block;">
+                        {{$skateboard->wood}}<br>
+                    </span>
+                </div>
+                <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
+                <div>
+                    <span style="margin-top: 15px; display: block;">
+                        {{$skateboard->glue}}<br>
+                    </span>
+                </div>
+            </td>
             <td>
                 <div>
                     <span style="margin-top: 15px; display: block;">

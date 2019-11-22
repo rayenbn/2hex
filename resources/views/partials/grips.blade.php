@@ -1,6 +1,6 @@
     <thead style="background-color: #52a3f0; color: white;">
         <tr>
-            <th>Batch</th>
+            <th>Grip Batch</th>
             <th>Pcs</th>
             <th>Size</th>
             <th>Grip Color</th>
@@ -11,7 +11,6 @@
             <th>Backpaper</th>
             <th>Backpaper Print</th>
             <th>Carton Print</th>
-            <th></th>
             <th>Grip Price</th>
             <th>Batch&nbspTotal</th>
 
@@ -24,7 +23,7 @@
        @foreach($grips as $batch => $grip)
 
         <tr>
-            <td>{{++$batch}}</td>
+            <td>Griptape Batch #{{++$batch}}</td>
             <td>{{$grip->quantity}}</td>
             <td>{{$grip->size}}</td>
             <td>{{$grip->color}}</td>
@@ -50,7 +49,6 @@
                 <br>
                 {{$grip->carton_print_color ?? ''}}
             </td>
-            <td></td>
             <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
             <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
 
