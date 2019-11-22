@@ -9,6 +9,7 @@ class OrderSubmit extends Mailable
     use SerializesModels;
 
     public $data;
+    protected $invoiceNumber;
 
     public function __construct(array $data = [])
     {
@@ -29,19 +30,25 @@ class OrderSubmit extends Mailable
             $queryOrders->get(), $gripQuery->get(), $wheelQuery->get()
         ));
 
-        $invoiceNumber = $exporter->getInvoiceNumber();
+        $this->invoiceNumber = $exporter->getInvoiceNumber();
 
-        $queryOrders->update(['invoice_number' => $invoiceNumber]);
-        $gripQuery->update(['invoice_number'   => $invoiceNumber]);
+        $queryOrders->update(['invoice_number' => $this->invoiceNumber]);
+        $gripQuery->update(['invoice_number'   => $this->invoiceNumber]);
+        $wheelQuery->update(['invoice_number'  => $this->invoiceNumber]);
 
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->bcc('niklas@skateboard-factory.com', 'SBfactory')
             ->subject('2HEX Production Order Confirmation')
             ->attach($exporter->getPathInvoice(), [
-                'as' => $invoiceNumber . '.xlsx',
+                'as' => $this->invoiceNumber . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ])
             ->markdown('emails.orders.submit');
+    }
+
+    public function getInvoiceNumber()
+    {
+        return $this->invoiceNumber;
     }
 }
