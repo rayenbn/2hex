@@ -23,6 +23,10 @@ class OrdersuccessController extends Controller
      */
     public function index()
     {
-        return view('ordersuccess');
+        if (session()->has('invoiceNumber')) {
+            return view('ordersuccess');
+        }
+
+        return redirect()->route('summary');
     }
 }

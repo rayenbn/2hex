@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('dev', function() {});
-
 /**
  * Auth routes
  */
@@ -95,7 +93,7 @@ Route::get('/summary', 'SummaryController@index')->name('summary');
 Route::get('/summary/{id}', 'SummaryController@load');
 Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
-Route::get('/ordersuccess', 'OrdersuccessController@index');
+Route::get('/ordersuccess', 'OrdersuccessController@index')->name('ordersuccess');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index')->name('newsletter');
 Route::get('/samples','SamplesController@index')->name('samples');
@@ -113,7 +111,7 @@ Route::post('/grip-tape-configurator/{id}/copy', 'GripTapeConfigurator@copy')->n
 /**
  * WHEELS CONFIGURATOR
  */
-Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
+Route::group(['as' => 'wheels.'], function () {
     Route::get('/skateboard-wheels-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
     Route::get('/skateboard-wheels-configurator', 'WheelController@configurator')->name('configurator');
     Route::get('/skateboard-wheels-configurator/{id}', 'WheelController@show')->name('configurator.show');

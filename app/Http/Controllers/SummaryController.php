@@ -395,7 +395,14 @@ class SummaryController extends Controller
 
         $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels);
 
-        $model = $orders->count() ? $orders->first() : $grips->first();
+        if ($orders->count()) {
+            $model = $orders->first();
+
+        } else if ($grips->count()) {
+            $model = $grips->first();
+        } else {
+            $model =$wheels->first();
+        }
 
         $exporter->setInvoiceNumber($model->invoice_number);
 
@@ -413,7 +420,9 @@ class SummaryController extends Controller
         $queryGripTapes = GripTape::auth();
         $queryWheels = Wheel::auth();
 
-        Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
+        Mail::to(auth()->user())->send($mailer = new \App\Mail\OrderSubmit($info->toArray()));
+
+        $invoiceNumber = $mailer->getInvoiceNumber();
 
         $now = now();
 
@@ -435,9 +444,10 @@ class SummaryController extends Controller
             'usenow' => 0
         ]);
 
-        session()->flash('success', 'Your order has been successfully sent!'); 
+        session()->flash('success', 'Your order has been successfully sent!');
+        session()->flash('invoiceNumber', $invoiceNumber); 
 
-        return redirect()->route('profile', '#submitted_orders');
+        return redirect()->route('ordersuccess');
     }
 
     public function saveOrder(Request $request)

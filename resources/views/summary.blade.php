@@ -152,8 +152,8 @@
 								<tr>
 									<td colspan="3">Fixed Cost</td>
 									<td colspan="3">Batches</td>
-									<td colspan="1">Colors</td>
-									<td colspan="7">Filename</td>
+									<td colspan="2">Colors</td>
+									<td colspan="5">Filename</td>
 									<td>Fixed&nbspTotal</td>
 								</tr>
 						   	</thead>
@@ -163,8 +163,8 @@
                             		<tr>
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
-										<td colspan="1">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-										<td colspan="7">{{ $value['image'] }}</td>
+										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
+										<td colspan="5">{{ $value['image'] }}</td>
 										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 									</tr>
                             	@endforeach
@@ -175,11 +175,9 @@
 									$promocode = json_decode($orders->first()->promocode); 
 								@endphp
 								<tr>
-									<td colspan="3">Discount</td>
-									<td colspan="3"></td>
-									<td colspan="1"></td>
+									<td colspan="8">Discount</td>
 
-									<td colspan="8">{{ $promocode->code }}</td>
+									<td colspan="5">{{ $promocode->code }}</td>
 									<td>{{ $promocode->type == 'fixed' 
 										? money_format('-%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>

@@ -19,10 +19,17 @@ trait WheelGenerator
 
     protected function generateWheels()
     {
+        $offset = 1;
+
         if ($this->wheelsCount <= 0) return $this;
 
         // +1 If exists wheels
-        $this->offsetRows += 1;
+        if ($this->ordersCount == 0 && $this->gripsCount == 0) {
+            $this->offsetRows += 2;
+            $offset = 0;
+        } else {
+            $this->offsetRows += 1;
+        }
         
         $activeSheet = $this->getActiveSheet();
 
@@ -32,7 +39,7 @@ trait WheelGenerator
                 $this->rangeStart 
                 + ($this->ordersCount + $this->gripsCount) 
                 * self::ROWS_ITEM
-                + 1
+                + $offset
             )
         );
 

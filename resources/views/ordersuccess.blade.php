@@ -35,9 +35,13 @@
                                     <p>
 											<h2 style="color: #60bca4; font-size: 120%">YOUR PRODUCTION ORDER HAS BEEN SENT.</h2>
 									</p>
-
 											<p>
-												<b>Save your order number: 191122UZC</b>
+												@if(session()->has('invoiceNumber'))
+													<b>
+														Save your order number:
+														{{session()->get('invoiceNumber', '')}}
+													</b>
+												@endif
 											</p>
 											<br>
 
@@ -50,7 +54,7 @@
 												<br>
 
 
-												<a href="http://127.0.0.1:8002/profile#submitted_orders" class="btn btn-sm btn-success m-btn--pill  btn-success">
+												<a href="{{ route('profile', '#submitted_orders') }}" class="btn btn-sm btn-success m-btn--pill  btn-success">
                                     <span>
                                         <span>My Orders</span>
                                         <i class="la la-arrow-right"></i>
