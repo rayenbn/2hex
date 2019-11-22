@@ -6,18 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\{Order, GripTape};
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\RecalculateOrders;
+use App\Models\Wheel\Wheel;
 
 class ConfiguratorController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -67,7 +59,13 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->get(), 
+                GripTape::auth()->get(),
+                Wheel::auth()->where('submit', 0)->get()
+            )
+        );
 
         return 'success';
     }
@@ -134,7 +132,30 @@ class ConfiguratorController extends Controller
     {
         Order::where('id','=',$id)->delete();
 
-        dispatch(new RecalculateOrders(Order::auth()->get(), GripTape::auth()->get()));
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->get(), 
+                GripTape::auth()->get(),
+                Wheel::auth()->where('submit', 0)->get()
+            )
+        );
+
+        return redirect()->route('summary');
+    }
+
+    /**
+     * Copy SB deck by id
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function copy(int $id) : \Illuminate\Http\RedirectResponse
+    {
+        $deck = Order::query()->find($id);
+
+        $cloneDeck = $deck->replicate();
+        $cloneDeck->push();
 
         return redirect()->route('summary');
     }

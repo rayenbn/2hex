@@ -49,22 +49,22 @@ Route::group(['namespace' => 'Auth'], function () {
 /**
  * Backend routes
  */
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
+// Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
 
-    // Dashboard
-    Route::get('/', 'DashboardController@index')->name('dashboard');
+//     // Dashboard
+//     Route::get('/', 'DashboardController@index')->name('dashboard');
 
-    //Users
-    Route::get('users', 'UserController@index')->name('users');
-    Route::get('users/{user}', 'UserController@show')->name('users.show');
-    Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
-    Route::put('users/{user}', 'UserController@update')->name('users.update');
-    Route::get('users/{user}/delete', 'UserController@destroy')->name('users.delete');
-    Route::get('permissions', 'PermissionController@index')->name('permissions');
-    Route::get('permissions/{user}/repeat', 'PermissionController@repeat')->name('permissions.repeat');
-    Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
-    Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
-});
+//     //Users
+//     Route::get('users', 'UserController@index')->name('users');
+//     Route::get('users/{user}', 'UserController@show')->name('users.show');
+//     Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
+//     Route::put('users/{user}', 'UserController@update')->name('users.update');
+//     Route::get('users/{user}/delete', 'UserController@destroy')->name('users.delete');
+//     Route::get('permissions', 'PermissionController@index')->name('permissions');
+//     Route::get('permissions/{user}/repeat', 'PermissionController@repeat')->name('permissions.repeat');
+//     Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
+//     Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
+// });
 
 
 Route::get('/', 'HomeController@index')->name('index');
@@ -73,12 +73,15 @@ Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
+
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
-Route::get('/getdesign','ConfiguratorController@getdesign');
-Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete');
-Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
+Route::post('/skateboard-deck-configurator/{id}/copy', 'ConfiguratorController@copy')->name('copy.skateboard.configurator');
+Route::get('/skateboard-remove/{id}', 'ConfiguratorController@delete')->name('delete.skateboard.configurator');
 Route::post('/skateboard-deck-configurator', 'ConfiguratorController@store');
+
+Route::get('/getdesign','ConfiguratorController@getdesign');
+Route::post('/configurator-fileupload', 'ConfiguratorController@upload');
 
 Route::get('/skateboard-deck-manufacturer', 'ManufacturerController@index')->name('skateboard.manufacturer');
 Route::get('/export_csv','SummaryController@exportcsv')->name('export.invoice');
@@ -92,6 +95,7 @@ Route::get('/summary', 'SummaryController@index')->name('summary');
 Route::get('/summary/{id}', 'SummaryController@load');
 Route::get('/summary/view/{id}', 'SummaryController@view');
 Route::get('/imprint', 'ImprintController@index');
+Route::get('/ordersuccess', 'OrdersuccessController@index');
 Route::get('/affiliate','AffiliateController@index');
 Route::get('/newsletter','NewsController@index')->name('newsletter');
 Route::get('/samples','SamplesController@index')->name('samples');
@@ -104,6 +108,21 @@ Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('gript
 Route::post('/grip-tape-configurator', 'GripTapeConfigurator@store')->name('griptape.store');
 Route::get('/grip-tape-configurator/{id}', 'GripTapeConfigurator@show')->name('griptape.show');
 Route::get('/grip-tape-remove/{id}', 'GripTapeConfigurator@destroy')->name('griptape.destroy');
+Route::post('/grip-tape-configurator/{id}/copy', 'GripTapeConfigurator@copy')->name('griptape.copy');
+
+/**
+ * WHEELS CONFIGURATOR
+ */
+Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
+    Route::get('/skateboard-wheels-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
+    Route::get('/skateboard-wheels-configurator', 'WheelController@configurator')->name('configurator');
+    Route::get('/skateboard-wheels-configurator/{id}', 'WheelController@show')->name('configurator.show');
+    Route::post('/skateboard-wheels-configurator', 'WheelController@storeConfigurator')->name('configurator.store');
+    Route::post('/skateboard-wheels-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
+    Route::get('/skateboard-wheels-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
+    Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
+
+});
 
 /**
  * Membership

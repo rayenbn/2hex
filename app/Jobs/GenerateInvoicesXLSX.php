@@ -16,10 +16,11 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use App\Traits\WheelGenerator;
 
 class GenerateInvoicesXLSX implements ShouldQueue
 {
-    use Dispatchable, Queueable, SerializesModels;
+    use Dispatchable, Queueable, SerializesModels, WheelGenerator;
     /**
      * Path to template xlsx
      * String $pathTemplate
@@ -88,6 +89,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected $date;
 
+    protected $offsetRows = 0;
+    protected $totalCount = 0;
+    protected $ordersCount = 0;
+    protected $gripsCount = 0;
+    protected $wheelsCount = 0;
+
     /**
      * If some order contain promocode
      * boolean $hasPromocode
@@ -153,10 +160,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
         'pattern'       => 'Pattern Press',
     ];
 
-    public function __construct($orders, $grips)
+    public function __construct($orders, $grips, $wheels)
     {
         $this->orders = $orders;
         $this->grips = $grips;
+        $this->wheels = $wheels;
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
         $this->spreadsheet = IOFactory::createReader('Xlsx')->load($this->pathTemplate);
@@ -165,6 +173,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->writer = new Xlsx($this->getSpreadsheet());
         $this->drawing = new Drawing();
         $this->date = time();
+        $this->ordersCount = $this->getCountOrders();
+        $this->gripsCount = $this->getCountGrips();
+        $this->wheelsCount = $this->getCountWheels();
+        $this->totalCount = $this->ordersCount + $this->gripsCount + $this->wheelsCount;
     }
     /**
      * Execute the job.
@@ -176,6 +188,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this
             ->generateOrders()
             ->generateGrips()
+            ->generateWheels()
             ->setDeliveryCells()
             ->setDiscountRow()
             ->setDafaultStyles()
@@ -219,6 +232,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected function generateOrders()
     {
+        if ($this->ordersCount <= 0) return $this;
+
+        // +1 If exists orders
+        $this->offsetRows += 1;
+
         $activeSheet = $this->getActiveSheet();
         // Insert head Grip Tapes
         $activeSheet->setCellValue('C' . 17, 'Quantity');
@@ -328,9 +346,14 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected function generateGrips()
     {
+        if ($this->gripsCount <= 0) return $this;
+
+        // +1 If exists grips
+        $this->offsetRows += 1;
+
         $activeSheet = $this->getActiveSheet();
         // Insert head Grip Tapes
-        $activeSheet->insertNewRowBefore($gripRowStart = ($this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM));
+        $activeSheet->insertNewRowBefore($gripRowStart = ($this->rangeStart + $this->ordersCount * self::ROWS_ITEM));
         $activeSheet->setCellValue('C' . $gripRowStart, 'Quantity');
         $activeSheet->setCellValue('D' . $gripRowStart, 'Size');
         $activeSheet->setCellValue('E' . $gripRowStart, 'Grip Color');
@@ -345,8 +368,6 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $activeSheet->setCellValue('N' . $gripRowStart, 'Total of Row');
 
         $gripRowStart += 1; // after head row
-
-        if ($this->getCountGrips() <= 0) return $this;
 
         $this->grips->map(function(GripTape $grip, $index) use ($gripRowStart, $activeSheet) {
 
@@ -411,7 +432,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $range = sprintf(
             'C%s:N%s', 
             $gripRowStart,
-            $gripRowStart + ($this->getCountGrips() * self::ROWS_ITEM) - 1
+            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM) - 1
         ); 
 
         $styles = $this->getStylesRange($range);
@@ -435,7 +456,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $rangeCurrency = sprintf(
             'M%s:N%s', 
             $gripRowStart,  
-            $gripRowStart + ($this->getCountGrips() * self::ROWS_ITEM)
+            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM)
         );
         // set currency format for cells
         $this->getStylesRange($rangeCurrency)
@@ -457,12 +478,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $range = sprintf(
             'C%s:N%s', 
             $this->rangeStart,  
-            $this->rangeStart + ($this->orders->count() * self::ROWS_ITEM)
+            $this->rangeStart + ($this->ordersCount * self::ROWS_ITEM)
         ); 
         $rangeCurrency = sprintf(
             'M%s:N%s', 
             $this->rangeStart,  
-            $this->rangeStart + ($this->orders->count() * self::ROWS_ITEM)
+            $this->rangeStart + ($this->ordersCount * self::ROWS_ITEM)
         );
         // set currency format for cells
         $this->getStylesRange($rangeCurrency)
@@ -488,7 +509,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $bottomStyles = $this->getStylesRange(
             sprintf(
                 'C%s:N%s', 
-                $rangeWithOrders = $this->rangeStart + $this->getCountOrders() * self::ROWS_ITEM, 
+                $rangeWithOrders = $this->rangeStart + $this->ordersCount * self::ROWS_ITEM, 
                 $rangeWithOrders
             )
         );
@@ -560,16 +581,17 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue(
                 sprintf('L%s', 
                     $startTotal = $this->rangeStart 
-                    + ($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM + 2 + ($this->hasPromocode ? 1 : 0)
+                    + $this->totalCount 
+                    * self::ROWS_ITEM 
+                    + $this->offsetRows 
+                    + ($this->hasPromocode ? 1 : 0)
                     + $this->countFees + 2
                 ), 
                 'Final amount in USD:'
             )
             ->setCellValue(
-                sprintf('N%s', 
-                    $startTotal
-                ), 
-                $this->finalAmount += $this->orders->sum('total') + $this->grips->sum('total') - $this->rewardPromocode
+                sprintf('N%s', $startTotal), 
+                $this->finalAmount += $this->orders->sum('total') + $this->grips->sum('total') + $this->wheels->sum('total') - $this->rewardPromocode
             );
 
         // Total styles
@@ -589,7 +611,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 ->setCellValue(
                     sprintf('C%s', 
                         $shipsStart = $this->rangeStart 
-                            + ($this->getCountOrders() + $this->getCountGrips())* self::ROWS_ITEM + 1 
+                            + $this->totalCount 
+                            * self::ROWS_ITEM 
+                            + $this->offsetRows 
                             + $this->countFees + 5
                     ), 
                     'Company Name: ' . $shipinfo->shipping_company
@@ -629,7 +653,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         }, 0);
 
         // total weight
-        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT)  + $gripWeight;
+        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT)  + $gripWeight + $this->getWheelsWeight();
 
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {
@@ -761,14 +785,16 @@ class GenerateInvoicesXLSX implements ShouldQueue
             }
         }
 
+        $this->calculateWheelFixCost($fees);
+
         // Set Global delivery
-        if ($this->getCountOrders() || $this->getCountGrips()) {
+        if ($this->ordersCount || $this->gripsCount || $this->wheelsCount) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image'   => $this->user ? $weight . ' KG' : '$?.??',
                 'batches' => '', 
                 'price'   => get_global_delivery($weight), 
-                'type'    => 'Global delivery'
+                'type'    => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
             ]);
         }
 
@@ -797,7 +823,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
-                $startDelivery = $this->rangeStart + (($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM) + 2, 
+                $startDelivery = $this->rangeStart + $this->totalCount * self::ROWS_ITEM + $this->offsetRows, 
                 $this->countFees = $this->calculateFees($orderFees)
             ); 
 
@@ -859,7 +885,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         $activeSheet
             ->insertNewRowBefore(
-                $start = $this->rangeStart + ($this->getCountOrders() + $this->getCountGrips()) * self::ROWS_ITEM + $this->countFees + 2, 
+                $start = $this->rangeStart 
+                    + $this->totalCount 
+                    * self::ROWS_ITEM 
+                    + $this->countFees 
+                    + $this->offsetRows, 
                 1 // + 1 row
             );
         $activeSheet->mergeCells(sprintf('C%s:I%s', $start, $start));

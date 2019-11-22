@@ -1,3 +1,4 @@
+const workboxPlugin = require('workbox-webpack-plugin');
 let mix = require('laravel-mix');
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -139,6 +140,13 @@ let mix = require('laravel-mix');
  */
 
  mix.webpackConfig({
+    plugins: [
+        new workboxPlugin.InjectManifest({
+            swSrc: "public/sw-offline.js",
+            swDest: "sw.js",
+            importsDirectory: 'service-worker' // have a dedicated folder for sw files
+        })
+    ],
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
@@ -162,6 +170,7 @@ mix.styles([
     'public/css/style.css',
 ], 'public/css/all.css');
 
+mix.sass('resources/assets/sass/app.scss', 'public/mix/css');
 
  mix.scripts([
     'public/asset/vendors/base/vendors.bundle.js',

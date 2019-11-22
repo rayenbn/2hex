@@ -143,7 +143,9 @@ if (!function_exists('get_global_delivery')) {
             case ($weight > 13   && $weight <= 26): return 52;
             case ($weight > 26   && $weight <= 39): return 90;
             case ($weight > 39   && $weight <= 65): return 450;
-            case ($weight > 65   && $weight <= 130): return 650;
+            case ($weight > 65   && $weight <= 80): return 482;
+            case ($weight > 80   && $weight <= 110): return 600;
+            case ($weight > 110   && $weight <= 130): return 650;
             case ($weight > 130  && $weight <= 260): return 800;
             case ($weight > 260  && $weight <= 390): return 900;
             case ($weight > 390  && $weight <= 650): return 1100;

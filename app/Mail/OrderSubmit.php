@@ -2,7 +2,7 @@
 namespace App\Mail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\{Order, GripTape};
+use App\Models\{Order, GripTape, Wheel\Wheel};
 
 class OrderSubmit extends Mailable
 {
@@ -23,8 +23,11 @@ class OrderSubmit extends Mailable
     {
         $queryOrders = Order::auth();
         $gripQuery = GripTape::auth();
+        $wheelQuery = Wheel::auth();
 
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
+            $queryOrders->get(), $gripQuery->get(), $wheelQuery->get()
+        ));
 
         $invoiceNumber = $exporter->getInvoiceNumber();
 

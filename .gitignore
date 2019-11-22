@@ -1,6 +1,8 @@
 !.gitkeep
 
 data/
+public/service-worker/*
+public/sw.js
 
 # Laravel, nodeJS, Bower, Gulp exclusions, Composer exclusions
 .htaccess

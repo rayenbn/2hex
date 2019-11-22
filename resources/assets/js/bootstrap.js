@@ -13,3 +13,9 @@ if (csrf_token) {
     	"CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
   	);
 }
+
+if ("serviceWorker" in navigator){
+	window.addEventListener("load", () => {
+		navigator.serviceWorker.register("/sw.js");
+	})
+}

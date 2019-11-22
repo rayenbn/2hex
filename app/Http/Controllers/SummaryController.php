@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape};
+use App\Models\{Order, GripTape, Wheel\Wheel};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -62,14 +62,26 @@ class SummaryController extends Controller
     {
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
+        $wheelQuery = Wheel::auth();
+        $fees = [];
+        $sum_fees = 0;
+
+        // Set wheel fix cost to main fees array
+        $this->calculateWheelFixCost($fees);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
         }, 0);
 
+        $wheelWeight = $wheelQuery
+            ->selectRaw('SUM(quantity * ?) as weight')
+            ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
+            ->first()
+            ->weight;
+
         // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight;
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -88,14 +100,11 @@ class SummaryController extends Controller
             })
             ->toArray();
 
-        $fees = [];
-        $sum_fees = 0;
 
         foreach ($orders as $index => $order) {
             $index += 1;
             foreach ($order as $key => $value) {
                 if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
-
                 // If same design
                 if (array_key_exists($key, $fees)) {
                     if (array_key_exists($value, $fees[$key])) {
@@ -183,13 +192,13 @@ class SummaryController extends Controller
         }
 
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
                 'batches' => '', 
                 'price' => get_global_delivery($weight), 
-                'type' => 'Global delivery'
+                'type' => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
             ]);
         }
 
@@ -201,7 +210,7 @@ class SummaryController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -225,12 +234,111 @@ class SummaryController extends Controller
         return view('summary', compact('fees', 'totalOrders'));
     }
 
+    /**
+     * Calculate fix cost for active wheels
+     *
+     * @param array $fees
+     *
+     * @return void
+     */
+    protected function calculateWheelFixCost(array &$fees)
+    {
+        $wheelQuery = Wheel::auth();
+
+        // Fetching all desing by orders
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+        $feesTypes = [
+            'top_print' => [
+                'name' => 'SB Wheel Top Print',
+            ],
+            'back_print' => [
+                'name' => 'SB Wheel Back Print',
+            ],
+            'cardboard_print' => [
+                'name' => ' SB Wheel Cardboard Print',
+            ],
+            'carton_print' => [
+                'name' => 'SB Wheel Carton Print',
+            ],
+        ];
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+            foreach ($wheel as $key => $value) {
+                if (!array_key_exists($key,  $feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                $wheelKey = 'wheel_' . $key;
+
+                // If same design
+                if (array_key_exists($wheelKey, $fees)) {
+                    if (array_key_exists($value, $fees[$wheelKey])) {
+                        $fees[$wheelKey][$value]['batches'] .= ",{$index}";
+                        $fees[$wheelKey][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+
+                $fees[$wheelKey][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_colors', $wheel)) {
+                    switch ($wheel[$key . '_colors']) {
+                        case '1 color':
+                            $fees[$wheelKey][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$wheelKey][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$wheelKey][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$wheelKey][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                if ($key === 'top_print' || $key === 'back_print') {
+                    $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'cardboard_print') {
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    }
+                } else if ($key === 'carton_print'){
+                    $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
+                } else {
+                    $fees[$wheelKey][$value]['price'] = 0;
+                }
+            }
+        }
+    }
+
     public function exportcsv()
     {
         $queryOrders = Order::auth();
         $gripQuery = GripTape::auth();
+        $wheelQuery = Wheel::auth();
 
-        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX($queryOrders->get(), $gripQuery->get()));
+        // TODO add wheels to invoice
+
+        dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
+            $queryOrders->get(), 
+            $gripQuery->get(), 
+            $wheelQuery->get()
+        ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
 
@@ -246,9 +354,11 @@ class SummaryController extends Controller
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        Wheel::auth()->update($save_data);
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $wheels = Wheel::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -268,10 +378,22 @@ class SummaryController extends Controller
             GripTape::insert($array);
         }
 
+        for($i = 0; $i < count($wheels); $i ++){
+            unset($wheels[$i]['wheel_id']);
+            unset($wheels[$i]['saved_date']);
+            unset($wheels[$i]['usenow']);
+            unset($wheels[$i]['submit']);
+            $array = json_decode(json_encode($wheels[$i]), true);
+            Wheel::insert($array);
+        }
+
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
+        $wheels = Wheel::auth()->get();
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips);
+        // TODO add wheels to invoice
+
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels);
 
         $model = $orders->count() ? $orders->first() : $grips->first();
 
@@ -289,6 +411,7 @@ class SummaryController extends Controller
         $info = ShipInfo::auth()->select('invoice_name')->first(); 
         $queryOrders = Order::auth();
         $queryGripTapes = GripTape::auth();
+        $queryWheels = Wheel::auth();
 
         Mail::to(auth()->user())->send(new \App\Mail\OrderSubmit($info->toArray()));
 
@@ -306,9 +429,15 @@ class SummaryController extends Controller
             'usenow' => 0
         ]);
 
+        $queryWheels->update([
+            'submit' => 1,
+            'saved_date' => $now,
+            'usenow' => 0
+        ]);
+
         session()->flash('success', 'Your order has been successfully sent!'); 
 
-        return redirect()->route('summary');
+        return redirect()->route('profile', '#submitted_orders');
     }
 
     public function saveOrder(Request $request)
@@ -323,7 +452,8 @@ class SummaryController extends Controller
         }
 
         $data = Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
-        $grips = GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
+        $grips = GripTape::where('created_by', '=', $created_by)->where('usenow', '=', 1)->get();
+        $wheels = Wheel::auth()->get();
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
@@ -331,6 +461,7 @@ class SummaryController extends Controller
 
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        Wheel::auth()->update($save_data);
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -345,6 +476,13 @@ class SummaryController extends Controller
             unset($grips[$i]['saved_date']);
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
+        }
+
+        for($i = 0; $i < count($wheels); $i ++){
+            unset($wheels[$i]['wheel_id']);
+            unset($wheels[$i]['saved_date']);
+            $array = json_decode(json_encode($wheels[$i]), true);
+            Wheel::insert($array);
         }
 
         return redirect()->route('summary');   
@@ -363,9 +501,11 @@ class SummaryController extends Controller
         }
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        Wheel::auth()->update($save_data);
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -383,6 +523,15 @@ class SummaryController extends Controller
             unset($grips[$i]['submit']);
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
+        }
+
+        for($i = 0; $i < count($wheels); $i ++){
+            unset($wheels[$i]['wheel_id']);
+            unset($wheels[$i]['saved_date']);
+            unset($wheels[$i]['usenow']);
+            unset($wheels[$i]['submit']);
+            $array = json_decode(json_encode($wheels[$i]), true);
+            Wheel::insert($array);
         }
 
         return redirect()->route('summary');   
@@ -401,9 +550,11 @@ class SummaryController extends Controller
         }
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        Wheel::auth()->update($save_data);
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -422,6 +573,15 @@ class SummaryController extends Controller
             GripTape::insert($array);
         }
 
+        for($i = 0; $i < count($wheels); $i ++){
+            unset($wheels[$i]['wheel_id']);
+            unset($wheels[$i]['saved_date']);
+            unset($wheels[$i]['usenow']);
+            unset($wheels[$i]['submit']);
+            $array = json_decode(json_encode($wheels[$i]), true);
+            Wheel::insert($array);
+        }
+
         return redirect()->route('summary')->with(['viewonly'=>1]);   
     }
     public function removeOrder($id)
@@ -434,6 +594,7 @@ class SummaryController extends Controller
         }
         Order::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         GripTape::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        Wheel::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
 
         return redirect()->route('profile');
     }

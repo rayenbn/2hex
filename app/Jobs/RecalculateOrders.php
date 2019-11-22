@@ -14,6 +14,7 @@ class RecalculateOrders
 
     protected $orders;
     protected $griptapes;
+    protected $wheels;
 
     protected $totalQuantity;
 
@@ -24,11 +25,43 @@ class RecalculateOrders
         '11" x 720"' => 39,
     ];
 
-    public function __construct($orders, $griptapes)
+    public function __construct($orders, $griptapes, $wheels)
     {
         $this->orders = $orders;
         $this->griptapes = $griptapes;
+        $this->wheels = $wheels;
         $this->totalQuantity = $this->orders->sum('quantity');
+    }
+
+    /** 
+     * Calculate total sum and total quantity for seesion
+     *
+     * @return array
+     */
+    protected function calculateTotals()
+    {
+        $auth = auth()->id();
+
+        if (empty($auth)) {
+            $auth = csrf_token();
+        } 
+
+        $auth = (string) $auth;
+
+        $bindings = array_fill(0, 3, $auth);
+
+        $result = (array) \DB::select(\DB::raw('
+            SELECT IFNULL(SUM(sumTable.total), 0) AS total, IFNULL(SUM(sumTable.quantity), 0) AS quantity
+            FROM (
+                SELECT total, quantity FROM orders WHERE created_by = ? AND usenow = 1 AND submit = 0
+                UNION ALL
+                SELECT total, quantity FROM grip_tapes WHERE created_by = ? AND usenow = 1 AND submit = 0
+                UNION ALL
+                SELECT total, quantity FROM wheels WHERE created_by = ? AND usenow = 1 AND submit = 0
+            ) sumTable 
+        '), $bindings)[0];
+
+        return (array) $result;
     }
 
     /**
@@ -38,6 +71,8 @@ class RecalculateOrders
      */
     public function handle()
     {
+        $totals = $this->calculateTotals();
+
         $deckPrice = 0;
 
         $this->orders->map(function($order) use ($deckPrice){
@@ -57,6 +92,12 @@ class RecalculateOrders
                 'total' => (float) ($price * $griptape->quantity)
             ]);
         });
+
+        $wheels = new RecalculateWheels($this->wheels);
+        $wheels->setTotalSum($totals['total']);
+        $wheels->setTotalQuantity($totals['quantity']);
+        $wheels->recalculate();
+
 
         $this->updatePromocode();
     }

@@ -35,6 +35,16 @@
                 </a>
             </li>
 
+            <li class="m-menu__item  {{ request()->routeIs('wheels.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('wheels.manufacturer') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-box"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">add Wheels</span>
+                        </span>
+                    </span>
+                </a>
+            </li>
 
 
             <li class="m-menu__section ">
@@ -43,7 +53,9 @@
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
-                    {{ (request()->is('skateboard-deck-configurator*') || request()->is('grip-tape-configurator*'))
+                    {{ (request()->is('skateboard-deck-configurator*') 
+                        || request()->is('grip-tape-configurator*')
+                        || request()->is('skateboard-wheels-configurator*'))
                         ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
                         : '' 
                     }}" 
@@ -112,8 +124,37 @@
                         </li>
 
                         @endforeach
+
+                        @foreach($wheels as $key => $wheel)
                         
-                        @if ($orders->count() == 0 && $grips->count() == 0)
+                        <li 
+
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
+                            {{ (route('wheels.configurator.show', $wheel->wheel_id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}" 
+
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Wheel Batch {{++$key}}</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <!-- Steps vue -->
+                                <steps 
+                                    :path="{{ json_encode(route('wheels.configurator.show', $wheel->wheel_id)) }}"
+                                    type="wheel"
+                                />
+                            </div>
+                        </li>
+
+                        @endforeach
+                        
+                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>
@@ -173,6 +214,32 @@
                         </li>
 
                         @endif
+
+                        @if (request()->routeIs('wheels.configurator'))
+
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                    Wheel Batch {{ $wheels->count() ? $wheels->count() + 1 : 1}}
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+
+                                <!-- Steps vue -->
+                                <steps type="wheel"/>
+                            </div>
+                        </li>
+
+                        @endif
                         
                         <li id="btn-add-batch" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
                             <a href="{{ route('skateboard.manufacturer') }}" class="m-menu__link m-menu__toggle">
@@ -214,7 +281,7 @@
                         $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total'));
                     @endphp
                     <span class="m-menu__link-text" id = "totalconprice">
-                        TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}
+                        USD TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}
                     </span>
                 </a>
             </li>

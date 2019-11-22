@@ -9,6 +9,9 @@
 @endpush
 
 @section('content')
+
+    @php $isAdmin = auth()->check() && auth()->user()->isAdmin(); @endphp
+
     <!-- Start Content -->
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -109,11 +112,12 @@
                                             </div>
                                         </div>
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
-
+                                        
+                                        @if($isAdmin)
                                         <div class="form-group m-form__group row">
-                                        <div class="col-10 ml-auto">
-                                            <h3 class="m-form__section">Saved Batches</h3>
-                                        </div>
+                                            <div class="col-10 ml-auto">
+                                                <h3 class="m-form__section">Saved Batches</h3>
+                                            </div>
 
                                             <table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
                                                 <thead style="background-color: #52a3f0; color: white;">
@@ -244,6 +248,7 @@
                                             &nbsp &nbsp
                                             <a href="skateboard-remove/" class="btn btn-outline-danger">Delete</a>
                                         </div>
+                                        @endif
 
                                     </div>
                                 </form>
@@ -307,7 +312,8 @@
                                             </div>
                                         </div>
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
-
+                                        
+                                        @if($isAdmin)
                                         <!--Begin::Portlet-->
                                         <div class="m-portlet  m-portlet--full-height ">
                                             <div class="m-portlet__head">
@@ -406,8 +412,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <!--End::Portlet-->
+                                        @endif
 
 
                                     </div>
