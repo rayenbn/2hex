@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('dev', function() {});
-
 /**
  * Auth routes
  */
@@ -113,7 +111,7 @@ Route::post('/grip-tape-configurator/{id}/copy', 'GripTapeConfigurator@copy')->n
 /**
  * WHEELS CONFIGURATOR
  */
-Route::group(['as' => 'wheels.', 'middleware' => 'admin'], function () {
+Route::group(['as' => 'wheels.'], function () {
     Route::get('/skateboard-wheels-manufacturer', 'WheelController@manufacturer')->name('manufacturer');
     Route::get('/skateboard-wheels-configurator', 'WheelController@configurator')->name('configurator');
     Route::get('/skateboard-wheels-configurator/{id}', 'WheelController@show')->name('configurator.show');
