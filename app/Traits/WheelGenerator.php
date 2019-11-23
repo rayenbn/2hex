@@ -223,6 +223,9 @@ trait WheelGenerator
             'carton_print' => [
                 'name' => 'SB Wheel Carton Print',
             ],
+            'shape_print' => [
+                'name' => 'SB Wheel Сustom Shape',
+            ],
         ];
 
         foreach ($wheels as $index => $wheel) {
@@ -276,6 +279,8 @@ trait WheelGenerator
                     }
                 } else if ($key === 'carton_print'){
                     $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
+                } else if ($key === 'shape_print'){
+                    $fees[$wheelKey][$value]['price'] = 2000;
                 } else {
                     $fees[$wheelKey][$value]['price'] = 0;
                 }
