@@ -180,6 +180,16 @@ export default {
             let shapeIndex = state.shapes.findIndex(shape => shape.name == payload.shape);
             state.shape = state.shapes[shapeIndex];
 
+            if (state.shape && state.shape.is_custom) {
+                Vue.nextTick(() => {
+                    let input = document.getElementById('step-2-upload');
+                    input.nextElementSibling.innerHTML = payload.shape_print;
+                    input.nextElementSibling.classList.remove("unchecked");
+                    input.nextElementSibling.classList.add("checked");
+                    document.getElementById('step-2-recent').innerHTML = payload.shape_print;
+                });
+            }
+
             let shapeSizeIndex = state.shape.sizes.findIndex(size => size.size == payload.size);
 
             Vue.nextTick(() => {
