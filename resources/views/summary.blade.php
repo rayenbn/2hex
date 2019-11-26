@@ -105,8 +105,8 @@
 						  			Add Decks
 						  		</a>
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
-									Add Wheel
-								</a>s
+									Add Wheels
+								</a>
 						  		@if($isAdmin)
 									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 										Saved Batches

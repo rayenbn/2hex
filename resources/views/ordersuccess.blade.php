@@ -91,10 +91,8 @@
 											</p>
 
 											<p>
-												<b>Can I pay by PayPal, Visa...?</b><br>
-												We only accept bank wire transfers. PayPal or Credit Cards subtract up to 7% of the transferred amount for international transactions before the payment arrives on our account. If we were to offer these payment
-												options, we would have to increase our price by 7% to cover these fees. That would be 700 USD more if you order for 10.000 USD. We believe that you rather work with your bank
-												than pay 700 USD more for your production.
+												<b>How can I cancel my order?</b><br>
+												If you do not pay for your production within two weeks, your order will be automatically cancelled.
 											</p>
 
 											<p>
@@ -118,7 +116,8 @@
 												<b>I have questions, how can I reach you?</b><br>
 												Due to international time differences it is easiest to email us.
 												Please add your phone number and country / city, so that we can call you back during your day time.<br>
-												<img src="/img/ma.png" width="20%">
+												<br>
+												<img src="/img/ma.png" width="160en">
 											</p>
 
  </div>
