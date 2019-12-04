@@ -1,5 +1,8 @@
 !.gitkeep
 
+.vscode/
+.editorconfig
+
 data/
 public/service-worker/*
 public/sw.js

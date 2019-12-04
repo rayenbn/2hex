@@ -100,7 +100,6 @@ Route::get('/samples','SamplesController@index')->name('samples');
 Route::get('/about','AboutController@index')->name('about');
 Route::get('/skateboardfaq','SkateboardFAQController@index')->name('skateboardfaq');
 Route::get('/invest','investController@index')->name('invest');
-Route::get('/other','otherController@index')->name('other');
 
 Route::get('/skateboard-griptape-manufacturer', 'GripTapeConfigurator@manufacturer')->name('griptape.manufacturer');
 Route::get('/grip-tape-configurator', 'GripTapeConfigurator@index')->name('griptape.index');
@@ -121,6 +120,14 @@ Route::group(['as' => 'wheels.'], function () {
     Route::get('/skateboard-wheels-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
     Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
 
+});
+
+/**
+ * HEAT TRANSFERS CONFIGURATOR
+ */
+Route::group(['as' => 'heat-transfer.'], function () {
+    Route::get('/skateboard-heat-transfer-manufacturer', 'HeatTransferController@manufacturer')->name('manufacturer');
+    Route::get('/skateboard-heat-transfer-configurator', 'HeatTransferController@configurator')->name('configurator');
 });
 
 /**
@@ -145,9 +152,3 @@ Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
-
-
-
-
-
-
