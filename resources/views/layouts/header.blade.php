@@ -7,14 +7,11 @@
             <div class="m-stack__item m-brand  m-brand--skin-dark ">
                 <div class="m-stack m-stack--ver m-stack--general">
 
-
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="/" class="m-brand__logo-wrapper">
                             <img alt="" src="{{asset('img/2HEXlogo.png')}}"/>
                         </a>
                     </div>
-
-
 
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
 
@@ -49,15 +46,15 @@
                 <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
                 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
 
-
                     <ul class="m-menu__nav">
                         <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel">
                             <span class="m-menu__link-text">
-                                    <h1><p style="font-size:50%; color:#686c7a; padding-top: 15px;">2HEX Skateboard Manufacturer</p></h1></span>
+                                <h1><p style="font-size:50%; color:#686c7a; padding-top: 15px;">2HEX Skateboard Manufacturer</p></h1>
+                            </span>
+                        </li>
+                    </ul>
 
                 </div>
-
-
 
                 <!-- END: Horizontal Menu -->
 
@@ -69,11 +66,11 @@
                                 m-dropdown-toggle="click">
                                 @if (Auth::user())
                                 <a href="#" class="m-nav__link m-dropdown__toggle">
-                                                                                             
+
                                      <span class="m-topbar__userpic">
-                                         <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">{{Auth::user()->name}}</span>
+                                         <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">{{Auth::user()->name}}
+                                         </span>
                                      </span>
-                                                                                     
                                  </a>
 
                                 <div class="m-dropdown__wrapper">
@@ -82,7 +79,6 @@
                                         <div class="m-dropdown__header m--align-center" style="background: url(img/back.jpg); background-size: cover;">
                                             <div class="m-card-user m-card-user--skin-dark">
                                                 <div class="m-card-user__pic">
-
 
                                                 </div>
                                                 <div class="m-card-user__details">
@@ -101,10 +97,10 @@
                                                         <a href="/profile#my_detail" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                             <span class="m-nav__link-title">
-                                                                         <span class="m-nav__link-wrap">
-                                                                             <span class="m-nav__link-text">My Profile</span>
-                                                                         </span>
-                                                                     </span>
+                                                                 <span class="m-nav__link-wrap">
+                                                                     <span class="m-nav__link-text">My Profile</span>
+                                                                 </span>
+                                                            </span>
                                                         </a>
                                                     </li>
 
@@ -112,10 +108,10 @@
                                                         <a href="/profile#invoice_address" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-map-location"></i>
                                                             <span class="m-nav__link-title">
-                                                                         <span class="m-nav__link-wrap">
-                                                                             <span class="m-nav__link-text">Address</span>
-                                                                         </span>
-                                                                     </span>
+                                                                 <span class="m-nav__link-wrap">
+                                                                     <span class="m-nav__link-text">Address</span>
+                                                                </span>
+                                                            </span>
                                                         </a>
                                                     </li>
 
@@ -123,10 +119,10 @@
                                                         <a href="/profile#saved_orders" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-symbol"></i>
                                                             <span class="m-nav__link-title">
-                                                                         <span class="m-nav__link-wrap">
-                                                                             <span class="m-nav__link-text">Saved Orders</span>
-                                                                         </span>
-                                                                     </span>
+                                                                 <span class="m-nav__link-wrap">
+                                                                     <span class="m-nav__link-text">Saved Orders</span>
+                                                                 </span>
+                                                            </span>
                                                         </a>
                                                     </li>
 
@@ -134,10 +130,10 @@
                                                         <a href="/profile#submitted_orders" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-file"></i>
                                                             <span class="m-nav__link-title">
-                                                                         <span class="m-nav__link-wrap">
-                                                                             <span class="m-nav__link-text">Submitted Orders</span>
-                                                                         </span>
-                                                                     </span>
+                                                                 <span class="m-nav__link-wrap">
+                                                                     <span class="m-nav__link-text">Submitted Orders</span>
+                                                                 </span>
+                                                            </span>
                                                         </a>
                                                     </li>
 
@@ -145,17 +141,17 @@
                                                         <a href="/profile" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-delete"></i>
                                                             <span class="m-nav__link-title">
-                                                                         <span class="m-nav__link-wrap">
-                                                                             <span class="m-nav__link-text">Delete Current Order</span>
-                                                                         </span>
-                                                                     </span>
+                                                                 <span class="m-nav__link-wrap">
+                                                                     <span class="m-nav__link-text">Delete Current Order</span>
+                                                                 </span>
+                                                            </span>
                                                         </a>
                                                     </li>
 
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="{{route('logout')}}" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
+                                                        <a href="{{route('logout')}}" class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -164,28 +160,27 @@
                                 </div>
                                 @else
                                 <li class="m-nav__item">
-                                <a href="/register" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
+                                    <a href="/register" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
 
-                                             <span class="m-topbar__userpic">
-                                                 <span class="btn m-btn--pill btn-danger m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Register</span>
-                                             </span>
-                                </a>
+                                         <span class="m-topbar__userpic">
+                                             <span class="btn m-btn--pill btn-danger m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Register</span>
+                                         </span>
+                                    </a>
                                 </li>
 
                                 <li class="m-nav__item">
                                     <a href="/login" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
 
                                         <span class="m-topbar__userpic">
-                                                 <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login</span>
-                                             </span>
+                                             <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Login</span>
+                                        </span>
                                     </a>
                                 </li>
-
 
                                 @endif 
                             </li>
                             <li id="m_quick_sidebar_toggle" class="m-nav__item">
-                                <a   class="m-nav__link m-dropdown__toggle">
+                                <a class="m-nav__link m-dropdown__toggle">
                                     <span class="m-nav__link-icon"><i class="flaticon-chat"></i></span>
                                 </a>
                             </li>

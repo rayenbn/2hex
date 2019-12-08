@@ -9,12 +9,19 @@ export default {
         getHeatTransferSize: state => state.size,
     },
     mutations: {
-        setQuantity(state, payload) {
+        changeQuantity(state, payload) {
             state.quantity = payload;
         },
-        setSize(state, payload) {
+        changeSize(state, payload) {
             state.size = payload;
         }
     },
-    actions: {}
+    actions: {
+        setQuantity: ({ commit }, payload) => {
+            commit('changeQuantity', payload)
+        },
+        setSize: ({ commit }, payload) => {
+            commit('changeSize', payload)
+        }
+    }
 };
