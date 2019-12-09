@@ -42,7 +42,12 @@
                             >
                                 <div class="m-portlet__body">
 
-                                    <heat-transfer-step-1 />
+                                    <heat-transfer-step-1
+                                        :quantity="quantity"
+                                        :size='size'
+                                        @quantityChange="quantityChange"
+                                        @sizeChange="sizeChange"
+                                    />
                                     <heat-transfer-step-2 />
 
                                 </div>
@@ -172,7 +177,7 @@
     import HeadConfigurator from "./views/HeadConfigurator";
     import HeatTransferStep1 from './views/Step1';
     import HeatTransferStep2 from './views/Step2';
-    import { mapActions, mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
     const COUNT_STEPS = 2;
 
@@ -187,8 +192,12 @@
         data() {
             return {
                 id: "",
-                quantity: 0,
-                size: null,
+                quantity: 6000,
+                size: {
+                    name: '9" x 33"',
+                    value: 1.45
+                },
+                min: 50,
                 headLinks: [
                     {name: 'Home', href: '/'},
                     {name: 'Configurator', href: '/skateboard-heat-transfer-configurator'},
@@ -229,6 +238,12 @@
             },
             save(event) {
             },
+            quantityChange(quantity) {
+                this.quantity = quantity;
+            },
+            sizeChange(size) {
+                this.size = size;
+            }
         }
     }
 </script>
