@@ -75,17 +75,6 @@ $(document).ready(function(){
         verticaldownclass: 'la la-angle-down'
     });
 
-    $("#quantity_heater").TouchSpin({
-        min: 50,
-        max: 1000000000,
-        step: 10,
-        buttondown_class: 'btn btn-secondary',
-        buttonup_class: 'btn btn-secondary',
-        verticalbuttons: true,
-        verticalupclass: 'la la-angle-up',
-        verticaldownclass: 'la la-angle-down'
-    });
-
     $('#size').select2({
         placeholder: "Select a size"
     });

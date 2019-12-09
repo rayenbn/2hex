@@ -14,31 +14,31 @@
                         <div class="m-widget17">
                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                 <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
                                         style="min-height: 286px"
                                     >
-                                        <img
-                                            :src="images.q"
-                                            class="step1-img1"
-                                            alt="Quantity"
+                                        <img 
+                                            :src="images.q" 
+                                            class="step1-img1" 
+                                            alt="Quantity" 
                                             title="Quantity"
                                         >
                                     </div>
                                 </div>
                             </div>
-                            <input
-                                id="quantity_heater"
-                                v-model.number="step_quantity"
-                                type="number"
-                                class="form-control bootstrap-touchspin-vertical-btn"
-                                name="quantity"
-                                placeholder="6000"
-                                @change.prevent="quantityChange"
+                            <input 
+                            	id="quantity_grip" 
+                            	v-model.number="step_quantity" 
+                            	type="number" 
+                            	class="form-control bootstrap-touchspin-vertical-btn" 
+                            	name="quantity" 
+                            	placeholder="6000" 
+                            	@change.prevent="quantityChange"
                                 @keydown.enter.prevent="quantityChange"
                                 step="10"
                                 min="50"
-                            >
+                        	>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Quantity</h3>
@@ -62,14 +62,14 @@
                         <div class="m-widget17">
                             <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                 <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
                                         style="min-height: 286px"
                                     >
-                                        <img
-                                            :src="images.s"
-                                            class="step1-img1"
-                                            alt="Size"
+                                        <img 
+                                            :src="images.s" 
+                                            class="step1-img1" 
+                                            alt="Size" 
                                             title="Size"
                                         >
                                     </div>
@@ -84,9 +84,9 @@
                                 @change.prevent="sizeChange"
                             >
                                 <option value="null" disabled>SELECT</option>
-                                <option
-                                    :value="size"
-                                    v-for="(size, index) in sizes"
+                                <option 
+                                    :value="size" 
+                                    v-for="(size, index) in sizes" 
                                     :key="index"
                                 >
                                     {{ size.name }}
@@ -108,8 +108,6 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
-
     export default {
         name: "heat-transfer-step-1",
         props: {
@@ -128,10 +126,10 @@
 				step_size: this.size,
                 sizes: [
                     {name: '9" x 33"', value: 1.45},
-                    {name: '8" x 23"', value: 2.9},
+                    {name: '8" x 23"', value: 29},
                     {name: '12" x 42"', value: 2.45},
-                    {name: '14" x 48"', value: 3.9},
-                    {name: '23" x 45"', value: 1.9},
+                    {name: '14" x 48"', value: 39},
+                    {name: '23" x 45"', value: 19},
                 ],
             }
         },
@@ -142,7 +140,7 @@
                         case '9" x 33"': return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.1.jpg'};
                         case '8" x 23"': return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.3.jpg'};
                         case '12" x 42"': return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.2.jpg'};
-                        case '14" x 48"': return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.4.jpg'};
+                        case '14" x 48"': return {q: '/iimg/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.4.jpg'};
                         case '23" x 45"': return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.5.jpg'};
                         default: return {q: '/img/heat-transfer/1.1.jpg', s: '/img/heat-transfer/2.1.jpg'};
                     }
@@ -151,10 +149,6 @@
             }
         },
         methods: {
-            ...mapActions({
-                setQuantity: 'HeatTransferConfigurator/setQuantity',
-                setSize: 'HeatTransferConfigurator/setSize'
-            }),
             quantityChange(){
                 if(this.step_quantity % 10 != 0) {
                      swal({
@@ -165,31 +159,13 @@
                     });
                     this.step_quantity = 6000;
                 }
-                this.setQuantity(this.step_quantity);
+                this.$store.commit('HeatTransferConfigurator/setQuantity', this.step_quantity);
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
-	        sizeChange() {
-                this.setSize(this.step_size);
+	        sizeChange(event) {
+                this.$store.commit('HeatTransferConfigurator/setSize', this.step_size);
                 this.$emit('sizeChange', this.step_size);
             }
-        },
-        mounted() {
-            setTimeout(() => {
-                let inputQuantity = document.getElementById("quantity_heater");
-                // Fire event plus/minus quantity
-                document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
-                    this.step_quantity = parseInt(inputQuantity.value);
-                    this.quantityChange();
-                });
-            }, 2000);
-
-            let value = '';
-            // Listen change size
-            $('#size').on('select2:select', (e) => {
-                value = e.params.data.text.trim();
-                this.step_size = this.sizes.find(s => s.name == value);
-                this.sizeChange();
-            });
         }
     }
 </script>
