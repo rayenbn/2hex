@@ -35,7 +35,14 @@
 							<div class="m-portlet__padding-x"> </div>
 								<div class="m-form m-form--label-align-left- m-form--state-">
 										<div class="m-form__actions m-form__actions">
-											<i style="font-size:15px; font-family: Verdana, Sans;">
+
+
+
+
+
+
+
+											<body style="font-size:15px; font-family: Verdana, Sans;">
 
 											<p>Hi  {/{ contact.COMPANY }/} Team,</p>
 											<p>after months of designing, calculating, coding, and testing: the skateboard wheels configurator finally went online. 2HEX&rsquo; most versatile product configurator to date!</p>
@@ -63,16 +70,14 @@
 											<p>Niklas</p>
 
 
-											<p><i>(PS: Save my email address in your address book. This way you can easily reach me by phone or Whatsapp if you have production related questions!)</p>
-											</i>
-											<a href="/img/2HEX_Skateboard_Supplies.vcf">
-												<p style="margin:0; padding:0; display:block;width:15%;"> <img src="/img/2hexcontactcard.png" width="221" style="display: block; width: 100%;"></p>
+											<p><i>(PS: Save my contact card to your address book. This way you can easily reach me by phone or Whatsapp if you have production related questions!)</p>
+											</body>
+											<a href="https://www.2hex.com/img/2HEX_Skateboard_Supplies.vcf">
+												<p style="margin:0; padding:0; display:block;width:15%;"> <img src="https://www.2hex.com/img/2hexcontactcard.png" width="221" style="display: block; width: 100%;"></p>
 											</a>
 
 											</p>
 											</p>
-
-
 											</font>
 
 
@@ -179,7 +184,18 @@
 											<br>
 											<br>
 											<br>
+											<style>
+												.img-container {
+													text-align: center;
+												}
+											</style>
+											<div class="img-container">
+											<img src="https://www.2hex.com/img/2hex.png" alt="2hex logo"; width="20%">
+											</div>
 											</body>
+
+
+
 
 
 										</div>
