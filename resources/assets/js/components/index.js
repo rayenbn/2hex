@@ -4,7 +4,6 @@ import BtnOrderLater from './BtnOrderLater.vue';
 import SkateboardDecksConfigurator from './configurator/SkateboardDecksConfigurator.vue';
 import GripTapeConfigurator from './griptape-configurator/GripTapeConfigurator.vue';
 import SkateboardWheelConfigurator from './skateboard-wheel-configurator/SkateboardWheelConfigurator.vue';
-import HeatTransferConfigurator from "./heat-transfer-configurator/HeatTransferConfigurator";
 
 // Forms
 import FormUserDetails from './forms/UserDetails.vue';
@@ -19,7 +18,6 @@ export default [
     SkateboardDecksConfigurator,
     GripTapeConfigurator,
     SkateboardWheelConfigurator,
-    HeatTransferConfigurator,
     Steps,
     FormUserDetails,
     FormDeliveryAddress,

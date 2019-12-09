@@ -46,17 +46,6 @@
                 </a>
             </li>
 
-            <li class="m-menu__item  {{ request()->routeIs('heat-transfer.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
-                <a href="{{ route('heat-transfer.manufacturer') }}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-box"></i>
-                    <span class="m-menu__link-title">
-                        <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Heat Transfers</span>
-                        </span>
-                    </span>
-                </a>
-            </li>
-
 
             <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Your Production</h4>
@@ -66,8 +55,7 @@
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
                     {{ (request()->is('skateboard-deck-configurator*') 
                         || request()->is('grip-tape-configurator*')
-                        || request()->is('skateboard-wheels-configurator*')
-                        || request()->is('skateboard-heat-transfer-configurator*'))
+                        || request()->is('skateboard-wheels-configurator*'))
                         ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
                         : '' 
                     }}" 
@@ -157,42 +145,16 @@
                             <div class="m-menu__submenu ">
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
-                                <steps
+                                <steps 
                                     :path="{{ json_encode(route('wheels.configurator.show', $wheel->wheel_id)) }}"
                                     type="wheel"
                                 />
                             </div>
                         </li>
+
                         @endforeach
-
-                        @foreach($transfers as $key => $transfer)
-
-                        <li
-                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed
-                            {{ (route('wheels.configurator.show', $wheel->wheel_id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}"
-                            aria-haspopup="true"
-                            m-menu-submenu-toggle="hover"
-                        >
-                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                    <span></span>
-                                </i>
-                                <span class="m-menu__link-text">Heat Transfer Batch {{++$key}}</span>
-                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </a>
-                            <div class="m-menu__submenu ">
-                                <span class="m-menu__arrow"></span>
-                                <!-- Steps vue -->
-                                <steps
-                                    :path="{{ json_encode(route('heat-transfer.configurator.show', $wheel->wheel_id)) }}"
-                                    type="transfer"
-                                />
-                            </div>
-                        </li>
-                        @endforeach
-
-
-                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0 && $transfers->count() == 0)
+                        
+                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>
@@ -274,32 +236,6 @@
 
                                 <!-- Steps vue -->
                                 <steps type="wheel"/>
-                            </div>
-                        </li>
-
-                        @endif
-
-                        @if (request()->routeIs('heat-transfer.configurator'))
-
-                        <li
-                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active"
-                            aria-haspopup="true"
-                            m-menu-submenu-toggle="hover"
-                        >
-                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                    <span></span>
-                                </i>
-                                <span class="m-menu__link-text">
-                                    Heat Transfer Batch {{ $wheels->count() ? $wheels->count() + 1 : 1}}
-                                </span>
-                                <i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </a>
-                            <div class="m-menu__submenu ">
-                                <span class="m-menu__arrow"></span>
-
-                                <!-- Steps vue -->
-                                <steps type="transfer"/>
                             </div>
                         </li>
 
