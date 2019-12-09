@@ -172,7 +172,6 @@
     import HeadConfigurator from "./views/HeadConfigurator";
     import HeatTransferStep1 from './views/Step1';
     import HeatTransferStep2 from './views/Step2';
-    import { mapActions, mapGetters } from 'vuex';
 
     const COUNT_STEPS = 2;
 
@@ -205,29 +204,27 @@
             HeatTransferStep2
         },
         computed: {
-            ...mapGetters([
-                'getCurrentStep'
-            ]),
             currentStep: {
                 get() {
-                    return this.getCurrentStep;
+                    return this.$store.getters.getCurrentStep;
                 },
                 set(val) {}
+            },
+        },
+        methods: {
+            nextStep(){
+                this.$store.commit('changeStep', ++this.currentStep);
+            },
+            prevStep(){
+                this.$store.commit('changeStep', --this.currentStep);
+            },
+            save(event) {
+
             },
             progressWidth(){
                 return {
                     width: 100 * this.currentStep / 2 + '%',
                 }
-            },
-        },
-        methods: {
-            nextStep() {
-                this.$store.commit('changeStep', ++this.currentStep);
-            },
-            prevStep() {
-                this.$store.commit('changeStep', --this.currentStep);
-            },
-            save(event) {
             },
         }
     }

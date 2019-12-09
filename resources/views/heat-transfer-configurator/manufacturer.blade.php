@@ -32,16 +32,16 @@
                                             </li>
                                             <li class="m-nav__item">
                                                 <a
-                                                    href="{{ route('heat-transfer.manufacturer') }}"
-                                                    class="m-nav__link"
+                                                        href="{{ route('heat-transfer.manufacturer') }}"
+                                                        class="m-nav__link"
                                                 >
                                                     <span class="m-nav__link-text">Configurator -</span>
                                                 </a>
                                             </li>
                                             <li class="m-nav__item">
                                                 <a
-                                                    href="{{ route('heat-transfer.configurator') }}"
-                                                    class="m-nav__link"
+                                                        href="{{ route('heat-transfer.configurator') }}"
+                                                        class="m-nav__link"
                                                 >
                                                     <span class="m-nav__link-text">Heat Transfer</span>
                                                 </a>
@@ -88,9 +88,9 @@
                                     <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                         <div class="m-form__actions" style="text-align: center; padding: 15px 0;">
                                             <a
-                                                href="{{ route('heat-transfer.configurator') }}"
-                                                id="start_purchase"
-                                                class="btn btn-primary m-btn m-btn--custom m-btn--icon"
+                                                    href="{{ route('heat-transfer.configurator') }}"
+                                                    id="start_purchase"
+                                                    class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                             >
                                                 select your heat transfer
                                                 <i class="la la-arrow-right"></i>
@@ -158,9 +158,9 @@
                             <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                 <div class="m-form__actions" style="text-align: center; padding: 15px 0;">
                                     <a
-                                        href="{{ route('heat-transfer.configurator') }}"
-                                        id="start_purchase"
-                                        class="btn btn-primary m-btn m-btn--custom m-btn--icon"
+                                            href="{{ route('heat-transfer.configurator') }}"
+                                            id="start_purchase"
+                                            class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                     >
                                         add custom heat transfer to your order
                                         <i class="la la-arrow-right"></i>

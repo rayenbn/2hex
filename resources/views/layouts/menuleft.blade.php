@@ -169,7 +169,7 @@
 
                         <li
                             class="m-menu__item  m-menu__item--submenu  m-menu__item--closed
-                            {{ (route('wheels.configurator.show', $transfer->transfer_id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}"
+                            {{ (route('wheels.configurator.show', $wheel->wheel_id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}"
                             aria-haspopup="true"
                             m-menu-submenu-toggle="hover"
                         >
@@ -184,7 +184,7 @@
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
                                 <steps
-                                    :path="{{ json_encode(route('heat-transfer.configurator.show', $transfer->transfer_id)) }}"
+                                    :path="{{ json_encode(route('heat-transfer.configurator.show', $wheel->wheel_id)) }}"
                                     type="transfer"
                                 />
                             </div>
@@ -291,7 +291,7 @@
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
-                                    Heat Transfer Batch {{ $transfers->count() ? $transfers->count() + 1 : 1}}
+                                    Heat Transfer Batch {{ $wheels->count() ? $wheels->count() + 1 : 1}}
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
