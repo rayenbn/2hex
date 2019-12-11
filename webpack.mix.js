@@ -131,7 +131,6 @@ let mix = require('laravel-mix');
 //     'resources/assets/admin/css/dashboard.css',
 // ], 'public/assets/admin/css/dashboard.css').version();
 
-
 /*
  |--------------------------------------------------------------------------
  | Frontend
