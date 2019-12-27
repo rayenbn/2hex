@@ -7,7 +7,7 @@
                 <div class="m-stack m-stack--ver m-stack--general">
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="index.html" class="m-brand__logo-wrapper">
-                            <h3>Metronic</h3>
+                            <h3>Admin Page</h3>
                         </a>
                     </div>
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -29,7 +29,7 @@
                         <!-- BEGIN: Topbar Toggler -->
                     </div>
                 </div>
-            </div>
+            </div>        
             <!-- END: Brand -->
             <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
                 <!-- BEGIN: Horizontal Menu -->
@@ -57,7 +57,7 @@
                                                     Nick
                                                 </span>
                                 </a>
-                                <div class="m-dropdown__wrapper">
+                                <div class="m-dropdown__wrapper">   
                                     <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
                                     <div class="m-dropdown__inner">
                                         <div class="m-dropdown__header m--align-center" style="background: url(asset/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">

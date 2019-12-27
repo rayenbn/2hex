@@ -30,6 +30,11 @@
 .m-brand--minimize .m-grid__item.m-grid__item--fluid.m-wrapper{
     padding-left: 80px;
 }
+.submenu-title{
+    color: white;
+    padding-left: 15px;
+    margin-top: 30px;
+}
 
 
 

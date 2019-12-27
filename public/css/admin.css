@@ -1,0 +1,22 @@
+.m-grid__item.m-grid__item--fluid.m-wrapper.admin-content{
+    padding: 50px 50px 100px 320px;
+}
+.admin-content > div{
+    background-color: white;
+    padding: 20px 40px;
+}
+.filter_content{
+    margin-bottom: 30px;
+}
+.data_items{
+    margin-bottom: 50px;
+}
+.data_items .userdata_title{
+    border-bottom: 1px solid black;
+}
+.data_items .data_item .data_info{
+    float: right;
+}
+.data_items .items_label{
+    font-weight: bold;
+}
