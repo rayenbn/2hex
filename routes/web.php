@@ -62,6 +62,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('permissions/{user}/repeat', 'PermissionController@repeat')->name('permissions.repeat');
     Route::get('dashboard/log-chart', 'DashboardController@getLogChartData')->name('dashboard.log.chart');
     Route::get('dashboard/registration-chart', 'DashboardController@getRegistrationChartData')->name('dashboard.registration.chart');
+    Route::get('userdata', 'DashboardController@getUserdata')->name('userdata');
+    Route::post('userdata', 'DashboardController@getUserdata');
+    Route::get('submitorder', 'DashboardController@getSubmitOrder')->name('submitorder');
+    Route::get('savedorder', 'DashboardController@getSavedOrder')->name('savedorder');
+    Route::get('savedbatch', 'DashboardController@getSavedBatches')->name('savedbatch');
 });
 
 
