@@ -73,16 +73,16 @@
 					<div class="pane pane--table2">
 					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
 						<tr>
-							@if(count($orders) > 0)
-								@include('partials.skateboards', ['skateboards' => $orders])
+						@if(count($returnorder) > 0)
+								@include('partials.skateboards', ['skateboards' => $returnorder])
 							@endif
 							
-							@if(count($grips) > 0)
-								@include('partials.grips', ['grips' => $grips])
+							@if(count($returngrip) > 0)
+								@include('partials.grips', ['grips' => $returngrip])
 							@endif
 
-							@if(count($wheels) > 0)
-								@include('partials.wheels', ['wheels' => $wheels])
+							@if(count($returnwheel) > 0)
+								@include('partials.wheels', ['wheels' => $returnwheel])
 							@endif
 
 							<thead style="background-color: #52a3f0; color: white;">

@@ -65,8 +65,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('userdata', 'DashboardController@getUserdata')->name('userdata');
     Route::post('userdata', 'DashboardController@getUserdata');
     Route::get('submitorder', 'DashboardController@getSubmitOrder')->name('submitorder');
+    Route::post('submitorder', 'DashboardController@getSubmitOrder');
     Route::get('savedorder', 'DashboardController@getSavedOrder')->name('savedorder');
+    Route::post('savedorder', 'DashboardController@getSavedOrder');
     Route::get('savedbatch', 'DashboardController@getSavedBatches')->name('savedbatch');
+    Route::post('savedbatch', 'DashboardController@getSavedBatches');
 });
 
 

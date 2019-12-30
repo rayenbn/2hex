@@ -15,6 +15,45 @@ use App\Models\{Order, GripTape, Wheel\Wheel};
 use Cookie;
 class DashboardController extends Controller
 {
+    protected $feesTypes = [
+        'engravery' => [
+            'name' => 'Top Engravery Set Up',
+            'price' => 80
+        ],
+        'topprint' => [
+            'name' => 'Top Print Set Up',
+            'price' => 120
+        ],
+        'bottomprint' => [
+            'name' => 'Bottom Print Set Up',
+            'price' => 120
+        ],
+        'carton' => [
+            'name' => 'Box print Set Up',
+            'price' => 120
+        ],
+        'cardboard' => [
+            'name' => 'Cardboard Set Up',
+            'price' => 500
+        ],
+        // Grip tapes
+        'top_print' => [
+            'name' => 'Grip Top Print',
+            'price' => 30
+        ],
+        'die_cut' => [
+            'name' => 'Grip tape die_cut',
+            'price' => 80
+        ],
+        'carton_print' => [
+            'name' => 'Griptape Carton Print',
+            'price' => 95
+        ],
+        'backpaper_print' => [
+            'name' => 'Griptape Backpaper Print',
+            'price' => 45
+        ],
+    ];
     /**
      * Create a new controller instance.
      *
@@ -131,18 +170,25 @@ class DashboardController extends Controller
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            $ordersQuery = Order::where('created_by','=',$user['id']);
-            $gripQuery = GripTape::where('created_by','=',$user['id']);
-            $wheelQuery = Wheel::where('created_by','=',$user['id']);
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1);
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1);
         }
         else{
-            $ordersQuery = Order::auth();
-            $gripQuery = GripTape::auth();
-            $wheelQuery = Wheel::auth();
+            $ordersQuery = Order::auth()->where('submit','=',1);
+            $gripQuery = GripTape::auth()->where('submit','=',1);
+            $wheelQuery = Wheel::auth()->where('submit','=',1);
         }
+        
+        $returnorder = $ordersQuery->get();
+        $returngrip = $gripQuery->get();
+        $returnwheel = $wheelQuery->get();
+
         $fees = [];
         $sum_fees = 0;
 
+        
+        
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
 
@@ -307,8 +353,7 @@ class DashboardController extends Controller
         }
 
         Cookie::queue('orderTotal', $totalOrders);
-
-        return view('admin.submittedorder', compact('fees', 'totalOrders'));
+        return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel]);
     }
     protected function calculateWheelFixCost(array &$fees)
     {
@@ -403,15 +448,20 @@ class DashboardController extends Controller
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            $ordersQuery = Order::where('created_by','=',$user['id']);
-            $gripQuery = GripTape::where('created_by','=',$user['id']);
-            $wheelQuery = Wheel::where('created_by','=',$user['id']);
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',0);
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',0);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',0);
         }
         else{
-            $ordersQuery = Order::auth();
-            $gripQuery = GripTape::auth();
-            $wheelQuery = Wheel::auth();
+            $ordersQuery = Order::auth()->where('submit','=',0);
+            $gripQuery = GripTape::auth()->where('submit','=',0);
+            $wheelQuery = Wheel::auth()->where('submit','=',0);
         }
+        
+        $returnorder = $ordersQuery->get();
+        $returngrip = $gripQuery->get();
+        $returnwheel = $wheelQuery->get();
+        
         $fees = [];
         $sum_fees = 0;
 
@@ -579,7 +629,8 @@ class DashboardController extends Controller
         }
 
         Cookie::queue('orderTotal', $totalOrders);
+        
 
-        return view('admin.savedorder', compact('fees', 'totalOrders'));
+        return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel]);
     }
 }

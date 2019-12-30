@@ -31,7 +31,8 @@ class GripTape extends Model
             $query->where('created_by', '=', csrf_token());
         } 
 
-        return $query->where('usenow', '=', $type);
+        //return $query->where('usenow', '=', $type);
+        return $query;
     }
 
     public static function colorCount($value)
