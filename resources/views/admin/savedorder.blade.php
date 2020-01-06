@@ -4,15 +4,39 @@
     <div class="m-grid__item m-grid__item--fluid m-wrapper row admin-content">
         <div class="col-lg-12 filter_content">
 			<div class="col-lg-6">
-                <form method="POST" action="" id="filter_form">
-					{{ csrf_field() }}
+				<form method="POST" action="" id="filter_form">
+                    {{ csrf_field() }}
                     <p>Select User by Email</p>
-                    <input class="filter_email" name="filter_email" id="filter_email">
+                    <select
+						class="form-control filter_email select2"
+						id="filter_email"
+						name="filter_email"
+						style="width:100%;"
+					>
+						<option value="" disabled>SELECT</option>
+                        @foreach($users as $userinfo)
+                            <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
+                        @endforeach
+    				</select>
                 </form>
             </div>  
         </div>
         <div class="col-lg-12">
-            <div class="m-portlet">
+			<div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
+				@foreach($unSubmitOrders as $order)
+					<div class="saved-order-list-item">
+						<div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">Continue</a></div>
+						<div class="btn btn-secondary">
+							Saved order: {{$order->saved_name}}
+						</div>
+						<div class="btn btn-secondary">
+							<a class="remove_button" href="/remove_saveorder/{{$order->saved_date}}">Remove</a>
+						</div>
+					</div>    
+				@endforeach
+			</div>
+
+			<div class="m-portlet">
 				<div class="m-portlet__head" style="flex-wrap: wrap;height: auto;float: right;">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">

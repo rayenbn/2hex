@@ -59,6 +59,7 @@
 <script src="{{asset('asset/demo/default/base/scripts.bundle.js')}}"></script>
 <script src="{{asset('asset/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 <script src="{{asset('asset/demo/default/custom/components/calendar/basic.js')}}"></script>
+<script src="{{asset('asset/demo/default/custom/crud/forms/widgets/select2.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/admin.js')}}"></script>
 <!--end::Base Scripts -->  
 

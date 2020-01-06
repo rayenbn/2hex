@@ -7,11 +7,21 @@
                 <form method="POST" action="" id="filter_form">
                     {{ csrf_field() }}
                     <p>Select User by Email</p>
-                    <input class="filter_email" name="filter_email" id="filter_email">
+                    <select
+						class="form-control filter_email select2"
+						id="filter_email"
+						name="filter_email"
+						style="width:100%;"
+					>
+						<option value="" disabled>SELECT</option>
+                        @foreach($users as $userinfo)
+                            <option @if(Auth::user()->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
+                        @endforeach
+    				</select>
                 </form>
             </div> 
         </div>
-        @if(isset($user))
+        @if(isset($user) )
         <div class="col-lg-6">
             <div class="user_info data_items">
                 <p class="userdata_title">User Info</p>
@@ -53,6 +63,7 @@
             </div>
         </div>
         <div class="col-lg-6">
+            @if(isset($shipinfo))
             <div class="user_address data_items">
                 <p class="userdata_title">My Address</p>
                 <label class="items_label">Invoice Address</label>
@@ -107,6 +118,7 @@
                     <span class="data_info">{{$shipinfo->shipping_phone}}</span>
                 </div>
             </div>
+            @endif
             <div class="user_detail data_items">
                 <p class="userdata_title">My Details</p>
                 <div class="data_item">

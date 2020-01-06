@@ -155,18 +155,21 @@ class DashboardController extends Controller
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
             $shipinfo = ShipInfo::where('created_by','=',$user['id'])->first();
-            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo]);
+            $users = User::select('email','name')->get();
+            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users]);
         }
         $user = Auth::user();
         $shipinfo = ShipInfo::auth()->first();
         session()->flash('error', 'Your order has been successfully sent!');
-        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo]);
+        $users = User::select('email','name')->get();
+        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users]);
         
     }
     public function getSavedBatches(){
         return view('admin.savedbatch');
     }
     public function getSubmitOrder(Request $request ){
+        $user = Auth::user();
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -353,7 +356,60 @@ class DashboardController extends Controller
         }
 
         Cookie::queue('orderTotal', $totalOrders);
-        return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel]);
+        $users = User::select('email','name')->get();
+        //return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users, 'user' => $user]);
+        
+        $user = Auth::user();
+        if($request->isMethod('post')){
+            $email = $request->input('filter_email');
+           $user = User::where('email','=',$email)->first();
+           $createdBy = $user['id'];
+        }
+        else{
+            $createdBy = auth()->id();
+        }
+
+        $queryOrders = Order::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $queryGrips = GripTape::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $queryWheels = Wheel::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $querySubmitOrders = clone $queryOrders;
+        $querySubmitGrips = clone $queryGrips;
+        $querySubmitWheels = clone $queryWheels;
+
+        $unSubmitOrders = $queryOrders->where('submit', 0)->get();
+
+        $unSubmitOrders = $unSubmitOrders->toBase()->merge($queryWheels->where('submit', 0)->get());
+
+        $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($grip);
+        });
+
+        $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
+        
+        $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
+            $submitorders->push($grip);
+        });
+
+        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->addSelect('invoice_number')->get());
+
+        $shipinfo = ShipInfo::auth()->first();
+        $users = User::select('email','name')->get();
+        return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
     }
     protected function calculateWheelFixCost(array &$fees)
     {
@@ -445,6 +501,7 @@ class DashboardController extends Controller
         }
     }
     public function getSavedOrder(Request $request ){
+        $user = Auth::user();
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -609,7 +666,7 @@ class DashboardController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + $gripQuery->sum('total') + $wheelQuery->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -630,7 +687,67 @@ class DashboardController extends Controller
 
         Cookie::queue('orderTotal', $totalOrders);
         
+        $users = User::select('email','name')->get();
+        //return view('admin.savedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'user' => $user, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users]);
+        
+        $user = Auth::user();
+        if($request->isMethod('post')){
+            $email = $request->input('filter_email');
+           $user = User::where('email','=',$email)->first();
+           $createdBy = $user['id'];
+        }
+        else{
+            $createdBy = auth()->id();
+        }
 
-        return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel]);
+        $queryOrders = Order::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $queryGrips = GripTape::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $queryWheels = Wheel::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+        $querySubmitOrders = clone $queryOrders;
+        $querySubmitGrips = clone $queryGrips;
+        $querySubmitWheels = clone $queryWheels;
+
+        $unSubmitOrders = $queryOrders->where('submit', 0)->get();
+
+        $unSubmitOrders = $unSubmitOrders->toBase()->merge($queryWheels->where('submit', 0)->get());
+
+        $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($grip);
+        });
+
+        $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
+        
+        $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
+            $submitorders->push($grip);
+        });
+
+        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->addSelect('invoice_number')->get());
+
+        $shipinfo = ShipInfo::auth()->first();
+        $users = User::select('email','name')->get();
+        //return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user'));
+        return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
+    }
+
+
+    public function getAnalystic(Request $request){
+        $user_count = User::count();
+        $order_count = Order::where('submit','=',0)->count();
+        return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count]);
     }
 }

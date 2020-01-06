@@ -20,3 +20,16 @@
 .data_items .items_label{
     font-weight: bold;
 }
+.m-datatable__pager{
+    display: none;
+}
+.saved-order-list-item {
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    padding: 5px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+.saved-order-list-item div {
+    margin: 3px;
+}

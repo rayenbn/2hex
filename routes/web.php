@@ -70,6 +70,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('savedorder', 'DashboardController@getSavedOrder');
     Route::get('savedbatch', 'DashboardController@getSavedBatches')->name('savedbatch');
     Route::post('savedbatch', 'DashboardController@getSavedBatches');
+    Route::get('analystic', 'DashboardController@getAnalystic')->name('analystic');
 });
 
 
