@@ -2,24 +2,47 @@
 
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper row admin-content">
-        <div class="col-lg-12 filter_content">
-            <div class="col-lg-6">
+    <div class="col-lg-12 filter_content">
                 <form method="POST" action="" id="filter_form">
                     {{ csrf_field() }}
-                    <p>Select User by Email</p>
-                    <select
-						class="form-control filter_email select2"
-						id="filter_email"
-						name="filter_email"
-						style="width:100%;"
-					>
-						<option value="" disabled>SELECT</option>
-                        @foreach($users as $userinfo)
-                            <option @if(Auth::user()->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
-                        @endforeach
-    				</select>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            
+                                
+                                <p>Select User by Email</p>
+                                <select
+                                    class="form-control filter_email select2"
+                                    id="filter_email"
+                                    name="filter_email"
+                                    style="width:100%;"
+                                >
+                                    <option value="" disabled>SELECT</option>
+                                    @foreach($users as $userinfo)
+                                        <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="order_id" id="order_id">
+                                
+                            </form>
+                        </div> 
+
+                        <div class="col-lg-6">
+                            <p>Select Timeframe</p>
+                            <div class="row">
+                                <div class='col-md-5'>
+                                    <div class="form-group">
+                                        <input type='text' class="form-control" name="startdate" id='startdate' value="{{$startdate}}"/>
+                                    </div>
+                                </div>
+                                <div class='col-md-5'>
+                                    <div class="form-group">
+                                        <input type='text' class="form-control" name="enddate" id='enddate' value="{{$enddate}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-            </div> 
         </div>
         @if(isset($user) )
         <div class="col-lg-6">
@@ -35,7 +58,7 @@
                 </div>
                 <div class="data_item">
                     <span class="data_description">Total Uploaded File</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{$file_upload}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Size of Total Uploaded File</span>

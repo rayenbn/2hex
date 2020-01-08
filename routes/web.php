@@ -71,6 +71,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('savedbatch', 'DashboardController@getSavedBatches')->name('savedbatch');
     Route::post('savedbatch', 'DashboardController@getSavedBatches');
     Route::get('analystic', 'DashboardController@getAnalystic')->name('analystic');
+    Route::post('analystic', 'DashboardController@getAnalystic');
+    Route::get('uploadfile', 'DashboardController@getUploadFiles')->name('uploadfile');
+    Route::post('uploadfile', 'DashboardController@getUploadFiles');
 });
 
 

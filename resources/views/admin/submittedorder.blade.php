@@ -17,7 +17,8 @@
                         @foreach($users as $userinfo)
                             <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
                         @endforeach
-    				</select>
+					</select>
+					<input type="hidden" name="order_id" id="order_id">
                 </form>
             </div> 
         </div>
@@ -34,11 +35,11 @@
 					</div>
 					<div>
 						<div>
-							<div class="btn btn-secondary">
-								<a href="/summary/view/{{$order->saved_date}}">View</a>
+							<div class="btn btn-secondary id-select" data-orderid="{{$order->saved_date}}">
+								<a href="javascript:void(0)">View</a>
 							</div>
-							<div class="btn btn-secondary">
-								<a href="/summary/{{$order->saved_date}}">re-use</a>
+							<div class="btn btn-secondary id-select" data-orderid="{{$order->saved_date}}">
+								<a href="javascript:void(0)">re-use</a>
 							</div>
 							<div class="btn btn-secondary">
 								<a href="{{ route('export.csv.id', $order->saved_date) }}">Invoice</a>
@@ -120,7 +121,7 @@
 							@endif
 
 							@if(count($returnwheel) > 0)
-								@include('partials.wheels', ['wheels' => $returnwheel])
+								@include('partials.wheels', ['wheels1' => $returnwheel])
 							@endif
 
 							<thead style="background-color: #52a3f0; color: white;">

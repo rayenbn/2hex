@@ -71,7 +71,7 @@
                 </a>
             </li>
             <li class="m-menu__item  m-menu__item" aria-haspopup="true" data-menu-submenu-toggle="hover">
-                <a href="/admin/users" class="m-menu__link m-menu__toggle">
+                <a href="/admin/uploadfile" class="m-menu__link m-menu__toggle">
                     <span class="m-menu__link-text">
                                         Uploads
                                     </span>

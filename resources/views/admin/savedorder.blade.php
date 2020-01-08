@@ -18,6 +18,7 @@
                             <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
                         @endforeach
     				</select>
+					<input type="hidden" name="order_id" id="order_id">
                 </form>
             </div>  
         </div>
@@ -25,7 +26,7 @@
 			<div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
 				@foreach($unSubmitOrders as $order)
 					<div class="saved-order-list-item">
-						<div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">Continue</a></div>
+						<div class="btn btn-secondary id-select" data-orderid="{{$order->saved_date}}"><a href="javascript:void(0)">Continue</a></div>
 						<div class="btn btn-secondary">
 							Saved order: {{$order->saved_name}}
 						</div>
@@ -106,7 +107,7 @@
 							@endif
 
 							@if(count($returnwheel) > 0)
-								@include('partials.wheels', ['wheels' => $returnwheel])
+								@include('partials.wheels', ['wheels1' => $returnwheel])
 							@endif
 
 							<thead style="background-color: #52a3f0; color: white;">

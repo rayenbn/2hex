@@ -145,7 +145,7 @@
 							@endif
 
 							@if(count($wheels) > 0)
-								@include('partials.wheels', ['wheels' => $wheels])
+								@include('partials.wheels', ['wheels1' => $wheels])
 							@endif
 
 							<thead style="background-color: #52a3f0; color: white;">

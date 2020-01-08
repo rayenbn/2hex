@@ -20,7 +20,7 @@
 
         </tr>
     </thead>
-       @foreach($wheels as $batch => $wheel)
+       @foreach($wheels1 as $batch => $wheel)
 
         <tr>
             <td>Skateboard Wheels Batch #{{++$batch}}</td>
