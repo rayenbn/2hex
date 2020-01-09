@@ -117,7 +117,7 @@
 							@endif
 							
 							@if(count($returngrip) > 0)
-								@include('partials.grips', ['grips' => $returngrip])
+								@include('partials.grips', ['grips1' => $returngrip])
 							@endif
 
 							@if(count($returnwheel) > 0)

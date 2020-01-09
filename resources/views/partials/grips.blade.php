@@ -1,5 +1,8 @@
     <thead style="background-color: #52a3f0; color: white;">
         <tr>
+            @if(isset($batches))
+            <th>Select</th>
+            @endif
             <th>Grip Batch</th>
             <th>Pcs</th>
             <th>Size</th>
@@ -11,18 +14,27 @@
             <th>Backpaper</th>
             <th>Backpaper Print</th>
             <th>Carton Print</th>
+            @if(!isset($batches))
             <th>Grip Price</th>
             <th>Batch&nbspTotal</th>
-
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
             <th>Edit</th>
             @endif
 
         </tr>
     </thead>
-       @foreach($grips as $batch => $grip)
+       @foreach($grips1 as $batch => $grip)
 
         <tr>
+            @if(isset($batches))
+            <td>
+                <label class="m-checkbox">
+                    <input type="checkbox" value="{{$grip->id}}" name="gripBatches[]"/>
+                    <span></span>
+                </label>
+            </td>
+            @endif
             <td>Griptape Batch #{{++$batch}}</td>
             <td>{{$grip->quantity}}</td>
             <td>{{$grip->size}}</td>
@@ -49,10 +61,11 @@
                 <br>
                 {{$grip->carton_print_color ?? ''}}
             </td>
+            @if(!isset($batches))
             <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
             <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
-
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
             <td>
                 <div class="btn-group" role="group" aria-label="First group">
                     <form action="{{route('griptape.copy', $grip->id)}}" method="POST">
@@ -69,9 +82,9 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <button type="button" class="m-btn btn btn-secondary btn-dev">
+                    <a class="m-btn btn btn-secondary" href="{{route('griptape.save', $grip->id)}}" title="Edit">
                         <i class="la la-floppy-o"></i>
-                    </button>
+                    </a>
                     <a class="m-btn btn btn-secondary" href="{{route('griptape.show', $grip->id)}}" title="Edit">
                         <i class="la la-italic"></i>
                     </a>

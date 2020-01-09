@@ -66,7 +66,8 @@ class Order extends Model
         'saved_name',
         'bottomprint_color',
         'topprint_color',
-        'carton_color'
+        'carton_color',
+        'saved_batch'
     ];
 
     /**

@@ -141,7 +141,7 @@
 							@endif
 							
 							@if(count($grips) > 0)
-								@include('partials.grips', ['grips' => $grips])
+								@include('partials.grips', ['grips1' => $grips])
 							@endif
 
 							@if(count($wheels) > 0)

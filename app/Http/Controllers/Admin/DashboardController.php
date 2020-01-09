@@ -250,8 +250,20 @@ class DashboardController extends Controller
         return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$totalfile_count, 'startdate' => $startdate, 'enddate' => $enddate]);
         
     }
-    public function getSavedBatches(){
-        return view('admin.savedbatch');
+    public function getSavedBatches(Request $request){
+        $user = Auth::user();
+        $users = User::select('email','name')->get();
+
+        if($request->isMethod('post')){
+            
+            $email = $request->input('filter_email');
+            $user = User::where('email','=',$email)->first();
+        }
+        $createdBy = $user->id;
+        $savedOrderBatches = Order::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user'));
     }
     public function getSubmitOrder(Request $request ){
         $user = Auth::user();

@@ -59,7 +59,11 @@ class ProfileController extends Controller
 
         $shipinfo = ShipInfo::auth()->first();
 
-        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo'));
+        $savedOrderBatches = Order::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+
+        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches'));
     }
 
     public function store_address(Request $request)

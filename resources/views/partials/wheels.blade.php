@@ -1,5 +1,8 @@
     <thead style="background-color: #52a3f0; color: white;">
         <tr>
+            @if(isset($batches))
+            <th>Select</th>
+            @endif
             <th>Wheels Batch</th>
             <th>Sets</th>
             <th>Style</th>
@@ -11,10 +14,11 @@
             <th>Wheels Placement</th>
             <th>Cardboard Wrap</th>
             <th>Carton Print</th>
+            @if(!isset($batches))
             <th>Set Price</th>
             <th>Batch Total</th>
-
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
             <th>Edit</th>
             @endif
 
@@ -23,6 +27,14 @@
        @foreach($wheels1 as $batch => $wheel)
 
         <tr>
+            @if(isset($batches))
+            <td>
+                <label class="m-checkbox">
+                    <input type="checkbox" value="{{$wheel->wheel_id}}" name="wheelBatches[]"/>
+                    <span></span>
+                </label>
+            </td>
+            @endif
             <td>Skateboard Wheels Batch #{{++$batch}}</td>
             <td>{{$wheel->quantity}}</td>
             <td>{{$wheel->type}}</td>
@@ -54,10 +66,11 @@
                 <br>
                 colors: {{$wheel->cardboard_colors ?? ''}}
             </td>
+            @if(!isset($batches))
             <td>{{ auth()->check() ? money_format('%.2n', $wheel->price) : '$?.??' }}</td>
             <td>{{ auth()->check() ? money_format('%.2n', $wheel->total) : '$?.??' }}</td>
-
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
             <td>
                 <div class="btn-group" role="group" aria-label="First group">
                     <form action="{{route('wheels.configurator.copy', $wheel->wheel_id)}}" method="POST">
@@ -74,9 +87,9 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <button type="button" class="m-btn btn btn-secondary btn-dev">
+                    <a class="m-btn btn btn-secondary" href="{{route('wheels.configurator.save', $wheel->wheel_id)}}" title="Save">
                         <i class="la la-floppy-o"></i>
-                    </button>
+                    </a>
                     <a class="m-btn btn btn-secondary" href="{{route('wheels.configurator.show', $wheel->wheel_id)}}" title="Edit">
                         <i class="la la-italic"></i>
                     </a>

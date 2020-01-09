@@ -92,7 +92,11 @@ class GripTapeConfigurator extends Controller
             )
         );
     }
-
+    public function save($id)
+    {
+        GripTape::where('id',$id)->update(['saved_batch' => 1]);
+        return redirect()->back();
+    }
     public function destroy($id)
     {
         GripTape::where('id','=',$id)->delete();

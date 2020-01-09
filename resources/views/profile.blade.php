@@ -85,7 +85,7 @@
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="m_user_profile_tab_1">
-                                <form class="m-form m-form--fit m-form--label-align-right">
+                                <div class="m-form m-form--fit m-form--label-align-right">
                                     <div class="m-portlet__body">
                                         <div class="form-group m-form__group m--margin-top-10 m--hide">
                                             <div class="alert m-alert m-alert--default" role="alert">
@@ -118,8 +118,21 @@
                                             <div class="col-10 ml-auto">
                                                 <h3 class="m-form__section">Saved Batches</h3>
                                             </div>
+                                            <form action="/add_summary" method="post" class="m-form m-form--fit m-form--label-align-right post-forms">
+                                            {{ csrf_field() }}
+                                            <table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
+                                                @if(count($savedOrderBatches) > 0)
+                                                    @include('partials.skateboards', ['skateboards' => $savedOrderBatches, 'batches' => 1])
+                                                @endif
+                                                @if(count($savedGripBatches) > 0)
+                                                    @include('partials.grips', ['grips1' => $savedGripBatches, 'batches' => 1])
+                                                @endif
 
-                                            <table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
+                                                @if(count($savedWheelBatches) > 0)
+                                                    @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1])
+                                                @endif
+                                            </table>
+                                            <!-- <table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
                                                 <thead style="background-color: #52a3f0; color: white;">
                                                 <tr>
 
@@ -139,6 +152,7 @@
                                                 </thead>
 
                                                 <tbody>
+                                                
                                                     <tr>
                                                         <td>
                                                             <label class="m-checkbox">
@@ -243,15 +257,16 @@
                                                         <td>-</td>
                                                     </tr>
                                                 </tbody>
-                                            </table>
-                                            <a href="skateboard-deck-configurator/" class="btn btn-outline-info">Add to Summary</a>
-                                            &nbsp &nbsp
-                                            <a href="skateboard-remove/" class="btn btn-outline-danger">Delete</a>
+                                            </table> -->
+                                                <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Summary</button>
+                                                &nbsp &nbsp
+                                                <button type="submit" name="submit" value="Delete" class="btn btn-outline-danger">Delete</button>
+                                            </form>
                                         </div>
                                         @endif
 
                                     </div>
-                                </form>
+                                </div>
                                 
                                 
                             </div>

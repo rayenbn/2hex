@@ -153,7 +153,10 @@ class WheelController extends Controller
 
         return view('wheel-configurator.configurator', compact('wheel', 'filenames'));
     }
-
+    public function save($id){
+        Wheel::where('wheel_id',$id)->update(['saved_batch' => 1]);
+        return redirect()->back();
+    }
     public function destroy(int $id)
     {
         Wheel::find($id)->delete();

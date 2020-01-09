@@ -648,4 +648,60 @@ class SummaryController extends Controller
 
         return response()->json(["errors" => "The given data was invalid."], 400);
     }
+    public function addFromBatch(Request $request){
+        $order_checked = $request->input('orderBatches');
+        $grip_checked = $request->input('gripBatches');
+        $wheel_checked = $request->input('wheelBatches');
+        
+        if($request->submit == 'Add'){
+            if(isset($order_checked)){
+                $orders = Order::whereIn('id',$order_checked)->get();
+                for($i = 0; $i < count($orders); $i ++){
+                    unset($orders[$i]['id']);
+                    unset($orders[$i]['saved_date']);
+                    unset($orders[$i]['usenow']);
+                    unset($orders[$i]['submit']);
+                    $orders[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($orders[$i]), true);
+                    Order::insert($array);
+                }
+            }            
+            
+            if(isset($grip_checked)){
+                $grips = GripTape::whereIn('id',$grip_checked)->get();
+                for($i = 0; $i < count($grips); $i ++){
+                    unset($grips[$i]['id']);
+                    unset($grips[$i]['saved_date']);
+                    unset($grips[$i]['usenow']);
+                    unset($grips[$i]['submit']);
+                    $grips[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($grips[$i]), true);
+                    GripTape::insert($array);
+                }
+            }
+            
+            if(isset($wheel_checked)){
+                $wheels = Wheel::whereIn('wheel_id',$wheel_checked)->get();
+                for($i = 0; $i < count($wheels); $i ++){
+                    unset($wheels[$i]['wheel_id']);
+                    unset($wheels[$i]['saved_date']);
+                    unset($wheels[$i]['usenow']);
+                    unset($wheels[$i]['submit']);
+                    $wheels[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($wheels[$i]), true);
+                    Wheel::insert($array);
+                }
+            }
+            
+        }
+        if($request->submit == 'Delete'){
+            if(isset($order_checked))
+                Order::whereIn('id',$order_checked)->update(['saved_batch'=>0]);
+            if(isset($grip_checked))
+                GripTape::whereIn('id',$grip_checked)->update(['saved_batch'=>0]);
+            if(isset($wheel_checked))
+                Wheel::whereIn('wheel_id',$wheel_checked)->update(['saved_batch'=>0]);
+        }
+        return redirect()->back();
+    }
 }

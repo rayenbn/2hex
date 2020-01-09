@@ -127,6 +127,11 @@ class ConfiguratorController extends Controller
 
         return view('configurator', compact('saved_order', 'filenames'));
     }
+
+    public function save($id){
+        Order::where('id',$id)->update(['saved_batch' => 1]);
+        return redirect()->back();
+    }
     
     public function delete($id)
     {
