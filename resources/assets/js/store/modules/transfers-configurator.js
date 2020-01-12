@@ -34,11 +34,15 @@ export default {
             },
         ],
         quantity: 6000,
-        size: null
+        size: null,
+        designName: '',
+        transparencies: true
     },
     getters: {
         getQuantity: state => state.quantity,
         getSize: state => state.size,
+        getDesignName: state => state.designName,
+        getTransparencies: state => state.transparencies,
     },
     mutations: {
         setQuantity(state, payload) {
@@ -46,6 +50,12 @@ export default {
         },
         setSize(state, payload) {
             state.size = payload;
+        },
+        setDesignName(state, payload) {
+            state.designName = payload;
+        },
+        setTransparencies(state, payload) {
+            state.transparencies = payload;
         }
     },
     actions: {}

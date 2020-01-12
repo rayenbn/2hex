@@ -43,6 +43,7 @@
                                 <div class="m-portlet__body">
 
                                     <transfers-step1 />
+                                    <transfers-step2 />
 
                                 </div>
 
@@ -173,6 +174,7 @@
 <script>
     import HeadConfigurator from '@/components/HeadConfigurator.vue';
     import TransfersStep1 from "./Step1";
+    import TransfersStep2 from "./Step2";
 
     const COUNT_STEPS = 2;
 
@@ -186,6 +188,7 @@
         },
         components: {
             TransfersStep1,
+            TransfersStep2,
             HeadConfigurator,
         },
         data() {

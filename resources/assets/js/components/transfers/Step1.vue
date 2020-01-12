@@ -93,7 +93,6 @@
 
                             </select>
 
-
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Sizes</h3>
                                 The standard in professional skateboarding.
@@ -124,21 +123,26 @@
                     this.$store.commit('TransfersConfigurator/setQuantity', newVal);
                 }, 1000)
             },
+            sizeList() {
+                return this.$store.state.TransfersConfigurator.sizeList;
+            },
             size: {
                 get() {
-                    return this.$store.getters['TransfersConfigurator/getSize']
+                    var storeSize = this.$store.getters['TransfersConfigurator/getSize'];
+
+                    if (this.sizeList && !storeSize) {
+                        // Preselect 9" x 33"
+                        this.size = this.sizeList[0];
+                        return 0;
+                    }
+                    return storeSize;
                 },
                 set(newVal) {
                     this.$store.commit('TransfersConfigurator/setSize', newVal);
                 }
             },
-            sizeList() {
-                return this.$store.state.TransfersConfigurator.sizeList;
-            },
         },
-		methods: {
-
-		},
+		methods: {},
         mounted() {
 		    // init select2
             let queryType = $("#transfers_size");
