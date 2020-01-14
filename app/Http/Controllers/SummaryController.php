@@ -360,6 +360,9 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         Wheel::auth()->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->update($save_data);*/
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -515,6 +518,9 @@ class SummaryController extends Controller
             $created_by = csrf_token();
         }
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        //Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        
+        //GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         Wheel::auth()->update($save_data);
 
@@ -566,6 +572,9 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         Wheel::auth()->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->update($save_data);*/
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();

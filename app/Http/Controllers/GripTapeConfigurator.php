@@ -77,7 +77,7 @@ class GripTapeConfigurator extends Controller
         ]);
 
         $data = $request->all();
-
+        $data['saved_batch'] = 0;
         if(empty($data['id'])){
             $data['id'] = GripTape::query()->create(array_except($data, ['id']))->id;
         } else {

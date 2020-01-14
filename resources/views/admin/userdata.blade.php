@@ -50,7 +50,7 @@
                 </div>
                 <div class="data_item">
                     <span class="data_description">Last Login</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{$lastlogin}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Total Uploaded File</span>

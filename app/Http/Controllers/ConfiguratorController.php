@@ -50,7 +50,7 @@ class ConfiguratorController extends Controller
         $data = $request->all();
 
         $data['submit'] = '0';
-
+        $data['saved_batch'] = 0;
         // $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
         
         if(empty($data['id'])){

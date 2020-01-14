@@ -196,8 +196,8 @@ class DashboardController extends Controller
     public function getUserdata(Request $request )
     {
 
-        $startdate = "";
-        $enddate = "";
+        $startdate = date('Y-m-d',strtotime("-1 years"));
+        $enddate = date('Y-m-d',strtotime("+1 days"));
         
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
@@ -353,8 +353,9 @@ class DashboardController extends Controller
             $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->get();
             $click = Session::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','clicked')->get();
             
+            $lastlogin = Session::select('created_at')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->orderBy('created_at','desc')->first()['created_at'];
 
-            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays]);
+            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'lastlogin' => $lastlogin]);
             
         }
         $user = Auth::user();
@@ -389,9 +390,9 @@ class DashboardController extends Controller
 
         */
 
-        $ordersQuery = Order::auth();
-        $gripQuery = GripTape::auth();
-        $wheelQuery = Wheel::auth();
+        $ordersQuery = Order::auth(false);
+        $gripQuery = GripTape::auth(false);
+        $wheelQuery = Wheel::auth(false);
 
         $fees = [];
         $sum_fees = 0;
@@ -496,7 +497,8 @@ class DashboardController extends Controller
         $totalsize = $this->formatSizeUnits($totalsize);
         $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_by',$user->id)->where('action','login')->get();
         $click = Session::where('created_by',$user->id)->where('action','clicked')->get();
-        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'click' => $click]);
+        $lastlogin = Session::select('created_at')->where('created_by',$user->id)->where('action','login')->orderBy('created_at','desc')->first()['created_at'];
+        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'click' => $click, 'lastlogin' => $lastlogin]);
         
     }
     public function getSavedBatches(Request $request){
@@ -532,9 +534,9 @@ class DashboardController extends Controller
             // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
             // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
             // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
-            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
-            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
 
             $data = Order::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
             $grips = GripTape::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
@@ -915,9 +917,9 @@ class DashboardController extends Controller
             // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
             // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
             // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
-            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
-            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
 
             $data = Order::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
             $grips = GripTape::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
@@ -1195,18 +1197,22 @@ class DashboardController extends Controller
 
 
     public function getAnalystic(Request $request){
-
+        
         $startdate = $request->input('startdate');
         $enddate = $request->input('enddate');
 
         if($startdate)
             $startdate_temp = $startdate;
-        else
+        else{
             $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+            $startdate = date('Y-m-d',strtotime("-1 years"));
+        }
         if($enddate)
             $enddate_temp = $enddate;
-        else
+        else{
             $enddate_temp = date('Y-m-d',strtotime("+1 days"));
+            $enddate = date('Y-m-d',strtotime("+1 days"));
+        }
 
         $user_count = User::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
 
@@ -1373,8 +1379,8 @@ class DashboardController extends Controller
 
     public function getUploadFiles(Request $request){
         $user = Auth::user();
-        $startdate = "";
-        $enddate = "";
+        $startdate = date('Y-m-d',strtotime("-1 years"));
+        $enddate = date('Y-m-d',strtotime("+1 days"));
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -1503,8 +1509,8 @@ class DashboardController extends Controller
     public function getProduction(Request $request){
         $user = Auth::user();
         $users = User::select('email','name')->get();
-        $startdate = "";
-        $enddate = "";
+        $startdate = date('Y-m-d',strtotime("-1 years"));
+        $enddate = date('Y-m-d',strtotime("+1 days"));
         if($request->isMethod('post')){
             
             $email = $request->input('filter_email');
@@ -1572,8 +1578,8 @@ class DashboardController extends Controller
     }
     public function getSummary(Request $request){
         $user = Auth::user();
-        $startdate = "";
-        $enddate = "";
+        $startdate = date('Y-m-d',strtotime("-1 years"));
+        $enddate = date('Y-m-d',strtotime("+1 days"));
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -1782,8 +1788,8 @@ class DashboardController extends Controller
 
     public function getAction(Request $request){
         $user = Auth::user();
-        $startdate = "";
-        $enddate = "";
+        $startdate = date('Y-m-d',strtotime("-7 days"));
+        $enddate = date('Y-m-d',strtotime("+1 days"));
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -1794,7 +1800,7 @@ class DashboardController extends Controller
         if($startdate)
             $startdate_temp = $startdate;
         else
-            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+            $startdate_temp = date('Y-m-d',strtotime("-7 days"));
         if($enddate)
             $enddate_temp = $enddate;
         else

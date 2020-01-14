@@ -68,8 +68,9 @@ class WheelController extends Controller
     public function storeConfigurator(Request $request)
     {
     	$payload = $request->all();
-
-    	$wheel =  Wheel::query()->create($payload);
+        $payload['saved_batch'] = 0;
+        $wheel =  Wheel::query()->create($payload);
+        
         Session::insert(['action' => 'Save Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
