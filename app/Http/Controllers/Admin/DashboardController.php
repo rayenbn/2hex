@@ -13,6 +13,7 @@ use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
 use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session};
 use Cookie;
+use Itlead\Promocodes\Models\Promocode;
 class DashboardController extends Controller
 {
     protected $feesTypes = [
@@ -38,36 +39,32 @@ class DashboardController extends Controller
         ],
         // Grip tapes
         'top_print' => [
-            'name' => 'Grip Top Print',
+            'name' => 'Top Print',
             'price' => 30
         ],
         'die_cut' => [
-            'name' => 'Grip tape die_cut',
+            'name' => 'Die_cut',
             'price' => 80
         ],
         'carton_print' => [
-            'name' => 'Griptape Carton Print',
+            'name' => 'Carton Print',
             'price' => 95
         ],
         'backpaper_print' => [
-            'name' => 'Griptape Backpaper Print',
+            'name' => 'Backpaper Print',
             'price' => 45
         ],
         // Wheel 
-        'top_print' => [
-            'name' => 'Wheel Top Print',
-            'price' => 30
-        ],
         'back_print' => [
-            'name' => 'Grip tape die_cut',
+            'name' => 'Back Print',
             'price' => 80
         ],
         'cardboard_print' => [
-            'name' => 'Griptape Carton Print',
+            'name' => 'CardBoard Print',
             'price' => 95
         ],
         'shape_print' => [
-            'name' => 'Griptape Backpaper Print',
+            'name' => 'Shape Print',
             'price' => 45
         ],
     ];
@@ -1343,11 +1340,22 @@ class DashboardController extends Controller
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
         
 
+                
+                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                $down_path = '/'.'uploads/' . $user->name . '/' . $key . '/' . $value;
+                $size = 0;
+                if(\File::exists($path))
+                    $size = \File::size($path);
+
                 $fees[$count++] = [
                     'image'    => $value,
                     'product'  => 'S.B Deck',
                     'type'     => $this->feesTypes[$key]['name'],
-                    'date' => $order['created_at'],
+                    'key'      => $key,
+                    'id'       => $order['id'],
+                    'date'     => $order['created_at'],
+                    'path'     => $down_path,
+                    'size'     => $this->formatSizeUnits($size)
                 ];
             }
         }
