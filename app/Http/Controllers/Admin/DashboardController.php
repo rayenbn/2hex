@@ -352,6 +352,7 @@ class DashboardController extends Controller
 
             $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->get();
             $click = Session::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','clicked')->get();
+            
 
             return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays]);
             
@@ -493,8 +494,9 @@ class DashboardController extends Controller
         }
         
         $totalsize = $this->formatSizeUnits($totalsize);
-
-        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize]);
+        $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_by',$user->id)->where('action','login')->get();
+        $click = Session::where('created_by',$user->id)->where('action','clicked')->get();
+        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'click' => $click]);
         
     }
     public function getSavedBatches(Request $request){
