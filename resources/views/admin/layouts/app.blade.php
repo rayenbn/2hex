@@ -55,6 +55,7 @@
     </div>
 </body>
 <!--begin::Base Scripts -->
+@yield ('footer_scripts')
 <script src="{{asset('asset/vendors/base/vendors.bundle.js')}}"></script>
 <script src="{{asset('asset/demo/default/base/scripts.bundle.js')}}"></script>
 <script src="{{asset('asset/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
-use App\Models\{Order, GripTape, Wheel\Wheel};
+use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session};
 use Cookie;
 class DashboardController extends Controller
 {
@@ -166,6 +166,36 @@ class DashboardController extends Controller
         return response($data);
     }
 
+    protected function formatSizeUnits($bytes)
+    {
+        if ($bytes >= 1073741824)
+        {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        }
+        elseif ($bytes >= 1048576)
+        {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        }
+        elseif ($bytes >= 1024)
+        {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        }
+        elseif ($bytes > 1)
+        {
+            $bytes = $bytes . ' bytes';
+        }
+        elseif ($bytes == 1)
+        {
+            $bytes = $bytes . ' byte';
+        }
+        else
+        {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
+    }
+
     public function getUserdata(Request $request )
     {
 
@@ -184,12 +214,13 @@ class DashboardController extends Controller
             if($startdate)
                 $startdate_temp = $startdate;
             else
-                $startdate_temp = "1900-01-01";
+                $startdate_temp = date('Y-m-d',strtotime("-1 years"));
             if($enddate)
                 $enddate_temp = $enddate;
             else
-                $enddate_temp = '2199-12-31';
+                $enddate_temp = date('Y-m-d',strtotime("+1 days"));
 
+            /*
             $bottomprint_order = Order::whereNotNull('bottomprint')->where('bottomprint','<>','null')->where('bottomprint','<>','undefined')->where('created_by','=',$user['id'])->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
             $topprint_order = Order::whereNotNull('topprint')->where('topprint','<>','null')->where('topprint','<>','undefined')->where('created_by','=',$user['id'])->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
             $engravery_order = Order::whereNotNull('engravery')->where('engravery','<>','null')->where('engravery','<>','undefined')->where('created_by','=',$user['id'])->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
@@ -213,15 +244,126 @@ class DashboardController extends Controller
 
             $wheelfile_count = $bottomprint_wheel + $topprint_wheel + $shape_wheel + $cardboard_wheel + $carton_wheel;
 
-            $totalfile_count = $orderfile_count + $gripfile_count + $wheelfile_count;
-            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$totalfile_count, 'startdate' => $startdate, 'enddate' => $enddate]);
+            $totalfile_count = $orderfile_count + $gripfile_count + $wheelfile_count; 
+            */
+
+            $ordersQuery = Order::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
+            $gripQuery = GripTape::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
+            $wheelQuery = Wheel::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
+
+            $fees = [];
+            $sum_fees = 0;
+
+            
+            
+            // Fetching all desing by orders
+            $orders = (clone $ordersQuery)
+                ->get()
+                ->map(function($order) {
+                    return array_filter($order->attributesToArray());
+                })
+                ->toArray();
+
+
+            // Fetching all desing by griptapes
+            $gripTapes = (clone $gripQuery)
+                ->get()
+                ->map(function($grip) {
+                    return array_filter($grip->attributesToArray());
+                })
+                ->toArray();
+            
+            $wheels = (clone $wheelQuery)
+                ->get()
+                ->map(function($wheel) {
+                    return array_filter($wheel->attributesToArray());
+                })
+                ->toArray();
+            
+            $count = 0;
+            
+            $totalsize = 0;
+            foreach ($orders as $index => $order) {
+                $index += 1;
+                foreach ($order as $key => $value) {
+                    if (!array_key_exists($key,  $this->feesTypes)) continue;
+            
+
+                    $fees[$count++] = [
+                        'image'    => $value,
+                        'product'  => 'S.B Deck',
+                        'type'     => $this->feesTypes[$key]['name'],
+                        'date' => $order['created_at'],
+                    ];
+
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+                }
+            }
+
+            foreach ($gripTapes as $index => $grip) {
+                $index += 1;
+
+                foreach ($grip as $key => $value) {
+
+                    if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                    $fees[$count++] = [
+                        'image'    => $value,
+                        'product'  => 'S.B Grips',
+                        'type'     => $this->feesTypes[$key]['name'],
+                        'date' => $grip['created_at'],
+                    ];
+
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+                }
+            }
+
+
+            foreach ($wheels as $index => $wheel) {
+                $index += 1;
+
+                foreach ($wheel as $key => $value) {
+
+                    if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                    $fees[$count++] = [
+                        'image'    => $value,
+                        'product'  => 'S.B Wheels',
+                        'type'     => $this->feesTypes[$key]['name'],
+                        'date' => $wheel['created_at'],
+                    ];
+
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+
+                }
+            }
+
+            $totalsize = $this->formatSizeUnits($totalsize);
+
+
+            $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->get();
+            $click = Session::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','clicked')->get();
+
+            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays]);
             
         }
         $user = Auth::user();
         $shipinfo = ShipInfo::auth()->first();
         session()->flash('error', 'Your order has been successfully sent!');
         $users = User::select('email','name')->get();
-        
+        /*
         $bottomprint_order = Order::auth()->whereNotNull('bottomprint')->where('bottomprint','<>','null')->where('bottomprint','<>','undefined')->count();
         $topprint_order = Order::auth()->whereNotNull('topprint')->where('topprint','<>','null')->where('topprint','<>','undefined')->count();
         $engravery_order = Order::auth()->whereNotNull('engravery')->where('engravery','<>','null')->where('engravery','<>','undefined')->count();
@@ -247,7 +389,115 @@ class DashboardController extends Controller
 
         $totalfile_count = $orderfile_count + $gripfile_count + $wheelfile_count;
 
-        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$totalfile_count, 'startdate' => $startdate, 'enddate' => $enddate]);
+        */
+
+        $ordersQuery = Order::auth();
+        $gripQuery = GripTape::auth();
+        $wheelQuery = Wheel::auth();
+
+        $fees = [];
+        $sum_fees = 0;
+
+        
+        
+        // Fetching all desing by orders
+        $orders = (clone $ordersQuery)
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = (clone $gripQuery)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+        
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+        
+        $count = 0;
+        $totalsize = 0;
+        
+        
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+        
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Deck',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $order['created_at'],
+                ];
+
+                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                if(\File::exists($path)){
+                    $size = \File::size($path);
+                    $totalsize += $size;
+                }
+            }
+        }
+
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Grips',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $grip['created_at'],
+                ];
+
+                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                if(\File::exists($path)){
+                    $size = \File::size($path);
+                    $totalsize += $size;
+                }
+            }
+        }
+
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Wheels',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $wheel['created_at'],
+                ];
+
+                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                if(\File::exists($path)){
+                    $size = \File::size($path);
+                    $totalsize += $size;
+                }
+
+            }
+        }
+        
+        $totalsize = $this->formatSizeUnits($totalsize);
+
+        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize]);
         
     }
     public function getSavedBatches(Request $request){
@@ -854,11 +1104,11 @@ class DashboardController extends Controller
         if($startdate)
             $startdate_temp = $startdate;
         else
-            $startdate_temp = "1900-01-01";
+            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
         if($enddate)
             $enddate_temp = $enddate;
         else
-            $enddate_temp = '2199-12-31';
+            $enddate_temp = date('Y-m-d',strtotime("+1 days"));
 
         $user_count = User::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
 
@@ -875,7 +1125,8 @@ class DashboardController extends Controller
         }
 
         $order_count = Order::where('submit','=',0)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
-
+        
+        /*
         $bottomprint_order = Order::whereNotNull('bottomprint')->where('bottomprint','<>','null')->where('bottomprint','<>','undefined')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
         $topprint_order = Order::whereNotNull('topprint')->where('topprint','<>','null')->where('topprint','<>','undefined')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
         $engravery_order = Order::whereNotNull('engravery')->where('engravery','<>','null')->where('engravery','<>','undefined')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
@@ -901,7 +1152,125 @@ class DashboardController extends Controller
 
         $totalfile_count = $orderfile_count + $gripfile_count + $wheelfile_count;
 
-        return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $totalfile_count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate]);
+        */
+
+        $ordersQuery = Order::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
+        $gripQuery = GripTape::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
+        $wheelQuery = Wheel::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
+
+        $fees = [];
+        $sum_fees = 0;
+
+        
+        
+        // Fetching all desing by orders
+        $orders = (clone $ordersQuery)
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = (clone $gripQuery)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+        
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+        
+        $count = 0;
+        
+        $totalsize = 0;
+        
+        
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+        
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Deck',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $order['created_at'],
+                ];
+
+                $user = User::where('id',$order['created_by'])->first();
+                if($user){
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+                }
+            }
+        }
+
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Grips',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $grip['created_at'],
+                ];
+                $user = User::where('id',$grip['created_by'])->first();
+                if($user){
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+                }
+            }
+        }
+
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Wheels',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $wheel['created_at'],
+                ];
+                $user = User::where('id',$wheel['created_by'])->first();
+                if($user){
+                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $totalsize += $size;
+                    }
+                }
+
+            }
+        }
+
+        $totalsize = $this->formatSizeUnits($totalsize);
+
+        $signupByDays = User::select(\DB::raw('Date(created_at) as date'), \DB::raw('count(*) as counts'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->get();
+        
+        return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'signupByDays' => $signupByDays]);
     }
 
     public function getUploadFiles(Request $request){
@@ -1020,5 +1389,311 @@ class DashboardController extends Controller
         
         $users = User::select('email','name')->get();
         return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate'));
+    }
+
+    public function getProduction(Request $request){
+        $user = Auth::user();
+        $users = User::select('email','name')->get();
+        $startdate = "";
+        $enddate = "";
+        if($request->isMethod('post')){
+            
+            $email = $request->input('filter_email');
+            $user = User::where('email','=',$email)->first();
+            $selected_order = $request->input('select_order');
+            $selected_date = $request->input('select_date');
+            $startdate = $request->input('startdate');
+            $enddate = $request->input('enddate');
+            $content = $request->input('content');
+            $remove_id = $request->input('remove_comment');
+            if(isset($remove_id)){
+                ProductionComment::where('id', $remove_id)->delete();   
+            }            
+            else if(isset($content) && isset($selected_date)){
+                $exists_comment = ProductionComment::where('date',$selected_date)->get();
+                if(isset($exists_comment) && count($exists_comment) > 0){
+                    ProductionComment::where('id',$exists_comment[0]['id'])->update(['comment' => $content]);
+                }
+                else{
+                    ProductionComment::insert(
+                        ['date' => $selected_date, 'comment' => $content, 'order_id' => $selected_order, 'created_at' => date("Y-m-d H:i:s")]
+                    );
+                }
+                
+            }
+            
+        }
+
+        $returnorder = Order::where('created_by','=',$user['id'])->where('submit','=',1)->get();
+
+        if($startdate)
+            $startdate_temp = $startdate;
+        else
+            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+        if($enddate)
+            $enddate_temp = $enddate;
+        else
+            $enddate_temp = date('Y-m-d',strtotime("+1 days"));
+
+        $dates = $this->date_range($startdate_temp, $enddate_temp);
+        if(!isset($selected_order)){
+            $selected_order = $returnorder[0]['id'];
+        }
+        if(!isset($selected_date)){
+            $selected_date = $dates[0];
+        }
+        $comments = ProductionComment::where('order_id',$selected_order)->where('date','>',$startdate_temp)->where('date','<',$enddate_temp)->orderBy('date', 'asc')->get();
+
+
+        return view('admin.production',compact( 'users','user', 'returnorder', 'selected_order','startdate','enddate','dates','selected_date','comments'));
+    }
+    protected function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d' ) {
+
+        $dates = array();
+        $current = strtotime($first);
+        $last = strtotime($last);
+    
+        while( $current <= $last ) {
+    
+            $dates[] = date($output_format, $current);
+            $current = strtotime($step, $current);
+        }
+    
+        return $dates;
+    }
+    public function getSummary(Request $request){
+        $user = Auth::user();
+        $startdate = "";
+        $enddate = "";
+        if($request->isMethod('post')){
+            $email = $request->input('filter_email');
+            $user = User::where('email','=',$email)->first();
+
+            $startdate = $request->input('startdate');
+            $enddate = $request->input('enddate');
+
+            $ordersQuery = Order::where('created_by','=',$user['id']);
+            $gripQuery = GripTape::where('created_by','=',$user['id']);
+            $wheelQuery = Wheel::where('created_by','=',$user['id']);
+
+            if($startdate){
+                $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);
+                $gripQuery = $gripQuery->where('created_at','>=',$startdate);
+                $wheelQuery = $wheelQuery->where('created_at','>=',$startdate);
+            }
+            if($enddate){
+                $ordersQuery = $ordersQuery->where('created_at','<=',$enddate);
+                $gripQuery = $gripQuery->where('created_at','<=',$enddate);
+                $wheelQuery = $wheelQuery->where('created_at','<=',$enddate);
+            }
+            
+        }
+        else{
+            $ordersQuery = Order::auth();
+            $gripQuery = GripTape::auth();
+            $wheelQuery = Wheel::auth();
+        }
+
+        $returnorder = $ordersQuery->get();
+        $returngrip = $gripQuery->get();
+        $returnwheel = $wheelQuery->get();
+
+        $fees = [];
+        $sum_fees = 0;
+
+        // Set wheel fix cost to main fees array
+        $this->calculateWheelFixCost($fees);
+
+        // Order weight
+        $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
+            return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
+        }, 0);
+
+        $wheelWeight = $wheelQuery
+            ->selectRaw('SUM(quantity * ?) as weight')
+            ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
+            ->first()
+            ->weight;
+
+        // total weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
+
+        // Fetching all desing by orders
+        $orders = (clone $ordersQuery)
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = (clone $gripQuery)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+
+
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $order['quantity'];
+                        continue;
+                    }
+                } 
+
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $order['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $order)) {
+                    switch ($order[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                if ($key === 'bottomprint' || $key === 'topprint') {
+                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                }
+            }
+        }
+
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $grip)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $grip['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $grip['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+            }
+        }
+
+        // Set Global delivery
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+            $fees['global'] = [];
+            array_push($fees['global'], [
+                'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
+                'batches' => '', 
+                'price' => get_global_delivery($weight), 
+                'type' => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
+            ]);
+        }
+
+        // Calculate total price
+        foreach ($fees as $key => $value) {
+            array_walk($value, function($f, $k) use(&$sum_fees){
+                $sum_fees += $f['price'];
+            });
+        }
+
+        // calculate total 
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+
+        $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
+
+        if ($promocode) {
+            
+            $promocode = json_decode($promocode);
+
+            switch ($promocode->type) {
+                case Promocode::FIXED :
+                    $totalOrders -= $promocode->reward;
+                    break;
+                
+                case Promocode::PERCENT:
+                    $totalOrders -= $totalOrders * $promocode->reward / 100;
+                    break;
+            }
+        }
+
+        Cookie::queue('orderTotal', $totalOrders);
+
+        $users = User::select('email','name')->get();
+        
+        return view('admin.summary', compact('fees', 'totalOrders','returnorder','returngrip','returnwheel','users','user','startdate','enddate'));
+    }
+
+    public function getAction(Request $request){
+        $user = Auth::user();
+        $startdate = "";
+        $enddate = "";
+        if($request->isMethod('post')){
+            $email = $request->input('filter_email');
+            $user = User::where('email','=',$email)->first();
+
+            $startdate = $request->input('startdate');
+            $enddate = $request->input('enddate');
+        }
+        if($startdate)
+            $startdate_temp = $startdate;
+        else
+            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+        if($enddate)
+            $enddate_temp = $enddate;
+        else
+            $enddate_temp = date('Y-m-d',strtotime("+1 days"));
+        $users = User::select('email','name')->get();
+
+        $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->get();
+        return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions'));
+        
     }
 }

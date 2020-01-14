@@ -77,6 +77,27 @@
                                     </span>
                 </a>
             </li>
+            <li class="m-menu__item  m-menu__item" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                <a href="/admin/action" class="m-menu__link m-menu__toggle">
+                    <span class="m-menu__link-text">
+                                        Actions
+                                    </span>
+                </a>
+            </li>
+            <li class="m-menu__item  m-menu__item" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                <a href="/admin/production" class="m-menu__link m-menu__toggle">
+                    <span class="m-menu__link-text">
+                                        Productions
+                                    </span>
+                </a>
+            </li>
+            <li class="m-menu__item  m-menu__item" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                <a href="/admin/summary" class="m-menu__link m-menu__toggle">
+                    <span class="m-menu__link-text">
+                                        Summary
+                                    </span>
+                </a>
+            </li>
             <li class="m-menu__item  m-menu__item" aria-haspopup="true">
                 <a href="/logout" class="m-menu__link ">
                     <i class="m-menu__link-icon fa fa-sign-out"></i>

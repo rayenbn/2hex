@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{GripTape, Order};
+use App\Models\{GripTape, Order, Session};
 use App\Jobs\RecalculateOrders;
 use App\Models\Wheel\Wheel;
 
@@ -79,10 +79,12 @@ class GripTapeConfigurator extends Controller
         $data = $request->all();
 
         if(empty($data['id'])){
-            GripTape::query()->create(array_except($data, ['id']));
+            $data['id'] = GripTape::query()->create(array_except($data, ['id']))->id;
         } else {
             GripTape::where('id','=', $data['id'])->update($data);
         }
+
+        Session::insert(['action' => 'Save Grip', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -95,12 +97,13 @@ class GripTapeConfigurator extends Controller
     public function save($id)
     {
         GripTape::where('id',$id)->update(['saved_batch' => 1]);
+        Session::insert(['action' => 'Save Grip to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->back();
     }
     public function destroy($id)
     {
         GripTape::where('id','=',$id)->delete();
-
+        Session::insert(['action' => 'Delete Grip', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->get(), 

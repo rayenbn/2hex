@@ -50,10 +50,10 @@
 			<div class="m-portlet">
 				<div class="m-portlet__body">
 					<div class="pane pane--table2">
-					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
-						<tr>
+					<table class="table table-striped- table-bordered table-hover table-checkable" id="summary-table">
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
+                                    <td colspan="1">Select</td>
                                     <td colspan="1">No</td>
 									<td colspan="3">Print File</td>
                                     <td colspan="6">Product</td>
@@ -65,6 +65,9 @@
 
                             @foreach($fees as $key => $group)
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="form-control" name="uploadUpdate[]">
+                                    </td>
                                     <td colspan="1">{{$key + 1}}</td>
                                     <td colspan="3">{{ $group['image'] }}</td>
                                     <td colspan="6">{{ $group['product'] }}</td>
@@ -73,7 +76,6 @@
                                     <td colspan="6">{{ substr($group['date'],10) }}</td>
                                 </tr>
 							@endforeach
-						</tr>
 
 					</table>
 					</div>

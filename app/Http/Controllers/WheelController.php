@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
 use App\Models\Wheel\Wheel;
-use App\Models\{Order, GripTape};
+use App\Models\{Order, GripTape, Session};
 use App\Jobs\RecalculateOrders;
 
 class WheelController extends Controller
@@ -70,7 +70,7 @@ class WheelController extends Controller
     	$payload = $request->all();
 
     	$wheel =  Wheel::query()->create($payload);
-
+        Session::insert(['action' => 'Save Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 
@@ -97,6 +97,8 @@ class WheelController extends Controller
         $wheel = Wheel::query()->whereKey($wheelId)->firstOrFail();
 
         $wheel->update($payload);
+
+        Session::insert(['action' => 'Update Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -155,12 +157,13 @@ class WheelController extends Controller
     }
     public function save($id){
         Wheel::where('wheel_id',$id)->update(['saved_batch' => 1]);
+        Session::insert(['action' => 'Save Wheel To Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->back();
     }
     public function destroy(int $id)
     {
         Wheel::find($id)->delete();
-
+        Session::insert(['action' => 'Delete Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->get(), 

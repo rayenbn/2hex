@@ -1,9 +1,36 @@
-{{--
+
 <script>
 
 	$(document).ready(function(){
+		$(document.body).click(function(){
+			$.ajax({
+				url: '/clickevent',
+				type: 'GET',
+				success: function(data){
+
+				}
+			})
+		});
+
+		$('.select2').select2();
+		$('#startdate').datepicker({
+			format: 'yyyy-mm-dd'
+		});
+		// $('#startdate').change(function(){
+		//     $('#filter_form').submit();
+		// });
+		$('#enddate').datepicker({
+			format: 'yyyy-mm-dd'
+		});
+		// $('#enddate').change(function(){
+		//     $('#filter_form').submit();
+		// });
+		$('.form_input').change(function(){
+			$('#production_filter').submit();
+		});
+
 		// Get global var $orders via provider
-		app.batchTotal=parseInt("{{$orders->sum('quantity')}}");
+		/*app.batchTotal=parseInt("{{$orders->sum('quantity')}}");
 
 		@if(isset($saved_order))
 			@foreach($saved_order as $order)
@@ -136,6 +163,5 @@
 		var decodedString = dom.body.textContent;
 
 		return decodedString;
-	}
+	}*/
 </script>
---}}

@@ -49,7 +49,7 @@ $(document).ready(function(){
 	    	error: function (jqXHR, exception) {
 	    		alert('The given data was invalid.');
 	    		form.trigger('reset');
-	    	}
+	    	} 
     	});
 	});
 
@@ -77,5 +77,5 @@ $(document).ready(function(){
 
     $('#size').select2({
         placeholder: "Select a size"
-    });
+	});
 });

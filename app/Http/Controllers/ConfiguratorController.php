@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape};
+use App\Models\{Order, GripTape, Session};
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\RecalculateOrders;
 use App\Models\Wheel\Wheel;
@@ -52,12 +52,14 @@ class ConfiguratorController extends Controller
         $data['submit'] = '0';
 
         // $data['created_by'] = auth()->check() ? auth()->id() : csrf_token();
-
+        
         if(empty($data['id'])){
-            Order::query()->create(array_except($data, ['id']));
+            $data['id'] = Order::query()->create(array_except($data, ['id']))->id;
         } else {
             Order::where('id','=', $data['id'])->update($data);
         }
+
+        Session::insert(['action' => 'Save Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -85,6 +87,8 @@ class ConfiguratorController extends Controller
                 }
 
                 $file->move($path, $name);
+
+                Session::insert(['action' => 'Upload', 'created_by' => Auth::user()->id, 'comment' => $name, 'created_at' => date("Y-m-d H:i:s")]);
 
                 return $name;
 
@@ -130,12 +134,15 @@ class ConfiguratorController extends Controller
 
     public function save($id){
         Order::where('id',$id)->update(['saved_batch' => 1]);
+        Session::insert(['action' => 'Save Order to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->back();
     }
     
     public function delete($id)
     {
         Order::where('id','=',$id)->delete();
+
+        Session::insert(['action' => 'Delete Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(

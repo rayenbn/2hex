@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
-use App\Models\{Order, GripTape, Wheel\Wheel};
+use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment};
+use Session;
 
 class ProfileController extends Controller
 {
@@ -63,7 +64,28 @@ class ProfileController extends Controller
         $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
 
-        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches'));
+        $returnorder = Order::where('created_by','=',$createdBy)->where('submit','=',1)->get();
+
+        $selected_order = Session::get('selected_order');
+        $startdate = Session::get('startdate');
+        $enddate = Session::get('enddate');
+
+        if(isset($startdate))
+            $startdate_temp = $startdate;
+        else
+            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+        if(isset($enddate))
+            $enddate_temp = $enddate;
+        else
+            $enddate_temp = date('Y-m-d');
+
+        if(!isset($selected_order)){
+            $selected_order = $returnorder[0]['id'];
+        }
+
+        $comments = ProductionComment::where('order_id',$selected_order)->where('date','>',$startdate_temp)->where('date','<',$enddate_temp)->orderBy('date', 'asc')->get();
+
+        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments'));
     }
 
     public function store_address(Request $request)
@@ -95,5 +117,13 @@ class ProfileController extends Controller
         }
         
         return redirect()->route('profile');
+    }
+
+    public function production_filter(Request $request){
+        $selected_order = $request->input('select_order');
+        $startdate = $request->input('startdate');
+        $enddate = $request->input('enddate');
+
+        return redirect()->back()->with(['selected_order' => $selected_order, 'startdate' => $startdate, 'enddate' => $enddate]);
     }
 }

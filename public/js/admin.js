@@ -20,4 +20,13 @@ $(document).ready(function(){
     $('#enddate').change(function(){
         $('#filter_form').submit();
     });
+    $('.form_input').change(function(){
+        $('.production-submit').click();
+    });
+    $('.remove-comment').click(function(){
+        id = $(this).val();
+        $('.remove_comment').val(id);
+        $('.production-submit').click();
+    });
+    
 });
