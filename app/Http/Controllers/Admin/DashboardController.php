@@ -515,22 +515,72 @@ class DashboardController extends Controller
         return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user'));
     }
     public function getSubmitOrder(Request $request ){
+
+        $save_data['usenow'] = 0;
+
+
+
+        
+
+
         $user = Auth::user();
+        $saved_date = "";
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            
+            // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+
+            $data = Order::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+            $grips = GripTape::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+            $wheels = Wheel::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+
+            for($i = 0; $i < count($data); $i ++){
+                unset($data[$i]['id']);
+                unset($data[$i]['saved_date']);
+                unset($data[$i]['usenow']);
+                unset($data[$i]['submit']);
+                $array = json_decode(json_encode($data[$i]), true);
+                Order::insert($array);
+            }
+
+            for($i = 0; $i < count($grips); $i ++){
+                unset($grips[$i]['id']);
+                unset($grips[$i]['saved_date']);
+                unset($grips[$i]['usenow']);
+                unset($grips[$i]['submit']);
+                $array = json_decode(json_encode($grips[$i]), true);
+                GripTape::insert($array);
+            }
+
+            for($i = 0; $i < count($wheels); $i ++){
+                unset($wheels[$i]['wheel_id']);
+                unset($wheels[$i]['saved_date']);
+                unset($wheels[$i]['usenow']);
+                unset($wheels[$i]['submit']);
+                $array = json_decode(json_encode($wheels[$i]), true);
+                Wheel::insert($array);
+            }
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1);
         }
         else{
-            $ordersQuery = Order::auth()->where('submit','=',1);
-            $gripQuery = GripTape::auth()->where('submit','=',1);
-            $wheelQuery = Wheel::auth()->where('submit','=',1);
+            $ordersQuery = Order::auth();
+            $gripQuery = GripTape::auth();
+            $wheelQuery = Wheel::auth();
         }
         
+        
+        
+
+        
+
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
@@ -849,29 +899,80 @@ class DashboardController extends Controller
         }
     }
     public function getSavedOrder(Request $request ){
+        $save_data['usenow'] = 0;
+
+
+
+        
+
+
         $user = Auth::user();
+        $saved_date = "";
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date);
-            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date);
-            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date);
-            
+            // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
+            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+            Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow' => 0]);
+
+            $data = Order::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+            $grips = GripTape::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+            $wheels = Wheel::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
+
+            for($i = 0; $i < count($data); $i ++){
+                unset($data[$i]['id']);
+                unset($data[$i]['saved_date']);
+                unset($data[$i]['usenow']);
+                unset($data[$i]['submit']);
+                $array = json_decode(json_encode($data[$i]), true);
+                Order::insert($array);
+            }
+
+            for($i = 0; $i < count($grips); $i ++){
+                unset($grips[$i]['id']);
+                unset($grips[$i]['saved_date']);
+                unset($grips[$i]['usenow']);
+                unset($grips[$i]['submit']);
+                $array = json_decode(json_encode($grips[$i]), true);
+                GripTape::insert($array);
+            }
+
+            for($i = 0; $i < count($wheels); $i ++){
+                unset($wheels[$i]['wheel_id']);
+                unset($wheels[$i]['saved_date']);
+                unset($wheels[$i]['usenow']);
+                unset($wheels[$i]['submit']);
+                $array = json_decode(json_encode($wheels[$i]), true);
+                Wheel::insert($array);
+            }
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1);
         }
         else{
-            $ordersQuery = Order::auth()->where('submit','=',0);
-            $gripQuery = GripTape::auth()->where('submit','=',0);
-            $wheelQuery = Wheel::auth()->where('submit','=',0);
+            $ordersQuery = Order::auth();
+            $gripQuery = GripTape::auth();
+            $wheelQuery = Wheel::auth();
         }
         
+        
+        
+
+        
+
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
-        
+
         $fees = [];
         $sum_fees = 0;
 
+        
+        
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
 
@@ -962,7 +1063,7 @@ class DashboardController extends Controller
 
                 // If same design
                 if (array_key_exists($key, $fees)) {
-                    if (array_key_exists($value, $fees[$key])) {    
+                    if (array_key_exists($value, $fees[$key])) {
                         $fees[$key][$value]['batches'] .= ",{$index}";
                         $fees[$key][$value]['quantity'] += $grip['quantity'];
                         continue;
@@ -1016,7 +1117,7 @@ class DashboardController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + $gripQuery->sum('total') + $wheelQuery->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -1036,9 +1137,8 @@ class DashboardController extends Controller
         }
 
         Cookie::queue('orderTotal', $totalOrders);
-        
         $users = User::select('email','name')->get();
-        //return view('admin.savedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'user' => $user, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users]);
+        //return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users, 'user' => $user]);
         
         $user = Auth::user();
         if($request->isMethod('post')){
@@ -1090,7 +1190,6 @@ class DashboardController extends Controller
 
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
-        //return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user'));
         return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
     }
 
@@ -1482,9 +1581,9 @@ class DashboardController extends Controller
             $startdate = $request->input('startdate');
             $enddate = $request->input('enddate');
 
-            $ordersQuery = Order::where('created_by','=',$user['id']);
-            $gripQuery = GripTape::where('created_by','=',$user['id']);
-            $wheelQuery = Wheel::where('created_by','=',$user['id']);
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow',1);
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow',1);
 
             if($startdate){
                 $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);

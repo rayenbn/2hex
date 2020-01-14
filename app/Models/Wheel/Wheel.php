@@ -56,7 +56,7 @@ class Wheel extends Model
             $query->where('created_by', '=', csrf_token());
         } 
 
-        //return $query->where('usenow', '=', $type);
-        return $query;
+        return $query->where('usenow', '=', $type);
+        //return $query;
     }
 }

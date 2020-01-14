@@ -343,7 +343,11 @@
                                                     >
                                                         <option value="" disabled>SELECT</option>
                                                         @foreach($returnorder as $orderinfo)
-                                                            <option @if($selected_order == $orderinfo->id) selected @endif value="{{$orderinfo->id}}">Order #{{$orderinfo->id}}</option>    
+                                                            <option @if($selected_order == $orderinfo->id) selected @endif value="{{$orderinfo->id}}">Order #{{$orderinfo->invoice_number}}</option>    
+                                                            @php
+                                                                if($selected_order == $orderinfo->id)
+                                                                    $selected_invoice = $orderinfo->invoice_number;
+                                                            @endphp
                                                         @endforeach
                                                     </select>
                                                     <input type="hidden" name="order_id" id="order_id">
@@ -372,7 +376,7 @@
                                                 <div class="m-portlet__head-caption">
                                                     <div class="m-portlet__head-title">
                                                         <h3 class="m-portlet__head-text">
-                                                            Your Current Production #{{$selected_order}}
+                                                            Your Current Production #{{$selected_invoice}}
                                                         </h3>
                                                     </div>
                                                 </div>

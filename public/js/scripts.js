@@ -75,7 +75,32 @@ $(document).ready(function(){
         verticaldownclass: 'la la-angle-down'
     });
 
-    $('#size').select2({
-        placeholder: "Select a size"
+    setTimeout(function(){
+		$('#size').select2({
+			placeholder: "Select a size"
+		});
+	},1000);
+
+	$(document.body).click(function(){
+		$.ajax({
+			url: '/clickevent',
+			type: 'GET',
+			success: function(data){
+
+			}
+		})
+	});
+
+	$('.select2').select2();
+	$('#startdate').datepicker({
+		format: 'yyyy-mm-dd'
+	});
+	
+	$('#enddate').datepicker({
+		format: 'yyyy-mm-dd'
+	});
+	
+	$('.form_input').change(function(){
+		$('#production_filter').submit();
 	});
 });

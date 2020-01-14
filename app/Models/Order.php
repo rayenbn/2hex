@@ -92,7 +92,8 @@ class Order extends Model
         } else {
             $query->where('created_by', '=', csrf_token());
         }
-        return $query;
+        //return $query;
+        return $query->where('usenow', '=', $type);
     }
 
     public static function getGlobalDelivery()
