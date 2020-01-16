@@ -21,7 +21,10 @@
     font-weight: bold;
 }
 .m-datatable__pager{
-    display: none;
+    
+}
+#generalSearch{
+    margin-bottom: 30px;
 }
 .saved-order-list-item {
     border: 1px solid #e2e2e2;

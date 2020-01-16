@@ -1285,6 +1285,12 @@ class DashboardController extends Controller
         }
 
         $order_count = Order::where('submit','=',0)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
+
+
+        $clicks = Session::select(\DB::raw('count(*) as click'), \DB::raw('count(*) as total'), 'created_by')->where('action','clicked')->groupBy('created_by')->get();
+        $orders = Order::select(\DB::raw('count(*) as savedorder'), \DB::raw('count(*) as total'), 'saved_date', 'created_by')->groupBy('saved_date','created_by')->where('submit',0)->where('usenow',0)->get();
+
+        
         
         /*
         $bottomprint_order = Order::whereNotNull('bottomprint')->where('bottomprint','<>','null')->where('bottomprint','<>','undefined')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();

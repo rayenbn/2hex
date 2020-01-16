@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.users.index', ['users' => User::with('roles')->sortable(['email' => 'asc'])->paginate()]);
+        return view('admin.users.index', ['users' => User::with('roles')->sortable(['email' => 'asc'])->get()]);
     }
 
     /**

@@ -161,8 +161,8 @@ class WheelController extends Controller
         $wheels = Wheel::where('wheel_id',$id)->first();
         unset($wheels['wheel_id']);
         unset($wheels['saved_date']);
-        $orders['usenow'] = 0;
-        unset($orders['invoice_number']);
+        $wheels['usenow'] = 0;
+        unset($wheels['invoice_number']);
         unset($wheels['submit']);
         $wheels['saved_batch'] = 1;
         $array = json_decode(json_encode($wheels), true);

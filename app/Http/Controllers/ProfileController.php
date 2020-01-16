@@ -73,27 +73,27 @@ class ProfileController extends Controller
         $returnorder = Order::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
         $selected_order = Session::get('selected_order');
-        $startdate = Session::get('startdate');
-        $enddate = Session::get('enddate');
+        // $startdate = Session::get('startdate');
+        // $enddate = Session::get('enddate');
 
-        if(isset($startdate))
-            $startdate_temp = $startdate;
-        else{
-            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
-            $startdate = date('Y-m-d',strtotime("-1 years"));
-        }
-        if(isset($enddate))
-            $enddate_temp = $enddate;
-        else{
-            $enddate_temp = date('Y-m-d');
-            $enddate = date('Y-m-d');
-        }
+        // if(isset($startdate))
+        //     $startdate_temp = $startdate;
+        // else{
+        //     $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+        //     $startdate = date('Y-m-d',strtotime("-1 years"));
+        // }
+        // if(isset($enddate))
+        //     $enddate_temp = $enddate;
+        // else{
+        //     $enddate_temp = date('Y-m-d');
+        //     $enddate = date('Y-m-d');
+        // }
 
         if(!isset($selected_order) && count($returnorder) > 0){
             $selected_order = $returnorder[0]['invoice_number'];
         }
 
-        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate_temp)->where('date','<=',$enddate_temp)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->orderBy('date', 'asc')->get();
 
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments'));
     }
@@ -131,9 +131,9 @@ class ProfileController extends Controller
 
     public function production_filter(Request $request){
         $selected_order = $request->input('select_order');
-        $startdate = $request->input('startdate');
-        $enddate = $request->input('enddate');
+        //$startdate = $request->input('startdate');
+        //$enddate = $request->input('enddate');
 
-        return redirect()->route('profile',['#submitted_orders'])->with(['selected_order' => $selected_order, 'startdate' => $startdate, 'enddate' => $enddate]);
+        return redirect()->route('profile',['#submitted_orders'])->with(['selected_order' => $selected_order]);
     }
 }

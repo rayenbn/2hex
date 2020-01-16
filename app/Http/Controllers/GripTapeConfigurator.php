@@ -101,8 +101,8 @@ class GripTapeConfigurator extends Controller
         $grips = GripTape::where('id',$id)->first();
         unset($grips['id']);
         unset($grips['saved_date']);
-        $orders['usenow'] = 0;
-        unset($orders['invoice_number']);
+        $grips['usenow'] = 0;
+        unset($grips['invoice_number']);
         unset($grips['submit']);
         $grips['saved_batch'] = 1;
         $array = json_decode(json_encode($grips), true);

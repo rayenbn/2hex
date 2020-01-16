@@ -353,22 +353,7 @@
                                                     <input type="hidden" name="order_id" id="order_id">
                                                 </div> 
 
-                                                <div class="col-lg-6">
-                                                    <div class="row">
-                                                        <div class='col-md-5'>
-                                                            <p>Start</p>
-                                                            <div class="form-group">
-                                                                <input type='text' class="form-control form_input" name="startdate" id='startdate' value='{{$startdate}}'/>
-                                                            </div>
-                                                        </div>
-                                                        <div class='col-md-5'>
-                                                            <p>Finish</p>
-                                                            <div class="form-group">
-                                                                <input type='text' class="form-control form_input" name="enddate" id='enddate'  value='{{$enddate}}'/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </form>
                                         <div class="m-portlet  m-portlet--full-height ">
