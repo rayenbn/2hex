@@ -99,7 +99,7 @@ class WheelController extends Controller
 
         $wheel->update($payload);
 
-        Session::insert(['action' => 'Update Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel['id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Update Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel['wheel_id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -158,7 +158,7 @@ class WheelController extends Controller
     }
     public function save($id){
         //Wheel::where('wheel_id',$id)->update(['saved_batch' => 1]);
-        $wheels = Wheel::where('id',$id)->first();
+        $wheels = Wheel::where('wheel_id',$id)->first();
         unset($wheels['wheel_id']);
         unset($wheels['saved_date']);
         $orders['usenow'] = 0;

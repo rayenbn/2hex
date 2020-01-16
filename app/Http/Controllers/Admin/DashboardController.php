@@ -346,6 +346,7 @@ class DashboardController extends Controller
                     ];
 
                     $folder_name = str_replace('_print','',$key);
+                    $folder_name = str_replace('top','front',$folder_name);
                     $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
@@ -519,6 +520,7 @@ class DashboardController extends Controller
                 ];
 
                 $folder_name = str_replace('_print','',$key);
+                $folder_name = str_replace('top','front',$folder_name);
                 $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                 //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                 if(\File::exists($path)){
@@ -1422,6 +1424,7 @@ class DashboardController extends Controller
                 $user = User::where('id',$wheel['created_by'])->first();
                 if($user){
                     $folder_name = str_replace('_print','',$key);
+                    $folder_name = str_replace('top','front',$folder_name);
                     $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
@@ -1624,6 +1627,7 @@ class DashboardController extends Controller
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
 
                 $folder_name = str_replace('_print','',$key);
+                $folder_name = str_replace('top','front',$folder_name);
                 $path = public_path('uploads/' . $user->name .  '/wheel-' . $folder_name . '/' . $value);
                 $down_path = '/'.'uploads/' . $user->name . '/wheel-' . $folder_name . '/' . $value;
                 $size = 0;
