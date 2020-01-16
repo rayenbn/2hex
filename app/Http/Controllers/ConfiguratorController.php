@@ -133,9 +133,17 @@ class ConfiguratorController extends Controller
     }
 
     public function save($id){
-        Order::where('id',$id)->update(['saved_batch' => 1]);
+        $orders = Order::where('id',$id)->first();
+        unset($orders['id']);
+        unset($orders['saved_date']);
+        unset($orders['invoice_number']);
+        $orders['usenow'] = 0;
+        unset($orders['submit']);
+        $orders['saved_batch'] = 1;
+        $array = json_decode(json_encode($orders), true);
+        Order::insert($array);
         Session::insert(['action' => 'Save Order to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
-        return redirect()->back();
+        return redirect()->route('profile', ['#saved_orders']);
     }
     
     public function delete($id)

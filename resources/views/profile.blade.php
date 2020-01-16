@@ -336,7 +336,7 @@
                                                 <div class="col-lg-6">
                                                     <p>Productions</p>
                                                     <select
-                                                        class="form-control filter_email select2 form_input"
+                                                        class="form-control filter_email form_input"
                                                         id="select_order"
                                                         name="select_order"
                                                         style="width:100%;"
@@ -376,7 +376,7 @@
                                                 <div class="m-portlet__head-caption">
                                                     <div class="m-portlet__head-title">
                                                         <h3 class="m-portlet__head-text">
-                                                            Your Current Production #{{$selected_invoice}}
+                                                            Your Current Production #{{isset($selected_invoice)?$selected_invoice:''}}
                                                         </h3>
                                                     </div>
                                                 </div>

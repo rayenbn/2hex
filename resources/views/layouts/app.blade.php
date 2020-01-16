@@ -109,9 +109,7 @@
 <script src="{{ mix('/mix/app.js') }}"></script>
 
 {{-- @include('layouts.script') --}}
-<script>
-    
-</script>
+
 @stack('footer.scripts')
 <!--end::Base Scripts -->  
 

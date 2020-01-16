@@ -44,11 +44,15 @@ class ProfileController extends Controller
 
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
 
+        
+
         $unSubmitOrders = $unSubmitOrders->toBase()->merge($queryWheels->where('submit', 0)->get());
 
         $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
             $unSubmitOrders->push($grip);
         });
+
+        $unSubmitOrders = $unSubmitOrders->unique('saved_date');
 
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
@@ -56,7 +60,9 @@ class ProfileController extends Controller
             $submitorders->push($grip);
         });
 
-        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->addSelect('invoice_number')->get());
+        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
+
+        $submitorders = $submitorders->unique('saved_date');
 
         $shipinfo = ShipInfo::auth()->first();
 
@@ -64,7 +70,7 @@ class ProfileController extends Controller
         $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
 
-        $returnorder = Order::where('created_by','=',$createdBy)->where('submit','=',1)->get();
+        $returnorder = Order::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
         $selected_order = Session::get('selected_order');
         $startdate = Session::get('startdate');
@@ -72,18 +78,22 @@ class ProfileController extends Controller
 
         if(isset($startdate))
             $startdate_temp = $startdate;
-        else
+        else{
             $startdate_temp = date('Y-m-d',strtotime("-1 years"));
+            $startdate = date('Y-m-d',strtotime("-1 years"));
+        }
         if(isset($enddate))
             $enddate_temp = $enddate;
-        else
+        else{
             $enddate_temp = date('Y-m-d');
-
-        if(!isset($selected_order)){
-            $selected_order = $returnorder[0]['id'];
+            $enddate = date('Y-m-d');
         }
 
-        $comments = ProductionComment::where('order_id',$selected_order)->where('date','>',$startdate_temp)->where('date','<',$enddate_temp)->orderBy('date', 'asc')->get();
+        if(!isset($selected_order) && count($returnorder) > 0){
+            $selected_order = $returnorder[0]['invoice_number'];
+        }
+
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate_temp)->where('date','<=',$enddate_temp)->orderBy('date', 'asc')->get();
 
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments'));
     }
@@ -124,6 +134,6 @@ class ProfileController extends Controller
         $startdate = $request->input('startdate');
         $enddate = $request->input('enddate');
 
-        return redirect()->back()->with(['selected_order' => $selected_order, 'startdate' => $startdate, 'enddate' => $enddate]);
+        return redirect()->route('profile',['#submitted_orders'])->with(['selected_order' => $selected_order, 'startdate' => $startdate, 'enddate' => $enddate]);
     }
 }

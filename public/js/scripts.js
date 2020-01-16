@@ -49,7 +49,7 @@ $(document).ready(function(){
 	    	error: function (jqXHR, exception) {
 	    		alert('The given data was invalid.');
 	    		form.trigger('reset');
-	    	} 
+	    	}
     	});
 	});
 
@@ -75,12 +75,9 @@ $(document).ready(function(){
         verticaldownclass: 'la la-angle-down'
     });
 
-    setTimeout(function(){
-		$('#size').select2({
-			placeholder: "Select a size"
-		});
-	},1000);
-
+    $('#size').select2({
+        placeholder: "Select a size"
+	});
 	$(document.body).click(function(){
 		$.ajax({
 			url: '/clickevent',
@@ -91,7 +88,7 @@ $(document).ready(function(){
 		})
 	});
 
-	$('.select2').select2();
+	$('#select_order').select2();
 	$('#startdate').datepicker({
 		format: 'yyyy-mm-dd'
 	});

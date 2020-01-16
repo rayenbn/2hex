@@ -71,7 +71,7 @@ class WheelController extends Controller
         $payload['saved_batch'] = 0;
         $wheel =  Wheel::query()->create($payload);
         
-        Session::insert(['action' => 'Save Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->wheel_id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 
@@ -157,9 +157,18 @@ class WheelController extends Controller
         return view('wheel-configurator.configurator', compact('wheel', 'filenames'));
     }
     public function save($id){
-        Wheel::where('wheel_id',$id)->update(['saved_batch' => 1]);
+        //Wheel::where('wheel_id',$id)->update(['saved_batch' => 1]);
+        $wheels = Wheel::where('id',$id)->first();
+        unset($wheels['wheel_id']);
+        unset($wheels['saved_date']);
+        $orders['usenow'] = 0;
+        unset($orders['invoice_number']);
+        unset($wheels['submit']);
+        $wheels['saved_batch'] = 1;
+        $array = json_decode(json_encode($wheels), true);
+        Wheel::insert($array);
         Session::insert(['action' => 'Save Wheel To Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
-        return redirect()->back();
+        return redirect()->route('profile', ['#saved_orders']);
     }
     public function destroy(int $id)
     {

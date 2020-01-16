@@ -96,9 +96,19 @@ class GripTapeConfigurator extends Controller
     }
     public function save($id)
     {
-        GripTape::where('id',$id)->update(['saved_batch' => 1]);
+        //GripTape::where('id',$id)->update(['saved_batch' => 1]);
+
+        $grips = GripTape::where('id',$id)->first();
+        unset($grips['id']);
+        unset($grips['saved_date']);
+        $orders['usenow'] = 0;
+        unset($orders['invoice_number']);
+        unset($grips['submit']);
+        $grips['saved_batch'] = 1;
+        $array = json_decode(json_encode($grips), true);
+        GripTape::insert($array);
         Session::insert(['action' => 'Save Grip to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
-        return redirect()->back();
+        return redirect()->route('profile', ['#saved_orders']);
     }
     public function destroy($id)
     {

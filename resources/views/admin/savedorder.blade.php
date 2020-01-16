@@ -38,7 +38,7 @@
 			</div>
 
 			<div class="m-portlet">
-				<div class="m-portlet__head" style="flex-wrap: wrap;height: auto;float: right;">
+				<!-- <div class="m-portlet__head" style="flex-wrap: wrap;height: auto;float: right;">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
 						</div>
@@ -93,7 +93,7 @@
                         
 					</div>
       
-				</div>
+				</div> -->
 				<div class="m-portlet__body">
 					<div class="pane pane--table2">
 					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
@@ -164,20 +164,20 @@
 								</h3>
 							</div>
 						</div>
-						<div class="m-portlet__head-tools">
+						<!-- <div class="m-portlet__head-tools">
 							@if(Session::get('viewonly') != null)
 							
 							@else
 							<ul class="m-portlet__nav">
 								
-								<!-- <li class="m-portlet__nav-item">
+								<li class="m-portlet__nav-item">
 									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >
 										<span>
 											<i class="la la-save"></i>
 											<span>ExportInvoice</span>
 										</span>
 									</a>
-								</li> -->
+								</li>
 
 								<li class="m-portlet__nav-item">
 									<btn-order-later/>
@@ -240,21 +240,21 @@
 								</li>
 							</ul>
 							@endif
-						</div>
+						</div> -->
 					</div>
 				</div>
             </div>
 
             <!-- TOTAL ORDERS QUANTITY LESS 40 -->
-            @if($orders->count() && $orders->sum('quantity') <= 40)
+            <!-- @if($orders->count() && $orders->sum('quantity') <= 40)
 				@include('partials.warning-quantity-less')
-			@endif
+			@endif -->
 
 			<!-- VENDOR CODE -->
-			@if(!$orders->every->submit && !session()->get('viewonly'))
+			<!-- @if(!$orders->every->submit && !session()->get('viewonly'))
 				@include('partials.vendor-code')
-				<!-- <vendor-code /> -->
-			@endif
+			@endif -->
+			<!-- <vendor-code /> -->
         </div>
         
     </div>

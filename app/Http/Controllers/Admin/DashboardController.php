@@ -293,9 +293,12 @@ class DashboardController extends Controller
                         'date' => $order['created_at'],
                     ];
 
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('print','',$key);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count - 1]['size'] = $size;
                         $totalsize += $size;
                     }
                 }
@@ -315,9 +318,13 @@ class DashboardController extends Controller
                         'date' => $grip['created_at'],
                     ];
 
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('_print','',$key);
+                    $folder_name = str_replace('_','',$folder_name);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count - 1]['size'] = $size;
                         $totalsize += $size;
                     }
                 }
@@ -338,16 +345,35 @@ class DashboardController extends Controller
                         'date' => $wheel['created_at'],
                     ];
 
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('_print','',$key);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count - 1]['size'] = $size;
                         $totalsize += $size;
                     }
 
                 }
             }
 
-            $totalsize = $this->formatSizeUnits($totalsize);
+            //$totalsize = $this->formatSizeUnits($totalsize);
+            $_data = array();
+            foreach ($fees as $v) {
+                if (isset($_data[$v['image']])) {
+                    // found duplicate
+                    continue;
+                }
+                // remember unique item
+                $_data[$v['image']] = $v;
+            }
+            // if you need a zero-based array, otheriwse work with $_data
+            $fees = array_values($_data);
+
+            $count = count($fees);
+
+
+            $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
 
 
             $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->get();
@@ -440,9 +466,12 @@ class DashboardController extends Controller
                     'date' => $order['created_at'],
                 ];
 
-                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                $folder_name = str_replace('print','',$key);
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
+                    $fees[$count - 1]['size'] = $size;
                     $totalsize += $size;
                 }
             }
@@ -462,9 +491,13 @@ class DashboardController extends Controller
                     'date' => $grip['created_at'],
                 ];
 
-                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                $folder_name = str_replace('_print','',$key);
+                $folder_name = str_replace('_','',$folder_name);
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
+                    $fees[$count - 1]['size'] = $size;
                     $totalsize += $size;
                 }
             }
@@ -485,16 +518,36 @@ class DashboardController extends Controller
                     'date' => $wheel['created_at'],
                 ];
 
-                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                $folder_name = str_replace('_print','',$key);
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
+                    $fees[$count - 1]['size'] = $size;
                     $totalsize += $size;
                 }
 
             }
         }
         
-        $totalsize = $this->formatSizeUnits($totalsize);
+        $_data = array();
+        foreach ($fees as $v) {
+            if (isset($_data[$v['image']])) {
+                // found duplicate
+                continue;
+            }
+            // remember unique item
+            $_data[$v['image']] = $v;
+        }
+        // if you need a zero-based array, otheriwse work with $_data
+        $fees = array_values($_data);
+
+        $count = count($fees);
+
+
+        $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
+
+        //$totalsize = $this->formatSizeUnits($totalsize);
         $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_by',$user->id)->where('action','login')->get();
         $click = Session::where('created_by',$user->id)->where('action','clicked')->get();
         $lastlogin = Session::select('created_at')->where('created_by',$user->id)->where('action','login')->orderBy('created_at','desc')->first()['created_at'];
@@ -520,21 +573,17 @@ class DashboardController extends Controller
 
         $save_data['usenow'] = 0;
 
-
-
-        
-
-
         $user = Auth::user();
         $saved_date = "";
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            
+            /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
 
@@ -570,12 +619,12 @@ class DashboardController extends Controller
             }
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
-            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1); */
         }
         else{
-            $ordersQuery = Order::auth();
-            $gripQuery = GripTape::auth();
-            $wheelQuery = Wheel::auth();
+            $ordersQuery = Order::auth()->where('submit',1)->whereNotNull('saved_date');
+            $gripQuery = GripTape::auth()->where('submit',1)->whereNotNull('saved_date');
+            $wheelQuery = Wheel::auth()->where('submit',1)->whereNotNull('saved_date');
         }
         
         
@@ -593,7 +642,8 @@ class DashboardController extends Controller
         
         
         // Set wheel fix cost to main fees array
-        $this->calculateWheelFixCost($fees);
+        
+        $this->calculateWheelFixCost($fees, 1);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
@@ -625,6 +675,8 @@ class DashboardController extends Controller
                 return array_filter($grip->attributesToArray());
             })
             ->toArray();
+
+            
 
 
         foreach ($orders as $index => $order) {
@@ -717,8 +769,9 @@ class DashboardController extends Controller
             }
         }
 
+
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+        if (($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -799,21 +852,28 @@ class DashboardController extends Controller
             $unSubmitOrders->push($grip);
         });
 
+        $unSubmitOrders = $unSubmitOrders->unique('saved_date');
+
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
             $submitorders->push($grip);
         });
 
-        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->addSelect('invoice_number')->get());
+        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
+
+        $submitorders = $submitorders->unique('saved_date');
 
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
         return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
     }
-    protected function calculateWheelFixCost(array &$fees)
+    protected function calculateWheelFixCost(array &$fees, $submit = 2)
     {
-        $wheelQuery = Wheel::auth();
+        if($submit != 2)
+            $wheelQuery = Wheel::auth()->where('submit',$submit)->whereNotNull('saved_date');
+        else
+            $wheelQuery = Wheel::auth();
 
         // Fetching all desing by orders
         $wheels = (clone $wheelQuery)
@@ -903,24 +963,22 @@ class DashboardController extends Controller
     public function getSavedOrder(Request $request ){
         $save_data['usenow'] = 0;
 
-
-
-        
-
-
         $user = Auth::user();
         $saved_date = "";
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
-            // $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            // $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            // $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date);
-            Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
+            $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            
+            
+            /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
-
+            */
+            /*
             $data = Order::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
             $grips = GripTape::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
             $wheels = Wheel::where('created_by','=',$user['id'])->where('saved_date', '=', $saved_date)->get();
@@ -953,12 +1011,12 @@ class DashboardController extends Controller
             }
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
-            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1);
+            $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1);*/
         }
         else{
-            $ordersQuery = Order::auth();
-            $gripQuery = GripTape::auth();
-            $wheelQuery = Wheel::auth();
+            $ordersQuery = Order::auth()->whereNotNull('saved_date')->where('submit',0);
+            $gripQuery = GripTape::auth()->whereNotNull('saved_date')->where('submit',0);
+            $wheelQuery = Wheel::auth()->whereNotNull('saved_date')->where('submit',0);
         }
         
         
@@ -976,7 +1034,7 @@ class DashboardController extends Controller
         
         
         // Set wheel fix cost to main fees array
-        $this->calculateWheelFixCost($fees);
+        $this->calculateWheelFixCost($fees, 0);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
@@ -1101,7 +1159,7 @@ class DashboardController extends Controller
         }
 
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+        if (($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -1142,15 +1200,7 @@ class DashboardController extends Controller
         $users = User::select('email','name')->get();
         //return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users, 'user' => $user]);
         
-        $user = Auth::user();
-        if($request->isMethod('post')){
-            $email = $request->input('filter_email');
-           $user = User::where('email','=',$email)->first();
-           $createdBy = $user['id'];
-        }
-        else{
-            $createdBy = auth()->id();
-        }
+        $createdBy = $user['id'];
 
         $queryOrders = Order::query()
             ->where('created_by', $createdBy)
@@ -1182,13 +1232,17 @@ class DashboardController extends Controller
             $unSubmitOrders->push($grip);
         });
 
+        $unSubmitOrders = $unSubmitOrders->unique('saved_date');
+
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
             $submitorders->push($grip);
         });
 
-        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->addSelect('invoice_number')->get());
+        $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
+
+        $submitorders = $submitorders->unique('saved_date');
 
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
@@ -1311,9 +1365,12 @@ class DashboardController extends Controller
 
                 $user = User::where('id',$order['created_by'])->first();
                 if($user){
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('print','',$key);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count-1]['size'] = $size;
                         $totalsize += $size;
                     }
                 }
@@ -1335,9 +1392,13 @@ class DashboardController extends Controller
                 ];
                 $user = User::where('id',$grip['created_by'])->first();
                 if($user){
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('_print','',$key);
+                    $folder_name = str_replace('_','',$folder_name);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count-1]['size'] = $size;
                         $totalsize += $size;
                     }
                 }
@@ -1360,9 +1421,12 @@ class DashboardController extends Controller
                 ];
                 $user = User::where('id',$wheel['created_by'])->first();
                 if($user){
-                    $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = str_replace('_print','',$key);
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
+                        $fees[$count-1]['size'] = $size;
                         $totalsize += $size;
                     }
                 }
@@ -1370,7 +1434,23 @@ class DashboardController extends Controller
             }
         }
 
-        $totalsize = $this->formatSizeUnits($totalsize);
+        $_data = array();
+        foreach ($fees as $v) {
+            if (isset($_data[$v['image']])) {
+                // found duplicate
+                continue;
+            }
+            // remember unique item
+            $_data[$v['image']] = $v;
+        }
+        // if you need a zero-based array, otheriwse work with $_data
+        $fees = array_values($_data);
+        
+
+        $count = count($fees);
+
+
+        $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
 
         $signupByDays = User::select(\DB::raw('Date(created_at) as date'), \DB::raw('count(*) as counts'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->get();
         
@@ -1405,9 +1485,9 @@ class DashboardController extends Controller
             
         }
         else{
-            $ordersQuery = Order::auth();
-            $gripQuery = GripTape::auth();
-            $wheelQuery = Wheel::auth();
+            $ordersQuery = Order::auth(false);
+            $gripQuery = GripTape::auth(false);
+            $wheelQuery = Wheel::auth(false);
         }
         
         $fees = [];
@@ -1447,14 +1527,18 @@ class DashboardController extends Controller
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
         
 
-                
-                $path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
-                $down_path = '/'.'uploads/' . $user->name . '/' . $key . '/' . $value;
+                $folder_name = str_replace('print','',$key);
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $down_path = '/'.'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
                 $size = 0;
-                if(\File::exists($path))
+                if(\File::exists($path)){
+                    
+                    
                     $size = \File::size($path);
+                    
+                }
 
-                $fees[$count++] = [
+                $fees[$count] = [
                     'image'    => $value,
                     'product'  => 'S.B Deck',
                     'type'     => $this->feesTypes[$key]['name'],
@@ -1462,11 +1546,28 @@ class DashboardController extends Controller
                     'id'       => $order['id'],
                     'date'     => $order['created_at'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size)
+                    'size'     => $this->formatSizeUnits($size),
+                    'color'    => 1
                 ];
+                if (array_key_exists($key . '_color', $order)) {
+                    switch ($order[$key . '_color']) {
+                        case '1 color':
+                            $fees[$count]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$count]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$count]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$count]['color'] = 4;
+                            break;
+                    }
+                }
+                $count ++;
             }
         }
-
         foreach ($gripTapes as $index => $grip) {
             $index += 1;
 
@@ -1474,12 +1575,43 @@ class DashboardController extends Controller
 
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
 
-                $fees[$count++] = [
+                $folder_name = str_replace('_print','',$key);
+                $folder_name = str_replace('_','',$folder_name);
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $down_path = '/'.'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
+                $size = 0;
+                if(\File::exists($path))
+                    $size = \File::size($path);
+
+                $fees[$count] = [
                     'image'    => $value,
                     'product'  => 'S.B Grips',
                     'type'     => $this->feesTypes[$key]['name'],
                     'date' => $grip['created_at'],
+                    'key'      => $key,
+                    'id'       => $grip['id'],
+                    'path'     => $down_path,
+                    'size'     => $this->formatSizeUnits($size),
+                    'color'    => 1
                 ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$count]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$count]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$count]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$count]['color'] = 4;
+                            break;
+                    }
+                }
+                $count ++;
 
             }
         }
@@ -1491,16 +1623,57 @@ class DashboardController extends Controller
 
                 if (!array_key_exists($key,  $this->feesTypes)) continue;
 
-                $fees[$count++] = [
+                $folder_name = str_replace('_print','',$key);
+                $path = public_path('uploads/' . $user->name .  '/wheel-' . $folder_name . '/' . $value);
+                $down_path = '/'.'uploads/' . $user->name . '/wheel-' . $folder_name . '/' . $value;
+                $size = 0;
+                if(\File::exists($path))
+                    $size = \File::size($path);
+
+                $fees[$count] = [
                     'image'    => $value,
                     'product'  => 'S.B Wheels',
                     'type'     => $this->feesTypes[$key]['name'],
                     'date' => $wheel['created_at'],
+                    'key'      => $key,
+                    'id'       => $wheel['wheel_id'],
+                    'path'     => $down_path,
+                    'size'     => $this->formatSizeUnits($size),
+                    'color'    => 1
                 ];
+                if (array_key_exists($key . '_color', $wheel)) {
+                    switch ($wheel[$key . '_color']) {
+                        case '1 color':
+                            $fees[$count]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$count]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$count]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$count]['color'] = 4;
+                            break;
+                    }
+                }
+                $count ++;
 
             }
         }
 
+
+        $_data = array();
+        foreach ($fees as $v) {
+        if (isset($_data[$v['image']])) {
+            // found duplicate
+            continue;
+        }
+        // remember unique item
+        $_data[$v['image']] = $v;
+        }
+        // if you need a zero-based array, otheriwse work with $_data
+        $fees = array_values($_data);
         
         $users = User::select('email','name')->get();
         return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate'));
@@ -1531,7 +1704,7 @@ class DashboardController extends Controller
                 }
                 else{
                     ProductionComment::insert(
-                        ['date' => $selected_date, 'comment' => $content, 'order_id' => $selected_order, 'created_at' => date("Y-m-d H:i:s")]
+                        ['date' => $selected_date, 'comment' => $content, 'order_id' => '1', 'created_at' => date("Y-m-d H:i:s"), 'created_number' => $selected_order]
                     );
                 }
                 
@@ -1539,7 +1712,7 @@ class DashboardController extends Controller
             
         }
 
-        $returnorder = Order::where('created_by','=',$user['id'])->where('submit','=',1)->get();
+        $returnorder = Order::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
         if($startdate)
             $startdate_temp = $startdate;
@@ -1551,13 +1724,13 @@ class DashboardController extends Controller
             $enddate_temp = date('Y-m-d',strtotime("+1 days"));
 
         $dates = $this->date_range($startdate_temp, $enddate_temp);
-        if(!isset($selected_order)){
-            $selected_order = $returnorder[0]['id'];
+        if(!isset($selected_order) && count($returnorder) > 0){
+            $selected_order = $returnorder[0]['invoice_number'];
         }
         if(!isset($selected_date)){
             $selected_date = $dates[0];
         }
-        $comments = ProductionComment::where('order_id',$selected_order)->where('date','>',$startdate_temp)->where('date','<',$enddate_temp)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate_temp)->where('date','<=',$enddate_temp)->orderBy('date', 'asc')->get();
 
 
         return view('admin.production',compact( 'users','user', 'returnorder', 'selected_order','startdate','enddate','dates','selected_date','comments'));
@@ -1807,7 +1980,7 @@ class DashboardController extends Controller
             $enddate_temp = date('Y-m-d',strtotime("+1 days"));
         $users = User::select('email','name')->get();
 
-        $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->get();
+        $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
         return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions'));
         
     }

@@ -2,7 +2,9 @@ $(document).ready(function(){
     $('#filter_email').change(function(){
         $('#filter_form').submit();
     })
-    $('.select2').select2();
+    $('.filter_email').select2();
+    $('#select_date').select2();
+    
     $('.id-select').click(function(){
         orderid = $(this).data('orderid');
         $('#order_id').val(orderid);
@@ -28,5 +30,25 @@ $(document).ready(function(){
         $('.remove_comment').val(id);
         $('.production-submit').click();
     });
-    
+    $('#add_date').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('.download_all').click(function(){
+        var temporaryDownloadLink = document.createElement("a");
+        temporaryDownloadLink.style.display = 'none';
+
+        document.body.appendChild( temporaryDownloadLink );
+        $('.fileCheckbox').each(function(){
+
+            if($(this).prop('checked') == true){
+                link = $(this).attr('link');
+                image = $(this).attr('imagename');
+                temporaryDownloadLink.setAttribute('href', link );
+                temporaryDownloadLink.setAttribute('download', image );
+                temporaryDownloadLink.click();
+            }
+        });
+        document.body.removeChild( temporaryDownloadLink );
+        
+    });
 });

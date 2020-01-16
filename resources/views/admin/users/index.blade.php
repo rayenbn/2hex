@@ -24,7 +24,7 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td><span>{{ $user->email }}</span></td>
+                                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                     <td>{{ $user->name }}</td>
                                     <td>
                                         @foreach($user->roles->pluck('name') as $role)
