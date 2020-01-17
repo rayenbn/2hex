@@ -28,6 +28,9 @@
                         <h3 class="m-form__section">Productions</h3>
                     </div>
                     <!--Begin::Portlet-->
+                    <div class="proccess_bar">
+                        <div class="proccess_percent"></div>
+                    </div>
                     <div class="production_body">
                         <div class="filter_body row">
                             <div class="col-lg-6">
@@ -93,6 +96,7 @@
                                                         <div class="m-timeline-2__item-text  m--padding-top-5">
                                                             {{$comment->comment}}
                                                         </div>
+                                                        <button class="btn btn-danger remove-comment" value="{{$comment->id}}">Remove</button>
                                                     </div>
                                                 @endforeach
                                             </div>

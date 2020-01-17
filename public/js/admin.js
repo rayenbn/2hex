@@ -33,6 +33,15 @@ $(document).ready(function(){
     $('#add_date').datepicker({
         format: 'yyyy-mm-dd'
     });
+    $('#select_date').change(function(){
+       index = $(this).prop('selectedIndex');
+       total = $('option',$(this)).length;
+
+       percent = Math.floor(index / total * 100);
+       console.log(percent);
+
+       $('.proccess_percent').css('width', percent + '%');
+    });
     $('.download_all').click(function(){
         var temporaryDownloadLink = document.createElement("a");
         temporaryDownloadLink.style.display = 'none';

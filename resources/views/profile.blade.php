@@ -6,6 +6,22 @@
     <meta name="description" content="2HEX skateboard production profile. 2HEX skateboard production profile lets you check on your production process at 2HEX skateboard factory.">
 
     <meta name="keywords" content="skateboard production profile, skateboard company profile, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Board, skateboard production">
+
+    <!-- <style>
+        .proccess_bar{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 30px;
+            width: calc(100% - 60px);
+            height: 10px;
+            background: #eee;
+        }
+        .proccess_percent{
+            height: 100%;
+            background-color: #04f;
+            width: 1%;
+        }
+    </style> -->
 @endpush
 
 @section('content')
@@ -330,6 +346,9 @@
                                         
                                         <!-- @if($isAdmin) -->
                                         <!--Begin::Portlet-->
+                                        <!-- <div class="proccess_bar">
+                                            <div class="proccess_percent"></div>
+                                        </div> -->
                                         <form class="" action="production_filter" method="POST" id="production_filter">
                                             {{ csrf_field() }}
                                             <div class="filter_body row">

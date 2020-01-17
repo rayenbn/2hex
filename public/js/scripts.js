@@ -100,4 +100,13 @@ $(document).ready(function(){
 	$('.form_input').change(function(){
 		$('#production_filter').submit();
 	});
+
+	$('#select_date').change(function(){
+		index = $(this).prop('selectedIndex');
+		total = $('option',$(this)).length;
+ 
+		percent = Math.floor(index / total * 100);
+ 
+		$('.proccess_percent').css('width', percent + '%');
+	 });
 });
