@@ -6,6 +6,22 @@
     <meta name="description" content="2HEX skateboard production profile. 2HEX skateboard production profile lets you check on your production process at 2HEX skateboard factory.">
 
     <meta name="keywords" content="skateboard production profile, skateboard company profile, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Board, skateboard production">
+
+    <!-- <style>
+        .proccess_bar{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 30px;
+            width: calc(100% - 60px);
+            height: 10px;
+            background: #eee;
+        }
+        .proccess_percent{
+            height: 100%;
+            background-color: #04f;
+            width: 1%;
+        }
+    </style> -->
 @endpush
 
 @section('content')
@@ -282,7 +298,7 @@
                             </div>
 
                             <div class="tab-pane " id="m_user_profile_tab_4">
-                                <form class="m-form m-form--fit m-form--label-align-right">
+                                <div class="m-form m-form--fit m-form--label-align-right">
                                     <div class="m-portlet__body">
                                         <div class="form-group m-form__group m--margin-top-10 m--hide">
                                             <div class="alert m-alert m-alert--default" role="alert">
@@ -328,14 +344,43 @@
                                         </div>
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                         
-                                        @if($isAdmin)
+                                        <!-- @if($isAdmin) -->
                                         <!--Begin::Portlet-->
+                                        <!-- <div class="proccess_bar">
+                                            <div class="proccess_percent"></div>
+                                        </div> -->
+                                        <form class="" action="production_filter" method="POST" id="production_filter">
+                                            {{ csrf_field() }}
+                                            <div class="filter_body row">
+                                                <div class="col-lg-6">
+                                                    <p>Productions</p>
+                                                    <select
+                                                        class="form-control filter_email form_input"
+                                                        id="select_order"
+                                                        name="select_order"
+                                                        style="width:100%;"
+                                                    >
+                                                        <option value="" disabled>SELECT</option>
+                                                        @foreach($returnorder as $orderinfo)
+                                                            <option @if($selected_order == $orderinfo->id) selected @endif value="{{$orderinfo->id}}">Order #{{$orderinfo->invoice_number}}</option>    
+                                                            @php
+                                                                if($selected_order == $orderinfo->id)
+                                                                    $selected_invoice = $orderinfo->invoice_number;
+                                                            @endphp
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="hidden" name="order_id" id="order_id">
+                                                </div> 
+
+                                                
+                                            </div>
+                                        </form>
                                         <div class="m-portlet  m-portlet--full-height ">
                                             <div class="m-portlet__head">
                                                 <div class="m-portlet__head-caption">
                                                     <div class="m-portlet__head-title">
                                                         <h3 class="m-portlet__head-text">
-                                                            Your Current Production #201910161
+                                                            Your Current Production #{{isset($selected_invoice)?$selected_invoice:''}}
                                                         </h3>
                                                     </div>
                                                 </div>
@@ -346,80 +391,17 @@
                                                     <!--Begin::Timeline 2 -->
                                                     <div class="m-timeline-2">
                                                         <div class="m-timeline-2__items  m--padding-top-25 m--padding-bottom-30">
-                                                            <div class="m-timeline-2__item">
-                                                                <span class="m-timeline-2__item-time">10:00</span>
+                                                        @foreach($comments as $key => $comment)
+                                                            <div class="m-timeline-2__item @if($key != 0) m--margin-top-30 @endif">
+                                                                <span class="m-timeline-2__item-time">{{$comment->date}}</span>
                                                                 <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-danger"></i>
+                                                                    <i class="fa fa-genderless m--font-brand"></i>
                                                                 </div>
                                                                 <div class="m-timeline-2__item-text  m--padding-top-5">
-                                                                    Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-                                                                    incididunt ut labore et dolore magna
+                                                                    {{$comment->comment}}
                                                                 </div>
                                                             </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">12:45</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-success"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m-timeline-2__item-text--bold">
-                                                                    AEOL Meeting With
-                                                                </div>
-                                                                <div class="m-list-pics m-list-pics--sm m--padding-left-20">
-                                                                    <a href="../../#"><img src="assets/app/media/img/users/100_4.jpg" title=""></a>
-                                                                    <a href="../../#"><img src="assets/app/media/img/users/100_13.jpg" title=""></a>
-                                                                    <a href="../../#"><img src="assets/app/media/img/users/100_11.jpg" title=""></a>
-                                                                    <a href="../../#"><img src="assets/app/media/img/users/100_14.jpg" title=""></a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">14:00</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-brand"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m--padding-top-5">
-                                                                    Make Deposit <a href="#" class="m-link m-link--brand m--font-bolder">USD 700</a> To ESL.
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">16:00</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-warning"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m--padding-top-5">
-                                                                    Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-                                                                    incididunt ut labore et dolore magna elit enim at minim<br>
-                                                                    veniam quis nostrud
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">17:00</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-info"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m--padding-top-5">
-                                                                    Placed a new order in <a href="#" class="m-link m-link--brand m--font-bolder">SIGNATURE MOBILE</a> marketplace.
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">16:00</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-brand"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m--padding-top-5">
-                                                                    Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-                                                                    incididunt ut labore et dolore magna elit enim at minim<br>
-                                                                    veniam quis nostrud
-                                                                </div>
-                                                            </div>
-                                                            <div class="m-timeline-2__item m--margin-top-30">
-                                                                <span class="m-timeline-2__item-time">17:00</span>
-                                                                <div class="m-timeline-2__item-cricle">
-                                                                    <i class="fa fa-genderless m--font-danger"></i>
-                                                                </div>
-                                                                <div class="m-timeline-2__item-text m--padding-top-5">
-                                                                    Received a new feedback on <a href="#" class="m-link m-link--brand m--font-bolder">FinancePro App</a> product.
-                                                                </div>
-                                                            </div>
+                                                        @endforeach
                                                         </div>
                                                     </div>
 
@@ -428,11 +410,11 @@
                                             </div>
                                         </div>
                                         <!--End::Portlet-->
-                                        @endif
+                                        <!-- @endif -->
 
 
                                     </div>
-                                </form>
+                                </div>
 
                             </div>
 

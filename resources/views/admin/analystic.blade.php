@@ -39,17 +39,56 @@
                         <span class="data_info">{{$filecount}}</span>
                     </div>
                     <div class="data_item">
+                        <span class="data_description">Total Uploaded File Size</span>
+                        <span class="data_info">{{$totalsize}}</span>
+                    </div>
+                    <div class="data_item">
                         <span class="data_description">Total Orders Saved</span>
                         <span class="data_info">{{$order_count}}</span>
-                        
                     </div>
                 </div>
                 <div class="user_session data_items">
                     <p class="userdata_title"></p>
-                    
+                    <div style="height: 300px">
+                      <canvas id="myChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
         
     </div>
 @endsection
+@section('footer_scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            var labels = [], labelcount = 0;
+            var data = [], datacount = 0;
+            @foreach($signupByDays as $signupByDay)
+                labels[labelcount++] = "{{$signupByDay['date']}}";
+                data[datacount++] = "{{$signupByDay['counts']}}";
+            @endforeach
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sign Ups',
+                        data: data, // Specify the data values array
+                        fill: false,
+                        borderColor: '#2196f3', // Add custom color border (Line)
+                        backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+                        borderWidth: 1 // Specify bar border width
+                    }]},
+                options: {
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+                }
+            });
+        });
+        
+    </script>
+
+@stop

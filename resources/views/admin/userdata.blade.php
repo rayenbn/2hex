@@ -7,23 +7,19 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-lg-6">
-                            
-                                
-                                <p>Select User by Email</p>
-                                <select
-                                    class="form-control filter_email select2"
-                                    id="filter_email"
-                                    name="filter_email"
-                                    style="width:100%;"
-                                >
-                                    <option value="" disabled>SELECT</option>
-                                    @foreach($users as $userinfo)
-                                        <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
-                                    @endforeach
-                                </select>
-                                <input type="hidden" name="order_id" id="order_id">
-                                
-                            </form>
+                            <p>Select User by Email</p>
+                            <select
+                                class="form-control filter_email select2"
+                                id="filter_email"
+                                name="filter_email"
+                                style="width:100%;"
+                            >
+                                <option value="" disabled>SELECT</option>
+                                @foreach($users as $userinfo)
+                                    <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="order_id" id="order_id">
                         </div> 
 
                         <div class="col-lg-6">
@@ -54,7 +50,7 @@
                 </div>
                 <div class="data_item">
                     <span class="data_description">Last Login</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{$lastlogin}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Total Uploaded File</span>
@@ -62,14 +58,14 @@
                 </div>
                 <div class="data_item">
                     <span class="data_description">Size of Total Uploaded File</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{$totalsize}}</span>
                 </div>
             </div>
             <div class="user_session data_items">
                 <p class="userdata_title">Sessions</p>
                 <div class="data_item">
                     <span class="data_description">Days within selected timeframe</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{count($loginDays)}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Total time within selected timeframe</span>
@@ -77,11 +73,11 @@
                 </div>
                 <div class="data_item">
                     <span class="data_description">Click within selected timeframe</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{count($click)}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Uploaded files within selected timeframe</span>
-                    <span class="data_info"></span>
+                    <span class="data_info">{{$file_upload}}</span>
                 </div>
             </div>
         </div>

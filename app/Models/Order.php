@@ -91,8 +91,9 @@ class Order extends Model
             $query->where('created_by', '=', (string) auth()->id());
         } else {
             $query->where('created_by', '=', csrf_token());
-        } 
-        return $query;
+        }
+        //return $query;
+        return $query->where('usenow', '=', $type);
     }
 
     public static function getGlobalDelivery()

@@ -29,7 +29,27 @@
     <link rel="stylesheet" type="text/css" href="{{ mix('/mix/css/app.css') }}">
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ asset('/asset/app/media/img/logos/favicon.ico')}}" />
-
+    <style> 
+        .filter_body{
+            padding-left: 30px;
+        }
+        .filter_body .row{
+            margin-top: 0px;
+        }
+        .m-timeline-2:before{
+            left: 8.09rem;
+        }
+        .m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-cricle{
+            left: 7.3rem;
+        }
+        .m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-text{
+            padding-left: 8.2rem;
+            padding-right: 10px;
+        }
+        .datepicker{
+            width: 265px;
+        }
+    </style>
     @stack('head.scripts')
     @stack('head.styles')
 
@@ -89,6 +109,7 @@
 <script src="{{ mix('/mix/app.js') }}"></script>
 
 {{-- @include('layouts.script') --}}
+
 @stack('footer.scripts')
 <!--end::Base Scripts -->  
 

@@ -357,9 +357,12 @@ class SummaryController extends Controller
 
         $created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
 
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        Wheel::auth()->update($save_data);*/
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -481,6 +484,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
+            unset($data[$i]['invoice_number']);
             $array = json_decode(json_encode($data[$i]), true);
 
             Order::insert($array);
@@ -489,6 +493,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($grips); $i ++){
             unset($grips[$i]['id']);
             unset($grips[$i]['saved_date']);
+            unset($grips[$i]['invoice_number']);
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
         }
@@ -496,6 +501,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($wheels); $i ++){
             unset($wheels[$i]['wheel_id']);
             unset($wheels[$i]['saved_date']);
+            unset($wheels[$i]['invoice_number']);
             $array = json_decode(json_encode($wheels[$i]), true);
             Wheel::insert($array);
         }
@@ -514,9 +520,14 @@ class SummaryController extends Controller
         else{
             $created_by = csrf_token();
         }
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        //Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        //GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        //Wheel::auth()->update($save_data);
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();        
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        
+        
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -563,9 +574,12 @@ class SummaryController extends Controller
         else{
             $created_by = csrf_token();
         }
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        Wheel::auth()->update($save_data);*/
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -661,6 +675,7 @@ class SummaryController extends Controller
                     unset($orders[$i]['saved_date']);
                     unset($orders[$i]['usenow']);
                     unset($orders[$i]['submit']);
+                    unset($orders[$i]['invoice_number']);
                     $orders[$i]['saved_batch'] = 0;
                     $array = json_decode(json_encode($orders[$i]), true);
                     Order::insert($array);
@@ -674,6 +689,7 @@ class SummaryController extends Controller
                     unset($grips[$i]['saved_date']);
                     unset($grips[$i]['usenow']);
                     unset($grips[$i]['submit']);
+                    unset($grips[$i]['invoice_number']);
                     $grips[$i]['saved_batch'] = 0;
                     $array = json_decode(json_encode($grips[$i]), true);
                     GripTape::insert($array);
@@ -687,6 +703,7 @@ class SummaryController extends Controller
                     unset($wheels[$i]['saved_date']);
                     unset($wheels[$i]['usenow']);
                     unset($wheels[$i]['submit']);
+                    unset($wheels[$i]['invoice_number']);
                     $wheels[$i]['saved_batch'] = 0;
                     $array = json_decode(json_encode($wheels[$i]), true);
                     Wheel::insert($array);
@@ -696,12 +713,12 @@ class SummaryController extends Controller
         }
         if($request->submit == 'Delete'){
             if(isset($order_checked))
-                Order::whereIn('id',$order_checked)->update(['saved_batch'=>0]);
+                Order::whereIn('id',$order_checked)->delete();
             if(isset($grip_checked))
-                GripTape::whereIn('id',$grip_checked)->update(['saved_batch'=>0]);
+                GripTape::whereIn('id',$grip_checked)->delete();
             if(isset($wheel_checked))
-                Wheel::whereIn('wheel_id',$wheel_checked)->update(['saved_batch'=>0]);
+                Wheel::whereIn('wheel_id',$wheel_checked)->delete();
         }
-        return redirect()->back();
+        return redirect()->route('summary');
     }
 }

@@ -77,5 +77,36 @@ $(document).ready(function(){
 
     $('#size').select2({
         placeholder: "Select a size"
-    });
+	});
+	$(document.body).click(function(){
+		$.ajax({
+			url: '/clickevent',
+			type: 'GET',
+			success: function(data){
+
+			}
+		})
+	});
+
+	$('#select_order').select2();
+	$('#startdate').datepicker({
+		format: 'yyyy-mm-dd'
+	});
+	
+	$('#enddate').datepicker({
+		format: 'yyyy-mm-dd'
+	});
+	
+	$('.form_input').change(function(){
+		$('#production_filter').submit();
+	});
+
+	$('#select_date').change(function(){
+		index = $(this).prop('selectedIndex');
+		total = $('option',$(this)).length;
+ 
+		percent = Math.floor(index / total * 100);
+ 
+		$('.proccess_percent').css('width', percent + '%');
+	 });
 });

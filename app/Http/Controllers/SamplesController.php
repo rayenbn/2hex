@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Session;
 
 class SamplesController extends Controller
 {
@@ -44,6 +45,11 @@ class SamplesController extends Controller
     public function summary()
     {
         return view('summary');
+    }
+    public function mouseClicked()
+    {
+        Session::insert(['action' => 'clicked', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => 'user click', 'created_at' => date("Y-m-d H:i:s")]);
+        return response('success');
     }
     
 }

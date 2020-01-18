@@ -74,6 +74,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('analystic', 'DashboardController@getAnalystic');
     Route::get('uploadfile', 'DashboardController@getUploadFiles')->name('uploadfile');
     Route::post('uploadfile', 'DashboardController@getUploadFiles');
+    Route::get('production', 'DashboardController@getProduction')->name('production');
+    Route::post('production', 'DashboardController@getProduction');
+    Route::get('summary', 'DashboardController@getSummary')->name('summary');
+    Route::post('summary', 'DashboardController@getSummary');
+    Route::get('action', 'DashboardController@getAction')->name('action');
+    Route::post('action', 'DashboardController@getAction');
 });
 
 
@@ -84,6 +90,7 @@ Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
+Route::post('/production_filter', 'ProfileController@production_filter');
 
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
@@ -166,8 +173,5 @@ Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 
-
-
-
-
+Route::get('/clickevent', 'SamplesController@mouseClicked')->name('clickevent');
 

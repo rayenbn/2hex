@@ -21,7 +21,10 @@
     font-weight: bold;
 }
 .m-datatable__pager{
-    display: none;
+    
+}
+#generalSearch{
+    margin-bottom: 30px;
 }
 .saved-order-list-item {
     border: 1px solid #e2e2e2;
@@ -32,4 +35,54 @@
 }
 .saved-order-list-item div {
     margin: 3px;
+}
+.production_body{
+    width: 100%;
+}
+.input_body{
+    padding-top: 100px;
+    padding-left: 50px;
+}
+.production-submit{
+    margin-top: 50px;
+}
+#select_date + span{
+    width: 50% !important;
+    margin-bottom: 20px;
+}
+.m-timeline-2:before{
+    left: 8.09rem;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item{
+    text-align: right;
+    width: 100%;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-cricle{
+    left: 7.3rem;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-text{
+    padding-left: 8.2rem;
+    text-align: left;
+    padding-right: 10px;
+}
+.action-buttons{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.action-buttons .form-control{
+    display: inline-block;
+    margin: 10px;
+}
+.action-buttons button{
+    margin: 10px;
+}
+.proccess_bar{
+    width: 100%;
+    height: 10px;
+    background: #eee;
+}
+.proccess_percent{
+    height: 100%;
+    background-color: #04f;
+    width: 1%;
 }
