@@ -48,7 +48,7 @@ class SamplesController extends Controller
     }
     public function mouseClicked()
     {
-        Session::insert(['action' => 'clicked', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => 'user click', 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::CLICKED, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => 'user click', 'created_at' => date("Y-m-d H:i:s")]);
         return response('success');
     }
     

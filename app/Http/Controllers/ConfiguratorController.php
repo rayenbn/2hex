@@ -59,7 +59,7 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        Session::insert(['action' => 'Save Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::SAVE_ORDER, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -88,7 +88,7 @@ class ConfiguratorController extends Controller
 
                 $file->move($path, $name);
 
-                Session::insert(['action' => 'Upload', 'created_by' => Auth::user()->id, 'comment' => $name, 'created_at' => date("Y-m-d H:i:s")]);
+                Session::insert(['action' => Session\Enum\Type::UPLOAD, 'created_by' => Auth::user()->id, 'comment' => $name, 'created_at' => date("Y-m-d H:i:s")]);
 
                 return $name;
 
@@ -142,7 +142,7 @@ class ConfiguratorController extends Controller
         $orders['saved_batch'] = 1;
         $array = json_decode(json_encode($orders), true);
         Order::insert($array);
-        Session::insert(['action' => 'Save Order to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::SAVE_ORDER_BATCH, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->route('profile', ['#saved_orders']);
     }
     
@@ -150,7 +150,7 @@ class ConfiguratorController extends Controller
     {
         Order::where('id','=',$id)->delete();
 
-        Session::insert(['action' => 'Delete Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::DELETE_ORDER, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
