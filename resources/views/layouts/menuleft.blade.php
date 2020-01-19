@@ -46,6 +46,19 @@
                 </a>
             </li>
 
+            @php $authUser = auth()->user(); @endphp
+            @if((isset($authUser)) && $authUser->isAdmin())
+                <li class="m-menu__item  {{ request()->routeIs('transfers.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                    <a href="{{ route('transfers.manufacturer') }}" class="m-menu__link ">
+                        <i class="m-menu__link-icon flaticon-box"></i>
+                        <span class="m-menu__link-title">
+                            <span class="m-menu__link-wrap">
+                                <span class="m-menu__link-text">add Transfers</span>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+            @endif
 
             <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Your Production</h4>
