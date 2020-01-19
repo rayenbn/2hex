@@ -43,7 +43,7 @@
                                 <div class="m-portlet__body">
 
                                     <transfers-step1 />
-                                    <transfers-step2 />
+                                    <transfers-step2 :upload_url="upload_url" />
 
                                 </div>
 
@@ -182,6 +182,10 @@
         name: 'transfers-configurator',
         props: {
             manufacturer_url: {
+                type: String,
+                default: ''
+            },
+            upload_url: {
                 type: String,
                 default: ''
             }

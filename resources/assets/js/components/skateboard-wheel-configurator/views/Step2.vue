@@ -104,7 +104,7 @@
                                         <label 
                                             class="custom-file-label unchecked"
                                             :class="{checked: filePrint}" 
-                                            for="customFile"
+                                            for="step-2-upload"
                                         >
                                             Choose file
                                         </label>

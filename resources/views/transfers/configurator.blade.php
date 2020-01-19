@@ -12,8 +12,8 @@
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
         <transfers-configurator
             manufacturer_url="{{route('transfers.manufacturer')}}"
+            upload_url="{{route('transfers.upload', [], false)}}"
         >
-
         </transfers-configurator>
     </div>
 @endsection

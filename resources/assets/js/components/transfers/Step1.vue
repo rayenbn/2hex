@@ -86,7 +86,7 @@
                                 <option
                                     :value="index"
                                     v-for="(size, index) in sizeList"
-                                    :key="index"
+                                    :key="'size-' + index"
                                 >
                                     {{ size.fullname }}
                                 </option>
@@ -112,7 +112,40 @@
     export default {
 		name: 'transfers-step-1',
         data() {
-            return {}
+            return {
+                sizeList: [
+                    {
+                        "fullname": "9\" x 33\" Transfer-paper on Skateboard Deck",
+                        "size": 33,
+                        "name": "Transfer-paper on Skateboard Deck",
+                        "image": ''
+                    },
+                    {
+                        "fullname": "8\" x 23\"  Transfer-paper on Mini Cruiser Deck",
+                        "size": 23,
+                        "name": "Transfer-paper on Mini Cruiser Deck",
+                        "image": ''
+                    },
+                    {
+                        "fullname": "12\" x 42\" Transfer-paper on  Longboard 1 Deck",
+                        "size": 42,
+                        "name": "Transfer-paper on  Longboard 1 Deck",
+                        "image": ''
+                    },
+                    {
+                        "fullname": "14\" x 48\"  Transfer-paper on Longboard 2 Deck",
+                        "size": 42,
+                        "name": "Transfer-paper on Longboard 2 Deck",
+                        "image": ''
+                    },
+                    {
+                        "fullname": "23\" x 45\"  Transfer-paper on Skimboard Deck",
+                        "size": 45,
+                        "name": "Transfer-paper on Skimboard Deck",
+                        "image": ''
+                    },
+                ],
+            }
         },
         computed: {
             quantity: {
@@ -123,19 +156,9 @@
                     this.$store.commit('TransfersConfigurator/setQuantity', newVal);
                 }, 1000)
             },
-            sizeList() {
-                return this.$store.state.TransfersConfigurator.sizeList;
-            },
             size: {
                 get() {
-                    var storeSize = this.$store.getters['TransfersConfigurator/getSize'];
-
-                    if (this.sizeList && !storeSize) {
-                        // Preselect 9" x 33"
-                        this.size = this.sizeList[0];
-                        return 0;
-                    }
-                    return storeSize;
+                    return this.$store.getters['TransfersConfigurator/getSize'];
                 },
                 set(newVal) {
                     this.$store.commit('TransfersConfigurator/setSize', newVal);
@@ -145,14 +168,20 @@
 		methods: {},
         mounted() {
 		    // init select2
-            let queryType = $("#transfers_size");
+            let querySize = $("#transfers_size");
 
-            queryType.select2();
+            querySize.select2();
 
             // Listen change select with color types
-            queryType.on('select2:select', (e) => {
+            querySize.on('select2:select', (e) => {
                 this.size = this.sizeList[e.params.data.id];
             });
+
+            // Preselect 9" x 33"
+            if (! this.size) {
+                this.size = this.sizeList[0];
+                querySize.val(0).trigger('change');
+            }
 
             let queryQuanity = $("#transfers_quantity");
 

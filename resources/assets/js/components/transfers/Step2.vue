@@ -33,8 +33,8 @@
                                 placeholder="Enter design name"
                                 v-model="designName"
                             >
-                            <div class="mt-4 mb-2">
-                                <span>Transparencies</span>
+                            <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
+                                <span class="text-uppercase">Transparencies</span>
                                 <label class="switch">
                                     <input type="checkbox" name="transparencies" v-model="transparencies">
                                     <span class="slider round"></span>
@@ -50,9 +50,9 @@
                             >
                                 <option value="null" disabled>SELECT</option>
                                 <option
-                                    :value="item"
+                                    :value="index"
                                     v-for="(item, index) in pantoneColors"
-                                    :key="index"
+                                    :key="'color' + index"
                                 >
                                     {{ item.title }}
                                 </option>
@@ -68,9 +68,11 @@
                                 >
                             </template>
 
-                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Quantity</h3>
-                                Select the quantity of your first batch of skateboard wheels. The final price per set of wheels depends on your total order size. Add more batches of wheels or any other product and all the prices will decrease. You can always go to the summary page to see the price of each batch.
+                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
+                                <h3>Number of Colors used</h3>
+                                The standard in professional skateboarding.
+                                Printing on back paper is the most common way to brand griptapes without directly
+                                printing on the griptapes top.
                             </div>
                         </div>
                     </div>
@@ -80,36 +82,64 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Types</h3>
-                            </div>
+                            <p class="h5 m-0">Upload small preview:</p>
                         </div>
                     </div>
                     <div class="m-portlet__body">
                         <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
-                                        style="min-height: 286px"
+
+                            <div class="form-group m-form__group">
+                                <div class="custom-file">
+                                    <input
+                                        type="file"
+                                        data-type-upload="transfers-small-preview"
+                                        id="sm-preview"
+                                        class="custom-file-input"
+                                        @change.prevent="uploadFile($event, 'sm')"
                                     >
-                                        <img
-                                            src=""
-                                            class="step1-img1"
-                                            alt="Size"
-                                            title="Size"
-                                        >
-                                    </div>
+                                    <label
+                                        class="custom-file-label unchecked"
+                                        for="sm-preview"
+                                        :class="{checked: smallPreview}"
+                                    >
+                                        Choose file
+                                    </label>
                                 </div>
                             </div>
-                            <select
-                                class="form-control m-select2"
-                                id="type"
-                                name="type"
-                                style="width:100%;"
-                            >
-                                <option value="null" disabled>SELECT</option>
-                            </select>
+                            <div class="progress mb-3" style="height: 2px;">
+                                <div
+                                    class="progress-bar m--bg-info"
+                                    role="progressbar"
+                                    aria-valuenow="0"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    :style="'width:' + uploadProgress + '%'"
+                                >
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-secondary dropdown-toggle w-100"
+                                    type="button"
+                                    id="sm-recent"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    :class="[smallPreview ? 'checked' : 'unchecked']"
+                                >
+                                    Recent file
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="sm-recent">
+<!--                                    v-for="file in files"-->
+
+                                    <a
+                                        class="dropdown-item file-dropdown"
+                                        href="javascript:void(0);"
+                                    >
+                                        "{ file"
+                                    </a>
+                                </div>
+                            </div>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Types</h3>
@@ -125,52 +155,150 @@
 </template>
 
 <script>
+    import checkAuth from '@/mixins/checkAuth';
 
     export default {
         name: 'transfers-step-2',
+        mixins: [checkAuth],
+        props: {
+            upload_url: {
+                type: String,
+                required: true
+            }
+        },
         data() {
             return {
-                pantoneColor: {
-                    colors: []
-                },
                 pantoneColors: [
                     {
                         "title": "1 field to enter Pantone Color",
                         "countFields": 1,
+                        "colors": [],
                     },
                     {
                         "title": "2 field to enter Pantone Color",
                         "countFields": 2,
+                        "colors": [],
                     },
                     {
                         "title": "3 field to enter Pantone Color",
                         "countFields": 3,
+                        "colors": [],
                     },
                     {
                         "title": "4 field to enter Pantone Color",
-                        "countFields": 4
+                        "countFields": 4,
+                        "colors": [],
                     },
                     {
                         "title": "5 field to enter Pantone Color",
                         "countFields": 5,
+                        "colors": [],
                     },
                     {
                         "title": "6 field to enter Pantone Color",
                         "countFields": 6,
+                        "colors": [],
                     },
                     {
                         "title": "7 field to enter Pantone Color",
                         "countFields": 7,
+                        "colors": [],
                     },
                     {
                         "title": "8 field to enter Pantone Color",
                         "countFields": 8,
+                        "colors": [],
                     },
                     {
                         "title": "No field to enter Pantone Color",
                         "countFields": 0,
+                        "colors": [],
                     }
-                ]
+                ],
+                uploadProgress: 0,
+            }
+        },
+        watch: {
+            pantoneColor(val) {
+                if (val && val.colors.length === 0) {
+                    // Init empty list of colors
+                    val.colors = new Array(val.countFields).fill('');
+                }
+            }
+        },
+        methods: {
+            uploadFile(event, type = 'lg') {
+                // Check auth
+                this.checkAuth();
+
+                // Check empty file
+                if (event.target.files.length === 0) {
+                    this.smallPreview = null;
+
+                    return false;
+                }
+                let formData = new FormData();
+                let file = event.target.files[0];
+
+                formData.append('typeUpload', event.target.dataset.typeUpload);
+                formData.append('fileName', file ? file.name : '');
+                formData.append('file', file);
+
+                let options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress:  progressEvent => {
+                        this.uploadProgress = parseInt(Math.round( (progressEvent.loaded * 100 ) / progressEvent.total));
+                    }
+                };
+
+                axios.post(this.upload_url, formData, options)
+                    .then(response => response.data)
+                    .then(response => {
+                        this.smallPreview = response;
+
+                        this.$nextTick(() => {
+                            this.renderPreview(response, 'sm');
+                        });
+
+                        this.$notify({
+                            group: 'main',
+                            type: 'success',
+                            title: 'Upload file',
+                            text: "File uploaded successfully"
+                        });
+                    })
+                    .catch(error => {
+                        this.$nextTick(() => {
+                            let choosenInput = document.getElementById(type + '-preview');
+                            choosenInput.nextElementSibling.classList.add("unchecked");
+                        });
+
+                        this.smallPreview = null;
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Upload file',
+                            text: "File upload error"
+                        });
+                    })
+                    .finally(() => {
+                        setTimeout(() => {
+                            this.uploadProgress = 0;
+                        }, 1000)
+                    });
+            },
+            renderPreview(content, type = 'lg') {
+                let choosenInput = document.getElementById(type + '-preview');
+
+                if (! choosenInput) {
+                    return;
+                }
+
+                choosenInput.nextElementSibling.innerHTML = content;
+                choosenInput.nextElementSibling.classList.remove("unchecked");
+                document.getElementById(type + '-recent').innerHTML = content;
             }
         },
         computed: {
@@ -190,6 +318,22 @@
                     this.$store.commit('TransfersConfigurator/setTransparencies', newVal);
                 }, 1000)
             },
+            pantoneColor: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getPantoneColor'];
+                },
+                set(newVal) {
+                    this.$store.commit('TransfersConfigurator/setPantoneColor', newVal);
+                }
+            },
+            smallPreview: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getSmallPreview'];
+                },
+                set(newVal) {
+                    this.$store.commit('TransfersConfigurator/setSmallPreview', newVal);
+                }
+            },
         },
         mounted() {
             // init select2
@@ -199,9 +343,18 @@
 
             // Listen change select with color types
             queryPantoneColor.on('select2:select', (e) => {
-                console.log(e);
-                // this.pantoneColor = this.pantoneColors[e.params.data.id];
+                this.pantoneColor = this.pantoneColors[e.params.data.id];
             });
+
+            if (! this.pantoneColor) {
+                this.pantoneColor = this.pantoneColors[0];
+                queryPantoneColor.val(0).trigger('change');
+            }
+
+            // Preselect small preview
+            if (this.smallPreview) {
+                this.renderPreview(this.smallPreview, 'sm');
+            }
         }
     }
 </script>
