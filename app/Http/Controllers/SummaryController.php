@@ -718,6 +718,7 @@ class SummaryController extends Controller
                 GripTape::whereIn('id',$grip_checked)->delete();
             if(isset($wheel_checked))
                 Wheel::whereIn('wheel_id',$wheel_checked)->delete();
+            return redirect()->back();
         }
         return redirect()->route('summary');
     }

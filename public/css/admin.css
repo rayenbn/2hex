@@ -86,3 +86,6 @@
     background-color: #04f;
     width: 1%;
 }
+#summary-table .paid{
+    color: green;
+}

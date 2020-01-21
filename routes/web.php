@@ -80,6 +80,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('summary', 'DashboardController@getSummary');
     Route::get('action', 'DashboardController@getAction')->name('action');
     Route::post('action', 'DashboardController@getAction');
+    Route::post('add-upload-data', 'DashboardController@addUpload');
+    Route::post('delete-upload-data', 'DashboardController@deleteUpload');
 });
 
 

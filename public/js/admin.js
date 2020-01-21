@@ -38,7 +38,6 @@ $(document).ready(function(){
        total = $('option',$(this)).length;
 
        percent = Math.floor(index / total * 100);
-       console.log(percent);
 
        $('.proccess_percent').css('width', percent + '%');
     });
@@ -58,6 +57,71 @@ $(document).ready(function(){
             }
         });
         document.body.removeChild( temporaryDownloadLink );
+    });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function submitValues(type, value){
+        var selected = [];
+        $('.fileCheckbox:checked').each(function() {
+            selected.push({"name":$(this).val(), "created_by": $(this).attr('created') });
+        });
         
+        
+        $.ajax({
+            url: '/admin/add-upload-data',
+            type: 'POST',
+            data: {
+                selected: selected,
+                type: type,
+                value: value
+            },
+            success: function(){
+                window.location.reload();
+            }
+        })
+    }
+
+    function deleteValues(type){
+        var selected = [];
+        $('.fileCheckbox:checked').each(function() {
+            selected.push({"name":$(this).val(), "created_by": $(this).attr('created') });
+        });
+        
+        $.ajax({
+            url: '/admin/delete-upload-data',
+            type: 'POST',
+            data: {
+                selected: selected,
+                type: type,
+            },
+            success: function(){
+                window.location.reload();
+            }
+        })
+    }
+    $('#add-color-code').click(function(){
+        value = $(this).prev().val();
+        submitValues('color_code', value);
+    });
+    $('#add-color-date').click(function(){
+        value = $(this).prev().val();
+        submitValues('date', value);
+    });
+    $('#add-color-qty').click(function(){
+        value = $(this).prev().val();
+        submitValues('color_qty', value);
+    });
+
+    $('#delete-file').click(function(){
+        deleteValues('file');
+    });
+    $('#delete-date').click(function(){
+        deleteValues('date');
+    });
+    $('#delete-code').click(function(){
+        deleteValues('color_code');
     });
 });

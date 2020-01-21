@@ -67,15 +67,15 @@
 						   	</thead>
 
                             @foreach($fees as $key => $group)
-                                <tr>
+                                <tr class="@if(isset($group['paid_date']) && $group['paid_date']) paid @endif">
                                     <td>
-                                        <input type="checkbox" class="form-control fileCheckbox" name="uploadUpdate[]" value="{{$group['image']}}" link="{{$group['path']}}" imagename="{{$group['image']}}">
+                                        <input type="checkbox" class="form-control fileCheckbox" name="uploadUpdate[]" value="{{$group['image']}}" link="{{$group['path']}}" imagename="{{$group['image']}}" created="{{$group['created_by']}}">
                                     </td>
                                     <td colspan="1">{{$key + 1}}</td>
-                                    <td colspan="3">{{ $group['image'] }}</td>
+                                    <td colspan="3">{{ $group['image'] }} <br/> @if(isset($group['paid_date']) && $group['paid_date']) Paid on {{$group['paid_date']}} @endif </td>
                                     <td colspan="6">{{ $group['product'] }}</td>
-                                    <td colspan="3">{{ $group['color'] }}</td>
-                                    <td colspan="3"></td>
+                                    <td colspan="3">{{ isset($group['color_qty'])?$group['color_qty']?$group['color_qty']:0:0 }}</td>
+                                    <td colspan="3">{{ isset($group['color_code'])?$group['color_code']?$group['color_code']:0:0 }}</td>
                                     <td colspan="10">{{ $group['type'] }}</td>                                    
                                     <td colspan="6">{{ substr($group['date'],0,10) }}</td>
                                     <td colspan="6">{{ substr($group['date'],10) }}</td>
@@ -86,21 +86,21 @@
                     </table>
                     <div class="action-buttons">
                         <button class="btn btn-primary download_all">Download Files</button>
-                        <button class="btn btn-primary">Delete Files</button>
-                        <button class="btn btn-primary">Delete Date</button>
-                        <button class="btn btn-primary">Delete Color Codes</button> 
+                        <button class="btn btn-primary" id="delete-file">Delete Files</button>
+                        <button class="btn btn-primary" id="delete-date">Delete Date</button>
+                        <button class="btn btn-primary" id="delete-code">Delete Color Codes</button> 
                     </div>
                     <div class="action-buttons">
                         <input type="text" class="form-control col-4" placeholder="Add Color Codes sperated by demical points">
-                        <button class="btn btn-primary">Add</button>
+                        <button class="btn btn-primary" id="add-color-code">Add</button>
                     </div>
                     <div class="action-buttons">
                         <input type="text" class="form-control col-3" id="add_date" placeholder="Select Date">
-                        <button class="btn btn-primary">Add</button><br/>
+                        <button class="btn btn-primary" id="add-color-date">Add</button><br/>
                     </div>
                     <div class="action-buttons">
-                        <input type="text" class="form-control col-3" placeholder="Add Color">
-                        <button class="btn btn-primary">Add</button><br/>
+                        <input type="text" class="form-control col-3" placeholder="Add Color Quantity">
+                        <button class="btn btn-primary" id="add-color-qty">Add</button><br/>
                     </div>
 					</div>
 				</div>

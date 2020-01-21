@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
-use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session};
+use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session, PaidFile};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
 class DashboardController extends Controller
@@ -1369,6 +1369,7 @@ class DashboardController extends Controller
                     'product'  => 'S.B Deck',
                     'type'     => $this->feesTypes[$key]['name'],
                     'date' => $order['created_at'],
+                    'created_by' => $order['created_by']
                 ];
 
                 $user = User::where('id',$order['created_by'])->first();
@@ -1397,6 +1398,7 @@ class DashboardController extends Controller
                     'product'  => 'S.B Grips',
                     'type'     => $this->feesTypes[$key]['name'],
                     'date' => $grip['created_at'],
+                    'created_by' => $grip['created_by']
                 ];
                 $user = User::where('id',$grip['created_by'])->first();
                 if($user){
@@ -1426,6 +1428,7 @@ class DashboardController extends Controller
                     'product'  => 'S.B Wheels',
                     'type'     => $this->feesTypes[$key]['name'],
                     'date' => $wheel['created_at'],
+                    'created_by' => $wheel['created_by']
                 ];
                 $user = User::where('id',$wheel['created_by'])->first();
                 if($user){
@@ -1444,26 +1447,102 @@ class DashboardController extends Controller
         }
 
         $_data = array();
-        foreach ($fees as $v) {
-            if (isset($_data[$v['image']])) {
-                // found duplicate
-                continue;
+        // foreach ($fees as $v) {
+        //     if (isset($_data[$v['image']])) {
+        //         // found duplicate
+        //         continue;
+        //     }
+        //     // remember unique item
+        //     $_data[$v['image']] = $v;
+        // }
+        // // if you need a zero-based array, otheriwse work with $_data
+        // $fees = array_values($_data);
+        $users = User::all();
+        $activeDatas = [];
+
+        $count = 0;
+        foreach ($fees as $fee) {
+
+            for($i = 0; $i < count($_data); $i ++){
+                if($_data[$i]['image'] == $fee['image'] && $_data[$i]['created_by'] == $fee['created_by'])
+                    break;
             }
-            // remember unique item
-            $_data[$v['image']] = $v;
+            if($i == count($_data)){
+                $_data[$count] = $fee;
+                if(filter_var($fee['created_by'], FILTER_VALIDATE_INT) === true){
+                    if(isset($activeDatas[$fee['created_by']]['upload'])){
+                        $activeDatas[$fee['created_by']]['upload'] ++;
+                    }
+                    else{
+                        $activeDatas[$fee['created_by']] = [];
+                        $activeDatas[$fee['created_by']]['upload'] = 1;
+                    }
+                }                
+                $count ++;
+            }
+
         }
-        // if you need a zero-based array, otheriwse work with $_data
-        $fees = array_values($_data);
         
 
-        $count = count($fees);
+        //$count = count($fees);
+
+
+        
+        foreach($users as $user){
+            $id = $user->id;
+            if(!isset($activeDatas[$id]))
+                $activeDatas[$id] = [];
+            $activeDatas[$id]['name'] = $user->name;
+            $activeDatas[$id]['email'] = $user->email;
+            $activeDatas[$id]['click'] = Session::where('action','clicked')->where('created_by', $id)->count();
+
+            $queryOrders = Order::query()
+            ->where('created_by', $id)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+            $queryGrips = GripTape::query()
+                ->where('created_by', $id)
+                ->groupBy('saved_date', 'invoice_number', 'saved_name')
+                ->whereNotNull('saved_date')
+                ->select(['saved_date', 'saved_name']);
+
+            $queryWheels = Wheel::query()
+                ->where('created_by', $id)
+                ->groupBy('saved_date', 'invoice_number', 'saved_name')
+                ->whereNotNull('saved_date')
+                ->select(['saved_date', 'saved_name']);
+
+            $querySubmitOrders = clone $queryOrders;
+            $querySubmitGrips = clone $queryGrips;
+            $querySubmitWheels = clone $queryWheels;
+
+            $unSubmitOrders = $queryOrders->where('submit', 0)->get();
+
+            $unSubmitOrders = $unSubmitOrders->toBase()->merge($queryWheels->where('submit', 0)->get());
+
+            $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
+                $unSubmitOrders->push($grip);
+            });
+
+            $unSubmitOrders = $unSubmitOrders->unique('saved_date');
+
+            $activeDatas[$id]['saved_order'] = count($unSubmitOrders);
+            $activeDatas[$id]['saved_batch'] = Order::where('created_by', $id)->where('saved_batch', 1)->count() + GripTape::where('created_by', $id)->where('saved_batch', 1)->count() + Wheel::where('created_by', $id)->where('saved_batch', 1)->count();
+
+        }
+
+
+        // var_dump($activeDatas);
+        // exit();
 
 
         $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
 
         $signupByDays = User::select(\DB::raw('Date(created_at) as date'), \DB::raw('count(*) as counts'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->get();
         
-        return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'signupByDays' => $signupByDays]);
+        return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'signupByDays' => $signupByDays, 'activeDatas' => $activeDatas]);
     }
 
     public function getUploadFiles(Request $request){
@@ -1556,7 +1635,8 @@ class DashboardController extends Controller
                     'date'     => $order['created_at'],
                     'path'     => $down_path,
                     'size'     => $this->formatSizeUnits($size),
-                    'color'    => 1
+                    'color'    => 1,
+                    'created_by' => $order['created_by']
                 ];
                 if (array_key_exists($key . '_color', $order)) {
                     switch ($order[$key . '_color']) {
@@ -1601,7 +1681,8 @@ class DashboardController extends Controller
                     'id'       => $grip['id'],
                     'path'     => $down_path,
                     'size'     => $this->formatSizeUnits($size),
-                    'color'    => 1
+                    'color'    => 1,
+                    'created_by' => $grip['created_by']
                 ];
 
                 if (array_key_exists($key . '_color', $grip)) {
@@ -1649,7 +1730,8 @@ class DashboardController extends Controller
                     'id'       => $wheel['wheel_id'],
                     'path'     => $down_path,
                     'size'     => $this->formatSizeUnits($size),
-                    'color'    => 1
+                    'color'    => 1,
+                    'created_by' => $order['created_by']
                 ];
                 if (array_key_exists($key . '_color', $wheel)) {
                     switch ($wheel[$key . '_color']) {
@@ -1672,19 +1754,33 @@ class DashboardController extends Controller
             }
         }
 
-
-        $_data = array();
-        foreach ($fees as $v) {
-        if (isset($_data[$v['image']])) {
-            // found duplicate
-            continue;
-        }
-        // remember unique item
-        $_data[$v['image']] = $v;
-        }
-        // if you need a zero-based array, otheriwse work with $_data
-        $fees = array_values($_data);
+        //var_dump('first',$fees);
         
+        $_data = array();
+        $count = 0;
+        foreach ($fees as $fee) {
+
+            for($i = 0; $i < count($_data); $i ++){
+                if($_data[$i]['image'] == $fee['image'] && $_data[$i]['created_by'] == $fee['created_by'])
+                    break;
+            }
+            if($i == count($_data)){
+                $_data[$count] = $fee;
+                
+                $imageinfo = PaidFile::where('file_name', $fee['image'])->where('created_by',$fee['created_by'])->first();
+                
+                if(isset($imageinfo)){
+                    $_data[$count]['paid_date'] = $imageinfo['date'];
+                    $_data[$count]['color_qty'] = $imageinfo['color_qty'];
+                    $_data[$count]['color_code'] = $imageinfo['color_code'];
+                }
+                $count ++;
+            }
+
+        }
+
+        $fees = $_data;
+
         $users = User::select('email','name')->get();
         return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate'));
     }
@@ -1993,5 +2089,66 @@ class DashboardController extends Controller
         $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
         return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions'));
         
+    }
+    public function addUpload(Request $request){
+        $conditions = $request->input('selected');
+        $type = $request->input('type');
+        $value = $request->input('value');
+        
+        foreach($conditions as $condition){
+            $paidfile = PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->first();
+
+            if($type == 'color_qty'){
+                $selected_order = [];
+            
+                $order = Order::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name']);
+                })->pluck('id');
+                $grip = GripTape::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name']);
+                })->pluck('id');
+                $wheel = Wheel::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name']);
+                })->pluck('wheel_id');
+
+                // $order = Order::where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
+                // $grip = GripTape::where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
+                // $wheel = Wheel::where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('wheel_id');
+
+                $selected_order['order'] = $order;
+                $selected_order['grip'] = $grip;
+                $selected_order['wheel'] = $wheel;
+            }
+            
+
+            //var_dump(json_encode($selected_order));
+            
+
+            if($paidfile == null){
+                if(isset($selected_order))
+                    PaidFile::insert(['file_name' => $condition['name'], 'created_by' => $condition['created_by'], $type => $value, $selected_order => json_encode($selected_order)]);
+                else
+                    PaidFile::insert(['file_name' => $condition['name'], 'created_by' => $condition['created_by'], $type => $value]);
+            }
+            else{
+                if(isset($selected_order))
+                    PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => $value, 'selected_orders' => json_encode($selected_order)]);
+                else
+                    PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => $value]);
+            }
+        }   
+        return response('success');
+    }
+    public function deleteUpload(Request $request){
+        $conditions = $request->input('selected');
+        $type = $request->input('type');
+        foreach($conditions as $condition){
+            if($type == 'color_code' || $type == 'date')
+                PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '']);
+            else if($type == 'color_qty')
+                PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '', 'selected_orders' => '']);
+            // else if($type == 'date')
+            //     PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '']);
+        }
     }
 }

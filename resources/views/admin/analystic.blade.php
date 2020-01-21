@@ -22,7 +22,7 @@
                 </form>
             </div> 
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 row">
             <div class="col-lg-6">
                 <div class="user_info data_items">
                     <p class="userdata_title">User Info</p>
@@ -54,11 +54,55 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="m-grid__item m-grid__item--fluid">
+                    <input type="text" id="generalSearch" class="form-control col-4" placeholder="Type to filter ....">
+                    <table class="m-datatable m-datatable--scroll" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Click</th>
+                            <th>Upload</th>
+                            <th>Saved Order</th>
+                            <th>Saved Batch</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($activeDatas as $key => $activeData)
+                            @if(isset($activeData))
+                                <tr>
+                                    <td><a href="mailto:{{ isset($activeData['email'])?$activeData['email']:'' }}">{{ isset($activeData['email'])?$activeData['email']:'' }}</a></td>
+                                    <td>{{ isset($activeData['name'])?$activeData['name']:'' }}</td>
+                                    <td>{{ isset($activeData['click'])?$activeData['click']:0 }}</td>
+                                    <td>{{ isset($activeData['upload'])?$activeData['upload']:0 }}</td>
+                                    <td>{{ isset($activeData['saved_order'])?$activeData['saved_order']:0 }}</td>
+                                    <td>{{ isset($activeData['saved_batch'])?$activeData['saved_batch']:0 }}</td>
+                                </tr>
+                                
+                            @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
         </div>
         
     </div>
 @endsection
 @section('footer_scripts')
+    <script src="../../../asset/demo/default/custom/components/datatables/base/html-table.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $('.btn-user-delete').on('click', function (event) {
+                var button = $(this) 
+                var recipient = button.data('whatever') 
+                $('#btn-delete').attr('href', recipient)
+            })
+        })
+        
+    </script>
     <script type="text/javascript">
         $(document).ready(function(){
 
