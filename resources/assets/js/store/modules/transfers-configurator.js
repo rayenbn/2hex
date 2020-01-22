@@ -6,7 +6,8 @@ export default {
         designName: '',
         transparencies: false,
         pantoneColor: null,
-        smallPreview: null
+        smallPreview: null,
+        largePreview: null,
     },
     getters: {
         getQuantity: state => state.quantity,
@@ -15,6 +16,7 @@ export default {
         getDesignName: state => state.designName,
         getTransparencies: state => state.transparencies,
         getSmallPreview: state => state.smallPreview,
+        getLargePreview: state => state.largePreview,
     },
     mutations: {
         setQuantity(state, payload) {
@@ -34,6 +36,9 @@ export default {
         },
         setSmallPreview(state, payload) {
             state.smallPreview = payload;
+        },
+        setLargePreview(state, payload) {
+            state.largePreview = payload;
         }
     },
     actions: {}

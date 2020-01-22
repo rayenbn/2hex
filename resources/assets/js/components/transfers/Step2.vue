@@ -100,7 +100,7 @@
                                     <label
                                         class="custom-file-label unchecked"
                                         for="sm-preview"
-                                        :class="{checked: smallPreview}"
+                                        :class="{checked: smPreview}"
                                     >
                                         Choose file
                                     </label>
@@ -113,7 +113,7 @@
                                     aria-valuenow="0"
                                     aria-valuemin="0"
                                     aria-valuemax="100"
-                                    :style="'width:' + uploadProgress + '%'"
+                                    :style="'width:' + smProgress + '%'"
                                 >
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                     data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false"
-                                    :class="[smallPreview ? 'checked' : 'unchecked']"
+                                    :class="[smPreview ? 'checked' : 'unchecked']"
                                 >
                                     Recent file
                                 </button>
@@ -141,9 +141,72 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
-                                <h3>Types</h3>
-                                While white wheels are the standard in professional skateboarding, there are many other great options to customize your skateboard wheels! The minimum quantity depends on your selected style.
+                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
+                                Left nose, right tail. Max 1MB.
+                            </div>
+                        </div>
+                        <div class="m-portlet__head p-0">
+                            <div class="m-portlet__head-caption">
+                                <p class="h5 m-0">Upload full quality print file:</p>
+                            </div>
+                        </div>
+
+                        <div class="m-widget17">
+                            <div class="form-group m-form__group">
+                                <div class="custom-file">
+                                    <input
+                                        type="file"
+                                        data-type-upload="transfers-small-preview"
+                                        id="lg-preview"
+                                        class="custom-file-input"
+                                        @change.prevent="uploadFile($event, 'lg')"
+                                    >
+                                    <label
+                                        class="custom-file-label unchecked"
+                                        for="lg-preview"
+                                        :class="{checked: lgPreview}"
+                                    >
+                                        Choose file
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="progress mb-3" style="height: 2px;">
+                                <div
+                                    class="progress-bar m--bg-info"
+                                    role="progressbar"
+                                    aria-valuenow="0"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    :style="'width:' + lgProgress + '%'"
+                                >
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-secondary dropdown-toggle w-100"
+                                    type="button"
+                                    id="lg-recent"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    :class="[lgPreview ? 'checked' : 'unchecked']"
+                                >
+                                    Recent file
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="lg-recent">
+                                    <!--                                    v-for="file in files"-->
+
+                                    <a
+                                            class="dropdown-item file-dropdown"
+                                            href="javascript:void(0);"
+                                    >
+                                        "{ file"
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
+                                Read our design instructions here.
                             </div>
                         </div>
                     </div>
@@ -215,7 +278,8 @@
                         "colors": [],
                     }
                 ],
-                uploadProgress: 0,
+                smProgress: 0,
+                lgProgress: 0,
             }
         },
         watch: {
@@ -231,9 +295,10 @@
                 // Check auth
                 this.checkAuth();
 
+
                 // Check empty file
                 if (event.target.files.length === 0) {
-                    this.smallPreview = null;
+                    this[type + 'Preview'] = null;
 
                     return false;
                 }
@@ -249,17 +314,17 @@
                         'Content-Type': 'multipart/form-data'
                     },
                     onUploadProgress:  progressEvent => {
-                        this.uploadProgress = parseInt(Math.round( (progressEvent.loaded * 100 ) / progressEvent.total));
+                        this[type + 'Progress'] = parseInt(Math.round( (progressEvent.loaded * 100 ) / progressEvent.total));
                     }
                 };
 
                 axios.post(this.upload_url, formData, options)
                     .then(response => response.data)
                     .then(response => {
-                        this.smallPreview = response;
+                        this[type + 'Preview'] = response;
 
                         this.$nextTick(() => {
-                            this.renderPreview(response, 'sm');
+                            this.renderPreview(response, type);
                         });
 
                         this.$notify({
@@ -275,7 +340,8 @@
                             choosenInput.nextElementSibling.classList.add("unchecked");
                         });
 
-                        this.smallPreview = null;
+                        this[type + 'Preview'] = null;
+
                         this.$notify({
                             group: 'main',
                             type: 'error',
@@ -285,7 +351,7 @@
                     })
                     .finally(() => {
                         setTimeout(() => {
-                            this.uploadProgress = 0;
+                            this[type + 'Progress'] = 0;
                         }, 1000)
                     });
             },
@@ -326,12 +392,20 @@
                     this.$store.commit('TransfersConfigurator/setPantoneColor', newVal);
                 }
             },
-            smallPreview: {
+            smPreview: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getSmallPreview'];
                 },
                 set(newVal) {
                     this.$store.commit('TransfersConfigurator/setSmallPreview', newVal);
+                }
+            },
+            lgPreview: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getLargePreview'];
+                },
+                set(newVal) {
+                    this.$store.commit('TransfersConfigurator/setLargePreview', newVal);
                 }
             },
         },
@@ -352,8 +426,13 @@
             }
 
             // Preselect small preview
-            if (this.smallPreview) {
-                this.renderPreview(this.smallPreview, 'sm');
+            if (this.smPreview) {
+                this.renderPreview(this.smPreview, 'sm');
+            }
+
+            // Preselect large preview
+            if (this.lgPreview) {
+                this.renderPreview(this.lgPreview, 'lg');
             }
         }
     }
