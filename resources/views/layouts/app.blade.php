@@ -49,6 +49,9 @@
         .datepicker{
             width: 265px;
         }
+        .paid{
+            color: green;
+        }
     </style>
     @stack('head.scripts')
     @stack('head.styles')

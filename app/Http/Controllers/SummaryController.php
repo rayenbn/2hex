@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape, Wheel\Wheel};
+use App\Models\{Order, GripTape, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -144,6 +144,11 @@ class SummaryController extends Controller
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
                 }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -188,6 +193,11 @@ class SummaryController extends Controller
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -326,6 +336,11 @@ class SummaryController extends Controller
                     $fees[$wheelKey][$value]['price'] = 2000;
                 } else {
                     $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
                 }
             }
         }

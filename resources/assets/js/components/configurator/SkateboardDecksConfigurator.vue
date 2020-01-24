@@ -639,10 +639,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if=" steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if=" steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck+=steps[4].selectpaid?0:-0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[4].state=! steps[4].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[4].state=! steps[4].state, perdeck+=steps[4].selectpaid?0:0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -668,7 +668,7 @@
                                                                             data-step="4"
                                                                             class="custom-file-input"
                                                                             id="bottomPrintFile"
-                                                                            @click=" perdeck += steps[4].state ? 0 : 0.75, steps[4].state = 1"
+                                                                            @click=" perdeck += steps[4].state?steps[4].selectpaid?0.75:0:0.75, steps[4].state = 1"
                                                                             @change.prevent="uploadFile"
                                                                     >
                                                                     <label
@@ -703,7 +703,7 @@
                                                                         aria-expanded="false"
                                                                         style="width:100%;"
                                                                         v-bind:class="{checked: steps[4].state}"
-                                                                        @click=" perdeck += steps[4].state ? 0 : 0.75, steps[4].state = 1"
+                                                                        @click=" perdeck += steps[4].state?0:steps[4].selectpaid?0:0.75, steps[4].state = 1"
                                                                 >
                                                                     Recent file
                                                                 </button>
@@ -713,9 +713,10 @@
                                                                             v-for="file in (filenames.bottom.concat(filenames.top))"
                                                                             class="dropdown-item file-dropdown"
                                                                             href="#"
-                                                                            @click="perdeck += steps[4].state ? 0 : 0.75, steps[4].state = 1"
+                                                                            @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid']"
+                                                                            
                                                                     >
-                                                                        {{ file }}
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -724,6 +725,8 @@
                                                                     :color="steps[4].color"
                                                                     labelledby="step-5-colors"
                                                                     @colorChange="(val) => steps[4].color = val"
+                                                                    v-if="!steps[4].dropdisable"
+                                                                    
                                                             >
                                                                 <template slot="btn">
                                                                     <button
@@ -734,13 +737,27 @@
                                                                             aria-haspopup="true"
                                                                             aria-expanded="false"
                                                                             style="width:100%;"
-                                                                            @click="perdeck += steps[4].state ? 0 : 0.75, steps[4].state = true"
+                                                                            @click="perdeck += steps[4].state ? 0 : steps[4].selectpaid?0:0.75, steps[4].state = true"
                                                                             :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
                                                                     >
                                                                         {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
                                                                     </button>
                                                                 </template>
                                                             </color-btn>
+
+                                                            <button v-else
+                                                                    id="step-5-colors"
+                                                                    class="btn btn-secondary dropdown-toggle"
+                                                                    type="button"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="width:100%;"
+                                                                    @click="perdeck += steps[4].state ? 0 : steps[4].selectpaid?0:0.75, steps[4].state = true"
+                                                                    :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
+                                                            >
+                                                                {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
+                                                            </button>
 
                                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                 <h3 style="color: #5867dd">Custom Bottom Design</h3>
@@ -771,10 +788,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if="! steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if="! steps[4].state" @click=" steps[4].state=! steps[4].state, perdeck+=steps[4].selectpaid?0:0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[4].state=! steps[4].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[4].state=! steps[4].state, perdeck+=steps[4].selectpaid?0:-0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -822,10 +839,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if=" steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if=" steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck+=steps[5].selectpaid?0:-0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[5].state=! steps[5].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[5].state=! steps[5].state, perdeck+=steps[5].selectpaid?0:0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -851,7 +868,7 @@
                                                                             data-step="5"
                                                                             class="custom-file-input"
                                                                             id="topPrintFile"
-                                                                            @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                                            @click=" perdeck += steps[5].state?steps[5].selectpaid?0.75:0:0.75, steps[5].state = 1"
                                                                             @change.prevent="uploadFile"
                                                                     >
                                                                     <label
@@ -884,7 +901,7 @@
                                                                         aria-expanded="false"
                                                                         style="width:100%;"
                                                                         v-bind:class="{checked: steps[5].state}"
-                                                                        @click=" perdeck += steps[5].state?0:0.75, steps[5].state = 1"
+                                                                        @click=" perdeck += steps[5].state?0:steps[5].selectpaid?0:0.75, steps[5].state = 1"
                                                                 >
                                                                     Recent file
                                                                 </button>
@@ -892,10 +909,11 @@
                                                                     <a
                                                                             v-for="file in (filenames.bottom.concat(filenames.top))"
                                                                             class="dropdown-item file-dropdown"
-                                                                            @click="perdeck += steps[5].state ? 0 : 0.75, steps[5].state = 1"
+                                                                            @click="perdeck += steps[5].state?steps[5].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[5].state = 1, steps[5].color=file['color_qty'], steps[5].dropdisable = file['is_disable'], steps[5].selectpaid = file['paid']"
                                                                             href="#"
+                                                                            v-bind:class="{'paid': file['paid'] == 0}" 
                                                                     >
-                                                                        {{ file}}
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -904,6 +922,7 @@
                                                                     :color="steps[5].color"
                                                                     labelledby="step-6-colors"
                                                                     @colorChange="(val) => steps[5].color = val"
+                                                                    v-if="!steps[5].dropdisable"
                                                             >
                                                                 <template slot="btn">
                                                                     <button
@@ -914,13 +933,27 @@
                                                                             aria-haspopup="true"
                                                                             aria-expanded="false"
                                                                             style="width:100%;"
-                                                                            @click="perdeck += steps[5].state ? 0 : 0.75, steps[5].state = true"
+                                                                            @click="perdeck += steps[5].state ? 0 : steps[5].selectpaid?0:0.75, steps[5].state = true"
                                                                             :class="[steps[5].state && steps[5].color ? 'checked' : 'unchecked']"
                                                                     >
                                                                         {{ steps[5].color ? steps[5].color : 'How many colors are in your design?' }}
                                                                     </button>
                                                                 </template>
                                                             </color-btn>
+                                                            <button
+                                                                    id="step-6-colors"
+                                                                    class="btn btn-secondary dropdown-toggle"
+                                                                    type="button"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="width:100%;"
+                                                                    @click="perdeck += steps[5].state ? 0 : steps[5].selectpaid?0:0.75, steps[5].state = true"
+                                                                    :class="[steps[5].state && steps[5].color ? 'checked' : 'unchecked']"
+                                                                    v-else
+                                                            >
+                                                                {{ steps[5].color ? steps[5].color : 'How many colors are in your design?' }}
+                                                            </button>
                                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                 <h3 style="color: #5867dd">Top Print</h3>
                                                                 Submit your artwork in 9" x 33" at 300 dpi or as a vector image. For images of up to 4 colors, please give each color layer its Pantone code.
@@ -950,10 +983,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if="! steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if="! steps[5].state" @click=" steps[5].state=! steps[5].state, perdeck+=steps[5].selectpaid?0:0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[5].state=! steps[5].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[5].state=! steps[5].state, perdeck+=steps[5].selectpaid?0:-0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -1001,10 +1034,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if=" steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck-=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if=" steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck+=steps[6].selectpaid?0:-0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=steps[6].selectpaid?0:0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -1030,7 +1063,7 @@
                                                                             data-step="6"
                                                                             class="custom-file-input"
                                                                             id="engraveryFile"
-                                                                            @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1"
+                                                                            @click=" perdeck += steps[6].state?steps[6].selectpaid?0.75:0:0.75, steps[6].state = 1"
                                                                             @change.prevent="uploadFile"
                                                                     >
                                                                     <label
@@ -1054,17 +1087,18 @@
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown">
-                                                                <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[6].state}" @click=" perdeck += steps[6].state?0:0.75, steps[6].state = 1">
+                                                                <button class="btn btn-secondary dropdown-toggle unchecked" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;" v-bind:class="{checked: steps[6].state}" @click=" perdeck += steps[6].state?0:steps[6].selectpaid?0:0.75, steps[6].state = 1">
                                                                     Recent file
                                                                 </button>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                     <a
                                                                             v-for="file in filenames.engravery"
                                                                             class="dropdown-item file-dropdown"
-                                                                            @click="perdeck += steps[6].state?0:0.75, steps[6].state = 1"
+                                                                            @click="perdeck += steps[6].state?steps[6].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[6].state = 1, steps[6].selectpaid = file['paid']"
                                                                             href="#"
+                                                                            v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
-                                                                        {{ file }}
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1096,10 +1130,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck+=0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if="! steps[6].state" @click=" steps[6].state=! steps[6].state, perdeck+=steps[6].selectpaid?0:0.75"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[6].state=! steps[6].state, perdeck-=0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[6].state=! steps[6].state, perdeck+=steps[6].selectpaid?0:-0.75"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -1574,8 +1608,9 @@
                                                                             class="dropdown-item file-dropdown"
                                                                             href="#"
                                                                             @click="steps[9].state = 1"
+                                                                            v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
-                                                                        {{ file }}
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1656,10 +1691,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck-=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if=" steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=steps[10].selectpaid?0:-0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=steps[10].selectpaid?0:0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -1685,7 +1720,7 @@
                                                                             data-step="10"
                                                                             class="custom-file-input"
                                                                             id="cartonFile"
-                                                                            @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                                            @click=" perdeck += steps[10].state?steps[10].selectpaid?0.15:0:0.15, steps[10].state = 1"
                                                                             @change.prevent="uploadFile"
                                                                     >
                                                                     <label
@@ -1718,7 +1753,7 @@
                                                                         aria-expanded="false"
                                                                         style="width:100%;"
                                                                         v-bind:class="{checked: steps[10].state}"
-                                                                        @click=" perdeck += steps[10].state?0:0.75, steps[10].state = 1"
+                                                                        @click=" perdeck += steps[10].state?0:steps[10].selectpaid?0:0.15, steps[10].state = 1"
                                                                 >
                                                                     Recent file
                                                                 </button>
@@ -1727,9 +1762,11 @@
                                                                             v-for="file in filenames.box"
                                                                             class="dropdown-item file-dropdown"
                                                                             href="#"
-                                                                            @click="perdeck += steps[10].state ? 0 : 0.75, steps[10].state = 1"
+                                                                            @click="perdeck += steps[10].state?steps[10].selectpaid?file['paid']?0:0.15:file['paid']?-0.15:0:0.15, steps[10].state = 1, steps[10].color=file['color_qty'], steps[10].dropdisable=file['is_disable'], steps[10].selectpaid = file['paid']"
+                                                                            v-bind:class="{'paid': file['paid'] == 0}"
+                                                                            
                                                                     >
-                                                                        {{ file }}
+                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1738,6 +1775,7 @@
                                                                     :color="steps[10].color"
                                                                     labelledby="step-11-colors"
                                                                     @colorChange="(val) => steps[10].color = val"
+                                                                    v-if="!steps[10].dropdisable"
                                                             >
                                                                 <template slot="btn">
                                                                     <button
@@ -1748,13 +1786,27 @@
                                                                             aria-haspopup="true"
                                                                             aria-expanded="false"
                                                                             style="width:100%;"
-                                                                            @click="perdeck += steps[10].state ? 0 : 0.15, steps[10].state = true"
+                                                                            @click="perdeck += steps[10].state ? 0 : steps[10].selectpaid?0:0.15, steps[10].state = true"
                                                                             :class="[steps[10].state && steps[10].color ? 'checked' : 'unchecked']"
                                                                     >
                                                                         {{ steps[10].color ? steps[10].color : 'How many colors are in your design?' }}
                                                                     </button>
                                                                 </template>
                                                             </color-btn>
+                                                            <button
+                                                                    id="step-11-colors"
+                                                                    class="btn btn-secondary dropdown-toggle"
+                                                                    type="button"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="width:100%;"
+                                                                    @click="perdeck += steps[10].state ? 0 : steps[10].selectpaid?0:0.15, steps[10].state = true"
+                                                                    :class="[steps[10].state && steps[10].color ? 'checked' : 'unchecked']"
+                                                                    v-else
+                                                            >
+                                                                {{ steps[10].color ? steps[10].color : 'How many colors are in your design?' }}
+                                                            </button>
                                                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                                                 <h3 style="color: #5867dd">Custom Printed Cartons</h3>
                                                                 Add your logo on both sides of the carton. Please submit the artwork in 40cm(width) x 15cm(height).
@@ -1781,10 +1833,10 @@
                                                         <div class="m-portlet__head-tools">
                                                             <ul class="m-portlet__nav">
                                                                 <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover">
-                                                                    <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                                                    <a v-if="! steps[10].state" @click=" steps[10].state=! steps[10].state, perdeck+=steps[10].selectpaid?0:0.15"   class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                                                         <i class="fa fa-check"></i>
                                                                     </a>
-                                                                    <a v-else @click=" steps[10].state=! steps[10].state, perdeck-=0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
+                                                                    <a v-else @click=" steps[10].state=! steps[10].state, perdeck+=steps[10].selectpaid?0:-0.15"    class="btn btn-secondary m-btn m-btn--icon btn-lg m-btn--icon-only m-btn--pill">
                                                                         <i class="fa fa-times"></i>
                                                                     </a>
                                                                 </li>
@@ -2235,9 +2287,9 @@
                     {state: true},
                     {state: true},
                     {state: true},
-                    {state: false, color: null, uploadProgress: 0},
-                    {state: false, name: '', color: null, uploadProgress: 0},
-                    {state: false, name: '', uploadProgress: 0},
+                    {state: false, color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
+                    {state: false, name: '', color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
+                    {state: false, name: '', uploadProgress: 0, selectpaid: false},
                     {state: true, name: ''},
                     {
                         fulldip: {state: false,color: ""},
@@ -2247,8 +2299,8 @@
                         blackmidlayer: {state: false},
                         pattern: {state: false},
                     },
-                    {state: false, name: '', uploadProgress: 0},
-                    {state: false, name: '', color: null, uploadProgress: 0},
+                    {state: false, name: '', uploadProgress: 0, selectpaid: false},
+                    {state: false, name: '', color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
                 ],
             }
         },
@@ -2545,6 +2597,12 @@
                         let step5 = document.getElementById('step-5-recent');
                         step5.innerHTML = this.order.bottomprint;
                         step5.classList.remove('unchecked');
+                        debugger;
+                        for(let i = 0; i < this.filenames['bottom'].length; i ++){
+                            if(this.filenames['bottom'][i]['name'] == this.order.bottomprint){
+                                this.steps[4].dropdisable = this.filenames['bottom'][i]['is_disable']?true:false;
+                            }
+                        }
 
                         $('input',$('#m_wizard_form_step_5')).attr('fileName',this.order.bottomprint);
                     }
@@ -2554,7 +2612,11 @@
                         let step6 = document.getElementById('step-6-recent');
                         step6.innerHTML = this.order.topprint;
                         step6.classList.remove('unchecked')
-
+                        for(let i = 0; i < this.filenames['top'].length; i ++){
+                            if(this.filenames['top'][i]['name'] == this.order.topprint){
+                                this.steps[5].dropdisable = this.filenames['top'][i]['is_disable']?true:false;
+                            }
+                        }
                         $('input',$('#m_wizard_form_step_6')).attr('fileName',this.order.topprint);
                     }
 
@@ -2591,7 +2653,11 @@
                         let step11 = document.getElementById('step-11-recent');
                         step11.innerHTML = this.order.carton;
                         step11.classList.remove('unchecked');
-
+                        for(let i = 0; i < this.filenames['box'].length; i ++){
+                            if(this.filenames['box'][i]['name'] == this.order.carton){
+                                this.steps[10].dropdisable = this.filenames['box'][i]['is_disable']?true:false;
+                            }
+                        }
                         $('input',$('#m_wizard_form_step_11')).attr('fileName',this.order.carton);
                     }
 

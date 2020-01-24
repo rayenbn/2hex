@@ -645,14 +645,14 @@ class DashboardController extends Controller
         
         // Set wheel fix cost to main fees array
         
-        $this->calculateWheelFixCost($fees, 1);
+        //$this->calculateWheelFixCost($fees, 1);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
         }, 0);
 
-        $wheelWeight = $wheelQuery
+        $wheelWeight = (clone $wheelQuery)
             ->selectRaw('SUM(quantity * ?) as weight')
             ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
             ->first()
@@ -675,6 +675,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($grip) {
                 return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+        
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
             })
             ->toArray();
 
@@ -724,6 +731,11 @@ class DashboardController extends Controller
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
                 }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -768,12 +780,82 @@ class DashboardController extends Controller
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $wheel)) {
+                    switch ($wheel[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if ($key === 'top_print' || $key === 'back_print') {
+                    $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'cardboard_print') {
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    }
+                } else if ($key === 'carton_print'){
+                    $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
+                } else if ($key === 'shape_print'){
+                    $fees[$wheelKey][$value]['price'] = 2000;
+                } else {
+                    $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
 
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -873,7 +955,7 @@ class DashboardController extends Controller
     protected function calculateWheelFixCost(array &$fees, $submit = 2)
     {
         if($submit != 2)
-            $wheelQuery = Wheel::auth()->where('submit',$submit)->whereNotNull('saved_date');
+            $wheelQuery = Wheel::auth(false)->where('submit',$submit)->whereNotNull('saved_date');
         else
             $wheelQuery = Wheel::auth();
 
@@ -884,6 +966,9 @@ class DashboardController extends Controller
                 return array_filter($wheel->attributesToArray());
             })
             ->toArray();
+
+        var_dump($wheels);
+        exit();
 
         $feesTypes = [
             'top_print' => [
@@ -1036,14 +1121,14 @@ class DashboardController extends Controller
         
         
         // Set wheel fix cost to main fees array
-        $this->calculateWheelFixCost($fees, 0);
+        //$this->calculateWheelFixCost($fees, 0);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
         }, 0);
 
-        $wheelWeight = $wheelQuery
+        $wheelWeight = (clone $wheelQuery)
             ->selectRaw('SUM(quantity * ?) as weight')
             ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
             ->first()
@@ -1068,6 +1153,14 @@ class DashboardController extends Controller
                 return array_filter($grip->attributesToArray());
             })
             ->toArray();
+
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+        
 
 
         foreach ($orders as $index => $order) {
@@ -1108,10 +1201,17 @@ class DashboardController extends Controller
                     }
                 }
 
+                
+
                 if ($key === 'bottomprint' || $key === 'topprint') {
                     $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
                 }
             }
         }
@@ -1157,11 +1257,82 @@ class DashboardController extends Controller
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $wheel)) {
+                    switch ($wheel[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if ($key === 'top_print' || $key === 'back_print') {
+                    $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'cardboard_print') {
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    }
+                } else if ($key === 'carton_print'){
+                    $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
+                } else if ($key === 'shape_print'){
+                    $fees[$wheelKey][$value]['price'] = 2000;
+                } else {
+                    $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -1461,6 +1632,8 @@ class DashboardController extends Controller
         $activeDatas = [];
 
         $count = 0;
+        $userids = User::pluck('id');
+        
         foreach ($fees as $fee) {
 
             for($i = 0; $i < count($_data); $i ++){
@@ -1469,7 +1642,8 @@ class DashboardController extends Controller
             }
             if($i == count($_data)){
                 $_data[$count] = $fee;
-                if(filter_var($fee['created_by'], FILTER_VALIDATE_INT) === true){
+                //if(is_numeric($fee['created_by']) && $fee['created_by'] > 0 && $fee['created_by'] == round($fee['created_by'],0)){
+                if(in_array($fee['created_by'], json_decode(json_encode($userids)))){
                     if(isset($activeDatas[$fee['created_by']]['upload'])){
                         $activeDatas[$fee['created_by']]['upload'] ++;
                     }
@@ -1494,22 +1668,25 @@ class DashboardController extends Controller
                 $activeDatas[$id] = [];
             $activeDatas[$id]['name'] = $user->name;
             $activeDatas[$id]['email'] = $user->email;
-            $activeDatas[$id]['click'] = Session::where('action','clicked')->where('created_by', $id)->count();
+            $activeDatas[$id]['click'] = Session::where('action','clicked')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by', $id)->count();
 
             $queryOrders = Order::query()
             ->where('created_by', $id)
+            ->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)
             ->groupBy('saved_date', 'invoice_number', 'saved_name')
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
             $queryGrips = GripTape::query()
                 ->where('created_by', $id)
+                ->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)
                 ->groupBy('saved_date', 'invoice_number', 'saved_name')
                 ->whereNotNull('saved_date')
                 ->select(['saved_date', 'saved_name']);
 
             $queryWheels = Wheel::query()
                 ->where('created_by', $id)
+                ->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)
                 ->groupBy('saved_date', 'invoice_number', 'saved_name')
                 ->whereNotNull('saved_date')
                 ->select(['saved_date', 'saved_name']);
@@ -1529,7 +1706,7 @@ class DashboardController extends Controller
             $unSubmitOrders = $unSubmitOrders->unique('saved_date');
 
             $activeDatas[$id]['saved_order'] = count($unSubmitOrders);
-            $activeDatas[$id]['saved_batch'] = Order::where('created_by', $id)->where('saved_batch', 1)->count() + GripTape::where('created_by', $id)->where('saved_batch', 1)->count() + Wheel::where('created_by', $id)->where('saved_batch', 1)->count();
+            $activeDatas[$id]['saved_batch'] = Order::where('created_by', $id)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('saved_batch', 1)->count() + GripTape::where('created_by', $id)->where('saved_batch', 1)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count() + Wheel::where('created_by', $id)->where('saved_batch', 1)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
 
         }
 
@@ -1896,14 +2073,14 @@ class DashboardController extends Controller
         $sum_fees = 0;
 
         // Set wheel fix cost to main fees array
-        $this->calculateWheelFixCost($fees);
+        //$this->calculateWheelFixCost($fees);
 
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
         }, 0);
 
-        $wheelWeight = $wheelQuery
+        $wheelWeight = (clone $wheelQuery)
             ->selectRaw('SUM(quantity * ?) as weight')
             ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
             ->first()
@@ -1926,6 +2103,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($grip) {
                 return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
             })
             ->toArray();
 
@@ -1973,6 +2157,11 @@ class DashboardController extends Controller
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
                 }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -2017,11 +2206,81 @@ class DashboardController extends Controller
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $wheel)) {
+                    switch ($wheel[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if ($key === 'top_print' || $key === 'back_print') {
+                    $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'cardboard_print') {
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    }
+                } else if ($key === 'carton_print'){
+                    $fees[$wheelKey][$value]['price'] = 80 * $fees[$wheelKey][$value]['color'];
+                } else if ($key === 'shape_print'){
+                    $fees[$wheelKey][$value]['price'] = 2000;
+                } else {
+                    $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -2118,6 +2377,46 @@ class DashboardController extends Controller
                 $selected_order['order'] = $order;
                 $selected_order['grip'] = $grip;
                 $selected_order['wheel'] = $wheel;
+
+                $orders = Order::where('created_by', $condition['created_by'])->get()->map(function($order) {
+                    return array_filter($order->attributesToArray());
+                })
+                ->toArray();
+                foreach($orders as $order){
+                    foreach($order as $key => $value1){
+                        
+                        if($value1 == $condition['name']){
+                            if(isset($order[$key.'_color']))
+                                Order::where('id', $order['id'])->update([$key.'_color'=> $value==4?'CMYK':$value.' color']);
+                        }
+                    }
+                }
+
+                $grips = GripTape::where('created_by', $condition['created_by'])->get()->map(function($grip) {
+                    return array_filter($grip->attributesToArray());
+                })
+                ->toArray();
+                foreach($grips as $grip){
+                    foreach($grip as $key => $value1){
+                        if($value1 == $condition['name']){
+                            if(isset($grip[$key.'_color']))
+                                GripTape::where('id', $grip['id'])->update([$key.'_color'=> $value==4?'CMYK':$value.' color']);
+                        }
+                    }
+                }
+
+                $wheels = Wheel::where('created_by', $condition['created_by'])->get()->map(function($wheel) {
+                    return array_filter($wheel->attributesToArray());
+                })
+                ->toArray();
+                foreach($wheels as $wheel){
+                    foreach($wheel as $key => $value1){
+                        if($value1 == $condition['name']){
+                            if(isset($wheel[$key.'_color']))
+                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key.'_color'=> $value==4?'CMYK':$value.' color']);
+                        }
+                    }
+                }
             }
             
 
@@ -2147,6 +2446,47 @@ class DashboardController extends Controller
                 PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '']);
             else if($type == 'color_qty')
                 PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '', 'selected_orders' => '']);
+            else if($type == 'file'){
+                $orders = Order::where('created_by', $condition['created_by'])->get()->map(function($order) {
+                    return array_filter($order->attributesToArray());
+                })
+                ->toArray();
+                foreach($orders as $order){
+                    foreach($order as $key => $value1){
+                        
+                        if($value1 == $condition['name']){
+                            if(isset($order[$key.'_color']))
+                                Order::where('id', $order['id'])->update([$key=> '']);
+                        }
+                    }
+                }
+
+                $grips = GripTape::where('created_by', $condition['created_by'])->get()->map(function($grip) {
+                    return array_filter($grip->attributesToArray());
+                })
+                ->toArray();
+                foreach($grips as $grip){
+                    foreach($grip as $key => $value1){
+                        if($value1 == $condition['name']){
+                            if(isset($grip[$key.'_color']))
+                                GripTape::where('id', $grip['id'])->update([$key=> '']);
+                        }
+                    }
+                }
+
+                $wheels = Wheel::where('created_by', $condition['created_by'])->get()->map(function($wheel) {
+                    return array_filter($wheel->attributesToArray());
+                })
+                ->toArray();
+                foreach($wheels as $wheel){
+                    foreach($wheel as $key => $value1){
+                        if($value1 == $condition['name']){
+                            if(isset($wheel[$key.'_color']))
+                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
+                        }
+                    }
+                }
+            }
             // else if($type == 'date')
             //     PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => '']);
         }
