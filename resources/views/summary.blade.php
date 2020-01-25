@@ -160,7 +160,7 @@
 
                             @foreach($fees as $key => $group)
                             	@foreach($group as $k => $value)
-                            		<tr>
+									<tr @isset($value['paid']) class="paid" @endif>
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
 										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>

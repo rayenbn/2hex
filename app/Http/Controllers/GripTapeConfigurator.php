@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{GripTape, Order, Session};
 use App\Jobs\RecalculateOrders;
 use App\Models\Wheel\Wheel;
+use App\Models\PaidFile;
 
 class GripTapeConfigurator extends Controller
 {
@@ -24,13 +25,26 @@ class GripTapeConfigurator extends Controller
 
         $path = '';
         foreach (array_keys($filenames) as $value) {
+            $count = 0;
             $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
             if(\File::exists($path)) {
                 $filesInFolder = \File::files($path);
 
                 foreach($filesInFolder as $filepath) { 
                       $file = pathinfo($filepath);
-                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
+                      $filenames[$value][$count] = [];
+                      $filenames[$value][$count]['name'] = $file['filename'] . '.' . $file['extension'] ;
+                      $filenames[$value][$count]['is_disable'] = false;
+                      $filenames[$value][$count]['color_qty'] = '';
+                      $filenames[$value][$count]['paid'] = false;
+                      $fileaction = PaidFile::where('created_by', auth()->id())->where('file_name', $filenames[$value][$count]['name'])->first();
+                      if($fileaction != null){
+                          
+                          
+                        $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
+                        $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+                      }
+                      $count ++;
                 } 
             }
         }
@@ -54,14 +68,31 @@ class GripTapeConfigurator extends Controller
         }
 
         $path = '';
-        foreach (array_keys($filenames) as $value) {
+        foreach (['bottom', 'top', 'engravery', 'cardboard', 'box'] as $value) {
+            $count = 0;
             $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
             if(\File::exists($path)) {
                 $filesInFolder = \File::files($path);
 
                 foreach($filesInFolder as $filepath) { 
                       $file = pathinfo($filepath);
-                      $filenames[$value][] = $file['filename'] . '.' . $file['extension'] ;
+                      $filenames[$value][$count] = [];
+                      $filenames[$value][$count]['name'] = $file['filename'] . '.' . $file['extension'] ;
+                      $filenames[$value][$count]['is_disable'] = false;
+                      $filenames[$value][$count]['color_qty'] = '';
+                      $filenames[$value][$count]['paid'] = false;
+                      $fileaction = PaidFile::where('created_by', auth()->id())->where('file_name', $filenames[$value][$count]['name'])->first();
+                      if($fileaction != null){
+                          
+                          
+                        $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
+                        $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+                        
+                        $grips = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->grip;
+                        
+                        $filenames[$value][$count]['is_disable'] = in_array($id, $grips);
+                      }
+                      $count ++;
                 } 
             }
         }
