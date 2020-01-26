@@ -8,6 +8,7 @@ export default {
         pantoneColor: null,
         smallPreview: null,
         largePreview: null,
+        reOrder: false,
     },
     getters: {
         getQuantity: state => state.quantity,
@@ -17,6 +18,7 @@ export default {
         getTransparencies: state => state.transparencies,
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
+        getReOrder: state => state.reOrder,
     },
     mutations: {
         setQuantity(state, payload) {
@@ -39,7 +41,10 @@ export default {
         },
         setLargePreview(state, payload) {
             state.largePreview = payload;
-        }
+        },
+        setReOrder(state, payload) {
+            state.reOrder = payload;
+        },
     },
     actions: {}
 };

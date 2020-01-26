@@ -208,6 +208,30 @@
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 Read our design instructions here.
                             </div>
+                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
+                                Download our Design Template (Drag and Drop):
+                            </div>
+                            <div
+                                style="text-align: justify; color: #9699a4;"
+                                class="mt-4"
+                                id="design-wrap"
+                                @drop.prevent="dropHandler($event)"
+                            >
+                                <label for="template-design" class="m-0">
+                                    <img src="/img/transfers/skateboard-deck-template.jpg" alt="Design Template" title="Design Template" width="100%">
+                                </label>
+                                <input type="file" name="template-design" id="template-design" />
+                            </div>
+                            <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
+                                <div class="d-flex flex-column">
+                                    <span class="text-uppercase">Re-Order</span>
+                                    <span>First order of this design.</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" name="re-order" v-model="reOrder" disabled>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -365,7 +389,15 @@
                 choosenInput.nextElementSibling.innerHTML = content;
                 choosenInput.nextElementSibling.classList.remove("unchecked");
                 document.getElementById(type + '-recent').innerHTML = content;
-            }
+            },
+            dropHandler(e) {
+                var dt = e.dataTransfer;
+                var files = dt.files;
+
+                // TODO upload file
+                document.getElementById('design-wrap').classList.remove('highlight');
+
+            },
         },
         computed: {
             designName: {
@@ -408,6 +440,14 @@
                     this.$store.commit('TransfersConfigurator/setLargePreview', newVal);
                 }
             },
+            reOrder: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getReOrder'];
+                },
+                set(newVal) {
+                    this.$store.commit('TransfersConfigurator/setReOrder', newVal);
+                }
+            },
         },
         mounted() {
             // init select2
@@ -434,6 +474,33 @@
             if (this.lgPreview) {
                 this.renderPreview(this.lgPreview, 'lg');
             }
+
+            let dropArea = document.getElementById('design-wrap');
+
+            dropArea.addEventListener("dragover", function( event ) {
+                event.preventDefault();
+                this.classList.add('highlight');
+            }, false);
+
+            dropArea.addEventListener("dragleave", function( event ) {
+                event.preventDefault();
+                this.classList.remove('highlight');
+            }, false);
         }
     }
 </script>
+
+<style scoped>
+    #design-wrap label {
+        cursor: pointer;
+    }
+
+    #template-design {
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+    }
+    .highlight {
+        border: #5867dd 2px dashed;
+    }
+</style>
