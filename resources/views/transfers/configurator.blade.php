@@ -13,6 +13,8 @@
         <transfers-configurator
             manufacturer_url="{{route('transfers.manufacturer')}}"
             upload_url="{{route('transfers.upload', [], false)}}"
+            :filenames="{{ json_encode($filenames) }}"
+            :is-admin="{{ $isAdmin ? 1 : 0 }}"
         >
         </transfers-configurator>
     </div>
