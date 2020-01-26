@@ -32,16 +32,18 @@
                                 name="designName"
                                 placeholder="Enter design name"
                                 v-model="designName"
+                                :disabled="! hasChange"
                             >
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <span class="text-uppercase">Transparencies</span>
                                 <label class="switch">
-                                    <input type="checkbox" name="transparencies" v-model="transparencies">
+                                    <input type="checkbox" name="transparencies" v-model="transparencies" :disabled="! hasChange">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
 
                             <select
+                                :disabled="! hasChange"
                                 class="form-control m-select2"
                                 id="pantoneColor"
                                 name="pantoneColor"
@@ -65,6 +67,7 @@
                                     class="form-control mt-2 mb-2"
                                     placeholder="Enter Pantone Color"
                                     v-model="pantoneColor.colors[index]"
+                                    :disabled="! hasChange"
                                 >
                             </template>
 
@@ -91,6 +94,7 @@
                             <div class="form-group m-form__group">
                                 <div class="custom-file">
                                     <input
+                                        :disabled="! hasChange"
                                         type="file"
                                         data-type-upload="transfers-small-preview"
                                         id="sm-preview"
@@ -119,6 +123,7 @@
                             </div>
                             <div class="dropdown">
                                 <button
+                                    :disabled="! hasChange"
                                     class="btn btn-secondary dropdown-toggle w-100"
                                     type="button"
                                     id="sm-recent"
@@ -130,13 +135,14 @@
                                     Recent file
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="sm-recent">
-<!--                                    v-for="file in files"-->
 
                                     <a
+                                        v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
+                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm')}"
                                     >
-                                        "{ file"
+                                        {{ file && file.name}}
                                     </a>
                                 </div>
                             </div>
@@ -155,8 +161,9 @@
                             <div class="form-group m-form__group">
                                 <div class="custom-file">
                                     <input
+                                        :disabled="! hasChange"
                                         type="file"
-                                        data-type-upload="transfers-small-preview"
+                                        data-type-upload="transfers-full-preview"
                                         id="lg-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
@@ -183,6 +190,7 @@
                             </div>
                             <div class="dropdown">
                                 <button
+                                    :disabled="! hasChange"
                                     class="btn btn-secondary dropdown-toggle w-100"
                                     type="button"
                                     id="lg-recent"
@@ -194,13 +202,13 @@
                                     Recent file
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="lg-recent">
-                                    <!--                                    v-for="file in files"-->
-
                                     <a
-                                            class="dropdown-item file-dropdown"
-                                            href="javascript:void(0);"
+                                        v-for="file in recentFiles['transfers-full-preview']"
+                                        class="dropdown-item file-dropdown"
+                                        href="javascript:void(0);"
+                                        @click.prevent="() => {lgPreview = file.name; renderPreview(file.name, 'lg')}"
                                     >
-                                        "{ file"
+                                        {{ file && file.name }}
                                     </a>
                                 </div>
                             </div>
@@ -216,11 +224,12 @@
                                 class="mt-4"
                                 id="design-wrap"
                                 @drop.prevent="dropHandler($event)"
+                                @dragstart.prevent
                             >
                                 <label for="template-design" class="m-0">
                                     <img src="/img/transfers/skateboard-deck-template.jpg" alt="Design Template" title="Design Template" width="100%">
                                 </label>
-                                <input type="file" name="template-design" id="template-design" />
+                                <input type="file" name="template-design" id="template-design" :disabled="! hasChange"/>
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <div class="d-flex flex-column">
@@ -228,7 +237,7 @@
                                     <span>First order of this design.</span>
                                 </div>
                                 <label class="switch">
-                                    <input type="checkbox" name="re-order" v-model="reOrder" disabled>
+                                    <input type="checkbox" name="re-order" v-model="reOrder" :disabled="! hasChange">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -319,7 +328,6 @@
                 // Check auth
                 this.checkAuth();
 
-
                 // Check empty file
                 if (event.target.files.length === 0) {
                     this[type + 'Preview'] = null;
@@ -386,16 +394,21 @@
                     return;
                 }
 
-                choosenInput.nextElementSibling.innerHTML = content;
-                choosenInput.nextElementSibling.classList.remove("unchecked");
-                document.getElementById(type + '-recent').innerHTML = content;
+                this.$nextTick(() => {
+                    choosenInput.nextElementSibling.innerHTML = content;
+                    choosenInput.nextElementSibling.classList.remove("unchecked");
+                    choosenInput.nextElementSibling.classList.add("checked");
+                    document.getElementById(type + '-recent').innerHTML = content;
+                });
             },
             dropHandler(e) {
-                var dt = e.dataTransfer;
-                var files = dt.files;
-
                 // TODO upload file
                 document.getElementById('design-wrap').classList.remove('highlight');
+
+                if (! this.hasChange) return false;
+
+                var dt = e.dataTransfer;
+                var files = dt.files;
 
             },
         },
@@ -448,6 +461,12 @@
                     this.$store.commit('TransfersConfigurator/setReOrder', newVal);
                 }
             },
+            recentFiles() {
+                return this.$store.getters['TransfersConfigurator/getRecentFiles'];
+            },
+            hasChange() {
+                return this.$store.getters['TransfersConfigurator/hasChange'];
+            }
         },
         mounted() {
             // init select2
