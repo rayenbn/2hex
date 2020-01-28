@@ -66,6 +66,7 @@
                             <th>Upload</th>
                             <th>Saved Order</th>
                             <th>Saved Batch</th>
+                            <th>Days</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -78,6 +79,7 @@
                                     <td>{{ isset($activeData['upload'])?$activeData['upload']:0 }}</td>
                                     <td>{{ isset($activeData['saved_order'])?$activeData['saved_order']:0 }}</td>
                                     <td>{{ isset($activeData['saved_batch'])?$activeData['saved_batch']:0 }}</td>
+                                    <td>{{ isset($activeData['login_days'])?$activeData['login_days']:0 }}</td>
                                 </tr>
                                 
                             @endif

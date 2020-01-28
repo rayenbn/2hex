@@ -68,16 +68,18 @@
                     <span class="data_info">{{count($loginDays)}}</span>
                 </div>
                 <div class="data_item">
-                    <span class="data_description">Total time within selected timeframe</span>
-                    <span class="data_info"></span>
-                </div>
-                <div class="data_item">
                     <span class="data_description">Click within selected timeframe</span>
                     <span class="data_info">{{count($click)}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Uploaded files within selected timeframe</span>
                     <span class="data_info">{{$file_upload}}</span>
+                </div>
+            </div>
+            <div class="user_click data_items">
+                <p class="userdata_title"></p>
+                <div style="height: 300px">
+                    <canvas id="myChart"></canvas>
                 </div>
             </div>
         </div>
@@ -169,3 +171,48 @@
         @endif
     </div>
 @endsection
+@section('footer_scripts')
+    <script src="../../../asset/demo/default/custom/components/datatables/base/html-table.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready( function() {
+            $('.btn-user-delete').on('click', function (event) {
+                var button = $(this) 
+                var recipient = button.data('whatever') 
+                $('#btn-delete').attr('href', recipient)
+            })
+        })
+        
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            var labels = [], labelcount = 0;
+            var data = [], datacount = 0;
+            @foreach($clickByDays as $clickByDay)
+                labels[labelcount++] = "{{$clickByDay['date']}}";
+                data[datacount++] = "{{$clickByDay['counts']}}";
+            @endforeach
+
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Click',
+                        data: data, // Specify the data values array
+                        fill: false,
+                        borderColor: '#2196f3', // Add custom color border (Line)
+                        backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+                        borderWidth: 1 // Specify bar border width
+                    }]},
+                options: {
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+                }
+            });
+        });
+        
+    </script>
+
+@stop

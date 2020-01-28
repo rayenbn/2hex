@@ -46,11 +46,28 @@
             padding-left: 8.2rem;
             padding-right: 10px;
         }
+        #production_filter{
+            margin-bottom: 20px;
+        }
+        .proccess_bar{
+            width: 100%;
+            height: 2px;
+            margin-bottom: 10px;
+            background: #e9ecef;
+        }
+        .proccess_percent{
+            height: 100%;
+            background-color: #36a3f7;
+            width: 1%;
+        }
         .datepicker{
             width: 265px;
         }
         .paid{
             color: green;
+        }
+        .post-forms{
+            width: 100%;
         }
     </style>
     @stack('head.scripts')

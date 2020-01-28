@@ -78,12 +78,13 @@
 }
 .proccess_bar{
     width: 100%;
-    height: 10px;
-    background: #eee;
+    height: 2px;
+    margin-bottom: 10px;
+    background: #e9ecef;
 }
 .proccess_percent{
     height: 100%;
-    background-color: #04f;
+    background-color: #36a3f7;
     width: 1%;
 }
 #summary-table .paid{

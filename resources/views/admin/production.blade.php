@@ -50,7 +50,7 @@
                                         @endphp
                                     @endforeach
                                 </select>
-                                <input type="hidden" name="order_id" id="order_id">
+                                <input type="hidden" name="order_id" id="order_id" value={{$selected_invoice}}>
                             </div> 
 
                             <div class="col-lg-6">

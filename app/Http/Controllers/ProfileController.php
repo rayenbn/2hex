@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
-use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment};
+use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment, ProductionDate};
 use Session;
 
 class ProfileController extends Controller
@@ -73,6 +73,20 @@ class ProfileController extends Controller
         $returnorder = Order::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
         $selected_order = Session::get('selected_order');
+
+        
+        if(!isset($selected_order) && count($returnorder) > 0){
+            $selected_order = $returnorder[0]['invoice_number'];
+        }
+
+        $product_date = ProductionDate::where('invoice_name', $selected_order)->first();
+        $startdate = $product_date['start_date'];
+        $enddate = $product_date['finish_date'];
+        if(!isset($startdate))
+            $startdate = date('Y-m-d',strtotime("-6 months"));
+        if(!isset($enddate))
+            $enddate = date('Y-m-d',strtotime("+6 months"));
+
         // $startdate = Session::get('startdate');
         // $enddate = Session::get('enddate');
 
@@ -89,13 +103,12 @@ class ProfileController extends Controller
         //     $enddate = date('Y-m-d');
         // }
 
-        if(!isset($selected_order) && count($returnorder) > 0){
-            $selected_order = $returnorder[0]['invoice_number'];
-        }
+        
 
-        $comments = ProductionComment::where('created_number',$selected_order)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
+        $fees = [];
 
-        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments'));
+        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
     }
 
     public function store_address(Request $request)

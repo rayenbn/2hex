@@ -46,13 +46,13 @@
                 <br>
                 {{$wheel->is_shr ? 'SHR' : ''}}
             </td>
-            <td>
+            <td @if(isset($fees['top_print'][$wheel->top_print]['paid']) && $fees['top_print'][$wheel->top_print]['paid'] == 1) class="paid" @endif>
                 {{$wheel->top_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 colors: {{$wheel->top_colors ?? ''}}
             </td>
-            <td>
+            <td @if(isset($fees['back_print'][$wheel->back_print]['paid']) && $fees['back_print'][$wheel->back_print]['paid'] == 1) class="paid" @endif>
                 {{$wheel->back_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
@@ -60,7 +60,7 @@
             </td>
             <td>{{$wheel->placement}}</td>
             <td>{{$wheel->cardboard_print ?? 'No'}}</td>
-            <td>
+            <td @if(isset($fees['carton_print'][$wheel->carton_print]['paid']) && $fees['carton_print'][$wheel->carton_print]['paid'] == 1) class="paid" @endif>
                 {{$wheel->carton_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>

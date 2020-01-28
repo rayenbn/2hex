@@ -54,7 +54,7 @@
             </td>
             <td>
                 <div>
-                    <span style="margin-top: 15px; display: block;">
+                    <span style="margin-top: 15px; display: block;" @if(isset($fees['bottomprint'][$skateboard->bottomprint]['paid']) && $fees['bottomprint'][$skateboard->bottomprint]['paid'] == 1) class="paid" @endif >
                         <b>Bottom</b><br>
                         {{$skateboard->bottomprint ? $skateboard->bottomprint : 'None'}}<br>
                         <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
@@ -65,7 +65,7 @@
                     </span>
                 </div>
                 <div>
-                    <span style="margin-top: 15px; display: block;">
+                    <span style="margin-top: 15px; display: block;" @if(isset($fees['topprint'][$skateboard->topprint]['paid']) && $fees['topprint'][$skateboard->topprint]['paid'] == 1) class="paid" @endif >
                         <b>Top</b><br>
                         {{$skateboard->topprint ? $skateboard->topprint : 'None'}}<br>
                         <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
@@ -116,7 +116,7 @@
             <td>{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
             <td>
                 <div>
-                    <p style="margin: 30px 0px;">
+                    <p style="margin: 30px 0px;" @if(isset($fees['carton'][$skateboard->carton]['paid']) && $fees['carton'][$skateboard->carton]['paid'] == 1) class="paid" @endif>
                         {{$skateboard->carton ? $skateboard->carton : 'None'}}
                         <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                     </p>

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    setPercent();
     $('#filter_email').change(function(){
         $('#filter_form').submit();
     })
@@ -34,12 +35,7 @@ $(document).ready(function(){
         format: 'yyyy-mm-dd'
     });
     $('#select_date').change(function(){
-       index = $(this).prop('selectedIndex');
-       total = $('option',$(this)).length;
-
-       percent = Math.floor(index / total * 100);
-
-       $('.proccess_percent').css('width', percent + '%');
+        setPercent();
     });
     $('.download_all').click(function(){
         var temporaryDownloadLink = document.createElement("a");
@@ -125,3 +121,12 @@ $(document).ready(function(){
         deleteValues('color_code');
     });
 });
+
+function setPercent(){
+    index = $('#select_date').prop('selectedIndex');
+    total = $('option',$('#select_date')).length;
+
+    percent = Math.floor(index / total * 100);
+
+    $('.proccess_percent').css('width', percent + '%');
+}

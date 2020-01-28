@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Wheel\Wheel;
+use App\Models\PaidFile;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -283,6 +284,11 @@ trait WheelGenerator
                     $fees[$wheelKey][$value]['price'] = 2000;
                 } else {
                     $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['paid'] = 1;
+                    $fees[$key][$value]['price'] = 0;
                 }
             }
         }

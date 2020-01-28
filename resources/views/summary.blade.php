@@ -137,15 +137,15 @@
 					<table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
 						<tr>
 							@if(count($orders) > 0)
-								@include('partials.skateboards', ['skateboards' => $orders])
+								@include('partials.skateboards', ['skateboards' => $orders, 'fees' => $fees])
 							@endif
 							
 							@if(count($grips) > 0)
-								@include('partials.grips', ['grips1' => $grips])
+								@include('partials.grips', ['grips1' => $grips, 'fees' => $fees])
 							@endif
 
 							@if(count($wheels) > 0)
-								@include('partials.wheels', ['wheels1' => $wheels])
+								@include('partials.wheels', ['wheels1' => $wheels, 'fees' => $fees])
 							@endif
 
 							<thead style="background-color: #52a3f0; color: white;">

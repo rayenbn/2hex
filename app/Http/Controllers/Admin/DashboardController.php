@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
-use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session, PaidFile};
+use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session, PaidFile, ProductionDate};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
 class DashboardController extends Controller
@@ -379,10 +379,10 @@ class DashboardController extends Controller
 
             $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->get();
             $click = Session::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','clicked')->get();
-            
+            $clickByDays = Session::select(\DB::raw('Date(created_at) as date'), \DB::raw('count(*) as counts'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','clicked')->get();
             $lastlogin = Session::select('created_at')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$user->id)->where('action','login')->orderBy('created_at','desc')->first()['created_at'];
 
-            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'lastlogin' => $lastlogin]);
+            return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'click' => $click, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'lastlogin' => $lastlogin, 'clickByDays' => $clickByDays]);
             
         }
         $user = Auth::user();
@@ -553,7 +553,8 @@ class DashboardController extends Controller
         $loginDays = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_by',$user->id)->where('action','login')->get();
         $click = Session::where('created_by',$user->id)->where('action','clicked')->get();
         $lastlogin = Session::select('created_at')->where('created_by',$user->id)->where('action','login')->orderBy('created_at','desc')->first()['created_at'];
-        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'click' => $click, 'lastlogin' => $lastlogin]);
+        $clickByDays = Session::select(\DB::raw('Date(created_at) as date'), \DB::raw('count(*) as counts'))->groupBy('date')->where('created_by',$user->id)->where('action','clicked')->get();
+        return view('admin.userdata', ['user' => $user, 'shipinfo' => $shipinfo, 'users' => $users, 'file_upload'=>$count, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'loginDays' => $loginDays, 'click' => $click, 'lastlogin' => $lastlogin, 'clickByDays' => $clickByDays]);
         
     }
     public function getSavedBatches(Request $request){
@@ -569,7 +570,8 @@ class DashboardController extends Controller
         $savedOrderBatches = Order::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
-        return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user'));
+        $fees = [];
+        return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user', 'fees'));
     }
     public function getSubmitOrder(Request $request ){
 
@@ -1707,6 +1709,8 @@ class DashboardController extends Controller
 
             $activeDatas[$id]['saved_order'] = count($unSubmitOrders);
             $activeDatas[$id]['saved_batch'] = Order::where('created_by', $id)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('saved_batch', 1)->count() + GripTape::where('created_by', $id)->where('saved_batch', 1)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count() + Wheel::where('created_by', $id)->where('saved_batch', 1)->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->count();
+            $login = Session::select(\DB::raw('Date(created_at) as date'))->groupBy('date')->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by',$id)->where('action','login')->get();
+            $activeDatas[$id]['login_days'] = count($login);
 
         }
 
@@ -1958,6 +1962,9 @@ class DashboardController extends Controller
 
         $fees = $_data;
 
+        usort($fees, function($a, $b) {return strcmp($a['date'], $b['date']);});
+
+
         $users = User::select('email','name')->get();
         return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate'));
     }
@@ -1977,11 +1984,21 @@ class DashboardController extends Controller
             $enddate = $request->input('enddate');
             $content = $request->input('content');
             $remove_id = $request->input('remove_comment');
+            
+            $product_date = ProductionDate::where('invoice_name', $selected_order)->first();
+            if(isset($product_date['id'])){
+                ProductionDate::where('id',$product_date['id'])->update(['start_date'=>$startdate, 'finish_date'=>$enddate]);
+            }
+            else{
+                ProductionDate::insert(['start_date'=>$startdate, 'finish_date'=>$enddate, 'invoice_name'=>$selected_order]);
+            }
+
+
             if(isset($remove_id)){
                 ProductionComment::where('id', $remove_id)->delete();   
             }            
             else if(isset($content) && isset($selected_date)){
-                $exists_comment = ProductionComment::where('date',$selected_date)->get();
+                $exists_comment = ProductionComment::where('date',$selected_date)->where('created_number', $selected_order)->get();
                 if(isset($exists_comment) && count($exists_comment) > 0){
                     ProductionComment::where('id',$exists_comment[0]['id'])->update(['comment' => $content]);
                 }
@@ -1995,25 +2012,28 @@ class DashboardController extends Controller
             
         }
 
+
+
         $returnorder = Order::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
-
-        if($startdate)
-            $startdate_temp = $startdate;
-        else
-            $startdate_temp = date('Y-m-d',strtotime("-1 years"));
-        if($enddate)
-            $enddate_temp = $enddate;
-        else
-            $enddate_temp = date('Y-m-d',strtotime("+1 days"));
-
-        $dates = $this->date_range($startdate_temp, $enddate_temp);
         if(!isset($selected_order) && count($returnorder) > 0){
             $selected_order = $returnorder[0]['invoice_number'];
         }
+
+        $product_date = ProductionDate::where('invoice_name', $selected_order)->first();
+        $startdate = $product_date['start_date'];
+        $enddate = $product_date['finish_date'];
+
+        if(!isset($startdate))
+            $startdate = date('Y-m-d',strtotime("-6 months"));
+        if(!isset($enddate))
+            $enddate = date('Y-m-d',strtotime("+6 months"));
+
+        $dates = $this->date_range($startdate, $enddate);
+        
         if(!isset($selected_date)){
-            $selected_date = $dates[0];
+            $selected_date = date('Y-m-d');
         }
-        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate_temp)->where('date','<=',$enddate_temp)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
 
 
         return view('admin.production',compact( 'users','user', 'returnorder', 'selected_order','startdate','enddate','dates','selected_date','comments'));
@@ -2330,7 +2350,8 @@ class DashboardController extends Controller
         $enddate = date('Y-m-d',strtotime("+1 days"));
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
-            $user = User::where('email','=',$email)->first();
+            if($email != 'all')
+                $user = User::where('email','=',$email)->first();
 
             $startdate = $request->input('startdate');
             $enddate = $request->input('enddate');
@@ -2344,8 +2365,10 @@ class DashboardController extends Controller
         else
             $enddate_temp = date('Y-m-d',strtotime("+1 days"));
         $users = User::select('email','name')->get();
-
-        $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
+        if(isset($email) && $email == 'all')
+            $sessions = Session::leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
+        else
+            $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
         return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions'));
         
     }

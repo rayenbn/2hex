@@ -42,20 +42,20 @@
             <td>{{$grip->grit}}</td>
             <td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
             <td>{{$grip->die_cut}}</td>
-            <td>
+            <td @if(isset($fees['top_print'][$grip->top_print]['paid']) && $fees['top_print'][$grip->top_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->top_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 {{$grip->top_print_color ?? ''}}
             </td>
             <td>{{$grip->backpaper}}</td>
-            <td>
+            <td @if(isset($fees['backpaper_print'][$grip->backpaper_print]['paid']) && $fees['backpaper_print'][$grip->backpaper_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->backpaper_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 {{$grip->backpaper_print_color ?? ''}}
             </td>
-            <td>
+            <td @if(isset($fees['carton_print'][$grip->carton_print]['paid']) && $fees['carton_print'][$grip->carton_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->carton_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>

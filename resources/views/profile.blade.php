@@ -7,21 +7,6 @@
 
     <meta name="keywords" content="skateboard production profile, skateboard company profile, skateboard manufacturer, skateboard supplier, skateboard factory, skateboard, manufacturer, supplier, factory, skateboard manufacturers, skateboard factories, 2hex, Board, skateboard production">
 
-    <!-- <style>
-        .proccess_bar{
-            margin-left: 30px;
-            margin-right: 30px;
-            margin-top: 30px;
-            width: calc(100% - 60px);
-            height: 10px;
-            background: #eee;
-        }
-        .proccess_percent{
-            height: 100%;
-            background-color: #04f;
-            width: 1%;
-        }
-    </style> -->
 @endpush
 
 @section('content')
@@ -138,14 +123,14 @@
                                             {{ csrf_field() }}
                                             <table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
                                                 @if(count($savedOrderBatches) > 0)
-                                                    @include('partials.skateboards', ['skateboards' => $savedOrderBatches, 'batches' => 1])
+                                                    @include('partials.skateboards', ['skateboards' => $savedOrderBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
                                                 @if(count($savedGripBatches) > 0)
-                                                    @include('partials.grips', ['grips1' => $savedGripBatches, 'batches' => 1])
+                                                    @include('partials.grips', ['grips1' => $savedGripBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
 
                                                 @if(count($savedWheelBatches) > 0)
-                                                    @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1])
+                                                    @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
                                             </table>
                                             <!-- <table class="table table-striped- table-bordered table-hover table-checkable table-responsive table-sm">
@@ -346,9 +331,9 @@
                                         
                                         <!-- @if($isAdmin) -->
                                         <!--Begin::Portlet-->
-                                        <!-- <div class="proccess_bar">
+                                        <div class="proccess_bar">
                                             <div class="proccess_percent"></div>
-                                        </div> -->
+                                        </div>
                                         <form class="" action="production_filter" method="POST" id="production_filter">
                                             {{ csrf_field() }}
                                             <div class="filter_body row">
@@ -362,16 +347,31 @@
                                                     >
                                                         <option value="" disabled>SELECT</option>
                                                         @foreach($returnorder as $orderinfo)
-                                                            <option @if($selected_order == $orderinfo->id) selected @endif value="{{$orderinfo->id}}">Order #{{$orderinfo->invoice_number}}</option>    
+                                                            <option @if($selected_order == $orderinfo->invoice_number) selected @endif value="{{$orderinfo->invoice_number}}">Order #{{$orderinfo->invoice_number}}</option>    
                                                             @php
-                                                                if($selected_order == $orderinfo->id)
+                                                                if($selected_order == $orderinfo->invoice_number)
                                                                     $selected_invoice = $orderinfo->invoice_number;
                                                             @endphp
                                                         @endforeach
                                                     </select>
-                                                    <input type="hidden" name="order_id" id="order_id">
+                                                    <input type="hidden" name="order_id" id="order_id" >
                                                 </div> 
-
+                                                <div class="col-lg-6">
+                                                    <div class="row">
+                                                        <div class='col-md-5'>
+                                                            <p>Start Date:</p>
+                                                            <div class="form-group m--padding-top-10">
+                                                                <span>{{$startdate}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-5'>
+                                                            <p>Finish Date:</p>
+                                                            <div class="form-group m--padding-top-10">
+                                                                <span>{{$enddate}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 
                                             </div>
                                         </form>
@@ -425,4 +425,14 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            startdate = new Date("{{$startdate}}");
+            today = new Date();
+            enddate = new Date("{{$enddate}}");
+
+            percent = Math.floor((today - startdate) / (enddate - startdate) * 100);
+            $('.proccess_percent').css('width', percent + '%');
+        });
+    </script>
 @endsection

@@ -32,14 +32,14 @@
                 {{ csrf_field() }}
                 <table class="table table-striped- table-bordered table-hover table-checkable table-responsive" id="summary-table">
                     @if(count($savedOrderBatches) > 0)
-                        @include('partials.skateboards', ['skateboards' => $savedOrderBatches, 'batches' => 1])
+                        @include('partials.skateboards', ['skateboards' => $savedOrderBatches, 'batches' => 1, 'fees' => $fees])
                     @endif
                     @if(count($savedGripBatches) > 0)
-                        @include('partials.grips', ['grips1' => $savedGripBatches, 'batches' => 1])
+                        @include('partials.grips', ['grips1' => $savedGripBatches, 'batches' => 1, 'fees' => $fees])
                     @endif
 
                     @if(count($savedWheelBatches) > 0)
-                        @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1])
+                        @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1, 'fees' => $fees])
                     @endif
                 </table>
                     <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Summary</button>

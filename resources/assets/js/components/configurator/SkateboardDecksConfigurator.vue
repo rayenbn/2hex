@@ -716,7 +716,7 @@
                                                                             @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid']"
                                                                             
                                                                     >
-                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -913,7 +913,7 @@
                                                                             href="#"
                                                                             v-bind:class="{'paid': file['paid'] == 0}" 
                                                                     >
-                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1098,7 +1098,7 @@
                                                                             href="#"
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
-                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1610,7 +1610,7 @@
                                                                             @click="steps[9].state = 1"
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
-                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -1766,7 +1766,7 @@
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
                                                                             
                                                                     >
-                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }}</span>
+                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
