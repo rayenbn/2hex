@@ -60,14 +60,14 @@
                     </div>
                     <div class="m-portlet__body">
                         <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
                                 <div>
                                     <div
                                         class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
                                         style="min-height: 286px"
                                     >
                                         <img
-                                            src="http://via.placeholder.com/640x360"
+                                            :src="size && size.image"
                                             class="step1-img1"
                                             alt="Size"
                                             title="Size"
@@ -76,6 +76,7 @@
                                 </div>
                             </div>
                             <select
+                                :disabled="! hasChange"
                                 class="form-control m-select2"
                                 id="transfers_size"
                                 name="transfers_size"
@@ -118,31 +119,31 @@
                         "fullname": "9\" x 33\" Transfer-paper on Skateboard Deck",
                         "size": 33,
                         "name": "Transfer-paper on Skateboard Deck",
-                        "image": ''
+                        "image": '/img/transfers/9x33-skateboard-deck-heat-transfers.jpg'
                     },
                     {
                         "fullname": "8\" x 23\"  Transfer-paper on Mini Cruiser Deck",
                         "size": 23,
                         "name": "Transfer-paper on Mini Cruiser Deck",
-                        "image": ''
+                        "image": '/img/transfers/8x23-mini-cruiser-heat-transfers.jpg'
                     },
                     {
                         "fullname": "12\" x 42\" Transfer-paper on  Longboard 1 Deck",
                         "size": 42,
                         "name": "Transfer-paper on  Longboard 1 Deck",
-                        "image": ''
+                        "image": '/img/transfers/12x42-longboard-deck-heat-transfers.jpg'
                     },
                     {
                         "fullname": "14\" x 48\"  Transfer-paper on Longboard 2 Deck",
                         "size": 42,
                         "name": "Transfer-paper on Longboard 2 Deck",
-                        "image": ''
+                        "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg'
                     },
                     {
                         "fullname": "23\" x 45\"  Transfer-paper on Skimboard Deck",
                         "size": 45,
                         "name": "Transfer-paper on Skimboard Deck",
-                        "image": ''
+                        "image": '/img/transfers/Skimboard-Transferpapers.jpg'
                     },
                 ],
             }
@@ -164,6 +165,9 @@
                     this.$store.commit('TransfersConfigurator/setSize', newVal);
                 }
             },
+            hasChange() {
+                return this.$store.getters['TransfersConfigurator/hasChange'];
+            }
         },
 		methods: {},
         mounted() {
