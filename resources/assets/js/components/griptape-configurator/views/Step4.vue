@@ -140,10 +140,10 @@
                                     <a 
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        @click="() => {step_options.file = file; step_options.state = true;}"
+                                        @click="() => {step_options.file = file['name']; step_options.state = true;}"
                                         href="#"
                                     >
-                                        {{ file }}
+                                        {{ file['name'] }}
                                     </a>
                                 </div>
                             </div>

@@ -430,8 +430,12 @@
             startdate = new Date("{{$startdate}}");
             today = new Date();
             enddate = new Date("{{$enddate}}");
-
             percent = Math.floor((today - startdate) / (enddate - startdate) * 100);
+            if(enddate < today)
+                percent = 100;
+            if(startdate > today)
+                percent = 0;
+            
             $('.proccess_percent').css('width', percent + '%');
         });
     </script>

@@ -146,9 +146,9 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown"  
                                         href="javascript:void(0);" 
-                                        @click="() => {step_options.file = file; step_options.state = true;}"
+                                        @click="() => {step_options.file = file['name']; step_options.state = true;}"
                                     >
-                                        {{ file }}
+                                        {{ file['name'] }}
                                     </a>
                                 </div>
                             </div>

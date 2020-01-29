@@ -91,9 +91,9 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="() => {filePrint = file; isPrintCarton = true;}"
+                                        @click="() => {filePrint = file['name']; isPrintCarton = true;}"
                                     >
-                                        {{ file }}
+                                        {{ file['name'] }}
                                     </a>
                                 </div>
                             </div>

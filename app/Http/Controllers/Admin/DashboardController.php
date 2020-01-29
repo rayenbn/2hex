@@ -1789,6 +1789,7 @@ class DashboardController extends Controller
             ->toArray();
         
         $count = 0;
+        $totalsize = 0;
         
         foreach ($orders as $index => $order) {
             $index += 1;
@@ -1806,6 +1807,7 @@ class DashboardController extends Controller
                     $size = \File::size($path);
                     
                 }
+                $totalsize += $size;
 
                 $fees[$count] = [
                     'image'    => $value,
@@ -1852,7 +1854,7 @@ class DashboardController extends Controller
                 $size = 0;
                 if(\File::exists($path))
                     $size = \File::size($path);
-
+                $totalsize += $size;
                 $fees[$count] = [
                     'image'    => $value,
                     'product'  => 'S.B Grips',
@@ -1901,7 +1903,7 @@ class DashboardController extends Controller
                 $size = 0;
                 if(\File::exists($path))
                     $size = \File::size($path);
-
+                $totalsize += $size;
                 $fees[$count] = [
                     'image'    => $value,
                     'product'  => 'S.B Wheels',
@@ -1961,12 +1963,13 @@ class DashboardController extends Controller
         }
 
         $fees = $_data;
+        $totalsize = $this->formatSizeUnits($totalsize);
 
-        usort($fees, function($a, $b) {return strcmp($a['date'], $b['date']);});
+        usort($fees, function($a, $b) {return strcmp($b['date'], $a['date']);});
 
 
         $users = User::select('email','name')->get();
-        return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate'));
+        return view('admin.uploadfile', compact('users','user', 'fees', 'startdate','enddate', 'totalsize'));
     }
 
     public function getProduction(Request $request){
@@ -2365,11 +2368,15 @@ class DashboardController extends Controller
         else
             $enddate_temp = date('Y-m-d',strtotime("+1 days"));
         $users = User::select('email','name')->get();
-        if(isset($email) && $email == 'all')
+        $isall = false;
+        if(isset($email) && $email == 'all'){
             $sessions = Session::leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
+            $isall = true;
+        }
         else
             $sessions = Session::where('created_by', $user->id)->leftjoin('users','users.id','=','sessions.created_by')->select('sessions.*', 'users.email')->where('action','<>','clicked')->orderBy('created_at','desc')->get();
-        return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions'));
+        
+        return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions', 'isall'));
         
     }
     public function addUpload(Request $request){

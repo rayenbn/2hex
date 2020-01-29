@@ -91,9 +91,9 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="selectCustomFile(file)"
+                                        @click="selectCustomFile(file['name'])"
                                     >
-                                        {{ file }}
+                                        {{ file['name'] }}
                                     </a>
                                 </div>
                             </div>

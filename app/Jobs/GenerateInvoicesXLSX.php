@@ -424,9 +424,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->setCellValue(sprintf('G%s', $gripRowStart), $grip->perforation ? 'Yes' : 'No');
 
                 // Column H
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->die_cut)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $grip->die_cut);
-                
+                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut));
+                $green = false;
                 // Column I
                 $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
                 if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->top_print)->first()['date'])){

@@ -34,9 +34,9 @@ $(document).ready(function(){
     $('#add_date').datepicker({
         format: 'yyyy-mm-dd'
     });
-    $('#select_date').change(function(){
-        setPercent();
-    });
+    // $('#select_date').change(function(){
+    //     setPercent();
+    // });
     $('.download_all').click(function(){
         var temporaryDownloadLink = document.createElement("a");
         temporaryDownloadLink.style.display = 'none';
@@ -123,10 +123,14 @@ $(document).ready(function(){
 });
 
 function setPercent(){
-    index = $('#select_date').prop('selectedIndex');
-    total = $('option',$('#select_date')).length;
-
-    percent = Math.floor(index / total * 100);
-
+    startdate = new Date($('#startdate').val());
+    today = new Date();
+    enddate = new Date($('#enddate').val());
+    percent = Math.floor((today - startdate) / (enddate - startdate) * 100);
+    if(enddate < today)
+        percent = 100;
+    if(startdate > today)
+        percent = 0;
+    
     $('.proccess_percent').css('width', percent + '%');
 }

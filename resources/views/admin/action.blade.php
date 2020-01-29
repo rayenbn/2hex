@@ -17,9 +17,9 @@
                                 style="width:100%;"
                             >
                                 <option value="" disabled>SELECT</option>
-                                <option value="all">All Users</option>
+                                <option value="all" @if($isall == true) selected @endif >All Users</option>
                                 @foreach($users as $userinfo)
-                                    <option @if($user->email == $userinfo->email) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
+                                    <option @if($user->email == $userinfo->email && $isall == false) {{"selected"}} @endif value="{{$userinfo->email}}">{{$userinfo->name}}  ({{$userinfo->email}})</option>    
                                 @endforeach
                             </select>
                             <input type="hidden" name="order_id" id="order_id">

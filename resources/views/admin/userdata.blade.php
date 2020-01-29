@@ -65,7 +65,7 @@
                 <p class="userdata_title">Sessions</p>
                 <div class="data_item">
                     <span class="data_description">Days within selected timeframe</span>
-                    <span class="data_info">{{count($loginDays)}}</span>
+                    <span class="data_info">{{count($clickByDays)}}</span>
                 </div>
                 <div class="data_item">
                     <span class="data_description">Click within selected timeframe</span>

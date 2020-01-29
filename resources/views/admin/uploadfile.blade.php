@@ -68,7 +68,7 @@
 
                             @foreach($fees as $key => $group)
                                 <tr class="@if(isset($group['paid_date']) && $group['paid_date']) paid @endif">
-                                    <td>
+                                    <td colspan="1">
                                         <input type="checkbox" class="form-control fileCheckbox" name="uploadUpdate[]" value="{{$group['image']}}" link="{{$group['path']}}" imagename="{{$group['image']}}" created="{{$group['created_by']}}">
                                     </td>
                                     <td colspan="1">{{$key + 1}}</td>
@@ -82,7 +82,10 @@
                                     <td colspan="6">{{ $group['size'] }}</td>
                                 </tr>
 							@endforeach
-
+                            <tr>
+                                <td colspan="39" class="text-center">Total storage size of users’ files</td>
+                                <td colspan="6">{{ $totalsize }}</td>
+                            </tr>
                     </table>
                     <div class="action-buttons">
                         <button class="btn btn-primary download_all">Download Files</button>
