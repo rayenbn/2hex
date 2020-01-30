@@ -109,25 +109,75 @@
 
                                             <br><br>
 
-                                        <b style="color: #716aca">LOCATIONS</b><br>
-                                            We have two production locations: China and Germany.<br>
-                                            In China we run all major productions, this includes the productions
+                                        <div class="m-separator m-separator--fit"></div>
+                                        <br>
+
+
+                                        <table style="width:100%" >
+                                            <tr>
+                                                <th><a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf"> <p style="color: #5867dd">✖ Download Skateboard Deck Template:</p></a></th>
+                                                <th><a href="/img/skateboard/SKATEBOARD-DECK-TEMPLATE-PSD-MOCKUP.psd">              <p style="color: #5867dd">✖ Download Skateboard Deck Mockup:</p></a></th>
+                                            </tr>
+                                            <tr>
+                                                <td> <img src="/img/skateboard/free-skateboard-deck-design-template.jpg"     style="width: 80%;" alt="free skateboard deck design template"> </td>
+                                                <td> <img src="/img/skateboard/free-psd-deck-mockup.jpg"                     style="width: 80%;" alt="free skateboard deck design template"> </td> <br>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">    <p>
+                                                        <b>Download skateboard deck template.</b><br>
+                                                        The skateboard deck template includes:<br>
+                                                        - 1:1 sized skateboard deck outline.<br>
+                                                        - 9" x 33" artboard for heat transfers.<br>
+                                                        - Design process instructions
+
+                                                    </p>  </td>
+
+                                                <td valign="top">    <p>
+                                                        <b>Download 2HEX' hyper-realistic skateboard deck mockup.</b><br>
+                                                        The skateboard deck mockup includes:<br>
+                                                        -	2HEX original deck shape.<br>
+                                                        -	American hard rock maple veneer (same as our decks).<br>
+                                                        -	An editable color-film to replicate all veneer colors.<br>
+                                                        -	A bottom and top print preview.<br>
+                                                        -	A mask-layer automatically cutting your design to the deck shape.<br>
+                                                        -	Instructions for users who are new to Photoshop.
+
+                                                    </p>    </td>
+                                            </tr>
+                                        </table>
+
+                                        <br>
+                                        <br>
+
+                                        <b style="color: #716aca">SKATEBOARD DECK PRODUCTION LOCATIONS</b><br>
+                                            We have two skateboard production locations: China and Germany.<br>
+                                            In China we run all major skateboard productions, this includes the productions
                                             of our own stock for Germany as well as the productions for many of the world's leading professional skateboard companies.<br>
-                                            We regularly ship pre-manufactured blank decks to Germany, so that we can offer small quantities and
-                                            fast turn around times to European skateboard businesses.<br>
+                                            We regularly ship pre-manufactured blank skateboard decks to Germany, so that we can offer faster turn around times to European skateboard businesses.<br>
+                                        <br>
+                                        <b>"I am European, do I save on shipping when ordering skateboard decks from Germany?"</b><br>
+                                        Instead of the high delivery costs, we have high labour costs in Germany. These higher labour costs are equivalent to the delivery cost from China.
+                                        Therefor the final price including delivery stays the same no matter if your decks come from Germany or from China.<br>
+                                        <br>
+                                        <b>"I want my skateboard decks sent from Germany, where can I select this option?"</b><br>
+                                        Make sure to select random veneer colors and Epoxy glue decks with American maple - those are the decks we have on stock in Germany.
+                                        After submitting your order, reply to our order confirmation email stating that you want your decks made in Germany for a faster production time.
+                                        <br>
+                                        <br>
+                                        <b>"I am American, what shall I select?"</b><br>
+                                        All of our decks come from our production in China. Instead of shipping the decks to Germany first, we will send your decks directly from China.<br>
+
                                             <br><br>
 
-                                       <b style="color: #716aca">CUSTOMIZATION BY LOCATION & QUANTITY</b><br>
-                                            Orders of 50 skateboard decks or more will be made in our Chinese production. Here we offer all customization options,
-                                            so that you can make skateboard decks that perfectly fit to your riders' tricks and style!<br>
-                                            If your order 10 to 40 skateboard decks, we will print your designs on pre-manufactured skateboard decks in Germany.
-                                            When ordering decks from our stock, you can only select the deck shape, concave and print.<br>
-                                      <br><br>
 
-                                            <b style="color: #716aca">PRODUCTION & DELIVERY TIME</b><br>
-                                            The production time in China is 6 weeks.<br>
-                                            The production time in Germany is 4 weeks.<br>
+                                            <b style="color: #716aca">PRODUCTION & DELIVERY TIME OF CUSTOM SKATEBOARD DECKS</b><br>
+                                            The skateboard decks production time in China is 6 weeks.<br>
+                                            The skateboard decks production time in Germany is 4 weeks.<br>
                                             <br>
+                                            <b>Delivery Time for American businesses:</b> <br>
+                                            Delivery from China to any American country is 5 weeks;<br>
+                                        <br>
+
                                             <b>Delivery Time for European businesses:</b> <br>
                                             Delivery from Germany to any European country is 1 week;<br>
                                             Delivery from China to any European country is 5 weeks.<br>
