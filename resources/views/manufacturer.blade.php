@@ -121,7 +121,28 @@
                                             <tr>
                                                 <td> <img src="/img/skateboard/free-skateboard-deck-design-template.jpg"     style="width: 80%;" alt="free skateboard deck design template"> </td>
                                                 <td> <img src="/img/skateboard/free-psd-deck-mockup.jpg"                     style="width: 80%;" alt="free skateboard deck design template"> </td> <br>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">    <p>
+                                                        <b>Download skateboard deck template.</b><br>
+                                                        The skateboard deck template includes:<br>
+                                                        - 1:1 sized skateboard deck outline.<br>
+                                                        - 9" x 33" artboard for heat transfers.<br>
+                                                        - Design process instructions
 
+                                                    </p>  </td>
+
+                                                <td valign="top">    <p>
+                                                        <b>Download 2HEX' hyper-realistic skateboard deck mockup.</b><br>
+                                                        The skateboard deck mockup includes:<br>
+                                                        -	2HEX original deck shape.<br>
+                                                        -	American hard rock maple veneer (same as our decks).<br>
+                                                        -	An editable color-film to replicate all veneer colors.<br>
+                                                        -	A bottom and top print preview.<br>
+                                                        -	A mask-layer automatically cutting your design to the deck shape.<br>
+                                                        -	Instructions for users who are new to Photoshop.
+
+                                                    </p>    </td>
                                             </tr>
                                         </table>
 
