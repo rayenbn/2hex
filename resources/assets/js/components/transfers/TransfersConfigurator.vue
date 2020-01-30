@@ -50,12 +50,34 @@
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
+                                            <div class="col-lg-6">
+                                                <b>Cost Per Transfer</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{costPerTransfer}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <b>Cost Per Sheet</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{costPerSheet}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <b>Price Per Sheet (Cost Per Transfer * Cost Per Sheet)</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{pricePerSheet}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-form__actions m-form__actions">
+                                        <div class="row">
 
                                             <div class="col-lg-4 m--align-center">
                                                 <button
-                                                        @click="prevStep"
-                                                        class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="prev"
+                                                    @click="prevStep"
+                                                    class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+                                                    data-wizard-action="prev"
                                                 >
                                                     <span>
                                                         <i class="la la-arrow-left"></i>
@@ -68,8 +90,8 @@
 
                                             <div class="col-lg-4 m--align-center">
                                                 <button
-                                                        class="btn btn-primary m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="submit"
+                                                    class="btn btn-primary m-btn m-btn--custom m-btn--icon"
+                                                    data-wizard-action="submit"
                                                 >
                                                     <span>
                                                         <i class="la la-check"></i>
@@ -79,9 +101,9 @@
                                                 </button>
 
                                                 <button
-                                                        class="btn btn-warning m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="next"
-                                                        @click="nextStep"
+                                                    class="btn btn-warning m-btn m-btn--custom m-btn--icon"
+                                                    data-wizard-action="next"
+                                                    @click="nextStep"
                                                 >
                                                     <span>
                                                         <span>Continue</span>&nbsp;&nbsp;
@@ -134,15 +156,14 @@
                                     <div class="col">
 <!--                                        <h3 class="m-widget1__title">{{ auth ? 'Batch' : 'Login' }}</h3>-->
 <!--                                        <span class="m-widget1__desc">{{ auth ? 'Total of Batch' : 'To See Prices' }}</span>-->
+                                        <h3 class="m-widget1__title">Batch</h3>
+                                        <span class="m-widget1__desc">Total of Batch</span>
                                     </div>
                                     <div class="col m--align-right">
 <!--                                        v-if="auth"-->
 
-                                        <span
-                                                class="m-widget1__number m--font-danger"
-                                                id="total"
-                                        >
-<!--                                            $ {{ totalBatch }}-->
+                                        <span class="m-widget1__number m--font-danger">
+                                            $ {{ pricePerSheet }}
                                         </span>
 <!--                                        <span v-else class="m-widget1__number m&#45;&#45;font-danger" id="total" >-->
 <!--                                            $ ?.??-->
@@ -152,11 +173,9 @@
                             </div>
 
                             <br>
-<!--                            @click="saveWheel"-->
 
                             <button
-                                    id="save_order"
-                                    class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right"
+                                class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right"
                             >
                                 <span>
                                     <i class="la la-send"></i>
@@ -239,6 +258,15 @@
                     width: 100 * this.currentStep / COUNT_STEPS + '%',
                 }
             },
+            pricePerSheet() {
+                return this.$store.getters['TransfersConfigurator/pricePerSheet'];
+            },
+            costPerTransfer() {
+                return this.$store.getters['TransfersConfigurator/costPerTransfer'];
+            },
+            costPerSheet() {
+                return this.$store.getters['TransfersConfigurator/costPerSheet'];
+            }
         },
         methods: {
             changeStepInfo(step) {

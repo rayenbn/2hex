@@ -36,6 +36,7 @@
                                 step="10"
                                 min="50"
                                 v-model="quantity"
+                                v-validate="'required|digits'"
                         	>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
@@ -119,31 +120,36 @@
                         "fullname": "9\" x 33\" Transfer-paper on Skateboard Deck",
                         "size": 33,
                         "name": "Transfer-paper on Skateboard Deck",
-                        "image": '/img/transfers/9x33-skateboard-deck-heat-transfers.jpg'
+                        "image": '/img/transfers/9x33-skateboard-deck-heat-transfers.jpg',
+                        "percent": 100
                     },
                     {
                         "fullname": "8\" x 23\"  Transfer-paper on Mini Cruiser Deck",
                         "size": 23,
                         "name": "Transfer-paper on Mini Cruiser Deck",
-                        "image": '/img/transfers/8x23-mini-cruiser-heat-transfers.jpg'
+                        "image": '/img/transfers/8x23-mini-cruiser-heat-transfers.jpg',
+                        "percent": 100
                     },
                     {
                         "fullname": "12\" x 42\" Transfer-paper on  Longboard 1 Deck",
                         "size": 42,
                         "name": "Transfer-paper on  Longboard 1 Deck",
-                        "image": '/img/transfers/12x42-longboard-deck-heat-transfers.jpg'
+                        "image": '/img/transfers/12x42-longboard-deck-heat-transfers.jpg',
+                        "percent": 140
                     },
                     {
                         "fullname": "14\" x 48\"  Transfer-paper on Longboard 2 Deck",
                         "size": 42,
                         "name": "Transfer-paper on Longboard 2 Deck",
-                        "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg'
+                        "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg',
+                        "percent": 150
                     },
                     {
                         "fullname": "23\" x 45\"  Transfer-paper on Skimboard Deck",
                         "size": 45,
                         "name": "Transfer-paper on Skimboard Deck",
-                        "image": '/img/transfers/Skimboard-Transferpapers.jpg'
+                        "image": '/img/transfers/Skimboard-Transferpapers.jpg',
+                        "percent": 200
                     },
                 ],
             }
@@ -169,7 +175,6 @@
                 return this.$store.getters['TransfersConfigurator/hasChange'];
             }
         },
-		methods: {},
         mounted() {
 		    // init select2
             let querySize = $("#transfers_size");

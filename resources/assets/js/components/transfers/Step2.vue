@@ -33,6 +33,7 @@
                                 placeholder="Enter design name"
                                 v-model="designName"
                                 :disabled="! hasChange"
+                                v-validate="'required'"
                             >
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <span class="text-uppercase">Transparencies</span>
@@ -55,6 +56,7 @@
                                     :value="index"
                                     v-for="(item, index) in pantoneColors"
                                     :key="'color' + index"
+                                    v-validate="'required'"
                                 >
                                     {{ item.title }}
                                 </option>
@@ -68,6 +70,7 @@
                                     placeholder="Enter Pantone Color"
                                     v-model="pantoneColor.colors[index]"
                                     :disabled="! hasChange"
+                                    :name="'color' + index"
                                 >
                             </template>
 
@@ -100,6 +103,7 @@
                                         id="sm-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'sm')"
+                                        v-validate="'required'"
                                     >
                                     <label
                                         class="custom-file-label unchecked"
@@ -135,7 +139,6 @@
                                     Recent file
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="sm-recent">
-
                                     <a
                                         v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
@@ -167,6 +170,7 @@
                                         id="lg-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
+                                        v-validate="'required'"
                                     >
                                     <label
                                         class="custom-file-label unchecked"
@@ -229,7 +233,7 @@
                                 <label for="template-design" class="m-0">
                                     <img src="/img/transfers/skateboard-deck-template.jpg" alt="Design Template" title="Design Template" width="100%">
                                 </label>
-                                <input type="file" name="template-design" id="template-design" :disabled="! hasChange"/>
+                                <input type="file" name="template-design" id="template-design" :disabled="! hasChange" v-validate="'required'"/>
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <div class="d-flex flex-column">
