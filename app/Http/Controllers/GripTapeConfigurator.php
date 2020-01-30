@@ -37,12 +37,15 @@ class GripTapeConfigurator extends Controller
                       $filenames[$value][$count]['is_disable'] = false;
                       $filenames[$value][$count]['color_qty'] = '';
                       $filenames[$value][$count]['paid'] = false;
+                      $filenames[$value][$count]['paid_date'] = '';
                       $fileaction = PaidFile::where('created_by', auth()->id())->where('file_name', $filenames[$value][$count]['name'])->first();
                       if($fileaction != null){
                           
                           
                         $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+
+                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
                       }
                       $count ++;
                 } 
@@ -89,7 +92,7 @@ class GripTapeConfigurator extends Controller
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
                         
                         $grips = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->grip;
-                        
+                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
                         $filenames[$value][$count]['is_disable'] = in_array($id, $grips);
                       }
                       $count ++;

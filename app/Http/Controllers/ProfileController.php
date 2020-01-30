@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
-use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment, ProductionDate};
+use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment, ProductionDate, PaidFile};
 use Session;
 
 class ProfileController extends Controller
@@ -16,6 +16,58 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $feesTypes = [
+        'engravery' => [
+            'name' => 'Top Engravery Set Up',
+            'price' => 80
+        ],
+        'topprint' => [
+            'name' => 'Top Print Set Up',
+            'price' => 120
+        ],
+        'bottomprint' => [
+            'name' => 'Bottom Print Set Up',
+            'price' => 120
+        ],
+        'carton' => [
+            'name' => 'Box print Set Up',
+            'price' => 120
+        ],
+        'cardboard' => [
+            'name' => 'Cardboard Set Up',
+            'price' => 500
+        ],
+        // Grip tapes
+        'top_print' => [
+            'name' => 'Top Print',
+            'price' => 30
+        ],
+        'die_cut' => [
+            'name' => 'Die_cut',
+            'price' => 80
+        ],
+        'carton_print' => [
+            'name' => 'Carton Print',
+            'price' => 95
+        ],
+        'backpaper_print' => [
+            'name' => 'Backpaper Print',
+            'price' => 45
+        ],
+        // Wheel 
+        'back_print' => [
+            'name' => 'Back Print',
+            'price' => 80
+        ],
+        'cardboard_print' => [
+            'name' => 'CardBoard Print',
+            'price' => 95
+        ],
+        'shape_print' => [
+            'name' => 'Shape Print',
+            'price' => 45
+        ],
+    ];
     public function index()
     {
         $createdBy = auth()->check() ? auth()->id() : csrf_token();
@@ -107,6 +159,195 @@ class ProfileController extends Controller
 
         $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
         $fees = [];
+
+        $orders = Order::where('created_by', $createdBy)->where('saved_batch', 1)
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+
+        $wheels = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $order['quantity'];
+                        continue;
+                    }
+                } 
+
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $order['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $order)) {
+                    switch ($order[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                if ($key === 'bottomprint' || $key === 'topprint') {
+                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $grip)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $grip['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $grip['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $wheel)) {
+                    switch ($wheel[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if ($key === 'top_print' || $key === 'back_print') {
+                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'cardboard_print') {
+                    if ($wheel['quantity'] < 1500) {
+                        $fees[$key][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
+                    } else {
+                        $fees[$key][$value]['price'] = 0;
+                    }
+                } else if ($key === 'carton_print'){
+                    $fees[$key][$value]['price'] = 80 * $fees[$key][$value]['color'];
+                } else if ($key === 'shape_print'){
+                    $fees[$key][$value]['price'] = 2000;
+                } else {
+                    $fees[$key][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
 
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
     }

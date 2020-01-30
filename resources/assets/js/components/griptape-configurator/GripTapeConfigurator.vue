@@ -94,7 +94,11 @@
                                         :uploadProgress="steps.topPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.topPrint.state = val;
-                                            steps.topPrint.state ? price += prices.topPrint : price -= prices.topPrint;
+                                            steps.topPrint.state ? steps.topPrint.selectpaid ? price = price : price += prices.topPrint : steps.topPrint.selectpaid ? price = price : price -= prices.topPrint ;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.topPrint.selectpaid = val;
+                                            steps.topPrint.state ? steps.topPrint.selectpaid ? price -= prices.topPrint : price += prices.topPrint : price = price;
                                         }"
                                         @fileChange="(val) => {steps.topPrint.file = val}"
                                         @colorChange="(val) => {steps.topPrint.color = val}"
@@ -109,7 +113,11 @@
                                         :uploadProgress="steps.dieCut.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.dieCut.state = val;
-                                            steps.dieCut.state ? price += prices.dieCut : price -= prices.dieCut;
+                                            steps.dieCut.state ? steps.dieCut.selectpaid ? price = price : price += prices.dieCut : steps.dieCut.selectpaid ? price = price : price -= prices.dieCut ;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.dieCut.selectpaid = val;
+                                            steps.dieCut.state ? steps.dieCut.selectpaid ? price -= prices.dieCut : price += prices.dieCut : price = price;
                                         }"
                                         @fileChange="(val) => {steps.dieCut.file = val}"
                                         @prepareFile="(e) => { stepUpload = 5; uploadFile(e); }"
@@ -142,8 +150,11 @@
                                         :uploadProgress="steps.backpaperPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.backpaperPrint.state = val;
-                                            steps.backpaperPrint.state ? price += prices.backpaperPrint : price -= prices.backpaperPrint;
-
+                                            steps.backpaperPrint.state ? steps.backpaperPrint.selectpaid ? price = price : price += prices.backpaperPrint : steps.backpaperPrint.selectpaid ? price = price : price -= prices.backpaperPrint ;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.backpaperPrint.selectpaid = val;
+                                            steps.backpaperPrint.state ? steps.backpaperPrint.selectpaid ? price -= prices.backpaperPrint : price += prices.backpaperPrint : price = price;
                                         }"
                                         @fileChange="(val) => {steps.backpaperPrint.file = val}"
                                         @colorChange="(val) => {steps.backpaperPrint.color = val}"
@@ -157,7 +168,11 @@
                                         :uploadProgress="steps.cartonPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.cartonPrint.state = val;
-                                            steps.cartonPrint.state ? price += prices.cartonPrint : price -= prices.cartonPrint;
+                                            steps.cartonPrint.state ? steps.cartonPrint.selectpaid ? price = price : price += prices.cartonPrint : steps.cartonPrint.selectpaid ? price = price : price -= prices.cartonPrint ;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.cartonPrint.selectpaid = val;
+                                            steps.cartonPrint.state ? steps.cartonPrint.selectpaid ? price -= prices.cartonPrint : price += prices.cartonPrint : price = price;
                                         }"
                                         @fileChange="(val) => {steps.cartonPrint.file = val}"
                                         @colorChange="(val) => {steps.cartonPrint.color = val}"
@@ -371,12 +386,12 @@
                 steps: {
                     grit:            {state: false},
                     perforation:     {state: false},
-                    topPrint:        {state: false, file: null, color: null, uploadProgress: 0},
-                    dieCut:          {state: false, file: null, uploadProgress: 0},
+                    topPrint:        {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    dieCut:          {state: false, file: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     coloredGriptape: {color: null},
                     backpaper:       {state: false},
-                    backpaperPrint:  {state: false, file: null, color: null, uploadProgress: 0},
-                    cartonPrint:     {state: false, file: null, color: null, uploadProgress: 0},
+                    backpaperPrint:  {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    cartonPrint:     {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                 }
             }
         },
@@ -609,6 +624,11 @@
                         this.steps.topPrint.state = true;
                         this.steps.topPrint.file = this.griptape.top_print;
                         this.steps.topPrint.color = this.griptape.top_print_color;
+                        for(let i = 0; i < this.filenames['top'].length; i ++){
+                            if(this.filenames['top'][i]['name'] == this.griptape.top_print){
+                                this.steps.topPrint.dropdisable = this.filenames['top'][i]['is_disable']?true:false;
+                            }
+                        }
                     }
 
                     // Step 5
@@ -632,6 +652,11 @@
                         this.steps.backpaperPrint.state = true;
                         this.steps.backpaperPrint.file = this.griptape.backpaper_print;
                         this.steps.backpaperPrint.color = this.griptape.backpaper_print_color;
+                        for(let i = 0; i < this.filenames['backpaper'].length; i ++){
+                            if(this.filenames['backpaper'][i]['name'] == this.griptape.backpaper_print_color){
+                                this.steps.backpaperPrint.dropdisable = this.filenames['backpaper'][i]['is_disable']?true:false;
+                            }
+                        }
                     }
 
                     // Step 9
@@ -639,6 +664,11 @@
                         this.steps.cartonPrint.state = true;
                         this.steps.cartonPrint.file = this.griptape.carton_print;
                         this.steps.cartonPrint.color = this.griptape.carton_print_color;
+                        for(let i = 0; i < this.filenames['carton'].length; i ++){
+                            if(this.filenames['carton'][i]['name'] == this.griptape.carton_print_color){
+                                this.steps.cartonPrint.dropdisable = this.filenames['carton'][i]['is_disable']?true:false;
+                            }
+                        }
                     }
                 }
             },
