@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreHeatTransferRequest;
+use App\Models\Auth\User\User;
+use App\Models\HeatTransfer\HeatTransfer;
 use App\Models\PaidFile;
 use App\Models\Session;
 use Illuminate\View\View;
@@ -146,5 +149,34 @@ class TransferController extends Controller
         }
 
         return $name;
+    }
+
+    /**
+     * Store heat transfer batch
+     *
+     * @param \App\Http\Requests\StoreHeatTransferRequest $request
+     * @param \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreHeatTransferRequest $request)
+    {
+        /** @var User|null $authUser */
+        $authUser = auth()->user();
+        $createdBy = (string) (isset($authUser) ? $authUser->id : csrf_token());
+
+        $payload = $request->validated();
+        $payload['created_by'] = $createdBy;
+
+        /** @var HeatTransfer $heatTransfer */
+        $heatTransfer = HeatTransfer::query()->create($payload);
+
+        Session::query()->create([
+            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER,
+            'created_by' => $createdBy,
+            'comment' => $heatTransfer->id,
+        ]);
+
+        return redirect()->route('profile', ['#saved_orders']);
     }
 }

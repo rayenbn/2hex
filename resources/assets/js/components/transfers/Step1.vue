@@ -12,19 +12,17 @@
                     </div>
                     <div class="m-portlet__body">
                         <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
-                                        style="min-height: 286px"
+                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                <div
+                                    class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                    style="min-height: 286px"
+                                >
+                                    <img
+                                        src="/img/transfers/skateboard-heat-transfers.jpg"
+                                        class="step1-img1"
+                                        alt="Quantity"
+                                        title="Quantity"
                                     >
-                                        <img
-                                            src="http://via.placeholder.com/640x360"
-                                            class="step1-img1"
-                                            alt="Quantity"
-                                            title="Quantity"
-                                        >
-                                    </div>
                                 </div>
                             </div>
                             <input
@@ -62,18 +60,16 @@
                     <div class="m-portlet__body">
                         <div class="m-widget17">
                             <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
-                                        style="min-height: 286px"
+                                <div
+                                    class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                    style="min-height: 286px"
+                                >
+                                    <img
+                                        :src="size && size.image"
+                                        class="step1-img1"
+                                        alt="Size"
+                                        title="Size"
                                     >
-                                        <img
-                                            :src="size && size.image"
-                                            class="step1-img1"
-                                            alt="Size"
-                                            title="Size"
-                                        >
-                                    </div>
                                 </div>
                             </div>
                             <select

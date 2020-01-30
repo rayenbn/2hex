@@ -45,6 +45,6 @@ class Session extends Model
     {
         Type::assertExists($value);
 
-        $this->attributes['action'] = strtolower($value);
+        $this->attributes['action'] = $value;
     }
 }

@@ -8,7 +8,7 @@ export default {
         quantity: 6000,
         size: null,
         designName: '',
-        transparent: false,
+        transparency: false,
         pantoneColor: null,
         colors: [],
         countColors: 0,
@@ -26,30 +26,36 @@ export default {
         getSize: state => state.size,
         getPantoneColor: state => state.pantoneColor,
         getDesignName: state => state.designName,
-        getTransparencies: state => state.transparent,
+        getTransparencies: state => state.transparency,
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
         getReOrder: state => state.reOrder,
         getRecentFiles: state => state.recentFiles,
         getIsAdmin: state => state.isAdmin,
         hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
-        costPerTransfer: state => {
-            return heatTransferService.calculateCostPerTransfer(
+        transferPrice: (state, getters) => {
+            let price =  heatTransferService.calculateTransferPrice(
                 state.countColors,
-                state.transfersQuantity
+                getters.totalQuantity,
+                state.quantity
             );
+
+            if (state.size && state.size.hasOwnProperty('percent')) {
+                return price * state.size.percent / 100;
+            }
+
+            return price;
         },
-        costPerSheet: (state, getters) => {
-            let cost = heatTransferService.calculateCostPerSheet(
+        screensPrice: (state, getters) => {
+            let cost = heatTransferService.calculateScreensPrice(
                 state.countColors,
-                state.transfersColorsQuantity,
+                getters.totalColors,
                 Boolean(state.transparent),
                 state.countColors === 0
             );
 
             if (state.size && state.size.hasOwnProperty('percent')) {
-                console.log(cost, state.size.percent);
-                return heatTransferService.priceWithMargin(cost, state.size.percent);
+                return cost * state.size.percent / 100;
             }
 
             return cost;
@@ -61,7 +67,7 @@ export default {
             return state.countColors + state.transfersColorsQuantity;
         },
         pricePerSheet: (state, getters) => {
-            return getters.costPerSheet * getters.costPerTransfer;
+            return getters.screensPrice * getters.transferPrice;
         }
     },
     mutations: {
@@ -75,7 +81,7 @@ export default {
             state.designName = payload;
         },
         setTransparencies(state, payload) {
-            state.transparent = payload;
+            state.transparency = payload;
         },
         setPantoneColor(state, payload) {
             state.pantoneColor = payload;
@@ -98,5 +104,33 @@ export default {
             state.isAdmin = payload;
         },
     },
-    actions: {}
+    actions: {
+        saveBatch({commit, state , getters}) {
+            return new Promise((resolve, reject) => {
+
+                let formParam = {
+                    quantity: state.quantity,
+                    size: state.size.fullname,
+                    design_name: state.designName,
+                    transparency: state.transparency,
+                    colors: state.colors.join(','),
+                    small_preview: state.smallPreview,
+                    large_preview: state.largePreview,
+                    price: getters.screensPrice,
+                    total: getters.pricePerSheet,
+                    reorder: state.reOrder,
+                };
+
+                let path = '/transfers-configurator';
+
+                axios({method: 'POST', url: path, data: formParam})
+                    .then(repsonse => {
+                        resolve(repsonse);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+        }
+    }
 };

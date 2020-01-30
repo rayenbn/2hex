@@ -23,6 +23,10 @@ class Type extends AbstractEnum
     const UPDATE_WHEEL = 'Update Wheel';
     const SAVE_WHEEL_BATCH = 'Save Wheel To Batch';
     const DELETE_WHEEL = 'Delete Wheel';
+
+    // Heat Transfer
+    const SAVE_HEAT_TRANSFER = 'Save Heat Transfer';
+
     // Other
     const UPLOAD = 'Upload';
     const CLICKED = 'clicked';

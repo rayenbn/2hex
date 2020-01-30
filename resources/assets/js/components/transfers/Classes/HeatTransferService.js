@@ -1,32 +1,33 @@
 export default class HeatTransferService {
 
-    calculateCostPerTransfer(colorCount, sheetsQuantity) {
+    calculateTransferPrice(colorCount, totalQuantity, quantity) {
 
-        if (colorCount > 5) {
+        let heatTransferSheets = 0.1;
+        let marginTransfer = 0;
 
-            console.log('calculateCostPerTransfer', 0.1);
-            return 0.1
+        if (colorCount < 5) {
+            heatTransferSheets = 0.45;
 
-        } else if (colorCount < 5) {
-
-            let perColor = 0.45;
-
-            if (sheetsQuantity < 1000) {
-                console.log('calculateCostPerTransfer', perColor + 0.2);
-                return perColor + 0.2;
-            } else if (sheetsQuantity >= 1000 && sheetsQuantity < 6000) {
-                console.log('calculateCostPerTransfer', perColor + 0.15);
-                return perColor + 0.15;
+            if (totalQuantity < 1000) {
+                marginTransfer = 0.2;
+            } else if (totalQuantity >= 1000 && totalQuantity < 6000) {
+                marginTransfer = 0.15;
             } else {
-                console.log('calculateCostPerTransfer', perColor + 0.1);
-                return perColor + 0.1;
+                marginTransfer = 0.1;
             }
         }
+
+        console.log('heatTransferSheets: ', heatTransferSheets);
+        console.log('marginTransfer: ', marginTransfer);
+        console.log('calculateCostPerTransfer: ', (heatTransferSheets + marginTransfer) * quantity);
+
+        return parseFloat(
+            Number((heatTransferSheets + marginTransfer) * quantity).toFixed(2)
+        );
     }
 
-    calculateCostPerSheet(colorsQuantity, totalColorsQuantity, transparent = false, CMYK = false) {
+    calculateScreensPrice(colorsQuantity, totalColorsQuantity, transparent = false, CMYK = false) {
         let totalPrice = 0;
-        console.log(colorsQuantity, totalColorsQuantity, transparent, CMYK);
 
         if (CMYK) {
             totalPrice += this.CMYKPrice(totalColorsQuantity);
@@ -39,7 +40,8 @@ export default class HeatTransferService {
         }
 
         console.log('calculateProfitMargin: ' + totalPrice);
-        return totalPrice;
+
+        return parseFloat(Number(totalPrice).toFixed(2));
 
     }
 
@@ -56,6 +58,7 @@ export default class HeatTransferService {
     }
     transparentPrice(colorsQuantity) {
         let price = 25;
+        console.log(colorsQuantity);
 
         switch(true) {
             case colorsQuantity < 10: price += 20; break;
@@ -75,19 +78,5 @@ export default class HeatTransferService {
         }
         console.log('CMYKPrice: ' + price);
         return price;
-    }
-
-    priceWithMargin(price, percent) {
-        if (!percent || percent === 0) {
-            return price;
-        }
-
-        let margin = price * percent / 100;
-
-        if (margin === price) {
-            return price;
-        }
-
-        return price + margin;
     }
 }

@@ -30,6 +30,9 @@ class CreateHeatTransfersTable extends Migration
             $table->boolean('usenow')->default(true);
             $table->timestamp('reorder_at')->nullable();
             $table->boolean('reorder')->default(false);
+            $table->boolean('saved_batch')->default(false);
+            $table->string('saved_name')->nullable();
+            $table->string('invoice_number')->nullable();
             $table->timestamps();
         });
     }

@@ -150,6 +150,7 @@ Route::group(['as' => 'wheels.'], function () {
 Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
     Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
     Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');
+    Route::post('/transfers-configurator', 'TransferController@store')->name('configurator.store');
     Route::post('/transfers-configurator-upload', 'TransferController@uploadFile')->name('upload');
 });
 

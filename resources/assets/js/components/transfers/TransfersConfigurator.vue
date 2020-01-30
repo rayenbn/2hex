@@ -51,19 +51,19 @@
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <b>Cost Per Transfer</b>
+                                                <b>Transfer price</b>
                                             </div>
                                             <div class="col-lg-6">
-                                                <p>{{costPerTransfer}}</p>
+                                                <p>{{transferPrice}}</p>
                                             </div>
                                             <div class="col-lg-6">
-                                                <b>Cost Per Sheet</b>
+                                                <b>Screens Price</b>
                                             </div>
                                             <div class="col-lg-6">
-                                                <p>{{costPerSheet}}</p>
+                                                <p>{{screensPrice}}</p>
                                             </div>
                                             <div class="col-lg-6">
-                                                <b>Price Per Sheet (Cost Per Transfer * Cost Per Sheet)</b>
+                                                <b>Price Per Sheet (Transfer price * Screens Price)</b>
                                             </div>
                                             <div class="col-lg-6">
                                                 <p>{{pricePerSheet}}</p>
@@ -81,7 +81,6 @@
                                                 >
                                                     <span>
                                                         <i class="la la-arrow-left"></i>
-                                                        &nbsp;&nbsp;
                                                         <span>Back</span>
                                                     </span>
                                                 </button>
@@ -90,6 +89,7 @@
 
                                             <div class="col-lg-4 m--align-center">
                                                 <button
+                                                    @click="saveBatch"
                                                     class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                                     data-wizard-action="submit"
                                                 >
@@ -175,6 +175,7 @@
                             <br>
 
                             <button
+                                @click="saveBatch"
                                 class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right"
                             >
                                 <span>
@@ -261,11 +262,11 @@
             pricePerSheet() {
                 return this.$store.getters['TransfersConfigurator/pricePerSheet'];
             },
-            costPerTransfer() {
-                return this.$store.getters['TransfersConfigurator/costPerTransfer'];
+            transferPrice() {
+                return this.$store.getters['TransfersConfigurator/transferPrice'];
             },
-            costPerSheet() {
-                return this.$store.getters['TransfersConfigurator/costPerSheet'];
+            screensPrice() {
+                return this.$store.getters['TransfersConfigurator/screensPrice'];
             }
         },
         methods: {
@@ -290,6 +291,30 @@
             prevStep(){
                 this.$store.commit('changeStep', --this.currentStep);
             },
+            saveBatch() {
+                this.$store.dispatch('TransfersConfigurator/saveBatch')
+                    .then((response) => {
+                        console.log(response);
+                        this.$notify({
+                            group: 'main',
+                            type: 'success',
+                            title: 'Heat Transfer Configurator',
+                            text: "Heat Transfer succesfully saved"
+                        });
+
+                        // setTimeout(() => {
+                        //     window.location = response.request.responseURL
+                        // }, 1500);
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Heat Transfer Configurator',
+                            text: "Heat Transfer not saved. Please reload  page."
+                        });
+                    });
+            }
         },
         created() {
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
