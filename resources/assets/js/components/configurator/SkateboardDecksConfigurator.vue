@@ -2096,7 +2096,6 @@
                                         <span class="m-widget1__number m--font-danger" id="total" v-else>
                                                     $ ?.??
                                                 </span>
-
                                     </div>
                                 </div>
                             </div>
@@ -2122,6 +2121,7 @@
         </div>
     </div>
 </template>
+
 
 <script>
     import ColorBtn from '@/components/griptape-configurator/views/ColorBtn';
