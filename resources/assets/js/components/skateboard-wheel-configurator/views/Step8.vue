@@ -93,7 +93,7 @@
                                         href="javascript:void(0);"
                                         @click="() => {filePrint = file['name']; isPrintCarton = true;}"
                                     >
-                                        {{ file['name'] }}
+                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
                                 </div>
                             </div>

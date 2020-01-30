@@ -148,9 +148,9 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown"  
                                         href="javascript:void(0);" 
-                                        @click="() => {step_options.file = file['name']; step_options.state = true;}"
+                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable'];  step_color = file['color_qty']; }"
                                     >
-                                        {{ file['name'] }}
+                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
                                 </div>
                             </div>
@@ -159,6 +159,7 @@
                                 :color="step_color"
                                 labelledby="step-8-colors" 
                                 @colorChange="(val) => step_color = val"
+                                v-if="!step_options.dropdisable"
                             >
                                 <template slot="btn">
                                     <button
@@ -176,6 +177,20 @@
                                     </button>
                                 </template>
                             </color-btn>
+                            <button
+                                id="step-8-colors" 
+                                class="btn btn-secondary dropdown-toggle" 
+                                type="button" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false" 
+                                style="width:100%;" 
+                                @click="step_options.state = true"
+                                v-else
+                                :class="[step_options.state && step_color ? 'checked' : 'unchecked']"
+                            >
+                                {{ step_color ? step_color : 'How many colors are in your design?' }}
+                            </button>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Carton Print</h3>
                                 Adding a custom print to your griptape cartons is the best way to communicate your brand image and product specifications to skateboard distributors and skate shops. Adding a professional carton print is the cherry on top of the cream, it is what sets the best brands apart from the rest.

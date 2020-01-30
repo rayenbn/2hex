@@ -14,6 +14,8 @@ export default {
             step_options: {
                 state: this.options.state || false,
                 file: this.options.file || null,
+                selectpaid: this.options.selectpaid || false,
+                dropdisable: this.options.dropdisable || false,
             }
         }
     },
@@ -23,6 +25,9 @@ export default {
         },
         'step_options.file'(val){
             this.$emit('fileChange', val);
+        },
+        'step_options.selectpaid'(val){
+            this.$emit('selectpaidChange', val);
         }
     },
     methods: {
