@@ -1,5 +1,13 @@
-export default class HeatTransferService {
+class HeatTransferService {
 
+    /**
+     * Calculate Transfer price
+     *
+     * @param colorCount
+     * @param totalQuantity
+     * @param quantity
+     * @returns {number}
+     */
     calculateTransferPrice(colorCount, totalQuantity, quantity) {
 
         let heatTransferSheets = 0.1;
@@ -17,15 +25,20 @@ export default class HeatTransferService {
             }
         }
 
-        console.log('heatTransferSheets: ', heatTransferSheets);
-        console.log('marginTransfer: ', marginTransfer);
-        console.log('calculateCostPerTransfer: ', (heatTransferSheets + marginTransfer) * quantity);
-
         return parseFloat(
             Number((heatTransferSheets + marginTransfer) * quantity).toFixed(2)
         );
     }
 
+    /**
+     * Calculate Screens price
+     *
+     * @param colorsQuantity
+     * @param totalColorsQuantity
+     * @param transparent
+     * @param CMYK
+     * @returns {number}
+     */
     calculateScreensPrice(colorsQuantity, totalColorsQuantity, transparent = false, CMYK = false) {
         let totalPrice = 0;
 
@@ -35,16 +48,15 @@ export default class HeatTransferService {
             totalPrice += this.colorQuantityPrice(totalColorsQuantity) * colorsQuantity;
         }
 
-        if (transparent) {
-            totalPrice += this.transparentPrice(totalColorsQuantity);
-        }
-
-        console.log('calculateProfitMargin: ' + totalPrice);
-
         return parseFloat(Number(totalPrice).toFixed(2));
-
     }
 
+    /**
+     * Calculate profit margin from colors
+     *
+     * @param colorsQuantity
+     * @returns {number}
+     */
     colorQuantityPrice(colorsQuantity) {
         let price = 25;
 
@@ -53,30 +65,45 @@ export default class HeatTransferService {
             case colorsQuantity >= 10 && colorsQuantity < 29: price += 15; break;
             case colorsQuantity >= 30: price += 10; break;
         }
-        console.log('colorQuantityPrice: ' + price);
+
         return price;
     }
+
+    /**
+     * Calculate transparent price
+     *
+     * @param colorsQuantity
+     * @returns {number}
+     */
     transparentPrice(colorsQuantity) {
         let price = 25;
-        console.log(colorsQuantity);
 
         switch(true) {
             case colorsQuantity < 10: price += 20; break;
             case colorsQuantity >= 10 && colorsQuantity < 29: price += 15; break;
             case colorsQuantity >= 30: price += 10; break;
         }
-        console.log('transparentPrice: ' + price);
+
         return price;
     }
+
+    /**
+     * Calculate CMYK price
+     *
+     * @param colorsQuantity
+     * @returns {number}
+     */
     CMYKPrice(colorsQuantity) {
-        let price = 115;
+        let price = (25 * 4) + 15;
 
         switch(true) {
-            case colorsQuantity < 10: price += 80; break;
-            case colorsQuantity >= 10 && colorsQuantity < 29: price += 15; break;
-            case colorsQuantity >= 30: price += 10; break;
+            case colorsQuantity < 10: price += (20 * 4); break;
+            case colorsQuantity >= 10 && colorsQuantity < 29: price += (15 * 4); break;
+            case colorsQuantity >= 30: price += (10 * 4); break;
         }
-        console.log('CMYKPrice: ' + price);
+
         return price;
     }
 }
+
+export default HeatTransferService;

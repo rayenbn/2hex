@@ -38,7 +38,7 @@
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <span class="text-uppercase">Transparencies</span>
                                 <label class="switch">
-                                    <input type="checkbox" name="transparencies" v-model="transparencies" :disabled="! hasChange">
+                                    <input type="checkbox" name="transparency" v-model="transparency" :disabled="! hasChange">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -425,12 +425,12 @@
                     this.$store.commit('TransfersConfigurator/setDesignName', newVal);
                 }, 1000)
             },
-            transparencies: {
+            transparency: {
                 get() {
-                    return this.$store.getters['TransfersConfigurator/getTransparencies'];
+                    return this.$store.getters['TransfersConfigurator/getTransparency'];
                 },
                 set: _.debounce(function (newVal) {
-                    this.$store.commit('TransfersConfigurator/setTransparencies', newVal);
+                    this.$store.commit('TransfersConfigurator/setTransparency', newVal);
                 }, 1000)
             },
             pantoneColor: {

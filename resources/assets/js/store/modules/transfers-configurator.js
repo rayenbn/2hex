@@ -12,6 +12,7 @@ export default {
         pantoneColor: null,
         colors: [],
         countColors: 0,
+        isCMYK: false,
         smallPreview: null,
         largePreview: null,
         reOrder: false,
@@ -26,7 +27,7 @@ export default {
         getSize: state => state.size,
         getPantoneColor: state => state.pantoneColor,
         getDesignName: state => state.designName,
-        getTransparencies: state => state.transparency,
+        getTransparency: state => state.transparency,
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
         getReOrder: state => state.reOrder,
@@ -50,15 +51,22 @@ export default {
             let cost = heatTransferService.calculateScreensPrice(
                 state.countColors,
                 getters.totalColors,
-                Boolean(state.transparent),
-                state.countColors === 0
+                state.transparency,
+                state.isCMYK
             );
+
+            if (state.transparency) {
+                cost += getters.transparentPrice;
+            }
 
             if (state.size && state.size.hasOwnProperty('percent')) {
                 return cost * state.size.percent / 100;
             }
 
             return cost;
+        },
+        transparentPrice: (state, getters) => {
+            return heatTransferService.transparentPrice(getters.totalColors);
         },
         totalQuantity: state => {
             return state.quantity + state.transfersQuantity;
@@ -80,13 +88,14 @@ export default {
         setDesignName(state, payload) {
             state.designName = payload;
         },
-        setTransparencies(state, payload) {
-            state.transparency = payload;
+        setTransparency(state, payload) {
+            state.transparency = Boolean(payload);
         },
         setPantoneColor(state, payload) {
             state.pantoneColor = payload;
             state.colors = payload.colors;
             state.countColors = parseInt(payload.countFields);
+            state.isCMYK = state.countColors === 0;
         },
         setSmallPreview(state, payload) {
             state.smallPreview = payload;
