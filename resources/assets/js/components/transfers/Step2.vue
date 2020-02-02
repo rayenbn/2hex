@@ -3,27 +3,19 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">Quantity</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-portlet__body">
+                    <div :class="[showPreview ? '' : 'mt-4', 'm-portlet__body']">
                         <div class="m-widget17">
-                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
-                                <div>
-                                    <div
-                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
-                                        style="min-height: 286px"
+                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides" v-show="showPreview">
+                                <div
+                                    class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                    style="min-height: 286px"
+                                >
+                                    <img
+                                        class="step1-img1"
+                                        alt="Design Preview"
+                                        title="Design Preview"
+                                        id="designPreview"
                                     >
-                                        <img
-                                            class="step1-img1"
-                                            alt="Quantity"
-                                            title="Quantity"
-                                        >
-                                    </div>
                                 </div>
                             </div>
                             <input
@@ -104,6 +96,8 @@
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'sm')"
                                         v-validate="'required'"
+                                        accept="image/*"
+                                        data-max-size="1000000"
                                     >
                                     <label
                                         class="custom-file-label unchecked"
@@ -143,7 +137,7 @@
                                         v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
-                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm')}"
+                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm'); showPreview = false}"
                                     >
                                         {{ file && file.name}}
                                     </a>
@@ -171,6 +165,8 @@
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
                                         v-validate="'required'"
+                                        accept="image/*"
+                                        data-max-size="10000000"
                                     >
                                     <label
                                         class="custom-file-label unchecked"
@@ -221,19 +217,12 @@
                                 Read our design instructions here.
                             </div>
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
-                                Download our Design Template (Drag and Drop):
+                                Download our Design Template:
                             </div>
-                            <div
-                                style="text-align: justify; color: #9699a4;"
-                                class="mt-4"
-                                id="design-wrap"
-                                @drop.prevent="dropHandler($event)"
-                                @dragstart.prevent
-                            >
-                                <label for="template-design" class="m-0">
+                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
+                                <a href="/transfers/2HEX-skateboard-deck-design-template.pdf" class="m-0 d-block" target="_blank">
                                     <img src="/img/transfers/skateboard-deck-template.jpg" alt="Design Template" title="Design Template" width="100%">
-                                </label>
-                                <input type="file" name="template-design" id="template-design" :disabled="! hasChange" v-validate="'required'"/>
+                                </a>
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <div class="d-flex flex-column">
@@ -317,6 +306,7 @@
                 ],
                 smProgress: 0,
                 lgProgress: 0,
+                showPreview: false
             }
         },
         watch: {
@@ -328,9 +318,40 @@
             }
         },
         methods: {
+            readURL(input) {
+                if (input.files.length === 0) { return; }
+
+                let elMaxSize = input.dataset.maxSize;
+
+                if (elMaxSize) {
+                    elMaxSize = parseInt(elMaxSize);
+                    if (input.files[0].size > elMaxSize) {
+                        alert(`File must be less than ${(elMaxSize / 1000000)}mb.`);
+
+                        return false;
+                    }
+                }
+
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    document.getElementById('designPreview').setAttribute('src', e.target.result)
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                this.showPreview = true;
+
+                return true;
+            },
             uploadFile(event, type = 'lg') {
                 // Check auth
                 this.checkAuth();
+
+                if (type === 'sm') {
+                    if (! this.readURL(event.target)) {
+                        return false;
+                    }
+                }
 
                 // Check empty file
                 if (event.target.files.length === 0) {
@@ -404,16 +425,6 @@
                     choosenInput.nextElementSibling.classList.add("checked");
                     document.getElementById(type + '-recent').innerHTML = content;
                 });
-            },
-            dropHandler(e) {
-                // TODO upload file
-                document.getElementById('design-wrap').classList.remove('highlight');
-
-                if (! this.hasChange) return false;
-
-                var dt = e.dataTransfer;
-                var files = dt.files;
-
             },
         },
         computed: {
@@ -497,33 +508,6 @@
             if (this.lgPreview) {
                 this.renderPreview(this.lgPreview, 'lg');
             }
-
-            let dropArea = document.getElementById('design-wrap');
-
-            dropArea.addEventListener("dragover", function( event ) {
-                event.preventDefault();
-                this.classList.add('highlight');
-            }, false);
-
-            dropArea.addEventListener("dragleave", function( event ) {
-                event.preventDefault();
-                this.classList.remove('highlight');
-            }, false);
         }
     }
 </script>
-
-<style scoped>
-    #design-wrap label {
-        cursor: pointer;
-    }
-
-    #template-design {
-        opacity: 0;
-        position: absolute;
-        z-index: -1;
-    }
-    .highlight {
-        border: #5867dd 2px dashed;
-    }
-</style>

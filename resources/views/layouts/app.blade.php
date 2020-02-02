@@ -99,7 +99,6 @@
         <notifications :duration="3000" group="main" />
     </div>
 
-    <!-- Include analystics scripts, only production -->
     @include('layouts.analystics')
 
 </body>

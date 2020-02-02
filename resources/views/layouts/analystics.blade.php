@@ -10,6 +10,7 @@
 
 <link rel="shortcut icon" href="img/favicon.ico" />
 
+<!-- Include analystics scripts, only production -->
 @if (app()->environment('production'))
 
     <!-- Google Analytics -->
