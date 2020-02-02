@@ -72,10 +72,10 @@ export default {
             return state.quantity + state.transfersQuantity;
         },
         totalColors: state => {
-            return state.countColors + state.transfersColorsQuantity;
+            return state.countColors + state.transfersColorsQuantity + +state.transparency;
         },
         pricePerSheet: (state, getters) => {
-            return getters.screensPrice * getters.transferPrice;
+            return getters.screensPrice + getters.transferPrice;
         }
     },
     mutations: {
