@@ -63,7 +63,7 @@
                                                 <p>{{screensPrice}}</p>
                                             </div>
                                             <div class="col-lg-6">
-                                                <b>Price Per Sheet (Transfer price * Screens Price)</b>
+                                                <b>Price Per Sheet (Transfer price + Screens Price)</b>
                                             </div>
                                             <div class="col-lg-6">
                                                 <p>{{pricePerSheet}}</p>
