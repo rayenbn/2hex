@@ -1,3 +1,5 @@
+import {CMYK_COLORS_COUNT} from '@/constants.js';
+
 class HeatTransferService {
 
     /**
@@ -6,27 +8,30 @@ class HeatTransferService {
      * @param colorCount
      * @param totalQuantity
      * @param quantity
+     * @param isCMYK
      * @returns {number}
      */
-    calculateTransferPrice(colorCount, totalQuantity, quantity) {
-
-        let heatTransferSheets = 0.1;
+    calculateTransferPrice(colorCount, totalQuantity, quantity, isCMYK = false) {
         let marginTransfer = 0;
+        let addedPerColor = 0;
 
-        if (colorCount < 5) {
-            heatTransferSheets = 0.45;
+        if (totalQuantity < 1000) {
+            marginTransfer = 0.2;
+        } else if (totalQuantity >= 1000 && totalQuantity < 6000) {
+            marginTransfer = 0.15;
+        } else {
+            marginTransfer = 0.1;
+        }
 
-            if (totalQuantity < 1000) {
-                marginTransfer = 0.2;
-            } else if (totalQuantity >= 1000 && totalQuantity < 6000) {
-                marginTransfer = 0.15;
-            } else {
-                marginTransfer = 0.1;
-            }
+        if (isCMYK) {
+            addedPerColor += CMYK_COLORS_COUNT * 0.1;
+
+        } else if (colorCount > 4) {
+            addedPerColor += (colorCount - 4) * 0.1;
         }
 
         return parseFloat(
-            Number((heatTransferSheets + marginTransfer) * quantity).toFixed(2)
+            Number(quantity * (0.45 + marginTransfer + addedPerColor)).toFixed(2)
         );
     }
 
@@ -94,12 +99,12 @@ class HeatTransferService {
      * @returns {number}
      */
     CMYKPrice(colorsQuantity) {
-        let price = (25 * 4) + 15;
+        let price = (25 * CMYK_COLORS_COUNT) + 15;
 
         switch(true) {
-            case colorsQuantity < 10: price += (20 * 4); break;
-            case colorsQuantity >= 10 && colorsQuantity < 29: price += (15 * 4); break;
-            case colorsQuantity >= 30: price += (10 * 4); break;
+            case colorsQuantity < 10: price += (20 * CMYK_COLORS_COUNT); break;
+            case colorsQuantity >= 10 && colorsQuantity < 29: price += (15 * CMYK_COLORS_COUNT); break;
+            case colorsQuantity >= 30: price += (10 * CMYK_COLORS_COUNT); break;
         }
 
         return price;

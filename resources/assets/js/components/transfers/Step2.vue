@@ -3,14 +3,12 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
-                    <div :class="[showPreview ? '' : 'mt-4', 'm-portlet__body']">
+                    <div class="m-portlet__body">
                         <div class="m-widget17">
-                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides" v-show="showPreview">
-                                <div
-                                    class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
-                                    style="min-height: 286px"
-                                >
+                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--sides">
+                                <div class="m-widget19__pic m-portlet-fit--sides preview-bg">
                                     <img
+                                        src="/img/transfers/skateboard-heat-transfer-example.jpg"
                                         class="step1-img1"
                                         alt="Design Preview"
                                         title="Design Preview"
@@ -28,6 +26,13 @@
                                 v-validate="'required'"
                             >
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
+                                <span class="text-uppercase">CMYK</span>
+                                <label class="switch">
+                                    <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="mt-2 mb-2 d-flex align-items-center justify-content-between">
                                 <span class="text-uppercase">Transparencies</span>
                                 <label class="switch">
                                     <input type="checkbox" name="transparency" v-model="transparency" :disabled="! hasChange">
@@ -137,7 +142,7 @@
                                         v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
-                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm'); showPreview = false}"
+                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm');}"
                                     >
                                         {{ file && file.name}}
                                     </a>
@@ -297,16 +302,10 @@
                         "title": "8 field to enter Pantone Color",
                         "countFields": 8,
                         "colors": [],
-                    },
-                    {
-                        "title": "No field to enter Pantone Color",
-                        "countFields": 0,
-                        "colors": [],
                     }
                 ],
                 smProgress: 0,
                 lgProgress: 0,
-                showPreview: false
             }
         },
         watch: {
@@ -339,7 +338,6 @@
                 };
 
                 reader.readAsDataURL(input.files[0]);
-                this.showPreview = true;
 
                 return true;
             },
@@ -436,6 +434,14 @@
                     this.$store.commit('TransfersConfigurator/setDesignName', newVal);
                 }, 1000)
             },
+            CMYK: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getCMYK'];
+                },
+                set: _.debounce(function (newVal) {
+                    this.$store.commit('TransfersConfigurator/setCMYK', newVal);
+                }, 1000)
+            },
             transparency: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getTransparency'];
@@ -511,3 +517,12 @@
         }
     }
 </script>
+
+<style scoped>
+    .preview-bg {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>

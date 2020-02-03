@@ -1,4 +1,5 @@
 import HeatTransferService from '@/components/transfers/Classes/HeatTransferService.js';
+import {CMYK_COLORS_COUNT} from '@/constants.js';
 
 let heatTransferService = new HeatTransferService();
 
@@ -25,6 +26,7 @@ export default {
     getters: {
         getQuantity: state => state.quantity,
         getSize: state => state.size,
+        getCMYK: state => state.isCMYK,
         getPantoneColor: state => state.pantoneColor,
         getDesignName: state => state.designName,
         getTransparency: state => state.transparency,
@@ -36,9 +38,10 @@ export default {
         hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
-                state.countColors,
+                state.countColors + +state.transparency,
                 getters.totalQuantity,
-                state.quantity
+                state.quantity,
+                state.isCMYK
             );
 
             if (state.size && state.size.hasOwnProperty('percent')) {
@@ -72,6 +75,10 @@ export default {
             return state.quantity + state.transfersQuantity;
         },
         totalColors: state => {
+            if (state.isCMYK) {
+               return CMYK_COLORS_COUNT + state.transfersColorsQuantity;
+            }
+
             return state.countColors + state.transfersColorsQuantity + +state.transparency;
         },
         pricePerSheet: (state, getters) => {
@@ -85,6 +92,9 @@ export default {
         setSize(state, payload) {
             state.size = payload;
         },
+        setCMYK(state, payload) {
+            state.isCMYK = Boolean(payload);
+        },
         setDesignName(state, payload) {
             state.designName = payload;
         },
@@ -95,7 +105,6 @@ export default {
             state.pantoneColor = payload;
             state.colors = payload.colors;
             state.countColors = parseInt(payload.countFields);
-            state.isCMYK = state.countColors === 0;
         },
         setSmallPreview(state, payload) {
             state.smallPreview = payload;
