@@ -118,7 +118,7 @@ class GripTapeConfigurator extends Controller
             GripTape::where('id','=', $data['id'])->update($data);
         }
 
-        Session::insert(['action' => Session\Enum\Type::SAVE_GRIP, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Grip', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -141,13 +141,13 @@ class GripTapeConfigurator extends Controller
         $grips['saved_batch'] = 1;
         $array = json_decode(json_encode($grips), true);
         GripTape::insert($array);
-        Session::insert(['action' => Session\Enum\Type::SAVE_GRIP_BATCH, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Grip to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->route('profile', ['#saved_orders']);
     }
     public function destroy($id)
     {
         GripTape::where('id','=',$id)->delete();
-        Session::insert(['action' => Session\Enum\Type::DELETE_GRIP, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Delete Grip', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->get(), 
