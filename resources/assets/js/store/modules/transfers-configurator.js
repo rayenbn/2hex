@@ -9,8 +9,6 @@ export default {
         smallPreview: null,
         largePreview: null,
         reOrder: false,
-        recentFiles: null,
-        isAdmin: false
     },
     getters: {
         getQuantity: state => state.quantity,
@@ -21,9 +19,6 @@ export default {
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
         getReOrder: state => state.reOrder,
-        getRecentFiles: state => state.recentFiles,
-        getIsAdmin: state => state.isAdmin,
-        hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
     },
     mutations: {
         setQuantity(state, payload) {
@@ -49,12 +44,6 @@ export default {
         },
         setReOrder(state, payload) {
             state.reOrder = payload;
-        },
-        setRecentFiles(state, payload) {
-            state.recentFiles = payload;
-        },
-        setIsAdmin(state, payload) {
-            state.isAdmin = payload;
         },
     },
     actions: {}

@@ -188,21 +188,6 @@
             upload_url: {
                 type: String,
                 default: ''
-            },
-            filenames: {
-                type: Object,
-                default: () => {
-                    return null;
-                }
-            },
-            isAdmin: {
-                type: Number,
-                default: false,
-                validator: function (value) {
-                    value = parseInt(value);
-
-                    return value == 0 || value == 1;
-                }
             }
         },
         components: {
@@ -262,10 +247,6 @@
             prevStep(){
                 this.$store.commit('changeStep', --this.currentStep);
             },
-        },
-        created() {
-            this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
-            this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
         }
     };
 </script>
