@@ -145,12 +145,7 @@ Route::group(['as' => 'wheels.'], function () {
     Route::post('/skateboard-wheels-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
     Route::get('/skateboard-wheels-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
     Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
-});
 
-Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
-    Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
-    Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');
-    Route::post('/transfers-configurator-upload', 'TransferController@uploadFile')->name('upload');
 });
 
 /**

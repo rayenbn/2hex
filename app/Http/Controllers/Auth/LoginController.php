@@ -114,7 +114,7 @@ class LoginController extends Controller
         $order = Order::where('created_by','=',$token)->get();
         if(count($order) > 0)
             Order::where('created_by','=',$token)->update(['created_by' => $user->id]);
-        Session::insert(['action' => Session\Enum\Type::LOGIN, 'created_by' => $user->id, 'comment' => 'user login', 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'login', 'created_by' => $user->id, 'comment' => 'user login', 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->intended($this->redirectPath());
     }
 }
