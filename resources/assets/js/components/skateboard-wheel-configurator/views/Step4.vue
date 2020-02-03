@@ -91,7 +91,7 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="selectCustomFile(file['name'])"
+                                        @click="selectCustomFile(file['name']); isFrontEndFree = file['paid']; countColors = file['color_qty'];"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
@@ -222,6 +222,14 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changeFrontPrintFile', newVal);
+                }
+            },
+            isFrontEndFree: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getFrontPrintFree'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeFrontPrintFree', newVal);
                 }
             },
             files() {

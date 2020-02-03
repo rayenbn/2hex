@@ -19,6 +19,7 @@ export default {
         types: [],
         shapes: [],
         shapePrint: null,
+        isShapeFree: false,
         quantity: 2000,
         perSet: 0,
         perSetPrice: 0,
@@ -30,14 +31,18 @@ export default {
         shr: false,
         isFrontPrint: false,
         frontPrintColors: '1 color',
+        isFrontEndFree: false,
         frontPrintFile: null,
         isBackPrint: false,
+        isBackEndFree: false,
         backPrintColors: '1 color',
         backPrintFile: null,
         placement: PLACEMENTS.SQUARE,
         isPrintCardboard: false,
         printCardboardFile: null,
+        isCardboardFree: false,
         isPrintCarton: false,
+        isCartonFree: false,
         printCartonColors: null,
         printCartonFile: null,
         hardnessList: [
@@ -53,6 +58,7 @@ export default {
         getTypes: state => state.types,
         getShapes: state => state.shapes,
         getShapePrint: state => state.shapePrint,
+        getShapeFree: state => state.isShapeFree,
         getPerSet: state => state.perSet,
         getPlacement: state => state.placement,
         getShape: state => state.shape,
@@ -61,17 +67,21 @@ export default {
         getFrontPrint: state => state.isFrontPrint,
         getFrontPrintColors: state => state.frontPrintColors,
         getFrontPrintFile: state => state.frontPrintFile,
+        getFrontPrintFree: state => state.isFrontEndFree,
 
         getBackPrint: state => state.isBackPrint,
         getBackPrintColors: state => state.backPrintColors,
         getBackPrintFile: state => state.backPrintFile,
+        getBackPrintFree: state => state.isBackEndFree,
 
         getPrintCardboard: state => state.isPrintCardboard,
         getPrintCardboardFile: state => state.printCardboardFile,
+        getPrintCardboardFree: state => state.isCardboardFree,
 
         getPrintCarton: state => state.isPrintCarton,
         getPrintCartonColors: state => state.printCartonColors,
         getPrintCartonFile: state => state.printCartonFile,
+        getPrintCartonFree: state => state.isCartonFree,
 
         getQuantity: state => state.quantity,
         getType: state => state.type,
@@ -137,8 +147,8 @@ export default {
                 + getters.frontPrice
                 + getters.backPrice
                 + state.placementPrice
-                + (state.isPrintCardboard ? state.cardboardPrice : 0)
-                + (state.isPrintCarton ? state.cartonPrice : 0);
+                + (state.isPrintCardboard ? state.isCardboardFree ? 0 : state.cardboardPrice : 0)
+                + (state.isPrintCarton ? state.isCartonFree ? 0 : state.cartonPrice : 0);
 
             return state.perSetPrice;
         },
@@ -149,11 +159,17 @@ export default {
             if (state.isFrontPrint == false) {
                 return 0;
             }
+            if( state.isFrontEndFree == true){
+                return 0;
+            }
 
             return WheelService.calculateColorPrice(state.frontPrintColors, state.colorMargin, state.colorPrice);
         },
         backPrice: state => {
             if (state.isBackPrint == false) {
+                return 0;
+            }
+            if( state.isBackEndFree == true){
                 return 0;
             }
 
@@ -279,6 +295,9 @@ export default {
         setShapePrint(state, payload) {
             state.shapePrint = payload;
         },
+        setShapeFree(state, payload) {
+            state.isShapeFree = payload;
+        },
         setColorPrice(state, payload) {
             state.colorPrice = payload;
         },
@@ -359,6 +378,11 @@ export default {
                 document.getElementById('step-5-recent').innerHTML = state.frontPrintFile;
             }
         },
+        changeFrontPrintFree(state, payload){
+            state.isFrontEndFree = payload;
+            if(state.frontPrintFile == state.backPrintFile)
+                state.isBackEndFree = state.isFrontEndFree;
+        },
         changeBackPrint(state, payload) {
             state.isBackPrint = payload;
         },
@@ -368,6 +392,9 @@ export default {
         changeBackPrintFile(state, payload) {
             state.backPrintFile = payload;
         },
+        changeBackPrintFree(state, payload) {
+            state.isBackEndFree = payload;
+        },
         changePlacement(state, payload) {
             state.placement = payload;
 
@@ -376,17 +403,23 @@ export default {
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
         },
-        changePrintCartonColors(state, payload) {
-            state.printCartonColors = payload;
-        },
         changePrintCardboardFile(state, payload) {
             state.printCardboardFile = payload;
+        },
+        changePrintCardboardFree(state, payload){
+            state.isCardboardFree = payload;
         },
         changePrintCarton(state, payload) {
             state.isPrintCarton = payload;
         },
         changePrintCartonFile(state, payload) {
             state.printCartonFile = payload;
+        },
+        changePrintCartonColors(state, payload) {
+            state.printCartonColors = payload;
+        },
+        changePrintCartonFree(state, payload) {
+            state.isCartonFree = payload;
         }
     },
     actions: {

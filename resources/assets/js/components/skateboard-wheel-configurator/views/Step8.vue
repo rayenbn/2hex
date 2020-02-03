@@ -91,7 +91,7 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="() => {filePrint = file['name']; isPrintCarton = true;}"
+                                        @click="() => {filePrint = file['name']; isPrintCarton = true; isCartonFree = file['paid']; countColors = file['color_qty'];}"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
@@ -221,6 +221,14 @@
                     return this.$store.getters['SkateboardWheelConfigurator/getPrintCartonFile'];
                 },
                 set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changePrintCartonFile', newVal);
+                }
+            },
+            isCartonFree: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getPrintCartonFile'];
+                },
+                set(newVal){
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCartonFile', newVal);
                 }
             },
