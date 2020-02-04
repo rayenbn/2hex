@@ -12,15 +12,13 @@ class HeatTransferService {
      * @returns {number}
      */
     calculateTransferPrice(colorCount, totalQuantity, quantity, isCMYK = false) {
-        let marginTransfer = 0;
+        let marginTransfer = 0.1;
         let addedPerColor = 0;
 
         if (totalQuantity < 1000) {
             marginTransfer = 0.2;
         } else if (totalQuantity >= 1000 && totalQuantity < 6000) {
             marginTransfer = 0.15;
-        } else {
-            marginTransfer = 0.1;
         }
 
         if (isCMYK) {
@@ -40,11 +38,10 @@ class HeatTransferService {
      *
      * @param colorsQuantity
      * @param totalColorsQuantity
-     * @param transparent
      * @param CMYK
      * @returns {number}
      */
-    calculateScreensPrice(colorsQuantity, totalColorsQuantity, transparent = false, CMYK = false) {
+    calculateScreensPrice(colorsQuantity, totalColorsQuantity, CMYK = false) {
         let totalPrice = 0;
 
         if (CMYK) {

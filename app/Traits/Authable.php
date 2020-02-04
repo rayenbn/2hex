@@ -2,18 +2,24 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
+
 trait Authable
 {
-	/**
-	 * Filter by session user
-	 *
-	 * @param $query
-	 * @param boolean $type
-	 */
-    public function scopeAuth($query, $type = true)
+    /**
+     * Filter by session user
+     *
+     * @param $query
+     * @param boolean $type
+     *
+     * @return mixed
+     */
+    public function scopeAuth(Builder $query, $type = true)
     {
-        if(auth()->check()){
-            $query->where('created_by', '=', (string) auth()->id());
+        $auth = auth()->id();
+
+        if (isset($auth)) {
+            $query->where('created_by', '=', (string) $auth);
         } else {
             $query->where('created_by', '=', csrf_token());
         } 

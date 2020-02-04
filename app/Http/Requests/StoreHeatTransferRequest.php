@@ -27,6 +27,8 @@ class StoreHeatTransferRequest extends FormRequest
             'design_name' => 'required|string|max:255',
             'transparency' => 'required|boolean',
             'colors' => 'nullable|string|max:255',
+            'colors_count' => 'integer',
+            'cmyk' => 'boolean',
             'small_preview' => 'required|string|max:255',
             'large_preview' => 'required|string|max:255',
             'quantity' => 'required|integer',
@@ -35,6 +37,7 @@ class StoreHeatTransferRequest extends FormRequest
             'total' => 'required|numeric',
             'reorder_at' => 'nullable|date',
             'reorder' => 'required|boolean',
+            'size_margin' => 'numeric'
         ];
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Models\HeatTransfer;
 
+use App\Traits\Authable;
 use Illuminate\Database\Eloquent\Model;
 
 class HeatTransfer extends Model
 {
+    use Authable;
+
     /**
      * The table associated with the model.
      *

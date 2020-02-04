@@ -17,7 +17,10 @@ class CreateHeatTransfersTable extends Migration
             $table->increments('id');
             $table->string('design_name');
             $table->boolean('transparency')->default(false);
-            $table->string('colors');
+            $table->string('colors')->nullable();
+            $table->unsignedInteger('colors_count')->default(0);
+            $table->boolean('cmyk')->default(false);
+            $table->decimal('size_margin')->default(100);
             $table->string('small_preview');
             $table->string('large_preview');
             $table->unsignedInteger('quantity')->default(0);

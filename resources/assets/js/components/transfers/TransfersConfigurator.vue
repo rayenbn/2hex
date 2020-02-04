@@ -171,18 +171,19 @@
                                     </div>
                                 </div>
                             </div>
-
                             <br>
-
-                            <button
-                                @click="saveBatch"
-                                class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right"
-                            >
+                            <slot name="default">
+                                <button
+                                    @click="saveBatch"
+                                    class="btn btn-secondary m-btn m-btn--custom m-btn--icon col m--align-right"
+                                >
                                 <span>
                                     <i class="la la-send"></i>
                                     <span>skip next steps</span>
                                 </span>
-                            </button>
+                                </button>
+                            </slot>
+
                         </div>
                     </div>
                 </div>
@@ -214,6 +215,14 @@
                 default: () => {
                     return null;
                 }
+            },
+            totalQuantity: {
+                type: Number,
+                default: 0
+            },
+            totalColors: {
+                type: Number,
+                default: 0
             },
             isAdmin: {
                 type: Number,
@@ -318,6 +327,8 @@
         },
         created() {
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
+            this.$store.commit('TransfersConfigurator/setTransfersQuantity', this.totalQuantity);
+            this.$store.commit('TransfersConfigurator/setTransfersColorsQuantity', this.totalColors);
             this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
         }
     };

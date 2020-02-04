@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreHeatTransferRequest;
+use App\Jobs\RecalculateHeatTransfers;
 use App\Models\Auth\User\User;
 use App\Models\HeatTransfer\HeatTransfer;
 use App\Models\PaidFile;
@@ -50,6 +51,15 @@ class TransferController extends Controller
         /** @var \App\Models\Auth\User\User $user */
         $user = auth()->user();
         $isAdmin = $user ? $user->isAdmin() : false;
+
+        /** @var \Illuminate\Database\Eloquent\Collection $transfers */
+        $transfers = HeatTransfer::auth()->get();
+
+        $totalQuantity = $transfers->sum('quantity');
+        $totalColors = $transfers->sum('colors_count');
+//        $totalColors += $transfers->filter(function (HeatTransfer $heatTransfer) {
+//            return $heatTransfer->transparency && !$heatTransfer->cmyk;
+//        })->sum('transparency');
 
         if (empty($user)) {
             return view('transfers.configurator', compact('filenames', 'isAdmin'));
@@ -101,7 +111,7 @@ class TransferController extends Controller
 
         }
 
-        return view('transfers.configurator', compact('filenames', 'isAdmin'));
+        return view('transfers.configurator', compact('filenames', 'isAdmin', 'totalQuantity', 'totalColors'));
     }
 
     /**
@@ -176,6 +186,8 @@ class TransferController extends Controller
             'created_by' => $createdBy,
             'comment' => $heatTransfer->id,
         ]);
+
+        dispatch(new RecalculateHeatTransfers);
 
         return redirect()->route('profile', ['#saved_orders']);
     }

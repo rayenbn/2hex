@@ -11,7 +11,7 @@ export default {
         designName: '',
         transparency: false,
         pantoneColor: null,
-        colors: [],
+        colors: null,
         countColors: 0,
         isCMYK: false,
         smallPreview: null,
@@ -52,9 +52,8 @@ export default {
         },
         screensPrice: (state, getters) => {
             let cost = heatTransferService.calculateScreensPrice(
-                state.countColors,
+                state.countColors + +state.transparency,
                 getters.totalColors,
-                state.transparency,
                 state.isCMYK
             );
 
@@ -91,6 +90,12 @@ export default {
         },
         setSize(state, payload) {
             state.size = payload;
+        },
+        setTransfersColorsQuantity(state, payload) {
+            state.transfersColorsQuantity = payload;
+        },
+        setTransfersQuantity(state, payload) {
+            state.transfersQuantity = payload;
         },
         setCMYK(state, payload) {
             state.isCMYK = Boolean(payload);
@@ -129,9 +134,13 @@ export default {
                 let formParam = {
                     quantity: state.quantity,
                     size: state.size.fullname,
+                    size_margin: state.size.percent,
                     design_name: state.designName,
                     transparency: state.transparency,
-                    colors: state.colors.join(','),
+                    colors_count: state.isCMYK ? CMYK_COLORS_COUNT : state.countColors + +state.transparency,
+                    cmyk: state.isCMYK,
+                    // colors: state.colors,
+                    colors: null,
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,
                     price: getters.screensPrice,
