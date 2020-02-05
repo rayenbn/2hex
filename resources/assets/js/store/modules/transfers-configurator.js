@@ -1,5 +1,4 @@
 import HeatTransferService from '@/components/transfers/Classes/HeatTransferService.js';
-import {CMYK_COLORS_COUNT} from '@/constants.js';
 
 let heatTransferService = new HeatTransferService();
 
@@ -13,6 +12,7 @@ export default {
         pantoneColor: null,
         colors: null,
         countColors: 0,
+        cmykColors: ['CMYK', null, null, null],
         isCMYK: false,
         smallPreview: null,
         largePreview: null,
@@ -27,6 +27,7 @@ export default {
         getQuantity: state => state.quantity,
         getSize: state => state.size,
         getCMYK: state => state.isCMYK,
+        getCMYKColors: state => state.cmykColors,
         getPantoneColor: state => state.pantoneColor,
         getDesignName: state => state.designName,
         getTransparency: state => state.transparency,
@@ -38,10 +39,9 @@ export default {
         hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
-                state.countColors + +state.transparency,
+                getters.currentCountColors,
                 getters.totalQuantity,
-                state.quantity,
-                state.isCMYK
+                state.quantity
             );
 
             if (state.size && state.size.hasOwnProperty('percent')) {
@@ -52,7 +52,7 @@ export default {
         },
         screensPrice: (state, getters) => {
             let cost = heatTransferService.calculateScreensPrice(
-                state.countColors + +state.transparency,
+                getters.currentCountColors,
                 getters.totalColors,
                 state.isCMYK
             );
@@ -73,12 +73,22 @@ export default {
         totalQuantity: state => {
             return state.quantity + state.transfersQuantity;
         },
-        totalColors: state => {
+        currentCountColors: state => {
             if (state.isCMYK) {
-               return CMYK_COLORS_COUNT + state.transfersColorsQuantity;
+                return state.cmykColors.length + +state.transparency;
             }
 
-            return state.countColors + state.transfersColorsQuantity + +state.transparency;
+            return state.countColors + +state.transparency;
+        },
+        currentColors: state => {
+            if (state.isCMYK) {
+                return state.cmykColors;
+            }
+
+            return state.colors;
+        },
+        totalColors: (state, getters) => {
+            return getters.currentCountColors + state.transfersColorsQuantity;
         },
         pricePerSheet: (state, getters) => {
             return getters.screensPrice + getters.transferPrice;
@@ -111,6 +121,9 @@ export default {
             state.colors = payload.colors;
             state.countColors = parseInt(payload.countFields);
         },
+        setCMYKColors(state, payload) {
+            state.cmykColors = payload;
+        },
         setSmallPreview(state, payload) {
             state.smallPreview = payload;
         },
@@ -137,10 +150,9 @@ export default {
                     size_margin: state.size.percent,
                     design_name: state.designName,
                     transparency: state.transparency,
-                    colors_count: state.isCMYK ? CMYK_COLORS_COUNT : state.countColors + +state.transparency,
+                    colors_count: getters.currentCountColors,
                     cmyk: state.isCMYK,
-                    // colors: state.colors,
-                    colors: null,
+                    colors: getters.currentColors.join(';'),
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,
                     price: getters.screensPrice,

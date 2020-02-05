@@ -28,7 +28,7 @@
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
                                 <span class="text-uppercase">CMYK</span>
                                 <label class="switch">
-                                    <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange">
+                                    <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange" @click="toggleCMYK">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -59,7 +59,7 @@
                                 </option>
                             </select>
 
-                            <template v-if="pantoneColor">
+                            <template v-if="pantoneColor && !CMYK">
                                 <input
                                     v-for="(count, index) in pantoneColor.countFields"
                                     type="text"
@@ -68,6 +68,21 @@
                                     v-model="pantoneColor.colors[index]"
                                     :disabled="! hasChange"
                                     :name="'color' + index"
+                                    v-validate="'required'"
+                                    @input="onChangePantoneColor"
+                                >
+                            </template>
+                            <template v-if="CMYK">
+                                <input
+                                    v-for="(color, index) in cmykColors.length"
+                                    type="text"
+                                    class="form-control mt-2 mb-2"
+                                    placeholder="Enter Pantone Color"
+                                    v-model="cmykColors[index]"
+                                    :disabled="index == 0"
+                                    :name="'cmyk-color' + index"
+                                    v-validate="'required'"
+                                    @input="onChangeCMYKColor"
                                 >
                             </template>
 
@@ -266,54 +281,46 @@
                     {
                         "title": "1 field to enter Pantone Color",
                         "countFields": 1,
-                        "colors": [],
+                        "colors": new Array(1).fill(null),
                     },
                     {
                         "title": "2 field to enter Pantone Color",
                         "countFields": 2,
-                        "colors": [],
+                        "colors": new Array(2).fill(null),
                     },
                     {
                         "title": "3 field to enter Pantone Color",
                         "countFields": 3,
-                        "colors": [],
+                        "colors": new Array(3).fill(null),
                     },
                     {
                         "title": "4 field to enter Pantone Color",
                         "countFields": 4,
-                        "colors": [],
+                        "colors": new Array(4).fill(null),
                     },
                     {
                         "title": "5 field to enter Pantone Color",
                         "countFields": 5,
-                        "colors": [],
+                        "colors": new Array(5).fill(null),
                     },
                     {
                         "title": "6 field to enter Pantone Color",
                         "countFields": 6,
-                        "colors": [],
+                        "colors": new Array(6).fill(null),
                     },
                     {
                         "title": "7 field to enter Pantone Color",
                         "countFields": 7,
-                        "colors": [],
+                        "colors": new Array(7).fill(null),
                     },
                     {
                         "title": "8 field to enter Pantone Color",
                         "countFields": 8,
-                        "colors": [],
+                        "colors": new Array(8).fill(null),
                     }
                 ],
                 smProgress: 0,
                 lgProgress: 0,
-            }
-        },
-        watch: {
-            pantoneColor(val) {
-                if (val && val.colors.length === 0) {
-                    // Init empty list of colors
-                    val.colors = new Array(val.countFields).fill('');
-                }
             }
         },
         methods: {
@@ -424,6 +431,21 @@
                     document.getElementById(type + '-recent').innerHTML = content;
                 });
             },
+            toggleCMYK() {
+                this.$nextTick(() => {
+                    if (!this.CMYK) {
+                        document.getElementById('pantoneColor').setAttribute('disabled', true);
+                    } else {
+                        document.getElementById('pantoneColor').removeAttribute('disabled');
+                    }
+                });
+            },
+            onChangePantoneColor: _.debounce(function (e) {
+                this.$store.commit('TransfersConfigurator/setPantoneColor', this.pantoneColor);
+            }, 1000),
+            onChangeCMYKColor: _.debounce(function (e) {
+                this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
+            }, 1000)
         },
         computed: {
             designName: {
@@ -440,6 +462,14 @@
                 },
                 set: _.debounce(function (newVal) {
                     this.$store.commit('TransfersConfigurator/setCMYK', newVal);
+                }, 1000)
+            },
+            cmykColors: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getCMYKColors'];
+                },
+                set: _.debounce(function (newVal) {
+                    this.$store.commit('TransfersConfigurator/setCMYKColors', newVal);
                 }, 1000)
             },
             transparency: {

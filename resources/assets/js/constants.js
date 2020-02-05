@@ -16,5 +16,3 @@ export const HARDNESS = {
     HS_102A: 4,
     HS_83B: 5,
 };
-
-export const CMYK_COLORS_COUNT = 4;

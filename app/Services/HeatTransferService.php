@@ -8,19 +8,16 @@ namespace App\Services;
  */
 class HeatTransferService
 {
-    const CMYK_COLORS_COUNT = 4;
-
     /**
      * Calculate transfer price
      *
      * @param $colorCount
      * @param $totalQuantity
      * @param $quantity
-     * @param bool $isCMYK
      *
      * @return float
      */
-    public function calculateTransferPrice($colorCount, $totalQuantity, $quantity, $isCMYK = false) : float
+    public function calculateTransferPrice($colorCount, $totalQuantity, $quantity) : float
     {
         $marginTransfer = 0.1;
         $addedPerColor = 0;
@@ -31,10 +28,7 @@ class HeatTransferService
             $marginTransfer = 0.15;
         }
 
-        if ($isCMYK) {
-            $addedPerColor += static::CMYK_COLORS_COUNT * 0.1;
-
-        } else if ($colorCount > 4) {
+        if ($colorCount > 4) {
             $addedPerColor += ($colorCount - 4) * 0.1;
         }
 
@@ -120,12 +114,12 @@ class HeatTransferService
      */
     protected function CMYKPrice(int $colorsQuantity) : int
     {
-        $price = (25 * static::CMYK_COLORS_COUNT) + 15;
+        $price = (25 * 4) + 15;
 
         switch(true) {
-            case $colorsQuantity < 10: $price += (20 * static::CMYK_COLORS_COUNT); break;
-            case $colorsQuantity >= 10 && $colorsQuantity < 29: $price += (15 * static::CMYK_COLORS_COUNT); break;
-            case $colorsQuantity >= 30: $price += (10 * static::CMYK_COLORS_COUNT); break;
+            case $colorsQuantity < 10: $price += (20 * 4); break;
+            case $colorsQuantity >= 10 && $colorsQuantity < 29: $price += (15 * 4); break;
+            case $colorsQuantity >= 30: $price += (10 * 4); break;
         }
 
         return $price;

@@ -34,9 +34,6 @@ class RecalculateHeatTransfers
 
         $totalsQuantity = $transfers->sum('quantity');
         $totalsColors = $transfers->sum('colors_count');
-//        $totalsColors += $transfers->filter(function (HeatTransfer $heatTransfer) {
-//            return $heatTransfer->transparency && !$heatTransfer->cmyk;
-//        })->sum('transparency');
 
         $transfers->transform(function(HeatTransfer $heatTransfer) use ($totalsQuantity, $totalsColors) {
             return $this->updatePrice($heatTransfer, $totalsQuantity, $totalsColors);
@@ -60,8 +57,7 @@ class RecalculateHeatTransfers
         $transferPrice = $this->heatTransferService->calculateTransferPrice(
             $heatTransfer->colors_count,
             $totalsQuantity,
-            $heatTransfer->quantity,
-            $heatTransfer->cmyk
+            $heatTransfer->quantity
         );
 
         $transferPrice = $this->heatTransferService->calculateTransferPriceWithSize(
