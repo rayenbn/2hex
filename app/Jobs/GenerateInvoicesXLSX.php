@@ -428,14 +428,14 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     $green = true;
                 }
                 $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut));
+                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut, $green));
                 $green = false;
                 // Column I
                 $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
                 if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->top_print)->first()['date'])){
                     $green = true;
                 }
-                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $this->setStartTextBold('', $grip->top_print));
+                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $this->setStartTextBold('', $grip->top_print, $green));
                 $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->top_print_color));
                 $green = false;
                 // Column J
@@ -447,7 +447,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     $green = true;
                 }
                 $activeSheet->mergeCells(sprintf('K%s:K%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $this->setStartTextBold('', $grip->backpaper_print));
+                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $this->setStartTextBold('', $grip->backpaper_print, $green));
                 $activeSheet->setCellValue(sprintf('K%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->backpaper_print_color));
                 $green = false;
                 // Column L
@@ -455,7 +455,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     $green = true;
                 }
                 $activeSheet->mergeCells(sprintf('L%s:L%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $this->setStartTextBold('', $grip->carton_print));
+                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $this->setStartTextBold('', $grip->carton_print, $green));
                 $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->carton_print_color));
 
                 // Column M

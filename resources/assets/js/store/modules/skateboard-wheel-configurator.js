@@ -32,6 +32,7 @@ export default {
         isFrontPrint: false,
         frontPrintColors: '1 color',
         isFrontEndFree: false,
+        isFrontDropDisable: false,
         frontPrintFile: null,
         isBackPrint: false,
         isBackEndFree: false,
@@ -68,6 +69,7 @@ export default {
         getFrontPrintColors: state => state.frontPrintColors,
         getFrontPrintFile: state => state.frontPrintFile,
         getFrontPrintFree: state => state.isFrontEndFree,
+        getFrontDropDisable: state => state.isFrontDropDisable,
 
         getBackPrint: state => state.isBackPrint,
         getBackPrintColors: state => state.backPrintColors,
@@ -382,6 +384,9 @@ export default {
             state.isFrontEndFree = payload;
             if(state.frontPrintFile == state.backPrintFile)
                 state.isBackEndFree = state.isFrontEndFree;
+        },
+        changeFrontDropDisable(state, payload){
+            state.isFrontDropDisable = payload;
         },
         changeBackPrint(state, payload) {
             state.isBackPrint = payload;

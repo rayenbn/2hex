@@ -2007,7 +2007,7 @@ class DashboardController extends Controller
                     'id'       => $order['id'],
                     'date'     => $order['created_at'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $order['created_by']
                 ];
@@ -2053,7 +2053,7 @@ class DashboardController extends Controller
                     'key'      => $key,
                     'id'       => $grip['id'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $grip['created_by']
                 ];
@@ -2102,7 +2102,7 @@ class DashboardController extends Controller
                     'key'      => $key,
                     'id'       => $wheel['wheel_id'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $order['created_by']
                 ];
@@ -2131,6 +2131,7 @@ class DashboardController extends Controller
         
         $_data = array();
         $count = 0;
+        $totalsize = 0;
         foreach ($fees as $fee) {
 
             for($i = 0; $i < count($_data); $i ++){
@@ -2146,6 +2147,9 @@ class DashboardController extends Controller
                     $_data[$count]['paid_date'] = $imageinfo['date'];
                     $_data[$count]['color_qty'] = $imageinfo['color_qty'];
                     $_data[$count]['color_code'] = $imageinfo['color_code'];
+                    $totalsize += $_data[$count]['size'];
+                    $_data[$count]['size'] = $this->formatSizeUnits($_data[$count]['size']);
+                    
                 }
                 $count ++;
             }
@@ -2632,8 +2636,8 @@ class DashboardController extends Controller
                 foreach($wheels as $wheel){
                     foreach($wheel as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($wheel[$key.'_color']))
-                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key.'_color'=> $value==4?'CMYK':$value.' color']);
+                            if(isset($wheel[str_replace('_print','',$key).'_colors']))
+                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([str_replace('_print','',$key).'_colors'=> $value==4?'CMYK':$value.' color']);
                         }
                     }
                 }

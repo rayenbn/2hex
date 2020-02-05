@@ -178,7 +178,7 @@ class WheelController extends Controller
                         
                         $wheels = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->wheel;
                         $filenames[$value][$count]['paid_date'] = $fileaction['date'];
-                        $filenames[$value][$count]['is_disable'] = in_array($id, $wheels);
+                        $filenames[$value][$count]['is_disable'] = in_array($wheelId, $wheels);
                       }
                       $count ++;
                 } 

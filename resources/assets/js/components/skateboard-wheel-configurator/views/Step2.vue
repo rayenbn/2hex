@@ -130,7 +130,7 @@
                                         aria-haspopup="true" 
                                         aria-expanded="false" 
                                         style="width:100%;" 
-                                        :class="[filePrint ? 'checked' : 'unchecked']" 
+                                        :class="[filePrint ? 'checked' : 'unchecked', isFrontEndFree ? 'paid' : '']" 
                                     >
                                          Recent file
                                     </button>
