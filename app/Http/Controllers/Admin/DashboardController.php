@@ -2140,15 +2140,14 @@ class DashboardController extends Controller
             }
             if($i == count($_data)){
                 $_data[$count] = $fee;
-                
+                $totalsize += $_data[$count]['size'];
+                $_data[$count]['size'] = $this->formatSizeUnits($_data[$count]['size']);
                 $imageinfo = PaidFile::where('file_name', $fee['image'])->where('created_by',$fee['created_by'])->first();
-                
                 if(isset($imageinfo)){
                     $_data[$count]['paid_date'] = $imageinfo['date'];
                     $_data[$count]['color_qty'] = $imageinfo['color_qty'];
                     $_data[$count]['color_code'] = $imageinfo['color_code'];
-                    $totalsize += $_data[$count]['size'];
-                    $_data[$count]['size'] = $this->formatSizeUnits($_data[$count]['size']);
+                    
                     
                 }
                 $count ++;

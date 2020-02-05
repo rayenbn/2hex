@@ -91,7 +91,7 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="selectCustomFile(file['name']); isBackEndFree = file['paid']; countColors = file['color_qty'];"
+                                        @click="selectCustomFile(file['name']); isBackEndFree = file['paid']; countColors = file['color_qty']; isDisableDrop = file['is_disable'];"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
@@ -102,7 +102,7 @@
                                 :color="countColors"
                                 labelledby="step-5-colors"
                                 @colorChange="(val) => countColors = val"
-                                v-if="isSameFile == false"
+                                v-if="isSameFile == false && !isDisableDrop"
                             >
                                 <template slot="btn">
                                     <button 
@@ -120,6 +120,20 @@
                                     </button>
                                 </template>
                             </color-btn>
+                            <button 
+                                id="step-5-colors"
+                                class="btn btn-secondary dropdown-toggle" 
+                                type="button" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false" 
+                                style="width:100%;" 
+                                @click="isBackPrint = true"
+                                :class="[isBackPrint && countColors ? 'checked' : 'unchecked']" 
+                                v-if="isSameFile == false && isDisableDrop"
+                            >
+                                {{ countColors ? countColors : 'How many colors are in your design?' }}
+                            </button>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Print on back of wheels</h3>
@@ -207,6 +221,14 @@
                     if (this.isBackPrint == newVal) return;
                     
                     this.$store.commit('SkateboardWheelConfigurator/changeBackPrint', newVal);
+                }
+            },
+            isDisableDrop: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getBackDropDisable'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeBackDropDisable', newVal);
                 }
             },
             countColors: {

@@ -91,7 +91,7 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="() => {filePrint = file['name']; isPrintCarton = true; isCartonFree = file['paid']; countColors = file['color_qty'];}"
+                                        @click="() => {filePrint = file['name']; isPrintCarton = true; isCartonFree = file['paid']; countColors = file['color_qty']; isDisableDrop = file['is_disable'];}"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
@@ -102,6 +102,7 @@
                                 :color="countColors"
                                 labelledby="step-8-colors"
                                 @colorChange="(val) => countColors = val"
+                                v-if="!isDisableDrop"
                             >
                                 <template slot="btn">
                                     <button 
@@ -119,7 +120,20 @@
                                     </button>
                                 </template>
                             </color-btn>
-
+                            <button 
+                                id="step-8-colors"
+                                class="btn btn-secondary dropdown-toggle" 
+                                type="button" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false" 
+                                style="width:100%;" 
+                                @click="isPrintCarton = true"
+                                :class="[isPrintCarton && countColors ? 'checked' : 'unchecked']" 
+                                v-else
+                            >
+                                {{ countColors ? countColors : 'How many colors are in your design?' }}
+                            </button>
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Print on Carton</h3>
                                 Show that you have a professional company when delivering your wheels to skate shops! Professional skateboard companies use custom cartons to fulfill orders. The screens for the production of custom cartons are kept for one year.
@@ -214,6 +228,14 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCartonColors', newVal);
+                }
+            },
+            isDisableDrop: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getCartonDropDisable'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changeCartonDropDisable', newVal);
                 }
             },
             filePrint: {

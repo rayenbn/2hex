@@ -51,8 +51,11 @@ class ConfiguratorController extends Controller
                           
                           
                         $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
-                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+
+                        $orders = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->order;
+                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
@@ -157,7 +160,7 @@ class ConfiguratorController extends Controller
                         
                         $orders = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->order;
                         $filenames[$value][$count]['paid_date'] = $fileaction['date'];
-                        $filenames[$value][$count]['is_disable'] = in_array($id, $orders);
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
