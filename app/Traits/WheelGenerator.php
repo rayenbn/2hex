@@ -59,13 +59,16 @@ trait WheelGenerator
         $activeSheet->setCellValue('N' . $wheelRowStart, 'Total of Row');
 
         $wheelRowStart += 1; // after head row
-
+        
 
         $this->wheels->map(function(Wheel $wheel, $index) use ($wheelRowStart, $activeSheet) {
 
             $activeSheet->insertNewRowBefore($wheelRowStart, self::ROWS_ITEM);
             
             foreach ($activeSheet->getRowIterator($wheelRowStart, self::ROWS_ITEM) as $row) {
+
+                $green = false;
+
                 // Column C
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $wheelRowStart, $endRange = $wheelRowStart + 3));
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));

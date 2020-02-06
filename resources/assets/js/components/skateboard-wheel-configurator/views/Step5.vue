@@ -81,7 +81,7 @@
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
                                     style="width:100%;" 
-                                    :class="[isBackPrint ? 'checked' : 'unchecked', isFrontEndFree ? 'paid' : '']" 
+                                    :class="[isBackPrint ? 'checked' : 'unchecked', isBackEndFree ? 'paid' : '']" 
                                     @click="isBackPrint = true"
                                 >
                                      Recent file

@@ -81,7 +81,7 @@
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
                                     style="width:100%;" 
-                                    :class="[isPrintCardboard ? 'checked' : 'unchecked', isFrontEndFree ? 'paid' : '']" 
+                                    :class="[isPrintCardboard ? 'checked' : 'unchecked', isPrintCardboardFree ? 'paid' : '']" 
                                     @click="isPrintCardboard = true"
                                 >
                                      Recent file

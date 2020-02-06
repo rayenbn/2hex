@@ -713,7 +713,7 @@
                                                                             v-for="file in (filenames.bottom.concat(filenames.top))"
                                                                             class="dropdown-item file-dropdown"
                                                                             href="#"
-                                                                            @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid']"
+                                                                            @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid'], steps[4].name = file['name']"
                                                                             
                                                                     >
                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
@@ -909,7 +909,7 @@
                                                                     <a
                                                                             v-for="file in (filenames.bottom.concat(filenames.top))"
                                                                             class="dropdown-item file-dropdown"
-                                                                            @click="perdeck += steps[5].state?steps[5].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[5].state = 1, steps[5].color=file['color_qty'], steps[5].dropdisable = file['is_disable'], steps[5].selectpaid = file['paid']"
+                                                                            @click="perdeck += steps[5].state?steps[5].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[5].state = 1, steps[5].color=file['color_qty'], steps[5].dropdisable = file['is_disable'], steps[5].selectpaid = file['paid'], steps[5].name = file['name']"
                                                                             href="#"
                                                                             v-bind:class="{'paid': file['paid'] == 0}" 
                                                                     >
@@ -1094,7 +1094,7 @@
                                                                     <a
                                                                             v-for="file in filenames.engravery"
                                                                             class="dropdown-item file-dropdown"
-                                                                            @click="perdeck += steps[6].state?steps[6].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[6].state = 1, steps[6].selectpaid = file['paid']"
+                                                                            @click="perdeck += steps[6].state?steps[6].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[6].state = 1, steps[6].selectpaid = file['paid'], steps[6].name = file['name']"
                                                                             href="#"
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
@@ -1607,7 +1607,7 @@
                                                                             v-for="file in filenames.cardboard"
                                                                             class="dropdown-item file-dropdown"
                                                                             href="#"
-                                                                            @click="steps[9].state = 1"
+                                                                            @click="steps[9].state = 1, steps[9].name = file['name']"
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
@@ -1720,7 +1720,7 @@
                                                                             data-step="10"
                                                                             class="custom-file-input"
                                                                             id="cartonFile"
-                                                                            @click=" perdeck += steps[10].state?steps[10].selectpaid?0.15:0:0.15, steps[10].state = 1"
+                                                                            @click=" perdeck += steps[10].state?steps[10].selectpaid?0.15:0:0.15, steps[10].state = 1, steps[10].name = file['name']"
                                                                             @change.prevent="uploadFile"
                                                                     >
                                                                     <label
@@ -2346,13 +2346,13 @@
                 formData.append('concave',this.steps[1].state ? 'Deep Concave' : 'Medium Concave');
                 formData.append('wood',this.steps[2].state ? 'European Maple Wood' : 'American Maple Wood');
                 formData.append('glue',this.steps[3].state ? 'American Glue' : 'Epoxy Glue');
-                formData.append('bottomprint', this.steps[4].state && bottom.hasAttribute('fileName') ? bottom.getAttribute('fileName') : '');
-                formData.append('topprint',this.steps[5].state && top.hasAttribute('fileName') ? top.getAttribute('fileName') : '');
-                formData.append('engravery',this.steps[6].state && engravery.hasAttribute('fileName') ? engravery.getAttribute('fileName') : '');
+                formData.append('bottomprint', this.steps[4].state && this.steps[4].name ? this.steps[4].name : '');
+                formData.append('topprint',this.steps[5].state && this.steps[5].name ? this.steps[5].name : '');
+                formData.append('engravery',this.steps[6].state && this.steps[6].name ? this.steps[6].name : '');
                 formData.append('veneer',JSON.stringify(this.currentColors));
                 formData.append('extra',JSON.stringify(this.steps[8]));
-                formData.append('cardboard',this.steps[9].state && cardboard.hasAttribute('fileName') ? cardboard.getAttribute('fileName') : '');
-                formData.append('carton',this.steps[10].state && carton.hasAttribute('fileName') ? carton.getAttribute('fileName') : '');
+                formData.append('cardboard',this.steps[9].state && this.steps[9].name ? this.steps[9].name : '');
+                formData.append('carton',this.steps[10].state && this.steps[10].name ? this.steps[10].name : '');
                 formData.append('perdeck',this.perdeck);
                 formData.append('total',(this.quantity * this.perdeck + this.fixedprice).toFixed(2));
                 formData.append('fixedprice',this.fixedprice);
