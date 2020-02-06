@@ -719,8 +719,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -1003,8 +1003,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -1204,8 +1204,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
@@ -1481,8 +1481,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -2106,8 +2106,8 @@ class DashboardController extends Controller
                     'color'    => 1,
                     'created_by' => $order['created_by']
                 ];
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$count]['color'] = 1;
                             break;
@@ -2453,8 +2453,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;

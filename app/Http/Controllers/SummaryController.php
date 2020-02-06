@@ -305,8 +305,8 @@ class SummaryController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
