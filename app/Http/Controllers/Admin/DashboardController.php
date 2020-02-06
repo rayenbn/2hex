@@ -519,9 +519,15 @@ class DashboardController extends Controller
                     'date' => $wheel['created_at'],
                 ];
 
+                //$folder_name = str_replace('_print','',$key);
+                //$folder_name = str_replace('top','front',$folder_name);
+                //$path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+
                 $folder_name = str_replace('_print','',$key);
                 $folder_name = str_replace('top','front',$folder_name);
-                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $path = public_path('uploads/' . $user->name .  '/wheel-' . $folder_name . '/' . $value);
+                //$down_path = '/'.'uploads/' . $user->name . '/wheel-' . $folder_name . '/' . $value;
+                $size = 0;
                 //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
@@ -546,7 +552,8 @@ class DashboardController extends Controller
 
         $count = count($fees);
 
-
+        
+        
         $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
 
         //$totalsize = $this->formatSizeUnits($totalsize);
