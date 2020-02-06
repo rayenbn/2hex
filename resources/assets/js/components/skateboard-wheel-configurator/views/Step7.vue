@@ -81,7 +81,7 @@
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
                                     style="width:100%;" 
-                                    :class="[isPrintCardboard ? 'checked' : 'unchecked']" 
+                                    :class="[isPrintCardboard ? 'checked' : 'unchecked', isPrintCardboardFree ? 'paid' : '']" 
                                     @click="isPrintCardboard = true"
                                 >
                                      Recent file
@@ -91,7 +91,7 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
                                         href="javascript:void(0);"
-                                        @click="selectCustomFile(file['name'])"
+                                        @click="selectCustomFile(file['name']); isPrintCardboardFree = file['paid']"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
@@ -188,6 +188,14 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/changePrintCardboardFile', newVal);
+                }
+            },
+            isPrintCardboardFree: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getPrintCardboardFree'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/changePrintCardboardFree', newVal);
                 }
             },
             files() {

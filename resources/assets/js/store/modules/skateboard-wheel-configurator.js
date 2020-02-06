@@ -19,6 +19,7 @@ export default {
         types: [],
         shapes: [],
         shapePrint: null,
+        isShapeFree: false,
         quantity: 2000,
         perSet: 0,
         perSetPrice: 0,
@@ -30,16 +31,23 @@ export default {
         shr: false,
         isFrontPrint: false,
         frontPrintColors: '1 color',
+        isFrontEndFree: false,
+        isFrontDropDisable: false,
         frontPrintFile: null,
         isBackPrint: false,
+        isBackEndFree: false,
         backPrintColors: '1 color',
         backPrintFile: null,
+        isBackDropDisable: false,
         placement: PLACEMENTS.SQUARE,
         isPrintCardboard: false,
         printCardboardFile: null,
+        isCardboardFree: false,
         isPrintCarton: false,
+        isCartonFree: false,
         printCartonColors: null,
         printCartonFile: null,
+        isCartonDropDisable: false,
         hardnessList: [
             '78A', '79A', '80A', '81A', '82A', '83A', '84A', '85A', '86A','87A', 
             '88A', '89A', '90A', '91A', '92A', '93A', '94A', '95A', '96A', '97A', 
@@ -53,6 +61,7 @@ export default {
         getTypes: state => state.types,
         getShapes: state => state.shapes,
         getShapePrint: state => state.shapePrint,
+        getShapeFree: state => state.isShapeFree,
         getPerSet: state => state.perSet,
         getPlacement: state => state.placement,
         getShape: state => state.shape,
@@ -61,17 +70,24 @@ export default {
         getFrontPrint: state => state.isFrontPrint,
         getFrontPrintColors: state => state.frontPrintColors,
         getFrontPrintFile: state => state.frontPrintFile,
+        getFrontPrintFree: state => state.isFrontEndFree,
+        getFrontDropDisable: state => state.isFrontDropDisable,
 
         getBackPrint: state => state.isBackPrint,
         getBackPrintColors: state => state.backPrintColors,
         getBackPrintFile: state => state.backPrintFile,
+        getBackPrintFree: state => state.isBackEndFree,
+        getBackDropDisable: state => state.isBackDropDisable,
 
         getPrintCardboard: state => state.isPrintCardboard,
         getPrintCardboardFile: state => state.printCardboardFile,
+        getPrintCardboardFree: state => state.isCardboardFree,
 
         getPrintCarton: state => state.isPrintCarton,
         getPrintCartonColors: state => state.printCartonColors,
         getPrintCartonFile: state => state.printCartonFile,
+        getPrintCartonFree: state => state.isCartonFree,
+        getCartonDropDisable: state => state.isCartonDropDisable,
 
         getQuantity: state => state.quantity,
         getType: state => state.type,
@@ -137,8 +153,8 @@ export default {
                 + getters.frontPrice
                 + getters.backPrice
                 + state.placementPrice
-                + (state.isPrintCardboard ? state.cardboardPrice : 0)
-                + (state.isPrintCarton ? state.cartonPrice : 0);
+                + (state.isPrintCardboard ? state.isCardboardFree ? 0 : state.cardboardPrice : 0)
+                + (state.isPrintCarton ? state.isCartonFree ? 0 : state.cartonPrice : 0);
 
             return state.perSetPrice;
         },
@@ -149,11 +165,17 @@ export default {
             if (state.isFrontPrint == false) {
                 return 0;
             }
+            if( state.isFrontEndFree == true){
+                return 0;
+            }
 
             return WheelService.calculateColorPrice(state.frontPrintColors, state.colorMargin, state.colorPrice);
         },
         backPrice: state => {
             if (state.isBackPrint == false) {
+                return 0;
+            }
+            if( state.isBackEndFree == true){
                 return 0;
             }
 
@@ -168,77 +190,96 @@ export default {
             state.hardnessList = payload
         },
         setWheel(state, payload) {
-            state.wheelId = payload.wheel_id;
-            state.quantity = payload.quantity;
-            state.totalQuantity -= payload.quantity;
-            let typeIndex = state.types.findIndex(type => type.name == payload.type);
+            state.wheelId = payload.wheel.wheel_id;
+            state.quantity = payload.wheel.quantity;
+            state.totalQuantity -= payload.wheel.quantity;
+            let typeIndex = state.types.findIndex(type => type.name == payload.wheel.type);
 
             state.type = state.types[typeIndex];
 
-            state.type.colors = payload.type_colors ? payload.type_colors.split(',') : [];
+            state.type.colors = payload.wheel.type_colors ? payload.wheel.type_colors.split(',') : [];
 
-            let shapeIndex = state.shapes.findIndex(shape => shape.name == payload.shape);
+            let shapeIndex = state.shapes.findIndex(shape => shape.name == payload.wheel.shape);
             state.shape = state.shapes[shapeIndex];
 
             if (state.shape && state.shape.is_custom) {
                 Vue.nextTick(() => {
                     let input = document.getElementById('step-2-upload');
-                    input.nextElementSibling.innerHTML = payload.shape_print;
+                    input.nextElementSibling.innerHTML = payload.wheel.shape_print;
                     input.nextElementSibling.classList.remove("unchecked");
                     input.nextElementSibling.classList.add("checked");
-                    document.getElementById('step-2-recent').innerHTML = payload.shape_print;
+                    document.getElementById('step-2-recent').innerHTML = payload.wheel.shape_print;
                 });
             }
 
-            let shapeSizeIndex = state.shape.sizes.findIndex(size => size.size == payload.size);
+            let shapeSizeIndex = state.shape.sizes.findIndex(size => size.size == payload.wheel.size);
 
             Vue.nextTick(() => {
                 state.size = state.shape.sizes[shapeSizeIndex];
                 $("#shape_size").val(shapeSizeIndex).trigger('change');
             });
 
-            state.hardness = payload.hardness;
-            state.shr = payload.is_shr;
+            state.hardness = payload.wheel.hardness;
+            state.shr = payload.wheel.is_shr;
 
-            if (payload.top_print) {
+            if (payload.wheel.top_print) {
                 state.isFrontPrint = 1;
-                state.frontPrintFile = payload.top_print;
-                state.frontPrintColors = payload.top_colors;
+                state.frontPrintFile = payload.wheel.top_print;
+                state.frontPrintColors = payload.wheel.top_colors;
+
+
+                for(let i = 0; i < payload.filenames['wheel-front'].length; i ++){
+                    if(payload.filenames['wheel-front'][i]['name'] == payload.wheel.top_print){
+                        state.isFrontDropDisable = payload.filenames['wheel-front'][i]['is_disable']?true:false;
+                    }
+                }
 
                 Vue.nextTick(() => {
-                    document.getElementById('step-4-recent').innerHTML = payload.top_print;
+                    document.getElementById('step-4-recent').innerHTML = payload.wheel.top_print;
                 });
             }
 
-            if (payload.back_print) {
+            if (payload.wheel.back_print) {
                 state.isBackPrint = 1;
-                state.backPrintFile = payload.back_print;
-                state.backPrintColors = payload.back_colors;
+                state.backPrintFile = payload.wheel.back_print;
+                state.backPrintColors = payload.wheel.back_colors;
+
+                for(let i = 0; i < payload.filenames['wheel-back'].length; i ++){
+                    if(payload.filenames['wheel-back'][i]['name'] == payload.wheel.back_print){
+                        state.isBackDropDisable = payload.filenames['wheel-back'][i]['is_disable']?true:false;
+                    }
+                }
 
                 Vue.nextTick(() => {
-                    document.getElementById('step-5-recent').innerHTML = payload.back_print;
+                    document.getElementById('step-5-recent').innerHTML = payload.wheel.back_print;
                 });
             }
 
-            state.placement = payload.placement;
-            state.placementPrice = WheelService.calculatePlacementPrice(payload.placement);
+            state.placement = payload.wheel.placement;
+            state.placementPrice = WheelService.calculatePlacementPrice(payload.wheel.placement);
 
-            if (payload.cardboard_print) {
+            if (payload.wheel.cardboard_print) {
                 state.isPrintCardboard = 1;
-                state.printCardboardFile = payload.cardboard_print;
+                state.printCardboardFile = payload.wheel.cardboard_print;
 
                 Vue.nextTick(() => {
-                    document.getElementById('step-7-recent').innerHTML = payload.cardboard_print;
+                    document.getElementById('step-7-recent').innerHTML = payload.wheel.cardboard_print;
                 });
             }
 
-            if (payload.carton_print) {
+            if (payload.wheel.carton_print) {
                 state.isPrintCarton = 1;
-                state.printCartonFile = payload.carton_print;
-                state.printCartonColors = payload.carton_colors;
+                state.printCartonFile = payload.wheel.carton_print;
+                state.printCartonColors = payload.wheel.carton_colors;
+
+                for(let i = 0; i < payload.filenames['wheel-carton'].length; i ++){
+                    if(payload.filenames['wheel-carton'][i]['name'] == payload.wheel.carton_print){
+                        state.isCartonDropDisable = payload.filenames['wheel-carton'][i]['is_disable']?true:false;
+                    }
+                }
 
                 Vue.nextTick(() => {
-                    document.getElementById('step-8-recent').innerHTML = payload.carton_print;
+                    document.getElementById('step-8-recent').innerHTML = payload.wheel.carton_print;
                 });
             }
 
@@ -278,6 +319,9 @@ export default {
         },
         setShapePrint(state, payload) {
             state.shapePrint = payload;
+        },
+        setShapeFree(state, payload) {
+            state.isShapeFree = payload;
         },
         setColorPrice(state, payload) {
             state.colorPrice = payload;
@@ -359,6 +403,14 @@ export default {
                 document.getElementById('step-5-recent').innerHTML = state.frontPrintFile;
             }
         },
+        changeFrontPrintFree(state, payload){
+            state.isFrontEndFree = payload;
+            if(state.frontPrintFile == state.backPrintFile)
+                state.isBackEndFree = state.isFrontEndFree;
+        },
+        changeFrontDropDisable(state, payload){
+            state.isFrontDropDisable = payload;
+        },
         changeBackPrint(state, payload) {
             state.isBackPrint = payload;
         },
@@ -368,6 +420,12 @@ export default {
         changeBackPrintFile(state, payload) {
             state.backPrintFile = payload;
         },
+        changeBackPrintFree(state, payload) {
+            state.isBackEndFree = payload;
+        },
+        changeBackDropDisable(state, payload){
+            state.isBackDropDisable = payload;
+        },
         changePlacement(state, payload) {
             state.placement = payload;
 
@@ -376,18 +434,27 @@ export default {
         changePrintCardboard(state, payload) {
             state.isPrintCardboard = payload;
         },
-        changePrintCartonColors(state, payload) {
-            state.printCartonColors = payload;
-        },
         changePrintCardboardFile(state, payload) {
             state.printCardboardFile = payload;
+        },
+        changePrintCardboardFree(state, payload){
+            state.isCardboardFree = payload;
         },
         changePrintCarton(state, payload) {
             state.isPrintCarton = payload;
         },
         changePrintCartonFile(state, payload) {
             state.printCartonFile = payload;
-        }
+        },
+        changePrintCartonColors(state, payload) {
+            state.printCartonColors = payload;
+        },
+        changePrintCartonFree(state, payload) {
+            state.isCartonFree = payload;
+        },
+        changeCartontDropDisable(state, payload){
+            state.isCartonDropDisable = payload;
+        },
     },
     actions: {
         getHanbook({commit, state }) {

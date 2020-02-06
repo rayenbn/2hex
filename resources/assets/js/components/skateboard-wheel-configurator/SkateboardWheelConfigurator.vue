@@ -377,7 +377,7 @@
                         recentFiles: this.filenames
                     });
                     if (this.wheel != null) {
-                        this.$store.commit('SkateboardWheelConfigurator/setWheel', this.wheel);
+                        this.$store.commit('SkateboardWheelConfigurator/setWheel', {wheel: this.wheel, filenames: this.filenames});
                     }
 
                 });

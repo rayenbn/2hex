@@ -68,7 +68,7 @@ class SummaryController extends Controller
 
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
-
+        
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
@@ -305,8 +305,8 @@ class SummaryController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
@@ -339,8 +339,8 @@ class SummaryController extends Controller
                 }
 
                 if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$key][$value]['price'] = 0;
-                    $fees[$key][$value]['paid'] = 1;
+                    $fees[$wheelKey][$value]['price'] = 0;
+                    $fees[$wheelKey][$value]['paid'] = 1;
                 }
             }
         }

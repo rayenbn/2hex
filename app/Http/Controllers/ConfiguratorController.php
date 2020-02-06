@@ -51,8 +51,11 @@ class ConfiguratorController extends Controller
                           
                           
                         $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
-                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+
+                        $orders = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->order;
+                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
@@ -76,7 +79,7 @@ class ConfiguratorController extends Controller
             Order::where('id','=', $data['id'])->update($data);
         }
 
-        Session::insert(['action' => Session\Enum\Type::SAVE_ORDER, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $data['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -105,7 +108,7 @@ class ConfiguratorController extends Controller
 
                 $file->move($path, $name);
 
-                Session::insert(['action' => Session\Enum\Type::UPLOAD, 'created_by' => Auth::user()->id, 'comment' => $name, 'created_at' => date("Y-m-d H:i:s")]);
+                Session::insert(['action' => 'Upload', 'created_by' => Auth::user()->id, 'comment' => $name, 'created_at' => date("Y-m-d H:i:s")]);
 
                 return $name;
 
@@ -157,7 +160,7 @@ class ConfiguratorController extends Controller
                         
                         $orders = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->order;
                         $filenames[$value][$count]['paid_date'] = $fileaction['date'];
-                        $filenames[$value][$count]['is_disable'] = in_array($id, $orders);
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
@@ -178,7 +181,7 @@ class ConfiguratorController extends Controller
         $orders['saved_batch'] = 1;
         $array = json_decode(json_encode($orders), true);
         Order::insert($array);
-        Session::insert(['action' => Session\Enum\Type::SAVE_ORDER_BATCH, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Order to Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->route('profile', ['#saved_orders']);
     }
     
@@ -186,7 +189,7 @@ class ConfiguratorController extends Controller
     {
         Order::where('id','=',$id)->delete();
 
-        Session::insert(['action' => Session\Enum\Type::DELETE_ORDER, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Delete Order', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(

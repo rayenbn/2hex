@@ -15,7 +15,6 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        /** @var \App\Models\Auth\User\User $auth */
         $auth = auth()->user();
         
         if (isset($auth) && $auth->isAdmin()) {

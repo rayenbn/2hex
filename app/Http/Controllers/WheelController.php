@@ -64,7 +64,9 @@ class WheelController extends Controller
                           
                         $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+                        $wheels = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->wheel;
                         $filenames[$value][$count]['paid_date'] = $fileaction['date'];
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
@@ -85,7 +87,7 @@ class WheelController extends Controller
         $payload['saved_batch'] = 0;
         $wheel =  Wheel::query()->create($payload);
         
-        Session::insert(['action' => Session\Enum\Type::SAVE_WHEEL, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->wheel_id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->wheel_id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 
@@ -113,7 +115,7 @@ class WheelController extends Controller
 
         $wheel->update($payload);
 
-        Session::insert(['action' => Session\Enum\Type::UPDATE_WHEEL, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel['wheel_id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Update Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel['wheel_id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(
@@ -155,7 +157,7 @@ class WheelController extends Controller
 
         $path = '';
         
-        foreach (['bottom', 'top', 'engravery', 'cardboard', 'box'] as $value) {
+        foreach (array_keys($filenames) as $value) {
             $count = 0;
             $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
             if(\File::exists($path)) {
@@ -175,10 +177,9 @@ class WheelController extends Controller
                           
                         $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
                         $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
-                        
                         $wheels = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->wheel;
                         $filenames[$value][$count]['paid_date'] = $fileaction['date'];
-                        $filenames[$value][$count]['is_disable'] = in_array($id, $wheels);
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
                       }
                       $count ++;
                 } 
@@ -198,13 +199,13 @@ class WheelController extends Controller
         $wheels['saved_batch'] = 1;
         $array = json_decode(json_encode($wheels), true);
         Wheel::insert($array);
-        Session::insert(['action' => Session\Enum\Type::SAVE_WHEEL_BATCH, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Save Wheel To Batch', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         return redirect()->route('profile', ['#saved_orders']);
     }
     public function destroy(int $id)
     {
         Wheel::find($id)->delete();
-        Session::insert(['action' => Session\Enum\Type::DELETE_WHEEL, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => 'Delete Wheel', 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->get(), 

@@ -519,9 +519,15 @@ class DashboardController extends Controller
                     'date' => $wheel['created_at'],
                 ];
 
+                //$folder_name = str_replace('_print','',$key);
+                //$folder_name = str_replace('top','front',$folder_name);
+                //$path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+
                 $folder_name = str_replace('_print','',$key);
                 $folder_name = str_replace('top','front',$folder_name);
-                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $path = public_path('uploads/' . $user->name .  '/wheel-' . $folder_name . '/' . $value);
+                //$down_path = '/'.'uploads/' . $user->name . '/wheel-' . $folder_name . '/' . $value;
+                $size = 0;
                 //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
@@ -546,7 +552,8 @@ class DashboardController extends Controller
 
         $count = count($fees);
 
-
+        
+        
         $totalsize = $this->formatSizeUnits(array_sum(array_column($fees, 'size')));
 
         //$totalsize = $this->formatSizeUnits($totalsize);
@@ -719,8 +726,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -1003,8 +1010,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -1204,8 +1211,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
@@ -1481,8 +1488,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -2007,7 +2014,7 @@ class DashboardController extends Controller
                     'id'       => $order['id'],
                     'date'     => $order['created_at'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $order['created_by']
                 ];
@@ -2053,7 +2060,7 @@ class DashboardController extends Controller
                     'key'      => $key,
                     'id'       => $grip['id'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $grip['created_by']
                 ];
@@ -2102,12 +2109,12 @@ class DashboardController extends Controller
                     'key'      => $key,
                     'id'       => $wheel['wheel_id'],
                     'path'     => $down_path,
-                    'size'     => $this->formatSizeUnits($size),
+                    'size'     => $size,
                     'color'    => 1,
                     'created_by' => $order['created_by']
                 ];
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$count]['color'] = 1;
                             break;
@@ -2131,6 +2138,7 @@ class DashboardController extends Controller
         
         $_data = array();
         $count = 0;
+        $totalsize = 0;
         foreach ($fees as $fee) {
 
             for($i = 0; $i < count($_data); $i ++){
@@ -2139,13 +2147,15 @@ class DashboardController extends Controller
             }
             if($i == count($_data)){
                 $_data[$count] = $fee;
-                
+                $totalsize += $_data[$count]['size'];
+                $_data[$count]['size'] = $this->formatSizeUnits($_data[$count]['size']);
                 $imageinfo = PaidFile::where('file_name', $fee['image'])->where('created_by',$fee['created_by'])->first();
-                
                 if(isset($imageinfo)){
                     $_data[$count]['paid_date'] = $imageinfo['date'];
                     $_data[$count]['color_qty'] = $imageinfo['color_qty'];
                     $_data[$count]['color_code'] = $imageinfo['color_code'];
+                    
+                    
                 }
                 $count ++;
             }
@@ -2450,8 +2460,8 @@ class DashboardController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_color', $wheel)) {
-                    switch ($wheel[$key . '_color']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$key][$value]['color'] = 1;
                             break;
@@ -2632,8 +2642,8 @@ class DashboardController extends Controller
                 foreach($wheels as $wheel){
                     foreach($wheel as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($wheel[$key.'_color']))
-                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key.'_color'=> $value==4?'CMYK':$value.' color']);
+                            if(isset($wheel[str_replace('_print','',$key).'_colors']))
+                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([str_replace('_print','',$key).'_colors'=> $value==4?'CMYK':$value.' color']);
                         }
                     }
                 }
@@ -2675,8 +2685,7 @@ class DashboardController extends Controller
                     foreach($order as $key => $value1){
                         
                         if($value1 == $condition['name']){
-                            if(isset($order[$key.'_color']))
-                                Order::where('id', $order['id'])->update([$key=> '']);
+                            Order::where('id', $order['id'])->update([$key=> '']);
                         }
                     }
                 }
@@ -2688,8 +2697,7 @@ class DashboardController extends Controller
                 foreach($grips as $grip){
                     foreach($grip as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($grip[$key.'_color']))
-                                GripTape::where('id', $grip['id'])->update([$key=> '']);
+                            GripTape::where('id', $grip['id'])->update([$key=> '']);
                         }
                     }
                 }
@@ -2701,8 +2709,7 @@ class DashboardController extends Controller
                 foreach($wheels as $wheel){
                     foreach($wheel as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($wheel[$key.'_color']))
-                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
+                            Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
                         }
                     }
                 }
