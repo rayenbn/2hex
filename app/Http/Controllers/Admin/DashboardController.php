@@ -2678,8 +2678,7 @@ class DashboardController extends Controller
                     foreach($order as $key => $value1){
                         
                         if($value1 == $condition['name']){
-                            if(isset($order[$key.'_color']))
-                                Order::where('id', $order['id'])->update([$key=> '']);
+                            Order::where('id', $order['id'])->update([$key=> '']);
                         }
                     }
                 }
@@ -2691,8 +2690,7 @@ class DashboardController extends Controller
                 foreach($grips as $grip){
                     foreach($grip as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($grip[$key.'_color']))
-                                GripTape::where('id', $grip['id'])->update([$key=> '']);
+                            GripTape::where('id', $grip['id'])->update([$key=> '']);
                         }
                     }
                 }
@@ -2704,8 +2702,7 @@ class DashboardController extends Controller
                 foreach($wheels as $wheel){
                     foreach($wheel as $key => $value1){
                         if($value1 == $condition['name']){
-                            if(isset($wheel[$key.'_color']))
-                                Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
+                            Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
                         }
                     }
                 }
