@@ -21,6 +21,7 @@ class CreateHeatTransfersTable extends Migration
             $table->unsignedInteger('colors_count')->default(0);
             $table->boolean('cmyk')->default(false);
             $table->decimal('size_margin')->default(100);
+            $table->string('heat_transfer')->nullable();
             $table->string('small_preview');
             $table->string('large_preview');
             $table->unsignedInteger('quantity')->default(0);

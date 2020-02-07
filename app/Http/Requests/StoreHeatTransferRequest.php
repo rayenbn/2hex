@@ -29,6 +29,7 @@ class StoreHeatTransferRequest extends FormRequest
             'colors' => 'nullable|string|max:255',
             'colors_count' => 'integer',
             'cmyk' => 'boolean',
+            'heat_transfer' => 'nullable|string',
             'small_preview' => 'required|string|max:255',
             'large_preview' => 'required|string|max:255',
             'quantity' => 'required|integer',

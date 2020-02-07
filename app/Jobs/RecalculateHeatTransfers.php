@@ -76,7 +76,17 @@ class RecalculateHeatTransfers
             $sizeMargin
         );
 
-        $totalPrice = round($screensPrice + $transferPrice, 2);
+        $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPrice(
+            $heatTransfer->heat_transfer,
+            $totalsQuantity
+        );
+
+        $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPriceWithSize(
+            $heatTransferPrice,
+            $sizeMargin
+        );
+
+        $totalPrice = round($screensPrice + $transferPrice + $heatTransferPrice, 2);
 
         return $heatTransfer->update([
             'price' => $screensPrice,

@@ -1,3 +1,5 @@
+import {HEAT_TRANSFERS} from '@/constants';
+
 class HeatTransferService {
 
     /**
@@ -45,6 +47,32 @@ class HeatTransferService {
         }
 
         return parseFloat(Number(totalPrice).toFixed(2));
+    }
+
+    calculateHeatTransferPrice(heatTransfer, totalQuantity) {
+        // Glossy Print: Standard, no extra cost
+        let price = 0;
+
+        if (heatTransfer.name === HEAT_TRANSFERS.MATTE) {
+            price += 0.12;
+
+            switch(true) {
+                case totalQuantity < 1000: price += 0.32; break;
+                case totalQuantity >= 1000 && totalQuantity < 6000: price += 0.22; break;
+                case totalQuantity >= 6000: price += 0.11; break;
+            }
+
+        } else if (heatTransfer.name === HEAT_TRANSFERS.GLOSSY_MATTE) {
+            price += 0.28;
+
+            switch(true) {
+                case totalQuantity < 1000: price += 0.36; break;
+                case totalQuantity >= 1000 && totalQuantity < 6000: price += 0.26; break;
+                case totalQuantity >= 6000: price += 0.16; break;
+            }
+        }
+
+        return parseFloat(Number(price).toFixed(2));
     }
 
     /**

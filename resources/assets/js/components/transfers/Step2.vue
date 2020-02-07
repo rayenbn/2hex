@@ -25,19 +25,33 @@
                                 :disabled="! hasChange"
                                 v-validate="'required'"
                             >
-                            <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
-                                <span class="text-uppercase">CMYK</span>
-                                <label class="switch">
-                                    <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange" @click="toggleCMYK">
-                                    <span class="slider round"></span>
-                                </label>
+
+                            <div class="heat-transfers d-flex justify-content-between mt-4 mb-4">
+                                <span
+                                    class="btn btn-sm m-btn--pill"
+                                    v-for="heatTransfer in heatTransfers"
+                                    :class="{'btn-brand': heatTransfer.active}"
+                                    @click="toggleHeatTransfer(heatTransfer)"
+                                >
+                                    {{heatTransfer.name}}
+                                </span>
                             </div>
-                            <div class="mt-2 mb-2 d-flex align-items-center justify-content-between">
-                                <span class="text-uppercase">Transparencies</span>
-                                <label class="switch">
-                                    <input type="checkbox" name="transparency" v-model="transparency" :disabled="! hasChange">
-                                    <span class="slider round"></span>
-                                </label>
+
+                            <div class="d-flex justify-content-between mt-3 mb-3">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label class="switch mr-2 mb-0">
+                                        <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange" @click="toggleCMYK">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span>CMYK</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label class="switch mr-2 mb-0">
+                                        <input type="checkbox" name="transparency" v-model="transparency" :disabled="! hasChange">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span>Transparencies</span>
+                                </div>
                             </div>
 
                             <select
@@ -233,8 +247,8 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
-                                Read our design instructions here.
+                            <div style="white-space: nowrap; color: #9699a4;" class="mt-4 mb-5">
+                                Max 10 MB; Read our design instructions <a href="/blog/how-to-design-skateboard-decks" target="_blank">here</a>.
                             </div>
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 Download our Design Template:
@@ -244,15 +258,15 @@
                                     <img src="/img/transfers/skateboard-deck-template.jpg" alt="Design Template" title="Design Template" width="100%">
                                 </a>
                             </div>
-                            <div class="mt-4 mb-2 d-flex align-items-center justify-content-between">
-                                <div class="d-flex flex-column">
-                                    <span class="text-uppercase">Re-Order</span>
-                                    <span>First order of this design.</span>
-                                </div>
-                                <label class="switch">
+                            <div class="mt-4 mb-2 d-flex align-items-center justify-content-start">
+                                <label class="switch mb-0 mr-4">
                                     <input type="checkbox" name="re-order" v-model="reOrder" :disabled="! hasChange">
                                     <span class="slider round"></span>
                                 </label>
+                                <div class="d-flex flex-column">
+                                    <span>This print is a re-order.</span>
+                                    <small>First order of this design.</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -265,6 +279,7 @@
 
 <script>
     import checkAuth from '@/mixins/checkAuth';
+    import {HEAT_TRANSFERS} from '@/constants';
 
     export default {
         name: 'transfers-step-2',
@@ -277,6 +292,20 @@
         },
         data() {
             return {
+                heatTransfers: [
+                    {
+                        "name": HEAT_TRANSFERS.GLOSSY,
+                        "active": false
+                    },
+                    {
+                        "name": HEAT_TRANSFERS.MATTE,
+                        "active": false
+                    },
+                    {
+                        "name": HEAT_TRANSFERS.GLOSSY_MATTE,
+                        "active": false
+                    },
+                ],
                 pantoneColors: [
                     {
                         "title": "1 field to enter Pantone Color",
@@ -324,6 +353,18 @@
             }
         },
         methods: {
+            toggleHeatTransfer(heatTransfer) {
+
+                this.heatTransfers.map(transfer => {
+                    if (transfer.name === heatTransfer.name) {
+                        heatTransfer.active = !heatTransfer.active;
+                    } else {
+                        transfer.active = false;
+                    }
+                });
+
+                this.$store.commit('TransfersConfigurator/setHeatTransfer', heatTransfer.active ? heatTransfer : null)
+            },
             readURL(input) {
                 if (input.files.length === 0) { return; }
 
@@ -550,9 +591,31 @@
 
 <style scoped>
     .preview-bg {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
         flex-direction: column;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
         justify-content: center;
+    }
+    .heat-transfer-btn:nth-child(even) {
+        margin: 0 2px;
+    }
+    .heat-transfer-btn {
+        padding: 7px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+    .active {
+        color: #ffffff;
+        background-color: #5867dd;
     }
 </style>

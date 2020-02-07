@@ -8,6 +8,10 @@ namespace App\Services;
  */
 class HeatTransferService
 {
+    const GLOSSY = "Glossy Print";
+    const MATTE = "Matte Print";
+    const GLOSSY_MATTE = "Glossy & Matte";
+
     /**
      * Calculate transfer price
      *
@@ -65,6 +69,40 @@ class HeatTransferService
         return round($totalPrice, 2);
     }
 
+    /**
+     * Calculate heat transfer price
+     *
+     * @param string $heatTransferName
+     * @param int $totalQuantity
+     *
+     * @return float
+     */
+    public function calculateHeatTransferPrice(string $heatTransferName, int $totalQuantity) : float
+    {
+        // Glossy Print: Standard, no extra cost
+        $price = 0;
+
+        if ($heatTransferName === static::MATTE) {
+            $price += 0.12;
+
+            switch(true) {
+                case $totalQuantity < 1000: $price += 0.32; break;
+                case $totalQuantity >= 1000 && $totalQuantity < 6000: $price += 0.22; break;
+                case $totalQuantity >= 6000: $price += 0.11; break;
+            }
+
+        } else if ($heatTransferName === static::GLOSSY_MATTE) {
+            $price += 0.28;
+
+            switch(true) {
+                case $totalQuantity < 1000: $price += 0.36; break;
+                case $totalQuantity >= 1000 && $totalQuantity < 6000: $price += 0.26; break;
+                case $totalQuantity >= 6000: $price += 0.16; break;
+            }
+        }
+
+        return round($price, 2);
+    }
     /**
      * Calculate profit margin from colors
      *
@@ -138,6 +176,21 @@ class HeatTransferService
         $screensPrice = $screensPrice * $profitMargin / 100;
 
         return round($screensPrice, 2);
+    }
+
+    /**
+     * Calculate heat transfer price with size profit margin
+     *
+     * @param float $heatTransferPrice
+     * @param int $profitMargin
+     *
+     * @return float
+     */
+    public function calculateHeatTransferPriceWithSize(float $heatTransferPrice, int $profitMargin = 100) : float
+    {
+        $heatTransferPrice = $heatTransferPrice * $profitMargin / 100;
+
+        return round($heatTransferPrice, 2);
     }
 
     /**

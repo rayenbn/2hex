@@ -19,6 +19,7 @@ export default {
         reOrder: false,
         recentFiles: null,
         isAdmin: false,
+        heatTransfer: null,
 
         transfersColorsQuantity: 0,
         transfersQuantity: 0,
@@ -67,6 +68,22 @@ export default {
 
             return cost;
         },
+        heatTransferPrice: (state, getters) => {
+            if (! state.heatTransfer) {
+                return 0;
+            }
+
+            let cost = heatTransferService.calculateHeatTransferPrice(
+                state.heatTransfer,
+                getters.totalQuantity
+            );
+
+            if (state.size && state.size.hasOwnProperty('percent')) {
+                return cost * state.size.percent / 100;
+            }
+
+            return cost;
+        },
         transparentPrice: (state, getters) => {
             return heatTransferService.transparentPrice(getters.totalColors);
         },
@@ -91,7 +108,7 @@ export default {
             return getters.currentCountColors + state.transfersColorsQuantity;
         },
         pricePerSheet: (state, getters) => {
-            return getters.screensPrice + getters.transferPrice;
+            return getters.screensPrice + getters.transferPrice + getters.heatTransferPrice;
         }
     },
     mutations: {
@@ -100,6 +117,9 @@ export default {
         },
         setSize(state, payload) {
             state.size = payload;
+        },
+        setHeatTransfer(state, payload) {
+            state.heatTransfer = payload;
         },
         setTransfersColorsQuantity(state, payload) {
             state.transfersColorsQuantity = payload;
@@ -152,6 +172,7 @@ export default {
                     transparency: state.transparency,
                     colors_count: getters.currentCountColors,
                     cmyk: state.isCMYK,
+                    heat_transfer: state.heatTransfer ? state.heatTransfer.name : null,
                     colors: getters.currentColors.join(';'),
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,

@@ -16,3 +16,8 @@ export const HARDNESS = {
     HS_102A: 4,
     HS_83B: 5,
 };
+export const HEAT_TRANSFERS = {
+    GLOSSY: "Glossy Print",
+    MATTE: "Matte Print",
+    GLOSSY_MATTE: "Glossy & Matte",
+};

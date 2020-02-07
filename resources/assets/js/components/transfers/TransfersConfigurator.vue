@@ -63,11 +63,18 @@
                                                 <p>{{screensPrice}}</p>
                                             </div>
                                             <div class="col-lg-6">
+                                                <b>Heat transfer cost</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{heatTransferPrice}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
                                                 <b>Price Per Sheet (Transfer price + Screens Price)</b>
                                             </div>
                                             <div class="col-lg-6">
                                                 <p>{{pricePerSheet}}</p>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="m-form__actions m-form__actions">
@@ -276,6 +283,9 @@
             },
             screensPrice() {
                 return this.$store.getters['TransfersConfigurator/screensPrice'];
+            },
+            heatTransferPrice() {
+                return this.$store.getters['TransfersConfigurator/heatTransferPrice'];
             }
         },
         methods: {

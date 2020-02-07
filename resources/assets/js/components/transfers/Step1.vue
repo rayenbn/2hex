@@ -120,7 +120,7 @@
                         "percent": 100
                     },
                     {
-                        "fullname": "8\" x 23\"  Transfer-paper on Mini Cruiser Deck",
+                        "fullname": "8\" x 23\" Transfer-paper on Mini Cruiser Deck",
                         "size": 23,
                         "name": "Transfer-paper on Mini Cruiser Deck",
                         "image": '/img/transfers/8x23-mini-cruiser-heat-transfers.jpg',
@@ -134,14 +134,14 @@
                         "percent": 140
                     },
                     {
-                        "fullname": "14\" x 48\"  Transfer-paper on Longboard 2 Deck",
+                        "fullname": "14\" x 48\" Transfer-paper on Longboard 2 Deck",
                         "size": 42,
                         "name": "Transfer-paper on Longboard 2 Deck",
                         "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg',
                         "percent": 150
                     },
                     {
-                        "fullname": "23\" x 45\"  Transfer-paper on Skimboard Deck",
+                        "fullname": "23\" x 45\" Transfer-paper on Skimboard Deck",
                         "size": 45,
                         "name": "Transfer-paper on Skimboard Deck",
                         "image": '/img/transfers/Skimboard-Transferpapers.jpg',
