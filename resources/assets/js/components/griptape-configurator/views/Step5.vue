@@ -149,9 +149,9 @@
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown"  
                                         href="javascript:void(0);" 
-                                        @click="() => {step_options.file = file; step_options.state = true;}"
+                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable']; }"
                                     >
-                                        {{ file }}
+                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
                                 </div>
                             </div>

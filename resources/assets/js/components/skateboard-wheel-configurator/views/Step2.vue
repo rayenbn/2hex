@@ -130,7 +130,7 @@
                                         aria-haspopup="true" 
                                         aria-expanded="false" 
                                         style="width:100%;" 
-                                        :class="[filePrint ? 'checked' : 'unchecked']" 
+                                        :class="[filePrint ? 'checked' : 'unchecked', isFrontEndFree ? 'paid' : '']" 
                                     >
                                          Recent file
                                     </button>
@@ -139,9 +139,9 @@
                                             v-for="file in files"
                                             class="dropdown-item file-dropdown" 
                                             href="javascript:void(0);"
-                                            @click="selectCustomFile(file)"
+                                            @click="selectCustomFile(file['name']); isShpaeFree = file['paid']"
                                         >
-                                            {{ file }}
+                                            <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                         </a>
                                     </div>
                                 </div>
@@ -366,6 +366,14 @@
                 },
                 set(newVal) {
                     this.$store.commit('SkateboardWheelConfigurator/setShapePrint', newVal);
+                }
+            },
+            isShpaeFree: {
+                get() {
+                    return this.$store.getters['SkateboardWheelConfigurator/getShapeFree'];
+                },
+                set(newVal) {
+                    this.$store.commit('SkateboardWheelConfigurator/setShapeFree', newVal);
                 }
             },
             size: {

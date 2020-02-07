@@ -62,7 +62,7 @@ class User extends Authenticatable
         Protectable,
         Discountabble;
 
-    public $sortable = ['name', 'email', 'created_at', 'updated_at'];
+    public $sortable = ['name', 'email', 'confirmed', 'active','created_at', 'updated_at'];
 
     /**
      * The database table used by the model.

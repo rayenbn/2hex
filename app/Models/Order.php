@@ -66,7 +66,8 @@ class Order extends Model
         'saved_name',
         'bottomprint_color',
         'topprint_color',
-        'carton_color'
+        'carton_color',
+        'saved_batch'
     ];
 
     /**
@@ -90,8 +91,8 @@ class Order extends Model
             $query->where('created_by', '=', (string) auth()->id());
         } else {
             $query->where('created_by', '=', csrf_token());
-        } 
-
+        }
+        //return $query;
         return $query->where('usenow', '=', $type);
     }
 

@@ -5,7 +5,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\{Order, GripTape};
+use App\Models\{Order, GripTape, PaidFile};
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+
 use App\Traits\WheelGenerator;
 
 class GenerateInvoicesXLSX implements ShouldQueue
@@ -213,24 +214,42 @@ class GenerateInvoicesXLSX implements ShouldQueue
         return $this->writer;
     }
 
-    public function setStartTextBold($textBold, $text)
+    public function setStartTextBold($textBold, $text, $green = false)
     {
         $richText = new RichText();
+        if($green == true){
+            if($textBold != ''){
+                $richText
+                ->createTextRun($textBold)
+                ->getFont()
+                ->setSize(10)
+                ->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color( \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKGREEN ))
+                ->setBold(true);
+            }
+            $richText->createTextRun($text)
+                ->getFont()
+                ->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color( \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKGREEN ))
+                ->setSize(10);
+        }
+        else{
+            if($textBold != ''){
+                $richText
+                ->createTextRun($textBold)
+                ->getFont()
+                ->setSize(10)
+                ->setBold(true);
+            }
 
-        $richText
-            ->createTextRun($textBold)
-            ->getFont()
-            ->setSize(10)
-            ->setBold(true);
-
-        $richText->createTextRun($text)
-            ->getFont()
-            ->setSize(10);
+            $richText->createTextRun($text)
+                ->getFont()
+                ->setSize(10);
+        }
+        
 
         return $richText;
     }
 
-    protected function generateOrders()
+   protected function generateOrders()
     {
         if ($this->ordersCount <= 0) return $this;
 
@@ -258,6 +277,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $activeSheet->insertNewRowBefore($this->rangeStart, self::ROWS_ITEM);
             
             foreach ($activeSheet->getRowIterator($this->rangeStart, self::ROWS_ITEM) as $row) {
+                $green = false;
                 // Column C
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $this->rangeStart, $endRange = $this->rangeStart + 3));
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
@@ -277,15 +297,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 // Column G
                 $activeSheet->mergeCells(sprintf('G%s:G%s', $this->rangeStart, $endRange = $this->rangeStart + 2));
                 $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 2, $endRange + 4));
-
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $order->bottomprint)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->setCellValue(
-                    sprintf('G%s', $this->rangeStart), $this->setStartTextBold('Bottom: ', $order->bottomprint)
+                    sprintf('G%s', $this->rangeStart), $this->setStartTextBold('Bottom: ', $order->bottomprint, $green)
                 );
+                $green = false;
                 $activeSheet->setCellValue(
                     sprintf('G%s', $endRange + 1), 'colors: ' . Order::colorCount($order->bottomprint_color)
                 );
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $order->bottomprint)->first()['date'])){
+                    $green = true;
+                }
+                $green = false;
                 $activeSheet->setCellValue(
-                    sprintf('G%s', $endRange + 2), $this->setStartTextBold('Top: ', $order->topprint)
+                    sprintf('G%s', $endRange + 2), $this->setStartTextBold('Top: ', $order->topprint,$green)
                 );
                 $activeSheet->setCellValue(
                     sprintf('G%s', $endRange + 5), 'colors: ' . Order::colorCount($order->topprint_color)
@@ -326,9 +353,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
                 // Column L
                 $activeSheet->mergeCells(sprintf('L%s:L%s', $this->rangeStart, $endRange = $this->rangeStart + 6));
-              
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $order->carton)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->setCellValue(
-                    sprintf('L%s', $this->rangeStart), $this->setStartTextBold('Carton Print: ', $order->carton)
+                    sprintf('L%s', $this->rangeStart), $this->setStartTextBold('Carton Print: ', $order->carton, $green)
                 );
                 $activeSheet->setCellValue(
                     sprintf('L%s', $endRange + 1), 'colors: ' . Order::colorCount($order->carton_color)
@@ -374,6 +403,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $activeSheet->insertNewRowBefore($gripRowStart, self::ROWS_ITEM);
             
             foreach ($activeSheet->getRowIterator($gripRowStart, self::ROWS_ITEM) as $row) {
+                $green = false;
                 // Column C
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $gripRowStart, $endRange = $gripRowStart + 3));
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
@@ -394,26 +424,38 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->setCellValue(sprintf('G%s', $gripRowStart), $grip->perforation ? 'Yes' : 'No');
 
                 // Column H
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->die_cut)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $grip->die_cut);
-                
+                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut, $green));
+                $green = false;
                 // Column I
                 $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $grip->top_print);
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->top_print)->first()['date'])){
+                    $green = true;
+                }
+                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $this->setStartTextBold('', $grip->top_print, $green));
                 $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->top_print_color));
-
+                $green = false;
                 // Column J
                 $activeSheet->mergeCells(sprintf('J%s:J%s', $gripRowStart, $gripRowStart + 7));
                 $activeSheet->setCellValue(sprintf('J%s', $gripRowStart), $grip->backpaper);
 
                 // Column K
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->backpaper_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('K%s:K%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $grip->backpaper_print);
+                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $this->setStartTextBold('', $grip->backpaper_print, $green));
                 $activeSheet->setCellValue(sprintf('K%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->backpaper_print_color));
-
+                $green = false;
                 // Column L
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->carton_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('L%s:L%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $grip->carton_print);
+                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $this->setStartTextBold('', $grip->carton_print, $green));
                 $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->carton_print_color));
 
                 // Column M
@@ -726,6 +768,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
                 }
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
 
                 /*
                  * Cardboard price calculated 
@@ -782,6 +828,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['paid'] = 1;
+                    $fees[$key][$value]['price'] = 0;
+                }
             }
         }
 
@@ -861,7 +911,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
             $this->getActiveSheet()->setCellValue(sprintf('C%s', $pos), $value['type']);
             $this->getActiveSheet()->setCellValue(sprintf('N%s', $pos), $value['price']);
-            $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value['image']);
+            if(isset($value['paid']))
+                $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $this->setStartTextBold('', $value['image'], true));
+            else
+                $this->getActiveSheet()->setCellValue(sprintf('J%s', $pos), $value['image']);
         }
 
         return $this;

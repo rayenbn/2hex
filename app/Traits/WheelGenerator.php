@@ -3,10 +3,12 @@
 namespace App\Traits;
 
 use App\Models\Wheel\Wheel;
+use App\Models\PaidFile;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\RichText\RichText;
 
 trait WheelGenerator
 {
@@ -57,13 +59,16 @@ trait WheelGenerator
         $activeSheet->setCellValue('N' . $wheelRowStart, 'Total of Row');
 
         $wheelRowStart += 1; // after head row
-
+        
 
         $this->wheels->map(function(Wheel $wheel, $index) use ($wheelRowStart, $activeSheet) {
 
             $activeSheet->insertNewRowBefore($wheelRowStart, self::ROWS_ITEM);
             
             foreach ($activeSheet->getRowIterator($wheelRowStart, self::ROWS_ITEM) as $row) {
+
+                $green = false;
+
                 // Column C
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $wheelRowStart, $endRange = $wheelRowStart + 3));
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
@@ -85,28 +90,40 @@ trait WheelGenerator
                 $activeSheet->setCellValue(sprintf('G%s', $endRange + 1), $wheel->hardness);
 
                 // Column H
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $wheel->top_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('H%s:H%s', $wheelRowStart, $endRange = $wheelRowStart + 6));
-                $activeSheet->setCellValue(sprintf('H%s', $wheelRowStart), $wheel->top_print);
+                $activeSheet->setCellValue(sprintf('H%s', $wheelRowStart), $this->setStartTextBold('', $wheel->top_print, $green));
                 $activeSheet->setCellValue(sprintf('H%s', $endRange + 1), 'colors: ' . $this->colorCount($wheel->top_colors));
-                
+                $green = false;
                 // Column I
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $wheel->back_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('I%s:I%s', $wheelRowStart, $endRange = $wheelRowStart + 6));
-                $activeSheet->setCellValue(sprintf('I%s', $wheelRowStart), $wheel->back_print);
+                $activeSheet->setCellValue(sprintf('I%s', $wheelRowStart), $this->setStartTextBold('', $wheel->back_print, $green));
                 $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . $this->colorCount($wheel->back_colors));
-
+                $green = false;
                 // Column J
                 $activeSheet->mergeCells(sprintf('J%s:J%s', $wheelRowStart, $wheelRowStart + 7));
                 $activeSheet->setCellValue(sprintf('J%s', $wheelRowStart), $wheel->placement ?? '-');
 
                 // Column K
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $wheel->cardboard_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('K%s:K%s', $wheelRowStart, $wheelRowStart + 7));
-                $activeSheet->setCellValue(sprintf('K%s', $wheelRowStart), $wheel->cardboard_print ?? '-');
-
+                $activeSheet->setCellValue(sprintf('K%s', $wheelRowStart), $this->setStartTextBold('', $wheel->cardboard_print, $green));
+                $green = false;
                 // Column L
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $wheel->carton_print)->first()['date'])){
+                    $green = true;
+                }
                 $activeSheet->mergeCells(sprintf('L%s:L%s', $wheelRowStart, $endRange = $wheelRowStart + 6));
-                $activeSheet->setCellValue(sprintf('L%s', $wheelRowStart), $wheel->carton_print);
+                $activeSheet->setCellValue(sprintf('L%s', $wheelRowStart), $this->setStartTextBold('', $wheel->carton_print, $green));
                 $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . $this->colorCount($wheel->carton_colors));
-
+                $green = false;
                 // Column M
                 $activeSheet->mergeCells(sprintf('M%s:M%s', $wheelRowStart, $wheelRowStart + 7));
                 $activeSheet->setCellValue(sprintf('M%s', $wheelRowStart), $wheel->price);
@@ -176,6 +193,41 @@ trait WheelGenerator
             ->setRowHeight(40);
 
         return $this;
+    }
+
+    public function setStartTextBold($textBold, $text, $green = false)
+    {
+        $richText = new RichText();
+        if($green == true){
+            if($textBold != ''){
+                $richText
+                ->createTextRun($textBold)
+                ->getFont()
+                ->setSize(10)
+                ->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color( \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKGREEN ))
+                ->setBold(true);
+            }
+            $richText->createTextRun($text)
+                ->getFont()
+                ->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color( \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_DARKGREEN ))
+                ->setSize(10);
+        }
+        else{
+            if($textBold != ''){
+                $richText
+                ->createTextRun($textBold)
+                ->getFont()
+                ->setSize(10)
+                ->setBold(true);
+            }
+
+            $richText->createTextRun($text)
+                ->getFont()
+                ->setSize(10);
+        }
+        
+
+        return $richText;
     }
 
     /**
@@ -282,6 +334,11 @@ trait WheelGenerator
                 } else if ($key === 'shape_print'){
                     $fees[$wheelKey][$value]['price'] = 2000;
                 } else {
+                    $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$wheelKey][$value]['paid'] = 1;
                     $fees[$wheelKey][$value]['price'] = 0;
                 }
             }

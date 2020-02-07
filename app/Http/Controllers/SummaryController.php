@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape, Wheel\Wheel};
+use App\Models\{Order, GripTape, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -68,7 +68,7 @@ class SummaryController extends Controller
 
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
-
+        
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
@@ -144,6 +144,11 @@ class SummaryController extends Controller
                 } else {
                     $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
                 }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -188,6 +193,11 @@ class SummaryController extends Controller
                 }
 
                 $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
             }
         }
 
@@ -295,8 +305,8 @@ class SummaryController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
@@ -326,6 +336,11 @@ class SummaryController extends Controller
                     $fees[$wheelKey][$value]['price'] = 2000;
                 } else {
                     $fees[$wheelKey][$value]['price'] = 0;
+                }
+
+                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$wheelKey][$value]['price'] = 0;
+                    $fees[$wheelKey][$value]['paid'] = 1;
                 }
             }
         }
@@ -357,9 +372,12 @@ class SummaryController extends Controller
 
         $created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
 
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        Wheel::auth()->update($save_data);*/
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -481,6 +499,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
             unset($data[$i]['saved_date']);
+            unset($data[$i]['invoice_number']);
             $array = json_decode(json_encode($data[$i]), true);
 
             Order::insert($array);
@@ -489,6 +508,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($grips); $i ++){
             unset($grips[$i]['id']);
             unset($grips[$i]['saved_date']);
+            unset($grips[$i]['invoice_number']);
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
         }
@@ -496,6 +516,7 @@ class SummaryController extends Controller
         for($i = 0; $i < count($wheels); $i ++){
             unset($wheels[$i]['wheel_id']);
             unset($wheels[$i]['saved_date']);
+            unset($wheels[$i]['invoice_number']);
             $array = json_decode(json_encode($wheels[$i]), true);
             Wheel::insert($array);
         }
@@ -514,9 +535,14 @@ class SummaryController extends Controller
         else{
             $created_by = csrf_token();
         }
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        //Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        //GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        //Wheel::auth()->update($save_data);
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();        
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        
+        
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -563,9 +589,12 @@ class SummaryController extends Controller
         else{
             $created_by = csrf_token();
         }
-        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        /*Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
-        Wheel::auth()->update($save_data);
+        Wheel::auth()->update($save_data);*/
+        Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        Wheel::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
@@ -647,5 +676,65 @@ class SummaryController extends Controller
         }
 
         return response()->json(["errors" => "The given data was invalid."], 400);
+    }
+    public function addFromBatch(Request $request){
+        $order_checked = $request->input('orderBatches');
+        $grip_checked = $request->input('gripBatches');
+        $wheel_checked = $request->input('wheelBatches');
+        
+        if($request->submit == 'Add'){
+            if(isset($order_checked)){
+                $orders = Order::whereIn('id',$order_checked)->get();
+                for($i = 0; $i < count($orders); $i ++){
+                    unset($orders[$i]['id']);
+                    unset($orders[$i]['saved_date']);
+                    unset($orders[$i]['usenow']);
+                    unset($orders[$i]['submit']);
+                    unset($orders[$i]['invoice_number']);
+                    $orders[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($orders[$i]), true);
+                    Order::insert($array);
+                }
+            }            
+            
+            if(isset($grip_checked)){
+                $grips = GripTape::whereIn('id',$grip_checked)->get();
+                for($i = 0; $i < count($grips); $i ++){
+                    unset($grips[$i]['id']);
+                    unset($grips[$i]['saved_date']);
+                    unset($grips[$i]['usenow']);
+                    unset($grips[$i]['submit']);
+                    unset($grips[$i]['invoice_number']);
+                    $grips[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($grips[$i]), true);
+                    GripTape::insert($array);
+                }
+            }
+            
+            if(isset($wheel_checked)){
+                $wheels = Wheel::whereIn('wheel_id',$wheel_checked)->get();
+                for($i = 0; $i < count($wheels); $i ++){
+                    unset($wheels[$i]['wheel_id']);
+                    unset($wheels[$i]['saved_date']);
+                    unset($wheels[$i]['usenow']);
+                    unset($wheels[$i]['submit']);
+                    unset($wheels[$i]['invoice_number']);
+                    $wheels[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($wheels[$i]), true);
+                    Wheel::insert($array);
+                }
+            }
+            
+        }
+        if($request->submit == 'Delete'){
+            if(isset($order_checked))
+                Order::whereIn('id',$order_checked)->delete();
+            if(isset($grip_checked))
+                GripTape::whereIn('id',$grip_checked)->delete();
+            if(isset($wheel_checked))
+                Wheel::whereIn('wheel_id',$wheel_checked)->delete();
+            return redirect()->back();
+        }
+        return redirect()->route('summary');
     }
 }

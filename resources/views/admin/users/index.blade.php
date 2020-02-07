@@ -8,23 +8,24 @@
             <div class="m-portlet m-portlet--mobile">
                 <div class="m-portlet__body">
                     <div class="m-grid__item m-grid__item--fluid">
+                        <input type="text" id="generalSearch" class="form-control col-4" placeholder="Type to filter ....">
                         <table class="m-datatable m-datatable--scroll" width="100%">
                             <thead>
                             <tr>
-                                <th>@sortablelink('email', __('views.admin.users.index.table_header_0'),['page' => $users->currentPage()])</th>
-                                <th>@sortablelink('name',  __('views.admin.users.index.table_header_1'),['page' => $users->currentPage()])</th>
+                                <th>@sortablelink('email', __('views.admin.users.index.table_header_0'))</th>
+                                <th>@sortablelink('name',  __('views.admin.users.index.table_header_1'))</th>
                                 <th>{{ __('views.admin.users.index.table_header_2') }}</th>
-                                <th>@sortablelink('active', __('views.admin.users.index.table_header_3'),['page' => $users->currentPage()])</th>
-                                <th>@sortablelink('confirmed', __('views.admin.users.index.table_header_4'),['page' => $users->currentPage()])</th>
-                                <th>@sortablelink('created_at', __('views.admin.users.index.table_header_5'),['page' => $users->currentPage()])</th>
-                                <th>@sortablelink('updated_at', __('views.admin.users.index.table_header_6'),['page' => $users->currentPage()])</th>
+                                <th>@sortablelink('active', __('views.admin.users.index.table_header_3'))</th>
+                                <th>@sortablelink('confirmed', __('views.admin.users.index.table_header_4'))</th>
+                                <th>@sortablelink('created_at', __('views.admin.users.index.table_header_5'))</th>
+                                <th>@sortablelink('updated_at', __('views.admin.users.index.table_header_6'))</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td><span>{{ $user->email }}</span></td>
+                                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                     <td>{{ $user->name }}</td>
                                     <td>
                                         @foreach($user->roles->pluck('name') as $role)
@@ -73,9 +74,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <div class="pull-right">
-                            {{ $users->links() }}
-                        </div>
+                      
                     </div>
                 </div>
             </div>

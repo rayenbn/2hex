@@ -1,0 +1,92 @@
+.m-grid__item.m-grid__item--fluid.m-wrapper.admin-content{
+    padding: 50px 50px 100px 320px;
+}
+.admin-content > div{
+    background-color: white;
+    padding: 20px 40px;
+}
+.filter_content{
+    margin-bottom: 30px;
+}
+.data_items{
+    margin-bottom: 50px;
+}
+.data_items .userdata_title{
+    border-bottom: 1px solid black;
+}
+.data_items .data_item .data_info{
+    float: right;
+}
+.data_items .items_label{
+    font-weight: bold;
+}
+.m-datatable__pager{
+    
+}
+#generalSearch{
+    margin-bottom: 30px;
+}
+.saved-order-list-item {
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    padding: 5px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+.saved-order-list-item div {
+    margin: 3px;
+}
+.production_body{
+    width: 100%;
+}
+.input_body{
+    padding-top: 100px;
+    padding-left: 50px;
+}
+.production-submit{
+    margin-top: 50px;
+}
+#select_date + span{
+    width: 50% !important;
+    margin-bottom: 20px;
+}
+.m-timeline-2:before{
+    left: 8.09rem;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item{
+    text-align: right;
+    width: 100%;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-cricle{
+    left: 7.3rem;
+}
+.m-timeline-2 .m-timeline-2__items .m-timeline-2__item .m-timeline-2__item-text{
+    padding-left: 8.2rem;
+    text-align: left;
+    padding-right: 10px;
+}
+.action-buttons{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.action-buttons .form-control{
+    display: inline-block;
+    margin: 10px;
+}
+.action-buttons button{
+    margin: 10px;
+}
+.proccess_bar{
+    width: 100%;
+    height: 2px;
+    margin-bottom: 10px;
+    background: #e9ecef;
+}
+.proccess_percent{
+    height: 100%;
+    background-color: #36a3f7;
+    width: 1%;
+}
+#summary-table .paid{
+    color: green;
+}

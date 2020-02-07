@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif @yield('title', config('app.name'))</title>
     <meta name="description" content="Latest updates and statistic charts">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--begin::Web font -->
@@ -26,6 +27,7 @@
     <link href="../../../asset/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
     <link href="../../../asset/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="../../../css/leftsidebar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../css/admin.css" rel="stylesheet" type="text/css" />
 
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="../../../asset/demo/default/media/img/logo/favicon.ico" />
@@ -54,10 +56,13 @@
     </div>
 </body>
 <!--begin::Base Scripts -->
+@yield ('footer_scripts')
 <script src="{{asset('asset/vendors/base/vendors.bundle.js')}}"></script>
 <script src="{{asset('asset/demo/default/base/scripts.bundle.js')}}"></script>
 <script src="{{asset('asset/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 <script src="{{asset('asset/demo/default/custom/components/calendar/basic.js')}}"></script>
+<script src="{{asset('asset/demo/default/custom/crud/forms/widgets/select2.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/admin.js')}}"></script>
 <!--end::Base Scripts -->  
 
 </html>

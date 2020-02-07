@@ -251,8 +251,10 @@ class RecalculateWheels implements Orderable
 		if (empty($wheel->top_print)) {
 			return 0;
 		}
-
-		$countColors = $this->parseColors($wheel->top_colors);
+		if(!isset($wheel->top_colors))
+			$countColors = 4;
+		else
+			$countColors = $this->parseColors($wheel->top_colors);
 
 		$this->fixCost += $countColors * $colorFixCost * $colorProfit;
 
@@ -281,8 +283,10 @@ class RecalculateWheels implements Orderable
 		if (empty($wheel->back_print)) {
 			return 0;
 		}
-
-		$countColors = $this->parseColors($wheel->back_colors);
+		if(!isset($wheel->back_colors))
+			$countColors = 4;
+		else
+			$countColors = $this->parseColors($wheel->back_colors);
 
 		// Add if dont same as front of wheel and exists back print
 		if ($wheel->top_print != $wheel->back_print && isset($wheel->back_print)) {

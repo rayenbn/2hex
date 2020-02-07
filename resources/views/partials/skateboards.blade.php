@@ -1,5 +1,8 @@
     <thead style="background-color: #52a3f0; color: white;">
         <tr>
+            @if(isset($batches))
+            <th>Select</th>
+            @endif
             <th>Deck Batch</th>
             <th>Pcs</th>
             <th>Size</th>
@@ -11,10 +14,11 @@
             <th>Specials</th>
             <th>Cardboard Wrap</th>
             <th>Carton Print</th>
+            @if(!isset($batches))
             <th>Deck&nbspPrice</th>
             <th>Batch&nbspTotal</th>
-
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
             <th>Edit</th>
             @endif
 
@@ -23,6 +27,14 @@
         @foreach($skateboards as $batch => $skateboard)
 
         <tr>
+            @if(isset($batches))
+            <td>
+                <label class="m-checkbox">
+                    <input type="checkbox" value="{{$skateboard->id}}" name="orderBatches[]"/>
+                    <span></span>
+                </label>
+            </td>
+            @endif
             <td>Skateboard Deck Batch #{{++$batch}}</td>
             <td>{{$skateboard->quantity}}</td>
             <td>{{$skateboard->size}}</td>
@@ -42,7 +54,7 @@
             </td>
             <td>
                 <div>
-                    <span style="margin-top: 15px; display: block;">
+                    <span style="margin-top: 15px; display: block;" @if(isset($fees['bottomprint'][$skateboard->bottomprint]['paid']) && $fees['bottomprint'][$skateboard->bottomprint]['paid'] == 1) class="paid" @endif >
                         <b>Bottom</b><br>
                         {{$skateboard->bottomprint ? $skateboard->bottomprint : 'None'}}<br>
                         <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
@@ -53,7 +65,7 @@
                     </span>
                 </div>
                 <div>
-                    <span style="margin-top: 15px; display: block;">
+                    <span style="margin-top: 15px; display: block;" @if(isset($fees['topprint'][$skateboard->topprint]['paid']) && $fees['topprint'][$skateboard->topprint]['paid'] == 1) class="paid" @endif >
                         <b>Top</b><br>
                         {{$skateboard->topprint ? $skateboard->topprint : 'None'}}<br>
                         <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
@@ -104,18 +116,18 @@
             <td>{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
             <td>
                 <div>
-                    <p style="margin: 30px 0px;">
+                    <p style="margin: 30px 0px;" @if(isset($fees['carton'][$skateboard->carton]['paid']) && $fees['carton'][$skateboard->carton]['paid'] == 1) class="paid" @endif>
                         {{$skateboard->carton ? $skateboard->carton : 'None'}}
                         <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                     </p>
                     <p>colors: {{$skateboard->carton_color ?? ''}}</p>
                 </div>
             </td>
-
+            @if(!isset($batches))
             <td>{{ auth()->check() ? money_format('%.2n', $skateboard->perdeck) : '$?.??' }}</td>
             <td>{{ auth()->check() ? money_format('%.2n', $skateboard->total) : '$?.??' }}</td>
-            
-            @if(Session::get('viewonly') == null)
+            @endif
+            @if(Session::get('viewonly') == null && !isset($batches))
                 <td>
                     {{--
                     <a href="skateboard-deck-configurator/{{$order->id}}" class="btn btn-outline-info btn-sm">Edit Batch</a>
@@ -139,9 +151,9 @@
                         </form>
                     </div>
                     <div class="btn-group" role="group" aria-label="First group">
-                        <button type="button" class="m-btn btn btn-secondary btn-dev">
+                        <a type="button" class="m-btn btn btn-secondary"  href="{{route('show.skateboard.save', $skateboard->id)}}" title="Save">
                             <i class="la la-floppy-o"></i>
-                        </button>
+                        </a>
                         <a class="m-btn btn btn-secondary" href="{{route('show.skateboard.configurator', $skateboard->id)}}" title="Edit">
                             <i class="la la-italic"></i>
                         </a>

@@ -1,7 +1,5 @@
 {{--
 <script>
-
-	$(document).ready(function(){
 		// Get global var $orders via provider
 		app.batchTotal=parseInt("{{$orders->sum('quantity')}}");
 
@@ -138,4 +136,4 @@
 		return decodedString;
 	}
 </script>
---}}
+--}} 

@@ -48,4 +48,15 @@ class Wheel extends Model
             $wheel->created_by = (string) (auth()->check() ? auth()->id() : csrf_token());
         });
     }
+    public function scopeAuth($query, $type = true)
+    {
+        if(auth()->check()){
+            $query->where('created_by', '=', (string) auth()->id());
+        } else {
+            $query->where('created_by', '=', csrf_token());
+        } 
+
+        return $query->where('usenow', '=', $type);
+        //return $query;
+    }
 }
