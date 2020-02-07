@@ -52,7 +52,7 @@
                         <a href="{{route('griptape.manufacturer')}}">griptapes</a> for your brand!
                     </h4>
 
-                    We give everyone access to the highest quality skateboard production by making customization options and cost calculations transparent.
+                    We at 2HEX give everyone access to the highest quality skateboard production by making customization options and cost calculations transparent.
 
 
                 </div>
