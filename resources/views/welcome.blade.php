@@ -65,10 +65,10 @@
                     <ol>
                         <li>
                             <img
-                                    src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}"
-                                    alt="2HEX Your Skateboard Manufacturer"
-                                    title="2HEX Your Skateboard Manufacturer"
-                                    style="width: 100%;"
+                                src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}"
+                                alt="2HEX Your Skateboard Manufacturer"
+                                title="2HEX Your Skateboard Manufacturer"
+                                style="width: 100%;"
                             >
                         </li>
 
@@ -453,12 +453,35 @@
 									</h2>
 								</div>
 							</div>
-                            
-                            @if($posts->count())
-                                <div class="m-portlet__head-caption">
-                                    {{ $posts->fragment('blog')->links() }}
+
+                            @php $request = request(); @endphp
+
+                            <div class="m-portlet__head-caption">
+                                <div class="d-flex justify-content-between mr-4">
+                                    <a
+                                        href="{{route('index',['gap' => 'last_month', '#blog'])}}"
+                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_month' ? 'btn-brand' : ''}}"
+                                    >
+                                        Last Month
+                                    </a>
+                                    <a
+                                        href="{{route('index', ['gap' => 'last_year', '#blog'])}}"
+                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_year' ? 'btn-brand' : ''}}"
+                                    >
+                                        Last Year
+                                    </a>
+                                    <a
+                                        href="{{route('index', ['gap' => 'all', '#blog'])}}"
+                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'all' || empty($request->get('gap')) ? 'btn-brand' : ''}}"
+                                    >
+                                        All time
+                                    </a>
                                 </div>
-                            @endif
+                                @if($posts->count())
+                                    {{ $posts->fragment('blog')->appends($request->input())->links() }}
+                                @endif
+                            </div>
+
 
                             @if(auth()->check() && auth()->user()->isAdmin())
     							<div class="m-portlet__head-caption">
