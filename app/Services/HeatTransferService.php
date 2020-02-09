@@ -72,13 +72,15 @@ class HeatTransferService
     /**
      * Calculate heat transfer price
      *
-     * @param string $heatTransferName
+     * @param string|null $heatTransferName
      * @param int $totalQuantity
      *
      * @return float
      */
-    public function calculateHeatTransferPrice(string $heatTransferName, int $totalQuantity) : float
+    public function calculateHeatTransferPrice(int $totalQuantity, string $heatTransferName = null) : float
     {
+        $heatTransferName = $heatTransferName ?? static::GLOSSY;
+
         // Glossy Print: Standard, no extra cost
         $price = 0;
 

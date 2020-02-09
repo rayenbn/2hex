@@ -77,8 +77,8 @@ class RecalculateHeatTransfers
         );
 
         $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPrice(
-            $heatTransfer->heat_transfer,
-            $totalsQuantity
+            $totalsQuantity,
+            $heatTransfer->heat_transfer
         );
 
         $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPriceWithSize(
