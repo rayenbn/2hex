@@ -5,8 +5,8 @@
                 <div class="m-portlet">
 
                     <head-configurator
-                            title="Skateboard Wheel Factory"
-                            :links="headLinks"
+                        title="Skateboard Wheel Factory"
+                        :links="headLinks"
                     />
 
                     <div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
@@ -14,12 +14,12 @@
                         <div class="m-wizard__progress">
                             <div class="progress" style="height: 2px;">
                                 <div
-                                        :style="progressWidth"
-                                        class="progress-bar m--bg-info"
-                                        role="progressbar"
-                                        aria-valuenow="65"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"
+                                    :style="progressWidth"
+                                    class="progress-bar m--bg-info"
+                                    role="progressbar"
+                                    aria-valuenow="65"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
                                 >
                                 </div>
                             </div>
@@ -35,10 +35,10 @@
                         <div class="m-wizard__form">
 
                             <form
-                                    class="m-form m-form--label-align-left- m-form--state-"
-                                    id="m_form"
-                                    method="POST"
-                                    action="#"
+                                class="m-form m-form--label-align-left- m-form--state-"
+                                id="m_form"
+                                method="POST"
+                                action="#"
                             >
                                 <div class="m-portlet__body">
 
@@ -50,6 +50,18 @@
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
+                                            <div class="col-lg-6">
+                                                <b>Total including batch</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{transfersColorsQuantity}} colors</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <b>Total including batch</b>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p>{{transfersQuantity}} transfers</p>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <b>Transfer price</b>
                                             </div>
@@ -286,6 +298,12 @@
             },
             heatTransferPrice() {
                 return this.$store.getters['TransfersConfigurator/heatTransferPrice'];
+            },
+            transfersColorsQuantity() {
+                return this.$store.getters['TransfersConfigurator/getTransfersColorsQuantity'];
+            },
+            transfersQuantity() {
+                return this.$store.getters['TransfersConfigurator/getTransfersQuantity'];
             }
         },
         methods: {

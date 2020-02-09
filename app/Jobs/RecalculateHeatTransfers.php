@@ -35,10 +35,13 @@ class RecalculateHeatTransfers
         $totalsQuantity = $transfers->sum('quantity');
         $totalsColors = $transfers->sum('colors_count');
 
+        $totalsColors += $transfers->filter(function (HeatTransfer $heatTransfer) {
+            return $heatTransfer->transparency;
+        })->sum('transparency');
+
         $transfers->transform(function(HeatTransfer $heatTransfer) use ($totalsQuantity, $totalsColors) {
             return $this->updatePrice($heatTransfer, $totalsQuantity, $totalsColors);
         });
-
     }
 
     /**
@@ -54,16 +57,24 @@ class RecalculateHeatTransfers
     {
         $sizeMargin = (float) $heatTransfer->size_margin;
 
-        $transferPrice = $this->heatTransferService->calculateTransferPrice(
-            $heatTransfer->colors_count,
+        $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPrice(
             $totalsQuantity,
-            $heatTransfer->quantity
+            $heatTransfer->heat_transfer
         );
+
+        $transferPrice = $this->heatTransferService->calculateTransferPrice(
+            $heatTransfer->colors_count + intval($heatTransfer->transparency),
+            $totalsQuantity
+        );
+
+        // Multiply heat transfer price
+        $transferPrice = intval($heatTransfer->quantity) * ($transferPrice + $heatTransferPrice);
 
         $transferPrice = $this->heatTransferService->calculateTransferPriceWithSize(
             $transferPrice,
             $sizeMargin
         );
+
         $screensPrice = $this->heatTransferService->calculateScreensPrice(
             $heatTransfer->colors_count,
             $totalsColors,
@@ -76,17 +87,7 @@ class RecalculateHeatTransfers
             $sizeMargin
         );
 
-        $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPrice(
-            $totalsQuantity,
-            $heatTransfer->heat_transfer
-        );
-
-        $heatTransferPrice = $this->heatTransferService->calculateHeatTransferPriceWithSize(
-            $heatTransferPrice,
-            $sizeMargin
-        );
-
-        $totalPrice = round($screensPrice + $transferPrice + $heatTransferPrice, 2);
+        $totalPrice = round($screensPrice + $transferPrice, 2);
 
         return $heatTransfer->update([
             'price' => $screensPrice,

@@ -17,11 +17,10 @@ class HeatTransferService
      *
      * @param $colorCount
      * @param $totalQuantity
-     * @param $quantity
      *
      * @return float
      */
-    public function calculateTransferPrice($colorCount, $totalQuantity, $quantity) : float
+    public function calculateTransferPrice($colorCount, $totalQuantity) : float
     {
         $marginTransfer = 0.1;
         $addedPerColor = 0;
@@ -37,7 +36,7 @@ class HeatTransferService
         }
 
 
-        $transferPrice = $quantity * (0.45 + $marginTransfer + $addedPerColor);
+        $transferPrice = 0.45 + $marginTransfer + $addedPerColor;
 
         return round($transferPrice, 2);
     }
@@ -178,21 +177,6 @@ class HeatTransferService
         $screensPrice = $screensPrice * $profitMargin / 100;
 
         return round($screensPrice, 2);
-    }
-
-    /**
-     * Calculate heat transfer price with size profit margin
-     *
-     * @param float $heatTransferPrice
-     * @param int $profitMargin
-     *
-     * @return float
-     */
-    public function calculateHeatTransferPriceWithSize(float $heatTransferPrice, int $profitMargin = 100) : float
-    {
-        $heatTransferPrice = $heatTransferPrice * $profitMargin / 100;
-
-        return round($heatTransferPrice, 2);
     }
 
     /**

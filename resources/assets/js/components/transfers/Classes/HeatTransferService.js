@@ -7,10 +7,9 @@ class HeatTransferService {
      *
      * @param colorCount
      * @param totalQuantity
-     * @param quantity
      * @returns {number}
      */
-    calculateTransferPrice(colorCount, totalQuantity, quantity) {
+    calculateTransferPrice(colorCount, totalQuantity) {
         let marginTransfer = 0.1;
         let addedPerColor = 0;
 
@@ -25,7 +24,7 @@ class HeatTransferService {
         }
 
         return parseFloat(
-            Number(quantity * (0.45 + marginTransfer + addedPerColor)).toFixed(2)
+            Number(0.45 + marginTransfer + addedPerColor).toFixed(2)
         );
     }
 

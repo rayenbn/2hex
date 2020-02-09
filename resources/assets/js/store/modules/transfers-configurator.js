@@ -27,6 +27,8 @@ export default {
     getters: {
         getQuantity: state => state.quantity,
         getSize: state => state.size,
+        getTransfersColorsQuantity: state => state.transfersColorsQuantity,
+        getTransfersQuantity: state => state.transfersQuantity,
         getCMYK: state => state.isCMYK,
         getCMYKColors: state => state.cmykColors,
         getPantoneColor: state => state.pantoneColor,
@@ -41,15 +43,16 @@ export default {
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
                 getters.currentCountColors,
-                getters.totalQuantity,
-                state.quantity
+                getters.totalQuantity
             );
 
             if (state.size && state.size.hasOwnProperty('percent')) {
-                return price * state.size.percent / 100;
+                price = state.quantity * (price + getters.heatTransferPrice) * state.size.percent / 100;
+            } else {
+                price = state.quantity * (price + getters.heatTransferPrice);
             }
 
-            return price;
+            return parseFloat(price.toFixed(2));
         },
         screensPrice: (state, getters) => {
             let cost = heatTransferService.calculateScreensPrice(
@@ -73,16 +76,10 @@ export default {
                 return 0;
             }
 
-            let cost = heatTransferService.calculateHeatTransferPrice(
+            return heatTransferService.calculateHeatTransferPrice(
                 state.heatTransfer,
                 getters.totalQuantity
             );
-
-            if (state.size && state.size.hasOwnProperty('percent')) {
-                return cost * state.size.percent / 100;
-            }
-
-            return cost;
         },
         transparentPrice: (state, getters) => {
             return heatTransferService.transparentPrice(getters.totalColors);
@@ -92,10 +89,10 @@ export default {
         },
         currentCountColors: state => {
             if (state.isCMYK) {
-                return state.cmykColors.length + +state.transparency;
+                return state.cmykColors.length;
             }
 
-            return state.countColors + +state.transparency;
+            return state.countColors;
         },
         currentColors: state => {
             if (state.isCMYK) {
@@ -108,7 +105,7 @@ export default {
             return getters.currentCountColors + state.transfersColorsQuantity;
         },
         pricePerSheet: (state, getters) => {
-            return getters.screensPrice + getters.transferPrice + getters.heatTransferPrice;
+            return getters.screensPrice + getters.transferPrice;
         }
     },
     mutations: {
