@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape, Wheel\Wheel, PaidFile};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -63,6 +63,8 @@ class SummaryController extends Controller
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
+        $transfers = HeatTransfer::auth()->get();
+
         $fees = [];
         $sum_fees = 0;
 
@@ -241,7 +243,7 @@ class SummaryController extends Controller
 
         Cookie::queue('orderTotal', $totalOrders);
 
-        return view('summary', compact('fees', 'totalOrders'));
+        return view('summary', compact('fees', 'totalOrders', 'transfers'));
     }
 
     /**
