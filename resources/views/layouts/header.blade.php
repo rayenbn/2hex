@@ -50,10 +50,21 @@
                 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
 
 
-                    <ul class="m-menu__nav">
+                    <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
                         <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel">
                             <span class="m-menu__link-text">
-                                    <h1><p style="font-size:50%; color:#686c7a; padding-top: 15px;">2HEX Skateboard Manufacturer</p></h1></span>
+                                    <h1><p style="font-size:50%; color:#686c7a; padding-top: 15px;">2HEX Skateboard Manufacturer</p></h1>
+                            </span>
+                        </li>
+
+                        <li class="m-menu__item m-menu__item--rel {{ request()->routeIs('inquiries') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                            <a href="/inquiries" class="m-menu__link ">
+                                <i class="m-menu__link-icon flaticon-email"></i>
+                                <span class="m-menu__link-text">Inquiry</span>
+                            </a>
+                        </li>
+                    </ul>
+
 
                 </div>
 

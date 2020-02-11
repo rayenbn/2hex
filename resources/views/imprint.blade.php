@@ -58,7 +58,7 @@
                 
                 
                 
-                <div class="col-xl-9">
+                <div class="col-xl-9" id="terms">
 					<div class="m-portlet">
 						<div class="m-portlet__head">
 							<div class="m-portlet__head-caption">
@@ -102,10 +102,16 @@
 							<div class="m-form m-form--label-align-left- m-form--state-">
 								<div class="m-form__actions m-form__actions">
 									<p>
-                                        By using our services, you understand and accept that 2HEX uses Cookies and third party code as described above.<br>
-										You understand and agree that 2HEX exclusively uses the district court of Ulm, Germany.<br>
-										By registering you sign up to our skateboard industry insights newsletter and allow our team to contact you.<br>
-										You can opt out of our newsletter at any time by clicking "unsubscribe" at the bottom of every newsletter.
+                                        - By using our services, you understand and accept that 2HEX uses Cookies and third party code as described above.<br>
+										- You understand and agree that 2HEX exclusively uses the district court of Ulm, Germany.<br>
+										- The availability of products offered on 2hex.com can not be promised.
+										- If your requested product is not available, we may decline your order or contact you to find a suitable replacement.<br>
+										- We have the right to cancel your order and return your payment at any time.<br>
+										- Product times are estimates. Actual production times depend on the current demand.<br>
+										- We try to answer inquiries within 24 hours.
+										- By registering or contacting us you agree that we may add you to our newsletter and that we may email, message and call you.<br>
+										- Our irregular newsletter can be unsubscribed at all times - but if you have a skateboard company, we are sure that you will not unsubscribe! Less than 1% of all subscribers have unsubscribed in spite of the unsubscribe button being at the bottom of every email.<br>
+										- We try to answer all inquiries, however we can not promise to be successful at doing so.<br>
 									</p>
 								</div>
 							</div>
