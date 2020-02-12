@@ -63,6 +63,15 @@
                                 <span class="m-menu__link-text">Contact</span>
                             </a>
                         </li>
+
+                        <li class="m-menu__item m-menu__item--rel {{ request()->routeIs('samplesets') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                            <a href="/samplesets" class="m-menu__link ">
+                                <i class="m-menu__link-icon flaticon-box"></i>
+                                <span class="m-menu__link-text">Samples</span>
+                            </a>
+                        </li>
+
+
                     </ul>
 
 

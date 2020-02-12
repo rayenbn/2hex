@@ -329,8 +329,8 @@
                 </a>
             </li>
 
-            <li class="m-menu__item  {{ request()->routeIs('samples') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
-                <a href="{{ route('samples') }}" class="m-menu__link ">
+            <li class="m-menu__item  {{ request()->routeIs('samplesets') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('samplesets') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
