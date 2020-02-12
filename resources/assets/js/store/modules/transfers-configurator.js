@@ -12,7 +12,7 @@ export default {
         pantoneColor: null,
         colors: null,
         countColors: 0,
-        cmykColors: ['CMYK', null, null, null],
+        cmykColors: ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'],
         isCMYK: false,
         smallPreview: null,
         largePreview: null,
@@ -27,6 +27,7 @@ export default {
     getters: {
         getQuantity: state => state.quantity,
         getSize: state => state.size,
+        getHeatTransfer: state => state.heatTransfer,
         getTransfersColorsQuantity: state => state.transfersColorsQuantity,
         getTransfersQuantity: state => state.transfersQuantity,
         getCMYK: state => state.isCMYK,
@@ -42,7 +43,7 @@ export default {
         hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
-                getters.currentCountColors,
+                state.isCMYK ? getters.currentCountColors - 4 : getters.currentCountColors,
                 getters.totalQuantity
             );
 
@@ -61,7 +62,7 @@ export default {
                 state.isCMYK
             );
 
-            if (state.transparency) {
+            if (state.transparency && !state.CMYK) {
                 cost += getters.transparentPrice;
             }
 

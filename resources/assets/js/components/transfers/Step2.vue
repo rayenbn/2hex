@@ -40,7 +40,7 @@
                             <div class="d-flex justify-content-between mt-3 mb-3">
                                 <div class="d-flex align-items-center justify-content-start">
                                     <label class="switch mr-2 mb-0">
-                                        <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange" @click="toggleCMYK">
+                                        <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange">
                                         <span class="slider round"></span>
                                     </label>
                                     <span>CMYK</span>
@@ -88,12 +88,11 @@
                             </template>
                             <template v-if="CMYK">
                                 <input
-                                    v-for="(color, index) in cmykColors.length"
+                                    v-for="(color, index) in totalCmykColors"
                                     type="text"
                                     class="form-control mt-2 mb-2"
                                     placeholder="Enter Pantone Color"
                                     v-model="cmykColors[index]"
-                                    :disabled="index == 0"
                                     :name="'cmyk-color' + index"
                                     v-validate="'required'"
                                     @input="onChangeCMYKColor"
@@ -295,7 +294,7 @@
                 heatTransfers: [
                     {
                         "name": HEAT_TRANSFERS.GLOSSY,
-                        "active": false
+                        "active": true
                     },
                     {
                         "name": HEAT_TRANSFERS.MATTE,
@@ -352,18 +351,16 @@
                 lgProgress: 0,
             }
         },
+
         methods: {
             toggleHeatTransfer(heatTransfer) {
+                if (this.heatTransfer.name === heatTransfer.name) return;
 
                 this.heatTransfers.map(transfer => {
-                    if (transfer.name === heatTransfer.name) {
-                        heatTransfer.active = !heatTransfer.active;
-                    } else {
-                        transfer.active = false;
-                    }
+                    transfer.active = transfer.name === heatTransfer.name;
                 });
 
-                this.$store.commit('TransfersConfigurator/setHeatTransfer', heatTransfer.active ? heatTransfer : null)
+                this.$store.commit('TransfersConfigurator/setHeatTransfer', heatTransfer)
             },
             readURL(input) {
                 if (input.files.length === 0) { return; }
@@ -472,15 +469,6 @@
                     document.getElementById(type + '-recent').innerHTML = content;
                 });
             },
-            toggleCMYK() {
-                this.$nextTick(() => {
-                    if (!this.CMYK) {
-                        document.getElementById('pantoneColor').setAttribute('disabled', true);
-                    } else {
-                        document.getElementById('pantoneColor').removeAttribute('disabled');
-                    }
-                });
-            },
             onChangePantoneColor: _.debounce(function (e) {
                 this.$store.commit('TransfersConfigurator/setPantoneColor', this.pantoneColor);
             }, 1000),
@@ -489,6 +477,17 @@
             }, 1000)
         },
         computed: {
+            totalCmykColors() {
+                let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
+
+                if (this.transparency) {
+                    colors.push('Transparency');
+                }
+
+                this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
+
+                return this.pantoneColor.countFields + 4 + +this.transparency;
+            },
             designName: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getDesignName'];
@@ -558,6 +557,14 @@
             },
             hasChange() {
                 return this.$store.getters['TransfersConfigurator/hasChange'];
+            },
+            heatTransfer: {
+                get() {
+                    return this.$store.getters['TransfersConfigurator/getHeatTransfer'];
+                },
+                set(newVal) {
+                    this.$store.commit('TransfersConfigurator/setHeatTransfer', newVal);
+                }
             }
         },
         mounted() {
@@ -574,6 +581,10 @@
             if (! this.pantoneColor) {
                 this.pantoneColor = this.pantoneColors[0];
                 queryPantoneColor.val(0).trigger('change');
+            }
+
+            if (! this.heatTransfer) {
+                this.heatTransfer = this.heatTransfers[0];
             }
 
             // Preselect small preview

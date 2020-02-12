@@ -20,7 +20,7 @@ class HeatTransferService {
         }
 
         if (colorCount > 4) {
-            addedPerColor += (colorCount - 4) * 0.1;
+            addedPerColor += colorCount * 0.1;
         }
 
         return parseFloat(
