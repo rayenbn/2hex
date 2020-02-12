@@ -340,8 +340,8 @@
                 </a>
             </li>
 
-            <li class="m-menu__item  {{ request()->routeIs('inquiries') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
-                <a href="/inquiries" class="m-menu__link ">
+            <li class="m-menu__item  {{ request()->routeIs('inquirieschoice') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="/inquirieschoice" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-multimedia"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">

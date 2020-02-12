@@ -87,6 +87,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
+Route::get('/inquirieschoice', 'InquirieschoiceController@index')->name('inquirieschoice');
+Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');

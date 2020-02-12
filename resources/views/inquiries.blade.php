@@ -31,7 +31,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Skateboard Production Inquiry
+                                Company Skateboard Production Inquiry
                             </h3>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                                                         <span><span>3</span></span>
                                                     </a>
                                                     <div class="m-wizard__step-label">
-                                                        About
+                                                        Company
                                                     </div>
                                                     <div class="m-wizard__step-icon"><i class="la la-check"></i></div>
                                                 </div>
@@ -128,14 +128,14 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Skateboard Decks">
-                                                            <span class="m-form__help">Please enter your required product(s)</span>
+                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Custom shaped skateboard decks in various sizes.">
+                                                            <span class="m-form__help">Please describe your required product(s)</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product Quantity:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="1000 Pcs">
+                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="1000 decks per 3 months">
                                                             <span class="m-form__help">Please enter your approximate order quantity</span>
                                                         </div>
                                                     </div>
@@ -165,34 +165,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-6 m-form__group-sub">
-                                                        <label class="form-control-label">* I contact you as a:</label>
-                                                        <div class="m-radio-inline">
-                                                            <label class="m-radio m-radio--solid m-radio--brand">
-                                                                <input type="radio" name="account_group" checked="" value="2"> private individual
-                                                                <span></span>
-                                                            </label>
-                                                            <label class="m-radio m-radio--solid m-radio--brand">
-                                                                <input type="radio" name="account_group" value="2"> company
-                                                                <span></span>
-                                                            </label>
-                                                        </div>
-                                                        <span class="m-form__help">Do you have a registered skateboard company?</span>
-                                                    </div>
-
                                                     <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">* Company Name:</label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Purple Skateboard Co">
-                                                            <span class="m-form__help">Please enter your company name (if applicable)</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">* Phone Number:</label>
+                                                        <label class="col-xl-3 col-lg-3 col-form-label">Phone Number:</label>
                                                         <div class="col-xl-9 col-lg-9">
                                                             <input type="text" name="name" class="form-control m-input" placeholder="" value="+1 685 1234 5665">
-                                                            <span class="m-form__help">Phone number under which we can reach you (if we have questions)</span>
+                                                            <span class="m-form__help">Phone number (if you would like to discuss our cooperation by phone)</span>
                                                         </div>
                                                     </div>
 
@@ -465,6 +442,15 @@
                                                 <div class="m-form__section m-form__section--first">
                                                     <div class="m-form__heading">
                                                         <h3 class="m-form__heading-title">About Your Company</h3>
+                                                        <span>We are especially interested in a cooperation, if we see that your company is well established.</span>
+                                                    </div>
+
+                                                    <div class="form-group m-form__group row">
+                                                        <label class="col-xl-3 col-lg-3 col-form-label">* Company Name:</label>
+                                                        <div class="col-xl-9 col-lg-9">
+                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Purple Skateboard Co">
+                                                            <span class="m-form__help">Please enter your company name</span>
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group m-form__group row">
@@ -476,7 +462,7 @@
                                                                 <input type="checkbox" name="checkbox" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
-                                                            <span>I do not yet have a website</span>
+                                                            <span>We do not yet have a website</span>
                                                         </div>
                                                     </div>
 
@@ -490,7 +476,7 @@
                                                                 <input type="checkbox" name="checkbox" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
-                                                            <span>I do not have a company with social media presence</span>
+                                                            <span>We do not have a social media presence</span>
                                                         </div>
                                                     </div>
 
@@ -504,7 +490,7 @@
                                                                 <input type="checkbox" name="checkbox" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
-                                                            <span>I don’t yet have any custom products</span>
+                                                            <span>We do not yet have custom products</span>
                                                         </div>
                                                     </div>
                                                 </div>

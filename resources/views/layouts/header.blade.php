@@ -57,10 +57,10 @@
                             </span>
                         </li>
 
-                        <li class="m-menu__item m-menu__item--rel {{ request()->routeIs('inquiries') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
-                            <a href="/inquiries" class="m-menu__link ">
+                        <li class="m-menu__item m-menu__item--rel {{ request()->routeIs('inquirieschoice') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                            <a href="/inquirieschoice" class="m-menu__link ">
                                 <i class="m-menu__link-icon flaticon-email"></i>
-                                <span class="m-menu__link-text">Inquiry</span>
+                                <span class="m-menu__link-text">Contact</span>
                             </a>
                         </li>
                     </ul>
