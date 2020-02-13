@@ -109,8 +109,8 @@
 										- We have the right to cancel your order and return your payment at any time.<br>
 										- Product times are estimates. Actual production times depend on the current demand.<br>
 										- We try to answer inquiries within 24 hours.
-										- By registering or contacting us you agree that we may add you to our newsletter and that we may email, message and call you.<br>
-										- Our irregular newsletter can be unsubscribed at all times - but if you have a skateboard company, we are sure that you will not unsubscribe! Less than 1% of all subscribers have unsubscribed in spite of the unsubscribe button being at the bottom of every email.<br>
+										- By registering, ordering samples or contacting us you agree that we may add you to our newsletter and that we may email, message and call you.<br>
+										- Our irregular newsletter can be unsubscribed at any time. If you have a skateboard company, we suggest you read one or two newsletters before unsubscribing - we believe that they will be very helpful to your business.<br>
 										- We try to answer all inquiries, however we can not promise to be successful at doing so.<br>
 									</p>
 								</div>

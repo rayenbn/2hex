@@ -137,17 +137,42 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="m-pricing-table-2__item col-lg-12">
+                                                <div class="m-pricing-table-2__features">
+                                                    <span>By ordering samples I agree to 2HEX' <a href="/imprint#terms" class="m-nav__link">terms and conditions</a>.</span>
+                                                </div>
+                                                </div>
+
 
                                                 <div class="m-pricing-table-2__item col-lg-12">
                                                     <div class="m-pricing-table-2__features">
                                                         <hr>
-                                                        <span>About our samples pricing.</span>
+                                                        <span><u>Frequently Asked Questions</u></span>
                                                     </div>
+
+                                                    <div class="m-pricing-table-2__features">
+                                                        <span>Samples Pricing</span>
+                                                    </div>
+
                                                     <p><i>International airfreight of samples from China is expensive.<br>
                                                             The above price includes financial support and does not cover our costs.<br>
                                                             <br>
                                                             To further support customers who are sincere about running a production with 2HEX,<br>
                                                             we credit 50 USD towards your first production order at 2HEX.</i></p>
+
+                                                    <div class="m-pricing-table-2__features">
+                                                    <span>Custom Print</span>
+                                                    </div>
+                                                    <p><i>Custom printed skateboard samples are available after having placed a full production order.
+                                                            Once we have received your down-payment, we will produce the print films needed for your skateboard production.
+                                                            With these we can then produce your skateboard samples. After receiving your samples-confirmation we will move forward to running your bulk production.<br>
+                                                            <br>
+                                                            Due to the high upfront costs of screen printing, we do not offer custom printed samples to companies that have not placed a production order with 2HEX.
+
+
+                                                        </i></p>
+
+
                                                 </div>
                                             </div>
                                         </div>
