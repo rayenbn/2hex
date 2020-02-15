@@ -84,6 +84,10 @@ class HeatTransferService {
 
         return price;
     }
+
+    toNumber(number) {
+        return parseFloat(Number(number).toFixed(2));
+    }
 }
 
 export default HeatTransferService;

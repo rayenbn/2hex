@@ -53,7 +53,7 @@ export default {
                 price = price * state.size.percent / 100;
             }
 
-            return parseFloat(price.toFixed(2));
+            return heatTransferService.toNumber(price);
         },
         screensPrice: (state, getters) => {
             let cost = heatTransferService.calculateScreensPrice(
@@ -67,7 +67,7 @@ export default {
                 cost = cost * state.size.percent / 100;
             }
 
-            return parseFloat(Number(cost).toFixed(2));
+            return heatTransferService.toNumber(cost);
         },
         heatTransferPrice: (state, getters) => {
             if (! state.heatTransfer) {
@@ -79,7 +79,7 @@ export default {
                 getters.totalQuantity
             );
 
-            return parseFloat(Number(price).toFixed(2));
+            return heatTransferService.toNumber(price);
         },
         totalQuantity: state => {
             return state.quantity + state.transfersQuantity;
@@ -103,7 +103,17 @@ export default {
         },
         pricePerSheet: (state, getters) => {
             return getters.screensPrice + getters.transferPrice;
-        }
+        },
+        costPerTransfer: (state, getters) => {
+            if (state.quantity > 0) {
+                return heatTransferService.toNumber(getters.transferPrice / state.quantity);
+            }
+
+            return 0;
+        },
+        costPerScreen: (state, getters) => {
+            return heatTransferService.toNumber(getters.screensPrice / getters.currentCountColors);
+        },
     },
     mutations: {
         setQuantity(state, payload) {
@@ -167,12 +177,14 @@ export default {
                     colors_count: getters.currentCountColors,
                     cmyk: state.isCMYK,
                     heat_transfer: state.heatTransfer ? state.heatTransfer.name : null,
-                    colors: getters.currentColors.join(';'),
+                    colors: getters.currentColors.filter(Boolean).join(';'),
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,
                     price: getters.screensPrice,
                     total: getters.pricePerSheet,
                     reorder: state.reOrder,
+                    cost_per_transfer: getters.costPerTransfer,
+                    cost_per_screen: getters.costPerScreen
                 };
 
                 let path = '/transfers-configurator';

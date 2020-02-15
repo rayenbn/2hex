@@ -38,7 +38,9 @@ class StoreHeatTransferRequest extends FormRequest
             'total' => 'required|numeric',
             'reorder_at' => 'nullable|date',
             'reorder' => 'required|boolean',
-            'size_margin' => 'numeric'
+            'size_margin' => 'numeric',
+            'cost_per_transfer' => 'numeric',
+            'cost_per_screen' => 'numeric',
         ];
     }
 }
