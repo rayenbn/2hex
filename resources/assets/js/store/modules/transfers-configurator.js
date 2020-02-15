@@ -43,14 +43,14 @@ export default {
         hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
-                state.isCMYK ? getters.currentCountColors - 4 : getters.currentCountColors,
-                getters.totalQuantity
+                state.quantity,
+                getters.currentCountColors,
+                getters.totalQuantity,
+                getters.heatTransferPrice
             );
 
             if (state.size && state.size.hasOwnProperty('percent')) {
-                price = state.quantity * (price + getters.heatTransferPrice) * state.size.percent / 100;
-            } else {
-                price = state.quantity * (price + getters.heatTransferPrice);
+                price = price * state.size.percent / 100;
             }
 
             return parseFloat(price.toFixed(2));
@@ -59,31 +59,27 @@ export default {
             let cost = heatTransferService.calculateScreensPrice(
                 getters.currentCountColors,
                 getters.totalColors,
-                state.isCMYK
+                state.isCMYK,
+                state.transparency
             );
 
-            if (state.transparency && !state.CMYK) {
-                cost += getters.transparentPrice;
-            }
-
             if (state.size && state.size.hasOwnProperty('percent')) {
-                return cost * state.size.percent / 100;
+                cost = cost * state.size.percent / 100;
             }
 
-            return cost;
+            return parseFloat(Number(cost).toFixed(2));
         },
         heatTransferPrice: (state, getters) => {
             if (! state.heatTransfer) {
                 return 0;
             }
 
-            return heatTransferService.calculateHeatTransferPrice(
+            let price = heatTransferService.calculateHeatTransferPrice(
                 state.heatTransfer,
                 getters.totalQuantity
             );
-        },
-        transparentPrice: (state, getters) => {
-            return heatTransferService.transparentPrice(getters.totalColors);
+
+            return parseFloat(Number(price).toFixed(2));
         },
         totalQuantity: state => {
             return state.quantity + state.transfersQuantity;
@@ -93,7 +89,7 @@ export default {
                 return state.cmykColors.length;
             }
 
-            return state.countColors;
+            return state.countColors + +state.transparency;
         },
         currentColors: state => {
             if (state.isCMYK) {

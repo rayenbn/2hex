@@ -57,10 +57,6 @@ class TransferController extends Controller
 
         $totalQuantity = $transfers->sum('quantity');
         $totalColors = $transfers->sum('colors_count');
-        $totalColors += $transfers->filter(function (HeatTransfer $heatTransfer) {
-            return $heatTransfer->transparency;
-        })->sum('transparency');
-
 
         if (empty($user)) {
             return view('transfers.configurator', compact('filenames', 'isAdmin'));

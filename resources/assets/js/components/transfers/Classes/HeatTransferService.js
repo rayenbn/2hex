@@ -5,11 +5,13 @@ class HeatTransferService {
     /**
      * Calculate Transfer price
      *
+     * @param quantity
      * @param colorCount
      * @param totalQuantity
+     * @param heatTransferPrice
      * @returns {number}
      */
-    calculateTransferPrice(colorCount, totalQuantity) {
+    calculateTransferPrice(quantity, colorCount, totalQuantity, heatTransferPrice) {
         let marginTransfer = 0.1;
         let addedPerColor = 0;
 
@@ -19,13 +21,11 @@ class HeatTransferService {
             marginTransfer = 0.15;
         }
 
-        if (colorCount > 4) {
-            addedPerColor += colorCount * 0.1;
+        if ((colorCount - 4) > 0) {
+            addedPerColor = (colorCount - 4) * 0.1;
         }
 
-        return parseFloat(
-            Number(0.45 + marginTransfer + addedPerColor).toFixed(2)
-        );
+        return quantity * (0.45 + marginTransfer + addedPerColor + heatTransferPrice);
     }
 
     /**
@@ -37,15 +37,8 @@ class HeatTransferService {
      * @returns {number}
      */
     calculateScreensPrice(colorsQuantity, totalColorsQuantity, CMYK = false) {
-        let totalPrice = 0;
 
-        if (CMYK) {
-            totalPrice += this.CMYKPrice(totalColorsQuantity);
-        } else {
-            totalPrice += this.colorQuantityPrice(totalColorsQuantity) * colorsQuantity;
-        }
-
-        return parseFloat(Number(totalPrice).toFixed(2));
+        return (colorsQuantity * this.colorQuantityPrice(totalColorsQuantity)) + (CMYK ? 15 : 0);
     }
 
     calculateHeatTransferPrice(heatTransfer, totalQuantity) {
@@ -71,7 +64,7 @@ class HeatTransferService {
             }
         }
 
-        return parseFloat(Number(price).toFixed(2));
+        return price;
     }
 
     /**
@@ -87,42 +80,6 @@ class HeatTransferService {
             case colorsQuantity < 10: price += 20; break;
             case colorsQuantity >= 10 && colorsQuantity < 29: price += 15; break;
             case colorsQuantity >= 30: price += 10; break;
-        }
-
-        return price;
-    }
-
-    /**
-     * Calculate transparent price
-     *
-     * @param colorsQuantity
-     * @returns {number}
-     */
-    transparentPrice(colorsQuantity) {
-        let price = 25;
-
-        switch(true) {
-            case colorsQuantity < 10: price += 20; break;
-            case colorsQuantity >= 10 && colorsQuantity < 29: price += 15; break;
-            case colorsQuantity >= 30: price += 10; break;
-        }
-
-        return price;
-    }
-
-    /**
-     * Calculate CMYK price
-     *
-     * @param colorsQuantity
-     * @returns {number}
-     */
-    CMYKPrice(colorsQuantity) {
-        let price = (25 * 4) + 15;
-
-        switch(true) {
-            case colorsQuantity < 10: price += (20 * 4); break;
-            case colorsQuantity >= 10 && colorsQuantity < 29: price += (15 * 4); break;
-            case colorsQuantity >= 30: price += (10 * 4); break;
         }
 
         return price;

@@ -35,10 +35,6 @@ class RecalculateHeatTransfers
         $totalsQuantity = $transfers->sum('quantity');
         $totalsColors = $transfers->sum('colors_count');
 
-        $totalsColors += $transfers->filter(function (HeatTransfer $heatTransfer) {
-            return $heatTransfer->transparency;
-        })->sum('transparency');
-
         $transfers->transform(function(HeatTransfer $heatTransfer) use ($totalsQuantity, $totalsColors) {
             return $this->updatePrice($heatTransfer, $totalsQuantity, $totalsColors);
         });
@@ -63,14 +59,13 @@ class RecalculateHeatTransfers
         );
 
         $transferPrice = $this->heatTransferService->calculateTransferPrice(
-            $heatTransfer->colors_count + intval($heatTransfer->transparency),
-            $totalsQuantity
+            $heatTransfer->quantity,
+            $heatTransfer->colors_count,
+            $totalsQuantity,
+            $heatTransferPrice
         );
 
-        // Multiply heat transfer price
-        $transferPrice = intval($heatTransfer->quantity) * ($transferPrice + $heatTransferPrice);
-
-        $transferPrice = $this->heatTransferService->calculateTransferPriceWithSize(
+        $transferPrice = $this->heatTransferService->calculateWithProfitSize(
             $transferPrice,
             $sizeMargin
         );
@@ -78,11 +73,10 @@ class RecalculateHeatTransfers
         $screensPrice = $this->heatTransferService->calculateScreensPrice(
             $heatTransfer->colors_count,
             $totalsColors,
-            $heatTransfer->transparency,
             $heatTransfer->cmyk
         );
 
-        $screensPrice = $this->heatTransferService->calculateScreensPriceWithSize(
+        $screensPrice = $this->heatTransferService->calculateWithProfitSize(
             $screensPrice,
             $sizeMargin
         );
