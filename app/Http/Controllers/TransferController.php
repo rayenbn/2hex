@@ -8,6 +8,7 @@ use App\Models\Auth\User\User;
 use App\Models\HeatTransfer\HeatTransfer;
 use App\Models\PaidFile;
 use App\Models\Session;
+use App\Services\TransferService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
@@ -19,11 +20,19 @@ use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 class TransferController extends Controller
 {
     /**
-     * TransferController constructor.
+     * @var \App\Services\TransferService
      */
-    public function __construct()
+    private $service;
+
+    /**
+     * TransferController constructor.
+     *
+     * @param \App\Services\TransferService $service
+     */
+    public function __construct(TransferService $service)
     {
         $this->middleware('auth')->only('uploadFile');
+        $this->service = $service;
     }
 
     /**
@@ -34,6 +43,31 @@ class TransferController extends Controller
     public function manufacturer() : View
     {
         return view('transfers.manufacturer');
+    }
+
+    /**
+     * Show transfer batch by id
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $transferId
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show(Request $request, int $transferId) : View
+    {
+        /** @var HeatTransfer $transfer */
+        $transfer = HeatTransfer::query()->findOrFail($transferId);
+
+        $filenames = $this->service->getRecentFiles($request->user());
+
+        $totals = $this->service->getTotalAttributes(HeatTransfer::auth()->get());
+        $totalQuantity = $totals['totalQuantity'];
+        $totalColors = $totals['totalColors'];
+
+        return view(
+            'transfers.configurator',
+            compact('transfer', 'filenames', 'totalQuantity', 'totalColors')
+        );
     }
 
     /**
@@ -179,12 +213,93 @@ class TransferController extends Controller
         $heatTransfer = HeatTransfer::query()->create($payload);
 
         Session::query()->create([
-            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER,
+            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER_BATCH,
             'created_by' => $createdBy,
             'comment' => $heatTransfer->id,
         ]);
 
         dispatch(new RecalculateHeatTransfers);
+
+        return redirect()->route('profile', ['#saved_orders']);
+    }
+
+    /**
+     * Destroy transfer batch by id
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $transferId
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request, int $transferId)
+    {
+        /** @var \App\Models\Auth\User\User|null $user */
+        $user = $request->user();
+
+        HeatTransfer::query()->whereKey($transferId)->delete();
+
+        Session::query()->create([
+            'action' => Session\Enum\Type::DELETE_HEAT_TRANSFER,
+            'created_by' => $user ? $user->id : csrf_token(),
+            'comment' => $transferId
+        ]);
+
+        dispatch(new RecalculateHeatTransfers);
+
+        return redirect()->route('summary');
+    }
+
+    /**
+     * Copy transfer batch by id
+     *
+     * @param int $transferId
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function copy(int $transferId) : \Illuminate\Http\RedirectResponse
+    {
+        /** @var HeatTransfer $transfer */
+        $transfer = HeatTransfer::query()->findOrFail($transferId);
+
+        /** @var HeatTransfer $cloneBatch */
+        $cloneBatch = $transfer->replicate();
+        $cloneBatch->push();
+
+        dispatch(new RecalculateHeatTransfers);
+
+        return redirect()->route('summary');
+    }
+
+    /**
+     * Save transfer to batch
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $transferId
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveToBatch(Request $request, int $transferId)
+    {
+        /** @var \App\Models\Auth\User\User|null $user */
+        $user = $request->user();
+
+        /** @var HeatTransfer $transfer */
+        $transfer = HeatTransfer::query()->whereKey($transferId)->firstOrFail();
+
+        /** @var HeatTransfer $cloneBatch */
+        $cloneBatch = $transfer->replicate();
+        $cloneBatch->usenow = 0;
+        $cloneBatch->saved_batch = 1;
+        $cloneBatch->submit = 0;
+        $cloneBatch->saved_date = null;
+        $cloneBatch->invoice_number = null;
+        $cloneBatch->push();
+
+        Session::query()->create([
+            'action' => Session\Enum\Type::SAVE_WHEEL_BATCH,
+            'created_by' => $user ? $user->id : csrf_token(),
+            'comment' => $transferId,
+        ]);
 
         return redirect()->route('profile', ['#saved_orders']);
     }

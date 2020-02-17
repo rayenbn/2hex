@@ -50,7 +50,7 @@
         </td>
         <td>{{$transfer->colors}}</td>
         <td>{{$transfer->reorder_at ?? 'New'}}</td>
-        <td>{{$transfer->price}}</td>
+        <td>{{$transfer->cost_per_transfer}}</td>
         <td>{{$transfer->total}}</td>
 {{--        @if(!isset($batches))--}}
 {{--            <td>{{ auth()->check() ? money_format('%.2n', $wheel->price) : '$?.??' }}</td>--}}
@@ -59,13 +59,13 @@
         @if(Session::get('viewonly') == null && !isset($batches))
             <td>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <form action="#" method="POST">
+                    <form action="{{route('transfers.copy', $transfer->id)}}" method="POST">
                         {!! csrf_field() !!}
                         <button type="submit" class="m-btn btn btn-secondary" title="Duplicate">
                             <i class="la la-files-o"></i>
                         </button>
                     </form>
-                    <form action="#" method="GET">
+                    <form action="{{route('transfers.destroy', $transfer->id)}}" method="GET">
                         {!! csrf_field() !!}
                         <button type="submit" class="m-btn btn btn-secondary" title="Delete">
                             <i class="la la-scissors"></i>
@@ -73,9 +73,15 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <a class="m-btn btn btn-secondary" href="#" title="Save">
-                        <i class="la la-floppy-o"></i>
-                    </a>
+{{--                    <a class="m-btn btn btn-secondary" href="#" title="Save">--}}
+{{--                        <i class="la la-floppy-o"></i>--}}
+{{--                    </a>--}}
+                    <form action="{{route('transfers.save', $transfer->id)}}" method="POST">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="m-btn btn btn-secondary" title="Save">
+                            <i class="la la-floppy-o"></i>
+                        </button>
+                    </form>
                     <a class="m-btn btn btn-secondary" href="#" title="Edit">
                         <i class="la la-italic"></i>
                     </a>

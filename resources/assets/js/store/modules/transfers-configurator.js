@@ -5,6 +5,7 @@ let heatTransferService = new HeatTransferService();
 export default {
     namespaced: true,
     state: {
+        transferBatch: null,
         quantity: 6000,
         size: null,
         designName: '',
@@ -20,7 +21,6 @@ export default {
         recentFiles: null,
         isAdmin: false,
         heatTransfer: null,
-
         transfersColorsQuantity: 0,
         transfersQuantity: 0,
     },
@@ -163,6 +163,30 @@ export default {
         setIsAdmin(state, payload) {
             state.isAdmin = payload;
         },
+        setTransfer(state, payload) {
+            state.transferBatch = payload;
+            state.quantity = payload.quantity;
+            state.size = payload.size;
+            state.designName = payload.design_name;
+            state.transparency = Boolean(payload.transparency);
+            state.countColors = payload.colors_count;
+            state.reOrder = payload.reorder;
+            state.smallPreview = payload.small_preview;
+            state.largePreview = payload.large_preview;
+            state.isCMYK = Boolean(payload.cmyk);
+
+            // if (state.isCMYK) {
+            //     state.cmykColors = payload.colors.split(';');
+            //     // state.pantoneColor = {
+            //     //     countFields: payload.colors_count - 4 - +payload.transparency,
+            //     //     colors: payload.colors.split(';'),
+            //     //     title: `3 field to enter Pantone Color`
+            //     // };
+            // } else {
+            //     state.colors = payload.colors.split(';');
+            // }
+
+        }
     },
     actions: {
         saveBatch({commit, state , getters}) {

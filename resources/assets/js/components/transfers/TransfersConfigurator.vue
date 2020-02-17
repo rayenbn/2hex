@@ -243,8 +243,12 @@
                 type: Number,
                 default: 0
             },
+            transfer: {
+                type: Object,
+                default: null
+            },
             isAdmin: {
-                type: Number,
+                type: Boolean,
                 default: false,
                 validator: function (value) {
                     value = parseInt(value);
@@ -357,7 +361,11 @@
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
             this.$store.commit('TransfersConfigurator/setTransfersQuantity', this.totalQuantity);
             this.$store.commit('TransfersConfigurator/setTransfersColorsQuantity', this.totalColors);
-            this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
+            // this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
+
+            if (this.transfer != null) {
+                this.$store.commit('TransfersConfigurator/setTransfer', this.transfer);
+            }
         }
     };
 </script>

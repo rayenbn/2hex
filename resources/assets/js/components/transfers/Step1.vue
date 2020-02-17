@@ -175,6 +175,14 @@
 		    // init select2
             let querySize = $("#transfers_size");
 
+            let parentComponent= this.$parent;
+
+            if (parentComponent.transfer) {
+                let index = this.sizeList.findIndex(s => s.fullname === parentComponent.transfer.size) || 0;
+                querySize.val(index).trigger('change');
+                this.size = this.sizeList[index];
+            }
+
             querySize.select2();
 
             // Listen change select with color types

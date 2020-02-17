@@ -14,9 +14,9 @@
             manufacturer_url="{{route('transfers.manufacturer')}}"
             upload_url="{{route('transfers.upload', [], false)}}"
             :filenames="{{ json_encode($filenames) }}"
-            :is-admin="{{ $isAdmin ? 1 : 0 }}"
             :total-quantity="{{$totalQuantity}}"
             :total-colors="{{$totalColors}}"
+            :transfer="{{json_encode($transfer ?? null)}}"
         >
         </transfers-configurator>
     </div>

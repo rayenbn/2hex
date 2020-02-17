@@ -556,7 +556,8 @@
                 return this.$store.getters['TransfersConfigurator/getRecentFiles'];
             },
             hasChange() {
-                return this.$store.getters['TransfersConfigurator/hasChange'];
+                return true;
+                // return this.$store.getters['TransfersConfigurator/hasChange'];
             },
             heatTransfer: {
                 get() {
@@ -577,6 +578,33 @@
             queryPantoneColor.on('select2:select', (e) => {
                 this.pantoneColor = this.pantoneColors[e.params.data.id];
             });
+
+            let parentComponent= this.$parent;
+
+            if (parentComponent.transfer) {
+
+                // Set heat transfer
+                this.heatTransfer = this.heatTransfers.find(t => t.name === parentComponent.transfer.heat_transfer);
+                this.heatTransfers.map(transfer => {
+                    transfer.active = transfer.name === this.heatTransfer.name;
+                });
+
+                this.$nextTick(() => {
+                    this.renderPreview(parentComponent.transfer.small_preview, 'sm');
+
+                    if (parentComponent.transfer.large_preview) {
+                        this.renderPreview(parentComponent.transfer.large_preview, 'lg');
+                    }
+                });
+
+                // let countColors = 0;
+                //
+                // if (parentComponent.transfer.cmyk) {
+                //     countColors = parentComponent.transfer.colors_count - 4 - +parentComponent.transfer.transparency;
+                // } else {
+                //     countColors = parentComponent.transfer.colors_count;
+                // }
+            }
 
             if (! this.pantoneColor) {
                 this.pantoneColor = this.pantoneColors[0];
