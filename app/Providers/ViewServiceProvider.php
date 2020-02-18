@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\HeatTransfer\HeatTransfer;
 use Illuminate\Support\ServiceProvider;
 use View;
-use App\Http\View\Composers\ConfiguratorShowing;
+use Illuminate\View\View as IlluminateVue;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -15,16 +16,13 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', function($view) {
+        View::composer('*', function(IlluminateVue $view) {
             $view
                 ->with('orders',  \App\Models\Order::auth()->get())
                 ->with('grips',  \App\Models\GripTape::auth()->get())
-                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
+                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                ->with('transfers', HeatTransfer::auth()->get());
         });
-        
-        // View::composer(
-        //     'wheel-configurator.configurator', ConfiguratorShowing::class
-        // );
     }
 
     /**

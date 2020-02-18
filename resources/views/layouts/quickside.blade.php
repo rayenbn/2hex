@@ -8,7 +8,7 @@
             </li>
         </ul>
         <div style="height: calc(100% - 60px);">
-            <iframe height="100%" width="100%" style="margin:0px;" src="https://tawk.to/chat/5c702860a726ff2eea59008f/default" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+{{--            <iframe height="100%" width="100%" style="margin:0px;" src="https://tawk.to/chat/5c702860a726ff2eea59008f/default" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>--}}
         </div>
     </div>
 </div>
