@@ -35,11 +35,11 @@
                 </label>
             </td>
             @endif
-            <td>Skateboard Wheels Batch #{{++$batch}}</td>
-            <td>{{$wheel->quantity}}</td>
-            <td>{{$wheel->type}}</td>
-            <td>{{$wheel->shape}}</td>
-            <td>{{$wheel->size}}</td>
+            <td class="align-middle">Skateboard Wheels Batch #{{++$batch}}</td>
+            <td class="align-middle text-center">{{$wheel->quantity}}</td>
+            <td class="align-middle text-center">{{$wheel->type}}</td>
+            <td class="align-middle text-center">{{$wheel->shape}}</td>
+            <td class="align-middle text-center">{{$wheel->size}}</td>
             <td>
                 {{$wheel->hardness}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
@@ -58,8 +58,8 @@
                 <br>
                 colors: {{$wheel->back_colors ?? ''}}
             </td>
-            <td>{{$wheel->placement}}</td>
-            <td>{{$wheel->cardboard_print ?? 'No'}}</td>
+            <td class="align-middle text-center">{{$wheel->placement}}</td>
+            <td class="align-middle text-center">{{$wheel->cardboard_print ?? 'No'}}</td>
             <td @if(isset($fees['carton_print'][$wheel->carton_print]['paid']) && $fees['carton_print'][$wheel->carton_print]['paid'] == 1) class="paid" @endif @if(isset($fees['wheel_carton_print'][$wheel->carton_print]['paid']) && $fees['wheel_carton_print'][$wheel->carton_print]['paid'] == 1) class="paid" @endif>
                 {{$wheel->carton_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
@@ -67,8 +67,8 @@
                 colors: {{$wheel->cardboard_colors ?? ''}}
             </td>
             @if(!isset($batches))
-            <td>{{ auth()->check() ? money_format('%.2n', $wheel->price) : '$?.??' }}</td>
-            <td>{{ auth()->check() ? money_format('%.2n', $wheel->total) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $wheel->price) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $wheel->total) : '$?.??' }}</td>
             @endif
             @if(Session::get('viewonly') == null && !isset($batches))
             <td>

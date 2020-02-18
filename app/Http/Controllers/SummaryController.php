@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TransferService;
 use Illuminate\Http\Request;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
@@ -63,14 +64,18 @@ class SummaryController extends Controller
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
+
+        /** @var \Illuminate\Database\Eloquent\Collection|HeatTransfer[] $transfers */
         $transfers = HeatTransfer::auth()->get();
 
         $fees = [];
         $sum_fees = 0;
 
+        $transfersWeight = TransferService::getGlobalDeliveryWeight($transfers);
+
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
-        
+
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
@@ -83,7 +88,7 @@ class SummaryController extends Controller
             ->weight;
 
         // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
+        $weight = round(($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $transfersWeight, 2);
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -203,8 +208,10 @@ class SummaryController extends Controller
             }
         }
 
+        $this->calculateTransfersFixCost($fees);
+
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || $transfers->isNotEmpty()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -222,7 +229,12 @@ class SummaryController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+        $totalOrders =
+            $ordersQuery->sum('total')
+            + GripTape::auth()->sum('total')
+            + Wheel::auth()->sum('total')
+            + $transfers->sum('total')
+            + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -243,7 +255,7 @@ class SummaryController extends Controller
 
         Cookie::queue('orderTotal', $totalOrders);
 
-        return view('summary', compact('fees', 'totalOrders', 'transfers'));
+        return view('summary', compact('fees', 'totalOrders'));
     }
 
     /**
@@ -343,6 +355,69 @@ class SummaryController extends Controller
                 if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$wheelKey][$value]['price'] = 0;
                     $fees[$wheelKey][$value]['paid'] = 1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Calculate fix cost for active transfers
+     *
+     * @param array $fees
+     *
+     * @return void
+     */
+    protected function calculateTransfersFixCost(array &$fees)
+    {
+        $transferQuery = HeatTransfer::auth();
+
+        $transfers = (clone $transferQuery)
+            ->get()
+            ->map(function($transfer) {
+                return array_filter($transfer->attributesToArray());
+            })
+            ->toArray();
+
+        $feesTypes = [
+            'small_preview' => [
+                'name' => 'Transfer Paper',
+            ],
+            'large_preview' => [
+                'name' => 'Transfer Paper',
+            ],
+        ];
+
+        foreach ($transfers as $index => $transfer) {
+            $index += 1;
+            foreach ($transfer as $key => $value) {
+                if (!array_key_exists($key,  $feesTypes) || !array_key_exists('quantity',  $transfer)) continue;
+
+                $transferKey = 'transfer_' . $key;
+
+                // If same design
+                if (array_key_exists($transferKey, $fees)) {
+                    if (array_key_exists($value, $fees[$transferKey])) {
+                        $fees[$transferKey][$value]['batches'] .= ",{$index}";
+                        $fees[$transferKey][$value]['quantity'] += $transfer['quantity'];
+                        continue;
+                    }
+                }
+
+                $fees[$transferKey][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $feesTypes[$key]['name'],
+                    'quantity' => $transfer['quantity'],
+                    'color'    => $transfer['colors_count']
+                ];
+
+                // TODO Change price
+                $fees[$transferKey][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $transfer['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$transferKey][$value]['price'] = 0;
+                    $fees[$transferKey][$value]['paid'] = 1;
                 }
             }
         }

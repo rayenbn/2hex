@@ -129,7 +129,7 @@
                     {
                         "fullname": "12\" x 42\" Transfer-paper on  Longboard 1 Deck",
                         "size": 42,
-                        "name": "Transfer-paper on  Longboard 1 Deck",
+                        "name": "Transfer-paper on Longboard 1 Deck",
                         "image": '/img/transfers/12x42-longboard-deck-heat-transfers.jpg',
                         "percent": 140
                     },

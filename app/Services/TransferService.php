@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Auth\User\User;
+use App\Models\HeatTransfer\HeatTransfer;
 use App\Models\PaidFile;
 use Illuminate\Support\Collection;
 
@@ -91,5 +92,34 @@ class TransferService
         $totalColors = $transfers->sum('colors_count');
 
         return compact('totalQuantity', 'totalColors');
+    }
+
+    /**
+     * Calculate Global Delivery cost based on total KG
+     *
+     * @param \Illuminate\Support\Collection $transfers
+     *
+     * @return int|mixed
+     */
+    public static function getGlobalDeliveryWeight(Collection $transfers)
+    {
+        // add once per transfer paper order: 1 KG Packaging Material for all transfers
+        if ($transfers->isEmpty()) {
+            return 0;
+        }
+
+        $sizeWeight = [
+            "9\" x 33\" Transfer-paper on Skateboard Deck" => 0.0175,
+            "8\" x 23\" Transfer-paper on Mini Cruiser Deck" => 0.0175,
+            "12\" x 42\" Transfer-paper on Longboard 1 Deck" => 0.0385,
+            "14\" x 48\" Transfer-paper on Longboard 2 Deck" => 0.0490,
+            //1 Heat-transfer23” x 56”  Skimboard	0.0788 KG
+            "23\" x 45\" Transfer-paper on Skimboard Deck" => 0.0788,
+        ];
+
+        return $transfers->reduce(function($carry, HeatTransfer $heatTransfer) use ($sizeWeight) {
+            return $carry + $sizeWeight[$heatTransfer->size];
+        }, 1);
+
     }
 }

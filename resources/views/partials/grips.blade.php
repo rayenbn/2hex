@@ -35,21 +35,21 @@
                 </label>
             </td>
             @endif
-            <td>Griptape Batch #{{++$batch}}</td>
-            <td>{{$grip->quantity}}</td>
-            <td>{{$grip->size}}</td>
-            <td>{{$grip->color}}</td>
-            <td>{{$grip->grit}}</td>
-            <td>{{$grip->perforation ? 'Yes' : 'None'}}</td>
-            <td>{{$grip->die_cut}}</td>
-            <td @if(isset($fees['top_print'][$grip->top_print]['paid']) && $fees['top_print'][$grip->top_print]['paid'] == 1) class="paid" @endif>
+            <td class="align-middle">Griptape Batch #{{++$batch}}</td>
+            <td class="align-middle text-center">{{$grip->quantity}}</td>
+            <td class="align-middle" title="{{$grip->size}}">{{$grip->size}}</td>
+            <td class="align-middle text-center">{{$grip->color}}</td>
+            <td class="align-middle text-center">{{$grip->grit}}</td>
+            <td class="align-middle text-center">{{$grip->perforation ? 'Yes' : 'None'}}</td>
+            <td class="align-middle text-center">{{$grip->die_cut}}</td>
+            <td class="text-center" @if(isset($fees['top_print'][$grip->top_print]['paid']) && $fees['top_print'][$grip->top_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->top_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 {{$grip->top_print_color ?? ''}}
             </td>
-            <td>{{$grip->backpaper}}</td>
-            <td @if(isset($fees['backpaper_print'][$grip->backpaper_print]['paid']) && $fees['backpaper_print'][$grip->backpaper_print]['paid'] == 1) class="paid" @endif>
+            <td class="align-middle text-center">{{$grip->backpaper}}</td>
+            <td  @if(isset($fees['backpaper_print'][$grip->backpaper_print]['paid']) && $fees['backpaper_print'][$grip->backpaper_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->backpaper_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
@@ -62,8 +62,8 @@
                 {{$grip->carton_print_color ?? ''}}
             </td>
             @if(!isset($batches))
-            <td>{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
-            <td>{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $grip->price) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $grip->total) : '$?.??' }}</td>
             @endif
             @if(Session::get('viewonly') == null && !isset($batches))
             <td>
