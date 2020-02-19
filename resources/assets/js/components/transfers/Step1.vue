@@ -113,35 +113,35 @@
             return {
                 sizeList: [
                     {
-                        "fullname": "9\" x 33\" Transfer-paper on Skateboard Deck",
+                        "fullname": "9\" x 33\" Skateboard",
                         "size": 33,
                         "name": "Transfer-paper on Skateboard Deck",
                         "image": '/img/transfers/9x33-skateboard-deck-heat-transfers.jpg',
                         "percent": 100
                     },
                     {
-                        "fullname": "8\" x 23\" Transfer-paper on Mini Cruiser Deck",
+                        "fullname": "8\" x 23\" Mini Cruiser",
                         "size": 23,
                         "name": "Transfer-paper on Mini Cruiser Deck",
                         "image": '/img/transfers/8x23-mini-cruiser-heat-transfers.jpg',
                         "percent": 100
                     },
                     {
-                        "fullname": "12\" x 42\" Transfer-paper on  Longboard 1 Deck",
+                        "fullname": "12\" x 42\" Longboard 1",
                         "size": 42,
                         "name": "Transfer-paper on Longboard 1 Deck",
                         "image": '/img/transfers/12x42-longboard-deck-heat-transfers.jpg',
                         "percent": 140
                     },
                     {
-                        "fullname": "14\" x 48\" Transfer-paper on Longboard 2 Deck",
+                        "fullname": "14\" x 48\" Longboard 2",
                         "size": 42,
                         "name": "Transfer-paper on Longboard 2 Deck",
                         "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg',
                         "percent": 150
                     },
                     {
-                        "fullname": "23\" x 45\" Transfer-paper on Skimboard Deck",
+                        "fullname": "23\" x 45\" Skimboard",
                         "size": 45,
                         "name": "Transfer-paper on Skimboard Deck",
                         "image": '/img/transfers/Skimboard-Transferpapers.jpg',

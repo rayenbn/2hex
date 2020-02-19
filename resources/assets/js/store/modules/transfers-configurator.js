@@ -204,8 +204,8 @@ export default {
                     colors: getters.currentColors.filter(Boolean).join(';'),
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,
-                    price: getters.screensPrice,
-                    total: getters.pricePerSheet,
+                    total_screens: getters.screensPrice,
+                    total: getters.transferPrice,
                     reorder: state.reOrder,
                     cost_per_transfer: getters.costPerTransfer,
                     cost_per_screen: getters.costPerScreen

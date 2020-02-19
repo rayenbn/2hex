@@ -34,7 +34,7 @@ class StoreHeatTransferRequest extends FormRequest
             'large_preview' => 'required|string|max:255',
             'quantity' => 'required|integer',
             'size' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            'total_screens' => 'required|numeric',
             'total' => 'required|numeric',
             'reorder_at' => 'nullable|date',
             'reorder' => 'required|boolean',

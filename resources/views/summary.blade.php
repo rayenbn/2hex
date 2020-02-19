@@ -9,8 +9,9 @@
 @endpush
 
 @section('content')
-	@php 
-		$isAdmin = auth()->check() && auth()->user()->isAdmin();
+	@php
+		$isAuth = auth()->check();
+		$isAdmin = $isAuth && auth()->user()->isAdmin();
 		setlocale(LC_MONETARY, 'en_US');
 	@endphp
 
@@ -169,8 +170,15 @@
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
 										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-										<td colspan="5">{{ $value['image'] }}</td>
-										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+
+										@if(isset($value['batch']) && $value['batch'] === 'transfer')
+											<td colspan="2">{{ $value['designName'] }}</td>
+											<td colspan="3">{{ $value['image'] }}</td>
+										@else
+											<td colspan="5">{{ $value['image'] }}</td>
+										@endif
+
+										<td>{{ $isAuth ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 									</tr>
                             	@endforeach
 							@endforeach
@@ -203,7 +211,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									USD TOTAL:  {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
+									USD TOTAL:  {{ $isAuth ? money_format('%.2n', $totalOrders) : '$?.??' }}
 								</h3>
 							</div>
 						</div>

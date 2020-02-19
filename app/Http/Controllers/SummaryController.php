@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\TransferService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OrderExport;
 use Itlead\Promocodes\Models\Promocode;
 use Cookie;
 
@@ -208,7 +207,7 @@ class SummaryController extends Controller
             }
         }
 
-        $this->calculateTransfersFixCost($fees);
+        $this->calculateTransfersFixCost($fees, (clone $transfers));
 
         // Set Global delivery
         if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || $transfers->isNotEmpty()) {
@@ -227,8 +226,7 @@ class SummaryController extends Controller
                 $sum_fees += $f['price'];
             });
         }
-
-        // calculate total 
+        // calculate total
         $totalOrders =
             $ordersQuery->sum('total')
             + GripTape::auth()->sum('total')
@@ -364,63 +362,58 @@ class SummaryController extends Controller
      * Calculate fix cost for active transfers
      *
      * @param array $fees
+     * @param \Illuminate\Database\Eloquent\Collection|null $transfers
      *
      * @return void
      */
-    protected function calculateTransfersFixCost(array &$fees)
+    protected function calculateTransfersFixCost(array &$fees, Collection $transfers = null)
     {
-        $transferQuery = HeatTransfer::auth();
+        /** @var \Illuminate\Database\Eloquent\Collection $transfers */
+        $transfers = $transfers ?? HeatTransfer::auth()->get();
 
-        $transfers = (clone $transferQuery)
-            ->get()
-            ->map(function($transfer) {
-                return array_filter($transfer->attributesToArray());
-            })
-            ->toArray();
+        /** @var \Illuminate\Database\Eloquent\Collection $paidFiles */
+        $paidFiles = PaidFile::query()
+            ->whereIn('created_by', $transfers->pluck('created_by'))
+            ->get();
 
-        $feesTypes = [
-            'small_preview' => [
-                'name' => 'Transfer Paper',
-            ],
-            'large_preview' => [
-                'name' => 'Transfer Paper',
-            ],
-        ];
+        $transfers->transform(function(HeatTransfer $transfer, $key) use (&$fees, $paidFiles) {
 
-        foreach ($transfers as $index => $transfer) {
-            $index += 1;
-            foreach ($transfer as $key => $value) {
-                if (!array_key_exists($key,  $feesTypes) || !array_key_exists('quantity',  $transfer)) continue;
+            $transferKey = $transfer['small_preview'];
 
-                $transferKey = 'transfer_' . $key;
-
-                // If same design
-                if (array_key_exists($transferKey, $fees)) {
-                    if (array_key_exists($value, $fees[$transferKey])) {
-                        $fees[$transferKey][$value]['batches'] .= ",{$index}";
-                        $fees[$transferKey][$value]['quantity'] += $transfer['quantity'];
-                        continue;
-                    }
-                }
-
-                $fees[$transferKey][$value] = [
-                    'image'    => $value,
-                    'batches'  => (string) $index,
-                    'type'     => $feesTypes[$key]['name'],
-                    'quantity' => $transfer['quantity'],
-                    'color'    => $transfer['colors_count']
-                ];
-
-                // TODO Change price
-                $fees[$transferKey][$value]['price'] = 0;
-
-
-                if(!empty(PaidFile::where('created_by', $transfer['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$transferKey][$value]['price'] = 0;
-                    $fees[$transferKey][$value]['paid'] = 1;
-                }
+            // If same design
+            if (isset($fees['transfer_small_preview']) && array_key_exists($transferKey, $fees['transfer_small_preview'])) {
+                $fees['transfer_small_preview'][$transferKey]['batches'] .= "," . ++$key;
+                $fees['transfer_small_preview'][$transferKey]['quantity'] += $transfer['quantity'];
+                return false;
             }
-        }
+
+            $fees['transfer_small_preview'][$transferKey] = [
+                'batch'    => 'transfer',
+                'image'    => $transfer['small_preview'],
+                'batches'  => (string) ++$key,
+                'type'     => 'Transfer Paper',
+                'quantity' => $transfer['quantity'],
+                'designName'    => $transfer['design_name'],
+                'color'    => $transfer['cmyk']
+                    ? $transfer['colors_count'] - (int) $transfer['transparency']
+                    : $transfer['colors_count'],
+                'price'    => $transfer['reorder_at'] ? 0 : $transfer['total_screens'],
+            ];
+
+            if ($transfer['transparency']) {
+                $fees['transfer_small_preview'][$transferKey]['color'] .= ' + Transparency';
+            }
+
+            $isPaid = $paidFiles
+                ->where('file_name', $transferKey)
+                ->where('date', '!=', null)
+                ->isNotEmpty();
+
+            if ($isPaid){
+                $fees['transfer_small_preview'][$transferKey]['price'] = 0;
+                $fees['transfer_small_preview'][$transferKey]['paid'] = 1;
+            }
+        });
     }
 
     public function exportcsv()
