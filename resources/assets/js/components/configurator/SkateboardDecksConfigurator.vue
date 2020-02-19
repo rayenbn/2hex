@@ -238,20 +238,20 @@
                                                                 <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
                                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                                         <a
-                                                                                :class="{'active' : steps[1].state}"
-                                                                                class="nav-link"
-                                                                                data-toggle="pill"
-                                                                                href="#m_personal_income_quater_1"
+                                                                            :class="{'active' : steps[1].state}"
+                                                                            class="nav-link"
+                                                                            data-toggle="pill"
+                                                                            href="#m_personal_income_quater_1"
                                                                         >
                                                                             Deep Concave
                                                                         </a>
                                                                     </li>
                                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                                         <a
-                                                                                :class="{'active' : !steps[1].state}"
-                                                                                class="nav-link"
-                                                                                data-toggle="pill"
-                                                                                href="#m_personal_income_quater_2"
+                                                                            :class="{'active' : !steps[1].state}"
+                                                                            class="nav-link"
+                                                                            data-toggle="pill"
+                                                                            href="#m_personal_income_quater_2"
                                                                         >
                                                                             Medium Concave
                                                                         </a>
@@ -2273,7 +2273,7 @@
                 currentColors:['natural', 'natural', 'natural', 'natural', 'natural', 'natural', 'natural'],
                 title: 'Skateboard Deck Configurator',
                 randomColors: [],
-                quantity: 0,
+                quantity: 2000,
                 total_quantity: 0,
                 orderId: '',
                 total: 0,
@@ -2284,7 +2284,7 @@
                 pre_size: "",
                 steps: [
                     {state: false},
-                    {state: true},
+                    {state: false},
                     {state: true},
                     {state: true},
                     {state: false, color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
@@ -2327,7 +2327,7 @@
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     });
-                    this.quantity = 50;
+                    this.quantity = 2000;
 
                     return false;
                 }
@@ -2763,6 +2763,10 @@
                 this.size = e.params.data.text;
                 this.sizeChange();
             });
+
+            if (!this.order) {
+                this.randomClicked();
+            }
         },
         created() {
             if (this.order) {
@@ -2780,6 +2784,10 @@
                     this.steps[10].state = true;
                     this.steps[10].color = this.order.carton_color;
                 }
+            } else {
+                // 7.875" x 31.875" (G4: WB14.25": N6.93", T6.54")
+                this.size = this.sizes[17];
+                this.pre_size = this.sizes[17];
             }
             this.$store.commit('changeStep', 1);
             this.renderProduct();
