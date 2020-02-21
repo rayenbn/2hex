@@ -115,48 +115,105 @@ var WizardDemo = function() {
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     })
                 },
-                submitHandler: function(e) {}
-            })
-            // (n = i.find('[data-wizard-action="submit"]')).on("click", function(r) {
-            //     $.ajaxSetup({
-            //       headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //       }
-            //     });
-
-            //     r.preventDefault();
-            //     // debugger;
-            //     var formData = new FormData();
-            //     formData.append('id',$('#saved_order_id').val());
-            //     formData.append('quantity',app.quantity);
-            //     formData.append('size',$('#size').val());
-            //     formData.append('concave',app.steps[1].state?'Mediumn Concave':'Deep Concave');
-            //     formData.append('wood',app.steps[2].state?'European Maple Wood':'American Maple Wood');
-            //     formData.append('glue',app.steps[3].state?'American Glue':'Epoxy Glue');
-            //     formData.append('bottomprint',app.steps[4].state?$('#bottomPrintFile').attr('fileName'):'');
-            //     formData.append('topprint',app.steps[5].state?$('#topPrintFile').attr('fileName'):'');
-            //     formData.append('engravery',app.steps[6].state?$('#engraveryFile').attr('fileName'):'');
-            //     formData.append('veneer',JSON.stringify(app.currentColors));
-            //     formData.append('extra',JSON.stringify(app.steps[8]));
-            //     formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
-            //     formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
-            //     formData.append('perdeck',app.perdeck);
-            //     formData.append('total',(app.quantity*app.perdeck + app.fixedprice).toFixed(2));
-            //     formData.append('fixedprice',app.fixedprice);
+                submitHandler: function(e) {
+                }
+            }),
+            (n = i.find('[data-wizard-action="submit"]')).on("click", function(r) {
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+                r.preventDefault();
+                isok = 1;
+                $('.alert').addClass('hide');
+                $('.alert').removeClass('show');
+                $('input').each(function(){
+                    if($(this).val() == ""){
+                        if($(this).attr('id') == 'website'){
+                            if(('#nowebsite').prop('checked'))
+                                return;
+                        }
+                        if($(this).attr('id') == 'social'){
+                            if(('#nosocial').prop('checked'))
+                                return;
+                        }
+                        $(this).css('border-color', 'red');
+                        isok = 0;
+                        $('.alert-danger span').html('Please Fill Blank Fields');
+                    }
+                    else{
+                        $(this).css('border-color', '#ebedf2');
+                    }
+                });
+                if(!$('#accept').prop('checked')){
+                    if(isok == 1)
+                        $('.alert-danger span').html('Please Accept Our Terms Policy');
+                    isok = 0;
+                }
+                if(isok == 0){
+                    $('.alert-danger').removeClass('hide');
+                    $('.alert-danger').addClass('show');
+                    return;
+                }
+                    
+                if($('#inq_type').val() == 'company'){
+                    var formData = new FormData();
+                    formData.append('product',$('#product').val());
+                    formData.append('quantity',$('#quantity').val());
+                    formData.append('name',$('#name').val());
+                    formData.append('phone',$('#phone').val());
+                    formData.append('country',$('#country').val());
+                    formData.append('companyname',$('#companyname').val());
+                    if($('#nowebsite').prop('checked') == true)
+                        formData.append('website','No Website');
+                    else
+                        formData.append('website',$('#website').val());
+                    if($('#nosocial').prop('checked') == true)
+                        formData.append('social','No Social');
+                    else
+                        formData.append('social',$('#social').val());
+                    formData.append('productlink',$('#productlink').val());
+                    formData.append('email',$('#email').val());
+                    
+                    
+                    $.ajax({
+                        url: '/inquiries',
+                        type: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                            $('.alert-success').removeClass('hide');
+                            $('.alert-success').addClass('show');
+                        }
+                    });
+                }
+                else if($('#inq_type').val() == 'private'){
+                    var formData = new FormData();
+                    formData.append('product',$('#product').val());
+                    formData.append('question',$('#question').val());
+                    formData.append('name',$('#name').val());
+                    formData.append('email',$('#email').val());
+                    
+                    $.ajax({
+                        url: '/inquiriesprivate',
+                        type: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                            $('.alert-success').removeClass('hide');
+                            $('.alert-success').addClass('show');
+                        }
+                    });
+                }
                 
-            //     $.ajax({
-            //         url: '/skateboard-deck-configurator',
-            //         type: 'post',
-            //         data: formData,
-            //         processData: false,
-            //         contentType: false,
-            //         success: function(data){
-            //             window.location.href = "/summary"
-            //         }
-            //     });
+                // debugger;
+                
 
                 
-            // }), 
+            }) 
             // $('#save_order').click(function(event){
             //     $.ajaxSetup({
             //       headers: {

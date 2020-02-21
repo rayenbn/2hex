@@ -11,17 +11,24 @@
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
-
-
-
-
-
-
-
-
-
-
         <div class="m-content">
+
+            <div 
+                class="alert alert-success alert-dismissible fade hide m-alert m-alert--air" 
+                role="alert"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span>Successfully Deliverd</span>
+            </div>
+            <div 
+                class="alert alert-danger alert-dismissible fade hide m-alert m-alert--air" 
+                role="alert"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span>Please Accept Our Terms Policy</span>
+            </div>
 
             <!--Begin::Main Portlet-->
             <div class="m-portlet m-portlet--full-height">
@@ -89,7 +96,7 @@
                                 <div class="m-wizard__form">
 
                                     <form class="m-form m-form--label-align-left- m-form--state-" id="m_form">
-
+                                        <input type="hidden" value="private" id="inq_type">
                                         <!--begin: Form Body -->
                                         <div class="m-portlet__body m-portlet__body--no-padding">
 
@@ -102,7 +109,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product & Quantity:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="200 Skateboard Decks">
+                                                            <input type="text" name="product" id="product"  class="form-control m-input" placeholder="" value="">
                                                             <span class="m-form__help">Please enter your required product(s) and the approximate quantity.</span>
                                                         </div>
                                                     </div>
@@ -110,7 +117,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Question:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="What is the production lead time?">
+                                                            <input type="text" name="question"  id="question" class="form-control m-input" placeholder="" value="">
                                                             <span class="m-form__help">Please enter your question.</span>
                                                         </div>
                                                     </div>
@@ -129,7 +136,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* First and Last Name:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Ryan Miller">
+                                                            <input type="text" name="name" id="name" class="form-control m-input" placeholder="" value="">
                                                             <span class="m-form__help">Please enter your first and last name</span>
                                                         </div>
                                                     </div>
@@ -137,7 +144,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Email:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="email" name="email" class="form-control m-input" placeholder="" value="ryan.miller@gmail.com">
+                                                            <input type="email" name="email" id="email" class="form-control m-input" placeholder="" value="">
                                                             <span class="m-form__help">We will send our answer to this email address.</span>
                                                         </div>
                                                     </div>
@@ -156,7 +163,7 @@
                                                     <div class="col-xl-12">
                                                         <div class="m-checkbox-inline">
                                                             <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                                                                <input type="checkbox" name="accept" value="1">
+                                                                <input type="checkbox" name="accept" value="1" id="accept">
                                                                 * I have read and I agree to 2HEX' <a href="/imprint#terms" class="m-nav__link">Terms and Conditions</a>.<br>
                                                                 <span></span>
                                                             </label>
@@ -219,16 +226,6 @@
 
             <!--End::Main Portlet-->
         </div>
-
-
-
-
-
-
-
-
-
-
 
 
     </div>

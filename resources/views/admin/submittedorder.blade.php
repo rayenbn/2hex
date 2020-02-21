@@ -42,6 +42,9 @@
 							<div class="btn btn-secondary">
 								<a href="{{ route('export.csv.id', $order->saved_date) }}">Invoice</a>
 							</div>
+							<div class="btn btn-secondary">
+								<a href="{{ route('admin.deleteorder', $order->saved_date) }}">Remove</a>
+							</div>
 						</div>
 					</div>
 				</div>

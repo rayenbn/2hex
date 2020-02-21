@@ -66,6 +66,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('userdata', 'DashboardController@getUserdata');
     Route::get('submitorder', 'DashboardController@getSubmitOrder')->name('submitorder');
     Route::post('submitorder', 'DashboardController@getSubmitOrder');
+    Route::get('deleteorder/{id}', 'DashboardController@deleteSubmitOrder')->name('deleteorder');
     Route::get('savedorder', 'DashboardController@getSavedOrder')->name('savedorder');
     Route::post('savedorder', 'DashboardController@getSavedOrder');
     Route::get('savedbatch', 'DashboardController@getSavedBatches')->name('savedbatch');
@@ -82,13 +83,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('action', 'DashboardController@getAction');
     Route::post('add-upload-data', 'DashboardController@addUpload');
     Route::post('delete-upload-data', 'DashboardController@deleteUpload');
+    Route::post('delete-upload-data', 'DashboardController@deleteUpload');
+
 });
 
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
+Route::post('/inquiries', 'InquiriesController@submit');
 Route::get('/inquirieschoice', 'InquirieschoiceController@index')->name('inquirieschoice');
 Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
+Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');

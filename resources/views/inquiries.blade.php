@@ -11,18 +11,23 @@
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
-
-
-
-
-
-
-
-
-
-
         <div class="m-content">
-
+            <div 
+                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
+                role="alert"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span>Successfully Deliverd</span>
+            </div>
+            <div 
+                class="alert alert-danger alert-dismissible fade show m-alert m-alert--air" 
+                role="alert"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+            >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span>Please Accept Our Terms Policy</span>
+            </div>
             <!--Begin::Main Portlet-->
             <div class="m-portlet m-portlet--full-height">
 
@@ -117,6 +122,7 @@
                                     <form class="m-form m-form--label-align-left- m-form--state-" id="m_form">
 
                                         <!--begin: Form Body -->
+                                        <input type="hidden" value="company" id="inq_type">
                                         <div class="m-portlet__body m-portlet__body--no-padding">
 
                                             <!--begin: Form Wizard Step 1-->
@@ -128,14 +134,14 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Custom shaped skateboard decks in various sizes.">
+                                                            <input type="text" name="product" id="product" class="form-control m-input" placeholder="" value="Custom shaped skateboard decks in various sizes.">
                                                             <span class="m-form__help">Please describe your required product(s)</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product Quantity:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="1000 decks per 3 months">
+                                                            <input type="text" name="quantiy" id="quanity" class="form-control m-input" placeholder="" value="1000 decks per 3 months">
                                                             <span class="m-form__help">Please enter your approximate order quantity</span>
                                                         </div>
                                                     </div>
@@ -160,7 +166,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* First and Last Name:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Ryan Miller">
+                                                            <input type="text" name="name" id="name" class="form-control m-input" placeholder="" value="Ryan Miller">
                                                             <span class="m-form__help">Please enter your first and last name</span>
                                                         </div>
                                                     </div>
@@ -168,7 +174,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">Phone Number:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="+1 685 1234 5665">
+                                                            <input type="text" name="phone" id="phone" class="form-control m-input" placeholder="" value="+1 685 1234 5665">
                                                             <span class="m-form__help">Phone number (if you would like to discuss our cooperation by phone)</span>
                                                         </div>
                                                     </div>
@@ -176,7 +182,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Country:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <select name="country" class="form-control m-input">
+                                                            <select name="country" id="country" class="form-control m-input">
                                                                 <option value="">Select</option>
                                                                 <option value="AF">Afghanistan</option>
                                                                 <option value="AX">Åland Islands</option>
@@ -448,7 +454,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Company Name:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="Purple Skateboard Co">
+                                                            <input type="text" name="companyname" id="companyname" class="form-control m-input" placeholder="" value="Purple Skateboard Co">
                                                             <span class="m-form__help">Please enter your company name</span>
                                                         </div>
                                                     </div>
@@ -456,10 +462,10 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Website:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="www.yourskateboardco.com">
+                                                            <input type="text" name="website" id="website" class="form-control m-input" placeholder="" value="www.yourskateboardco.com">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="nowebsite" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not yet have a website</span>
@@ -470,10 +476,10 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Social Media:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="@YourInstagram">
+                                                            <input type="text" name="social" id="social" class="form-control m-input" placeholder="" value="@YourInstagram">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="nosocial" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not have a social media presence</span>
@@ -484,7 +490,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Link to one of your products:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" class="form-control m-input" placeholder="" value="https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250">
+                                                            <input type="text" name="product_link" id="product_link" class="form-control m-input" placeholder="" value="https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
                                                                 <input type="checkbox" name="checkbox" @click="toggle">
@@ -524,7 +530,7 @@
                                                     <div class="col-xl-12">
                                                         <div class="m-checkbox-inline">
                                                             <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                                                                <input type="checkbox" name="accept" value="1">
+                                                                <input type="checkbox" name="accept" value="1" id="accept">
                                                                 * I have read and I agree to 2HEX' <a href="/imprint#terms" class="m-nav__link">Terms and Conditions</a>.<br>
                                                                 <span></span>
                                                             </label>
@@ -587,16 +593,6 @@
 
             <!--End::Main Portlet-->
         </div>
-
-
-
-
-
-
-
-
-
-
 
 
     </div>
