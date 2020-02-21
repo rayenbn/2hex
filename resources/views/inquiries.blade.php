@@ -13,7 +13,7 @@
 
         <div class="m-content">
             <div 
-                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
+                class="alert alert-success alert-dismissible fade hide m-alert m-alert--air" 
                 role="alert"
                 style="padding: 0.85rem 2.5rem;margin: 15px 0;"
             >
@@ -21,7 +21,7 @@
                 <span>Successfully Deliverd</span>
             </div>
             <div 
-                class="alert alert-danger alert-dismissible fade show m-alert m-alert--air" 
+                class="alert alert-danger alert-dismissible fade hide m-alert m-alert--air" 
                 role="alert"
                 style="padding: 0.85rem 2.5rem;margin: 15px 0;"
             >
