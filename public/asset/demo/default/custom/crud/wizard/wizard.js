@@ -127,6 +127,7 @@ var WizardDemo = function() {
                 $(this).prop('disabled', true);
                 isok = 1;
                 $('.alert').hide();
+                $('#loading').show();
                 
                 $('input').each(function(){
                     if($(this).val() == ""){
@@ -158,6 +159,7 @@ var WizardDemo = function() {
                 if(isok == 0){
                     $('.alert-danger').show();
                     $(this).prop('disabled', false);
+                    $('#loading').hide();
                     return;
                 }
                 self = this;
@@ -179,7 +181,7 @@ var WizardDemo = function() {
                     else
                         formData.append('social',$('#social').val());
                     if($('#noproduct').prop('checked') == true)
-                        formData.append('link','No Social');
+                        formData.append('link','No Product Link');
                     else
                         formData.append('link',$('#product_link').val());
                     //formData.append('productlink',$('#productlink').val());
@@ -194,7 +196,13 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').show();
-                            $(self).prop('disabled', false);
+                            $('#loading').hide();
+                            //$(self).prop('disabled', false);
+                        },
+                        error: function(){
+                            $('.alert-danger').show();
+                            $('.alert-danger span').html('Issue while Sending Emails');
+                            $('#loading').hide();
                         }
                     });
                 }
@@ -213,7 +221,13 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').show();
-                            $(self).prop('disabled', false);
+                            $('#loading').hide();
+                            //$(self).prop('disabled', false);
+                        },
+                        error: function(){
+                            $('.alert-danger').show();
+                            $('.alert-danger span').html('Issue while Sending Emails');
+                            $('#loading').hide();
                         }
                     });
                 }
