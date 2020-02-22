@@ -23,7 +23,7 @@ class InquiryCompanyEmail extends Mailable
     {
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->bcc($this->data['email'])
+            ->bcc($this->data['email'], $this->data['name'])
             ->subject('New Company Inquiries')
             ->markdown('emails.companyinquiries');
     }
