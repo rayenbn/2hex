@@ -162,7 +162,7 @@ var WizardDemo = function() {
                 if($('#inq_type').val() == 'company'){
                     var formData = new FormData();
                     formData.append('product',$('#product').val());
-                    formData.append('quantity',$('#quantity').val());
+                    formData.append('quantity',$('#quantities').val());
                     formData.append('name',$('#name').val());
                     formData.append('phone',$('#phone').val());
                     formData.append('country',$('#country').val());
@@ -271,32 +271,38 @@ jQuery(document).ready(function() {
         if($(this).prop('checked')){
             $('#website').prop('disabled', true);
             $('#website').prop('required', false);
+            $('#website').prop('placeholder', '');
             $('#website').val('');
         }
         else{
             $('#website').prop('disabled', false);
             $('#website').prop('required', true);
+            $('#website').prop('placeholder', 'www.yourskateboardco.com');
         }
     });
     $('#nosocial').change(function(){
         if($(this).prop('checked')){
             $('#social').prop('disabled', true);
             $('#social').prop('required', false);
+            $('#social').prop('placeholder', '');
             $('#social').val('');
         }
         else{
             $('#social').prop('disabled', false);
             $('#social').prop('required', true);
+            $('#social').prop('placeholder', '@YourInstagram');
         }
     });
     $('#noproduct').change(function(){
         if($(this).prop('checked')){
             $('#product_link').prop('disabled', true);
             $('#product_link').prop('required', false);
+            $('#product_link').prop('placeholder', '');
             $('#product_link').val('');
         }
         else{
             $('#product_link').prop('disabled', false);
+            $('#product_link').prop('placeholder', 'https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250');
             $('#product_link').prop('required', true);
         }
     });

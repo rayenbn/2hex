@@ -141,7 +141,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product Quantity:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="quantity" id="quantity" required class="form-control m-input" placeholder="1000 decks per 3 months" value="">
+                                                            <input type="text" name="quantity" id="quantities" required class="form-control m-input" placeholder="1000 decks per 3 months" value="">
                                                             <span class="m-form__help">Please enter your approximate order quantity</span>
                                                         </div>
                                                     </div>
