@@ -270,25 +270,34 @@ jQuery(document).ready(function() {
     $('#nowebsite').change(function(){
         if($(this).prop('checked')){
             $('#website').prop('disabled', true);
+            $('#website').prop('required', false);
+            $('#website').val('');
         }
         else{
             $('#website').prop('disabled', false);
+            $('#website').prop('required', true);
         }
     });
     $('#nosocial').change(function(){
         if($(this).prop('checked')){
             $('#social').prop('disabled', true);
+            $('#social').prop('required', false);
+            $('#social').val('');
         }
         else{
             $('#social').prop('disabled', false);
+            $('#social').prop('required', true);
         }
     });
     $('#noproduct').change(function(){
         if($(this).prop('checked')){
             $('#product_link').prop('disabled', true);
+            $('#product_link').prop('required', false);
+            $('#product_link').val('');
         }
         else{
             $('#product_link').prop('disabled', false);
+            $('#product_link').prop('required', true);
         }
     });
 });

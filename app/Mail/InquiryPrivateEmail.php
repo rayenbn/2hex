@@ -23,6 +23,7 @@ class InquiryPrivateEmail extends Mailable
     {
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
+            ->bcc($this->data['email'])
             ->subject('New Private Inquiries')
             ->markdown('emails.privateinquiries');
     }
