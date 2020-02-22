@@ -160,6 +160,7 @@ var WizardDemo = function() {
                     $(this).prop('disabled', false);
                     return;
                 }
+                self = this;
                     
                 if($('#inq_type').val() == 'company'){
                     var formData = new FormData();
@@ -193,7 +194,7 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').show();
-                            $(this).prop('disabled', false);
+                            $(self).prop('disabled', false);
                         }
                     });
                 }
@@ -212,7 +213,7 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').show();
-                            $(this).prop('disabled', false);
+                            $(self).prop('disabled', false);
                         }
                     });
                 }
