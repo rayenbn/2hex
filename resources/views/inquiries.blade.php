@@ -559,12 +559,12 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-lg-6 m--align-right">
-                                                        <a href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon" data-wizard-action="submit">
+                                                        <button href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon" data-wizard-action="submit">
 																		<span>
 																			<i class="la la-check"></i>&nbsp;&nbsp;
 																			<span>Submit</span>
 																		</span>
-                                                        </a>
+                                                        </button>
                                                         <a href="#" class="btn btn-success m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
 																		<span>
 																			<span>Save &amp; Continue</span>&nbsp;&nbsp;

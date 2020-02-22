@@ -157,6 +157,7 @@ var WizardDemo = function() {
                 }
                 if(isok == 0){
                     $('.alert-danger').show();
+                    $(this).prop('disabled', false);
                     return;
                 }
                     
@@ -179,7 +180,7 @@ var WizardDemo = function() {
                     if($('#noproduct').prop('checked') == true)
                         formData.append('link','No Social');
                     else
-                        formData.append('link',$('#productlink').val());
+                        formData.append('link',$('#product_link').val());
                     //formData.append('productlink',$('#productlink').val());
                     formData.append('email',$('#email').val());
                     
@@ -210,7 +211,7 @@ var WizardDemo = function() {
                         processData: false,
                         contentType: false,
                         success: function(data){
-                            $('.alert-success').removeClass('hide');
+                            $('.alert-success').show();
                             $(this).prop('disabled', false);
                         }
                     });
