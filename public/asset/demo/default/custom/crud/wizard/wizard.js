@@ -124,6 +124,7 @@ var WizardDemo = function() {
                   }
                 });
                 r.preventDefault();
+                $(this).prop('disabled', true);
                 isok = 1;
                 $('.alert').hide();
                 
@@ -191,6 +192,7 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').show();
+                            $(this).prop('disabled', false);
                         }
                     });
                 }
@@ -209,7 +211,7 @@ var WizardDemo = function() {
                         contentType: false,
                         success: function(data){
                             $('.alert-success').removeClass('hide');
-                            $('.alert-success').addClass('show');
+                            $(this).prop('disabled', false);
                         }
                     });
                 }

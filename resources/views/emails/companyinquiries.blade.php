@@ -19,6 +19,7 @@
             <p style="color: black;">Company Name: {{$data['companyname']}}</p>
             <p style="color: black;">Website: {{$data['website']}}</p>
             <p style="color: black;">Social Media: {{$data['social']}}</p>
+            <p style="color: black;">Product Link: {{$data['link']}}</p>
             <p style="color: black;">Email: {{$data['email']}}</p>
         </td>
     </tr>
