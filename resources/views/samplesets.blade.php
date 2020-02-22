@@ -63,7 +63,7 @@
                                                         <span>1 Set: 53mm SHR102A V5 Wheels</span>
                                                         <span>1 Set: 53mm SHR 83B X Wheels</span>
                                                         <span>2 Sheets of Griptape</span>
-                                                        <br>
+                                                        <span>2 Heat Transfers in 9"x33"</span>
                                                         <br>
                                                         <br>
                                                         <hr>
@@ -89,10 +89,10 @@
                                                     <img alt="" src="/skateboard-deck-production/skateboard-manufacturer-samples-widget.jpg" style="width:100%"/>
                                                     <h2 style="margin-top: 50px" class="m-pricing-table-2__subtitle">Small Set</h2>
                                                     <div class="m-pricing-table-2__features">
-                                                        <span>• 1 Deck Medium 8" US Maple Epoxy</span>
-                                                        <span>• 1 Set of 53mm SHR102A V5 Wheels</span>
-                                                        <span>• 1 Sheet of Griptape</span>
-                                                        <br>
+                                                        <span>1 Deck Medium 8" US Maple Epoxy</span>
+                                                        <span>1 Set of 53mm SHR102A V5 Wheels</span>
+                                                        <span>1 Sheet of Griptape</span>
+                                                        <span>2 Heat Transfers in 9"x33"</span>
                                                         <br>
                                                         <br>
                                                         <hr>
@@ -116,12 +116,12 @@
                                                     <img alt="" src="/skateboard-deck-production/stacked-skateboard-decks-factory-2hex.jpg" style="width:100%"/>
                                                     <h2 style="margin-top: 50px" class="m-pricing-table-2__subtitle">Full Set</h2>
                                                     <div class="m-pricing-table-2__features">
-                                                        <span>• 1 Deck Medium 8" US Maple, Epoxy</span>
-                                                        <span>• 1 Deck Deep 8.25" US Maple, US Glue</span>
-                                                        <span>• 1 Set of 53mm SHR102A V5 Wheels</span>
+                                                        <span>1 Deck Medium 8" US Maple, Epoxy</span>
+                                                        <span>1 Deck Deep 8.25" US Maple, US Glue</span>
+                                                        <span>1 Set of 53mm SHR102A V5 Wheels</span>
                                                         <span>1 Set: 53mm SHR 83B X Wheels</span>
-                                                        <span>• 2 Sheets of Griptape</span>
-                                                        <span>• 3 Heat Transfers in 9"x33"</span>
+                                                        <span>2 Sheets of Griptape</span>
+                                                        <span>3 Heat Transfers in 9"x33"</span>
                                                         <hr>
                                                         <span>Global airfreight from our production facilities in China.</span>
                                                     </div>

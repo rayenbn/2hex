@@ -1953,6 +1953,16 @@
                                         If you want to add the same deck design in multiple sizes, each size will be a separate batch.
                                         The more batches you add, the further the price drops. The price is not low enough? Increase your order size and the price of all products will drop.
                                     </p>
+
+                                    <p>
+                                       <b>See our decks:</b>
+                                    </p>
+                                     <p>
+                                         <a href="https://www.youtube.com/watch?v=07nh3DRuUw0" target="_blank">
+                                       <img src="/skateboard-deck-production/2hex-video-thumb.jpg" style="width: 100%;" alt="skateboard deck factory video">
+                                             </a>
+                                    </p>
+
                                     <p>
                                        <b>Finished?</b> Scroll down and press continue to select the concave!
                                     </p>
@@ -2015,7 +2025,10 @@
                             <h2 class="m-section__heading" style="color: #5867dd">Skateboard Deck Design Template.</h2>
                                 <div class="m-section__content">
                                     <p>
-                                        <a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf" target="_blank">2HEX skateboard deck design template</a>
+                                        <a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf" target="_blank">
+                                    <p>2HEX skateboard deck design template</p>
+                                    <img src="/skateboard-deck-production/skateboard-deck-template-preview.png" alt="skateboard deck template" style="width: 100%">
+                                        </a>
                                     </p>
                                     <p>
                                         Download our skateboard deck design template, fill in your skateboard deck design, upload the filled in PDF file and select your color quantity (or CMYK for multi color prints).
@@ -2081,7 +2094,14 @@
                                     <p>
                                         Select if you want to add a cardboard inside the shrink-wrap.
                                         You can wrap cardboards around decks or you can place cardboards on the top or the bottom of decks.<br>
-                                        <br>
+                                <p>
+
+                                <a href="/skateboard-deck-production/Deck-Cardboard(outlined).ai" target="_blank">
+                                <p>2HEX skateboard deck cardboard template</p>
+                                <img src="/skateboard-deck-production/skateboard-deck-cardboard-template.png" alt="skateboard deck cardboard template" style="width: 100%">
+                                </a>
+                                <br>
+                                </p>
                                         Upload your cardboard artwork as vector file (PDF or AI) in actual size 1 to 1.
                                         When preparing your artwork, place your folding and cutting lines in separate layers marked "cutting line"
                                         and "folding line". Leave a 5mm bleed around all cutting edges.<br>
@@ -2095,8 +2115,17 @@
                                 <div class="m-section__content">
                                     <p>
                                         Add your logo on both sides of all skateboard deck cartons.<br>
+                                    </p>
+                                    <p>
+
+                                <a href="/skateboard-deck-production/2HEX-10deck-carton-template-editable.ai" target="_blank">
+                                <p>2HEX skateboard carton print template</p>
+                                <img src="/skateboard-deck-production/skateboard-deck-carton-template.png" alt="skateboard deck carton print template" style="width: 100%">
+                                    </a>
+                                    <br>
+
                                         <br>
-                                        Sending your decks in custom printed skateboard deck cartons is perceived as more professional by distributors and skate shops.
+                                        Shipping decks in your company's own cartons is perceived as more professional by distributors and skate shops.
                                     </p>
                                 </div>
                             </span>
