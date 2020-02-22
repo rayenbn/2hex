@@ -25,7 +25,6 @@ var WizardDemo = function() {
                     },
                     phone: {
                         required: !0,
-                        phoneUS: !0
                     },
                     address1: {
                         required: !0
@@ -126,8 +125,8 @@ var WizardDemo = function() {
                 });
                 r.preventDefault();
                 isok = 1;
-                $('.alert').addClass('hide');
-                $('.alert').removeClass('show');
+                $('.alert').hide();
+                
                 $('input').each(function(){
                     if($(this).val() == ""){
                         if($(this).attr('id') == 'website'){
@@ -136,6 +135,10 @@ var WizardDemo = function() {
                         }
                         if($(this).attr('id') == 'social'){
                             if(('#nosocial').prop('checked'))
+                                return;
+                        }
+                        if($(this).attr('id') == 'product_link'){
+                            if(('#noproduct').prop('checked'))
                                 return;
                         }
                         $(this).css('border-color', 'red');
@@ -152,8 +155,7 @@ var WizardDemo = function() {
                     isok = 0;
                 }
                 if(isok == 0){
-                    $('.alert-danger').removeClass('hide');
-                    $('.alert-danger').addClass('show');
+                    $('.alert-danger').show();
                     return;
                 }
                     
@@ -173,7 +175,11 @@ var WizardDemo = function() {
                         formData.append('social','No Social');
                     else
                         formData.append('social',$('#social').val());
-                    formData.append('productlink',$('#productlink').val());
+                    if($('#noproduct').prop('checked') == true)
+                        formData.append('link','No Social');
+                    else
+                        formData.append('link',$('#productlink').val());
+                    //formData.append('productlink',$('#productlink').val());
                     formData.append('email',$('#email').val());
                     
                     
@@ -184,8 +190,7 @@ var WizardDemo = function() {
                         processData: false,
                         contentType: false,
                         success: function(data){
-                            $('.alert-success').removeClass('hide');
-                            $('.alert-success').addClass('show');
+                            $('.alert-success').show();
                         }
                     });
                 }
@@ -261,5 +266,29 @@ var WizardDemo = function() {
     }
 }();
 jQuery(document).ready(function() {
-    WizardDemo.init()
+    WizardDemo.init();
+    $('#nowebsite').change(function(){
+        if($(this).prop('checked')){
+            $('#website').prop('disabled', true);
+        }
+        else{
+            $('#website').prop('disabled', false);
+        }
+    });
+    $('#nosocial').change(function(){
+        if($(this).prop('checked')){
+            $('#social').prop('disabled', true);
+        }
+        else{
+            $('#social').prop('disabled', false);
+        }
+    });
+    $('#noproduct').change(function(){
+        if($(this).prop('checked')){
+            $('#product_link').prop('disabled', true);
+        }
+        else{
+            $('#product_link').prop('disabled', false);
+        }
+    });
 });

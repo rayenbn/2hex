@@ -23,7 +23,7 @@ class InquiryCompanyEmail extends Mailable
     {
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject('Welcome, watch the video of how to order on 2HEX.')
+            ->subject('New Company Inquiries')
             ->markdown('emails.companyinquiries');
     }
 }

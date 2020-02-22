@@ -14,17 +14,17 @@
         <div class="m-content">
 
             <div 
-                class="alert alert-success alert-dismissible fade hide m-alert m-alert--air" 
+                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
                 role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Successfully Deliverd</span>
             </div>
             <div 
-                class="alert alert-danger alert-dismissible fade hide m-alert m-alert--air" 
+                class="alert alert-danger alert-dismissible fade show m-alert m-alert--air" 
                 role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Please Accept Our Terms Policy</span>
@@ -109,7 +109,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Product & Quantity:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="product" id="product"  class="form-control m-input" placeholder="" value="">
+                                                            <input type="text" name="product" id="product"  class="form-control m-input" placeholder="" value="200 Skateboard Decks">
                                                             <span class="m-form__help">Please enter your required product(s) and the approximate quantity.</span>
                                                         </div>
                                                     </div>
@@ -117,7 +117,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Question:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="question"  id="question" class="form-control m-input" placeholder="" value="">
+                                                            <input type="text" name="question"  id="question" class="form-control m-input" placeholder="" value="What is the production lead time?">
                                                             <span class="m-form__help">Please enter your question.</span>
                                                         </div>
                                                     </div>
@@ -136,7 +136,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* First and Last Name:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" name="name" id="name" class="form-control m-input" placeholder="" value="">
+                                                            <input type="text" name="name" id="name" class="form-control m-input" placeholder="" value="Ryan Miller">
                                                             <span class="m-form__help">Please enter your first and last name</span>
                                                         </div>
                                                     </div>
@@ -144,7 +144,7 @@
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label">* Email:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="email" name="email" id="email" class="form-control m-input" placeholder="" value="">
+                                                            <input type="email" name="email" id="email" class="form-control m-input" placeholder="" value="ryan.miller@gmail.com">
                                                             <span class="m-form__help">We will send our answer to this email address.</span>
                                                         </div>
                                                     </div>

@@ -13,17 +13,17 @@
 
         <div class="m-content">
             <div 
-                class="alert alert-success alert-dismissible fade hide m-alert m-alert--air" 
+                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
                 role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Successfully Deliverd</span>
             </div>
             <div 
-                class="alert alert-danger alert-dismissible fade hide m-alert m-alert--air" 
+                class="alert alert-danger alert-dismissible fade show m-alert m-alert--air" 
                 role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0;"
+                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Please Accept Our Terms Policy</span>
@@ -113,7 +113,7 @@
                             <div class="col-xl-9 col-lg-12">
 
                                 <!--begin: Form Wizard Form-->
-                                <div class="m-wizard__form">
+                                <div class="m-wizard__form">`
 
                                     <!--
                 1) Use m-form--label-align-left class to alight the form input lables to the right
@@ -493,7 +493,7 @@
                                                             <input type="text" name="product_link" id="product_link" class="form-control m-input" placeholder="" value="https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="noproduct" @click="toggle">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not yet have custom products</span>
