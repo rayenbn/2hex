@@ -130,15 +130,15 @@ var WizardDemo = function() {
                 $('input').each(function(){
                     if($(this).val() == ""){
                         if($(this).attr('id') == 'website'){
-                            if(('#nowebsite').prop('checked'))
+                            if($('#nowebsite').prop('checked'))
                                 return;
                         }
                         if($(this).attr('id') == 'social'){
-                            if(('#nosocial').prop('checked'))
+                            if($('#nosocial').prop('checked'))
                                 return;
                         }
                         if($(this).attr('id') == 'product_link'){
-                            if(('#noproduct').prop('checked'))
+                            if($('#noproduct').prop('checked'))
                                 return;
                         }
                         $(this).css('border-color', 'red');
