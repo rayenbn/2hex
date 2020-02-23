@@ -23,6 +23,6 @@ class SamplesetsController extends Controller
      */
     public function index()
     {
-        return view('Samplesets');
+        return view('samplesets');
     }
 }
