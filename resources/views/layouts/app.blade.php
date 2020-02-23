@@ -69,6 +69,26 @@
         .post-forms{
             width: 100%;
         }
+        #loading {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% + 200px);
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0,0,0,.3);
+            border-radius: 50%;
+            border-top-color: #000;
+            display: none;
+            animation: spin 1s ease-in-out infinite;
+            -webkit-animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { -webkit-transform: rotate(360deg); }
+        }
+        @-webkit-keyframes spin {
+            to { -webkit-transform: rotate(360deg); }
+        }
     </style>
     @stack('head.scripts')
     @stack('head.styles')
@@ -98,8 +118,8 @@
 
         <notifications :duration="3000" group="main" />
     </div>
+    <div id="loading"></div>
 
-    <!-- Include analystics scripts, only production -->
     @include('layouts.analystics')
 
 </body>

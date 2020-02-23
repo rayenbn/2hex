@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Scopes\GapScope;
 use Illuminate\Http\Request;
 use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 
 class HomeController extends Controller
 {
-
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        /** @var \Illuminate\Database\Eloquent\Collection $posts */
         $posts = Post::query()
+            ->withGlobalScope('gap', new GapScope($request))
             ->orderBy('created_at', 'desc')
-            ->whereActive(true)
+            ->where('active', true)
             ->with('author')
             ->paginate(4);
+
         return view('welcome', compact('posts'));
     }
 

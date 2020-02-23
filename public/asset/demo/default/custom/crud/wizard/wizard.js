@@ -25,7 +25,6 @@ var WizardDemo = function() {
                     },
                     phone: {
                         required: !0,
-                        phoneUS: !0
                     },
                     address1: {
                         required: !0
@@ -115,48 +114,129 @@ var WizardDemo = function() {
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     })
                 },
-                submitHandler: function(e) {}
-            })
-            // (n = i.find('[data-wizard-action="submit"]')).on("click", function(r) {
-            //     $.ajaxSetup({
-            //       headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //       }
-            //     });
-
-            //     r.preventDefault();
-            //     // debugger;
-            //     var formData = new FormData();
-            //     formData.append('id',$('#saved_order_id').val());
-            //     formData.append('quantity',app.quantity);
-            //     formData.append('size',$('#size').val());
-            //     formData.append('concave',app.steps[1].state?'Mediumn Concave':'Deep Concave');
-            //     formData.append('wood',app.steps[2].state?'European Maple Wood':'American Maple Wood');
-            //     formData.append('glue',app.steps[3].state?'American Glue':'Epoxy Glue');
-            //     formData.append('bottomprint',app.steps[4].state?$('#bottomPrintFile').attr('fileName'):'');
-            //     formData.append('topprint',app.steps[5].state?$('#topPrintFile').attr('fileName'):'');
-            //     formData.append('engravery',app.steps[6].state?$('#engraveryFile').attr('fileName'):'');
-            //     formData.append('veneer',JSON.stringify(app.currentColors));
-            //     formData.append('extra',JSON.stringify(app.steps[8]));
-            //     formData.append('cardboard',app.steps[9].state?$('#cardboardFile').attr('fileName'):'');
-            //     formData.append('carton',app.steps[10].state?$('#cartonFile').attr('fileName'):'');
-            //     formData.append('perdeck',app.perdeck);
-            //     formData.append('total',(app.quantity*app.perdeck + app.fixedprice).toFixed(2));
-            //     formData.append('fixedprice',app.fixedprice);
+                submitHandler: function(e) {
+                }
+            }),
+            (n = i.find('[data-wizard-action="submit"]')).on("click", function(r) {
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+                r.preventDefault();
+                $(this).prop('disabled', true);
+                isok = 1;
+                $('.alert').hide();
+                $('#loading').show();
                 
-            //     $.ajax({
-            //         url: '/skateboard-deck-configurator',
-            //         type: 'post',
-            //         data: formData,
-            //         processData: false,
-            //         contentType: false,
-            //         success: function(data){
-            //             window.location.href = "/summary"
-            //         }
-            //     });
+                $('input').each(function(){
+                    if($(this).val() == ""){
+                        if($(this).attr('id') == 'website'){
+                            if($('#nowebsite').prop('checked'))
+                                return;
+                        }
+                        if($(this).attr('id') == 'social'){
+                            if($('#nosocial').prop('checked'))
+                                return;
+                        }
+                        if($(this).attr('id') == 'product_link'){
+                            if($('#noproduct').prop('checked'))
+                                return;
+                        }
+                        $(this).css('border-color', 'red');
+                        isok = 0;
+                        $('.alert-danger span').html('Please Fill Blank Fields');
+                    }
+                    else{
+                        $(this).css('border-color', '#ebedf2');
+                    }
+                });
+                if(!$('#accept').prop('checked')){
+                    if(isok == 1)
+                        $('.alert-danger span').html('Please Accept Our Terms Policy');
+                    isok = 0;
+                }
+                if(isok == 0){
+                    $('.alert-danger').show();
+                    $(this).prop('disabled', false);
+                    $('#loading').hide();
+                    return;
+                }
+                self = this;
+                    
+                if($('#inq_type').val() == 'company'){
+                    var formData = new FormData();
+                    formData.append('product',$('#product').val());
+                    formData.append('quantity',$('#quantities').val());
+                    formData.append('name',$('#name').val());
+                    formData.append('phone',$('#phone').val());
+                    formData.append('country',$('#country').val());
+                    formData.append('companyname',$('#companyname').val());
+                    if($('#nowebsite').prop('checked') == true)
+                        formData.append('website','No Website');
+                    else
+                        formData.append('website',$('#website').val());
+                    if($('#nosocial').prop('checked') == true)
+                        formData.append('social','No Social');
+                    else
+                        formData.append('social',$('#social').val());
+                    if($('#noproduct').prop('checked') == true)
+                        formData.append('link','No Product Link');
+                    else
+                        formData.append('link',$('#product_link').val());
+                    //formData.append('productlink',$('#productlink').val());
+                    formData.append('email',$('#email').val());
+                    
+                    
+                    $.ajax({
+                        url: '/inquiries',
+                        type: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                            $('.alert-success').show();
+                            $('#loading').hide();
+                            //$(self).prop('disabled', false);
+                        },
+                        error: function(){
+                            $('.alert-danger').show();
+                            $('.alert-danger span').html('Issue while Sending Emails');
+                            $('#loading').hide();
+                        }
+                    });
+                }
+                else if($('#inq_type').val() == 'private'){
+                    var formData = new FormData();
+                    formData.append('product',$('#product').val());
+                    formData.append('question',$('#question').val());
+                    formData.append('name',$('#name').val());
+                    formData.append('email',$('#email').val());
+                    
+                    $.ajax({
+                        url: '/inquiriesprivate',
+                        type: 'post',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                            $('.alert-success').show();
+                            $('#loading').hide();
+                            //$(self).prop('disabled', false);
+                        },
+                        error: function(){
+                            $('.alert-danger').show();
+                            $('.alert-danger span').html('Issue while Sending Emails');
+                            $('#loading').hide();
+                        }
+                    });
+                }
+                
+                // debugger;
+                
 
                 
-            // }), 
+            }) 
             // $('#save_order').click(function(event){
             //     $.ajaxSetup({
             //       headers: {
@@ -204,5 +284,44 @@ var WizardDemo = function() {
     }
 }();
 jQuery(document).ready(function() {
-    WizardDemo.init()
+    WizardDemo.init();
+    $('#nowebsite').change(function(){
+        if($(this).prop('checked')){
+            $('#website').prop('disabled', true);
+            $('#website').prop('required', false);
+            $('#website').prop('placeholder', '');
+            $('#website').val('');
+        }
+        else{
+            $('#website').prop('disabled', false);
+            $('#website').prop('required', true);
+            $('#website').prop('placeholder', 'www.yourskateboardco.com');
+        }
+    });
+    $('#nosocial').change(function(){
+        if($(this).prop('checked')){
+            $('#social').prop('disabled', true);
+            $('#social').prop('required', false);
+            $('#social').prop('placeholder', '');
+            $('#social').val('');
+        }
+        else{
+            $('#social').prop('disabled', false);
+            $('#social').prop('required', true);
+            $('#social').prop('placeholder', '@YourInstagram');
+        }
+    });
+    $('#noproduct').change(function(){
+        if($(this).prop('checked')){
+            $('#product_link').prop('disabled', true);
+            $('#product_link').prop('required', false);
+            $('#product_link').prop('placeholder', '');
+            $('#product_link').val('');
+        }
+        else{
+            $('#product_link').prop('disabled', false);
+            $('#product_link').prop('placeholder', 'https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250');
+            $('#product_link').prop('required', true);
+        }
+    });
 });
