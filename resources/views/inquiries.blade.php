@@ -465,7 +465,7 @@
                                                             <input type="text" name="website" required id="website" class="form-control m-input" placeholder="www.yourskateboardco.com" value="">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" id="nowebsite" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="nowebsite">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not yet have a website</span>
@@ -479,7 +479,7 @@
                                                             <input type="text" name="social" required id="social" class="form-control m-input" placeholder="@YourInstagram" value="">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" id="nosocial" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="nosocial">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not have a social media presence</span>
@@ -493,7 +493,7 @@
                                                             <input type="text" name="product_link" required id="product_link" class="form-control m-input" placeholder="https://www.zumiez.com/skate/skateboard-decks.html?d=4294967250" value="">
                                                             <br>
                                                             <label class="switch mr-2 mb-0">
-                                                                <input type="checkbox" name="checkbox" id="noproduct" @click="toggle">
+                                                                <input type="checkbox" name="checkbox" id="noproduct">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                             <span>We do not yet have custom products</span>
