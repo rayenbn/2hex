@@ -12,18 +12,18 @@
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
         <div class="m-content">
-            <div 
-                class="alert alert-success alert-dismissible fade show m-alert m-alert--air" 
-                role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
+            <div
+                    class="alert alert-success alert-dismissible fade show m-alert m-alert--air"
+                    role="alert"
+                    style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Successfully Deliverd</span>
             </div>
-            <div 
-                class="alert alert-danger alert-dismissible fade show m-alert m-alert--air" 
-                role="alert"
-                style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
+            <div
+                    class="alert alert-danger alert-dismissible fade show m-alert m-alert--air"
+                    role="alert"
+                    style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
                 <span>Please Accept Our Terms Policy</span>
