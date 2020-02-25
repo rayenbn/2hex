@@ -91,7 +91,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
 Route::post('/inquiries', 'InquiriesController@submit');
-Route::get('/inquirieschoice', 'InquirieschoiceController@index')->name('inquirieschoice');
+Route::get('/mail', 'InquirieschoiceController@index')->name('inquirieschoice');
+
+
 Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
 Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
