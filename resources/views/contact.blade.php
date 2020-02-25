@@ -11,16 +11,6 @@
 @section('content')
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
-
-
-
-
-
-
-
-
-
-
         <div class="m-content">
 
             <!--Begin::Main Portlet-->
@@ -66,10 +56,12 @@
                                                         <span>(Only products offered on 2HEX.com)</span>
                                                     </div>
                                                     <span class="m-pricing-table-2__price">Personal</span>
-                                                    <a href="/inquiriesprivate" class="m-nav__link">
-                                                    <div class="m-pricing-table-2__btn">
-                                                        <button type="button" class="btn m-btn--pill  btn-info m-btn--wide m-btn--uppercase m-btn--bolder m-btn--lg">Contact</button>
-                                                    </div>
+                                                    <a href="{{route('inquiriesprivate')}}" class="m-nav__link">
+                                                        <div class="m-pricing-table-2__btn">
+                                                            <button type="button" class="btn m-btn--pill  btn-info m-btn--wide m-btn--uppercase m-btn--bolder m-btn--lg">
+                                                                Contact
+                                                            </button>
+                                                        </div>
                                                     </a>
                                                 </div>
 
@@ -87,13 +79,15 @@
                                                     </div>
                                                     <span class="m-pricing-table-2__price">Company</span>
 
-                                                    <a href="/inquiries" class="m-nav__link">
-                                                    <div class="m-pricing-table-2__btn">
-                                                        <button type="button" class="btn m-btn--pill  btn-info m-btn--wide m-btn--uppercase m-btn--bolder m-btn--lg">Contact</button>
-                                                    </div>
+                                                    <a href="{{route('inquiries')}}" class="m-nav__link">
+                                                        <div class="m-pricing-table-2__btn">
+                                                            <button type="button"
+                                                                    class="btn m-btn--pill  btn-info m-btn--wide m-btn--uppercase m-btn--bolder m-btn--lg">
+                                                                Contact
+                                                            </button>
+                                                        </div>
                                                     </a>
                                                 </div>
-
 
                                             </div>
                                         </div>
@@ -103,25 +97,11 @@
                         </div>
                     </div>
                 </div>
-
                 <!--end::Portlet-->
-
                 <!--end: Portlet Body-->
             </div>
-
             <!--End::Main Portlet-->
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
 @endsection

@@ -92,7 +92,7 @@ Route::get('/', 'HomeController@index')->name('index');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
 Route::post('/inquiries', 'InquiriesController@submit');
 Route::get('/inquirieschoice', 'InquirieschoiceController@index')->name('inquirieschoice');
-Route::get('/contact', 'ContactController@index')->name('contact');
+Route::get('/mail', 'ContactController@index')->name('mail');
 
 
 Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
