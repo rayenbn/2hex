@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\InquiryPrivate;
+use App\Mail\InquiryPrivateEmail;
 use Illuminate\Http\Request;
 
 class InquiriesprivateController extends Controller
@@ -13,7 +14,7 @@ class InquiriesprivateController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index']]);
+        
     }
 
     /**
@@ -24,5 +25,12 @@ class InquiriesprivateController extends Controller
     public function index()
     {
         return view('inquiriesprivate');
+    }
+    public function submit(Request $request)
+    {
+        $inputs = $request->all();
+        InquiryPrivate::insert($inputs);
+        \Mail::to('niklas@2hex.com')->send(new InquiryPrivateEmail($inputs));
+        return 'success';
     }
 }

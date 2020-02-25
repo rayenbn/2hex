@@ -1146,10 +1146,30 @@ class DashboardController extends Controller
         $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
 
         $submitorders = $submitorders->unique('saved_date');
+        $submitorders = (Array)json_decode(json_encode($submitorders));
+        
+        usort($submitorders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
 
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
         return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
+    }
+    public function deleteSubmitOrder($id){
+
+        $queryOrders = Order::query()
+            ->where('saved_date', $id)
+            ->where('submit',1)->delete();
+
+        $queryGrips = GripTape::query()
+            ->where('saved_date', $id)
+            ->where('submit',1)->delete();
+
+        $queryWheels = Wheel::query()
+            ->where('saved_date', $id)
+            ->where('submit',1)->delete();
+
+        return redirect()->back();
+
     }
     protected function calculateWheelFixCost(array &$fees, $submit = 2)
     {
@@ -1605,6 +1625,7 @@ class DashboardController extends Controller
         });
 
         $unSubmitOrders = $unSubmitOrders->unique('saved_date');
+        $unSubmitOrders = json_decode(json_encode($unSubmitOrders));
 
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
@@ -1618,6 +1639,8 @@ class DashboardController extends Controller
 
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
+
+        usort($unSubmitOrders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
         return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
     }
 
@@ -2217,7 +2240,7 @@ class DashboardController extends Controller
 
 
 
-        $returnorder = Order::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
+        $returnorder = Order::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get();
         if(!isset($selected_order) && count($returnorder) > 0){
             $selected_order = $returnorder[0]['invoice_number'];
         }
