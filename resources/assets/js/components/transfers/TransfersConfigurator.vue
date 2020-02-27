@@ -343,9 +343,9 @@
                             text: "Heat Transfer succesfully saved"
                         });
 
-                        // setTimeout(() => {
-                        //     window.location = response.request.responseURL
-                        // }, 1500);
+                        setTimeout(() => {
+                            window.location = response.request.responseURL
+                        }, 1500);
                     })
                     .catch(err => {
                         this.$notify({

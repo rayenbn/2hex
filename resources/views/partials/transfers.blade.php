@@ -83,7 +83,7 @@
                             <i class="la la-floppy-o"></i>
                         </button>
                     </form>
-                    <a class="m-btn btn btn-secondary" href="#" title="Edit">
+                    <a class="m-btn btn btn-secondary" href="{{route('transfers.update', $transfer->id)}}" title="Edit">
                         <i class="la la-italic"></i>
                     </a>
                 </div>

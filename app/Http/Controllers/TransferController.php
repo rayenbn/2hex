@@ -61,8 +61,8 @@ class TransferController extends Controller
         $filenames = $this->service->getRecentFiles($request->user());
 
         $totals = $this->service->getTotalAttributes(HeatTransfer::auth()->get());
-        $totalQuantity = $totals['totalQuantity'];
-        $totalColors = $totals['totalColors'];
+        $totalQuantity = $totals['totalQuantity'] - $transfer->quantity;
+        $totalColors = $totals['totalColors'] - $transfer->colors_count;
 
         return view(
             'transfers.configurator',
@@ -221,6 +221,36 @@ class TransferController extends Controller
         dispatch(new RecalculateHeatTransfers);
 
         return redirect()->route('profile', ['#saved_orders']);
+    }
+
+    /**
+     * Update transfer by id
+     *
+     * @param int $transferId Identifier of the transfer
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, int $transferId)
+    {
+        /** @var User|null $authUser */
+        $authUser = $request->user();
+        $createdBy = (string) (isset($authUser) ? $authUser->id : csrf_token());
+
+        /** @var HeatTransfer $heatTransfer */
+        $heatTransfer = HeatTransfer::query()->whereKey($transferId)->firstOrFail();
+
+        $heatTransfer->update($request->all());
+
+        Session::query()->create([
+            'action' => Session\Enum\Type::UPDATE_HEAT_TRANSFER,
+            'created_by' => $createdBy,
+            'comment' => $heatTransfer->id
+        ]);
+
+        dispatch(new RecalculateHeatTransfers);
+
+        return redirect()->route('summary');
     }
 
     /**

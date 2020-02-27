@@ -88,8 +88,9 @@
                             </template>
                             <template v-if="CMYK">
                                 <input
-                                    v-for="(color, index) in totalCmykColors"
+                                    v-for="(color, index) in cmykColors"
                                     type="text"
+                                    :disabled="index < 4 + +transparency"
                                     class="form-control mt-2 mb-2"
                                     placeholder="Enter Pantone Color"
                                     v-model="cmykColors[index]"
@@ -473,21 +474,21 @@
                 this.$store.commit('TransfersConfigurator/setPantoneColor', this.pantoneColor);
             }, 1000),
             onChangeCMYKColor: _.debounce(function (e) {
-                this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
-            }, 1000)
+                // this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
+            }, 1000),
+            recalculateCmykColors() {
+                this.$nextTick(() => {
+                    let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
+
+                    if (this.transparency) {
+                        colors.push('Transparency');
+                    }
+
+                    this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
+                });
+            },
         },
         computed: {
-            totalCmykColors() {
-                let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
-
-                if (this.transparency) {
-                    colors.push('Transparency');
-                }
-
-                this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
-
-                return this.pantoneColor.countFields + 4 + +this.transparency;
-            },
             designName: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getDesignName'];
@@ -501,24 +502,30 @@
                     return this.$store.getters['TransfersConfigurator/getCMYK'];
                 },
                 set: _.debounce(function (newVal) {
+                    this.recalculateCmykColors();
+
                     this.$store.commit('TransfersConfigurator/setCMYK', newVal);
-                }, 1000)
+                }, 500)
             },
             cmykColors: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getCMYKColors'];
                 },
                 set: _.debounce(function (newVal) {
+
                     this.$store.commit('TransfersConfigurator/setCMYKColors', newVal);
-                }, 1000)
+                }, 500)
             },
             transparency: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getTransparency'];
                 },
                 set: _.debounce(function (newVal) {
+                    if (this.CMYK) {
+                        this.recalculateCmykColors();
+                    }
                     this.$store.commit('TransfersConfigurator/setTransparency', newVal);
-                }, 1000)
+                }, 500)
             },
             pantoneColor: {
                 get() {
@@ -576,6 +583,9 @@
 
             // Listen change select with color types
             queryPantoneColor.on('select2:select', (e) => {
+                if (this.CMYK) {
+                    this.recalculateCmykColors();
+                }
                 this.pantoneColor = this.pantoneColors[e.params.data.id];
             });
 
@@ -595,15 +605,14 @@
                     if (parentComponent.transfer.large_preview) {
                         this.renderPreview(parentComponent.transfer.large_preview, 'lg');
                     }
-                });
 
-                // let countColors = 0;
-                //
-                // if (parentComponent.transfer.cmyk) {
-                //     countColors = parentComponent.transfer.colors_count - 4 - +parentComponent.transfer.transparency;
-                // } else {
-                //     countColors = parentComponent.transfer.colors_count;
-                // }
+                    let index = this.pantoneColors.findIndex(c => c.countFields === this.pantoneColor.countFields) || 0;
+
+                    if (this.CMYK) {
+                        this.pantoneColor = this.pantoneColors[index];
+                    }
+                    queryPantoneColor.val(index).trigger('change');
+                });
             }
 
             if (! this.pantoneColor) {

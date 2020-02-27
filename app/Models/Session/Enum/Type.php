@@ -28,6 +28,7 @@ class Type extends AbstractEnum
     const SAVE_HEAT_TRANSFER = 'Save Heat Transfer';
     const DELETE_HEAT_TRANSFER = 'Delete Heat Transfer';
     const SAVE_HEAT_TRANSFER_BATCH = 'Save Heat Transfer To Batch';
+    const UPDATE_HEAT_TRANSFER = 'Update Heat Transfer';
 
     // Other
     const UPLOAD = 'Upload';

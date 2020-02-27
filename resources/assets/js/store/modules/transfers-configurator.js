@@ -5,6 +5,8 @@ let heatTransferService = new HeatTransferService();
 export default {
     namespaced: true,
     state: {
+        isUpdate: false,
+        id: null,
         transferBatch: null,
         quantity: 6000,
         size: null,
@@ -164,6 +166,8 @@ export default {
             state.isAdmin = payload;
         },
         setTransfer(state, payload) {
+            state.isUpdate = true;
+            state.id = payload.id;
             state.transferBatch = payload;
             state.quantity = payload.quantity;
             state.size = payload.size;
@@ -175,16 +179,20 @@ export default {
             state.largePreview = payload.large_preview;
             state.isCMYK = Boolean(payload.cmyk);
 
-            // if (state.isCMYK) {
-            //     state.cmykColors = payload.colors.split(';');
-            //     // state.pantoneColor = {
-            //     //     countFields: payload.colors_count - 4 - +payload.transparency,
-            //     //     colors: payload.colors.split(';'),
-            //     //     title: `3 field to enter Pantone Color`
-            //     // };
-            // } else {
-            //     state.colors = payload.colors.split(';');
-            // }
+            if (state.isCMYK) {
+                state.cmykColors = payload.colors.split(';');
+                state.pantoneColor = {
+                    countFields: payload.colors_count - 4 - +payload.transparency,
+                    colors: state.cmykColors
+                };
+            } else {
+                state.colors = payload.colors.split(';');
+                state.pantoneColor = {
+                    countFields: payload.colors_count - +payload.transparency,
+                    colors: state.colors
+                };
+                console.log(state.pantoneColor);
+            }
 
         }
     },
@@ -212,6 +220,11 @@ export default {
                 };
 
                 let path = '/transfers-configurator';
+
+                if (state.isUpdate) {
+                    formParam._method = 'PUT';
+                    path += `/${state.id}`;
+                }
 
                 axios({method: 'POST', url: path, data: formParam})
                     .then(repsonse => {

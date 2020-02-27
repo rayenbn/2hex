@@ -141,6 +141,13 @@
                         "percent": 150
                     },
                     {
+                        "fullname": "14\" x 48\" Balance board",
+                        "size": 42,
+                        "name": "Balance board",
+                        "image": '/img/transfers/14x48-longboard-deck-heat-transfers.jpg',
+                        "percent": 150
+                    },
+                    {
                         "fullname": "23\" x 45\" Skimboard",
                         "size": 45,
                         "name": "Transfer-paper on Skimboard Deck",

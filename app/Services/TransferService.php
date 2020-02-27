@@ -109,11 +109,12 @@ class TransferService
         }
 
         $sizeWeight = [
-            "9\" x 33\" Skateboard"   => 0.0175,
-            "8\" x 23\" Mini Cruiser" => 0.0175,
-            "12\" x 42\" Longboard 1" => 0.0385,
-            "14\" x 48\" Longboard 2" => 0.0490,
-            "23\" x 45\" Skimboard"   => 0.0788,
+            "9\" x 33\" Skateboard"     => 0.0175,
+            "8\" x 23\" Mini Cruiser"   => 0.0175,
+            "12\" x 42\" Longboard 1"   => 0.0385,
+            "14\" x 48\" Longboard 2"   => 0.0490,
+            "14\" x 48\" Balance board" => 0.0490,
+            "23\" x 45\" Skimboard"     => 0.0788,
         ];
 
         return $transfers->reduce(function($carry, HeatTransfer $heatTransfer) use ($sizeWeight) {
