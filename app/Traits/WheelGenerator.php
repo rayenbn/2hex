@@ -304,8 +304,8 @@ trait WheelGenerator
                     'color'    => 1
                 ];
 
-                if (array_key_exists($key . '_colors', $wheel)) {
-                    switch ($wheel[$key . '_colors']) {
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
                             $fees[$wheelKey][$value]['color'] = 1;
                             break;
@@ -321,9 +321,17 @@ trait WheelGenerator
                     }
                 }
 
-                if ($key === 'top_print' || $key === 'back_print') {
+                if ($key === 'top_print') {
                     $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
-                } else if ($key === 'cardboard_print'){
+                } else if ($key === 'back_print') {
+                    // Set a free cost if exist same top print
+                    if (isset($fees['wheel_top_print']) && array_key_exists($value, $fees['wheel_top_print'])) {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                    }
+
+                } else if ($key === 'cardboard_print') {
                     if ($wheel['quantity'] < 1500) {
                         $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
                     } else {
