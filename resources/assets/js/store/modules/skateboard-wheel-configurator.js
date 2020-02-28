@@ -162,20 +162,14 @@ export default {
             return (state.type ? parseFloat(state.type.price) : 0) * state.profitMargin;
         },
         frontPrice: state => {
-            if (state.isFrontPrint == false) {
-                return 0;
-            }
-            if( state.isFrontEndFree == true){
+            if (state.isFrontPrint == false || state.isFrontEndFree) {
                 return 0;
             }
 
             return WheelService.calculateColorPrice(state.frontPrintColors, state.colorMargin, state.colorPrice);
         },
         backPrice: state => {
-            if (state.isBackPrint == false) {
-                return 0;
-            }
-            if( state.isBackEndFree == true){
+            if (state.isBackPrint == false || state.isBackEndFree) {
                 return 0;
             }
 
@@ -387,26 +381,25 @@ export default {
         },
         changeFrontPrintColors(state, payload) {
             state.frontPrintColors = payload;
+            state.backPrintColors = state.frontPrintColors;
         },
         changeFrontPrintFile(state, payload) {
             state.frontPrintFile = payload;
 
-            if (state.isBackPrint == false) {
+            state.isBackPrint = true;
+            state.backPrintFile = state.frontPrintFile;
+            state.backPrintColors = state.frontPrintColors;
 
-                state.isBackPrint = true;
-                state.backPrintFile = state.frontPrintFile;
-                state.backPrintColors = state.frontPrintColors;
-
-                let input = document.getElementById('step-5-upload');
-                input.nextElementSibling.innerHTML = state.frontPrintFile;
-                input.nextElementSibling.classList.remove("unchecked");
-                document.getElementById('step-5-recent').innerHTML = state.frontPrintFile;
-            }
+            let input = document.getElementById('step-5-upload');
+            input.nextElementSibling.innerHTML = state.frontPrintFile;
+            input.nextElementSibling.classList.remove("unchecked");
+            document.getElementById('step-5-recent').innerHTML = state.frontPrintFile;
         },
         changeFrontPrintFree(state, payload){
             state.isFrontEndFree = payload;
-            if(state.frontPrintFile == state.backPrintFile)
+            if (state.frontPrintFile == state.backPrintFile) {
                 state.isBackEndFree = state.isFrontEndFree;
+            }
         },
         changeFrontDropDisable(state, payload){
             state.isFrontDropDisable = payload;
