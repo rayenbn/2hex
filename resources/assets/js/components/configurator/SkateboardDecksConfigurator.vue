@@ -659,62 +659,59 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group m-form__group">
-                                                                <div></div>
                                                                 <div class="custom-file">
                                                                     <input
-                                                                            onclick="() => {user ? true : false}"
-                                                                            type="file"
-                                                                            data-type-upload="bottom"
-                                                                            data-step="4"
-                                                                            class="custom-file-input"
-                                                                            id="bottomPrintFile"
-                                                                            @click=" perdeck += steps[4].state?steps[4].selectpaid?0.75:0:0.75, steps[4].state = 1"
-                                                                            @change.prevent="uploadFile"
+                                                                        onclick="() => {user ? true : false}"
+                                                                        type="file"
+                                                                        data-type-upload="bottom"
+                                                                        data-step="4"
+                                                                        class="custom-file-input"
+                                                                        id="bottomPrintFile"
+                                                                        @click="perdeck += (steps[4].state ? (steps[4].selectpaid ? 0.75 : 0) : 0.75), steps[4].state = 1"
+                                                                        @change.prevent="uploadFile"
                                                                     >
                                                                     <label
-                                                                            class="custom-file-label unchecked"
-                                                                            v-bind:class="{checked: steps[4].state}"
-                                                                            for="customFile"
+                                                                        class="custom-file-label unchecked"
+                                                                        :class="{checked: steps[4].state}"
+                                                                        for="bottomPrintFile"
                                                                     >
                                                                         Upload artwork preview
                                                                     </label>
                                                                 </div>
 
-
                                                             </div>
                                                             <div class="progress mb-3" style="height: 2px;">
                                                                 <div
-                                                                        class="progress-bar m--bg-info"
-                                                                        role="progressbar"
-                                                                        :style="'width:' + steps[4].uploadProgress + '%'"
-                                                                        aria-valuenow="65"
-                                                                        aria-valuemin="0"
-                                                                        aria-valuemax="100"
+                                                                    class="progress-bar m--bg-info"
+                                                                    role="progressbar"
+                                                                    :style="'width:' + steps[4].uploadProgress + '%'"
+                                                                    aria-valuenow="65"
+                                                                    aria-valuemin="0"
+                                                                    aria-valuemax="100"
                                                                 >
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown">
                                                                 <button
-                                                                        class="btn btn-secondary dropdown-toggle unchecked"
-                                                                        type="button"
-                                                                        id="step-5-recent"
-                                                                        data-toggle="dropdown"
-                                                                        aria-haspopup="true"
-                                                                        aria-expanded="false"
-                                                                        style="width:100%;"
-                                                                        v-bind:class="{checked: steps[4].state}"
-                                                                        @click=" perdeck += steps[4].state?0:steps[4].selectpaid?0:0.75, steps[4].state = 1"
+                                                                    class="btn btn-secondary dropdown-toggle unchecked"
+                                                                    type="button"
+                                                                    id="step-5-recent"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="width:100%;"
+                                                                    :class="{checked: steps[4].state}"
+                                                                    @click="perdeck += (steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75)), steps[4].state = 1"
                                                                 >
                                                                     Recent file
                                                                 </button>
 
                                                                 <div class="dropdown-menu" aria-labelledby="step-5-recent">
                                                                     <a
-                                                                            v-for="file in (filenames.bottom.concat(filenames.top))"
-                                                                            class="dropdown-item file-dropdown"
-                                                                            href="#"
-                                                                            @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid'], steps[4].name = file['name']"
-                                                                            
+                                                                        v-for="file in (filenames.bottom.concat(filenames.top))"
+                                                                        class="dropdown-item file-dropdown"
+                                                                        href="#"
+                                                                        @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid'], steps[4].name = file['name']"
                                                                     >
                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
@@ -722,11 +719,10 @@
                                                             </div>
                                                             <br>
                                                             <color-btn
-                                                                    :color="steps[4].color"
-                                                                    labelledby="step-5-colors"
-                                                                    @colorChange="(val) => steps[4].color = val"
-                                                                    v-if="!steps[4].dropdisable"
-                                                                    
+                                                                :color="steps[4].color"
+                                                                labelledby="step-5-colors"
+                                                                @colorChange="(val) => steps[4].color = val"
+                                                                v-if="!steps[4].dropdisable"
                                                             >
                                                                 <template slot="btn">
                                                                     <button
@@ -737,7 +733,7 @@
                                                                             aria-haspopup="true"
                                                                             aria-expanded="false"
                                                                             style="width:100%;"
-                                                                            @click="perdeck += steps[4].state ? 0 : steps[4].selectpaid?0:0.75, steps[4].state = true"
+                                                                            @click="perdeck += steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75), steps[4].state = true"
                                                                             :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
                                                                     >
                                                                         {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
@@ -746,15 +742,15 @@
                                                             </color-btn>
 
                                                             <button v-else
-                                                                    id="step-5-colors"
-                                                                    class="btn btn-secondary dropdown-toggle"
-                                                                    type="button"
-                                                                    data-toggle="dropdown"
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded="false"
-                                                                    style="width:100%;"
-                                                                    @click="perdeck += steps[4].state ? 0 : steps[4].selectpaid?0:0.75, steps[4].state = true"
-                                                                    :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
+                                                                id="step-5-colors"
+                                                                class="btn btn-secondary dropdown-toggle"
+                                                                type="button"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false"
+                                                                style="width:100%;"
+                                                                @click="perdeck += steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75), steps[4].state = true"
+                                                                :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
                                                             >
                                                                 {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
                                                             </button>
@@ -2316,7 +2312,7 @@
                     {state: true},
                     {state: true},
                     {state: true},
-                    {state: false, color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
+                    {state: false, color: null, uploadProgress: 0, dropdisable: false, selectpaid: false, name: ''},
                     {state: false, name: '', color: null, uploadProgress: 0, dropdisable: false, selectpaid: false},
                     {state: false, name: '', uploadProgress: 0, selectpaid: false},
                     {state: true, name: ''},
@@ -2623,10 +2619,10 @@
 
                     if(this.order.bottomprint){
                         this.steps[4].state = true;
+                        this.steps[4].name = this.order.bottomprint;
                         let step5 = document.getElementById('step-5-recent');
                         step5.innerHTML = this.order.bottomprint;
                         step5.classList.remove('unchecked');
-                        debugger;
                         for(let i = 0; i < this.filenames['bottom'].length; i ++){
                             if(this.filenames['bottom'][i]['name'] == this.order.bottomprint){
                                 this.steps[4].dropdisable = this.filenames['bottom'][i]['is_disable']?true:false;
@@ -2638,9 +2634,10 @@
 
                     if(this.order.topprint){
                         this.steps[5].state = true;
+                        this.steps[5].name = this.order.topprint;
                         let step6 = document.getElementById('step-6-recent');
                         step6.innerHTML = this.order.topprint;
-                        step6.classList.remove('unchecked')
+                        step6.classList.remove('unchecked');
                         for(let i = 0; i < this.filenames['top'].length; i ++){
                             if(this.filenames['top'][i]['name'] == this.order.topprint){
                                 this.steps[5].dropdisable = this.filenames['top'][i]['is_disable']?true:false;
@@ -2651,6 +2648,7 @@
 
                     if(this.order.engravery){
                         this.steps[6].state = true;
+                        this.steps[6].name = this.order.engravery;
                         $('button',$('#m_wizard_form_step_7')).html(this.order.engravery);
                         setTimeout(function(){
                             $('button',$('#m_wizard_form_step_7')).removeClass('unchecked');
@@ -2668,6 +2666,7 @@
 
                     if(this.order.cardboard){
                         this.steps[9].state = true;
+                        this.steps[9].name = this.order.cardboard;
                         $('button',$('#m_wizard_form_step_10')).html(this.order.cardboard);
                         setTimeout(function(){
                             $('button',$('#m_wizard_form_step_10')).removeClass('unchecked');
@@ -2679,6 +2678,7 @@
 
                     if(this.order.carton){
                         this.steps[10].state = true;
+                        this.steps[10].name = this.order.carton;
                         let step11 = document.getElementById('step-11-recent');
                         step11.innerHTML = this.order.carton;
                         step11.classList.remove('unchecked');
@@ -2744,6 +2744,7 @@
                     .then(response => {
                         if(response != 'failed'){
                             target.setAttribute('fileName', response);
+                            this.steps[numStep].name = response;
                             target.nextElementSibling.classList.remove("unchecked");
                             $('button', target.parentNode.parentNode.nextElementSibling).addClass("unchecked");
                             $('button', target.parentNode.parentNode.nextElementSibling).html(response);

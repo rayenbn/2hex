@@ -55,7 +55,7 @@
                                     <label 
                                         class="custom-file-label unchecked" 
                                         :class="{checked: isFrontPrint}" 
-                                        for="customFile"
+                                        for="step-4-upload"
                                     >
                                         Choose file
                                     </label>
@@ -121,15 +121,15 @@
                                 </template>
                             </color-btn>
 
-                            <button 
+                            <button
                                 id="step-4-colors"
-                                class="btn btn-secondary dropdown-toggle" 
-                                type="button" 
-                                data-toggle="dropdown" 
-                                aria-haspopup="true" 
-                                aria-expanded="false" 
-                                style="width:100%;" 
-                                :class="[isFrontPrint && countColors ? 'checked' : 'unchecked']" 
+                                class="btn btn-secondary dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                style="width:100%;"
+                                :class="[isFrontPrint && countColors ? 'checked' : 'unchecked']"
                                 @click="isFrontPrint = true"
                                 v-else
                             >
