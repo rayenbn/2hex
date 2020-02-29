@@ -106,11 +106,11 @@
                                             makes it a popular first product for skateboard companies. Skateboard decks
                                             offer a lot of customization options, enabling brands to differentiate from
                                             the current trend and create their own style.<br>
-
+                                        <div id="decktemplates"> </div>
                                             <br><br>
 
                                         <div class="m-separator m-separator--fit"></div>
-                                        <div id="decktemplates"> </div>
+
                                         <br>
 
 
