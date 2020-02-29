@@ -110,13 +110,27 @@
                                             <br><br>
 
                                         <div class="m-separator m-separator--fit"></div>
+                                        <div id="decktemplates"> </div>
                                         <br>
 
 
                                         <table style="width:100%" >
                                             <tr>
-                                                <th><a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf"> <p style="color: #5867dd">✖ Download Skateboard Deck Template:</p></a></th>
-                                                <th><a href="/img/skateboard/SKATEBOARD-DECK-TEMPLATE-PSD-MOCKUP.psd">              <p style="color: #5867dd">✖ Download Skateboard Deck Mockup:</p></a></th>
+                                                <th>
+                                                    @if (Auth::user())
+                                                        <a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf"> <p style="color: #5867dd">✖ Download Skateboard Deck Template:</p></a>
+
+                                                    @else
+                                                        <a href="{{route('register')}}"> <p style="color: #5867dd">✖ Download Skateboard Deck Template:</p></a>
+                                                    @endif
+                                                </th>
+                                                <th>
+                                                    @if (Auth::user())
+                                                        <a href="/img/skateboard/SKATEBOARD-DECK-TEMPLATE-PSD-MOCKUP.psd"><p style="color: #5867dd">✖ Download Skateboard Deck Mockup:</p></a>
+                                                    @else
+                                                        <a href="{{route('register')}}"><p style="color: #5867dd">✖ Download Skateboard Deck Mockup:</p></a>
+                                                    @endif
+                                                </th>
                                             </tr>
                                             <tr>
                                                 <td> <img src="/img/skateboard/free-skateboard-deck-design-template.jpg"     style="width: 80%;" alt="free skateboard deck design template"> </td>
