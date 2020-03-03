@@ -14,10 +14,10 @@
 			<p style="color: black;">Congrats for registering on 2HEX!</p>
 			<p style="color: black;">Meet Niklas, your personal sales contact:</p>
 
-			<video poster="{{asset('img/2HEX-Video.png')}}" width="100%" height="50%" controls="controls">
+			<video poster="{{asset('img/2HEX-Video.png')}}" width="100%" controls="controls" style="display: block">
 				<source src="https://www.youtube.com/watch?v=cJs7LPAxLeI" type="video/mp4" />
 				<a href="https://www.youtube.com/watch?v=cJs7LPAxLeI">
-					<img src="{{asset('img/2HEX-Video.png')}}" width="100%" height="50%" alt="2HEX welcome message" title="2HEX welcome message" />
+					<img src="{{asset('img/2HEX-Video.png')}}" width="100%" alt="2HEX welcome message" title="2HEX welcome message" />
 				</a>
 			</video>
 			<br>

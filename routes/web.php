@@ -101,6 +101,7 @@ Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
+Route::get('/delete_summary', 'SummaryController@deleteSummary');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
 Route::post('/production_filter', 'ProfileController@production_filter');

@@ -14,6 +14,7 @@ use App\Models\ShipInfo;
 use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session, PaidFile, ProductionDate};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
+use App\Mail\CommentAddedEmail;
 class DashboardController extends Controller
 {
     protected $feesTypes = [
@@ -2224,7 +2225,7 @@ class DashboardController extends Controller
                 ProductionComment::where('id', $remove_id)->delete();   
             }            
             else if(isset($content) && isset($selected_date)){
-                $exists_comment = ProductionComment::where('date',$selected_date)->where('created_number', $selected_order)->get();
+                //$exists_comment = ProductionComment::where('date',$selected_date)->where('created_number', $selected_order)->get();
                 if(isset($exists_comment) && count($exists_comment) > 0){
                     ProductionComment::where('id',$exists_comment[0]['id'])->update(['comment' => $content]);
                 }
@@ -2232,6 +2233,8 @@ class DashboardController extends Controller
                     ProductionComment::insert(
                         ['date' => $selected_date, 'comment' => $content, 'order_id' => '1', 'created_at' => date("Y-m-d H:i:s"), 'created_number' => $selected_order]
                     );
+
+                    \Mail::to($email)->send(new CommentAddedEmail(['date' => $selected_date, 'comment' => $content,'created_number' => $selected_order, 'name' => $user->name]));
                 }
                 
             }
@@ -2259,7 +2262,7 @@ class DashboardController extends Controller
         if(!isset($selected_date)){
             $selected_date = date('Y-m-d');
         }
-        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'desc')->get();
 
 
         return view('admin.production',compact( 'users','user', 'returnorder', 'selected_order','startdate','enddate','dates','selected_date','comments'));

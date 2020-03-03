@@ -157,7 +157,7 @@ class ProfileController extends Controller
 
         
 
-        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'desc')->get();
         $fees = [];
 
         $orders = Order::where('created_by', $createdBy)->where('saved_batch', 1)
@@ -348,7 +348,10 @@ class ProfileController extends Controller
                 }
             }
         }
-
+        $unSubmitOrders = json_decode(json_encode($unSubmitOrders));
+        $submitorders = json_decode(json_encode($submitorders));
+        usort($unSubmitOrders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
+        usort($submitorders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
     }
 

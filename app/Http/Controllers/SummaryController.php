@@ -479,7 +479,17 @@ class SummaryController extends Controller
 
         session()->flash('success', 'Your order has been successfully sent!');
         session()->flash('invoiceNumber', $invoiceNumber); 
+        
+        ProductionDate::insert(['start_date'=>date('Y-m-d'), 'finish_date'=>$enddate = date('Y-m-d',strtotime("+3 months")), 'invoice_name'=>$invoiceNumber]);
 
+        ProductionComment::insert(
+            ['date' => date("Y-m-d"), 'comment' => 'Order submitted', 'order_id' => '1', 'created_at' => date("Y-m-d H:i:s"), 'created_number' => $invoiceNumber]
+        );
+
+        ProductionComment::insert(
+            ['date' => date("Y-m-d"), 'comment' => 'Waiting for payment', 'order_id' => '1', 'created_at' => date("Y-m-d H:i:s"), 'created_number' => $invoiceNumber]
+        );
+        
         return redirect()->route('ordersuccess');
     }
 
@@ -652,7 +662,13 @@ class SummaryController extends Controller
 
         return redirect()->route('profile');
     }
-
+    public function deleteSummary(Request $request){
+        $ordersQuery = Order::auth()->delete();
+        $gripQuery = GripTape::auth()->delete();
+        $wheelQuery = Wheel::auth()->delete();
+        $transfers = HeatTransfer::auth()->delete();
+        return redirect()->route('summary');
+    }
     public function applyPromocode(Request $request)
     {
         $this->validate($request, ['promocode' => 'required|min:2']);
