@@ -334,8 +334,16 @@ class SummaryController extends Controller
                     }
                 }
 
-                if ($key === 'top_print' || $key === 'back_print') {
+                if ($key === 'top_print') {
                     $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                } else if ($key === 'back_print') {
+                    // Set a free cost if exist same top print
+                    if (isset($fees['wheel_top_print']) && array_key_exists($value, $fees['wheel_top_print'])) {
+                        $fees[$wheelKey][$value]['price'] = 0;
+                    } else {
+                        $fees[$wheelKey][$value]['price'] = $fees[$wheelKey][$value]['color'] * 20 * 1.5;
+                    }
+
                 } else if ($key === 'cardboard_print') {
                     if ($wheel['quantity'] < 1500) {
                         $fees[$wheelKey][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
@@ -350,7 +358,7 @@ class SummaryController extends Controller
                     $fees[$wheelKey][$value]['price'] = 0;
                 }
 
-                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
+                if (!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])) {
                     $fees[$wheelKey][$value]['price'] = 0;
                     $fees[$wheelKey][$value]['paid'] = 1;
                 }
