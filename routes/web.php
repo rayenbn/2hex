@@ -98,6 +98,7 @@ Route::get('/mail', 'ContactController@index')->name('mail');
 Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
 Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
+Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
