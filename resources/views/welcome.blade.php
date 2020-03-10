@@ -43,6 +43,7 @@
 		<div class="m-content">
 
 
+        <!--
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
                 <div class="m-alert__text">
                     <h4>
@@ -57,10 +58,10 @@
 
                 </div>
             </div>
+-->
 
 
             <div class="m--margin-bottom-30">
-
                 <div class="ism-slider" data-play_type="loop" data-radio_type="thumbnail" id="my-slider">
                     <ol>
                         <li>
@@ -97,6 +98,24 @@
             -->
                         
 			<!--Begin::Section-->
+
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
+                <div class="m-alert__text">
+
+
+                    <h2>We want athletes to create great skateboard companies!</h2>
+                    We do so by offering easy access to reliable, pro quality mass productions.<br>
+                    Our users choose from over 100 billion product variations when planning their productions on 2HEX.
+                    <br>
+                    2HEX is a web platform to arrange sport equipment productions online.<br>
+                    <br>
+                    <a href="{{route('register')}}">
+                        <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">→ Register to plan your skateboard production!</button>
+                    </a>
+
+                </div>
+            </div>
+
 			<div class="row">
 
 
@@ -324,7 +343,7 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;">
-                                <h3>Deck & Grip Samples</h3>
+                                <h3>Sample Sets</h3>
                                 Order a sample pack with decks and griptapes. Test our samples to feel the
                                 high product quality offered at 2HEX. You can order between one and three
                                 decks with your required shape, concave and other specifications. Each deck
@@ -332,7 +351,7 @@
                             </div>
                             <br>
                             <div class="m-widget19__action">
-                                <a href="samples" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                <a href="samplesets" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
                                         <span>order samples</span>
                                         <i class="la la-arrow-right"></i>
@@ -430,6 +449,9 @@
 			</div>
 		</div>
 
+
+
+
         <!--
 		<div class="m-subheader ">
 			<div class="d-flex align-items-center">
@@ -440,7 +462,22 @@
 		</div>
         -->
 
+
 		 <div class="m-content" id="blog">
+
+             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
+                 <div class="m-alert__text">
+
+
+                     <a href="{{route('inquirieschoice')}}">
+                         <button type="button" class="btn btn-secondary">
+
+                             <i class="m-menu__link-icon flaticon-email"> </i>
+                             &nbsp Didn't find what you were looking for? Message us!</button>
+                     </a>
+
+                 </div>
+             </div>
          
 			<div class="row">
 				<div class="col-xl-12">
@@ -511,20 +548,19 @@
                 </div>
             </div>
 
+
             <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
                 <div class="m-alert__icon">
                     <i class="flaticon-exclamation-1"></i>
                 </div>
+
                 <div class="m-alert__text">
-                    Download the 2HEX
-                    <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
-                        catalog
+
+                    <a href="{{route('register')}}">
+                        <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">→ Register to plan your skateboard production!</button><br>
                     </a>
-                    or
-                    <a href="inquiries" class="m-link m-link--warning m--font-bold" target="_blank">
-                        message
-                    </a> us.
                 </div>
+
             </div>
 
         </div>
