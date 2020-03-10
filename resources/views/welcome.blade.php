@@ -495,6 +495,7 @@
 
                             <div class="m-portlet__head-caption">
                                 <div class="d-flex justify-content-between mr-4">
+                                   <!--
                                     <a
                                         href="{{route('index',['gap' => 'last_month', '#blog'])}}"
                                         class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_month' ? 'btn-brand' : ''}}"
@@ -513,6 +514,8 @@
                                     >
                                         All time
                                     </a>
+                                    -->
+
                                 </div>
                                 @if($posts->count())
                                     {{ $posts->fragment('blog')->appends($request->input())->links() }}
