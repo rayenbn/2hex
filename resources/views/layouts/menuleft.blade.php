@@ -310,25 +310,19 @@
             </li>
 
 
-            <li
-                    class="m-menu__item
-                    {{
-                        request()->routeIs('about')
-                            ? 'm-menu__item--expanded m-menu__item--active'
-                            : ''
-                    }}"
-                    aria-haspopup="true"
-            >
 
 
-                <a href="{{route('about')}}" class="m-menu__link ">
+            <li class="m-menu__item  {{ request()->routeIs('about') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('about') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-presentation"></i>
-                    <i class="m-menu__link-icon flaticon-list-3w">
-                        <span></span>
-                    </i>
-                    <span class="m-menu__link-text">About Us</span>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">About Us</span>
+                        </span>
+                    </span>
                 </a>
             </li>
+
 
         <!--
             <li class="m-menu__item  {{ request()->routeIs('samplesets') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
