@@ -110,7 +110,7 @@
                     2HEX is a web platform to arrange sport equipment productions online.<br>
                     <br>
                     <a href="{{route('register')}}">
-                        <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">→ Register to plan your skateboard production!</button>
+                        <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">→ Register to plan your production!</button>
                     </a>
 
                 </div>
@@ -550,14 +550,11 @@
 
 
             <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
-                <div class="m-alert__icon">
-                    <i class="flaticon-exclamation-1"></i>
-                </div>
 
                 <div class="m-alert__text">
 
                     <a href="{{route('register')}}">
-                        <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">→ Register to plan your skateboard production!</button><br>
+                        <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">→ Register to plan your production!</button><br>
                     </a>
                 </div>
 

@@ -202,13 +202,15 @@
                                 </li>
 
 
-                                @endif 
+                                @endif
+                                        <!--
                             </li>
                             <li id="m_quick_sidebar_toggle" class="m-nav__item">
                                 <a   class="m-nav__link m-dropdown__toggle">
                                     <span class="m-nav__link-icon"><i class="flaticon-chat"></i></span>
                                 </a>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>
