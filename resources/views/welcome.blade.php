@@ -473,7 +473,7 @@
                          <button type="button" class="btn btn-secondary">
 
                              <i class="m-menu__link-icon flaticon-email"> </i>
-                             &nbsp Didn't find what you were looking for? Message us!</button>
+                             &nbsp Questions? Message us!</button>
                      </a>
 
                  </div>
