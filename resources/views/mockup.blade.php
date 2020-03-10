@@ -121,7 +121,10 @@
                                                             <h2><b style="color: #716aca">Do you want to plan your own deck production?</b></h2>
                                                         </div>
 
-                                                        <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">Register and plan your deck production!*</button>
+                                                        <a href="{{route('register')}}">
+                                                            <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">Register and plan your deck production!*</button>
+                                                        </a>
+
                                                         <br>
                                                         <br>
                                                         * Everybody is welcome.
