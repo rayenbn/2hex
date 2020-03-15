@@ -60,6 +60,7 @@ class SummaryController extends Controller
      */
     public function index()
     {
+        // TODO Replace to App\Classes\Batch
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
@@ -429,13 +430,13 @@ class SummaryController extends Controller
         $queryOrders = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
-
-        // TODO add wheels to invoice
+        $transfersQuery = HeatTransfer::auth();
 
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
-            $queryOrders->get(), 
-            $gripQuery->get(), 
-            $wheelQuery->get()
+            $queryOrders->get(),
+            $gripQuery->get(),
+            $wheelQuery->get(),
+            $transfersQuery->get()
         ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
