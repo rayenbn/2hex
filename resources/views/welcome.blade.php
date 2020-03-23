@@ -123,7 +123,7 @@
                         </p>
                     </div>
                     <div class="col-xl-6 my-auto">
-                        <h2>3 Steps to Place your Production Order:</h2>
+                        <h2>Your Production Order in 3 Steps:</h2>
                         <p>1. customize your decks, wheels or griptapes </p>
                         <p>2. upload your designs</p>
                         <p>3. check your shopping cart and submit</p>
