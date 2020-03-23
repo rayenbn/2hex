@@ -85,10 +85,21 @@
                 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
                     <div class="m-stack__item m-topbar__nav-wrapper">
                         <ul class="m-topbar__nav m-nav m-nav--inline">
+
+                            @if (Auth::user())
+                            <a href="/summary" class="m-nav__link m-dropdown__toggle">
+
+                                     <span class="m-topbar__userpic">
+                                         <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Shopping Cart</span>
+                                     </span>
+
+                            </a>
+
                             <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                 m-dropdown-toggle="click">
-                                @if (Auth::user())
-                                <a href="#" class="m-nav__link m-dropdown__toggle">
+
+
+                                    <a href="#" class="m-nav__link m-dropdown__toggle">
                                                                                              
                                      <span class="m-topbar__userpic">
                                          <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">{{Auth::user()->name}}</span>
@@ -182,6 +193,9 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
                                 @else
                                 <li class="m-nav__item">
                                 <a href="/register" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->

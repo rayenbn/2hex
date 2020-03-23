@@ -77,8 +77,8 @@
                 m-menu-submenu-toggle="hover"
             >
                 <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-truck"></i>
-                    <span class="m-menu__link-text">Your Products</span>
+                    <i class="m-menu__link-icon flaticon-list"></i>
+                    <span class="m-menu__link-text">Configuration</span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>
 
@@ -280,10 +280,10 @@
             >
 
                 <a href="{{route('summary')}}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-list-1">
+                    <i class="m-menu__link-icon flaticon-cart">
                         <span></span>
                     </i>
-                    <span class="m-menu__link-text">Your Summary</span>
+                    <span class="m-menu__link-text">Shopping Cart</span>
                 </a>
             </li>
 

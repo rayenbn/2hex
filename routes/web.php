@@ -100,6 +100,7 @@ Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
 Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
+Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::post('/detail_save', 'ProfileController@detail_save');

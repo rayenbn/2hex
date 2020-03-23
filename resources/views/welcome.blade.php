@@ -100,24 +100,74 @@
 			<!--Begin::Section-->
 
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
-                <div class="m-alert__text">
+                <div class="m-alert__text" style="background-image: url(/img/wall.jpg); background-size: 100%;">
 
 
-                    <h2>We want athletes to create great skateboard companies!</h2>
-                    We do so by offering easy access to reliable, pro quality mass productions.<br>
-                    Our users choose from over 100 billion product variations when planning their productions on 2HEX.
+                    <h2>We help athletes build great skateboard companies!</h2>
+                    We do so by offering easy access to reliable, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
+                    With 2HEX you can fully customize your skateboard components and track your productions online.
                     <br>
-                    2HEX is a web platform to arrange sport equipment productions online.<br>
-                    <br>
-                    <a href="{{route('register')}}">
-                        <button type="button" class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">→ Register to plan your production!</button>
-                    </a>
+                    2HEX is a web platform to arrange skateboard productions online.<br>
 
                 </div>
             </div>
 
-			<div class="row">
+            <div class="m-portlet" style="background-color: #eceff1">
 
+
+                <div class="row">
+
+                    <div class="col-xl-4" style="margin: 20px;" >
+                        <p>
+                            <img alt="" src="/img/skateboard/process-devices.jpg" style="width: 100%" />
+                        </p>
+                    </div>
+                    <div class="col-xl-6 my-auto">
+                        <h2>The 3 Step Process</h2>
+                        <p>1. customize your skateboad components</p>
+                        <p>2. upload your design</p>
+                        <p>3. check your order summary and submit</p>
+                        <p>
+                            @if (Auth::user())
+                            <div class="dropdown">
+                                <button
+                                        class="btn m-btn dropdown-toggle dropdown-toggle-split m-btn--gradient-from-primary m-btn--gradient-to-info"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        id="actions"
+                                >
+                                    Select a Product to get started!
+                                </button>
+
+
+                                <div class="dropdown-menu" aria-labelledby="actions">
+                                    <a class="dropdown-item" href="{{ route('griptape.manufacturer') }}">
+                                       Griptapes
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('skateboard.manufacturer') }}">
+                                        Decks
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('wheels.manufacturer') }}">
+                                        Wheels
+                                    </a>
+                                </div>
+
+                            </div>
+
+                            @else
+                                <a href="{{route('register')}}">
+                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">Register now to start your production!</button>
+                        </a>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+			<div class="row">
 
 				<div class="col-xl-4">
 					<!--begin:: Widgets/Activity-->
@@ -188,8 +238,7 @@
 							<div class="m-widget19__action">
 								<a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
-                                        <span>add decks to order</span>
-                                        <i class="la la-arrow-right"></i>
+                                        <span>Customize & Add to Shopping Cart</span>
                                     </span>
 								</a>
 							</div>
@@ -269,8 +318,7 @@
                             <div class="m-widget19__action">
                                     <a href="skateboard-wheels-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
-                                        <span>add wheels to order</span>
-                                        <i class="la la-arrow-right"></i>
+                                        <span>Customize & Add to Shopping Cart</span>
                                     </span>
                                 </a>
                             </div>
@@ -290,9 +338,8 @@
                 </div>
 
 
-
+<!--
                 <div class="col-xl-4">
-                    <!--begin:: samples-->
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                         <div class="m-portlet__head">
 
@@ -361,13 +408,11 @@
 
                         </div>
                     </div>
-                    <!--end:: samples-->
                 </div>
 
 
 
                 <div class="col-xl-4">
-                    <!--begin:: newsletter-->
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
@@ -440,13 +485,13 @@
 
                         </div>
                     </div>
-                    <!--end:: newsletter-->
                 </div>
-
+            -->
 
                 <!-- MANUAL PRODUCTS -->
 
 			</div>
+
 		</div>
 
 
@@ -465,6 +510,66 @@
 
 		 <div class="m-content" id="blog">
 
+
+             <div class="m-portlet">
+                     <div class="row">
+
+                         <div class="col-xl-4" style="margin: 20px;" >
+
+                         <p>
+                             <img alt="" src="/skateboard-deck-production/2hex-book.jpg" style="width: 100%" />
+                         </p>
+
+                         <br>
+                         </div>
+
+
+                         <div class="col-xl-6 my-auto">
+
+
+                     <link href="../../../css/classic-10_7.css" rel="stylesheet" type="text/css" />
+                     <div id="mc_embed_signup">
+
+                         <form action="https://2hex.us3.list-manage.com/subscribe/post?u=647f3b724d78e4fe975871794&amp;id=bb8f89e732" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                             <div id="mc_embed_signup_scroll" style="max-width: 700px;">
+
+                                 <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
+                                 <div style="text-align: justify; color: #9699a4;">
+                                 <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
+                                 </div>
+                                 <div class="mc-field-group">
+                                     <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="enter your email address">
+                                 </div>
+                                 <div class="mc-field-group">
+                                     <input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="enter your first name">
+                                 </div>
+
+                                 <div id="mce-responses" class="clear">
+                                     <div class="response" id="mce-error-response" style="display:none"></div>
+                                     <div class="response" id="mce-success-response" style="display:none"></div>
+                                 </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                 <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_647f3b724d78e4fe975871794_bb8f89e732" tabindex="-1" value=""></div>
+                                 <div class="clear"><input type="submit" value="Receive the Book by Email*" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                                 <br>
+                                 <div style="text-align: justify; color: #9699a4;">
+                                 <p>*By submitting you agree to our terms and conditions.</p>
+                                 </div>
+                             </div>
+                         </form>
+
+                     </div>
+
+                     <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='MMERGE2';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                     <!--End mc_embed_signup-->
+
+                     </div>
+
+                     </div>
+                 </div>
+
+
+
+<!--
              <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
                  <div class="m-alert__text">
 
@@ -478,7 +583,10 @@
 
                  </div>
              </div>
-         
+             -->
+
+
+             <!--
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="m-portlet m-portlet--full-height ">
@@ -493,8 +601,11 @@
 
                             @php $request = request(); @endphp
 
+
                             <div class="m-portlet__head-caption">
                                 <div class="d-flex justify-content-between mr-4">
+                                -->
+
                                    <!--
                                     <a
                                         href="{{route('index',['gap' => 'last_month', '#blog'])}}"
@@ -516,6 +627,7 @@
                                     </a>
                                     -->
 
+         <!--
                                 </div>
                                 @if($posts->count())
                                     {{ $posts->fragment('blog')->appends($request->input())->links() }}
@@ -550,16 +662,53 @@
 
                 </div>
             </div>
+            -->
 
 
-            <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
 
+            <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" style="width: 100%;" role="alert">
+
+                <p>
                 <div class="m-alert__text">
+                @if (Auth::user())
+                    <div class="dropdown">
+                        <button
+                                class="btn m-btn dropdown-toggle dropdown-toggle-split m-btn--gradient-from-primary m-btn--gradient-to-info"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                id="actions"
+                        >
+                            Select a Product to get started!
+                        </button>
 
-                    <a href="{{route('register')}}">
-                        <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">→ Register to plan your production!</button><br>
-                    </a>
-                </div>
+
+                        <div class="dropdown-menu" aria-labelledby="actions">
+                            <a class="dropdown-item" href="{{ route('griptape.manufacturer') }}">
+                                Griptapes
+                            </a>
+                            <a class="dropdown-item" href="{{ route('skateboard.manufacturer') }}">
+                                Decks
+                            </a>
+                            <a class="dropdown-item" href="{{ route('wheels.manufacturer') }}">
+                                Wheels
+                            </a>
+                        </div>
+
+                    </div>
+
+                @else
+
+                        <a href="{{route('register')}}">
+                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info" style="width: 100%;">→ Register now to start planning your company's skateboard production!</button><br>
+                        </a>
+
+                    @endif
+                    </div>
+                    </p>
+
+
 
             </div>
 

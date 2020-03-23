@@ -103,13 +103,14 @@
 
         <!-- Header -->
         @include('layouts.header')
-                                                                                
+
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-            @include('layouts.menuleft')
-            <!-- Main Content -->
+        @include('layouts.menuleft')
+        <!-- Main Content -->
             @yield('content')
 
         </div>
+
         <!-- Footer -->
         <!-- begin::Scroll Top -->
         @include('layouts.footer')
