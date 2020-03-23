@@ -51,8 +51,7 @@
         <div class="m-widget19__action">
             <a href="{{ route('griptape.manufacturer') }}" class="btn btn-sm btn-danger m-btn--pill btn-brand">
                 <span>
-                    <span>add grip tape to order</span>
-                    <i class="la la-arrow-right"></i>
+                    <span>Customize & Add to Shopping Cart</span>
                 </span>
             </a>
         </div>

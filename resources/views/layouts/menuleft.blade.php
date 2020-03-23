@@ -8,7 +8,7 @@
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
 
             <li class="m-menu__section ">
-                <h4 class="m-menu__section-text">Our Products</h4>
+                <h4 class="m-menu__section-text">Customizable Products</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
             </li>
 
@@ -18,7 +18,7 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Skateboard Decks</span>
+                            <span class="m-menu__link-text">Skateboard Decks</span>
                         </span>
                     </span>
                 </a>
@@ -29,7 +29,7 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Griptapes</span>
+                            <span class="m-menu__link-text">Griptapes</span>
                         </span>
                     </span>
                 </a>
@@ -40,7 +40,7 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Wheels</span>
+                            <span class="m-menu__link-text">Wheels</span>
                         </span>
                     </span>
                 </a>
@@ -62,7 +62,7 @@
 
 
             <li class="m-menu__section ">
-                <h4 class="m-menu__section-text">Your Production</h4>
+                <h4 class="m-menu__section-text">Your Overview</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li 
@@ -77,8 +77,8 @@
                 m-menu-submenu-toggle="hover"
             >
                 <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-truck"></i>
-                    <span class="m-menu__link-text">Your Products</span>
+                    <i class="m-menu__link-icon flaticon-list"></i>
+                    <span class="m-menu__link-text">Configuration</span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>
 
@@ -280,10 +280,10 @@
             >
 
                 <a href="{{route('summary')}}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-list-1">
+                    <i class="m-menu__link-icon flaticon-cart">
                         <span></span>
                     </i>
-                    <span class="m-menu__link-text">Your Summary</span>
+                    <span class="m-menu__link-text">Shopping Cart</span>
                 </a>
             </li>
 
@@ -310,25 +310,21 @@
             </li>
 
 
-            <li
-                    class="m-menu__item
-                    {{
-                        request()->routeIs('about')
-                            ? 'm-menu__item--expanded m-menu__item--active'
-                            : ''
-                    }}"
-                    aria-haspopup="true"
-            >
 
-                <a href="{{route('about')}}" class="m-menu__link ">
-                    <img src="/img/skatefactory2.svg" style=width:25px;height:25px">
-                    <i class="m-menu__link-icon flaticon-list-3w">
-                        <span></span>
-                    </i>
-                    <span class="m-menu__link-text">About Us</span>
+
+            <li class="m-menu__item  {{ request()->routeIs('about') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('about') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-presentation"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">About Us</span>
+                        </span>
+                    </span>
                 </a>
             </li>
 
+
+        <!--
             <li class="m-menu__item  {{ request()->routeIs('samplesets') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('samplesets') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
@@ -340,6 +336,7 @@
                 </a>
             </li>
 
+
             <li class="m-menu__item  {{ request()->routeIs('inquirieschoice') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="/inquirieschoice" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-multimedia"></i>
@@ -350,6 +347,7 @@
                     </span>
                 </a>
             </li>
+             -->
 
         </ul>
     </div>
