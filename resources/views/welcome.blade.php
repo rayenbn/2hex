@@ -123,10 +123,11 @@
                         </p>
                     </div>
                     <div class="col-xl-6 my-auto">
-                        <h2>The 3 Step Process</h2>
-                        <p>1. customize your skateboad components</p>
-                        <p>2. upload your design</p>
-                        <p>3. check your order summary and submit</p>
+                        <h2>3 Steps to Place your Production Order:</h2>
+                        <p>1. customize your decks, wheels or griptapes </p>
+                        <p>2. upload your designs</p>
+                        <p>3. check your shopping cart and submit</p>
+                        <p>We will do the rest!</p>
                         <p>
                             @if (Auth::user())
                             <div class="dropdown">
