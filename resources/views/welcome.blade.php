@@ -103,12 +103,9 @@
                 <div class="m-alert__text" style="background-image: url(/img/wall.jpg); background-size: 100%;">
 
 
-                    <h2>We help athletes build great skateboard companies!</h2>
-                    We do so by offering easy access to reliable, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
-                    With 2HEX you can fully customize your skateboard components and track your productions online.
-                    <br>
-                    2HEX is a web platform to arrange skateboard productions online.<br>
-
+                    <h2>Custom Productions for Skateboard Companies.</h2>
+                   Get access to simple, reliable, transparent, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
+                    With 2HEX skateboard companies can produce customized skateboard components and track productions online.
                 </div>
             </div>
 
