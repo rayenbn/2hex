@@ -13,17 +13,6 @@
 
         <div class="m-content">
 
-            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
-                <div class="m-alert__text">
-                    <a href="{{route('inquirieschoice')}}">
-                        <button type="button" class="btn btn-secondary">
-                            <i class="m-menu__link-icon flaticon-email"> </i>
-                            &nbsp Questions? Message us!
-                        </button>
-                    </a>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-xl-12">
                     <div class="m-portlet m-portlet--full-height ">
@@ -41,24 +30,15 @@
 
                             <div class="m-portlet__head-caption">
                                 <div class="d-flex justify-content-between mr-4">
-                                    <a
-                                        href="{{route('sbblog', ['gap' => 'last_month', '#blog'])}}"
-                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_month' ? 'btn-brand' : ''}}"
-                                    >
-                                        Last Month
-                                    </a>
-                                    <a
-                                        href="{{route('sbblog', ['gap' => 'last_year', '#blog'])}}"
-                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_year' ? 'btn-brand' : ''}}"
-                                    >
-                                        Last Year
-                                    </a>
+
+                                    <!--
                                     <a
                                         href="{{route('sbblog', ['gap' => 'all', '#blog'])}}"
                                         class="btn btn-sm m-btn--pill {{$request->get('gap') == 'all' || empty($request->get('gap')) ? 'btn-brand' : ''}}"
                                     >
                                         All time
                                     </a>
+                                    -->
                                 </div>
 
                                 @if ($posts->count())
@@ -91,6 +71,18 @@
                     </div>
                 </div>
             </div>
+
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
+                <div class="m-alert__text">
+                    <a href="{{route('inquirieschoice')}}">
+                        <button type="button" class="btn btn-secondary">
+                            <i class="m-menu__link-icon flaticon-email"> </i>
+                            &nbsp Questions or Comments? Message us!
+                        </button>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection
