@@ -60,7 +60,7 @@
 
                             @if (auth()->check() && auth()->user()->isAdmin())
                                 <div class="m-portlet__head-caption">
-                                    <a href="{{ route('sbblog.create') }}" class="btn btn-outline-success">New Post</a>
+                                    <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
                                 </div>
                             @endif
                         </div>

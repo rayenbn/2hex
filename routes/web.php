@@ -178,7 +178,7 @@ Route::group(['as' => 'protection.'], function () {
 
 Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
 
-Route::group(['prefix' => 'sbblog', 'as' => 'sbblog.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
     // Route::get('/', 'BlogController@index')->name('index');
 
     Route::get('/create', 'BlogController@create')->name('create');
@@ -187,7 +187,7 @@ Route::group(['prefix' => 'sbblog', 'as' => 'sbblog.', 'middleware' => 'auth'], 
     Route::get('/{post}/edit', 'BlogController@edit')->name('edit');
     Route::put('/{post}', 'BlogController@update')->name('update');
 });
-Route::get('/sbblog/{id}', 'BlogController@show')->name('sbblog.show');
+Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 
