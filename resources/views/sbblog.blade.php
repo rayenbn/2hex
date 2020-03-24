@@ -30,8 +30,19 @@
 
                             <div class="m-portlet__head-caption">
                                 <div class="d-flex justify-content-between mr-4">
-
                                     <!--
+                                    <a
+                                        href="{{route('sbblog', ['gap' => 'last_month', '#blog'])}}"
+                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_month' ? 'btn-brand' : ''}}"
+                                    >
+                                        Last Month
+                                    </a>
+                                    <a
+                                        href="{{route('sbblog', ['gap' => 'last_year', '#blog'])}}"
+                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_year' ? 'btn-brand' : ''}}"
+                                    >
+                                        Last Year
+                                    </a>
                                     <a
                                         href="{{route('sbblog', ['gap' => 'all', '#blog'])}}"
                                         class="btn btn-sm m-btn--pill {{$request->get('gap') == 'all' || empty($request->get('gap')) ? 'btn-brand' : ''}}"
