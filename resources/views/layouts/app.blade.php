@@ -105,8 +105,11 @@
         @include('layouts.header')
 
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-        @include('layouts.menuleft')
-        <!-- Main Content -->
+            @if ($isHomePage === false)
+                @include('layouts.menuleft')
+            @endif
+
+            <!-- Main Content -->
             @yield('content')
 
         </div>

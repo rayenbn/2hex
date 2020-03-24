@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Scopes\GapScope;
 use Illuminate\Http\Request;
 
 class SbblogController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Show the blog page.
      *
-     * @return void
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\View\View
      */
-    public function __construct()
+    public function index(Request $request)
     {
-        $this->middleware('auth', ['except' => ['index']]);
-    }
+        /** @var \Illuminate\Database\Eloquent\Collection $posts */
+        $posts = Post::query()
+            ->withGlobalScope('gap', new GapScope($request))
+            ->orderBy('created_at', 'desc')
+            ->where('active', true)
+            ->with('author')
+            ->paginate(4);
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('sbblog');
+        return view('sbblog', compact('posts'));
     }
 }
