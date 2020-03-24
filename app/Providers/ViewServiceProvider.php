@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use View;
-use App\Http\View\Composers\ConfiguratorShowing;
+use Route;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -19,12 +19,9 @@ class ViewServiceProvider extends ServiceProvider
             $view
                 ->with('orders',  \App\Models\Order::auth()->get())
                 ->with('grips',  \App\Models\GripTape::auth()->get())
-                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
+                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                ->with('isHomePage',  Route::current()->getName() === 'index');
         });
-        
-        // View::composer(
-        //     'wheel-configurator.configurator', ConfiguratorShowing::class
-        // );
     }
 
     /**
