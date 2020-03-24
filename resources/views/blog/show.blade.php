@@ -61,11 +61,11 @@
 				</div>   
 				@if(auth()->check() && auth()->user()->isAdmin())
 					<div class="col-md-3">
-						<form action="{{ route('blog.destroy', $post->id) }}" method="POST" class="r-side-flex">
+						<form action="{{ route('sbblog.destroy', $post->id) }}" method="POST" class="r-side-flex">
 			                {{ csrf_field() }}
 			                {{ method_field('DELETE') }}
-							<a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
-							<a href="{{ route('blog.edit', $post->id) }}" class="btn btn-outline-warning">Edit</a>
+							<a href="{{ route('sbblog.create') }}" class="btn btn-outline-success">New Post</a>
+							<a href="{{ route('sbblog.edit', $post->id) }}" class="btn btn-outline-warning">Edit</a>
 			                <button type="submit" class="btn btn-outline-danger">Remove</button>
 			            </form>
 					</div>

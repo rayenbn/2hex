@@ -100,7 +100,6 @@ Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
 Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
-Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::post('/detail_save', 'ProfileController@detail_save');
@@ -176,17 +175,18 @@ Route::group(['as' => 'protection.'], function () {
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
 });
 
+Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
 
-Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'sbblog', 'as' => 'sbblog.', 'middleware' => 'auth'], function () {
     // Route::get('/', 'BlogController@index')->name('index');
+
     Route::get('/create', 'BlogController@create')->name('create');
     Route::post('/', 'BlogController@store')->name('store');
     Route::delete('/{post}', 'BlogController@destroy')->name('destroy');
     Route::get('/{post}/edit', 'BlogController@edit')->name('edit');
     Route::put('/{post}', 'BlogController@update')->name('update');
 });
-Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
-
+Route::get('/sbblog/{id}', 'BlogController@show')->name('sbblog.show');
 
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 

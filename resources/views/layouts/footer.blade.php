@@ -28,7 +28,7 @@
                     </li>
 
                     <li class="m-nav__item">
-                        <a href="../sbblog" class="m-nav__link">
+                        <a href="{{route('sbblog')}}" class="m-nav__link">
                             <span class="m-nav__link-text">Blog</span>
                         </a>
                     </li>

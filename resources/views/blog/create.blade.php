@@ -77,7 +77,7 @@
 @section('content')
 	@php 
 		$isEdit = isset($post);
-		$action = $isEdit ? route('blog.update', $post->id) : route('blog.store');
+		$action = $isEdit ? route('sbblog.update', $post->id) : route('sbblog.store');
 	@endphp
 
 	<div class="m-grid__item m-grid__item--fluid m-wrapper">
@@ -108,7 +108,7 @@
 								</div>
 								@if($isEdit)
 									<div class="m-portlet__head-title">
-										<a class="btn btn-link" href="{{ route('blog.show', $post->slug) }}">Show post</a>
+										<a class="btn btn-link" href="{{ route('sbblog.show', $post->slug) }}">Show post</a>
 									</div>
 								@endif
 								
