@@ -175,6 +175,7 @@ Route::group(['as' => 'protection.'], function () {
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
 });
 
+
 Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
 
 Route::group(['prefix' => 'sbblog', 'as' => 'sbblog.', 'middleware' => 'auth'], function () {
@@ -191,4 +192,6 @@ Route::get('/sbblog/{id}', 'BlogController@show')->name('sbblog.show');
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 
 Route::get('/clickevent', 'SamplesController@mouseClicked')->name('clickevent');
+
+
 

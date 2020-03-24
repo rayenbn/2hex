@@ -59,6 +59,13 @@
                 </div>
             </div>
 -->
+            <div class="m-alert m-alert--icon  m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%; background-color: transparent;" role="alert">
+                <div class="m-alert__text">
+                    <h2>Custom Productions for Skateboard Companies.</h2>
+                    Get access to simple, reliable, transparent, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
+                    With 2HEX skateboard companies can produce customized skateboard components and track productions online.
+                </div>
+            </div>
 
 
             <div class="m--margin-bottom-30">
@@ -66,10 +73,10 @@
                     <ol>
                         <li>
                             <img
-                                src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}"
-                                alt="2HEX Your Skateboard Manufacturer"
-                                title="2HEX Your Skateboard Manufacturer"
-                                style="width: 100%;"
+                                    src="{{ asset('/skateboard-deck-production/skateboard-manufacturer-factory-skate.jpg') }}"
+                                    alt="2HEX Your Skateboard Manufacturer"
+                                    title="2HEX Your Skateboard Manufacturer"
+                                    style="width: 100%;"
                             >
                         </li>
 
@@ -77,7 +84,9 @@
                             <img src="/ism/image/slides/2HEX-skateboard-wheels-manufacturer-factory.jpg">
                         </li>
                         <li>
-                            <img src="/ism/image/slides/2HEX-skateboard-griptape-manufacturer-factory.jpg">
+                            <img
+                                    src="/ism/image/slides/2HEX-skateboard-griptape-manufacturer-factory.jpg"
+                            >
                         </li>
                     </ol>
                 </div>
@@ -99,6 +108,7 @@
                         
 			<!--Begin::Section-->
 
+        <!--
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
                 <div class="m-alert__text" style="background-image: url(/img/wall.jpg); background-size: 100%;">
 
@@ -108,8 +118,8 @@
                     With 2HEX skateboard companies can produce customized skateboard components and track productions online.
                 </div>
             </div>
-
-            <div class="m-portlet" style="background-color: #eceff1">
+-->
+            <div class="m-portlet" style="background-color: #eceff1; margin-top: 10%;">
 
 
                 <div class="row">
