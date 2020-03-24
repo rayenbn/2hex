@@ -525,7 +525,7 @@
                                 <div id="mc_embed_signup_scroll" style="max-width: 700px;">
 
                                      <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
-                                     <div style="text-align: justify; color: #9699a4;">
+                                     <div style="text-align: justify; color: #9699a4; padding-right: 20px;">
                                         <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
                                      </div>
                                      <div class="mc-field-group">
@@ -582,7 +582,7 @@
                         </div>
                     @else
                         <a href="{{route('register')}}">
-                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info" style="width: 100%;">→ Register now to start planning your company's skateboard production!</button><br>
+                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info" style="width: 100%;">→ Register now to see our prices!</button><br>
                         </a>
                     @endif
                 </div>
