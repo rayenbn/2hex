@@ -81,16 +81,16 @@ class Deck extends BaseBatch
                 if (array_key_exists($key . '_color', $order)) {
                     switch ($order[$key . '_color']) {
                         case '1 color':
-                            $fees[$key][$value]['color'] = 1;
+                            $this->uploads[$key][$value]['color'] = 1;
                             break;
                         case '2 color':
-                            $fees[$key][$value]['color'] = 2;
+                            $this->uploads[$key][$value]['color'] = 2;
                             break;
                         case '3 color':
-                            $fees[$key][$value]['color'] = 3;
+                            $this->uploads[$key][$value]['color'] = 3;
                             break;
                         case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
+                            $this->uploads[$key][$value]['color'] = 4;
                             break;
                     }
                 }

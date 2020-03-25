@@ -55,7 +55,7 @@ class Wheel extends BaseBatch
                     }
                 }
 
-                $fees[$wheelKey][$value] = [
+                $this->uploads[$wheelKey][$value] = [
                     'image'    => $value,
                     'batches'  => (string) $index,
                     'type'     => $this->feesTypes[$key]['name'],
@@ -66,16 +66,16 @@ class Wheel extends BaseBatch
                 if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
                     switch ($wheel[str_replace('_print','',$key) . '_colors']) {
                         case '1 color':
-                            $fees[$wheelKey][$value]['color'] = 1;
+                            $this->uploads[$wheelKey][$value]['color'] = 1;
                             break;
                         case '2 color':
-                            $fees[$wheelKey][$value]['color'] = 2;
+                            $this->uploads[$wheelKey][$value]['color'] = 2;
                             break;
                         case '3 color':
-                            $fees[$wheelKey][$value]['color'] = 3;
+                            $this->uploads[$wheelKey][$value]['color'] = 3;
                             break;
                         case 'CMYK':
-                            $fees[$wheelKey][$value]['color'] = 4;
+                            $this->uploads[$wheelKey][$value]['color'] = 4;
                             break;
                     }
                 }
