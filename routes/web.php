@@ -181,8 +181,11 @@ Route::group(['as' => 'protection.'], function () {
 });
 
 
+Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
+
 Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
     // Route::get('/', 'BlogController@index')->name('index');
+
     Route::get('/create', 'BlogController@create')->name('create');
     Route::post('/', 'BlogController@store')->name('store');
     Route::delete('/{post}', 'BlogController@destroy')->name('destroy');
@@ -191,8 +194,9 @@ Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], func
 });
 Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
-
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 
 Route::get('/clickevent', 'SamplesController@mouseClicked')->name('clickevent');
+
+
 

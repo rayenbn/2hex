@@ -1,18 +1,16 @@
-version: '2'
+version: '3'
+
 services:
-  mailhog:
-    image: mailhog/mailhog
+  adminer:
+    container_name: adminer
+    image: adminer:4.7.6
     ports:
-      - "1025:1025"
-      - "8025:8025"
-    restart: always
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+      - 8080:8080
     links:
-      - mysql
-    ports:
-      - '8080:80'
-    restart: always
+      - db:db
     environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
+      ADMINER_DEFAULT_SERVER: db
+      ADMINER_PLUGINS: 'tables-filter sql-log'
+    networks:
+        - app-network
+    restart: always
