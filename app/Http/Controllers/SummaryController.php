@@ -521,6 +521,7 @@ class SummaryController extends Controller
         $queryOrders = Order::auth();
         $queryGripTapes = GripTape::auth();
         $queryWheels = Wheel::auth();
+        $queryTransfers = HeatTransfer::auth();
 
         Mail::to(auth()->user())->send($mailer = new \App\Mail\OrderSubmit($info->toArray()));
 
@@ -541,6 +542,12 @@ class SummaryController extends Controller
         ]);
 
         $queryWheels->update([
+            'submit' => 1,
+            'saved_date' => $now,
+            'usenow' => 0
+        ]);
+
+        $queryTransfers->update([
             'submit' => 1,
             'saved_date' => $now,
             'usenow' => 0

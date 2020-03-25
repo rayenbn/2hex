@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Classes\Enum\Delivery;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
 use Arcanedev\LogViewer\Entities\Log;
@@ -11,7 +12,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
-use App\Models\{Order, GripTape, Wheel\Wheel, ProductionComment, Session, PaidFile, ProductionDate};
+use App\Models\{HeatTransfer\HeatTransfer,
+    Order,
+    GripTape,
+    Wheel\Wheel,
+    ProductionComment,
+    Session,
+    PaidFile,
+    ProductionDate};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
 class DashboardController extends Controller
@@ -770,12 +778,16 @@ class DashboardController extends Controller
 
         return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user', 'fees'));
     }
-    public function getSubmitOrder(Request $request ){
+    public function getSubmitOrder(Request $request )
+    {
 
         $save_data['usenow'] = 0;
 
-        $user = Auth::user();
+        /** @var User $user */
+        $user = \Auth::user();
+
         $saved_date = "";
+
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
@@ -783,7 +795,8 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
-            
+            $transferQuery = HeatTransfer::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+
             /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
@@ -821,246 +834,47 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1); */
-        }
-        else{
+        } else{
             $ordersQuery = Order::auth()->where('submit',1)->whereNotNull('saved_date');
             $gripQuery = GripTape::auth()->where('submit',1)->whereNotNull('saved_date');
             $wheelQuery = Wheel::auth()->where('submit',1)->whereNotNull('saved_date');
+            $transferQuery = HeatTransfer::auth()->where('submit', 1)->whereNotNull('saved_date');
         }
-        
-        
-        
 
-        
+        $fees = [];
+        $sum_fees = 0;
+        $weight = 0;
 
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
+        $returnTransfer = $transferQuery->get();
 
-        $fees = [];
-        $sum_fees = 0;
+        $batches = [
+            \App\Classes\Batch\Deck::class => (clone $returnorder),
+            \App\Classes\Batch\GripTape::class => (clone $returngrip),
+            \App\Classes\Batch\Wheel::class => (clone $returnwheel),
+            \App\Classes\Batch\HeatTransfer::class => (clone $returnTransfer),
+        ];
 
-        
-        
-        // Set wheel fix cost to main fees array
-        
-        //$this->calculateWheelFixCost($fees, 1);
+        foreach ($batches as $class => $batch) {
+            if (empty($batch)) { continue; }
 
-        // Order weight
-        $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
-            return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
-        }, 0);
+            /** @var \App\Classes\Batch\Batch $batchEntry */
+            $batchEntry = new $class($batch);
 
-        $wheelWeight = (clone $wheelQuery)
-            ->selectRaw('SUM(quantity * ?) as weight')
-            ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
-            ->first()
-            ->weight;
-
-        // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
-
-        // Fetching all desing by orders
-        $orders = (clone $ordersQuery)
-            ->get()
-            ->map(function($order) {
-                return array_filter($order->attributesToArray());
-            })
-            ->toArray();
-
-
-        // Fetching all desing by griptapes
-        $gripTapes = (clone $gripQuery)
-            ->get()
-            ->map(function($grip) {
-                return array_filter($grip->attributesToArray());
-            })
-            ->toArray();
-        
-        $wheels = (clone $wheelQuery)
-            ->get()
-            ->map(function($wheel) {
-                return array_filter($wheel->attributesToArray());
-            })
-            ->toArray();
-
-            
-
-
-        foreach ($orders as $index => $order) {
-            $index += 1;
-            foreach ($order as $key => $value) {
-                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
-                // If same design
-                if (array_key_exists($key, $fees)) {
-                    if (array_key_exists($value, $fees[$key])) {
-                        $fees[$key][$value]['batches'] .= ",{$index}";
-                        $fees[$key][$value]['quantity'] += $order['quantity'];
-                        continue;
-                    }
-                } 
-
-                $fees[$key][$value] = [
-                    'image'    => $value,
-                    'batches'  => (string) $index,
-                    'type'     => $this->feesTypes[$key]['name'],
-                    'quantity' => $order['quantity'],
-                    'color'    => 1
-                ];
-
-                if (array_key_exists($key . '_color', $order)) {
-                    switch ($order[$key . '_color']) {
-                        case '1 color':
-                            $fees[$key][$value]['color'] = 1;
-                            break;
-                        case '2 color':
-                            $fees[$key][$value]['color'] = 2;
-                            break;
-                        case '3 color':
-                            $fees[$key][$value]['color'] = 3;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
-                            break;
-                    }
-                }
-
-                if ($key === 'bottomprint' || $key === 'topprint') {
-                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
-                } else {
-                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
-                }
-
-                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$key][$value]['price'] = 0;
-                    $fees[$key][$value]['paid'] = 1;
-                }
-            }
+            $fees = array_merge($fees, $batchEntry->buildUploads());
+            $weight += $batchEntry->getDeliveryWeigh();
         }
-
-        foreach ($gripTapes as $index => $grip) {
-            $index += 1;
-
-            foreach ($grip as $key => $value) {
-
-                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $grip)) continue;
-
-                // If same design
-                if (array_key_exists($key, $fees)) {
-                    if (array_key_exists($value, $fees[$key])) {
-                        $fees[$key][$value]['batches'] .= ",{$index}";
-                        $fees[$key][$value]['quantity'] += $grip['quantity'];
-                        continue;
-                    }
-                } 
-                $fees[$key][$value] = [
-                    'image'    => $value,
-                    'batches'  => (string) $index,
-                    'type'     => $this->feesTypes[$key]['name'],
-                    'quantity' => $grip['quantity'],
-                    'color'    => 1
-                ];
-
-                if (array_key_exists($key . '_color', $grip)) {
-                    switch ($grip[$key . '_color']) {
-                        case '1 color':
-                            $fees[$key][$value]['color'] = 1;
-                            break;
-                        case '2 color':
-                            $fees[$key][$value]['color'] = 2;
-                            break;
-                        case '3 color':
-                            $fees[$key][$value]['color'] = 3;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
-                            break;
-                    }
-                }
-
-                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
-
-                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$key][$value]['price'] = 0;
-                    $fees[$key][$value]['paid'] = 1;
-                }
-            }
-        }
-
-        foreach ($wheels as $index => $wheel) {
-            $index += 1;
-
-            foreach ($wheel as $key => $value) {
-
-                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
-
-                // If same design
-                if (array_key_exists($key, $fees)) {
-                    if (array_key_exists($value, $fees[$key])) {
-                        $fees[$key][$value]['batches'] .= ",{$index}";
-                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
-                        continue;
-                    }
-                } 
-                $fees[$key][$value] = [
-                    'image'    => $value,
-                    'batches'  => (string) $index,
-                    'type'     => $this->feesTypes[$key]['name'],
-                    'quantity' => $wheel['quantity'],
-                    'color'    => 1
-                ];
-
-                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
-                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
-                        case '1 color':
-                            $fees[$key][$value]['color'] = 1;
-                            break;
-                        case '2 color':
-                            $fees[$key][$value]['color'] = 2;
-                            break;
-                        case '3 color':
-                            $fees[$key][$value]['color'] = 3;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
-                            break;
-                    }
-                }
-
-                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
-
-                if ($key === 'top_print' || $key === 'back_print') {
-                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * 20 * 1.5;
-                } else if ($key === 'cardboard_print') {
-                    if ($wheel['quantity'] < 1500) {
-                        $fees[$key][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
-                    } else {
-                        $fees[$key][$value]['price'] = 0;
-                    }
-                } else if ($key === 'carton_print'){
-                    $fees[$key][$value]['price'] = 80 * $fees[$key][$value]['color'];
-                } else if ($key === 'shape_print'){
-                    $fees[$key][$value]['price'] = 2000;
-                } else {
-                    $fees[$key][$value]['price'] = 0;
-                }
-
-                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$key][$value]['price'] = 0;
-                    $fees[$key][$value]['paid'] = 1;
-                }
-            }
-        }
-
 
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $transferQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
-                'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
-                'batches' => '', 
-                'price' => get_global_delivery($weight), 
-                'type' => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
+                'image' => auth()->check() ? $weight . ' KG' : '$?.??',
+                'batches' => '',
+                'price' => get_global_delivery($weight),
+                'type' => $weight <= 110 ? Delivery::AIRFREIGHT : Delivery::OCEAN_FREIGHT
             ]);
         }
 
@@ -1071,38 +885,36 @@ class DashboardController extends Controller
             });
         }
 
-        // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+        // calculate total
+        $totalOrders = Order::auth()->sum('total')
+            + GripTape::auth()->sum('total')
+            + Wheel::auth()->sum('total')
+            + HeatTransfer::auth()->sum('total')
+            + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
         if ($promocode) {
-            
+
             $promocode = json_decode($promocode);
 
             switch ($promocode->type) {
                 case Promocode::FIXED :
                     $totalOrders -= $promocode->reward;
                     break;
-                
+
                 case Promocode::PERCENT:
                     $totalOrders -= $totalOrders * $promocode->reward / 100;
                     break;
             }
         }
 
-        Cookie::queue('orderTotal', $totalOrders);
-        $users = User::select('email','name')->get();
-        //return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users, 'user' => $user]);
-        
-        $user = Auth::user();
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
-           $user = User::where('email','=',$email)->first();
-           $createdBy = $user['id'];
-        }
-        else{
-            $createdBy = auth()->id();
+            $user = User::where('email','=',$email)->first();
+            $createdBy = $user['id'];
+        } else{
+            $createdBy = $user['id'];
         }
 
         $queryOrders = Order::query()
@@ -1123,9 +935,16 @@ class DashboardController extends Controller
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
+        $queryTransfer = HeatTransfer::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
         $querySubmitOrders = clone $queryOrders;
         $querySubmitGrips = clone $queryGrips;
         $querySubmitWheels = clone $queryWheels;
+        $querySubmitTransfers = clone $queryTransfer;
 
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
 
@@ -1150,8 +969,12 @@ class DashboardController extends Controller
         
         usort($submitorders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
 
+        /** @var ShipInfo $shipinfo */
         $shipinfo = ShipInfo::auth()->first();
-        $users = User::select('email','name')->get();
+
+        /** @var \Illuminate\Database\Eloquent\Collection $users */
+        $users = User::query()->select(['email', 'name'])->get();
+
         return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
     }
     public function deleteSubmitOrder($id){

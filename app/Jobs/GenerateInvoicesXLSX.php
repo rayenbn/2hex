@@ -124,7 +124,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->orders = $orders;
         $this->grips = $grips;
         $this->wheels = $wheels;
-        $this->transfers = $transfers;
+        $this->transfers = $transfers ?? collect();
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
         $this->spreadsheet = IOFactory::createReader('Xlsx')->load($this->pathTemplate);
