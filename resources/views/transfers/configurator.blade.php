@@ -16,7 +16,8 @@
             :filenames="{{ json_encode($filenames) }}"
             :total-quantity="{{$totalQuantity}}"
             :total-colors="{{$totalColors}}"
-            :transfer="{{json_encode($transfer ?? null)}}"
+            :transfer="{{ json_encode($transfer ?? null) }}"
+            :user="{{ json_encode(auth()->user()) }}"
         >
         </transfers-configurator>
     </div>

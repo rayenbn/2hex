@@ -31,7 +31,7 @@ class StoreHeatTransferRequest extends FormRequest
             'cmyk' => 'boolean',
             'heat_transfer' => 'nullable|string',
             'small_preview' => 'required|string|max:255',
-            'large_preview' => 'required|string|max:255',
+            'large_preview' => 'nullable|string|max:255',
             'quantity' => 'required|integer',
             'size' => 'required|string|max:255',
             'total_screens' => 'required|numeric',

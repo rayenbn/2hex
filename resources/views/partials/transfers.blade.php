@@ -27,7 +27,16 @@
         <td class="align-middle">Heat Transfers Batch #{{++$batch}}</td>
         <td class="align-middle text-center">{{$transfer->quantity}}</td>
         <td class="align-middle">{{$transfer->design_name}}</td>
-        <td colspan="3" class="align-middle" title="{{$transfer->small_preview}}">{{$transfer->small_preview}}</td>
+        <td colspan="3" class="align-middle">
+            <img
+                width="100%"
+                width="100%"
+                src="{{sprintf('/uploads/%s/transfers-small-preview/%s', auth()->user()->name, $transfer->small_preview)}}"
+                alt="Preview"
+                title="Preview"
+                style="margin: 0 auto;width: auto;max-height: 100px;display: block;max-width: 100%;"
+            >
+        </td>
         <td>
             Transparency: {{$transfer->transparency ? 'Yes' : 'No'}}<br>
             <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">

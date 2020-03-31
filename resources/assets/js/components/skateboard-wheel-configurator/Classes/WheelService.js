@@ -86,8 +86,6 @@ export default class WheelSertice {
 			} 
 		}
 
-      	console.log('calculatePerSet=' + perSet);
-
       	return perSet;
    	}
 

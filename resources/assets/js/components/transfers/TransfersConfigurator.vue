@@ -50,47 +50,6 @@
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
-                                            <div class="col-lg-6">
-                                                <b>Total including batch</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transfersColorsQuantity}} colors</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Total including batch</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transfersQuantity}} transfers</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Transfer price</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transferPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Screens Price</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{screensPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Heat transfer cost</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{heatTransferPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Price Per Sheet (Transfer price + Screens Price)</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{pricePerSheet}}</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="m-form__actions m-form__actions">
-                                        <div class="row">
 
                                             <div class="col-lg-4 m--align-center">
                                                 <button
@@ -152,42 +111,38 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-<!--                                        <h3 class="m-widget1__title">{{ auth ? 'Wheel' : 'Login' }}</h3>-->
-<!--                                        <span class="m-widget1__desc">{{ auth ? 'Price per set' : 'To See Prices' }}</span>-->
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Heat Transfer' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per set' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
-                                        <span
-                                                class="m-widget1__number m--font-brand"
-                                                id="perSet"
-                                        >
-<!--                                                                                            v-if="auth"-->
-
-<!--                                            //${{ perSetPrice && perSetPrice.toFixed(2) }}-->
+                                        <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
+                                            $ {{costPerTransfer && costPerTransfer.toFixed(2)}}
                                         </span>
-<!--                                        <span v-else class="m-widget1__number m&#45;&#45;font-danger" id="perSetPrice" >-->
-<!--                                            $ ?.??-->
-<!--                                        </span>-->
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-<!--                                        <h3 class="m-widget1__title">{{ auth ? 'Batch' : 'Login' }}</h3>-->
-<!--                                        <span class="m-widget1__desc">{{ auth ? 'Total of Batch' : 'To See Prices' }}</span>-->
-                                        <h3 class="m-widget1__title">Batch</h3>
-                                        <span class="m-widget1__desc">Total of Batch</span>
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Batch' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Total of Batch' : 'To See Prices' }}</span>
                                     </div>
-                                    <div class="col m--align-right">
-<!--                                        v-if="auth"-->
 
-                                        <span class="m-widget1__number m--font-danger">
+                                    <div class="col m--align-right">
+                                        <span
+                                            v-if="hasAuthUser"
+                                            class="m-widget1__number m--font-danger"
+                                        >
                                             $ {{ pricePerSheet }}
                                         </span>
-<!--                                        <span v-else class="m-widget1__number m&#45;&#45;font-danger" id="total" >-->
-<!--                                            $ ?.??-->
-<!--                                        </span>-->
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                             <br>
@@ -247,15 +202,12 @@
                 type: Object,
                 default: null
             },
-            isAdmin: {
-                type: Boolean,
-                default: false,
-                validator: function (value) {
-                    value = parseInt(value);
-
-                    return value == 0 || value == 1;
+            user: {
+                type: Object,
+                default: () => {
+                    return null;
                 }
-            }
+            },
         },
         components: {
             TransfersStep1,
@@ -280,6 +232,13 @@
             }
         },
         computed: {
+            hasAuthUser() {
+                if (! this.user) {
+                    return false
+                }
+
+                return Object.keys(this.user).length > 0;
+            },
             currentStep: {
                 get() {
                     return this.$store.getters.getCurrentStep;
@@ -294,20 +253,8 @@
             pricePerSheet() {
                 return this.$store.getters['TransfersConfigurator/pricePerSheet'];
             },
-            transferPrice() {
-                return this.$store.getters['TransfersConfigurator/transferPrice'];
-            },
-            screensPrice() {
-                return this.$store.getters['TransfersConfigurator/screensPrice'];
-            },
-            heatTransferPrice() {
-                return this.$store.getters['TransfersConfigurator/heatTransferPrice'];
-            },
-            transfersColorsQuantity() {
-                return this.$store.getters['TransfersConfigurator/getTransfersColorsQuantity'];
-            },
-            transfersQuantity() {
-                return this.$store.getters['TransfersConfigurator/getTransfersQuantity'];
+            costPerTransfer() {
+                return this.$store.getters['TransfersConfigurator/costPerTransfer'];
             }
         },
         methods: {
@@ -335,7 +282,6 @@
             saveBatch() {
                 this.$store.dispatch('TransfersConfigurator/saveBatch')
                     .then((response) => {
-                        console.log(response);
                         this.$notify({
                             group: 'main',
                             type: 'success',
@@ -361,7 +307,6 @@
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
             this.$store.commit('TransfersConfigurator/setTransfersQuantity', this.totalQuantity);
             this.$store.commit('TransfersConfigurator/setTransfersColorsQuantity', this.totalColors);
-            // this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
 
             if (this.transfer != null) {
                 this.$store.commit('TransfersConfigurator/setTransfer', this.transfer);

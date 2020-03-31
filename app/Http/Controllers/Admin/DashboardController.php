@@ -1773,7 +1773,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         $startdate = date('Y-m-d',strtotime("-1 years"));
         $enddate = date('Y-m-d',strtotime("+1 days"));
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
 
@@ -1783,30 +1783,32 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id']);
             $gripQuery = GripTape::where('created_by','=',$user['id']);
             $wheelQuery = Wheel::where('created_by','=',$user['id']);
+            $transferQuery = HeatTransfer::where('created_by','=',$user['id']);
 
             if($startdate){
                 $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);
                 $gripQuery = $gripQuery->where('created_at','>=',$startdate);
                 $wheelQuery = $wheelQuery->where('created_at','>=',$startdate);
+                $transferQuery = $transferQuery->where('created_at','>=',$startdate);
             }
             if($enddate){
                 $ordersQuery = $ordersQuery->where('created_at','<=',$enddate);
                 $gripQuery = $gripQuery->where('created_at','<=',$enddate);
                 $wheelQuery = $wheelQuery->where('created_at','<=',$enddate);
+                $transferQuery = $transferQuery->where('created_at','<=',$enddate);
             }
             
-        }
-        else{
+        } else{
             $ordersQuery = Order::auth(false);
             $gripQuery = GripTape::auth(false);
             $wheelQuery = Wheel::auth(false);
+            $transferQuery = HeatTransfer::auth(false);
         }
         
         $fees = [];
         $sum_fees = 0;
 
-        
-        
+
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
             ->get()
@@ -1830,7 +1832,9 @@ class DashboardController extends Controller
                 return array_filter($wheel->attributesToArray());
             })
             ->toArray();
-        
+
+        $transfers = (clone $transferQuery)->get()->toArray();
+
         $count = 0;
         $totalsize = 0;
         
@@ -1957,7 +1961,7 @@ class DashboardController extends Controller
                     'path'     => $down_path,
                     'size'     => $size,
                     'color'    => 1,
-                    'created_by' => $order['created_by']
+                    'created_by' => $wheel['created_by']
                 ];
                 if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
                     switch ($wheel[str_replace('_print','',$key) . '_colors']) {
@@ -1980,8 +1984,40 @@ class DashboardController extends Controller
             }
         }
 
-        //var_dump('first',$fees);
-        
+        foreach ($transfers as $index => $transfer) {
+            foreach ($transfer as $key => $value) {
+
+                if ($key === 'small_preview' || $key === 'large_preview') {
+
+                    $folder_name = $key === 'small_preview' ? 'transfers-small-preview' : 'transfers-full-preview';
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    $down_path = '/' . 'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
+                    $size = 0;
+
+                    if (\File::exists($path)) {
+                        $size = \File::size($path);
+                    }
+                    $totalsize += $size;
+                    $fees[$count] = [
+                        'image' => $value,
+                        'product' => 'Heat Transfer',
+                        'type' => 'Transfer Paper',
+                        'date' => $transfer['created_at'],
+                        'key' => $key,
+                        'id' => $transfer['id'],
+                        'path' => $down_path,
+                        'size' => $size,
+                        'color' => $transfer['cmyk']
+                            ? $transfer['colors_count'] - (int)$transfer['transparency']
+                            : $transfer['colors_count'],
+                        'created_by' => $transfer['created_by']
+                    ];
+
+                    $count++;
+                }
+            }
+        }
+
         $_data = array();
         $count = 0;
         $totalsize = 0;

@@ -21,7 +21,6 @@ export default {
         largePreview: null,
         reOrder: false,
         recentFiles: null,
-        isAdmin: false,
         heatTransfer: null,
         transfersColorsQuantity: 0,
         transfersQuantity: 0,
@@ -41,8 +40,7 @@ export default {
         getLargePreview: state => state.largePreview,
         getReOrder: state => state.reOrder,
         getRecentFiles: state => state.recentFiles,
-        getIsAdmin: state => state.isAdmin,
-        hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
+        hasChange: state => !state.reOrder,
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
                 state.quantity,
@@ -162,9 +160,6 @@ export default {
         setRecentFiles(state, payload) {
             state.recentFiles = payload;
         },
-        setIsAdmin(state, payload) {
-            state.isAdmin = payload;
-        },
         setTransfer(state, payload) {
             state.isUpdate = true;
             state.id = payload.id;
@@ -191,7 +186,6 @@ export default {
                     countFields: payload.colors_count - +payload.transparency,
                     colors: state.colors
                 };
-                console.log(state.pantoneColor);
             }
 
         }
