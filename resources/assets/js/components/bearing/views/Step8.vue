@@ -1,21 +1,26 @@
 <template>
-    <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+    <div class="m-wizard__form-step" id="m_wizard_form_step_8">
         <div class="row">
             <div class="col-xl-6">
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__body">
-                        <div class="m-widget17">
-                            <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--sides">
-                                <div class="m-widget19__pic m-portlet-fit--sides preview-bg">
-                                    <img
-                                        src="/img/transfers/skateboard-heat-transfer-example.jpg"
-                                        class="step1-img1"
-                                        alt="Design Preview"
-                                        title="Design Preview"
-                                        id="designPreview"
+                       <div class="m-widget17">
+                            <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides">
+                                <div >
+                                    <div 
+                                        class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" 
+                                        style="min-height: 286px"
                                     >
+                                        <img 
+                                            src="/img/griptape/custom-griptape-print-2hex-skateboard-manufacturer.jpg" 
+                                            alt="Top Print on Griptape" 
+                                            title="Top Print on Griptape"  
+                                            class="step1-img2"
+                                        >
+                                    </div>
                                 </div>
                             </div>
+
                             <input
                                 type="text"
                                 class="form-control"
@@ -25,34 +30,7 @@
                                 :disabled="! hasChange"
                                 v-validate="'required'"
                             >
-
-                            <div class="heat-transfers d-flex justify-content-between mt-4 mb-4">
-                                <span
-                                    class="btn btn-sm m-btn--pill"
-                                    v-for="heatTransfer in heatTransfers"
-                                    :class="{'btn-brand': heatTransfer.active}"
-                                    @click="toggleHeatTransfer(heatTransfer)"
-                                >
-                                    {{heatTransfer.name}}
-                                </span>
-                            </div>
-
-                            <div class="d-flex justify-content-between mt-3 mb-3">
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <label class="switch mr-2 mb-0">
-                                        <input type="checkbox" name="cmyk" v-model="CMYK" :disabled="! hasChange">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <span>CMYK</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <label class="switch mr-2 mb-0">
-                                        <input type="checkbox" name="transparency" v-model="transparency" :disabled="! hasChange">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <span>Transparencies</span>
-                                </div>
-                            </div>
+                            <br/>
 
                             <select
                                 :disabled="! hasChange"
@@ -73,34 +51,10 @@
                                 </option>
                             </select>
 
-                            <template v-if="pantoneColor && !CMYK">
-                                <input
-                                    v-for="(count, index) in pantoneColor.countFields"
-                                    type="text"
-                                    class="form-control mt-2 mb-2"
-                                    placeholder="Enter Pantone Color"
-                                    v-model="pantoneColor.colors[index]"
-                                    :disabled="! hasChange"
-                                    :name="'color' + index"
-                                    v-validate="'required'"
-                                    @input="onChangePantoneColor"
-                                >
-                            </template>
-                            <template v-if="CMYK">
-                                <input
-                                    v-for="(color, index) in totalCmykColors"
-                                    type="text"
-                                    class="form-control mt-2 mb-2"
-                                    placeholder="Enter Pantone Color"
-                                    v-model="cmykColors[index]"
-                                    :name="'cmyk-color' + index"
-                                    v-validate="'required'"
-                                    @input="onChangeCMYKColor"
-                                >
-                            </template>
+                           
 
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
-                                <h3>Number of Colors used</h3>
+                                <h3>Packing</h3>
                                 The standard in professional skateboarding.
                                 Printing on back paper is the most common way to brand griptapes without directly
                                 printing on the griptapes top.
@@ -113,7 +67,7 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
-                            <p class="h5 m-0">Upload small preview:</p>
+                            <p class="h5 m-0">Upload full quality print file:</p>
                         </div>
                     </div>
                     <div class="m-portlet__body">
@@ -167,7 +121,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="sm-recent">
                                     <a
-                                        v-for="file in recentFiles['transfers-small-preview']"
+                                        v-for="file in files"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
                                         @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm');}"
@@ -176,79 +130,37 @@
                                     </a>
                                 </div>
                             </div>
-
-                            <div style="text-align: justify; color: #9699a4;" class="mt-4">
-                                Left nose, right tail. Max 1MB.
-                            </div>
-                        </div>
-                        <div class="m-portlet__head p-0">
-                            <div class="m-portlet__head-caption">
-                                <p class="h5 m-0">Upload full quality print file:</p>
-                            </div>
                         </div>
 
                         <div class="m-widget17">
-                            <div class="form-group m-form__group">
-                                <div class="custom-file">
-                                    <input
-                                        :disabled="! hasChange"
-                                        type="file"
-                                        data-type-upload="transfers-full-preview"
-                                        id="lg-preview"
-                                        class="custom-file-input"
-                                        @change.prevent="uploadFile($event, 'lg')"
-                                        v-validate="'required'"
-                                        accept="image/*"
-                                        data-max-size="10000000"
-                                    >
-                                    <label
-                                        class="custom-file-label unchecked"
-                                        for="lg-preview"
-                                        :class="{checked: lgPreview}"
-                                    >
-                                        Choose file
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="progress mb-3" style="height: 2px;">
-                                <div
-                                    class="progress-bar m--bg-info"
-                                    role="progressbar"
-                                    aria-valuenow="0"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                    :style="'width:' + lgProgress + '%'"
-                                >
-                                </div>
-                            </div>
-                            <div class="dropdown">
-                                <button
+                            <template v-if="pantoneColor && pantoneColor.title != 'CMYK'">
+                                <input
+                                    v-for="(count, index) in pantoneColor.countFields"
+                                    type="text"
+                                    class="form-control mt-2 mb-2"
+                                    placeholder="Enter Pantone Color"
+                                    v-model="pantoneColor.colors[index]"
                                     :disabled="! hasChange"
-                                    class="btn btn-secondary dropdown-toggle w-100"
-                                    type="button"
-                                    id="lg-recent"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    :class="[lgPreview ? 'checked' : 'unchecked']"
+                                    :name="'color' + index"
+                                    v-validate="'required'"
+                                    @input="onChangePantoneColor"
                                 >
-                                    Recent file
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="lg-recent">
-                                    <a
-                                        v-for="file in recentFiles['transfers-full-preview']"
-                                        class="dropdown-item file-dropdown"
-                                        href="javascript:void(0);"
-                                        @click.prevent="() => {lgPreview = file.name; renderPreview(file.name, 'lg')}"
-                                    >
-                                        {{ file && file.name }}
-                                    </a>
-                                </div>
-                            </div>
+                            </template>
 
-                            <div style="white-space: nowrap; color: #9699a4;" class="mt-4 mb-5">
-                                Max 10 MB; Read our design instructions <a href="/blog/how-to-design-skateboard-decks" target="_blank">here</a>.
-                            </div>
+                            <template v-if="pantoneColor && pantoneColor.title == 'CMYK'">
+                                <input
+                                    v-for="(color, index) in totalCmykColors"
+                                    type="text"
+                                    class="form-control mt-2 mb-2"
+                                    placeholder="Enter Pantone Color"
+                                    v-model="cmykColors[index]"
+                                    :name="'cmyk-color' + index"
+                                    v-validate="'required'"
+                                    @input="onChangeCMYKColor"
+                                >
+                            </template>
+
+                            
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 Download our Design Template:
                             </div>
@@ -263,8 +175,8 @@
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="d-flex flex-column">
-                                    <span>This print is a re-order.</span>
-                                    <small>First order of this design.</small>
+                                    <span>Re-Order</span>
+                                    <small>First Made: 2019/10/16</small>
                                 </div>
                             </div>
                         </div>
@@ -277,12 +189,11 @@
 </template>
 
 <script>
-    import checkAuth from '@/mixins/checkAuth';
-    import {HEAT_TRANSFERS} from '@/constants';
-    
+    import upload from '../mixins/uploadFile';
+    import ColorBtn from './ColorBtn';
+
     export default {
-        name: 'transfers-step-2',
-        mixins: [checkAuth],
+        name: 'skateboard-decks-step-8',
         props: {
             upload_url: {
                 type: String,
@@ -293,58 +204,38 @@
             return {
                 heatTransfers: [
                     {
-                        "name": HEAT_TRANSFERS.GLOSSY,
+                        "name": "111",
                         "active": true
                     },
                     {
-                        "name": HEAT_TRANSFERS.MATTE,
+                        "name": "22",
                         "active": false
                     },
                     {
-                        "name": HEAT_TRANSFERS.GLOSSY_MATTE,
+                        "name": "333",
                         "active": false
                     },
                 ],
                 pantoneColors: [
                     {
-                        "title": "1 field to enter Pantone Color",
+                        "title": "1 Color",
                         "countFields": 1,
                         "colors": new Array(1).fill(null),
                     },
                     {
-                        "title": "2 field to enter Pantone Color",
+                        "title": "2 Color",
                         "countFields": 2,
                         "colors": new Array(2).fill(null),
                     },
                     {
-                        "title": "3 field to enter Pantone Color",
+                        "title": "3 Color",
                         "countFields": 3,
                         "colors": new Array(3).fill(null),
                     },
                     {
-                        "title": "4 field to enter Pantone Color",
-                        "countFields": 4,
+                        "title": "CMYK",
+                        "countFields": 0,
                         "colors": new Array(4).fill(null),
-                    },
-                    {
-                        "title": "5 field to enter Pantone Color",
-                        "countFields": 5,
-                        "colors": new Array(5).fill(null),
-                    },
-                    {
-                        "title": "6 field to enter Pantone Color",
-                        "countFields": 6,
-                        "colors": new Array(6).fill(null),
-                    },
-                    {
-                        "title": "7 field to enter Pantone Color",
-                        "countFields": 7,
-                        "colors": new Array(7).fill(null),
-                    },
-                    {
-                        "title": "8 field to enter Pantone Color",
-                        "countFields": 8,
-                        "colors": new Array(8).fill(null),
                     }
                 ],
                 smProgress: 0,
@@ -388,7 +279,6 @@
             },
             uploadFile(event, type = 'lg') {
                 // Check auth
-                this.checkAuth();
 
                 if (type === 'sm') {
                     if (! this.readURL(event.target)) {
@@ -599,34 +489,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .preview-bg {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-    }
-    .heat-transfer-btn:nth-child(even) {
-        margin: 0 2px;
-    }
-    .heat-transfer-btn {
-        padding: 7px 12px;
-        font-size: 11px;
-        cursor: pointer;
-        border-radius: 15px;
-    }
-    .active {
-        color: #ffffff;
-        background-color: #5867dd;
-    }
-</style>

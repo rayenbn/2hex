@@ -30,7 +30,7 @@
 				type: String,
 				required: true,
 				validator: function (value) {
-			    	return ['griptape', 'skateboard', 'wheel'].indexOf(value) !== -1;
+			    	return ['griptape', 'skateboard', 'wheel', 'bearing'].indexOf(value) !== -1;
 			    }
 			}
 		},
@@ -58,6 +58,17 @@
 						"Wheels Placement",
 						"Cardboard",
 						"Carton Print",
+					];
+				} else if (this.type === "bearing") {
+					return [
+						"Quantity & Size",
+						"Abec & Race",
+						"Engraving & Retainers",
+						"Shields",
+						"Spacers",
+						"Inner Packaging 1",
+						"Inner Packaging 2",
+						"Outer Packaging",
 					];
 				}
 
