@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RecalculateHeatTransfers;
 use App\Services\TransferService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -457,10 +458,12 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::auth()->delete();
+        HeatTransfer::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -489,21 +492,32 @@ class SummaryController extends Controller
             Wheel::insert($array);
         }
 
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
         $wheels = Wheel::auth()->get();
+        $transfers = HeatTransfer::auth()->get();
 
-        // TODO add wheels to invoice
-
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $transfers);
 
         if ($orders->count()) {
             $model = $orders->first();
 
         } else if ($grips->count()) {
             $model = $grips->first();
+
+        } else if ($wheels->count()) {
+            $model = $wheels->first();
         } else {
-            $model =$wheels->first();
+            $model = $transfers->first();
         }
 
         $exporter->setInvoiceNumber($model->invoice_number);
@@ -573,6 +587,7 @@ class SummaryController extends Controller
         $data = Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
         $grips = GripTape::where('created_by', '=', $created_by)->where('usenow', '=', 1)->get();
         $wheels = Wheel::auth()->get();
+        $transfers = HeatTransfer::auth()->get();
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
@@ -581,6 +596,7 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         Wheel::auth()->update($save_data);
+        HeatTransfer::auth()->update($save_data);
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -607,6 +623,14 @@ class SummaryController extends Controller
             Wheel::insert($array);
         }
 
+        for ($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['invoice_number']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
         return redirect()->route('summary');   
     }
     public function load($id)
@@ -627,12 +651,14 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();        
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
-        
-        
+        HeatTransfer::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+
+
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -661,8 +687,18 @@ class SummaryController extends Controller
             Wheel::insert($array);
         }
 
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
         return redirect()->route('summary');   
-    } 
+    }
+
     public function view($id)
     {
         $save_data['usenow'] = 0;
@@ -681,10 +717,12 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::auth()->delete();
+        HeatTransfer::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -702,7 +740,6 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
         }
-
         for($i = 0; $i < count($wheels); $i ++){
             unset($wheels[$i]['wheel_id']);
             unset($wheels[$i]['saved_date']);
@@ -710,6 +747,14 @@ class SummaryController extends Controller
             unset($wheels[$i]['submit']);
             $array = json_decode(json_encode($wheels[$i]), true);
             Wheel::insert($array);
+        }
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['if']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
         }
 
         return redirect()->route('summary')->with(['viewonly'=>1]);   
@@ -725,6 +770,7 @@ class SummaryController extends Controller
         Order::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         GripTape::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         Wheel::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        HeatTransfer::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
 
         return redirect()->route('profile');
     }
@@ -767,7 +813,8 @@ class SummaryController extends Controller
         $order_checked = $request->input('orderBatches');
         $grip_checked = $request->input('gripBatches');
         $wheel_checked = $request->input('wheelBatches');
-        
+        $transfer_checked = $request->input('transferBatches');
+
         if($request->submit == 'Add'){
             if(isset($order_checked)){
                 $orders = Order::whereIn('id',$order_checked)->get();
@@ -796,7 +843,7 @@ class SummaryController extends Controller
                     GripTape::insert($array);
                 }
             }
-            
+
             if(isset($wheel_checked)){
                 $wheels = Wheel::whereIn('wheel_id',$wheel_checked)->get();
                 for($i = 0; $i < count($wheels); $i ++){
@@ -810,6 +857,21 @@ class SummaryController extends Controller
                     Wheel::insert($array);
                 }
             }
+
+            if(isset($transfer_checked)){
+                $transfers = HeatTransfer::whereIn('id',$transfer_checked)->get();
+                for($i = 0; $i < count($transfers); $i ++){
+                    unset($transfers[$i]['id']);
+                    unset($transfers[$i]['saved_date']);
+                    unset($transfers[$i]['usenow']);
+                    unset($transfers[$i]['submit']);
+                    unset($transfers[$i]['invoice_number']);
+                    $transfers[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($transfers[$i]), true);
+                    HeatTransfer::insert($array);
+                }
+                dispatch(new RecalculateHeatTransfers);
+            }
             
         }
         if($request->submit == 'Delete'){
@@ -819,6 +881,8 @@ class SummaryController extends Controller
                 GripTape::whereIn('id',$grip_checked)->delete();
             if(isset($wheel_checked))
                 Wheel::whereIn('wheel_id',$wheel_checked)->delete();
+            if(isset($transfer_checked))
+                HeatTransfer::whereIn('id',$transfer_checked)->delete();
             return redirect()->back();
         }
         return redirect()->route('summary');

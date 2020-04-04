@@ -166,7 +166,7 @@ Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
     Route::put('/transfers-configurator/{id}', 'TransferController@update')->name('update');
     Route::post('/transfers-configurator/{id}/copy', 'TransferController@copy')->name('copy');
     Route::get('/transfers-remove/{id}', 'TransferController@destroy')->name('destroy');
-    Route::post('/transfers-save/{id}', 'TransferController@saveToBatch')->name('save');
+    Route::post('/transfers-save/{id}', 'TransferController@save')->name('save');
     Route::post('/transfers-configurator', 'TransferController@store')->name('configurator.store');
     Route::post('/transfers-configurator-upload', 'TransferController@uploadFile')->name('upload');
 });

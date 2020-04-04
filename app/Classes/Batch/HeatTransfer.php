@@ -18,7 +18,7 @@ class HeatTransfer extends BaseBatch
             ->whereIn('created_by', $this->items->pluck('created_by'))
             ->get();
 
-        $this->items->transform(function($transfer, $key) use ($paidFiles) {
+        $this->items->map(function($transfer, $key) use ($paidFiles) {
 
             $transferKey = $transfer['small_preview'];
 

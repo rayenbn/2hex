@@ -109,6 +109,9 @@
 									Add Wheels
 								</a>
 						  		@if($isAdmin)
+									<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
+										Add Heat Transfers
+									</a>
 									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 										Saved Batches
 									</a>

@@ -213,14 +213,14 @@ class TransferController extends Controller
         $heatTransfer = HeatTransfer::query()->create($payload);
 
         Session::query()->create([
-            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER_BATCH,
+            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER,
             'created_by' => $createdBy,
             'comment' => $heatTransfer->id,
         ]);
 
         dispatch(new RecalculateHeatTransfers);
 
-        return redirect()->route('profile', ['#saved_orders']);
+        return redirect()->route('summary');
     }
 
     /**
@@ -301,14 +301,14 @@ class TransferController extends Controller
     }
 
     /**
-     * Save transfer to batch
+     * Save transfer
      *
      * @param \Illuminate\Http\Request $request
      * @param int $transferId
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function saveToBatch(Request $request, int $transferId)
+    public function save(Request $request, int $transferId)
     {
         /** @var \App\Models\Auth\User\User|null $user */
         $user = $request->user();
@@ -321,12 +321,12 @@ class TransferController extends Controller
         $cloneBatch->usenow = 0;
         $cloneBatch->saved_batch = 1;
         $cloneBatch->submit = 0;
-        $cloneBatch->saved_date = null;
+        $cloneBatch->saved_date = now();
         $cloneBatch->invoice_number = null;
         $cloneBatch->push();
 
         Session::query()->create([
-            'action' => Session\Enum\Type::SAVE_WHEEL_BATCH,
+            'action' => Session\Enum\Type::SAVE_HEAT_TRANSFER_BATCH,
             'created_by' => $user ? $user->id : csrf_token(),
             'comment' => $transferId,
         ]);

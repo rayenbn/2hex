@@ -12,8 +12,11 @@
     <th>Color Codes</th>
     <th>Colors</th>
     <th>Films Made</th>
-    <th>Transfer Price</th>
-    <th>Batch Total</th>
+
+    @if(!isset($batches))
+        <th>Transfer Price</th>
+        <th>Batch Total</th>
+    @endif
 
     @if(Session::get('viewonly') == null && !isset($batches))
         <th>Edit</th>
@@ -24,6 +27,14 @@
 @foreach($transfers as $batch => $transfer)
 
     <tr>
+        @if(isset($batches))
+            <td>
+                <label class="m-checkbox">
+                    <input type="checkbox" value="{{$transfer->id}}" name="transferBatches[]"/>
+                    <span></span>
+                </label>
+            </td>
+        @endif
         <td class="align-middle">Heat Transfers Batch #{{++$batch}}</td>
         <td class="align-middle text-center">{{$transfer->quantity}}</td>
         <td class="align-middle">{{$transfer->design_name}}</td>
@@ -83,9 +94,6 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-{{--                    <a class="m-btn btn btn-secondary" href="#" title="Save">--}}
-{{--                        <i class="la la-floppy-o"></i>--}}
-{{--                    </a>--}}
                     <form action="{{route('transfers.save', $transfer->id)}}" method="POST">
                         {!! csrf_field() !!}
                         <button type="submit" class="m-btn btn btn-secondary" title="Save">

@@ -14,10 +14,12 @@ class Type extends AbstractEnum
     const SAVE_GRIP = 'Save Grip';
     const SAVE_GRIP_BATCH = 'Save Grip to Batch';
     const DELETE_GRIP = 'Delete Grip';
+
     // Orders
     const SAVE_ORDER = 'Save Order';
     const SAVE_ORDER_BATCH = 'Save Order to Batch';
     const DELETE_ORDER = 'Delete Order';
+
     // Wheels
     const SAVE_WHEEL = 'Save Wheel';
     const UPDATE_WHEEL = 'Update Wheel';

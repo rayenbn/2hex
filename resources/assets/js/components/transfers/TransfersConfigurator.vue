@@ -108,6 +108,7 @@
                         <div class="m-separator m-separator--fit"></div>
 
                         <div class="m-widget1 m-widget1--paddingless">
+
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
@@ -117,6 +118,22 @@
                                     <div class="col m--align-right">
                                         <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
                                             $ {{costPerTransfer && costPerTransfer.toFixed(2)}}
+                                        </span>
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Heat Transfer' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per transfer' : 'To See Prices' }}</span>
+                                    </div>
+                                    <div class="col m--align-right">
+                                        <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
+                                            $ {{costPerScreen && costPerScreen.toFixed(2)}}
                                         </span>
                                         <span v-else class="m-widget1__number m--font-danger">
                                             $ ?.??
@@ -255,7 +272,10 @@
             },
             costPerTransfer() {
                 return this.$store.getters['TransfersConfigurator/costPerTransfer'];
-            }
+            },
+            costPerScreen() {
+                return this.$store.getters['TransfersConfigurator/costPerScreen'];
+            },
         },
         methods: {
             changeStepInfo(step) {
