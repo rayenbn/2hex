@@ -9,8 +9,7 @@
     <th colspan="3">Preview</th>
     <th>Colors</th>
     <th>Artwork File</th>
-    <th>Color Codes</th>
-    <th>Colors</th>
+    <th colspan="2">Color Codes</th>
     <th>Films Made</th>
 
     @if(!isset($batches))
@@ -41,11 +40,10 @@
         <td colspan="3" class="align-middle">
             <img
                 width="100%"
-                width="100%"
                 src="{{sprintf('/uploads/%s/transfers-small-preview/%s', auth()->user()->name, $transfer->small_preview)}}"
                 alt="Preview"
                 title="Preview"
-                style="margin: 0 auto;width: auto;max-height: 100px;display: block;max-width: 100%;"
+                style="margin: 0 auto;width: auto;max-height: 100px;display: block;"
             >
         </td>
         <td>
@@ -60,18 +58,27 @@
             <br>
             <span title="{{$transfer->large_preview}}">{{$transfer->large_preview}}</span>
         </td>
-        <td>
-            Pantone 234567C
-            <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-            <br>
-        </td>
-        <td>
-            <ul class="list-group list-group-flush">
-                @foreach(explode(';', $transfer->colors) as $color)
-                    <li class="list-group-item p-0" style="background-color: inherit;">{{$color}}</li>
+        @php $codes = explode('.', $transfer->color_code); @endphp
+        <td class="p-0 border-0" {{count($codes) > 5 ? 'colspan=1' : 'colspan=2'}}>
+            <table style=" {{count($codes) > 5 ? '' : 'border: hidden;'}}">
+                @foreach(array_slice($codes, 0, 5) as $code)
+                    <tr>
+                        <td>{{$code}}</td>
+                    </tr>
                 @endforeach
-            </ul>
+            </table>
         </td>
+        @if (count($codes) > 5)
+            <td class="p-0 border-0">
+                <table>
+                    @foreach(array_slice($codes, 5) as $code)
+                    <tr>
+                        <td>{{$code}}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </td>
+        @endif
         <td class="align-middle text-center">{{$transfer->reorder_at ?? 'New'}}</td>
         @if(!isset($batches))
             <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $transfer->cost_per_transfer) : '$?.??' }}</td>

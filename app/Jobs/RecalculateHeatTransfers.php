@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\HeatTransfer\HeatTransfer;
 use App\Services\HeatTransferService;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class RecalculateHeatTransfers
@@ -17,11 +18,31 @@ class RecalculateHeatTransfers
     private $heatTransferService;
 
     /**
-     * RecalculateHeatTransfers constructor.
+     * @var \Illuminate\Database\Eloquent\Collection
      */
-    public function __construct()
+    private $transfers;
+
+    /**
+     * RecalculateHeatTransfers constructor.
+     *
+     * @param \Illuminate\Database\Eloquent\Collection|null $transfers
+     */
+    public function __construct(Collection $transfers = null)
     {
         $this->heatTransferService = new HeatTransferService();
+        $this->initItems($transfers);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection|null $transfers
+     *
+     * @return \App\Jobs\RecalculateHeatTransfers
+     */
+    private function initItems(Collection $transfers = null)
+    {
+        $this->transfers = $transfers ?? HeatTransfer::auth()->get();
+
+        return $this;
     }
 
     /**
@@ -29,13 +50,10 @@ class RecalculateHeatTransfers
      */
     public function handle()
     {
-        /** @var \Illuminate\Database\Eloquent\Collection $transfers */
-        $transfers = HeatTransfer::auth()->get();
+        $totalsQuantity = $this->transfers->sum('quantity');
+        $totalsColors = $this->transfers->sum('colors_count');
 
-        $totalsQuantity = $transfers->sum('quantity');
-        $totalsColors = $transfers->sum('colors_count');
-
-        $transfers->transform(function(HeatTransfer $heatTransfer) use ($totalsQuantity, $totalsColors) {
+        $this->transfers->transform(function(HeatTransfer $heatTransfer) use ($totalsQuantity, $totalsColors) {
             return $this->updatePrice($heatTransfer, $totalsQuantity, $totalsColors);
         });
     }

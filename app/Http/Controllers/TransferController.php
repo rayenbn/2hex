@@ -75,7 +75,7 @@ class TransferController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function configurator() : View
+    public function configurator(Request $request) : View
     {
         $filenames = [
             'transfers-small-preview' => [],
@@ -83,7 +83,7 @@ class TransferController extends Controller
         ];
 
         /** @var \App\Models\Auth\User\User $user */
-        $user = auth()->user();
+        $user = $request->user();
         $isAdmin = $user ? $user->isAdmin() : false;
 
         /** @var \Illuminate\Database\Eloquent\Collection $transfers */
@@ -162,7 +162,7 @@ class TransferController extends Controller
         $file = $request->file('file');
 
         /** @var \App\Models\Auth\User\User $authUser */
-        $authUser = auth()->user();
+        $authUser = $request->user();
 
         $path = public_path('uploads/' . $authUser->name . '/' . $request->get('typeUpload', 'default'));
         $name = $request->get('fileName', $file->getClientOriginalName());

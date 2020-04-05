@@ -17,12 +17,21 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         View::composer('*', function(IlluminateView $view) {
+
+            /** @var \Illuminate\Database\Eloquent\Collection $transfers */
+            $transfers = HeatTransfer::query()
+                ->auth()
+                ->leftJoin('paid_files as p', 'p.file_name', '=', 'small_preview')
+                ->selectRaw('heat_transfers.*, p.color_code')
+                ->get();
+
             $view
                 ->with('orders',  \App\Models\Order::auth()->get())
                 ->with('grips',  \App\Models\GripTape::auth()->get())
                 ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
-                ->with('transfers', HeatTransfer::auth()->get())
+                ->with('transfers', $transfers)
                 ->with('isHomePage',  Route::current()->getName() === 'index');
         });
     }
