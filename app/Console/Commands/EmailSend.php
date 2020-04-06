@@ -41,6 +41,7 @@ class EmailSend extends Command
        //
         $users = User::where('id','353')->get();
         // $users = User::all();
+        // $users = User::where('created_at','>','2019-04-04 00:00:00')->get();
         foreach($users as $user){
             $date = strtotime($user['created_at']);
             $now = strtotime("now");
