@@ -42,8 +42,37 @@ class EmailSend extends Command
         $users = User::where('id','353')->get();
         // $users = User::all();
         foreach($users as $user){
-            echo $user['email'];
-            \Mail::to('luckygolden0505@gmail.com')->send(new EmailToRegister(['date' => $user['created_at'], 'id'=>$user->id, 'name' => $user->name]));
+            $date = strtotime($user['created_at']);
+            $now = strtotime("now");
+
+            $difference = round(abs($now - $date) / 3600,2);
+            $type = 0;
+            if($difference < 481 && $difference >= 480){
+                $type = 8;
+            }
+            else if($difference < 361 && $difference >= 360){
+                $type = 7;
+            }
+            else if($difference < 289 && $difference >= 288){
+                $type = 6;
+            }
+            else if($difference < 169 && $difference >= 168){
+                $type = 5;
+            }
+            else if($difference < 45 && $difference >= 44){
+                $type = 4;
+            }
+            else if($difference < 25 && $difference >= 24){
+                $type = 3;
+            }
+            else if($difference < 3 && $difference >= 2){
+                $type = 2;
+            }
+            else if($difference <= 1 && $difference > 0){
+                $type = 1;
+            }
+            if($type != 0)
+                \Mail::to($user['email'])->send(new EmailToRegister(['date' => $user['created_at'], 'id'=>$user->id, 'name' => $user->name, 'type' => $type]));
         }
     }
 }

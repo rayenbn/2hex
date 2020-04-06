@@ -16,11 +16,18 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function($view) {
-            $view
-                ->with('orders',  \App\Models\Order::auth()->get())
-                ->with('grips',  \App\Models\GripTape::auth()->get())
-                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
-                ->with('isHomePage',  Route::current()->getName() === 'index');
+            $route = Route::current();
+            if(isset($route))
+                $view
+                    ->with('orders',  \App\Models\Order::auth()->get())
+                    ->with('grips',  \App\Models\GripTape::auth()->get())
+                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                    ->with('isHomePage',  Route::current()->getName() === 'index');
+            else
+                $view
+                    ->with('orders',  \App\Models\Order::auth()->get())
+                    ->with('grips',  \App\Models\GripTape::auth()->get())
+                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
         });
     }
 
