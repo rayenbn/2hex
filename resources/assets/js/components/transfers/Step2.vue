@@ -171,7 +171,7 @@
                                         v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
-                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm');}"
+                                        @click.prevent="clickRecentSmallPreview(file.name)"
                                     >
                                         {{ file && file.name}}
                                     </a>
@@ -352,8 +352,31 @@
                 lgProgress: 0,
             }
         },
-
         methods: {
+            clickRecentSmallPreview(fileName) {
+                this.smPreview = fileName;
+                this.renderPreview(fileName, 'sm');
+
+                let options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+
+                axios.get(`/recent-file?fileName=${fileName}&folder=transfers-small-preview`, {}, options)
+                    .then(response => response.data)
+                    .then(response => {
+                        document.getElementById('designPreview').setAttribute('src', response)
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Render preview is fail',
+                            text: error.response && error.response.data.message
+                        });
+                    });
+            },
             toggleHeatTransfer(heatTransfer) {
                 if (this.heatTransfer.name === heatTransfer.name) return;
 

@@ -105,6 +105,7 @@ Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
 Route::post('/production_filter', 'ProfileController@production_filter');
+Route::get('/recent-file', 'ProfileController@getRecentFileByName');
 
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');

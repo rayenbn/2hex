@@ -8,9 +8,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, ProductionComment, ProductionDate, PaidFile};
 use Session;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\InvalidArgumentException;
 
 class ProfileController extends Controller
 {
+    /**
+     * ProfileController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only('getRecentFileByName');
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -446,5 +456,48 @@ class ProfileController extends Controller
         //$enddate = $request->input('enddate');
 
         return redirect()->route('profile',['#submitted_orders'])->with(['selected_order' => $selected_order]);
+    }
+
+    /**
+     * Get recent file by name
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @return string
+     */
+    public function getRecentFileByName(Request $request)
+    {
+        $this->validate($request, [
+            'fileName' => 'required|string',
+            'folder'   => 'required|string',
+        ]);
+
+        /** @var User $authUser */
+        $authUser = $request->user();
+        $fileName = $request->get('fileName');
+        $folder = $request->get('folder');
+        $format = $request->get('format', 'base64');
+
+        $path = sprintf(public_path('uploads/%s/%s/%s'), $authUser->name, $folder, $fileName);
+
+        if (\File::exists($path) === false) {
+            throw new FileNotFoundException("File {$fileName} was not found.");
+        }
+
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+
+        if ($type != "jpg" && $type != "png" && $type != "jpeg" && $type != "gif" ) {
+            throw new InvalidArgumentException('Sorry, only JPG, JPEG, PNG & GIF files are allowed.');
+        }
+
+        $response = null;
+
+        switch ($format) {
+            case 'base64': $response = 'data:image/' . $type . ';base64,' . base64_encode(\File::get($path)); ; break;
+        }
+
+        return response()->json($response, 200);
     }
 }
