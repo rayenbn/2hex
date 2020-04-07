@@ -113,7 +113,7 @@
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
                                         <h3 class="m-widget1__title">{{ hasAuthUser ? 'Heat Transfer' : 'Login' }}</h3>
-                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per set' : 'To See Prices' }}</span>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per transfer' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
@@ -128,8 +128,8 @@
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Heat Transfer' : 'Login' }}</h3>
-                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per transfer' : 'To See Prices' }}</span>
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Screens' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per screen' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
                                         <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
