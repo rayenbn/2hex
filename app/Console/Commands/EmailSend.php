@@ -39,11 +39,11 @@ class EmailSend extends Command
     public function handle()
     {
        //
-        $users = User::where('id','353')->get();
+        $users = User::where('id','353')->whereNotNull('confirmed_date')->get();
         // $users = User::all();
-        // $users = User::where('created_at','>','2019-04-04 00:00:00')->get();
+        // $users = User::where('created_at','>','2019-04-04 00:00:00')->whereNotNull('confirmed_date')->get();
         foreach($users as $user){
-            $date = strtotime($user['created_at']);
+            $date = strtotime($user['confirmed_date']);
             $now = strtotime("now");
 
             $difference = round(abs($now - $date) / 3600,2);
