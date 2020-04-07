@@ -17,8 +17,8 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         View::composer('*', function(IlluminateView $view) {
+            $route = Route::current();
 
             /** @var \Illuminate\Database\Eloquent\Collection $transfers */
             $transfers = HeatTransfer::query()
@@ -27,12 +27,20 @@ class ViewServiceProvider extends ServiceProvider
                 ->selectRaw('heat_transfers.*, p.color_code')
                 ->get();
 
-            $view
-                ->with('orders',  \App\Models\Order::auth()->get())
-                ->with('grips',  \App\Models\GripTape::auth()->get())
-                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
-                ->with('transfers', $transfers)
-                ->with('isHomePage',  Route::current()->getName() === 'index');
+            if(isset($route)){
+                $view
+                    ->with('orders',  \App\Models\Order::auth()->get())
+                    ->with('grips',  \App\Models\GripTape::auth()->get())
+                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                    ->with('transfers', $transfers)
+                    ->with('isHomePage',  Route::current()->getName() === 'index');
+            } else {
+                $view
+                    ->with('orders',  \App\Models\Order::auth()->get())
+                    ->with('grips',  \App\Models\GripTape::auth()->get())
+                    ->with('transfers', $transfers)
+                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
+            }
         });
     }
 
