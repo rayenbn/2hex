@@ -17,6 +17,7 @@
             :total-quantity="{{$totalQuantity}}"
             :total-colors="{{$totalColors}}"
             :transfer="{{ json_encode($transfer ?? null) }}"
+            :paid-file="{{ json_encode($paidFile ?? null) }}"
             :user="{{ json_encode(auth()->user()) }}"
         >
         </transfers-configurator>

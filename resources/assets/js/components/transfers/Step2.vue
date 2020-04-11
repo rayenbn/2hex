@@ -22,7 +22,6 @@
                                 name="designName"
                                 placeholder="Enter design name"
                                 v-model="designName"
-                                :disabled="! hasChange"
                                 v-validate="'required'"
                             >
 
@@ -67,6 +66,7 @@
                                     :value="index"
                                     v-for="(item, index) in pantoneColors"
                                     :key="'color' + index"
+                                    :name="'pantoneColor-' + index"
                                     v-validate="'required'"
                                 >
                                     {{ item.title }}
@@ -123,8 +123,8 @@
                             <div class="form-group m-form__group">
                                 <div class="custom-file">
                                     <input
-                                        :disabled="! hasChange"
                                         type="file"
+                                        name="smallPreview"
                                         data-type-upload="transfers-small-preview"
                                         id="sm-preview"
                                         class="custom-file-input"
@@ -155,7 +155,6 @@
                             </div>
                             <div class="dropdown">
                                 <button
-                                    :disabled="! hasChange"
                                     class="btn btn-secondary dropdown-toggle w-100"
                                     type="button"
                                     id="sm-recent"
@@ -194,6 +193,7 @@
                                     <input
                                         :disabled="! hasChange"
                                         type="file"
+                                        name="fullPreview"
                                         data-type-upload="transfers-full-preview"
                                         id="lg-preview"
                                         class="custom-file-input"
@@ -260,12 +260,13 @@
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-start">
                                 <label class="switch mb-0 mr-4">
-                                    <input type="checkbox" name="re-order" v-model="reOrder" :disabled="! hasChange">
+                                    <input type="checkbox" name="re-order" disabled :checked="!hasChange">
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="d-flex flex-column">
                                     <span>This print is a re-order.</span>
-                                    <small>First order of this design.</small>
+                                    <small v-if="!hasChange">{{paidFile.date}}</small>
+                                    <small v-else>First order of this design.</small>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +379,7 @@
                     });
             },
             toggleHeatTransfer(heatTransfer) {
-                if (this.heatTransfer.name === heatTransfer.name) return;
+                if (this.heatTransfer.name === heatTransfer.name || !this.hasChange) return;
 
                 this.heatTransfers.map(transfer => {
                     transfer.active = transfer.name === heatTransfer.name;
@@ -586,8 +587,10 @@
                 return this.$store.getters['TransfersConfigurator/getRecentFiles'];
             },
             hasChange() {
-                return true;
-                // return this.$store.getters['TransfersConfigurator/hasChange'];
+                return this.$store.getters['TransfersConfigurator/hasChange'];
+            },
+            paidFile() {
+                return this.$store.getters['TransfersConfigurator/getPaidFile'];
             },
             heatTransfer: {
                 get() {
@@ -624,6 +627,7 @@
 
                 this.$nextTick(() => {
                     this.renderPreview(parentComponent.transfer.small_preview, 'sm');
+                    this.clickRecentSmallPreview(parentComponent.transfer.small_preview);
 
                     if (parentComponent.transfer.large_preview) {
                         this.renderPreview(parentComponent.transfer.large_preview, 'lg');

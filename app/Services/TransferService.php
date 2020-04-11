@@ -16,18 +16,18 @@ class TransferService
     /**
      * Get all recent files by user
      *
-     * @param \App\Models\Auth\User\User|null $user
+     * @param \App\Models\Auth\User\User|string|null $user
      *
      * @return array
      */
-    public function getRecentFiles(User $user = null)
+    public function getRecentFiles($user = null)
     {
         $filenames = [
             'transfers-small-preview' => [],
             'transfers-full-preview' => [],
         ];
 
-        if (empty($user)) {
+        if (empty($user) || is_string($user)) {
             return $filenames;
         }
 

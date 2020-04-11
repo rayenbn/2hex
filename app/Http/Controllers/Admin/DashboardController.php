@@ -1987,9 +1987,9 @@ class DashboardController extends Controller
         foreach ($transfers as $index => $transfer) {
             foreach ($transfer as $key => $value) {
 
-                if ($key === 'small_preview' || $key === 'large_preview') {
+                if ($key === 'small_preview') {
 
-                    $folder_name = $key === 'small_preview' ? 'transfers-small-preview' : 'transfers-full-preview';
+                    $folder_name = 'transfers-small-preview';
                     $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     $down_path = '/' . 'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
                     $size = 0;
@@ -2461,13 +2461,26 @@ class DashboardController extends Controller
         return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions', 'isall'));
         
     }
-    public function addUpload(Request $request){
+
+    /**
+     * Add upload
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addUpload(Request $request)
+    {
         $conditions = $request->input('selected');
         $type = $request->input('type');
         $value = $request->input('value');
         
         foreach($conditions as $condition){
-            $paidfile = PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->first();
+            /** @var PaidFile|null $paidFile */
+            $paidFile = PaidFile::query()
+                ->where('file_name', $condition['name'])
+                ->where('created_by', $condition['created_by'])
+                ->first();
 
             if($type == 'color_qty'){
                 $selected_order = [];
@@ -2475,25 +2488,29 @@ class DashboardController extends Controller
                 $order = Order::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name']);
                 })->pluck('id');
+
                 $grip = GripTape::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name']);
                 })->pluck('id');
+
                 $wheel = Wheel::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name']);
                 })->pluck('wheel_id');
 
-                // $order = Order::where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
-                // $grip = GripTape::where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
-                // $wheel = Wheel::where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('wheel_id');
+                $transfer = HeatTransfer::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('small_preview', $condition['name'])->orwhere('large_preview', $condition['name']);
+                })->pluck('id');
 
                 $selected_order['order'] = $order;
                 $selected_order['grip'] = $grip;
                 $selected_order['wheel'] = $wheel;
+                $selected_order['transfer'] = $transfer;
 
                 $orders = Order::where('created_by', $condition['created_by'])->get()->map(function($order) {
                     return array_filter($order->attributesToArray());
                 })
                 ->toArray();
+
                 foreach($orders as $order){
                     foreach($order as $key => $value1){
                         
@@ -2530,12 +2547,8 @@ class DashboardController extends Controller
                     }
                 }
             }
-            
 
-            //var_dump(json_encode($selected_order));
-            
-
-            if($paidfile == null){
+            if ($paidFile == null) {
                 if(isset($selected_order))
                     PaidFile::insert(['file_name' => $condition['name'], 'created_by' => $condition['created_by'], $type => $value, $selected_order => json_encode($selected_order)]);
                 else
@@ -2547,9 +2560,11 @@ class DashboardController extends Controller
                 else
                     PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => $value]);
             }
-        }   
+        }
+
         return response('success');
     }
+
     public function deleteUpload(Request $request){
         $conditions = $request->input('selected');
         $type = $request->input('type');

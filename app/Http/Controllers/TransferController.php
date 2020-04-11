@@ -58,7 +58,10 @@ class TransferController extends Controller
         /** @var HeatTransfer $transfer */
         $transfer = HeatTransfer::query()->findOrFail($transferId);
 
-        $filenames = $this->service->getRecentFiles($request->user());
+        /** @var PaidFile|null $paidFile */
+        $paidFile =  PaidFile::query()->where('file_name', $transfer->small_preview)->first();
+
+        $filenames = $this->service->getRecentFiles($request->user() ?? null);
 
         $totals = $this->service->getTotalAttributes(HeatTransfer::auth()->get());
         $totalQuantity = $totals['totalQuantity'] - $transfer->quantity;
@@ -66,12 +69,14 @@ class TransferController extends Controller
 
         return view(
             'transfers.configurator',
-            compact('transfer', 'filenames', 'totalQuantity', 'totalColors')
+            compact('transfer', 'filenames', 'totalQuantity', 'totalColors', 'paidFile')
         );
     }
 
     /**
      * Show configurator page
+     *
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\View\View
      */
@@ -84,7 +89,6 @@ class TransferController extends Controller
 
         /** @var \App\Models\Auth\User\User $user */
         $user = $request->user();
-        $isAdmin = $user ? $user->isAdmin() : false;
 
         /** @var \Illuminate\Database\Eloquent\Collection $transfers */
         $transfers = HeatTransfer::auth()->get();
@@ -93,12 +97,12 @@ class TransferController extends Controller
         $totalColors = $transfers->sum('colors_count');
 
         if (empty($user)) {
-            return view('transfers.configurator', compact('filenames', 'isAdmin'));
+            return view('transfers.configurator', compact('filenames'));
         }
 
         /** @var \Illuminate\Database\Eloquent\Collection|PaidFile[] $fileActions */
         $fileActions = PaidFile::query()
-            ->where('created_by', $user->id)
+            ->where('created_by', (string) $user->id)
             ->get();
 
         foreach (array_keys($filenames) as $value) {
@@ -142,7 +146,7 @@ class TransferController extends Controller
 
         }
 
-        return view('transfers.configurator', compact('filenames', 'isAdmin', 'totalQuantity', 'totalColors'));
+        return view('transfers.configurator', compact('filenames', 'totalQuantity', 'totalColors'));
     }
 
     /**

@@ -19,11 +19,11 @@ export default {
         isCMYK: false,
         smallPreview: null,
         largePreview: null,
-        reOrder: false,
         recentFiles: null,
         heatTransfer: null,
         transfersColorsQuantity: 0,
         transfersQuantity: 0,
+        paidFile: null
     },
     getters: {
         getQuantity: state => state.quantity,
@@ -38,9 +38,10 @@ export default {
         getTransparency: state => state.transparency,
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
-        getReOrder: state => state.reOrder,
         getRecentFiles: state => state.recentFiles,
-        hasChange: state => !state.reOrder,
+        hasChange: state => {
+            return !(state.paidFile && state.paidFile.date);
+        },
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
                 state.quantity,
@@ -114,6 +115,7 @@ export default {
         costPerScreen: (state, getters) => {
             return heatTransferService.toNumber(getters.screensPrice / getters.currentCountColors);
         },
+        getPaidFile: state => state.paidFile,
     },
     mutations: {
         setQuantity(state, payload) {
@@ -154,11 +156,11 @@ export default {
         setLargePreview(state, payload) {
             state.largePreview = payload;
         },
-        setReOrder(state, payload) {
-            state.reOrder = payload;
-        },
         setRecentFiles(state, payload) {
             state.recentFiles = payload;
+        },
+        setPaidFile(state, payload) {
+            state.paidFile = payload;
         },
         setTransfer(state, payload) {
             state.isUpdate = true;
@@ -169,7 +171,6 @@ export default {
             state.designName = payload.design_name;
             state.transparency = Boolean(payload.transparency);
             state.countColors = payload.colors_count;
-            state.reOrder = payload.reorder;
             state.smallPreview = payload.small_preview;
             state.largePreview = payload.large_preview;
             state.isCMYK = Boolean(payload.cmyk);
@@ -208,7 +209,6 @@ export default {
                     large_preview: state.largePreview,
                     total_screens: getters.screensPrice,
                     total: getters.transferPrice,
-                    reorder: state.reOrder,
                     cost_per_transfer: getters.costPerTransfer,
                     cost_per_screen: getters.costPerScreen
                 };

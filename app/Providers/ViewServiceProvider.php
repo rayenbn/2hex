@@ -24,7 +24,7 @@ class ViewServiceProvider extends ServiceProvider
             $transfers = HeatTransfer::query()
                 ->auth()
                 ->leftJoin('paid_files as p', 'p.file_name', '=', 'small_preview')
-                ->selectRaw('heat_transfers.*, p.color_code')
+                ->selectRaw('heat_transfers.*, p.color_code, p.date')
                 ->get();
 
             if(isset($route)){

@@ -1,3 +1,4 @@
+@php $authUser = auth()->user(); @endphp
 <thead style="background-color: #52a3f0; color: white;">
 <tr>
     @if(isset($batches))
@@ -38,13 +39,15 @@
         <td class="align-middle text-center">{{$transfer->quantity}}</td>
         <td class="align-middle">{{$transfer->design_name}}</td>
         <td colspan="3" class="align-middle">
-            <img
-                width="100%"
-                src="{{sprintf('/uploads/%s/transfers-small-preview/%s', auth()->user()->name, $transfer->small_preview)}}"
-                alt="Preview"
-                title="Preview"
-                style="margin: 0 auto;width: auto;max-height: 100px;display: block;"
-            >
+            @if(isset($authUser))
+                <img
+                    width="100%"
+                    src="{{sprintf('/uploads/%s/transfers-small-preview/%s', $authUser->name, $transfer->small_preview)}}"
+                    alt="Preview"
+                    title="Preview"
+                    style="margin: 0 auto;width: auto;max-height: 100px;display: block;"
+                >
+            @endif
         </td>
         <td>
             Transparency: {{$transfer->transparency ? 'Yes' : 'No'}}<br>
@@ -79,10 +82,10 @@
                 </table>
             </td>
         @endif
-        <td class="align-middle text-center">{{$transfer->reorder_at ?? 'New'}}</td>
+        <td class="align-middle text-center"><time>{{$transfer->date ?? 'New'}}</time></td>
         @if(!isset($batches))
-            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $transfer->cost_per_transfer) : '$?.??' }}</td>
-            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $transfer->total) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ isset($authUser) ? money_format('%.2n', $transfer->cost_per_transfer) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ isset($authUser) ? money_format('%.2n', $transfer->total) : '$?.??' }}</td>
         @endif
         @if(Session::get('viewonly') == null && !isset($batches))
             <td>

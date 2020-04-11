@@ -37,7 +37,7 @@
                                 v-validate="'required|digits'"
                         	>
 
-                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                            <div style="color: #9699a4;" class="mt-4 text-justify">
                                 <h3>Quantity</h3>
                                 The standard in professional skateboarding.
                                 Printing on back paper is the most common way to brand griptapes without directly
@@ -91,7 +91,7 @@
 
                             </select>
 
-                            <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
+                            <div style="color: #9699a4;" class="mt-4 text-justify">
                                 <h3>Sizes</h3>
                                 The standard in professional skateboarding.
                                 Printing on back paper is the most common way to brand griptapes without directly

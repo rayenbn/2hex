@@ -225,6 +225,12 @@
                     return null;
                 }
             },
+            paidFile: {
+                type: Object,
+                default: () => {
+                    return null;
+                }
+            },
         },
         components: {
             TransfersStep1,
@@ -251,7 +257,7 @@
         computed: {
             hasAuthUser() {
                 if (! this.user) {
-                    return false
+                    return false;
                 }
 
                 return Object.keys(this.user).length > 0;
@@ -327,6 +333,7 @@
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
             this.$store.commit('TransfersConfigurator/setTransfersQuantity', this.totalQuantity);
             this.$store.commit('TransfersConfigurator/setTransfersColorsQuantity', this.totalColors);
+            this.$store.commit('TransfersConfigurator/setPaidFile', this.paidFile);
 
             if (this.transfer != null) {
                 this.$store.commit('TransfersConfigurator/setTransfer', this.transfer);
