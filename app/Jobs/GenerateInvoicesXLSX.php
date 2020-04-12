@@ -107,12 +107,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
     /**
      * @var int
      */
-    private $startBatch = 17;
+    private $startBatch = 15;
 
     /**
      * @var int
      */
-    private $startDelivery = 17;
+    private $startDelivery = 15;
 
     /**
      * @var int
@@ -147,6 +147,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->drawing->setName('2HEX.com');
         $this->drawing->setDescription('2HEX.com');
         $this->drawing->setPath(public_path('/img/2hex.png'));
+        $this->drawing->setCoordinates('N4');
         $this->drawing->setOffsetY(0);
         $this->drawing->setOffsetX(0);
         $this->drawing->setWidth(261);
@@ -160,10 +161,16 @@ class GenerateInvoicesXLSX implements ShouldQueue
             \App\Classes\Invoice\HeatTransfer::class => $this->transfers,
         ];
 
+        // Filter empty batches
+        $batches = array_filter($batches, function (Collection $batch) {
+           return $batch->count() > 0;
+        });
+
+
         $firstBatch = array_key_first($batches);
 
         foreach ($batches as $batch => $items) {
-            $offset = $items->count() ? ($items->count() * 8) + 1 : 0;
+            $offset = ($items->count() * 8) + 1;
 
             // Skip offset for first batch
             if ($firstBatch !== $batch) {
@@ -176,7 +183,6 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
             /** @var \App\Classes\Invoice\Batch $batchEntry */
             $batchEntry = new $batch($this->getActiveSheet(), $items);
-            
             $batchEntry->setStartRow($this->startBatch)->handle();
         }
 
@@ -283,10 +289,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getRowDimension(4)
             ->setRowHeight(40);
 
-        $this
-            ->getStylesRange('E8')
-            ->getNumberFormat()
-            ->setFormatCode('dd/mm/yyyy');
+        $this->getStylesRange('E8')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
 
         $shipinfo = \App\Models\ShipInfo::query()
             ->selectRaw(

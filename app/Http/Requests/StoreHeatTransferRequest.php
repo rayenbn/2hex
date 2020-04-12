@@ -36,8 +36,6 @@ class StoreHeatTransferRequest extends FormRequest
             'size' => 'required|string|max:255',
             'total_screens' => 'required|numeric',
             'total' => 'required|numeric',
-            'reorder_at' => 'nullable|date',
-            'reorder' => 'required|boolean',
             'size_margin' => 'numeric',
             'cost_per_transfer' => 'numeric',
             'cost_per_screen' => 'numeric',

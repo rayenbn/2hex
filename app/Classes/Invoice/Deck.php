@@ -60,33 +60,33 @@ class Deck extends Batch
         $this->worksheet->setCellValue('M' . $this->startRow, 'Price p. deck');
         $this->worksheet->setCellValue('N' . $this->startRow, 'Total of Row');
 
-        $this->startRow += 1;
+        $startRow = $this->startRow + 1;
 
         /** @var Order $item */
         foreach ($this->items as $item) {
 
-            $this->worksheet->insertNewRowBefore($this->startRow, 8);
+            $this->worksheet->insertNewRowBefore($startRow, 8);
 
-            foreach ($this->worksheet->getRowIterator($this->startRow, 8) as $row) {
+            foreach ($this->worksheet->getRowIterator($startRow, 8) as $row) {
                 $green = false;
                 // Column C
-                $this->worksheet->mergeCells(sprintf('C%s:C%s', $this->startRow, $endRange = $this->startRow + 3));
+                $this->worksheet->mergeCells(sprintf('C%s:C%s', $startRow, $endRange = $startRow + 3));
                 $this->worksheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
-                $this->worksheet->setCellValue(sprintf('C%s', $this->startRow), $item->quantity);
+                $this->worksheet->setCellValue(sprintf('C%s', $startRow), $item->quantity);
                 $this->worksheet->setCellValue(sprintf('C%s', $endRange + 1), 'Skateboard Decks');
                 // Column D
-                $this->worksheet->mergeCells(sprintf('D%s:D%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('D%s', $this->startRow), $item->size);
+                $this->worksheet->mergeCells(sprintf('D%s:D%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('D%s', $startRow), $item->size);
                 // Column E
-                $this->worksheet->mergeCells(sprintf('E%s:E%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('E%s', $this->startRow), $item->concave);
+                $this->worksheet->mergeCells(sprintf('E%s:E%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('E%s', $startRow), $item->concave);
                 // Column F
-                $this->worksheet->mergeCells(sprintf('F%s:F%s', $this->startRow, $endRange = $this->startRow + 3));
+                $this->worksheet->mergeCells(sprintf('F%s:F%s', $startRow, $endRange = $startRow + 3));
                 $this->worksheet->mergeCells(sprintf('F%s:F%s', $endRange + 1, $endRange + 4));
-                $this->worksheet->setCellValue(sprintf('F%s', $this->startRow), $item->wood);
+                $this->worksheet->setCellValue(sprintf('F%s', $startRow), $item->wood);
                 $this->worksheet->setCellValue(sprintf('F%s', $endRange + 1), $item->glue);
                 // Column G
-                $this->worksheet->mergeCells(sprintf('G%s:G%s', $this->startRow, $endRange = $this->startRow + 2));
+                $this->worksheet->mergeCells(sprintf('G%s:G%s', $startRow, $endRange = $startRow + 2));
                 $this->worksheet->mergeCells(sprintf('G%s:G%s', $endRange + 2, $endRange + 4));
 
                 if (!empty(PaidFile::query()->where('created_by', $item['created_by'])->where('file_name', $item->bottomprint)->first()['date'])){
@@ -94,7 +94,7 @@ class Deck extends Batch
                 }
 
                 $this->worksheet->setCellValue(
-                    sprintf('G%s', $this->startRow), $this->setStartTextBold('Bottom: ', $item->bottomprint, $green)
+                    sprintf('G%s', $startRow), $this->setStartTextBold('Bottom: ', $item->bottomprint, $green)
                 );
                 $green = false;
                 $this->worksheet->setCellValue(
@@ -111,12 +111,12 @@ class Deck extends Batch
                     sprintf('G%s', $endRange + 5), 'colors: ' . $this->colorsToString($item->topprint_color)
                 );
                 // Column H
-                $this->worksheet->mergeCells(sprintf('H%s:H%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('H%s', $this->startRow), 'Engravery: ' . $item->engravery);
+                $this->worksheet->mergeCells(sprintf('H%s:H%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('H%s', $startRow), 'Engravery: ' . $item->engravery);
 
                 // Column I
                 foreach (json_decode($item->veneer) as $key => $value) {
-                    $this->worksheet->setCellValue(sprintf('I%s', $this->startRow + $key), $value);
+                    $this->worksheet->setCellValue(sprintf('I%s', $startRow + $key), $value);
                 }
 
                 // Column J
@@ -128,7 +128,7 @@ class Deck extends Batch
                 // Print specials for order
                 foreach (array_keys($extras) as $index => $value) {
                     $this->worksheet->setCellValue(sprintf(
-                        'J%s', $this->startRow + $index),
+                        'J%s', $startRow + $index),
                         $this->setStartTextBold("{$this->specialsTitle[$value]}: ", (property_exists($extras[$value], 'color')
                             ? preg_replace( '/[^0-9a-zA-Z]/', '', $extras[$value]->color)
                             : 'Yes')
@@ -136,44 +136,44 @@ class Deck extends Batch
                     );
                 }
                 $this->worksheet->setCellValue(sprintf(
-                    'J%s', $this->startRow + count($extras)),
+                    'J%s', $startRow + count($extras)),
                     $this->setStartTextBold("Shrink Wrap: ", 'Yes')
                 );
 
                 // Column K
-                $this->worksheet->mergeCells(sprintf('K%s:K%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('K%s', $this->startRow), 'Cardboard: ' . $item->cardboard);
+                $this->worksheet->mergeCells(sprintf('K%s:K%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('K%s', $startRow), 'Cardboard: ' . $item->cardboard);
 
                 // Column L
-                $this->worksheet->mergeCells(sprintf('L%s:L%s', $this->startRow, $endRange = $this->startRow + 6));
+                $this->worksheet->mergeCells(sprintf('L%s:L%s', $startRow, $endRange = $startRow + 6));
                 if (!empty(PaidFile::query()->where('created_by', $item['created_by'])->where('file_name', $item->carton)->first()['date'])) {
                     $green = true;
                 }
                 $this->worksheet->setCellValue(
-                    sprintf('L%s', $this->startRow), $this->setStartTextBold('Carton Print: ', $item->carton, $green)
+                    sprintf('L%s', $startRow), $this->setStartTextBold('Carton Print: ', $item->carton, $green)
                 );
                 $this->worksheet->setCellValue(
                     sprintf('L%s', $endRange + 1), 'colors: ' . $this->colorsToString($item->carton_color)
                 );
                 // Column M
-                $this->worksheet->mergeCells(sprintf('M%s:M%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('M%s', $this->startRow), $item->perdeck);
+                $this->worksheet->mergeCells(sprintf('M%s:M%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('M%s', $startRow), $item->perdeck);
                 // Column N
-                $this->worksheet->mergeCells(sprintf('N%s:N%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('N%s', $this->startRow), $item->total);
+                $this->worksheet->mergeCells(sprintf('N%s:N%s', $startRow, $startRow + 7));
+                $this->worksheet->setCellValue(sprintf('N%s', $startRow), $item->total);
             }
         }
 
         // start + count orders * 8(count rows in single item)
         $range = sprintf(
             'C%s:N%s',
-            $this->startRow,
-            $this->startRow + ($this->items->count() * 8)
+            $startRow,
+            $startRow + ($this->items->count() * 8)
         );
         $rangeCurrency = sprintf(
             'M%s:N%s',
-            $this->startRow,
-            $this->startRow + ($this->items->count() * 8)
+            $startRow,
+            $startRow + ($this->items->count() * 8)
         );
         // set currency format for cells
         $this->worksheet->getStyle($rangeCurrency)

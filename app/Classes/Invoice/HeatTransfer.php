@@ -2,6 +2,7 @@
 
 namespace App\Classes\Invoice;
 
+use App\Models\PaidFile;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Color;
@@ -49,6 +50,12 @@ class HeatTransfer extends Batch
 
         $this->startRow += 1;
 
+        /** @var \Illuminate\Database\Eloquent\Collection $paiFiles */
+        $paiFiles = PaidFile::query()
+            ->whereIn('file_name', $this->items->pluck('small_preview'))
+            ->whereNotNull('date')
+            ->get();
+
         /** @var \App\Models\HeatTransfer\HeatTransfer $item */
         foreach ($this->items as $key => $item) {
             $this->worksheet->insertNewRowBefore($this->startRow, 8);
@@ -84,16 +91,12 @@ class HeatTransfer extends Batch
                 $this->worksheet->mergeCells(sprintf('K%s:K%s', $this->startRow, $this->startRow + 7));
                 $this->worksheet->setCellValue(sprintf('K%s', $this->startRow), str_replace(';', "\n", $item->colors));
 
-
-//                $colors = explode(';', $item->colors);
-//
-//                foreach ($colors as $colorKey => $color) {
-//                    $this->worksheet->setCellValue('K' . intval($startRow + $colorKey), (string) $color);
-//                }
-
                 // Column L
+                /** @var PaidFile|null $itemPaidFile */
+                $itemPaidFile = $paiFiles->where('file_name', $item->small_preview)->first();
+
                 $this->worksheet->mergeCells(sprintf('L%s:L%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('L%s', $this->startRow), $item->reorder_at);
+                $this->worksheet->setCellValue(sprintf('L%s', $this->startRow), $itemPaidFile->date ?? 'New');
 
                 // Column M
                 $this->worksheet->mergeCells(sprintf('M%s:M%s', $this->startRow, $this->startRow + 7));
