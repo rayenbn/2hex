@@ -153,7 +153,7 @@
 							@endif
 
 							@if(count($transfers) > 0)
-								@include('partials.transfers', ['transfers' => $transfers, 'fees' => $fees])
+								@include('partials.transfers', ['transfers1' => $transfers, 'fees' => $fees])
 							@endif
 
 

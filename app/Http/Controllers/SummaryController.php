@@ -860,7 +860,7 @@ class SummaryController extends Controller
 
             if(isset($transfer_checked)){
                 $transfers = HeatTransfer::whereIn('id',$transfer_checked)->get();
-                for($i = 0; $i < count($transfers); $i ++){
+                for($i = 0; $i < $transfers->count(); $i ++){
                     unset($transfers[$i]['id']);
                     unset($transfers[$i]['saved_date']);
                     unset($transfers[$i]['usenow']);

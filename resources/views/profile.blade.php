@@ -133,8 +133,8 @@
                                                     @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
 
-                                                @if(count($transfers) > 0)
-                                                    @include('partials.transfers', ['transfers' => $transfers, 'batches' => 1, 'fees' => $fees])
+                                                @if(count($savedTransferBatches) > 0)
+                                                    @include('partials.transfers', ['transfers1' => $savedTransferBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
                                             </table>
 

@@ -24,7 +24,7 @@
 
 </tr>
 </thead>
-@foreach($transfers as $batch => $transfer)
+@foreach($transfers1 as $batch => $transfer)
 
     <tr>
         @if(isset($batches))
