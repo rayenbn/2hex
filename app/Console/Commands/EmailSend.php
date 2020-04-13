@@ -39,7 +39,7 @@ class EmailSend extends Command
     public function handle()
     {
        //
-        $users = User::where('id','699')->whereNotNull('confirmed_date')->get();
+        $users = User::where('id','700')->whereNotNull('confirmed_date')->get();
         // $users = User::all();
         // $users = User::where('created_at','>','2019-04-04 00:00:00')->whereNotNull('confirmed_date')->get();
         foreach($users as $user){
