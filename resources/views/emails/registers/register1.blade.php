@@ -15,21 +15,19 @@
 
             <h4>Place your custom production order now:  </h4>
 
-            <ol style="padding: 0 15px; margin-top: 25px;">
-			    <li>
-                    → <a href="https://www.2hex.com/skateboard-deck-manufacturer">Custom Decks </a>!
-			    </li>
-			    <li>
-                    → <a href="https://www.2hex.com/skateboard-griptape-manufacturer">Custom Grip Tapes</a>.
-			    </li>
-			    <li>
-                    → <a href="https://www.2hex.com/skateboard-wheels-manufacturer">Custom Wheels</a>
-                </li>
-			 </ol>
-            <br>
-            <p>You can’t find the product you are looking for on 2HEX.com? </p>
-            <p>YSend us a custom productions inquiry <a href="https://www.2hex.com//inquirieschoice">here</a> </p>
+            <p style="color: #576ad5;"><b>
+                    → <a href="https://www.2hex.com/skateboard-deck-manufacturer">Custom Decks </a><br>
 
+                    → <a href="https://www.2hex.com/skateboard-griptape-manufacturer">Custom Grip Tapes</a><br>
+
+                    → <a href="https://www.2hex.com/skateboard-wheels-manufacturer">Custom Wheels</a><br>
+                </b></p>
+
+            <br>
+            <p style="color: black;">2HEX.com does not have the product you are looking for? </p>
+            <p style="color: black;">Send us a custom productions inquiry <a href="https://www.2hex.com/mail"><p style="color: #576ad5;"><b>here</b></p></a> </p>
+            <br>
+            <p style="color: black;">Meet our CEO and head of sales, Niklas:</p>
 			<video poster="{{asset('img/2HEX-Video.png')}}" width="100%" controls="controls" style="display: block">
 				<source src="https://www.youtube.com/watch?v=cJs7LPAxLeI" type="video/mp4" />
 				<a href="https://www.youtube.com/watch?v=cJs7LPAxLeI">
@@ -44,8 +42,8 @@
 			</p>
 
 			<p style="color: black; margin-top: 20px;">
-				Thanks for using 2HEX! <br>
-				Regards, your 2HEX team
+                To your success! <br>
+                The 2HEX Team
 			</p>
         </td>
     </tr>

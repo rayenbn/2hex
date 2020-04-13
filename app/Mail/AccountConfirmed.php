@@ -18,7 +18,7 @@ class AccountConfirmed extends Mailable
     {
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject('Welcome, watch the video of how to order on 2HEX.')
+            ->subject('Your new business account is ready!')
             ->markdown('emails.account_confirmed');
     }
 }
