@@ -48,6 +48,8 @@ class EmailSend extends Command
 
             $difference = round(abs($now - $date) / 60,2);
             echo $difference;
+            echo $date;
+            echo $now;
             $type = 0;
             if($difference < 15 && $difference >= 14){
                 $type = 8;
