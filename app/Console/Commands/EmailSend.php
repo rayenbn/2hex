@@ -47,6 +47,7 @@ class EmailSend extends Command
             $now = strtotime("now");
 
             $difference = round(abs($now - $date) / 60,2);
+            echo $difference;
             $type = 0;
             if($difference < 15 && $difference >= 14){
                 $type = 8;
