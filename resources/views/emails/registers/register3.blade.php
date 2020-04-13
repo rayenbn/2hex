@@ -11,6 +11,7 @@
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
             <p style="color: black;">Hi <i>{{$data['name']}}</i></p>
+
             <p>do you want to build a big skateboard company? <br>
               And do you want the best products without unclear lengthy negotiations?</p>
             <p style="color: black;">To accomplish this goal, you need access to the highest quality skateboard components now. You need to know what can be manufactured and how much it costs. And the skateboard parts must be so good, that they grow your sales and push skateboarding.</p>
