@@ -132,16 +132,16 @@
 				step_abec: this.abec,
 				step_race: this.race,
                 abecs: [
-                    {name: 'Abec3', value: 1},
-                    {name: 'Abec5', value: 2},
-                    {name: 'Abec7', value: 3},
-                    {name: 'Abec9', value: 4}
+                    {name: 'Abec3', value: 0},
+                    {name: 'Abec5', value: 0.04},
+                    {name: 'Abec7', value: 0.08},
+                    {name: 'Abec9', value: 0.12}
                 ],
                 races: [
-                    {name: 'Silver Races', value: 1},
-                    {name: 'Black Races', value: 2},
-                    {name: 'Gold Races', value: 3},
-                    {name: 'Rainbow Races', value: 4}
+                    {name: 'Silver Races', value: 0.1},
+                    {name: 'Black Races', value: 0.2},
+                    {name: 'Gold Races', value: 0.52},
+                    {name: 'Rainbow Races', value: 1.1}
                 ],
 			}
 		},

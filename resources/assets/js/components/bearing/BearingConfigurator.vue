@@ -475,9 +475,7 @@
                     });
             },
             calculateTotal() {
-                this.orderTotal = this.sumskateboards 
-                    + this.sumgrips
-                    + (this.quantity * (this.material ? this.material.value : 0));
+                this.orderTotal = this.quantity;
                     // + this.deliveryPrice;
             },
             calculatePrice() {
@@ -501,20 +499,24 @@
             },
             quantityChange(quantity) {
                 // set new quantity
-                this.quantity = quantity;
+                this.quantity = quantity.value;
                 // recalculate total
                 this.calculateTotal();
 
                 switch(true) {
-                    case (this.orderTotal >= 1170  && this.orderTotal < 3000) : this.additionalCost = 1;   break;
-                    case (this.orderTotal >= 3000  && this.orderTotal < 6000) : this.additionalCost = 0.8; break;
-                    case (this.orderTotal >= 6000  && this.orderTotal < 8000) : this.additionalCost = 0.5; break;
-                    case (this.orderTotal >= 8000  && this.orderTotal < 12000): this.additionalCost = 0.4; break;
-                    case (this.orderTotal >= 12000 && this.orderTotal < 20000): this.additionalCost = 0.3; break;
-                    // TODO  maybe 50000 instead 30000 ?
-                    case (this.orderTotal >= 20000 && this.orderTotal < 50000): this.additionalCost = 0.25; break; 
-                    case (this.orderTotal >= 50000): this.additionalCost = 0.2; break;
-                    default: this.additionalCost = 1;
+                    case (this.orderTotal == 625) : this.additionalCost = 1.4;   break;
+                    case (this.orderTotal == 800) : this.additionalCost = 1.1;   break;
+                    case (this.orderTotal == 1000) : this.additionalCost = 0.9;   break;
+                    case (this.orderTotal == 1200) : this.additionalCost = 0.85;   break;
+                    case (this.orderTotal == 1500) : this.additionalCost = 0.7;   break;
+                    case (this.orderTotal == 2000) : this.additionalCost = 0.45;   break;
+                    case (this.orderTotal == 2500) : this.additionalCost = 0.35;   break;
+                    case (this.orderTotal == 3000) : this.additionalCost = 0.3;   break;
+                    case (this.orderTotal == 4000) : this.additionalCost = 0.2;   break;
+                    case (this.orderTotal == 5000) : this.additionalCost = 0.18;   break;
+                    case (this.orderTotal == 8000) : this.additionalCost = 0.05;   break;
+                    case (this.orderTotal == 10000) : this.additionalCost = 0;   break;
+                    default: this.additionalCost = 1.4;
                 }
 
                 this.calculatePrice();
@@ -524,17 +526,17 @@
                 // recalculate total
                 this.calculateTotal();
 
-                switch(true) {
-                    case (this.orderTotal >= 1170  && this.orderTotal < 3000) : this.additionalCost = 1;   break;
-                    case (this.orderTotal >= 3000  && this.orderTotal < 6000) : this.additionalCost = 0.8; break;
-                    case (this.orderTotal >= 6000  && this.orderTotal < 8000) : this.additionalCost = 0.5; break;
-                    case (this.orderTotal >= 8000  && this.orderTotal < 12000): this.additionalCost = 0.4; break;
-                    case (this.orderTotal >= 12000 && this.orderTotal < 20000): this.additionalCost = 0.3; break;
-                    // TODO  maybe 50000 instead 30000 ?
-                    case (this.orderTotal >= 20000 && this.orderTotal < 50000): this.additionalCost = 0.25; break; 
-                    case (this.orderTotal >= 50000): this.additionalCost = 0.2; break;
-                    default: this.additionalCost = 1;
-                }
+                // switch(true) {
+                //     case (this.orderTotal >= 1170  && this.orderTotal < 3000) : this.additionalCost = 1;   break;
+                //     case (this.orderTotal >= 3000  && this.orderTotal < 6000) : this.additionalCost = 0.8; break;
+                //     case (this.orderTotal >= 6000  && this.orderTotal < 8000) : this.additionalCost = 0.5; break;
+                //     case (this.orderTotal >= 8000  && this.orderTotal < 12000): this.additionalCost = 0.4; break;
+                //     case (this.orderTotal >= 12000 && this.orderTotal < 20000): this.additionalCost = 0.3; break;
+                //     // TODO  maybe 50000 instead 30000 ?
+                //     case (this.orderTotal >= 20000 && this.orderTotal < 50000): this.additionalCost = 0.25; break; 
+                //     case (this.orderTotal >= 50000): this.additionalCost = 0.2; break;
+                //     default: this.additionalCost = 1;
+                // }
 
                 this.calculatePrice();
             },

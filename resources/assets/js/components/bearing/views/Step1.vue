@@ -27,18 +27,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <input 
-                            	id="quantity_bearing" 
-                            	v-model.number="step_quantity" 
-                            	type="number" 
-                            	class="form-control bootstrap-touchspin-vertical-btn" 
-                            	name="quantity" 
-                            	placeholder="200" 
-                            	@change.prevent="quantityChange"
-                                @keydown.enter.prevent="quantityChange"
-                                step="200"
-                                min="0"
-                        	>
+                            <select
+                                class="form-control m-select2"
+                                id="quantity"
+                                name="quantity"
+                                style="width:100%;"
+                                v-model="step_quantity"
+                                @change.prevent="quantityChange"
+                            >
+                                <option value="null" disabled>SELECT</option>
+                                <option 
+                                    :value="quantity" 
+                                    v-for="(quantity, index) in quantities" 
+                                    :key="index"
+                                >
+                                    {{ quantity.name }}
+                                </option>
+                       
+                            </select>
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Quantity</h3>
@@ -112,7 +118,7 @@
 		name: 'skateboard-decks-step-1',
         props: {
             quantity: {
-                type: [Number, String],
+                type: [Object, String],
                 default: 0
             },
             material: {
@@ -124,28 +130,31 @@
 			return {
 				step_quantity: this.quantity,
 				step_material: this.material,
-
+                quantities: [
+                    {name: '625 Set', value: 625},
+                    {name: '800 Set', value: 800},
+                    {name: '1000 Set', value: 1000},
+                    {name: '1200 Set', value: 1200},
+                    {name: '1500 Set', value: 1500},
+                    {name: '2000 Set', value: 2000},
+                    {name: '2500 Set', value: 2500},
+                    {name: '3000 Set', value: 3000},
+                    {name: '4000 Set', value: 4000},
+                    {name: '5000 Set', value: 5000},
+                    {name: '8000 Set', value: 8000},
+                    {name: '10000 Set', value: 10000}
+                ],
                 materials: [
-                    {name: 'Carbon Balls', value: 1},
-                    {name: 'Chrome Balls', value: 2},
-                    {name: 'Stainless Steel Balls', value: 3},
-                    {name: 'White Cerami', value: 4},
-                    {name: 'Black Ceramic Balls', value: 5},
-                    {name: 'Titanium Balls', value: 6},
+                    {name: 'Carbon Balls', value: 0.65},
+                    {name: 'Chrome Balls', value: 0.96},
+                    {name: 'Stainless Steel Balls', value: 1.92},
+                    {name: 'White Cerami', value: 4.28},
+                    {name: 'Black Ceramic Balls', value: 6.20},
                 ],
 			}
 		},
 		methods: {
 			quantityChange(){
-                if(this.step_quantity % 200 != 0){
-                     swal({
-                        title: "",
-                        text: "Select Only quantities in steps of 200 (200, 400, ...)",
-                        type: "warning",
-                        confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                    });
-                    this.step_quantity = 0;
-                }
                 this.$store.commit('BearingConfigurator/setQuantity', this.step_quantity);
 	            this.$emit('quantityChange', this.step_quantity);
 	        },
@@ -163,7 +172,6 @@
                         case 'Stainless Steel Balls': return {q: '/img/griptape/1.2.jpg', s: '/img/griptape/2.2.jpg'};
                         case 'White Cerami': return {q: '/img/griptape/1.4.jpg', s: '/img/griptape/2.4.jpg'};
                         case 'Black Ceramic Balls': return {q: '/img/griptape/1.4.jpg', s: '/img/griptape/2.4.jpg'};
-                        case 'Titanium Balls': return {q: '/img/griptape/1.4.jpg', s: '/img/griptape/2.4.jpg'};
                         default: return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
                     }
                 }
@@ -175,20 +183,31 @@
                 let material = this.materials.find(s => s.name == this.step_material);
                 this.step_material = material;
                 this.materialChange();
+            }
+            if (typeof this.step_quantity === 'string') {
+                let quantity = this.quantities.find(s => s.name == this.step_quantity);
+                this.step_quantity = quantity;
+                this.quantityChange();
             }   
         },
         mounted() {
-            setTimeout(() => {
-                let inputQuantity = document.getElementById("quantity_bearing");
-                // Fire event plus/minus quantity
-                document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
-                    this.step_quantity = parseInt(inputQuantity.value);
-                    this.quantityChange();
-                });
-            }, 2000);
+            // setTimeout(() => {
+            //     let inputQuantity = document.getElementById("quantity_bearing");
+            //     // Fire event plus/minus quantity
+            //     document.getElementsByClassName("input-group-btn-vertical")[0].addEventListener("click", () => {
+            //         this.step_quantity = parseInt(inputQuantity.value);
+            //         this.quantityChange();
+            //     });
+            // }, 2000);
 
             let value = '';
             // Listen change material
+            $('#quantity').select2();
+            $('#quantity').on('select2:select', (e) => {
+                value = e.params.data.text.trim();
+                this.step_quantity = this.quantities.find(s => s.name == value);
+                this.quantityChange();
+            });
             $('#material').select2();
             $('#material').on('select2:select', (e) => {
                 value = e.params.data.text.trim();
