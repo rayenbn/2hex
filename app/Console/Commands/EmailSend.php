@@ -46,27 +46,27 @@ class EmailSend extends Command
             $date = strtotime($user['confirmed_date']);
             $now = strtotime(date('Y-m-d h:i:s'));
 
-            $difference = round(abs($now - $date) / 60,2);
+            $difference = round(abs($now - $date) / 3600,2);
             echo $difference;
             echo $date;
             echo $now;
             $type = 0;
-            if($difference < 15 && $difference >= 14){
+            if($difference < 481 && $difference >= 480){
                 $type = 8;
             }
-            else if($difference < 13 && $difference >= 12){
+            else if($difference < 361 && $difference >= 360){
                 $type = 7;
             }
-            else if($difference < 11 && $difference >= 10){
+            else if($difference < 289 && $difference >= 288){
                 $type = 6;
             }
-            else if($difference < 9 && $difference >= 8){
+            else if($difference < 169 && $difference >= 168){
                 $type = 5;
             }
-            else if($difference < 7 && $difference >= 6){
+            else if($difference < 45 && $difference >= 44){
                 $type = 4;
             }
-            else if($difference < 5 && $difference >= 4){
+            else if($difference < 25 && $difference >= 24){
                 $type = 3;
             }
             else if($difference < 3 && $difference >= 2){
