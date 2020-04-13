@@ -10,12 +10,7 @@
 <table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
-			<h1 style="color: #E35D6F">WELCOME TO 2HEX</h1>
-			<p style="color: black;">Your new business account is ready!</p>
-
-
-			<br>
-
+			<h1 style="color: #E35D6F">Your new business account is ready!</h1>
 
 			<p style="color: black; margin-top: 20px;">
 				Plan your next production order now:<br>
