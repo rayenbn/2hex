@@ -138,7 +138,7 @@
                                                 @endif
                                             </table>
 
-                                                <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Summary</button>
+                                                <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Shopping Cart</button>
                                                 &nbsp &nbsp
                                                 <button type="submit" name="submit" value="Delete" class="btn btn-outline-danger">Delete</button>
                                             </form>
