@@ -130,7 +130,7 @@
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'sm')"
                                         v-validate="'required'"
-                                        accept="image/*"
+                                        accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png"
                                         data-max-size="1000000"
                                     >
                                     <label
@@ -199,7 +199,7 @@
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
                                         v-validate="'required'"
-                                        accept="image/*"
+                                        accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png,.ai,.pdf,.tif,.tiff,.psd"
                                         data-max-size="10000000"
                                     >
                                     <label
@@ -411,9 +411,27 @@
 
                 return true;
             },
+            validFileType(file, fileTypes) {
+                return fileTypes.some(type => type === file.name.match(/\.[0-9a-z]+$/i)[0]);
+            },
             uploadFile(event, type = 'lg') {
                 // Check auth
                 this.checkAuth();
+
+                let formData = new FormData();
+                let file = event.target.files[0];
+
+                // Validate file type
+                if (! this.validFileType(file, event.target.accept.split(','))) {
+                    this.$notify({
+                        group: 'main',
+                        type: 'error',
+                        title: 'Unsupported type',
+                        text: "Supported types: " + event.target.accept
+                    });
+
+                    return false;
+                }
 
                 if (type === 'sm') {
                     if (! this.readURL(event.target)) {
@@ -427,8 +445,6 @@
 
                     return false;
                 }
-                let formData = new FormData();
-                let file = event.target.files[0];
 
                 formData.append('typeUpload', event.target.dataset.typeUpload);
                 formData.append('fileName', file ? file.name : '');
