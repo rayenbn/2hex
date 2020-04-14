@@ -112,10 +112,10 @@
 									<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
 										Add Heat Transfers
 									</a>
-									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-										Saved Batches
-									</a>
 								@endif
+                                <a class="dropdown-item" href="{{ route('profile') . '#saved_orders' }}">
+                                    Saved Batches
+                                </a>
 								
 						  	</div>
 
@@ -223,7 +223,7 @@
 							
 							@else
 							<ul class="m-portlet__nav">
-								
+
 {{--								<li class="m-portlet__nav-item">--}}
 {{--									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >--}}
 {{--										<span>--}}
