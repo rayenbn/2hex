@@ -132,12 +132,13 @@
 				step_packsecond: this.packsecond,
 				step_brandsecond: this.brandsecond,
                 packseconds: [
-                    {name: 'Cardboard sleeve around packaging', value: 1},
-                    {name: 'Cardboard box around packaging', value: 2}
+                    {name: 'No added cardboard ', value: 0},
+                    {name: 'Cardboard sleeve around packaging', value: 0.45},
+                    {name: 'Cardboard box around packaging', value: 0.69}
                 ],
                 brandseconds: [
-                    {name: 'Shrink wrap', value: 1},
-                    {name: 'No shrink wrap', value: 2}
+                    {name: 'Shrink wrap', value: 0.15},
+                    {name: 'No shrink wrap', value: 0}
                 ],
 			}
 		},

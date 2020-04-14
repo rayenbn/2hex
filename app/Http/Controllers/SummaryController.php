@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;

@@ -132,13 +132,13 @@
 				step_spamaterial: this.spamaterial,
 				step_spacolor: this.spacolor,
                 spamaterials: [
-                    {name: 'No Spacers', value: 1},
-                    {name: 'Carbon Spacers', value: 2},
-                    {name: 'Stainless Steel Spacers', value: 3}
+                    {name: 'No Spacers', value: 0},
+                    {name: 'Carbon Spacers', value: 0.4},
+                    {name: 'Stainless Steel Spacers', value: 0.59}
                 ],
                 spacolors: [
-                    {name: 'Black Spacers', value: 1},
-                    {name: 'Silver Spacers', value: 2}
+                    {name: 'Black Spacers', value: 0},
+                    {name: 'Silver Spacers', value: 0.15}
                 ],
 			}
 		},

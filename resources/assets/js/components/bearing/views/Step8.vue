@@ -26,19 +26,18 @@
                                 class="form-control"
                                 name="designName"
                                 placeholder="Enter design name"
-                                v-model="designName"
-                                :disabled="! hasChange"
+                                v-model="step_designName"
                                 v-validate="'required'"
+                                @input="onDesignNameChange"
                             >
                             <br/>
 
                             <select
-                                :disabled="! hasChange"
                                 class="form-control m-select2"
                                 id="pantoneColor"
                                 name="pantoneColor"
                                 style="width:100%;"
-                                v-model="pantoneColor"
+                                v-model="step_pantoneColor"
                             >
                                 <option value="null" disabled>SELECT</option>
                                 <option
@@ -73,93 +72,80 @@
                     <div class="m-portlet__body">
                         <div class="m-widget17">
 
-                            <div class="form-group m-form__group">
+                            <div class="form-group m-form__group pantone-files">
+                                <div></div>
                                 <div class="custom-file">
                                     <input
-                                        :disabled="! hasChange"
                                         type="file"
-                                        data-type-upload="transfers-small-preview"
-                                        id="sm-preview"
+                                        data-type-upload="pantone"
                                         class="custom-file-input"
-                                        @change.prevent="uploadFile($event, 'sm')"
-                                        v-validate="'required'"
-                                        accept="image/*"
-                                        data-max-size="1000000"
+                                        data-step="pantonePrint"
+                                        id="step-8-upload"
+                                        @click="step_options.state = true"
+                                        @change.prevent="prepareFile"
                                     >
-                                    <label
-                                        class="custom-file-label unchecked"
-                                        for="sm-preview"
-                                        :class="{checked: smPreview}"
+                                    <label 
+                                        class="custom-file-label unchecked" 
+                                        :class="{checked: step_options.state}" 
+                                        for="customFile"
                                     >
                                         Choose file
                                     </label>
                                 </div>
                             </div>
-                            <div class="progress mb-3" style="height: 2px;">
-                                <div
-                                    class="progress-bar m--bg-info"
-                                    role="progressbar"
-                                    aria-valuenow="0"
-                                    aria-valuemin="0"
+                            <div class="progress mb-3 pantone-files" style="height: 2px;">
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="'width:' + uploadProgress + '%'" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
                                     aria-valuemax="100"
-                                    :style="'width:' + smProgress + '%'"
                                 >
                                 </div>
                             </div>
-                            <div class="dropdown">
-                                <button
-                                    :disabled="! hasChange"
-                                    class="btn btn-secondary dropdown-toggle w-100"
-                                    type="button"
-                                    id="sm-recent"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    :class="[smPreview ? 'checked' : 'unchecked']"
+                            <div class="dropdown pantone-files">
+                                <button 
+                                    class="btn btn-secondary dropdown-toggle" 
+                                    type="button" 
+                                    id="step-8-recent" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false" 
+                                    style="width:100%;" 
+                                    :class="[step_options.state && step_options.file 
+                                        ? 'checked' : 'unchecked'
+                                    ]" 
+                                    @click="step_options.state = true"
                                 >
-                                    Recent file
+                                    {{ step_options.file ? step_options.file : 'Recent file' }}
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="sm-recent">
-                                    <a
+                                <div class="dropdown-menu" aria-labelledby="step-8-recent">
+                                    <a 
                                         v-for="file in files"
-                                        class="dropdown-item file-dropdown"
-                                        href="javascript:void(0);"
-                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm');}"
+                                        class="dropdown-item file-dropdown" 
+                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable'];  step_color = file['color_qty']; }"
+                                        href="#"
                                     >
-                                        {{ file && file.name}}
+                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="m-widget17">
-                            <template v-if="pantoneColor && pantoneColor.title != 'CMYK'">
+                            <template v-if="step_pantoneColor && step_pantoneColor.title != 'CMYK'">
                                 <input
-                                    v-for="(count, index) in pantoneColor.countFields"
+                                    v-for="(count, index) in step_pantoneColor.countFields"
                                     type="text"
                                     class="form-control mt-2 mb-2"
                                     placeholder="Enter Pantone Color"
-                                    v-model="pantoneColor.colors[index]"
-                                    :disabled="! hasChange"
+                                    v-model="step_pantoneColor.colors[index]"
                                     :name="'color' + index"
                                     v-validate="'required'"
                                     @input="onChangePantoneColor"
                                 >
                             </template>
-
-                            <template v-if="pantoneColor && pantoneColor.title == 'CMYK'">
-                                <input
-                                    v-for="(color, index) in totalCmykColors"
-                                    type="text"
-                                    class="form-control mt-2 mb-2"
-                                    placeholder="Enter Pantone Color"
-                                    v-model="cmykColors[index]"
-                                    :name="'cmyk-color' + index"
-                                    v-validate="'required'"
-                                    @input="onChangeCMYKColor"
-                                >
-                            </template>
-
                             
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 Download our Design Template:
@@ -171,7 +157,7 @@
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-start">
                                 <label class="switch mb-0 mr-4">
-                                    <input type="checkbox" name="re-order" v-model="reOrder" :disabled="! hasChange">
+                                    <input type="checkbox" name="re-order" v-model="step_reOrder">
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="d-flex flex-column">
@@ -191,200 +177,99 @@
 <script>
     import upload from '../mixins/uploadFile';
     import ColorBtn from './ColorBtn';
+    import BtnFileUpload from '@/components/BtnFileUpload';
 
     export default {
         name: 'skateboard-decks-step-8',
+        mixins: [upload],
         props: {
-            upload_url: {
+            uploadProgress: {
+                type: Number,
+                default: 0
+            },
+            designName: {
                 type: String,
-                required: true
+                default: ""
+            },
+            pantoneColor: {
+                type: [Object, String],
+                default: ""
+            },
+            reorder: {
+                type: Boolean,
+                default: false
             }
+
+        },
+        components: {
+            ColorBtn,
+            BtnFileUpload,
         },
         data() {
             return {
-                heatTransfers: [
-                    {
-                        "name": "111",
-                        "active": true
-                    },
-                    {
-                        "name": "22",
-                        "active": false
-                    },
-                    {
-                        "name": "333",
-                        "active": false
-                    },
-                ],
                 pantoneColors: [
                     {
                         "title": "1 Color",
                         "countFields": 1,
                         "colors": new Array(1).fill(null),
+                        "value": 90
                     },
                     {
                         "title": "2 Color",
                         "countFields": 2,
                         "colors": new Array(2).fill(null),
+                        "value": 180
                     },
                     {
                         "title": "3 Color",
                         "countFields": 3,
                         "colors": new Array(3).fill(null),
+                        "value": 270
+                    },
+                    {
+                        "title": "4 Color",
+                        "countFields": 4,
+                        "colors": new Array(4).fill(null),
+                        "value": 360
                     },
                     {
                         "title": "CMYK",
                         "countFields": 0,
                         "colors": new Array(4).fill(null),
+                        "value": 360
                     }
                 ],
                 smProgress: 0,
                 lgProgress: 0,
+                step_designName: this.designName,
+                step_pantoneColor: this.pantoneColor,
+                step_reOrder: this.reorder,
+
+
             }
         },
 
         methods: {
-            toggleHeatTransfer(heatTransfer) {
-                if (this.heatTransfer.name === heatTransfer.name) return;
-
-                this.heatTransfers.map(transfer => {
-                    transfer.active = transfer.name === heatTransfer.name;
-                });
-
-                this.$store.commit('TransfersConfigurator/setHeatTransfer', heatTransfer)
+            onChangePantoneColor(event){
+                this.$store.commit('BearingConfigurator/setPantoneColor', this.step_pantoneColor);
+	            this.$emit('pantoneColorChange', this.step_pantoneColor);
             },
-            readURL(input) {
-                if (input.files.length === 0) { return; }
-
-                let elMaxSize = input.dataset.maxSize;
-
-                if (elMaxSize) {
-                    elMaxSize = parseInt(elMaxSize);
-                    if (input.files[0].size > elMaxSize) {
-                        alert(`File must be less than ${(elMaxSize / 1000000)}mb.`);
-
-                        return false;
-                    }
-                }
-
-                let reader = new FileReader();
-
-                reader.onload = function(e) {
-                    document.getElementById('designPreview').setAttribute('src', e.target.result)
-                };
-
-                reader.readAsDataURL(input.files[0]);
-
-                return true;
+            onDesignNameChange(event){
+                this.$store.commit('BearingConfigurator/setDesignName', this.step_designName);
+	            this.$emit('designNameChange', this.step_designName);
             },
-            uploadFile(event, type = 'lg') {
-                // Check auth
-
-                if (type === 'sm') {
-                    if (! this.readURL(event.target)) {
-                        return false;
-                    }
-                }
-
-                // Check empty file
-                if (event.target.files.length === 0) {
-                    this[type + 'Preview'] = null;
-
-                    return false;
-                }
-                let formData = new FormData();
-                let file = event.target.files[0];
-
-                formData.append('typeUpload', event.target.dataset.typeUpload);
-                formData.append('fileName', file ? file.name : '');
-                formData.append('file', file);
-
-                let options = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress:  progressEvent => {
-                        this[type + 'Progress'] = parseInt(Math.round( (progressEvent.loaded * 100 ) / progressEvent.total));
-                    }
-                };
-
-                axios.post(this.upload_url, formData, options)
-                    .then(response => response.data)
-                    .then(response => {
-                        this[type + 'Preview'] = response;
-
-                        this.$nextTick(() => {
-                            this.renderPreview(response, type);
-                        });
-
-                        this.$notify({
-                            group: 'main',
-                            type: 'success',
-                            title: 'Upload file',
-                            text: "File uploaded successfully"
-                        });
-                    })
-                    .catch(error => {
-                        this.$nextTick(() => {
-                            let choosenInput = document.getElementById(type + '-preview');
-                            choosenInput.nextElementSibling.classList.add("unchecked");
-                        });
-
-                        this[type + 'Preview'] = null;
-
-                        this.$notify({
-                            group: 'main',
-                            type: 'error',
-                            title: 'Upload file',
-                            text: "File upload error"
-                        });
-                    })
-                    .finally(() => {
-                        setTimeout(() => {
-                            this[type + 'Progress'] = 0;
-                        }, 1000)
-                    });
-            },
-            renderPreview(content, type = 'lg') {
-                let choosenInput = document.getElementById(type + '-preview');
-
-                if (! choosenInput) {
-                    return;
-                }
-
-                this.$nextTick(() => {
-                    choosenInput.nextElementSibling.innerHTML = content;
-                    choosenInput.nextElementSibling.classList.remove("unchecked");
-                    choosenInput.nextElementSibling.classList.add("checked");
-                    document.getElementById(type + '-recent').innerHTML = content;
-                });
-            },
-            onChangePantoneColor: _.debounce(function (e) {
-                this.$store.commit('TransfersConfigurator/setPantoneColor', this.pantoneColor);
-            }, 1000),
-            onChangeCMYKColor: _.debounce(function (e) {
-                this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
-            }, 1000)
+            onReorderChange(event){
+                this.$store.commit('BearingConfigurator/setReorder', this.step_reOrder);
+	            this.$emit('reorderChange', this.step_reOrder);
+            }
         },
         computed: {
             totalCmykColors() {
                 let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
 
-                if (this.transparency) {
-                    colors.push('Transparency');
-                }
-
                 this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
 
-                return this.pantoneColor.countFields + 4 + +this.transparency;
-            },
-            designName: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getDesignName'];
-                },
-                set: _.debounce(function (newVal) {
-                    this.$store.commit('TransfersConfigurator/setDesignName', newVal);
-                }, 1000)
+                return this.pantoneColor.countFields + 4;
             },
             CMYK: {
                 get() {
@@ -401,60 +286,6 @@
                 set: _.debounce(function (newVal) {
                     this.$store.commit('TransfersConfigurator/setCMYKColors', newVal);
                 }, 1000)
-            },
-            transparency: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getTransparency'];
-                },
-                set: _.debounce(function (newVal) {
-                    this.$store.commit('TransfersConfigurator/setTransparency', newVal);
-                }, 1000)
-            },
-            pantoneColor: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getPantoneColor'];
-                },
-                set(newVal) {
-                    this.$store.commit('TransfersConfigurator/setPantoneColor', newVal);
-                }
-            },
-            smPreview: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getSmallPreview'];
-                },
-                set(newVal) {
-                    this.$store.commit('TransfersConfigurator/setSmallPreview', newVal);
-                }
-            },
-            lgPreview: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getLargePreview'];
-                },
-                set(newVal) {
-                    this.$store.commit('TransfersConfigurator/setLargePreview', newVal);
-                }
-            },
-            reOrder: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getReOrder'];
-                },
-                set(newVal) {
-                    this.$store.commit('TransfersConfigurator/setReOrder', newVal);
-                }
-            },
-            recentFiles() {
-                return this.$store.getters['TransfersConfigurator/getRecentFiles'];
-            },
-            hasChange() {
-                return this.$store.getters['TransfersConfigurator/hasChange'];
-            },
-            heatTransfer: {
-                get() {
-                    return this.$store.getters['TransfersConfigurator/getHeatTransfer'];
-                },
-                set(newVal) {
-                    this.$store.commit('TransfersConfigurator/setHeatTransfer', newVal);
-                }
             }
         },
         mounted() {
@@ -465,27 +296,15 @@
 
             // Listen change select with color types
             queryPantoneColor.on('select2:select', (e) => {
-                this.pantoneColor = this.pantoneColors[e.params.data.id];
+                this.step_pantoneColor = this.pantoneColors[e.params.data.id];
+                this.onChangePantoneColor();
             });
 
-            if (! this.pantoneColor) {
-                this.pantoneColor = this.pantoneColors[0];
-                queryPantoneColor.val(0).trigger('change');
-            }
-
-            if (! this.heatTransfer) {
-                this.heatTransfer = this.heatTransfers[0];
-            }
-
-            // Preselect small preview
-            if (this.smPreview) {
-                this.renderPreview(this.smPreview, 'sm');
-            }
-
-            // Preselect large preview
-            if (this.lgPreview) {
-                this.renderPreview(this.lgPreview, 'lg');
-            }
+            // if (! this.step_pantoneColor) {
+            //     this.step_pantoneColor = this.pantoneColors[0];
+            //     queryPantoneColor.val(0).trigger('change');
+            //     this.onChangePantoneColor();
+            // }
         }
     }
 </script>

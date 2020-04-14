@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
 use App\Models\Wheel\Wheel;
-use App\Models\{Order, GripTape, Session};
+use App\Models\{Order, GripTape, Session, Bearing};
 use App\Jobs\RecalculateOrders;
 use App\Models\PaidFile;
 class BearingController extends Controller
@@ -86,9 +86,9 @@ class BearingController extends Controller
     {
     	$payload = $request->all();
         $payload['saved_batch'] = 0;
-        $wheel =  Wheel::query()->create($payload);
+        $bearing =  Bearing::query()->create($payload);
         
-        Session::insert(['action' => Session\Enum\Type::SAVE_WHEEL, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $wheel->wheel_id, 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::SAVE_BEARING, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $bearing->id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 

@@ -59,7 +59,7 @@
                                     
                                     <!-- Step 1 -->
                                     <skateboard-decks-step-1
-                                        :quantity="quantity"
+                                        :quantity="quantityob"
                                         :material="material"
                                         @quantityChange="quantityChange"
                                         @materialChange="materialChange"
@@ -84,11 +84,9 @@
                                         :uploadProgress="steps.racePrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.racePrint.state = val;
-                                            steps.racePrint.state ? steps.racePrint.selectpaid ? price = price : price += prices.racePrint : steps.racePrint.selectpaid ? price = price : price -= prices.racePrint ;
                                         }"
                                         @selectpaidChange="(val) => {
                                             steps.racePrint.selectpaid = val;
-                                            steps.racePrint.state ? steps.racePrint.selectpaid ? price -= prices.racePrint : price += prices.racePrint : price = price;
                                         }"
                                         @fileChange="(val) => {steps.racePrint.file = val}"
                                         @colorChange="(val) => {steps.racePrint.color = val}"
@@ -99,21 +97,20 @@
                                     <!-- Step 4 -->
                                     <skateboard-decks-step-4
                                         :shield="steps.shield"
-                                        :options="steps.shieldBrand"
+                                        :shieldbrand="steps.shieldBrand"
+                                        :options="steps.shieldBrandPrint"
                                         @shieldChange="shieldChange"
                                         @shieldBrandChange="shieldBrandChange"
                                         :files="filenames.top"
-                                        :uploadProgress="steps.shieldBrand.uploadProgress"
+                                        :uploadProgress="steps.shieldBrandPrint.uploadProgress"
                                         @stateChange="(val) => {
-                                            steps.shieldBrand.state = val;
-                                            steps.shieldBrand.state ? steps.shieldBrand.selectpaid ? price = price : price += prices.shieldBrand : steps.shieldBrand.selectpaid ? price = price : price -= prices.shieldBrand ;
+                                            steps.shieldBrandPrint.state = val;
                                         }"
                                         @selectpaidChange="(val) => {
-                                            steps.shieldBrand.selectpaid = val;
-                                            steps.shieldBrand.state ? steps.shieldBrand.selectpaid ? price -= prices.shieldBrand : price += prices.shieldBrand : price = price;
+                                            steps.shieldBrandPrint.selectpaid = val;
                                         }"
-                                        @fileChange="(val) => {steps.shieldBrand.file = val}"
-                                        @colorChange="(val) => {steps.shieldBrand.color = val}"
+                                        @fileChange="(val) => {steps.shieldBrandPrint.file = val}"
+                                        @colorChange="(val) => {steps.shieldBrandPrint.color = val}"
                                         @prepareFile="(e) => { stepUpload = 4; uploadFile(e); }"
 
                                     />
@@ -144,20 +141,25 @@
 
                                     <!-- Step 8 -->
                                     <skateboard-decks-step-8
-                                        :options="steps.backpaperPrint"
-                                        :files="filenames.backpaper" 
-                                        :uploadProgress="steps.backpaperPrint.uploadProgress"
+                                        :options="steps.pantonePrint"
+                                        :files="filenames.pantone"
+                                        :designName="steps.designName"
+                                        :reorder="steps.reorder"
+                                        :pantoneColor="steps.pantoneColor"
+                                        :uploadProgress="steps.pantonePrint.uploadProgress"
                                         :upload_url="upload_url"
+                                        @pantoneColorChange="pantoneColorChange"
+                                        @designNameChange="designNameChange"
+                                        @reorderChange="reorderChange"
+                                        
                                         @stateChange="(val) => {
-                                            steps.backpaperPrint.state = val;
-                                            steps.backpaperPrint.state ? steps.backpaperPrint.selectpaid ? price = price : price += prices.backpaperPrint : steps.backpaperPrint.selectpaid ? price = price : price -= prices.backpaperPrint ;
+                                            steps.pantonePrint.state = val;
                                         }"
                                         @selectpaidChange="(val) => {
-                                            steps.backpaperPrint.selectpaid = val;
-                                            steps.backpaperPrint.state ? steps.backpaperPrint.selectpaid ? price -= prices.backpaperPrint : price += prices.backpaperPrint : price = price;
+                                            steps.pantonePrint.selectpaid = val;
                                         }"
-                                        @fileChange="(val) => {steps.backpaperPrint.file = val}"
-                                        @colorChange="(val) => {steps.backpaperPrint.color = val}"
+                                        @fileChange="(val) => {steps.pantonePrint.file = val}"
+                                        @colorChange="(val) => {steps.pantonePrint.color = val}"
                                         @prepareFile="(e) => { stepUpload = 8; uploadFile(e); }"
                                     />
 
@@ -354,12 +356,14 @@
         data() {
             return {
                 id: "",
-	            quantity: 0,
+	            quantity: null,
+                quantityob: null,
 	            material: null,
                 abec: null,
                 race: null,
                 retainer: null,
                 shield: null,
+                shieldBrand: null,
                 spamaterial: null,
                 spacolor: null,
                 packfirst: null,
@@ -372,6 +376,9 @@
                 fileName: '',
                 file: null,
                 typeUpload: '',
+                designName: '',
+                reorder: false,
+                pantoneColor: '',
                 stepUpload: null,
                 headLinks: [
                     {name: 'Home', href: '/'},
@@ -381,12 +388,13 @@
                     grit:            {state: false},
                     perforation:     {state: false},
                     racePrint:       {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
-                    shieldBrand:     {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    shieldBrandPrint:{state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     dieCut:          {state: false, file: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     coloredGriptape: {color: null},
                     backpaper:       {state: false},
                     backpaperPrint:  {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     cartonPrint:     {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    pantonePrint:    {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                 }
             }
         },
@@ -418,10 +426,8 @@
                 let step = null;
                 switch(this.stepUpload) {
                     case 3: step = 'racePrint'; break;
-                    case 4: step = 'shieldBrand'; break;
-                    case 5: step = 'dieCut'; break;
-                    case 8: step = 'backpaperPrint'; break;
-                    case 9: step = 'cartonPrint'; break;
+                    case 4: step = 'shieldBrandPrint'; break;
+                    case 8: step = 'pantonePrint'; break;
                 }
 
                 let input = document.getElementById('step-'+ this.stepUpload +'-upload');
@@ -482,17 +488,18 @@
                 if (this.material) {
 
                     this.price = this.material.value + this.additionalCost
-                        + (this.steps.grit.state ? this.prices.grit : 0) // Grit
-                        + (this.steps.perforation.state ? this.prices.perforation : 0) // Perforation
-                        + (this.steps.racePrint.state ? this.prices.racePrint : 0) // Top Print
-                        + (this.steps.shieldBrand.state ? this.prices.shieldBrand : 0) // Die Cut
-                        + (this.steps.coloredGriptape.color && this.steps.coloredGriptape.color.name !== 'black' 
-                            ? this.prices.coloredGriptape
-                            : 0
-                        ) // Colored Griptape
-                        // + (this.steps.backpaper.state ? 0.0 : 0) // Backpaper
-                         + (this.steps.backpaperPrint.state ? this.prices.backpaperPrint : 0) // Backpaper Print
-                         + (this.steps.cartonPrint.state ? this.prices.cartonPrint : 0) // Carton Print
+                        + (this.abec ? this.abec.value : 0)
+                        + (this.race ? this.race.value : 0)
+                        + (this.shield ? this.shield.value : 0)
+                        + (this.shieldbrand ? this.shieldbrand.value : 0)
+                        + (this.retainer ? this.retainer.value : 0)
+                        + (this.spamaterial ? this.spamaterial.value : 0)
+                        + (this.spacolor ? this.spacolor.value : 0)
+                        + (this.brandfirst ? this.brandfirst.value : 0)
+                        + (this.packfirst ? this.packfirst.value : 0)
+                        + (this.packsecond ? this.packsecond.value : 0)
+                        + (this.brandsecond ? this.brandsecond.value : 0)
+                        + (this.pantoneColor ? this.pantoneColor.value : 0)
                 } else {
                     this.price = 0;
                 }
@@ -500,6 +507,7 @@
             quantityChange(quantity) {
                 // set new quantity
                 this.quantity = quantity.value;
+                this.quantityob = quantity;
                 // recalculate total
                 this.calculateTotal();
 
@@ -542,36 +550,69 @@
             },
             abecChange(abec) {
                 this.abec = abec;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             raceChange(race) {
                 this.race = race;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             shieldChange(shield) {
                 this.shield = shield;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             shieldBrandChange(shieldbrand) {
-                this.shieldbrand = shieldbrand;
+                this.shieldBrand = shieldbrand;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             retainerChange(retainer) {
                 this.retainer = retainer;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             spamaterialChange(spamaterial) {
                 this.spamaterial = spamaterial;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             spacolorChange(spacolor) {
                 this.spacolor = spacolor;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             brandfirstChange(brandfirst) {
                 this.brandfirst = brandfirst;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             packfirstChange(packfirst) {
                 this.packfirst = packfirst;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             packsecondChange(packsecond) {
                 this.packsecond = packsecond;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             brandsecondChange(brandsecond) {
                 this.brandsecond = brandsecond;
+                this.calculateTotal();
+                this.calculatePrice();
+            },
+            designNameChange(designName) {
+                this.designName = designName;
+            },
+            reorderChange(reorder){
+                this.reorder = reorder
+            },
+            pantoneColorChange(pantoneColor){
+                this.pantoneColor = pantoneColor;
+                this.calculateTotal();
+                this.calculatePrice();
             },
             nextStep(){
                 this.$store.commit('changeStep', ++this.currentStep);
@@ -580,6 +621,8 @@
                 this.$store.commit('changeStep', --this.currentStep);
             },
             save(event) {
+
+                debugger;
 
                 if (this.quantity <= 0) {
                     alert("Product quantity may not be 0. Please check your quantities.");
@@ -595,51 +638,29 @@
                 formData.append('abec', this.abec.name);
                 formData.append('race', this.race.name);
                 formData.append('retainer', this.retainer.name);
+                formData.append('shield', this.shield.name);
+                formData.append('shield_brand', this.shieldBrand.name);
                 formData.append('spamaterial', this.spamaterial.name);
                 formData.append('spacolor', this.spacolor.name);
                 formData.append('packfirst', this.packfirst.name);
                 formData.append('brandfirst', this.brandfirst.name);
                 formData.append('packsecond', this.packsecond.name);
                 formData.append('brandsecond', this.brandsecond.name);
-                formData.append('grit', this.steps.grit.state ? 'HS780': 'OS780');
-                formData.append('perforation', this.steps.perforation.state ? 1 : 0);
-
+                formData.append('designname', this.designName);
+                formData.append('pantone_color', JSON.stringify(this.pantoneColor));
+                formData.append('designname', this.designName);
                 formData.append('race_print', this.steps.racePrint.state 
                     && this.steps.racePrint.file ? this.steps.racePrint.file : "");
-
-                formData.append('race_print_color',this.steps.racePrint.state 
-                    && this.steps.racePrint.color ? this.steps.racePrint.color : "");
-
-
-                formData.append('shield_print', this.steps.shieldBrand.state 
-                    && this.steps.shieldBrand.file ? this.steps.shieldBrand.file : "");
-
-                formData.append('shield_print_color',this.steps.shieldBrand.state 
-                    && this.steps.shieldBrand.color ? this.steps.shieldBrand.color : "");
-
-                
-
-                formData.append('die_cut',this.steps.dieCut.state ? this.steps.dieCut.file : "");
-                formData.append('color', this.steps.coloredGriptape.color 
-                    ? this.steps.coloredGriptape.color.name : 'black');
-
-                formData.append('backpaper',this.steps.backpaper.state ? 'White' : 'Brown');
-                formData.append('backpaper_print', this.steps.backpaperPrint.state 
-                    && this.steps.backpaperPrint.file ? this.steps.backpaperPrint.file : "");
-
-                formData.append('backpaper_print_color',this.steps.backpaperPrint.state 
-                    && this.steps.backpaperPrint.color ? this.steps.backpaperPrint.color : "");
-
-                formData.append('carton_print',this.steps.cartonPrint.state 
-                    && this.steps.cartonPrint.file ? this.steps.cartonPrint.file : "");
-
-                formData.append('carton_print_color',this.steps.cartonPrint.state 
-                    && this.steps.cartonPrint.color ? this.steps.cartonPrint.color : "");
-
+                formData.append('shield_brand_print', this.steps.shieldBrandPrint.state 
+                    && this.steps.shieldBrandPrint.file ? this.steps.shieldBrandPrint.file : "");
+                formData.append('shield_brand_color',this.steps.shieldBrandPrint.state 
+                    && this.steps.shieldBrandPrint.color ? this.steps.shieldBrandPrint.color : "");
+                formData.append('pantone_print',this.steps.pantonePrint.state 
+                    && this.steps.pantonePrint.file ? this.steps.pantonePrint.file : "");
                 formData.append('price', this.price);
                 formData.append('total', this.total);
                 
-                axios.post('/grip-tape-configurator', formData)
+                axios.post('/bearing-configurator', formData)
                     .then((response) => {
                         setTimeout(() => {
                             window.location.href = "/summary";

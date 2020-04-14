@@ -228,6 +228,10 @@
             shield: {
                 type: [Object, String],
                 default: ""
+            },
+            shieldbrand: {
+                type: [Object, String],
+                default: ""
             }
         },
         components: {
@@ -240,16 +244,16 @@
                 step_shield: null,
                 step_shieldbrand: null,
                 shields: [
-                    {name: 'Metal', value: 1},
-                    {name: 'Black Rubber', value: 2},
-                    {name: 'Custom Color Rubber', value: 3},
+                    {name: 'Metal Shield', value: 0},
+                    {name: 'Black Rubber Shield', value: 0.05},
+                    {name: 'Red Rubber Shield', value: 0.19},
+                    {name: 'Custom Color Rubber Shield', value: 0.24},
                 ],
                 shieldBrands: [
-                    {name: 'No Shield Branding', value: 1},
-                    {name: 'Engraving', value: 1},
-                    {name: 'Emboss', value: 1},
-                    {name: '1 Color Print', value: 1},
-                    {name: '2 Color Print', value: 1},
+                    {name: 'No Shield Branding', value: 0},
+                    {name: 'Emboss', value: 0.18},
+                    {name: '1 Color Print', value: 0.18},
+                    {name: '2 Color Print', value: 0.32},
 
                 ]
             }
@@ -261,7 +265,7 @@
         },
         methods: {
 	        shieldChange(event) {
-                this.$store.commit('BearingConfigurator/setshield', this.step_shield);
+                this.$store.commit('BearingConfigurator/setShield', this.step_shield);
 	            this.$emit('shieldChange', this.step_shield);
 	        },
             shieldBrandChange(event) {
@@ -277,6 +281,9 @@
                 }
                 else
                     $('.shieldbrand-files').hide();
+                
+                this.$store.commit('BearingConfigurator/setShieldBrand', this.step_shieldbrand);
+	            this.$emit('shieldBrandChange', this.step_shieldbrand);
             }
 		},
         created() {

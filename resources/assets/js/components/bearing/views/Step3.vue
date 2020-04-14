@@ -54,7 +54,7 @@
                                         data-type-upload="race"
                                         class="custom-file-input"
                                         data-step="racePrint"
-                                        id="step-4-upload"
+                                        id="step-3-upload"
                                         @click="step_options.state = true"
                                         @change.prevent="prepareFile"
                                     >
@@ -82,7 +82,7 @@
                                 <button 
                                     class="btn btn-secondary dropdown-toggle" 
                                     type="button" 
-                                    id="step-4-recent" 
+                                    id="step-3-recent" 
                                     data-toggle="dropdown" 
                                     aria-haspopup="true" 
                                     aria-expanded="false" 
@@ -94,7 +94,7 @@
                                 >
                                     {{ step_options.file ? step_options.file : 'Recent file' }}
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="step-4-recent">
+                                <div class="dropdown-menu" aria-labelledby="step-3-recent">
                                     <a 
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
@@ -204,13 +204,14 @@
                 step_retainer: null,
                 step_raceprint: null,
                 retainers: [
-                    {name: 'Black SB-Flex Retainer', value: 1},
-                    {name: 'White SB-Flex Retainer', value: 2},
-                    {name: 'Neon Green SB-Flex Retainer', value: 3},
+                    {name: 'Brown SB-Flex Retainer', value: 0},
+                    {name: 'Black SB-Flex Retainer', value: 0.15},
+                    {name: 'White SB-Flex Retainer', value: 0.15},
+                    {name: 'Neon Green SB-Flex Retainer', value: 0.15},
                 ],
                 racePrints: [
-                    {name: 'Blank Races', value: 1},
-                    {name: 'Engraved Races', value: 2},
+                    {name: 'Blank Races', value: 0},
+                    {name: 'Engraved Races', value: 0.29},
                 ]
             }
         },
@@ -226,6 +227,14 @@
 	        },
             raceprintChange(event) {
                 this.step_options.state = !this.step_options.state;
+
+                if(this.step_raceprint && typeof this.step_raceprint === 'object') {
+                    switch(this.step_raceprint.name) {
+                        case 'Blank Races': this.step_options.state = false; break;
+                        default: this.step_options.state = true; break;
+                    }
+                }
+
                 if(this.step_options.state){
                     $('.raceprint-files').show();
                 }

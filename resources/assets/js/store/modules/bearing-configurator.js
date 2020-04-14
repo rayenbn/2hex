@@ -1,8 +1,18 @@
 export default {
     namespaced: true,
     state: {
-        quantity: 0,
-        material: null
+        quantity: null,
+        material: null,
+        abec: null,
+        race: null,
+        shield: null,
+        spamaterial: null,
+        step_spacolor: null,
+        step_packfirst: null,
+        step_brandfirst: null,
+        step_packsecond: null,
+        step_packthird: null,
+        step_brandsecond: null,
     },
     getters: {
         getBearingQuantity: state => state.quantity,
@@ -17,7 +27,7 @@ export default {
             state.quantity = payload;
         },
         setMaterial(state, payload) {
-            state.size = payload;
+            state.material = payload;
         },
         setAbec(state, payload) {
             state.abec = payload;
@@ -27,6 +37,12 @@ export default {
         },
         setRetainer(state, payload) {
             state.retainer = payload;
+        },
+        setShield(state, payload) {
+            state.shield = payload;
+        },
+        setShieldBrand(state, payload) {
+            state.shieldbrand = payload;
         },
         setSpamaterial(state, payload) {
             state.spamaterial = payload;
@@ -49,6 +65,15 @@ export default {
         setBrandsecond(state, payload) {
             state.step_brandsecond = payload;
         },
+        setDesignName(state, payload) {
+            state.step_designName = payload;
+        },
+        setReorder(state, payload){
+            state.step_reorder = payload;
+        },
+        setPantoneColor(state, payload){
+            state.step_pantoneColor = payload;
+        }
     },
     actions: {}
 };

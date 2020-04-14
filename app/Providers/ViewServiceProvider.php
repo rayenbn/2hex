@@ -19,7 +19,8 @@ class ViewServiceProvider extends ServiceProvider
             $view
                 ->with('orders',  \App\Models\Order::auth()->get())
                 ->with('grips',  \App\Models\GripTape::auth()->get())
-                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
+                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                ->with('bearings', \App\Models\Bearing::auth()->get());
         });
         
         // View::composer(

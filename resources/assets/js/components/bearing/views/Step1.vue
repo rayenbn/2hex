@@ -119,7 +119,7 @@
         props: {
             quantity: {
                 type: [Object, String],
-                default: 0
+                default: ""
             },
             material: {
                 type: [Object, String],
@@ -145,11 +145,11 @@
                     {name: '10000 Set', value: 10000}
                 ],
                 materials: [
-                    {name: 'Carbon Balls', value: 0.65},
-                    {name: 'Chrome Balls', value: 0.96},
-                    {name: 'Stainless Steel Balls', value: 1.92},
-                    {name: 'White Cerami', value: 4.28},
-                    {name: 'Black Ceramic Balls', value: 6.20},
+                    {name: 'Carbon Balls', value: 0.82},
+                    {name: 'Chrome Balls', value: 1.11},
+                    {name: 'Stainless Steel Balls', value: 2.57},
+                    {name: 'White Cerami', value: 5.65},
+                    {name: 'Black Ceramic Balls', value: 8.07},
                 ],
 			}
 		},

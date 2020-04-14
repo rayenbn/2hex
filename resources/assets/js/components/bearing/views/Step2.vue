@@ -135,13 +135,14 @@
                     {name: 'Abec3', value: 0},
                     {name: 'Abec5', value: 0.04},
                     {name: 'Abec7', value: 0.08},
-                    {name: 'Abec9', value: 0.12}
+                    {name: 'Abec9', value: 0.32}
                 ],
                 races: [
-                    {name: 'Silver Races', value: 0.1},
-                    {name: 'Black Races', value: 0.2},
-                    {name: 'Gold Races', value: 0.52},
-                    {name: 'Rainbow Races', value: 1.1}
+                    {name: 'Silver Races', value: 0},
+                    {name: 'Black Races', value: 0.21},
+                    {name: 'Matte Gery Races', value: 0.43},
+                    {name: 'Gold Races', value: 1.25},
+                    {name: 'Rainbow Races', value: 2.79}
                 ],
 			}
 		},
