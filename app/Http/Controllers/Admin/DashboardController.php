@@ -1769,10 +1769,12 @@ class DashboardController extends Controller
         return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'signupByDays' => $signupByDays, 'activeDatas' => $activeDatas]);
     }
 
-    public function getUploadFiles(Request $request){
+    public function getUploadFiles(Request $request)
+    {
         $user = Auth::user();
         $startdate = date('Y-m-d',strtotime("-1 years"));
         $enddate = date('Y-m-d',strtotime("+1 days"));
+
         if ($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
@@ -1987,34 +1989,33 @@ class DashboardController extends Controller
         foreach ($transfers as $index => $transfer) {
             foreach ($transfer as $key => $value) {
 
-                if ($key === 'small_preview') {
+                if ($key !== 'small_preview') {continue;}
 
-                    $folder_name = 'transfers-small-preview';
-                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
-                    $down_path = '/' . 'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
-                    $size = 0;
+                $folder_name = 'transfers-small-preview';
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $down_path = '/' . 'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
+                $size = 0;
 
-                    if (\File::exists($path)) {
-                        $size = \File::size($path);
-                    }
-                    $totalsize += $size;
-                    $fees[$count] = [
-                        'image' => $value,
-                        'product' => 'Heat Transfer',
-                        'type' => 'Transfer Paper',
-                        'date' => $transfer['created_at'],
-                        'key' => $key,
-                        'id' => $transfer['id'],
-                        'path' => $down_path,
-                        'size' => $size,
-                        'color' => $transfer['cmyk']
-                            ? $transfer['colors_count'] - (int)$transfer['transparency']
-                            : $transfer['colors_count'],
-                        'created_by' => $transfer['created_by']
-                    ];
-
-                    $count++;
+                if (\File::exists($path)) {
+                    $size = \File::size($path);
                 }
+                $totalsize += $size;
+                $fees[$count] = [
+                    'image' => $value,
+                    'product' => 'Heat Transfer',
+                    'type' => 'Transfer Paper',
+                    'date' => $transfer['created_at'],
+                    'key' => $key,
+                    'id' => $transfer['id'],
+                    'path' => $down_path,
+                    'size' => $size,
+                    'color' => $transfer['cmyk']
+                        ? $transfer['colors_count'] - (int)$transfer['transparency']
+                        : $transfer['colors_count'],
+                    'created_by' => $transfer['created_by']
+                ];
+
+                $count++;
             }
         }
 

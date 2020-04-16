@@ -8,6 +8,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 /**
  * Class HeatTransfer
@@ -22,6 +23,9 @@ class HeatTransfer extends Batch
      */
     public function handle()
     {
+        /** @var \App\Models\Auth\User\User $authUser */
+        $authUser = auth()->user();
+
         if ($this->items->count() === 0) {
             return;
         }
@@ -53,7 +57,6 @@ class HeatTransfer extends Batch
         /** @var \Illuminate\Database\Eloquent\Collection $paiFiles */
         $paiFiles = PaidFile::query()
             ->whereIn('file_name', $this->items->pluck('small_preview'))
-            ->whereNotNull('date')
             ->get();
 
         /** @var \App\Models\HeatTransfer\HeatTransfer $item */
@@ -73,7 +76,15 @@ class HeatTransfer extends Batch
 
                 // Columns E, F, G
                 $this->worksheet->mergeCells(sprintf('E%s:G%s', $this->startRow, $this->startRow + 7));
-                $this->worksheet->setCellValue(sprintf('E%s', $this->startRow), $item->small_preview);
+
+                $drawing = new Drawing();
+                $drawing->setPath(sprintf('uploads/%s/transfers-small-preview/%s', $authUser->name, $item->small_preview));
+                $drawing->setWidth(200);
+                $drawing->setOffsetX(20);
+                $drawing->setOffsetY(20);
+                $drawing->setResizeProportional(true);
+                $drawing->setCoordinates('E'. $this->startRow);
+                $drawing->setWorksheet($this->worksheet);
 
                 // Column H
                 $this->worksheet->mergeCells(sprintf('H%s:H%s', $this->startRow, $endRange = $this->startRow + 3));
@@ -87,13 +98,19 @@ class HeatTransfer extends Batch
                 $this->worksheet->setCellValue(sprintf('I%s', $this->startRow), $item->small_preview);
                 $this->worksheet->setCellValue(sprintf('I%s', $endRange + 1), $item->large_preview);
 
+                // Column J
+                /** @var PaidFile|null $paidCodes */
+                $paidCodes = $paiFiles->where('file_name', $item->small_preview)->first();
+                $this->worksheet->mergeCells(sprintf('J%s:J%s', $this->startRow, $this->startRow + 7));
+                $this->worksheet->setCellValue(sprintf('J%s', $this->startRow), $paidCodes ? str_replace('.', "\n", $paidCodes->color_code) :'');
+
                 // Column K
                 $this->worksheet->mergeCells(sprintf('K%s:K%s', $this->startRow, $this->startRow + 7));
                 $this->worksheet->setCellValue(sprintf('K%s', $this->startRow), str_replace(';', "\n", $item->colors));
 
                 // Column L
                 /** @var PaidFile|null $itemPaidFile */
-                $itemPaidFile = $paiFiles->where('file_name', $item->small_preview)->first();
+                $itemPaidFile = $paiFiles->where('date', '!=', null)->where('file_name', $item->small_preview)->first();
 
                 $this->worksheet->mergeCells(sprintf('L%s:L%s', $this->startRow, $this->startRow + 7));
                 $this->worksheet->setCellValue(sprintf('L%s', $this->startRow), $itemPaidFile->date ?? 'New');
