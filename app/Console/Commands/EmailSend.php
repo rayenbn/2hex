@@ -44,12 +44,9 @@ class EmailSend extends Command
         $users = User::where('created_at','>','2020-04-12 00:00:00')->whereNotNull('confirmed_date')->get();
         foreach($users as $user){
             $date = strtotime($user['confirmed_date']);
-            $now = strtotime(date('Y-m-d h:i:s'));
+            $now = strtotime(date('Y-m-d H:i:s'));
 
             $difference = round(abs($now - $date) / 3600,2);
-            echo $difference;
-            echo $date;
-            echo $now;
             $type = 0;
             if($difference < 481 && $difference >= 480){
                 $type = 8;
