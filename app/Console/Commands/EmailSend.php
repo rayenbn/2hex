@@ -46,6 +46,7 @@ class EmailSend extends Command
             $date = strtotime($user['confirmed_date']);
             $now = strtotime(date('Y-m-d H:i:s'));
 
+
             $difference = abs($now - $date) / 3600;
             $type = 0;
             if($difference < 481 && $difference >= 480){
