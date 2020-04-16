@@ -25,11 +25,12 @@ class RecalculateOrders
         '11" x 720"' => 39,
     ];
 
-    public function __construct($orders, $griptapes, $wheels)
+    public function __construct($orders, $griptapes, $wheels, $bearings)
     {
         $this->orders = $orders;
         $this->griptapes = $griptapes;
         $this->wheels = $wheels;
+        $this->bearings = $bearings;
         $this->totalQuantity = $this->orders->sum('quantity');
     }
 
@@ -58,6 +59,8 @@ class RecalculateOrders
                 SELECT total, quantity FROM grip_tapes WHERE created_by = ? AND usenow = 1 AND submit = 0
                 UNION ALL
                 SELECT total, quantity FROM wheels WHERE created_by = ? AND usenow = 1 AND submit = 0
+                UNION ALL
+                SELECT total, quantity FROM bearings WHERE created_by = ? AND usenow = 1 AND submit = 0
             ) sumTable 
         '), $bindings)[0];
 

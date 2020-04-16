@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
 use App\Models\Wheel\Wheel;
-use App\Models\{Order, GripTape, Session};
+use App\Models\{Order, GripTape, Session, Bearing};
 use App\Jobs\RecalculateOrders;
 use App\Models\PaidFile;
 class WheelController extends Controller
@@ -92,7 +92,8 @@ class WheelController extends Controller
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 
                 GripTape::auth()->where('submit', 0)->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
         );
 
@@ -121,7 +122,8 @@ class WheelController extends Controller
             new RecalculateOrders(
                 Order::auth()->where('submit', 0)->get(), 
                 GripTape::auth()->where('submit', 0)->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
         );
 
@@ -208,11 +210,12 @@ class WheelController extends Controller
         Session::insert(['action' => Session\Enum\Type::DELETE_WHEEL, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
-                Order::auth()->get(), 
-                GripTape::auth()->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
-        );  
+        ); 
 
         return redirect()->route('summary');
     }

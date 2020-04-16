@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Order, GripTape, Session};
+use App\Models\{Order, GripTape, Session, Bearing};
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\RecalculateOrders;
 use App\Models\Wheel\Wheel;
@@ -83,9 +83,10 @@ class ConfiguratorController extends Controller
 
         dispatch(
             new RecalculateOrders(
-                Order::auth()->get(), 
-                GripTape::auth()->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
         );
 
@@ -193,9 +194,10 @@ class ConfiguratorController extends Controller
 
         dispatch(
             new RecalculateOrders(
-                Order::auth()->get(), 
-                GripTape::auth()->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
         );
 

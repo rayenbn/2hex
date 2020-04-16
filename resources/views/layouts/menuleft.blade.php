@@ -330,7 +330,7 @@
                 <a class="m-menu__link ">
                     <span></span>
                     @php 
-                        $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total'));
+                        $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total')) + $wheels->sum('total') + $bearings->sum('total');
                     @endphp
                     <span class="m-menu__link-text" id = "totalconprice">
                         USD TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}
