@@ -29,7 +29,7 @@ class ConfirmController extends Controller
     public function confirm(User $user)
     {
         $user->confirmed = true;
-        $user->confirmed_date = date('Y-m-d h:i:s');
+        $user->confirmed_date = date('Y-m-d H:i:s');
         $user->save();
 
         \Mail::to($user)->send(new AccountConfirmed());
