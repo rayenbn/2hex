@@ -67,7 +67,15 @@
             <td>{{$bearing->packsecond}}</td>
             <td>{{$bearing->brandsecond}}</td>
             <td>{{$bearing->designname}}</td>
-            <td>{{$bearing->pantone_color}}</td>
+            <td>
+                @php 
+                    $pantonecolors = json_decode($bearing->pantone_color, true);
+                @endphp
+                @foreach($pantonecolors['colors'] as $i => $pantonecolor)
+                    <p>Color{{($i+1).': '.$pantonecolor}}</p>
+                @endforeach
+                
+            </td>
             <td @if(isset($fees['pantone_print'][$bearing->pantone_print]['paid']) && $fees['pantone_print'][$bearing->pantone_print]['paid'] == 1) class="paid" @endif>
                 {{$bearing->pantone_print ?? ''}}<br>
             </td>

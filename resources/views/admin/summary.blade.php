@@ -119,6 +119,10 @@
 								@include('partials.wheels', ['wheels1' => $returnwheel, 'fees' => $fees])
 							@endif
 
+							@if(count($returnbearing) > 0)
+								@include('partials.bearings', ['bearings1' => $returnbearing, 'fees' => $fees])
+							@endif
+
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
 									<td colspan="3">Fixed Cost</td>
