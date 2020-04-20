@@ -96,8 +96,8 @@
 
                                     <!-- Step 4 -->
                                     <skateboard-decks-step-4
-                                        :shield="steps.shield"
-                                        :shieldbrand="steps.shieldBrand"
+                                        :shield="shield"
+                                        :shieldbrand="shieldBrand"
                                         :options="steps.shieldBrandPrint"
                                         @shieldChange="shieldChange"
                                         @shieldBrandChange="shieldBrandChange"
@@ -143,9 +143,9 @@
                                     <skateboard-decks-step-8
                                         :options="steps.pantonePrint"
                                         :files="filenames.pantone"
-                                        :designName="steps.designName"
-                                        :reorder="steps.reorder"
-                                        :pantoneColor="steps.pantoneColor"
+                                        :designName="designName"
+                                        :reorder="reorder"
+                                        :pantoneColor="pantoneColor"
                                         :uploadProgress="steps.pantonePrint.uploadProgress"
                                         :upload_url="upload_url"
                                         @pantoneColorChange="pantoneColorChange"

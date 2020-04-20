@@ -40,6 +40,7 @@
                                 <option 
                                     :value="packsecond" 
                                     v-for="(packsecond, index) in packseconds" 
+                                    v-if="packsecond.name == 'No added cardboard' || prev_quantity >= 1000"
                                     :key="index"
                                 >
                                     {{ packsecond.name }}
@@ -132,7 +133,7 @@
 				step_packsecond: this.packsecond,
 				step_brandsecond: this.brandsecond,
                 packseconds: [
-                    {name: 'No added cardboard ', value: 0},
+                    {name: 'No added cardboard', value: 0},
                     {name: 'Cardboard sleeve around packaging', value: 0.45},
                     {name: 'Cardboard box around packaging', value: 0.69}
                 ],
@@ -166,6 +167,11 @@
                     }
                 }
                 return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+            },
+            prev_quantity: {
+                get() {
+                    return this.$store.getters['BearingConfigurator/getBearingQuantity'];
+                }
             }
         },
         created() {

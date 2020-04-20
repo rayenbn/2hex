@@ -40,6 +40,7 @@
                                 <option 
                                     :value="packfirst" 
                                     v-for="(packfirst, index) in packfirsts" 
+                                    v-if="packfirst.name != 'Custom Cardboard Box' || prev_quantity >= 1000"
                                     :key="index"
                                 >
                                     {{ packfirst.name }}
@@ -179,6 +180,11 @@
                     }
                 }
                 return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+            },
+            prev_quantity: {
+                get() {
+                    return this.$store.getters['BearingConfigurator/getBearingQuantity'];
+                }
             }
         },
         created() {

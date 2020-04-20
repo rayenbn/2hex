@@ -41,12 +41,24 @@
                                 <option 
                                     :value="shield" 
                                     v-for="(shield, index) in shields" 
+                                    v-if="shield.name != 'Custom Color Rubber Shield' || prev_quantity >= 2500"
                                     :key="index"
                                 >
                                     {{ shield.name }}
                                 </option>
                        
                             </select>
+                            <br/>
+                            <br/>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="shieldColor"
+                                placeholder="Enter Panthone Color"
+                                v-if="step_shield && step_shield.name == 'Custom Color Rubber Shield'"
+                                v-validate="'required'"
+                                @input="onShieldColorChange"
+                            >
 
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Shields Material</h3>
@@ -96,12 +108,14 @@
                                 <option 
                                     :value="shieldbrand" 
                                     v-for="(shieldbrand, index) in shieldBrands" 
+                                    v-if="shieldbrand.name != 'Metal Shields' || shieldbrand.name == 'No Shield Branding'"
                                     :key="index"
                                 >
                                     {{ shieldbrand.name }}
                                 </option>
                         
                             </select>
+
                             <div class="form-group m-form__group shieldbrand-files">
                                 <div></div>
                                 <div class="custom-file">
@@ -164,7 +178,7 @@
                             <br>
                             <color-btn 
                                 :color="step_color" 
-                                labelledby="step-4-colors"
+                                labelledby="step- 4-colors"
                                 @colorChange="(val) => step_color = val"
                                 v-if="!step_options.dropdisable"
                             >
@@ -198,6 +212,28 @@
                             >
                                 {{ step_color ? step_color : 'How many colors are in your design?' }}
                             </button>
+                            <br/>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="shieldBrandColor1"
+                                placeholder="Enter Panthone Color"
+                                v-if="step_shieldbrand && (step_shieldbrand.name == '1 Color Print' || step_shieldbrand.name == '2 Color Print')"
+                                v-validate="'required'"
+                                @input="onShieldColorChange"
+                            >
+                            <br/>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="shieldBrandColor2"
+                                placeholder="Enter Panthone Color"
+                                v-if="step_shieldbrand && step_shieldbrand.name == '2 Color Print'"
+                                v-validate="'required'"
+                                @input="onShieldColorChange"
+                            >
+
+
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Shield Branding</h3>
                                 2HEX uses thin but opaque ink to print on griptapes. This keeps the grip while not compromising on print quality. The top of a griptape is the most visible part of a skateboard. If you want your brand name seen, this is the spot to print it!
@@ -232,6 +268,10 @@
             shieldbrand: {
                 type: [Object, String],
                 default: ""
+            },
+            quantity: {
+                type: [Object, String],
+                default: ""
             }
         },
         components: {
@@ -241,8 +281,9 @@
         data() {
             return {
                 step_color: null,
-                step_shield: null,
-                step_shieldbrand: null,
+                step_shield: this.shield,
+                step_shieldbrand: this.shieldbrand,
+                step_quantity: this.quantity,
                 shields: [
                     {name: 'Metal Shield', value: 0},
                     {name: 'Black Rubber Shield', value: 0.05},
@@ -284,6 +325,9 @@
                 
                 this.$store.commit('BearingConfigurator/setShieldBrand', this.step_shieldbrand);
 	            this.$emit('shieldBrandChange', this.step_shieldbrand);
+            },
+            onShieldColorChange(event) {
+
             }
 		},
         created() {
@@ -308,7 +352,7 @@
             });
             if(this.step_options.state)
                 $('.shieldbrand-files').show();
-            
+
             else
                 $('.shieldbrand-files').hide();
         },
@@ -323,6 +367,11 @@
                     }
                 }
                 return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+            },
+            prev_quantity: {
+                get() {
+                    return this.$store.getters['BearingConfigurator/getBearingQuantity'];
+                }
             }
         },
     }
