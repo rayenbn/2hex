@@ -81,6 +81,7 @@
                                         class="custom-file-input"
                                         data-step="pantonePrint"
                                         id="step-8-upload"
+                                        v-validate="'required'"
                                         @click="step_options.state = true"
                                         @change.prevent="prepareFile"
                                     >

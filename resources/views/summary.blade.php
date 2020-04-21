@@ -169,13 +169,15 @@
 
                             @foreach($fees as $key => $group)
                             	@foreach($group as $k => $value)
-									<tr @isset($value['paid']) class="paid" @endif>
-										<td colspan="3">{{ $value['type'] }}</td>
-										<td colspan="3">{{ $value['batches'] }}</td>
-										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-										<td colspan="5">{{ $value['image'] }}</td>
-										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
-									</tr>
+									@if($value['price'] != 0)
+										<tr @isset($value['paid']) class="paid" @endif>
+											<td colspan="3">{{ $value['type'] }}</td>
+											<td colspan="3">{{ $value['batches'] }}</td>
+											<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
+											<td colspan="5">{{ $value['image'] }}</td>
+											<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+										</tr>
+									@endif
                             	@endforeach
 							@endforeach
 

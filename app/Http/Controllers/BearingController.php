@@ -86,7 +86,14 @@ class BearingController extends Controller
     {
     	$payload = $request->all();
         $payload['saved_batch'] = 0;
-        $bearing =  Bearing::query()->create($payload);
+        if(empty($data['id']))
+            $bearing =  Bearing::query()->create($payload);
+        else{
+            $bearing = Bearing::query()->whereKey($id)->firstOrFail();
+            $bearing->update($payload);
+        }
+            
+        
         
         Session::insert(['action' => Session\Enum\Type::SAVE_BEARING, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $bearing->id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
@@ -117,7 +124,7 @@ class BearingController extends Controller
 
         $bearing->update($payload);
 
-        Session::insert(['action' => Session\Enum\Type::UPDATE_BEARING, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $bearing['id'], 'created_at' => date("Y-m-d H:i:s")]);
+        Session::insert(['action' => Session\Enum\Type::SAVE_BEARING, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $bearing['id'], 'created_at' => date("Y-m-d H:i:s")]);
 
         dispatch(
             new RecalculateOrders(

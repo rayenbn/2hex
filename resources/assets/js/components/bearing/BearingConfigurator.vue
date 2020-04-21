@@ -193,7 +193,7 @@
                                             <div class="col-lg-4 m--align-center">
                                                 <button 
                                                     @click="save"
-                                                    class="btn btn-primary m-btn m-btn--custom m-btn--icon" 
+                                                    class="btn btn-primary m-btn m-btn--custom m-btn--icon submit-button" 
                                                     data-wizard-action="submit" 
                                                 >
                                                     <span>
@@ -638,7 +638,7 @@
             },
             save(event) {
 
-                debugger;
+                $('.submit-button').prop('disabled', true);
 
                 if (this.quantity <= 0) {
                     alert("Product quantity may not be 0. Please check your quantities.");
@@ -676,16 +676,28 @@
                     && this.steps.pantonePrint.file ? this.steps.pantonePrint.file : "");
                 formData.append('price', this.price);
                 formData.append('total', this.total);
-                
-                axios.post('/bearing-configurator', formData)
-                    .then((response) => {
-                        setTimeout(() => {
-                            window.location.href = "/summary";
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    }); 
+                if(this.id)
+                    axios.post('/bearing-configurator/'+this.id, formData)
+                        .then((response) => {
+                            setTimeout(() => {
+                                window.location.href = "/summary";
+                            }, 1000);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            $('.submit-button').prop('disabled', false);
+                        }); 
+                else
+                    axios.post('/bearing-configurator', formData)
+                        .then((response) => {
+                            setTimeout(() => {
+                                window.location.href = "/summary";
+                            }, 1000);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            $('.submit-button').prop('disabled', false);
+                        }); 
             },
             initBearing() {
                 if (this.bearing) {

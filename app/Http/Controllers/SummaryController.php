@@ -58,7 +58,7 @@ class SummaryController extends Controller
         ],
         'shield_brand_print' => [
             'name' => 'Shield Brand Print',
-            'price' => 149.9
+            'price' => 0
         ],
         'pantone_print' => [
             'name' => 'Packing Print',
@@ -229,16 +229,55 @@ class SummaryController extends Controller
 
             foreach ($bearing as $key => $value) {
 
-                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) continue;
-
-                // If same design
                 if (array_key_exists($key, $fees)) {
                     if (array_key_exists($value, $fees[$key])) {
                         $fees[$key][$value]['batches'] .= ",{$index}";
-                        $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
                         continue;
                     }
                 } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
                 $fees[$key][$value] = [
                     'image'    => $value,
                     'batches'  => (string) $index,
@@ -622,7 +661,7 @@ class SummaryController extends Controller
         $data = Order::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
         $grips = GripTape::where('created_by', '=', $created_by)->where('usenow', '=', 1)->get();
         $wheels = Wheel::auth()->get();
-        $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $bearings = Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
