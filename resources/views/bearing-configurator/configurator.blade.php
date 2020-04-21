@@ -16,6 +16,7 @@
             :quantityskateboards="{{ $orders->sum('quantity') }}"
             :sumskateboards="{{ $orders->sum('total') }}"
             :sumgrips="{{ $grips->sum('total') }}"
+            :quantitybearing="{{ $bearings->sum('quantity') }}"
             :quantitygrips="{{ $grips->sum('quantity') }}"
             :filenames="{{ json_encode((object)[]) }}"
         />

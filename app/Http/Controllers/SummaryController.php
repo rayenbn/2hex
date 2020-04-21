@@ -232,6 +232,18 @@ class SummaryController extends Controller
                 if (array_key_exists($key, $fees)) {
                     if (array_key_exists($value, $fees[$key])) {
                         $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
                         if(isset($fees[$key][$value]['quantity']))
                             $fees[$key][$value]['quantity'] += $bearing['quantity'];
                         continue;

@@ -492,8 +492,7 @@
                     });
             },
             calculateTotal() {
-                this.orderTotal = this.quantity;
-                    // + this.deliveryPrice;
+                this.orderTotal = this.quantity + this.quantitybearing;
             },
             calculatePrice() {
                 if (this.material) {
