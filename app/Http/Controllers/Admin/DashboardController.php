@@ -900,7 +900,31 @@ class DashboardController extends Controller
                     }
                 }
 
-                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                if($key != "pantone_print")
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                else if($key == "pantone_print"){
+                    $panthone = json_decode($bearing['pantone_color'], true);
+                    switch($panthone['title']){
+                        case '1 Color':
+                            $fees[$key][$value]['price'] = 90;
+                            break;
+                        case '2 Color':
+                            $fees[$key][$value]['price'] = 180;
+                            break;
+                        case '3 Color':
+                            $fees[$key][$value]['price'] = 270;
+                            break;
+                        case '4 Color':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        default:
+                            $fees[$key][$value]['price'] = 0;
+                            break;
+                    }
+                }
 
                 if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$key][$value]['price'] = 0;
@@ -1243,7 +1267,31 @@ class DashboardController extends Controller
 
                 //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
 
-                $fees[$key][$value]['price'] = 0;
+                if($key != "pantone_print")
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                else if($key == "pantone_print"){
+                    $panthone = json_decode($bearing['pantone_color'], true);
+                    switch($panthone['title']){
+                        case '1 Color':
+                            $fees[$key][$value]['price'] = 90;
+                            break;
+                        case '2 Color':
+                            $fees[$key][$value]['price'] = 180;
+                            break;
+                        case '3 Color':
+                            $fees[$key][$value]['price'] = 270;
+                            break;
+                        case '4 Color':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        default:
+                            $fees[$key][$value]['price'] = 0;
+                            break;
+                    }
+                }
 
                 if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$key][$value]['price'] = 0;
@@ -1816,7 +1864,31 @@ class DashboardController extends Controller
 
                 //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
 
-                $fees[$key][$value]['price'] = 0;
+                if($key != "pantone_print")
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                else if($key == "pantone_print"){
+                    $panthone = json_decode($bearing['pantone_color'], true);
+                    switch($panthone['title']){
+                        case '1 Color':
+                            $fees[$key][$value]['price'] = 90;
+                            break;
+                        case '2 Color':
+                            $fees[$key][$value]['price'] = 180;
+                            break;
+                        case '3 Color':
+                            $fees[$key][$value]['price'] = 270;
+                            break;
+                        case '4 Color':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        default:
+                            $fees[$key][$value]['price'] = 0;
+                            break;
+                    }
+                }
 
                 if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$key][$value]['price'] = 0;
@@ -2978,7 +3050,31 @@ class DashboardController extends Controller
 
                 //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
 
-                $fees[$key][$value]['price'] = 0;
+                if($key != "pantone_print")
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                else if($key == "pantone_print"){
+                    $panthone = json_decode($bearing['pantone_color'], true);
+                    switch($panthone['title']){
+                        case '1 Color':
+                            $fees[$key][$value]['price'] = 90;
+                            break;
+                        case '2 Color':
+                            $fees[$key][$value]['price'] = 180;
+                            break;
+                        case '3 Color':
+                            $fees[$key][$value]['price'] = 270;
+                            break;
+                        case '4 Color':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        default:
+                            $fees[$key][$value]['price'] = 0;
+                            break;
+                    }
+                }
 
 
                 if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){

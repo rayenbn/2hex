@@ -148,12 +148,13 @@
                     {name: 'Custom Cardboard Box', value: 0.68},
                 ],
                 brandfirsts: [
-                    {name: 'Sticker on one side of packaging', value: 1},
-                    {name: 'Sticker on two sides of packaging', value: 2},
-                    {name: 'Sticker on three sides of packaging', value: 3},
-                    {name: 'Sticker folded around packaging', value: 4},
-                    {name: 'No sticker', value: 5}
-                ],
+                    {name: 'No sticker', value: 0},
+                    {name: 'Sticker on one side of packaging', value: 0.06},
+                    {name: 'Sticker on two sides of packaging', value: 0.12},
+                    {name: 'Sticker on three sides of packaging', value: 0.18},
+                    {name: 'Sticker folded around packaging', value: 0.08},
+                    {name: 'Sticker inside packaging', value: 0.06}
+                ]
 			}
 		},
 		methods: {
@@ -196,7 +197,7 @@
             if (typeof this.step_packfirst === 'string') {
                 let packfirst = this.packfirsts.find(s => s.name == this.step_packfirst);
                 this.step_packfirst = packfirst;
-                this.brandfirstChange();
+                this.packfirstChange();
             }   
         },
         mounted() {

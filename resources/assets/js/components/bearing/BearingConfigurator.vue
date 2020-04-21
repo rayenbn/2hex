@@ -78,7 +78,7 @@
 
                                      <skateboard-decks-step-3
                                         :options="steps.racePrint"
-                                        :retainer="steps.retainer"
+                                        :retainer="retainer"
                                         @retainerChange="retainerChange"
                                         :files="filenames.race"
                                         :uploadProgress="steps.racePrint.uploadProgress"
@@ -98,9 +98,15 @@
                                     <skateboard-decks-step-4
                                         :shield="shield"
                                         :shieldbrand="shieldBrand"
+                                        :shieldColor="shieldColor"
+                                        :shieldBrandColor1="shieldBrandColor1"
+                                        :shieldBrandColor2="shieldBrandColor2"
                                         :options="steps.shieldBrandPrint"
                                         @shieldChange="shieldChange"
+                                        @shieldColorChange="shieldColorChange"
                                         @shieldBrandChange="shieldBrandChange"
+                                        @shieldBrandColor1Change="shieldBrandColor1Change"
+                                        @shieldBrandColor2Change="shieldBrandColor2Change"
                                         :files="filenames.top"
                                         :uploadProgress="steps.shieldBrandPrint.uploadProgress"
                                         @stateChange="(val) => {
@@ -317,7 +323,7 @@
                 type: String,
                 default: ''
             },
-            griptape: {
+            bearing: {
                 type: Object,
                 default: null
             },
@@ -356,20 +362,23 @@
         data() {
             return {
                 id: "",
-	            quantity: null,
-                quantityob: null,
-	            material: null,
-                abec: null,
-                race: null,
-                retainer: null,
-                shield: null,
-                shieldBrand: null,
-                spamaterial: null,
-                spacolor: null,
-                packfirst: null,
-                brandfirst: null,
-                packsecond: null,
-                brandsecond: null,
+	            quantity: 10000,
+                quantityob: {name: '10000 Set', value: 10000},
+	            material: {name: 'Carbon Balls', value: 0.82},
+                abec: {name: 'Abec3', value: 0},
+                race: {name: 'Silver Races', value: 0},
+                retainer: {name: 'Brown SB-Flex Retainer', value: 0},
+                shield: {name: 'Metal Shield', value: 0},
+                shieldColor: '',
+                shieldBrand: {name: 'No Shield Branding', value: 0},
+                shieldBrandColor1: '',
+                shieldBrandColor2: '',
+                spamaterial: {name: 'No Spacers', value: 0},
+                spacolor: {name: 'Silver Spacers', value: 0},
+                packfirst: {name: 'Transparent Softplastic Tube', value: 0},
+                brandfirst: {name: 'No sticker', value: 0},
+                packsecond: {name: 'No added cardboard', value: 0},
+                brandsecond: {name: 'No shrink wrap', value: 0},
                 additionalCost: 0,
                 orderTotal: 0,
                 price: 0,
@@ -378,7 +387,7 @@
                 typeUpload: '',
                 designName: '',
                 reorder: false,
-                pantoneColor: '',
+                pantoneColor: null,
                 stepUpload: null,
                 headLinks: [
                     {name: 'Home', href: '/'},
@@ -486,12 +495,11 @@
             },
             calculatePrice() {
                 if (this.material) {
-
                     this.price = this.material.value + this.additionalCost
                         + (this.abec ? this.abec.value : 0)
                         + (this.race ? this.race.value : 0)
                         + (this.shield ? this.shield.value : 0)
-                        + (this.shieldbrand ? this.shieldbrand.value : 0)
+                        + (this.shieldBrand ? this.shieldBrand.value : 0)
                         + (this.retainer ? this.retainer.value : 0)
                         + (this.spamaterial ? this.spamaterial.value : 0)
                         + (this.spacolor ? this.spacolor.value : 0)
@@ -499,7 +507,6 @@
                         + (this.packfirst ? this.packfirst.value : 0)
                         + (this.packsecond ? this.packsecond.value : 0)
                         + (this.brandsecond ? this.brandsecond.value : 0)
-                        + (this.pantoneColor ? this.pantoneColor.value : 0)
                 } else {
                     this.price = 0;
                 }
@@ -563,10 +570,19 @@
                 this.calculateTotal();
                 this.calculatePrice();
             },
+            shieldColorChange(color) {
+                this.shieldColor = color;
+            },
             shieldBrandChange(shieldbrand) {
                 this.shieldBrand = shieldbrand;
                 this.calculateTotal();
                 this.calculatePrice();
+            },
+            shieldBrandColor1Change(color) {
+                this.shieldBrandColor1 = color;
+            },
+            shieldBrandColor2Change(color) {
+                this.shieldBrandColor2 = color;
             },
             retainerChange(retainer) {
                 this.retainer = retainer;
@@ -639,7 +655,10 @@
                 formData.append('race', this.race.name);
                 formData.append('retainer', this.retainer.name);
                 formData.append('shield', this.shield.name);
+                formData.append('shieldcolor', this.shieldColor);
                 formData.append('shield_brand', this.shieldBrand.name);
+                formData.append('firstbrandcolor', this.shieldBrandColor1);
+                formData.append('secondbrandcolor', this.shieldBrandColor2);
                 formData.append('spamaterial', this.spamaterial.name);
                 formData.append('spacolor', this.spacolor.name);
                 formData.append('packfirst', this.packfirst.name);
@@ -653,8 +672,6 @@
                     && this.steps.racePrint.file ? this.steps.racePrint.file : "");
                 formData.append('shield_brand_print', this.steps.shieldBrandPrint.state 
                     && this.steps.shieldBrandPrint.file ? this.steps.shieldBrandPrint.file : "");
-                formData.append('shield_brand_color',this.steps.shieldBrandPrint.state 
-                    && this.steps.shieldBrandPrint.color ? this.steps.shieldBrandPrint.color : "");
                 formData.append('pantone_print',this.steps.pantonePrint.state 
                     && this.steps.pantonePrint.file ? this.steps.pantonePrint.file : "");
                 formData.append('price', this.price);
@@ -670,76 +687,69 @@
                         console.error(error);
                     }); 
             },
-            initGripTape() {
-                if (this.griptape) {
-                    this.id = this.griptape.id;
+            initBearing() {
+                if (this.bearing) {
+                    this.id = this.bearing.id;
 
                     // Step 1
-                    this.quantity = this.griptape.quantity;
-                    this.material = this.griptape.material;
-                    this.price = this.griptape.price;
+                    this.quantityob = this.bearing.quantity+"";
+                    this.material = this.bearing.material;
+                    this.price = this.bearing.price;
 
                     // Step 2
-                    if(this.griptape.grit == "HS780"){
-                        this.steps.grit.state = true;
-                    }
+                    this.abec = this.bearing.abec;
+                    this.race = this.bearing.race;
 
                     // Step 3
-                    if(this.griptape.perforation){
-                        this.steps.perforation.state = true;
+                    this.retainer = this.bearing.retainer;
+                    if(this.bearing.race_print){
+                        this.steps.racePrint.state = true;
+                        this.steps.racePrint.file = this.bearing.race_print;
                     }
 
+                    
                     // Step 4
-                    if(this.griptape.top_print || this.griptape.top_print_color){
-                        this.steps.racePrint.state = true;
-                        this.steps.racePrint.file = this.griptape.top_print;
-                        this.steps.racePrint.color = this.griptape.top_print_color;
-                        for(let i = 0; i < this.filenames['top'].length; i ++){
-                            if(this.filenames['top'][i]['name'] == this.griptape.top_print){
-                                this.steps.racePrint.dropdisable = this.filenames['top'][i]['is_disable']?true:false;
-                            }
-                        }
+                    this.shield = this.bearing.shield;
+                    this.shieldColor = this.bearing.shieldcolor;
+                    this.shieldBrand = this.bearing.shield_brand;
+                    this.shieldBrandColor1 = this.bearing.firstbrandcolor;
+                    this.shieldBrandColor2 = this.bearing.secondbrandcolor;
+                    if(this.bearing.shield_brand_print){
+                        this.steps.shieldBrandPrint.state = true;
+                        this.steps.shieldBrandPrint.file = this.bearing.shield_brand_print;
                     }
 
                     // Step 5
-                    if(this.griptape.die_cut){
-                        this.steps.dieCut.state = true;
-                        this.steps.dieCut.file = this.griptape.die_cut;
-                    }
+                    this.spacolor = this.bearing.spacolor;
+                    this.spamaterial = this.bearing.spamaterial;
 
                     // Step 6
-                    if(this.griptape.color){
-                        this.steps.coloredGriptape.color = this.griptape.color;
-                    }
+                    this.packfirst = this.bearing.packfirst;
+                    this.brandfirst = this.bearing.brandfirst;
 
                     // Step 7
-                    if(this.griptape.backpaper == 'White'){
-                        this.steps.backpaper.state = true;
-                    }
+                    this.packsecond = this.bearing.packsecond;
+                    this.brandsecond = this.bearing.brandsecond;
 
                     // Step 8
-                    if(this.griptape.backpaper_print || this.griptape.backpaper_print_color){
-                        this.steps.backpaperPrint.state = true;
-                        this.steps.backpaperPrint.file = this.griptape.backpaper_print;
-                        this.steps.backpaperPrint.color = this.griptape.backpaper_print_color;
-                        for(let i = 0; i < this.filenames['backpaper'].length; i ++){
-                            if(this.filenames['backpaper'][i]['name'] == this.griptape.backpaper_print_color){
-                                this.steps.backpaperPrint.dropdisable = this.filenames['backpaper'][i]['is_disable']?true:false;
-                            }
-                        }
+                    this.designName = this.bearing.designname;
+                    this.pantoneColor = JSON.parse(this.bearing.pantone_color);
+                    if(this.bearing.pantone_print){
+                        this.steps.pantonePrint.state = true;
+                        this.steps.pantonePrint.file = this.bearing.pantone_print;
                     }
 
-                    // Step 9
-                    if(this.griptape.carton_print || this.griptape.carton_print_color){
-                        this.steps.cartonPrint.state = true;
-                        this.steps.cartonPrint.file = this.griptape.carton_print;
-                        this.steps.cartonPrint.color = this.griptape.carton_print_color;
-                        for(let i = 0; i < this.filenames['carton'].length; i ++){
-                            if(this.filenames['carton'][i]['name'] == this.griptape.carton_print_color){
-                                this.steps.cartonPrint.dropdisable = this.filenames['carton'][i]['is_disable']?true:false;
-                            }
-                        }
-                    }
+                    // // Step 9
+                    // if(this.griptape.carton_print || this.griptape.carton_print_color){
+                    //     this.steps.cartonPrint.state = true;
+                    //     this.steps.cartonPrint.file = this.griptape.carton_print;
+                    //     this.steps.cartonPrint.color = this.griptape.carton_print_color;
+                    //     for(let i = 0; i < this.filenames['carton'].length; i ++){
+                    //         if(this.filenames['carton'][i]['name'] == this.griptape.carton_print_color){
+                    //             this.steps.cartonPrint.dropdisable = this.filenames['carton'][i]['is_disable']?true:false;
+                    //         }
+                    //     }
+                    // }
                 }
             },
         },
@@ -848,7 +858,8 @@
         },
         created() {
             this.$store.commit('changeStep', 1);
-            this.initGripTape();
+            this.initBearing();
+            this.calculatePrice();
         }
     };
 </script>

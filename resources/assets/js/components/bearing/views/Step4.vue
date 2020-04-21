@@ -55,6 +55,7 @@
                                 class="form-control"
                                 name="shieldColor"
                                 placeholder="Enter Panthone Color"
+                                v-model="step_shieldcolor"
                                 v-if="step_shield && step_shield.name == 'Custom Color Rubber Shield'"
                                 v-validate="'required'"
                                 @input="onShieldColorChange"
@@ -108,7 +109,7 @@
                                 <option 
                                     :value="shieldbrand" 
                                     v-for="(shieldbrand, index) in shieldBrands" 
-                                    v-if="shieldbrand.name != 'Metal Shields' || shieldbrand.name == 'No Shield Branding'"
+                                    v-if="step_shield.name != 'Metal Shield' || shieldbrand.name == 'No Shield Branding'"
                                     :key="index"
                                 >
                                     {{ shieldbrand.name }}
@@ -168,7 +169,7 @@
                                     <a 
                                         v-for="file in files"
                                         class="dropdown-item file-dropdown" 
-                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable'];  step_color = file['color_qty']; }"
+                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable']; }"
                                         href="#"
                                     >
                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
@@ -176,51 +177,17 @@
                                 </div>
                             </div>
                             <br>
-                            <color-btn 
-                                :color="step_color" 
-                                labelledby="step- 4-colors"
-                                @colorChange="(val) => step_color = val"
-                                v-if="!step_options.dropdisable"
-                            >
-                                <template slot="btn">
-                                    <button 
-                                        id="step-4-colors"
-                                        class="btn btn-secondary dropdown-toggle shieldbrand-files"  
-                                        type="button" 
-                                        data-toggle="dropdown" 
-                                        aria-haspopup="true" 
-                                        aria-expanded="false" 
-                                        style="width:100%;" 
-                                        @click="step_options.state = true"
-                                        :class="[step_options.state && step_color ? 'checked' : 'unchecked']" 
-                                    >
-                                        {{ step_color ? step_color : 'How many colors are in your design?' }}
-                                    </button>
-                                </template>
-                            </color-btn>
-                            <button 
-                                id="step-4-colors"
-                                class="btn btn-secondary dropdown-toggle shieldbrand-files" 
-                                type="button" 
-                                data-toggle="dropdown" 
-                                aria-haspopup="true" 
-                                aria-expanded="false" 
-                                style="width:100%;" 
-                                @click="step_options.state = true"
-                                :class="[step_options.state && step_color ? 'checked' : 'unchecked']" 
-                                v-else
-                            >
-                                {{ step_color ? step_color : 'How many colors are in your design?' }}
-                            </button>
+
                             <br/>
                             <input
                                 type="text"
                                 class="form-control"
                                 name="shieldBrandColor1"
+                                v-model="step_brandcolor1"
                                 placeholder="Enter Panthone Color"
                                 v-if="step_shieldbrand && (step_shieldbrand.name == '1 Color Print' || step_shieldbrand.name == '2 Color Print')"
                                 v-validate="'required'"
-                                @input="onShieldColorChange"
+                                @input="onShieldBrandColorChange1"
                             >
                             <br/>
                             <input
@@ -228,9 +195,10 @@
                                 class="form-control"
                                 name="shieldBrandColor2"
                                 placeholder="Enter Panthone Color"
+                                v-model="step_brandcolor2"
                                 v-if="step_shieldbrand && step_shieldbrand.name == '2 Color Print'"
                                 v-validate="'required'"
-                                @input="onShieldColorChange"
+                                @input="onShieldBrandColorChange2"
                             >
 
 
@@ -272,7 +240,19 @@
             quantity: {
                 type: [Object, String],
                 default: ""
-            }
+            },
+            shieldColor: {
+                type: String,
+                default: ''
+            },
+            shieldBrandColor1: {
+                type: String,
+                default: ''
+            },
+            shieldBrandColor2: {
+                type: String,
+                default: ''
+            },
         },
         components: {
             ColorBtn,
@@ -280,7 +260,9 @@
         },
         data() {
             return {
-                step_color: null,
+                step_shieldcolor: this.shieldColor,
+                step_brandcolor1: this.shieldBrandColor1,
+                step_brandcolor2: this.shieldBrandColor2,
                 step_shield: this.shield,
                 step_shieldbrand: this.shieldbrand,
                 step_quantity: this.quantity,
@@ -299,16 +281,21 @@
                 ]
             }
         },
-        watch: {
-            step_color: _.debounce(function(val){
-                this.$emit('colorChange', val);
-            }, 300)
-        },
         methods: {
 	        shieldChange(event) {
                 this.$store.commit('BearingConfigurator/setShield', this.step_shield);
 	            this.$emit('shieldChange', this.step_shield);
 	        },
+            onShieldColorChange(){
+                debugger;
+                this.$emit('shieldColorChange', this.step_shieldcolor);
+            },
+            onShieldBrandColorChange1(){
+                this.$emit('shieldBrandColor1Change', this.step_brandcolor1);
+            },
+            onShieldBrandColorChange2(){
+                this.$emit('shieldBrandColor2Change', this.step_brandcolor2);
+            },
             shieldBrandChange(event) {
                 let value = $('#shieldbrand').val();
                 if(this.step_shieldbrand && typeof this.step_shieldbrand === 'object') {
@@ -325,13 +312,19 @@
                 
                 this.$store.commit('BearingConfigurator/setShieldBrand', this.step_shieldbrand);
 	            this.$emit('shieldBrandChange', this.step_shieldbrand);
-            },
-            onShieldColorChange(event) {
-
             }
 		},
         created() {
-            this.step_color = this.options.color;
+            if (typeof this.step_shield === 'string') {
+                let shield = this.shields.find(s => s.name == this.step_shield);
+                this.step_shield = shield;
+                this.shieldChange();
+            }
+            if (typeof this.step_shieldbrand === 'string') {
+                let shield_brand = this.shieldBrands.find(s => s.name == this.step_shieldbrand);
+                this.step_shieldbrand = shield_brand;
+                this.shieldBrandChange();
+            }   
         },
         mounted() {
 

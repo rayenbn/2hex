@@ -142,7 +142,7 @@ class BearingController extends Controller
     public function show(int $id) : View
     {
         /** @var Wheel $wheel*/
-        $bearing = Bearing::query()->whereKey($id)->first();
+        $bearing = Bearing::find($id);
 
         $filenames = [
             'race'     => [],

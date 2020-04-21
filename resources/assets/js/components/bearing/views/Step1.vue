@@ -185,7 +185,7 @@
                 this.materialChange();
             }
             if (typeof this.step_quantity === 'string') {
-                let quantity = this.quantities.find(s => s.name == this.step_quantity);
+                let quantity = this.quantities.find(s => s.value == this.step_quantity);
                 this.step_quantity = quantity;
                 this.quantityChange();
             }   

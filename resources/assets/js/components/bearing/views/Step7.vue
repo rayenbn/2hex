@@ -138,8 +138,8 @@
                     {name: 'Cardboard box around packaging', value: 0.69}
                 ],
                 brandseconds: [
-                    {name: 'Shrink wrap', value: 0.15},
-                    {name: 'No shrink wrap', value: 0}
+                    {name: 'No shrink wrap', value: 0},
+                    {name: 'Shrink wrap', value: 0.15}
                 ],
 			}
 		},
@@ -183,7 +183,7 @@
             if (typeof this.step_packsecond === 'string') {
                 let packsecond = this.packseconds.find(s => s.name == this.step_packsecond);
                 this.step_packsecond = packsecond;
-                this.brandsecondChange();
+                this.packsecondChange();
             }   
         },
         mounted() {

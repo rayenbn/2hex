@@ -137,8 +137,8 @@
                     {name: 'Stainless Steel Spacers', value: 0.59}
                 ],
                 spacolors: [
-                    {name: 'Black Spacers', value: 0},
-                    {name: 'Silver Spacers', value: 0.15}
+                    {name: 'Silver Spacers', value: 0},
+                    {name: 'Black Spacers', value: 0.15}
                 ],
 			}
 		},
@@ -178,12 +178,12 @@
             if (typeof this.step_spacolor === 'string') {
                 let spacolor = this.spacolors.find(s => s.name == this.step_spacolor);
                 this.step_spacolor = spacolor;
-                this.spamaterialChange();
+                this.spacolorChange();                
             }
             if (typeof this.step_spamaterial === 'string') {
                 let spamaterial = this.spamaterials.find(s => s.name == this.step_spamaterial);
                 this.step_spamaterial = spamaterial;
-                this.spacolorChange();
+                this.spamaterialChange();
             }   
         },
         mounted() {

@@ -52,8 +52,24 @@
                 {{$bearing->race_print ?? ''}}<br>
             </td>
             <td>{{$bearing->retainer}}</td>
-            <td>{{$bearing->shield}}</td>
-            <td>{{$bearing->shield_brand}}</td>
+            <td>{{$bearing->shield}}
+                @if(isset($bearing->shieldcolor))
+                <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                <br>
+                Color: {{$bearing->shieldcolor}}
+                @endif</td>
+            <td>{{$bearing->shield_brand}}
+                @if(isset($bearing->firstbrandcolor))
+                <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                <br>
+                Color: {{$bearing->firstbrandcolor}}
+                @endif
+                @if(isset($bearing->secondbrandcolor))
+                <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                <br>
+                Color: {{$bearing->secondbrandcolor}}
+                @endif
+            </td>
             <td @if(isset($fees['shield_brand_print'][$bearing->shield_brand_print]['paid']) && $fees['shield_brand_print'][$bearing->shield_brand_print]['paid'] == 1) class="paid" @endif>
                 {{$bearing->shield_brand_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
@@ -71,9 +87,11 @@
                 @php 
                     $pantonecolors = json_decode($bearing->pantone_color, true);
                 @endphp
-                @foreach($pantonecolors['colors'] as $i => $pantonecolor)
-                    <p>Color{{($i+1).': '.$pantonecolor}}</p>
-                @endforeach
+                @if(isset($pantonecolors['colors']))
+                    @foreach($pantonecolors['colors'] as $i => $pantonecolor)
+                        <p>Color{{($i+1).': '.$pantonecolor}}</p>
+                    @endforeach
+                @endif
                 
             </td>
             <td @if(isset($fees['pantone_print'][$bearing->pantone_print]['paid']) && $fees['pantone_print'][$bearing->pantone_print]['paid'] == 1) class="paid" @endif>

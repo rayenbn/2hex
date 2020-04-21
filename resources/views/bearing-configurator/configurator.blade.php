@@ -12,7 +12,7 @@
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
         <bearing-configurator
             :user="{{ json_encode(auth()->user()) }}"
-            :griptape="{{ json_encode($griptape ?? null) }}"
+            :bearing="{{ json_encode($bearing ?? null) }}"
             :quantityskateboards="{{ $orders->sum('quantity') }}"
             :sumskateboards="{{ $orders->sum('total') }}"
             :sumgrips="{{ $grips->sum('total') }}"

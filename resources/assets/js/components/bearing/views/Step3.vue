@@ -201,8 +201,8 @@
         data() {
             return {
                 step_color: null,
-                step_retainer: null,
-                step_raceprint: null,
+                step_retainer: this.retainer,
+                step_raceprint: {name: 'Blank Races', value: 0},
                 retainers: [
                     {name: 'Brown SB-Flex Retainer', value: 0},
                     {name: 'Black SB-Flex Retainer', value: 0.15},
@@ -243,7 +243,13 @@
             }
 		},
         created() {
-            this.step_color = this.options.color;
+            if (typeof this.step_retainer === 'string') {
+                let retainer = this.retainers.find(s => s.name == this.step_retainer);
+                this.step_retainer = retainer;
+                this.retainerChange();
+            }
+            if(this.step_options.state)
+                this.step_raceprint = {name: 'Engraved Races', value: 0.29};
         },
         mounted() {
 

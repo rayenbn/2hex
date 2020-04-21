@@ -49,7 +49,7 @@ class RecalculateOrders
 
         $auth = (string) $auth;
 
-        $bindings = array_fill(0, 3, $auth);
+        $bindings = array_fill(0, 4, $auth);
 
         $result = (array) \DB::select(\DB::raw('
             SELECT IFNULL(SUM(sumTable.total), 0) AS total, IFNULL(SUM(sumTable.quantity), 0) AS quantity
@@ -60,7 +60,7 @@ class RecalculateOrders
                 UNION ALL
                 SELECT total, quantity FROM wheels WHERE created_by = ? AND usenow = 1 AND submit = 0
                 UNION ALL
-                SELECT total, quantity FROM bearings WHERE created_by = ? AND usenow = 1 AND submit = 0
+                SELECT total, quantity FROM bearing WHERE created_by = ? AND usenow = 1 AND submit = 0
             ) sumTable 
         '), $bindings)[0];
 

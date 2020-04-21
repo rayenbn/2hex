@@ -15,7 +15,7 @@ export default {
         step_brandsecond: null,
     },
     getters: {
-        getBearingQuantity: state => state.quantity ? state.quantity.value : 0,
+        getBearingQuantity: state => state.quantity ? state.quantity.value : 10000,
         getBearingMaterial: state => state.material,
         getRace: state => state.race,
         getAbec: state => state.abec,

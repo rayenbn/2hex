@@ -58,7 +58,7 @@ class SummaryController extends Controller
         ],
         'shield_brand_print' => [
             'name' => 'Shield Brand Print',
-            'price' => 0
+            'price' => 149.9
         ],
         'pantone_print' => [
             'name' => 'Packing Print',
@@ -263,8 +263,32 @@ class SummaryController extends Controller
                             break;
                     }
                 }
+                if($key != "pantone_print")
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
+                else if($key == "pantone_print"){
+                    $panthone = json_decode($bearing['pantone_color'], true);
+                    switch($panthone['title']){
+                        case '1 Color':
+                            $fees[$key][$value]['price'] = 90;
+                            break;
+                        case '2 Color':
+                            $fees[$key][$value]['price'] = 180;
+                            break;
+                        case '3 Color':
+                            $fees[$key][$value]['price'] = 270;
+                            break;
+                        case '4 Color':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['price'] = 360;
+                            break;
+                        default:
+                            $fees[$key][$value]['price'] = 0;
+                            break;
+                    }
+                }
 
-                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
 
                 if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$key][$value]['price'] = 0;
@@ -283,7 +307,6 @@ class SummaryController extends Controller
                 'type' => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
             ]);
         }
-
         // Calculate total price
         foreach ($fees as $key => $value) {
             array_walk($value, function($f, $k) use(&$sum_fees){
