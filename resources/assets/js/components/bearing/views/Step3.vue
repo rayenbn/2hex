@@ -234,7 +234,7 @@
                         default: this.step_options.state = true; break;
                     }
                 }
-
+                this.$emit('racePrintChange', this.step_raceprint);
                 if(this.step_options.state){
                     $('.raceprint-files').show();
                 }

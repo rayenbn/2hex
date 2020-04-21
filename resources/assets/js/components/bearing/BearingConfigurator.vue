@@ -88,6 +88,7 @@
                                         @selectpaidChange="(val) => {
                                             steps.racePrint.selectpaid = val;
                                         }"
+                                        @racePrintChange="racePrintChange"
                                         @fileChange="(val) => {steps.racePrint.file = val}"
                                         @colorChange="(val) => {steps.racePrint.color = val}"
                                         @prepareFile="(e) => { stepUpload = 3; uploadFile(e); }"
@@ -368,6 +369,7 @@
                 abec: {name: 'Abec3', value: 0},
                 race: {name: 'Silver Races', value: 0},
                 retainer: {name: 'Brown SB-Flex Retainer', value: 0},
+                racePrintValue: null,
                 shield: {name: 'Metal Shield', value: 0},
                 shieldColor: '',
                 shieldBrand: {name: 'No Shield Branding', value: 0},
@@ -499,6 +501,7 @@
                         + (this.abec ? this.abec.value : 0)
                         + (this.race ? this.race.value : 0)
                         + (this.shield ? this.shield.value : 0)
+                        + (this.racePrintValue ? this.racePrintValue.value : 0)                        
                         + (this.shieldBrand ? this.shieldBrand.value : 0)
                         + (this.retainer ? this.retainer.value : 0)
                         + (this.spamaterial ? this.spamaterial.value : 0)
@@ -562,6 +565,11 @@
             },
             raceChange(race) {
                 this.race = race;
+                this.calculateTotal();
+                this.calculatePrice();
+            },
+            racePrintChange(racePrint) {
+                this.racePrintValue = racePrint;
                 this.calculateTotal();
                 this.calculatePrice();
             },
@@ -637,13 +645,26 @@
                 this.$store.commit('changeStep', --this.currentStep);
             },
             save(event) {
-
+                debugger;
                 $('.submit-button').prop('disabled', true);
 
                 if (this.quantity <= 0) {
                     alert("Product quantity may not be 0. Please check your quantities.");
                     
                     return false;
+                }
+
+                if(this.shieldBrand.name == "1 Color Print" && this.shieldBrandColor1 == ''){
+                    alert('Please input pantone color on Step 4');
+                    return;
+                }
+                if(this.shieldBrand.name == "2 Color Print" && (this.shieldBrandColor1 == '' || this.shieldBrandColor1 == '')){
+                    alert('Please input pantone color on Step 4');
+                    return;
+                }
+                if(this.shield.name == "Custom Color Rubber Shield" && this.shieldColor == ''){
+                    alert('Please input pantone color on Step 4');
+                    return;
                 }
 
                 var formData = new FormData();

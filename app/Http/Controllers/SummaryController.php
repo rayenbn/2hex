@@ -770,7 +770,7 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
-        return redirect()->route('summary');   
+        return redirect()->route('summary');
     } 
     public function view($id)
     {
