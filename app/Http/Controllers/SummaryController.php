@@ -78,7 +78,7 @@ class SummaryController extends Controller
         $wheelQuery = Wheel::auth();
         $transfers = HeatTransfer::auth()->get();
         $bearingQuery = Bearing::auth();
-
+        
         $fees = [];
         $sum_fees = 0;
 
