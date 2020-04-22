@@ -456,12 +456,16 @@ class RecalculateOrders
             ],
             'packsecond'=>[
                 'No added cardboard'=>0,
-                'Cardboard sleeve around packaging'=>0.45,
-                'Cardboard box around packaging'=>0.69
+                'Cardboard sleeve around Tin packaging'=>0.45,
+                'Cardboard box around Tin packaging'=>0.69
             ],
             'brandsecond'=>[
                 'No shrink wrap'=>0,
                 'Shrink wrap'=>0.15
+            ],
+            'raceprintvalue'=>[
+                'Blank Races'=>0,
+                'Engraved Races'=> 0.29
             ]
         ];
         $price = 0;

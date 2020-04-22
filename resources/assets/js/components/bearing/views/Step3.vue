@@ -192,6 +192,10 @@
             race: {
                 type: [Object, String],
                 default: ""
+            },
+            raceprint: {
+                type: [Object, String],
+                default: ""
             }
         },
         components: {
@@ -202,7 +206,7 @@
             return {
                 step_color: null,
                 step_retainer: this.retainer,
-                step_raceprint: {name: 'Blank Races', value: 0},
+                step_raceprint: this.raceprint,
                 retainers: [
                     {name: 'Brown SB-Flex Retainer', value: 0},
                     {name: 'Black SB-Flex Retainer', value: 0.15},
@@ -248,6 +252,12 @@
                 this.step_retainer = retainer;
                 this.retainerChange();
             }
+            if (typeof this.step_raceprint === 'string') {
+                let raceprint = this.racePrints.find(s => s.name == this.step_raceprint);
+                this.step_raceprint = raceprint;
+                this.raceprintChange();
+            }
+
             if(this.step_options.state)
                 this.step_raceprint = {name: 'Engraved Races', value: 0.29};
         },

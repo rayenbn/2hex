@@ -256,6 +256,37 @@ class SummaryController extends Controller
                         }
                         if(isset($fees[$key][$value]['quantity']))
                             $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value] = [
+                                        'image'    => $panthone['title'],
+                                        'type'     => "No Color",
+                                        'batches'  => (string) $index,
+                                        'price'    => 0
+                                    ];
+                                    break;
+                            }
+                        }
                         continue;
                     }
                 } 
@@ -294,6 +325,59 @@ class SummaryController extends Controller
                             'price'    => 149.9
                         ];
                     }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
                     
                     continue;
                 }
@@ -324,31 +408,7 @@ class SummaryController extends Controller
                             break;
                     }
                 }
-                if($key != "pantone_print")
-                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
-                else if($key == "pantone_print"){
-                    $panthone = json_decode($bearing['pantone_color'], true);
-                    switch($panthone['title']){
-                        case '1 Color':
-                            $fees[$key][$value]['price'] = 90;
-                            break;
-                        case '2 Color':
-                            $fees[$key][$value]['price'] = 180;
-                            break;
-                        case '3 Color':
-                            $fees[$key][$value]['price'] = 270;
-                            break;
-                        case '4 Color':
-                            $fees[$key][$value]['price'] = 360;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['price'] = 360;
-                            break;
-                        default:
-                            $fees[$key][$value]['price'] = 0;
-                            break;
-                    }
-                }
+                $fees[$key][$value]['price'] = 0;
 
 
                 if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
@@ -728,7 +788,7 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
-        return redirect()->route('summary');   
+        return redirect()->route('profile', ['#saved_orders']);
     }
     public function load($id)
     {

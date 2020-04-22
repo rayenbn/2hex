@@ -202,6 +202,10 @@
                 this.step_spacolor = this.spacolors.find(s => s.name == value);
                 this.spacolorChange();
             });
+
+            if(this.step_spamaterial.name == 'No Spacers' || !this.step_spamaterial.name){
+                $('.spacolor-div').hide();
+            }
         }
 
     }

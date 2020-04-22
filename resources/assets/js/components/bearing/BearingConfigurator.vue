@@ -79,6 +79,7 @@
                                      <skateboard-decks-step-3
                                         :options="steps.racePrint"
                                         :retainer="retainer"
+                                        :raceprint="racePrintValue"
                                         @retainerChange="retainerChange"
                                         :files="filenames.race"
                                         :uploadProgress="steps.racePrint.uploadProgress"
@@ -373,7 +374,7 @@
                 abec: {name: 'Abec3', value: 0},
                 race: {name: 'Silver Races', value: 0},
                 retainer: {name: 'Brown SB-Flex Retainer', value: 0},
-                racePrintValue: null,
+                racePrintValue: {name: 'Blank Races', value: 0},
                 shield: {name: 'Metal Shield', value: 0},
                 shieldColor: '',
                 shieldBrand: {name: 'No Shield Branding', value: 0},
@@ -508,7 +509,7 @@
                         + (this.shieldBrand ? this.shieldBrand.value : 0)
                         + (this.retainer ? this.retainer.value : 0)
                         + (this.spamaterial ? this.spamaterial.value : 0)
-                        + (this.spacolor ? this.spacolor.value : 0)
+                        + ((this.spacolor && this.spamaterial.name != 'No Spacers') ? this.spacolor.value : 0)
                         + (this.brandfirst ? this.brandfirst.value : 0)
                         + (this.packfirst ? this.packfirst.value : 0)
                         + (this.packsecond ? this.packsecond.value : 0)
@@ -691,6 +692,7 @@
                 formData.append('material', this.material.name);
                 formData.append('abec', this.abec.name);
                 formData.append('race', this.race.name);
+                formData.append('raceprintvalue', this.racePrintValue.name);
                 formData.append('retainer', this.retainer.name);
                 formData.append('shield', this.shield.name);
                 formData.append('shieldcolor', this.shieldColor);
@@ -698,7 +700,8 @@
                 formData.append('firstbrandcolor', this.shieldBrandColor1);
                 formData.append('secondbrandcolor', this.shieldBrandColor2);
                 formData.append('spamaterial', this.spamaterial.name);
-                formData.append('spacolor', this.spacolor.name);
+                if(this.spamaterial.name != 'No Spacers')
+                    formData.append('spacolor', this.spacolor.name);
                 formData.append('packfirst', this.packfirst.name);
                 formData.append('brandfirst', this.brandfirst.name);
                 formData.append('packsecond', this.packsecond.name);
@@ -715,13 +718,16 @@
                     $('.submit-button').prop('disabled', false);
                     return;
                 }
-                for(var i = 0; i < this.pantoneColor.colors.length; i ++){
-                    if(!this.pantoneColor.colors[i] && !click_type){
-                        alert('Please input Color on Step 8');
-                        $('.submit-button').prop('disabled', false);
-                        return;
+                if(this.pantoneColor){
+                    for(var i = 0; i < this.pantoneColor.colors.length; i ++){
+                        if(!this.pantoneColor.colors[i] && !click_type){
+                            alert('Please input Color on Step 8');
+                            $('.submit-button').prop('disabled', false);
+                            return;
+                        }
                     }
                 }
+                
 
                 formData.append('designname', this.designName);
                 formData.append('race_print', this.steps.racePrint.state 
@@ -770,6 +776,7 @@
 
                     // Step 3
                     this.retainer = this.bearing.retainer;
+                    this.racePrintValue = this.bearing.raceprintvalue;
                     if(this.bearing.race_print){
                         this.steps.racePrint.state = true;
                         this.steps.racePrint.file = this.bearing.race_print;

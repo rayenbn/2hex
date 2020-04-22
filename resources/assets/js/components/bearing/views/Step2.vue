@@ -40,6 +40,7 @@
                                 <option 
                                     :value="abec" 
                                     v-for="(abec, index) in abecs" 
+                                    v-if="abec.name !='Abec7' || prev_material.name == 'White Cerami Balls' || prev_material.name == 'Black Ceramic Balls'"
                                     :key="index"
                                 >
                                     {{ abec.name }}
@@ -170,6 +171,11 @@
                     }
                 }
                 return {q: '/img/griptape/1.1.jpg', s: '/img/griptape/2.1.jpg'};
+            },
+            prev_material: {
+                get() {
+                    return this.$store.getters['BearingConfigurator/getBearingMaterial'];
+                }
             }
         },
         created() {

@@ -16,7 +16,7 @@ export default {
     },
     getters: {
         getBearingQuantity: state => state.quantity ? state.quantity.value : 10000,
-        getBearingMaterial: state => state.material,
+        getBearingMaterial: state => state.material ? state.material : {name: 'Carbon Balls', value: 0.82},
         getRace: state => state.race,
         getAbec: state => state.abec,
         getRetainer: state => state.retainer,

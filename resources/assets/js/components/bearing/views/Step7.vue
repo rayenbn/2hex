@@ -134,8 +134,8 @@
 				step_brandsecond: this.brandsecond,
                 packseconds: [
                     {name: 'No added cardboard', value: 0},
-                    {name: 'Cardboard sleeve around packaging', value: 0.45},
-                    {name: 'Cardboard box around packaging', value: 0.69}
+                    {name: 'Cardboard sleeve around Tin packaging', value: 0.45},
+                    {name: 'Cardboard box around Tin packaging', value: 0.69}
                 ],
                 brandseconds: [
                     {name: 'No shrink wrap', value: 0},
