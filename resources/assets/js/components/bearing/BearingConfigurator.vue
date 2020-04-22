@@ -895,6 +895,7 @@
         created() {
             this.$store.commit('changeStep', 1);
             this.initBearing();
+            this.calculatePrice();
         }
     };
 </script>
