@@ -531,7 +531,8 @@
                      <div class="col-xl-6 my-auto">
                          <link href="../../../css/classic-10_7.css" rel="stylesheet" type="text/css" />
                          <div id="mc_embed_signup">
-                            <form action="https://2hex.us3.list-manage.com/subscribe/post?u=647f3b724d78e4fe975871794&amp;id=bb8f89e732" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                            <form action="/bookdown" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate">
+                                {{ csrf_field() }}
                                 <div id="mc_embed_signup_scroll" style="max-width: 700px;">
 
                                      <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
@@ -539,11 +540,17 @@
                                         <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
                                      </div>
                                      <div class="mc-field-group">
-                                         <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="enter your email address">
+                                         <input type="email" value="" name="email" class="required email" id="mce-EMAIL" placeholder="enter your email address">
                                      </div>
                                      <div class="mc-field-group">
-                                         <input type="text" value="" name="FNAME" class="" id="mce-FNAME" placeholder="enter your first name">
+                                         <input type="text" value="" name="fname" class="" id="mce-FNAME" placeholder="enter your first name">
                                      </div>
+                                     @if(session()->has('error'))
+                                        <span style="color: red">You have already submit with this email.</span>
+                                     @endif
+                                     @if(session()->has('success'))
+                                        <span style="color: blue">Successfully subscribed. Please check you email</span>
+                                     @endif
 
                                      <div id="mce-responses" class="clear">
                                          <div class="response" id="mce-error-response" style="display:none"></div>
@@ -602,8 +609,3 @@
         </div>
 </div>
 @endsection
-
-@push('footer.scripts')
-    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-    <script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='MMERGE2';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-@endpush
