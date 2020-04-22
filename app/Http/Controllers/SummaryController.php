@@ -10,6 +10,7 @@ use Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\OrderExport;
 use Itlead\Promocodes\Models\Promocode;
+use App\Jobs\RecalculateOrders;
 use Cookie;
 
 class SummaryController extends Controller
@@ -73,6 +74,15 @@ class SummaryController extends Controller
      */
     public function index()
     {
+
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
+            )
+        );
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
