@@ -525,17 +525,17 @@
                 this.calculateTotal();
 
                 switch(true) {
-                    case (this.orderTotal <= 800) : this.additionalCost = 1.4;   break;
-                    case (this.orderTotal <= 1000) : this.additionalCost = 1.1;   break;
-                    case (this.orderTotal <= 1200) : this.additionalCost = 0.9;   break;
-                    case (this.orderTotal <= 1500) : this.additionalCost = 0.85;   break;
-                    case (this.orderTotal <= 2000) : this.additionalCost = 0.7;   break;
-                    case (this.orderTotal <= 2500) : this.additionalCost = 0.45;   break;
-                    case (this.orderTotal <= 3000) : this.additionalCost = 0.35;   break;
-                    case (this.orderTotal <= 4000) : this.additionalCost = 0.3;   break;
-                    case (this.orderTotal <= 5000) : this.additionalCost = 0.2;   break;
-                    case (this.orderTotal <= 8000) : this.additionalCost = 0.18;   break;
-                    case (this.orderTotal <= 10000) : this.additionalCost = 0.05;   break;
+                    case (this.orderTotal < 800) : this.additionalCost = 1.4;   break;
+                    case (this.orderTotal < 1000) : this.additionalCost = 1.1;   break;
+                    case (this.orderTotal < 1200) : this.additionalCost = 0.9;   break;
+                    case (this.orderTotal < 1500) : this.additionalCost = 0.85;   break;
+                    case (this.orderTotal < 2000) : this.additionalCost = 0.7;   break;
+                    case (this.orderTotal < 2500) : this.additionalCost = 0.45;   break;
+                    case (this.orderTotal < 3000) : this.additionalCost = 0.35;   break;
+                    case (this.orderTotal < 4000) : this.additionalCost = 0.3;   break;
+                    case (this.orderTotal < 5000) : this.additionalCost = 0.2;   break;
+                    case (this.orderTotal < 8000) : this.additionalCost = 0.18;   break;
+                    case (this.orderTotal < 10000) : this.additionalCost = 0.05;   break;
                     default: this.additionalCost = 0;
                 }
 
@@ -648,6 +648,7 @@
             },
             save(event) {
                 debugger;
+                var click_type = $(event.target).closest('button').attr('id');
                 $('.submit-button').prop('disabled', true);
 
                 if (this.quantity <= 0) {
@@ -656,17 +657,20 @@
                     return false;
                 }
 
-                if(this.shieldBrand.name == "1 Color Print" && this.shieldBrandColor1 == ''){
+                if(this.shieldBrand.name == "1 Color Print" && this.shieldBrandColor1 == '' && !click_type){
                     alert('Please input pantone color on Step 4');
-                    return;
+                    $('.submit-button').prop('disabled', false);
+                    return false;
                 }
-                if(this.shieldBrand.name == "2 Color Print" && (this.shieldBrandColor1 == '' || this.shieldBrandColor1 == '')){
+                if(this.shieldBrand.name == "2 Color Print" && (this.shieldBrandColor1 == '' || this.shieldBrandColor1 == '') && !click_type){
                     alert('Please input pantone color on Step 4');
-                    return;
+                    $('.submit-button').prop('disabled', false);
+                    return false;
                 }
-                if(this.shield.name == "Custom Color Rubber Shield" && this.shieldColor == ''){
+                if(this.shield.name == "Custom Color Rubber Shield" && this.shieldColor == '' && !click_type){
                     alert('Please input pantone color on Step 4');
-                    return;
+                    $('.submit-button').prop('disabled', false);
+                    return false;
                 }
 
                 var formData = new FormData();
@@ -689,6 +693,11 @@
                 formData.append('packsecond', this.packsecond.name);
                 formData.append('brandsecond', this.brandsecond.name);
                 formData.append('designname', this.designName);
+                if(this.designName == '' && !click_type){
+                    alert('Please input Design Name on Step 8');
+                    $('.submit-button').prop('disabled', false);
+                    return;
+                }
                 formData.append('pantone_color', JSON.stringify(this.pantoneColor));
                 formData.append('designname', this.designName);
                 formData.append('race_print', this.steps.racePrint.state 
