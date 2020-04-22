@@ -240,6 +240,15 @@ class BearingController extends Controller
         $cloneBearing = $bearing->replicate();
         $cloneBearing->push();
 
+        dispatch(
+            new RecalculateOrders(
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
+            )
+        );
+
         return redirect()->route('summary');
     }
 }
