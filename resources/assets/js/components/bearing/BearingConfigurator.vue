@@ -525,18 +525,17 @@
                 this.calculateTotal();
 
                 switch(true) {
-                    case (this.orderTotal <= 625) : this.additionalCost = 1.4;   break;
-                    case (this.orderTotal <= 800) : this.additionalCost = 1.1;   break;
-                    case (this.orderTotal <= 1000) : this.additionalCost = 0.9;   break;
-                    case (this.orderTotal <= 1200) : this.additionalCost = 0.85;   break;
-                    case (this.orderTotal <= 1500) : this.additionalCost = 0.7;   break;
-                    case (this.orderTotal <= 2000) : this.additionalCost = 0.45;   break;
-                    case (this.orderTotal <= 2500) : this.additionalCost = 0.35;   break;
-                    case (this.orderTotal <= 3000) : this.additionalCost = 0.3;   break;
-                    case (this.orderTotal <= 4000) : this.additionalCost = 0.2;   break;
-                    case (this.orderTotal <= 5000) : this.additionalCost = 0.18;   break;
-                    case (this.orderTotal <= 8000) : this.additionalCost = 0.05;   break;
-                    case (this.orderTotal <= 10000) : this.additionalCost = 0;   break;
+                    case (this.orderTotal <= 800) : this.additionalCost = 1.4;   break;
+                    case (this.orderTotal <= 1000) : this.additionalCost = 1.1;   break;
+                    case (this.orderTotal <= 1200) : this.additionalCost = 0.9;   break;
+                    case (this.orderTotal <= 1500) : this.additionalCost = 0.85;   break;
+                    case (this.orderTotal <= 2000) : this.additionalCost = 0.7;   break;
+                    case (this.orderTotal <= 2500) : this.additionalCost = 0.45;   break;
+                    case (this.orderTotal <= 3000) : this.additionalCost = 0.35;   break;
+                    case (this.orderTotal <= 4000) : this.additionalCost = 0.3;   break;
+                    case (this.orderTotal <= 5000) : this.additionalCost = 0.2;   break;
+                    case (this.orderTotal <= 8000) : this.additionalCost = 0.18;   break;
+                    case (this.orderTotal <= 10000) : this.additionalCost = 0.05;   break;
                     default: this.additionalCost = 0;
                 }
 

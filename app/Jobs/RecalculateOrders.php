@@ -473,18 +473,17 @@ class RecalculateOrders
         }
 
         switch(true){
-            case $this->totalBearing <= 625: $price += 1.4;  break;
-            case $this->totalBearing <= 800: $price += 1.1;  break;
-            case $this->totalBearing <= 1000: $price += 0.9;  break;
-            case $this->totalBearing <= 1200: $price += 0.85;  break;
-            case $this->totalBearing <= 1500: $price += 0.7;  break;
-            case $this->totalBearing <= 2000: $price += 0.45;  break;
-            case $this->totalBearing <= 2500: $price += 0.35;  break;
-            case $this->totalBearing <= 3000: $price += 0.3;  break;
-            case $this->totalBearing <= 4000: $price += 0.2;  break;
-            case $this->totalBearing <= 5000: $price += 0.18;  break;
-            case $this->totalBearing <= 8000: $price += 0.05;  break;
-            case $this->totalBearing <= 10000: $price += 0;  break;
+            case $this->totalBearing <= 800: $price += 1.4;  break;
+            case $this->totalBearing <= 1000: $price += 1.1;  break;
+            case $this->totalBearing <= 1200: $price += 0.9;  break;
+            case $this->totalBearing <= 1500: $price += 0.85;  break;
+            case $this->totalBearing <= 2000: $price += 0.7;  break;
+            case $this->totalBearing <= 2500: $price += 0.45;  break;
+            case $this->totalBearing <= 3000: $price += 0.35;  break;
+            case $this->totalBearing <= 4000: $price += 0.3;  break;
+            case $this->totalBearing <= 5000: $price += 0.2;  break;
+            case $this->totalBearing <= 8000: $price += 0.18;  break;
+            case $this->totalBearing <= 10000: $price += 0.05;  break;
             default: $price += 0; break;
         }
         return $price;
