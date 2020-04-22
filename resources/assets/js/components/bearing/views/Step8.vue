@@ -28,6 +28,7 @@
                                 placeholder="Enter design name"
                                 v-model="step_designName"
                                 v-validate="'required'"
+                                required
                                 @input="onDesignNameChange"
                             >
                             <br/>

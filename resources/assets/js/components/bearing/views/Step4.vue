@@ -58,6 +58,7 @@
                                 v-model="step_shieldcolor"
                                 v-if="step_shield && step_shield.name == 'Custom Color Rubber Shield'"
                                 v-validate="'required'"
+                                required
                                 @input="onShieldColorChange"
                             >
 
@@ -187,6 +188,7 @@
                                 placeholder="Enter Panthone Color"
                                 v-if="step_shieldbrand && (step_shieldbrand.name == '1 Color Print' || step_shieldbrand.name == '2 Color Print')"
                                 v-validate="'required'"
+                                required
                                 @input="onShieldBrandColorChange1"
                             >
                             <br/>
@@ -198,6 +200,7 @@
                                 v-model="step_brandcolor2"
                                 v-if="step_shieldbrand && step_shieldbrand.name == '2 Color Print'"
                                 v-validate="'required'"
+                                required
                                 @input="onShieldBrandColorChange2"
                             >
 

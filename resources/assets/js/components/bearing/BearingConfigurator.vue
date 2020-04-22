@@ -641,6 +641,17 @@
                 this.calculatePrice();
             },
             nextStep(){
+                if(this.currentStep == 4){
+                    if(this.shieldBrand.name == "1 Color Print" && this.shieldBrandColor1 == ''){
+                        return false;
+                    }
+                    if(this.shieldBrand.name == "2 Color Print" && (this.shieldBrandColor1 == '' || this.shieldBrandColor1 == '')){
+                        return false;
+                    }
+                    if(this.shield.name == "Custom Color Rubber Shield" && this.shieldColor == ''){
+                        return false;
+                    }
+                }
                 this.$store.commit('changeStep', ++this.currentStep);
             },
             prevStep(){
@@ -699,6 +710,19 @@
                     return;
                 }
                 formData.append('pantone_color', JSON.stringify(this.pantoneColor));
+                if(!this.pantoneColor && !click_type){
+                    alert('Please select color type');
+                    $('.submit-button').prop('disabled', false);
+                    return;
+                }
+                for(var i = 0; i < this.pantoneColor.colors.length; i ++){
+                    if(!this.pantoneColor.colors[i] && !click_type){
+                        alert('Please input Color on Step 8');
+                        $('.submit-button').prop('disabled', false);
+                        return;
+                    }
+                }
+
                 formData.append('designname', this.designName);
                 formData.append('race_print', this.steps.racePrint.state 
                     && this.steps.racePrint.file ? this.steps.racePrint.file : "");
