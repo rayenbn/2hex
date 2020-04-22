@@ -211,6 +211,12 @@
             return {
                 pantoneColors: [
                     {
+                        "title": "No Print",
+                        "countFields": 0,
+                        "colors": new Array(0).fill(null),
+                        "value": 0
+                    },
+                    {
                         "title": "1 Color",
                         "countFields": 1,
                         "colors": new Array(1).fill(null),
