@@ -178,6 +178,12 @@
                 }
             }
         },
+        watch: {
+            prev_material: function(val){
+                if(val.name == 'White Ceramic Balls' || val.name == 'Black Ceramic Balls')
+                    this.step_abec = {name: 'Abec7', value: 0.08};
+            }
+        },
         created() {
             if (typeof this.step_race === 'string') {
                 let race = this.races.find(s => s.name == this.step_race);
