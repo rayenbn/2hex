@@ -40,7 +40,7 @@
                                 <option 
                                     :value="abec" 
                                     v-for="(abec, index) in abecs" 
-                                    v-if="abec.name !='Abec7' || prev_material.name == 'White Cerami Balls' || prev_material.name == 'Black Ceramic Balls'"
+                                    v-if="abec.name =='Abec7' || (prev_material.name != 'White Ceramic Balls' && prev_material.name != 'Black Ceramic Balls')"
                                     :key="index"
                                 >
                                     {{ abec.name }}

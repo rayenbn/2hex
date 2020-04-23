@@ -211,37 +211,37 @@
             return {
                 pantoneColors: [
                     {
-                        "title": "No Print",
+                        "title": "No Print on outer cartons",
                         "countFields": 0,
                         "colors": new Array(0).fill(null),
                         "value": 0
                     },
                     {
-                        "title": "1 Color",
+                        "title": "1 Color on outer cartons",
                         "countFields": 1,
                         "colors": new Array(1).fill(null),
                         "value": 90
                     },
                     {
-                        "title": "2 Color",
+                        "title": "2 Color on outer cartons",
                         "countFields": 2,
                         "colors": new Array(2).fill(null),
                         "value": 180
                     },
                     {
-                        "title": "3 Color",
+                        "title": "3 Color on outer cartons",
                         "countFields": 3,
                         "colors": new Array(3).fill(null),
                         "value": 270
                     },
                     {
-                        "title": "4 Color",
+                        "title": "4 Color on outer cartons",
                         "countFields": 4,
                         "colors": new Array(4).fill(null),
                         "value": 360
                     },
                     {
-                        "title": "CMYK",
+                        "title": "CMYK photo print on outer carton",
                         "countFields": 0,
                         "colors": new Array(4).fill(null),
                         "value": 360

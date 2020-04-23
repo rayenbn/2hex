@@ -262,28 +262,23 @@ class SummaryController extends Controller
                         if($key == 'pantone_color'){
                             $panthone = json_decode($bearing['pantone_color'], true);
                             switch($panthone['title']){
-                                case '1 Color':
+                                case '1 Color on outer cartons':
                                     $fees[$key][$value]['price'] += 90;
                                     break;
-                                case '2 Color':
+                                case '2 Color on outer cartons':
                                     $fees[$key][$value]['price'] += 180;
                                     break;
-                                case '3 Color':
+                                case '3 Color on outer cartons':
                                     $fees[$key][$value]['price'] += 270;
                                     break;
-                                case '4 Color':
+                                case '4 Color on outer cartons':
                                     $fees[$key][$value]['price'] += 360;
                                     break;
-                                case 'CMYK':
+                                case 'CMYK photo print on outer carton':
                                     $fees[$key][$value]['price'] += 360;
                                     break;
                                 default:
-                                    $fees[$key][$value] = [
-                                        'image'    => $panthone['title'],
-                                        'type'     => "No Color",
-                                        'batches'  => (string) $index,
-                                        'price'    => 0
-                                    ];
+                                    $fees[$key][$value]['price'] += 0;
                                     break;
                             }
                         }
@@ -328,7 +323,7 @@ class SummaryController extends Controller
                     if($key == 'pantone_color'){
                         $panthone = json_decode($bearing['pantone_color'], true);
                         switch($panthone['title']){
-                            case '1 Color':
+                            case '1 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
                                     'type'     => "1 Color",
@@ -336,7 +331,7 @@ class SummaryController extends Controller
                                     'price'    => 90
                                 ];
                                 break;
-                            case '2 Color':
+                            case '2 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
                                     'type'     => "2 Color",
@@ -344,7 +339,7 @@ class SummaryController extends Controller
                                     'price'    => 180
                                 ];
                                 break;
-                            case '3 Color':
+                            case '3 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
                                     'type'     => "2 Color",
@@ -352,7 +347,7 @@ class SummaryController extends Controller
                                     'price'    => 270
                                 ];
                                 break;
-                            case '4 Color':
+                            case '4 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
                                     'type'     => "2 Color",
@@ -360,7 +355,7 @@ class SummaryController extends Controller
                                     'price'    => 360
                                 ];
                                 break;
-                            case 'CMYK':
+                            case 'CMYK photo print on outer carton':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
                                     'type'     => "2 Color",

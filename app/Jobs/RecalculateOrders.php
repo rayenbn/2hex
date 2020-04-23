@@ -383,7 +383,7 @@ class RecalculateOrders
                 'Carbon Balls'=>0.82,
                 'Chrome Balls'=>1.11,
                 'Stainless Steel Balls'=>2.57,
-                'White Cerami Balls'=>5.65,
+                'White Ceramic Balls'=>5.65,
                 'Black Ceramic Balls'=>8.07,
             ],
             'abec'=>[

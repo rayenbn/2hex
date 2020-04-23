@@ -148,7 +148,7 @@
                     {name: 'Carbon Balls', value: 0.82},
                     {name: 'Chrome Balls', value: 1.11},
                     {name: 'Stainless Steel Balls', value: 2.57},
-                    {name: 'White Cerami Balls', value: 5.65},
+                    {name: 'White Ceramic Balls', value: 5.65},
                     {name: 'Black Ceramic Balls', value: 8.07},
                 ],
 			}
