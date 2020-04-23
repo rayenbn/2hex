@@ -6,6 +6,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\BookSubscribe;
 use App\Mail\EmailBook;
+use App\Models\Auth\User\User;
 class HomeController extends Controller
 {
     /**
@@ -36,6 +37,11 @@ class HomeController extends Controller
         $email = $request->input('email');
         $fname = $request->input('fname');
         $check = BookSubscribe::where('email',$email)->count();
+        if($check > 0){
+            session()->flash('error', 'You already submitted your email');
+            return redirect()->route('index',['#mc-embedded-subscribe-form']);
+        }
+        $check = User::where('email', $email)->count();
         if($check > 0){
             session()->flash('error', 'You already submitted your email');
             return redirect()->route('index',['#mc-embedded-subscribe-form']);

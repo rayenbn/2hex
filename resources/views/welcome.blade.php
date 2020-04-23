@@ -546,7 +546,7 @@
                                          <input type="text" value="" name="fname" class="" id="mce-FNAME" placeholder="enter your first name">
                                      </div>
                                      @if(session()->has('error'))
-                                        <span style="color: red">You have already submit with this email.</span>
+                                        <span style="color: red">You have already submitted with this email.</span>
                                      @endif
                                      @if(session()->has('success'))
                                         <span style="color: blue">Successfully subscribed. Please check you email</span>

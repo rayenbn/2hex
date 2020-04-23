@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\BookSubscribe;
+use App\Models\Auth\User\User;
 use App\Mail\EmailBook;
 class EmailToBook extends Command
 {
@@ -46,6 +47,9 @@ class EmailToBook extends Command
             $date = strtotime($user['created_at']);
             $now = strtotime(date('Y-m-d H:i:s'));
 
+            $check = User::where('email', $user['email'])->count();
+            if($check > 0)
+                continue;
 
             $difference = ($now - $date) / 3600;
             $type = 0;
