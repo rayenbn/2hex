@@ -243,7 +243,7 @@
                     {
                         "title": "CMYK photo print on outer carton",
                         "countFields": 0,
-                        "colors": new Array(4).fill(null),
+                        "colors": new Array(0).fill(null),
                         "value": 360
                     }
                 ],

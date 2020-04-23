@@ -106,9 +106,10 @@ class SummaryController extends Controller
             ->first()
             ->weight;
 
-        // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
+        $bearingWeight = (clone $bearingQuery)->get()->sum('quantity')*0.12;
 
+        // total weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $bearingWeight;
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
             ->get()
