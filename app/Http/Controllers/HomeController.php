@@ -51,7 +51,7 @@ class HomeController extends Controller
         $user->name = $fname;
         $user->save();
         session()->flash('success', 'success');
-        // \Mail::to($email)->send(new EmailBook(['id'=>$user->id, 'name' => $fname, 'type' => 1]));
+        \Mail::to($email)->send(new EmailBook(['id'=>$user->id, 'name' => $fname, 'type' => 1]));
         return redirect()->route('index',['#mc-embedded-subscribe-form']);
     }
 }
