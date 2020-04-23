@@ -95,6 +95,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     protected $ordersCount = 0;
     protected $gripsCount = 0;
     protected $wheelsCount = 0;
+    protected $bearingCount = 0;
 
     /**
      * If some order contain promocode
@@ -1001,5 +1002,140 @@ class GenerateInvoicesXLSX implements ShouldQueue
         });
 
         return $total;
+    }
+
+    protected function generateBearings()
+    {
+        if ($this->bearingCount <= 0) return $this;
+
+        // +1 If exists grips
+        $this->offsetRows += 1;
+
+        $activeSheet = $this->getActiveSheet();
+        // Insert head Grip Tapes
+        $activeSheet->insertNewRowBefore($gripRowStart = ($this->rangeStart + $this->ordersCount * self::ROWS_ITEM));
+        $activeSheet->setCellValue('C' . $gripRowStart, 'Quantity');
+        $activeSheet->setCellValue('D' . $gripRowStart, 'Size');
+        $activeSheet->setCellValue('E' . $gripRowStart, 'Grip Color');
+        $activeSheet->setCellValue('F' . $gripRowStart, 'Grit');
+        $activeSheet->setCellValue('G' . $gripRowStart, 'Perforation');
+        $activeSheet->setCellValue('H' . $gripRowStart, 'Die Cut');
+        $activeSheet->setCellValue('I' . $gripRowStart, 'Top Print');
+        $activeSheet->setCellValue('J' . $gripRowStart, 'Backpaper');
+        $activeSheet->setCellValue('K' . $gripRowStart, 'Backpaper Print');
+        $activeSheet->setCellValue('L' . $gripRowStart, 'Carton Print');
+        $activeSheet->setCellValue('M' . $gripRowStart, 'Price p. grip');
+        $activeSheet->setCellValue('N' . $gripRowStart, 'Total of Row');
+
+        $gripRowStart += 1; // after head row
+
+        $this->grips->map(function(GripTape $grip, $index) use ($gripRowStart, $activeSheet) {
+
+            $activeSheet->insertNewRowBefore($gripRowStart, self::ROWS_ITEM);
+            
+            foreach ($activeSheet->getRowIterator($gripRowStart, self::ROWS_ITEM) as $row) {
+                $green = false;
+                // Column C
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $gripRowStart, $endRange = $gripRowStart + 3));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
+                $activeSheet->setCellValue(sprintf('C%s', $gripRowStart), $grip->quantity);
+                $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Grip Tapes');
+                // Column D
+                $activeSheet->mergeCells(sprintf('D%s:D%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('D%s', $gripRowStart), $grip->size);
+                // Column E
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('E%s', $gripRowStart), ucwords($grip->color));
+                // Column F
+                $activeSheet->mergeCells(sprintf('F%s:F%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('F%s', $gripRowStart), $grip->grit);
+
+                // Column G
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('G%s', $gripRowStart), $grip->perforation ? 'Yes' : 'No');
+
+                // Column H
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->die_cut)->first()['date'])){
+                    $green = true;
+                }
+                $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut, $green));
+                $green = false;
+                // Column I
+                $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->top_print)->first()['date'])){
+                    $green = true;
+                }
+                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $this->setStartTextBold('', $grip->top_print, $green));
+                $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->top_print_color));
+                $green = false;
+                // Column J
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('J%s', $gripRowStart), $grip->backpaper);
+
+                // Column K
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->backpaper_print)->first()['date'])){
+                    $green = true;
+                }
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $this->setStartTextBold('', $grip->backpaper_print, $green));
+                $activeSheet->setCellValue(sprintf('K%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->backpaper_print_color));
+                $green = false;
+                // Column L
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->carton_print)->first()['date'])){
+                    $green = true;
+                }
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $gripRowStart, $endRange = $gripRowStart + 6));
+                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $this->setStartTextBold('', $grip->carton_print, $green));
+                $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->carton_print_color));
+
+                // Column M
+                $activeSheet->mergeCells(sprintf('M%s:M%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('M%s', $gripRowStart), $grip->price);
+
+                // Column N
+                $activeSheet->mergeCells(sprintf('N%s:N%s', $gripRowStart, $gripRowStart + 7));
+                $activeSheet->setCellValue(sprintf('N%s', $gripRowStart), $grip->total);
+            }
+        });
+
+        // ------------- Set styles --------------
+
+        // start + count grips * 8(count rows in single item)
+        $range = sprintf(
+            'C%s:N%s', 
+            $gripRowStart,
+            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM) - 1
+        ); 
+
+        $styles = $this->getStylesRange($range);
+        // set fill bg
+        $styles
+            ->getFill()
+            ->setFillType(Fill::FILL_NONE);
+        // set color and size inner cell
+        $styles
+            ->getFont()
+            ->setSize(10)
+            ->getColor()
+            ->setARGB(Color::COLOR_BLACK);
+        // set aligment inner cell
+        $styles
+            ->getAlignment()
+            ->setVertical(Alignment::VERTICAL_CENTER)
+            ->setHorizontal(Alignment::HORIZONTAL_LEFT)
+            ->setWrapText(true);
+
+        $rangeCurrency = sprintf(
+            'M%s:N%s', 
+            $gripRowStart,  
+            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM)
+        );
+        // set currency format for cells
+        $this->getStylesRange($rangeCurrency)
+            ->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+        return $this;
     }
 }

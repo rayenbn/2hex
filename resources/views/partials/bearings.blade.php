@@ -92,6 +92,9 @@
                         <p>Color{{($i+1).': '.$pantonecolor}}</p>
                     @endforeach
                 @endif
+                @if($pantonecolors['title'] == 'CMYK photo print on outer carton')
+                    <p>CMYK Color</p>
+                @endif
                 
             </td>
             <td @if(isset($fees['pantone_print'][$bearing->pantone_print]['paid']) && $fees['pantone_print'][$bearing->pantone_print]['paid'] == 1) class="paid" @endif>

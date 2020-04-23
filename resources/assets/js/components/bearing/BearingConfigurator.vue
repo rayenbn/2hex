@@ -400,6 +400,7 @@
                     {name: 'Home', href: '/'},
                     {name: 'Configurator', href: '/bearing-configurator'},
                 ],
+                issummaring: 0,
                 steps: {
                     grit:            {state: false},
                     perforation:     {state: false},
@@ -661,6 +662,9 @@
             save(event) {
                 debugger;
                 var click_type = $(event.target).closest('button').attr('id');
+                if(this.issummaring == 1)
+                    return false;
+                
                 $('.submit-button').prop('disabled', true);
 
                 if (this.quantity <= 0) {
@@ -738,6 +742,8 @@
                     && this.steps.pantonePrint.file ? this.steps.pantonePrint.file : "");
                 formData.append('price', this.price);
                 formData.append('total', this.total);
+                this.issummaring = 1;
+                var self = this;
                 if(this.id)
                     axios.post('/bearing-configurator/'+this.id, formData)
                         .then((response) => {
@@ -747,6 +753,7 @@
                         })
                         .catch((error) => {
                             console.error(error);
+                            self.issummaring = 0;
                             $('.submit-button').prop('disabled', false);
                         }); 
                 else
@@ -758,6 +765,7 @@
                         })
                         .catch((error) => {
                             console.error(error);
+                            self.issummaring = 0;
                             $('.submit-button').prop('disabled', false);
                         }); 
             },
