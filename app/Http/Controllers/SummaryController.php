@@ -809,7 +809,7 @@ class SummaryController extends Controller
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
-        $bearings = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
