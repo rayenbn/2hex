@@ -107,6 +107,9 @@
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
 									Add Wheels
 								</a>
+								<a class="dropdown-item" href="{{route('bearings.configurator')}}">
+									Add Bearings
+								</a>
 						  		@if($isAdmin)
 									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
 										Saved Batches
