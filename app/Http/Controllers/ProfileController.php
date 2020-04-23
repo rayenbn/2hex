@@ -133,7 +133,7 @@ class ProfileController extends Controller
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
             $submitorders->push($grip);
         });
-        $querySubmitBearings->where('submit', 1)->get()->each(function($bearing) use (&$unSubmitOrders) {
+        $querySubmitBearings->where('submit', 1)->addSelect('invoice_number')->get()->each(function($bearing) use (&$submitorders) {
             $submitorders->push($bearing);
         });
 
@@ -391,8 +391,46 @@ class ProfileController extends Controller
                 if (array_key_exists($key, $fees)) {
                     if (array_key_exists($value, $fees[$key])) {
                         $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
                         if(isset($fees[$key][$value]['quantity']))
                             $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
                         continue;
                     }
                 } 
@@ -431,6 +469,59 @@ class ProfileController extends Controller
                             'price'    => 149.9
                         ];
                     }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
                     
                     continue;
                 }
@@ -445,47 +536,7 @@ class ProfileController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists(str_replace('_print','',$key) . '_color', $bearing)) {
-                    switch ($bearing[str_replace('_print','',$key). '_color']) {
-                        case '1 color':
-                            $fees[$key][$value]['color'] = 1;
-                            break;
-                        case '2 color':
-                            $fees[$key][$value]['color'] = 2;
-                            break;
-                        case '3 color':
-                            $fees[$key][$value]['color'] = 3;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
-                            break;
-                    }
-                }
-                if($key != "pantone_print")
-                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'];
-                else if($key == "pantone_print"){
-                    $panthone = json_decode($bearing['pantone_color'], true);
-                    switch($panthone['title']){
-                        case '1 Color':
-                            $fees[$key][$value]['price'] = 90;
-                            break;
-                        case '2 Color':
-                            $fees[$key][$value]['price'] = 180;
-                            break;
-                        case '3 Color':
-                            $fees[$key][$value]['price'] = 270;
-                            break;
-                        case '4 Color':
-                            $fees[$key][$value]['price'] = 360;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['price'] = 360;
-                            break;
-                        default:
-                            $fees[$key][$value]['price'] = 0;
-                            break;
-                    }
-                }
+                $fees[$key][$value]['price'] = 0;
 
 
                 if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile, ProductionComment, ProductionDate};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Mail;
@@ -343,7 +343,7 @@ class SummaryController extends Controller
                             case '3 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
-                                    'type'     => "2 Color",
+                                    'type'     => "3 Color",
                                     'batches'  => (string) $index,
                                     'price'    => 270
                                 ];
@@ -351,7 +351,7 @@ class SummaryController extends Controller
                             case '4 Color on outer cartons':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
-                                    'type'     => "2 Color",
+                                    'type'     => "4 Color",
                                     'batches'  => (string) $index,
                                     'price'    => 360
                                 ];
@@ -359,7 +359,7 @@ class SummaryController extends Controller
                             case 'CMYK photo print on outer carton':
                                 $fees[$key][$value] = [
                                     'image'    => $panthone['title'],
-                                    'type'     => "2 Color",
+                                    'type'     => "CMYK",
                                     'batches'  => (string) $index,
                                     'price'    => 360
                                 ];
@@ -388,22 +388,6 @@ class SummaryController extends Controller
                     'color'    => 1
                 ];
 
-                if (array_key_exists(str_replace('_print','',$key) . '_color', $bearing)) {
-                    switch ($bearing[str_replace('_print','',$key). '_color']) {
-                        case '1 color':
-                            $fees[$key][$value]['color'] = 1;
-                            break;
-                        case '2 color':
-                            $fees[$key][$value]['color'] = 2;
-                            break;
-                        case '3 color':
-                            $fees[$key][$value]['color'] = 3;
-                            break;
-                        case 'CMYK':
-                            $fees[$key][$value]['color'] = 4;
-                            break;
-                    }
-                }
                 $fees[$key][$value]['price'] = 0;
 
 
@@ -580,7 +564,6 @@ class SummaryController extends Controller
             $gripQuery->get(), 
             $wheelQuery->get(),
             $bearingQuery->get()
-
         ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
@@ -647,20 +630,23 @@ class SummaryController extends Controller
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
         $wheels = Wheel::auth()->get();
-        $bearing = Bearing::auth()->get();
+        $bearings = Bearing::auth()->get();
 
         // TODO add wheels to invoice
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings);
 
         if ($orders->count()) {
             $model = $orders->first();
 
         } else if ($grips->count()) {
             $model = $grips->first();
-        } else {
+        } else if ($wheels->count()){
             $model =$wheels->first();
+        } else {
+            $model =$bearings->first();
         }
+
 
         $exporter->setInvoiceNumber($model->invoice_number);
 
@@ -873,7 +859,7 @@ class SummaryController extends Controller
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
-        $bearings = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -973,7 +959,7 @@ class SummaryController extends Controller
         $grip_checked = $request->input('gripBatches');
         $wheel_checked = $request->input('wheelBatches');
         $bearing_checked = $request->input('bearingBatches');
-        
+
         if($request->submit == 'Add'){
             if(isset($order_checked)){
                 $orders = Order::whereIn('id',$order_checked)->get();
@@ -1033,6 +1019,7 @@ class SummaryController extends Controller
             
         }
         if($request->submit == 'Delete'){
+            
             if(isset($order_checked))
                 Order::whereIn('id',$order_checked)->delete();
             if(isset($grip_checked))
@@ -1040,7 +1027,7 @@ class SummaryController extends Controller
             if(isset($wheel_checked))
                 Wheel::whereIn('wheel_id',$wheel_checked)->delete();
             if(isset($bearing_checked))
-                GripTape::whereIn('bearing_id',$bearing_checked)->delete();
+                Bearing::whereIn('id',$bearing_checked)->delete();
             return redirect()->back();
         }
         return redirect()->route('summary');

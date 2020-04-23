@@ -136,7 +136,7 @@
                         </div>
 
                         <div class="m-widget17">
-                            <template v-if="step_pantoneColor && step_pantoneColor.title != 'CMYK'">
+                            <template v-if="step_pantoneColor && step_pantoneColor.title != 'CMYK photo print on outer carton'">
                                 <input
                                     v-for="(count, index) in step_pantoneColor.countFields"
                                     type="text"
@@ -145,6 +145,20 @@
                                     v-model="step_pantoneColor.colors[index]"
                                     :name="'color' + index"
                                     v-validate="'required'"
+                                    @input="onChangePantoneColor"
+                                >
+                            </template>
+
+                            <template v-if="step_pantoneColor && step_pantoneColor.title == 'CMYK photo print on outer carton'">
+                                <input
+                                    v-for="(count, index) in step_pantoneColor.countFields"
+                                    type="text"
+                                    class="form-control mt-2 mb-2"
+                                    placeholder="Enter Pantone Color"
+                                    v-model="step_pantoneColor.colors[index]"
+                                    :name="'color' + index"
+                                    v-validate="'required'"
+                                    readonly
                                     @input="onChangePantoneColor"
                                 >
                             </template>
@@ -242,8 +256,8 @@
                     },
                     {
                         "title": "CMYK photo print on outer carton",
-                        "countFields": 0,
-                        "colors": new Array(0).fill(null),
+                        "countFields": 4,
+                        "colors": ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'],
                         "value": 360
                     }
                 ],

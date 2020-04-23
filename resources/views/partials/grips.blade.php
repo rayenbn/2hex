@@ -82,7 +82,7 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <a class="m-btn btn btn-secondary" href="{{route('griptape.save', $grip->id)}}" title="Edit">
+                    <a class="m-btn btn btn-secondary" href="{{route('griptape.save', $grip->id)}}" title="Save">
                         <i class="la la-floppy-o"></i>
                     </a>
                     <a class="m-btn btn btn-secondary" href="{{route('griptape.show', $grip->id)}}" title="Edit">

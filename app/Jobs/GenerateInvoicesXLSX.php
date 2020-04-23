@@ -5,7 +5,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\{Order, GripTape, PaidFile};
+use App\Models\{Order, GripTape, PaidFile, Bearing};
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -38,6 +38,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
      * Collection $grips
      */
     protected $grips;
+
+    /**
+     * List wheels
+     * Collection $wheels
+     */
+    protected $wheels;
+
+
+    /**
+     * List bearings
+     * Collection $bearings
+     */
+    protected $bearings;
+
+
+
 
     /**
      * Working spreadsheet
@@ -95,7 +111,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     protected $ordersCount = 0;
     protected $gripsCount = 0;
     protected $wheelsCount = 0;
-    protected $bearingCount = 0;
+    protected $bearingsCount = 0;
 
     /**
      * If some order contain promocode
@@ -162,11 +178,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
         'pattern'       => 'Pattern Press',
     ];
 
-    public function __construct($orders, $grips, $wheels)
+    public function __construct($orders, $grips, $wheels, $bearings)
     {
         $this->orders = $orders;
         $this->grips = $grips;
         $this->wheels = $wheels;
+        $this->bearings = $bearings;
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
         $this->spreadsheet = IOFactory::createReader('Xlsx')->load($this->pathTemplate);
@@ -178,7 +195,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->ordersCount = $this->getCountOrders();
         $this->gripsCount = $this->getCountGrips();
         $this->wheelsCount = $this->getCountWheels();
-        $this->totalCount = $this->ordersCount + $this->gripsCount + $this->wheelsCount;
+        $this->bearingsCount = $this->getCountBearings();
+        $this->totalCount = $this->ordersCount + $this->gripsCount + $this->wheelsCount + $this->bearingsCount;
     }
     /**
      * Execute the job.
@@ -191,6 +209,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->generateOrders()
             ->generateGrips()
             ->generateWheels()
+            ->generateBearings()
             ->setDeliveryCells()
             ->setDiscountRow()
             ->setDafaultStyles()
@@ -253,7 +272,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
    protected function generateOrders()
     {
         if ($this->ordersCount <= 0) return $this;
-
+        
         // +1 If exists orders
         $this->offsetRows += 1;
 
@@ -597,6 +616,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
         return $this->grips->count();
     }
 
+    public function getCountBearings()
+    {
+        return $this->bearings->count();
+    }
+
     protected function setSeparateCell()
     { 
         $this
@@ -718,6 +742,13 @@ class GenerateInvoicesXLSX implements ShouldQueue
             })
             ->toArray();
 
+
+        $bearings = $this->bearings
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
+            })
+            ->toArray();
+
         $fees = [];
         $sum_fees = 0;
 
@@ -832,6 +863,163 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
                     $fees[$key][$value]['paid'] = 1;
                     $fees[$key][$value]['price'] = 0;
+                }
+            }
+        }
+
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
+                        continue;
+                    }
+                } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bearing['quantity'],
+                    'color'    => 1
+                ];
+
+                $fees[$key][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
                 }
             }
         }
@@ -1006,96 +1194,163 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
     protected function generateBearings()
     {
-        if ($this->bearingCount <= 0) return $this;
+        if ($this->bearingsCount <= 0) return $this;
+
+        $offset = 2;
+
+        if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
+            $this->offsetRows += 3;
+            $offset = 0;
+        } else {
+            $this->offsetRows += 2;
+        }
 
         // +1 If exists grips
-        $this->offsetRows += 1;
+        
 
         $activeSheet = $this->getActiveSheet();
         // Insert head Grip Tapes
-        $activeSheet->insertNewRowBefore($gripRowStart = ($this->rangeStart + $this->ordersCount * self::ROWS_ITEM));
-        $activeSheet->setCellValue('C' . $gripRowStart, 'Quantity');
-        $activeSheet->setCellValue('D' . $gripRowStart, 'Size');
-        $activeSheet->setCellValue('E' . $gripRowStart, 'Grip Color');
-        $activeSheet->setCellValue('F' . $gripRowStart, 'Grit');
-        $activeSheet->setCellValue('G' . $gripRowStart, 'Perforation');
-        $activeSheet->setCellValue('H' . $gripRowStart, 'Die Cut');
-        $activeSheet->setCellValue('I' . $gripRowStart, 'Top Print');
-        $activeSheet->setCellValue('J' . $gripRowStart, 'Backpaper');
-        $activeSheet->setCellValue('K' . $gripRowStart, 'Backpaper Print');
-        $activeSheet->setCellValue('L' . $gripRowStart, 'Carton Print');
-        $activeSheet->setCellValue('M' . $gripRowStart, 'Price p. grip');
-        $activeSheet->setCellValue('N' . $gripRowStart, 'Total of Row');
+        $activeSheet->insertNewRowBefore($bearingRowStart = ($this->rangeStart + ($this->ordersCount + $this->wheelsCount + $this->gripsCount) * self::ROWS_ITEM) + $offset);
+        $activeSheet->setCellValue('C' . $bearingRowStart, 'Quantity');
+        $activeSheet->setCellValue('D' . $bearingRowStart, 'Material');
+        $activeSheet->setCellValue('E' . $bearingRowStart, 'Abec');
+        $activeSheet->setCellValue('F' . $bearingRowStart, 'Race');
+        $activeSheet->setCellValue('G' . $bearingRowStart, 'Race Print');
+        $activeSheet->setCellValue('H' . $bearingRowStart, 'Retainer');
+        $activeSheet->setCellValue('I' . $bearingRowStart, 'Shield Material');
+        $activeSheet->setCellValue('J' . $bearingRowStart, 'Shield Branding');
+        $activeSheet->setCellValue('K' . $bearingRowStart, 'Shield Print');
+        $activeSheet->setCellValue('L' . $bearingRowStart, 'Spacers Material');
+        $activeSheet->setCellValue('M' . $bearingRowStart, 'Spacers Color');
+        $activeSheet->setCellValue('N' . $bearingRowStart, 'Packing1');
+        $activeSheet->setCellValue('O' . $bearingRowStart, 'Shield Branding1');
+        $activeSheet->setCellValue('P' . $bearingRowStart, 'Packing2');
+        $activeSheet->setCellValue('Q' . $bearingRowStart, 'Shield Branding2');
+        $activeSheet->setCellValue('R' . $bearingRowStart, 'Design Name');
+        $activeSheet->setCellValue('S' . $bearingRowStart, 'Packing Colors');
+        $activeSheet->setCellValue('T' . $bearingRowStart, 'Packing Print');
+        $activeSheet->setCellValue('U' . $bearingRowStart, 'Price per bearing');
+        $activeSheet->setCellValue('V' . $bearingRowStart, 'Total of Row');
 
-        $gripRowStart += 1; // after head row
+        $bearingRowStart += 1; // after head row
 
-        $this->grips->map(function(GripTape $grip, $index) use ($gripRowStart, $activeSheet) {
+        $this->bearings->map(function(Bearing $bearing, $index) use ($bearingRowStart, $activeSheet) {
 
-            $activeSheet->insertNewRowBefore($gripRowStart, self::ROWS_ITEM);
+            $activeSheet->insertNewRowBefore($bearingRowStart, self::ROWS_ITEM);
             
-            foreach ($activeSheet->getRowIterator($gripRowStart, self::ROWS_ITEM) as $row) {
+            foreach ($activeSheet->getRowIterator($bearingRowStart, self::ROWS_ITEM) as $row) {
                 $green = false;
                 // Column C
-                $activeSheet->mergeCells(sprintf('C%s:C%s', $gripRowStart, $endRange = $gripRowStart + 3));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
                 $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
-                $activeSheet->setCellValue(sprintf('C%s', $gripRowStart), $grip->quantity);
-                $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Grip Tapes');
+                $activeSheet->setCellValue(sprintf('C%s', $bearingRowStart), $bearing->quantity);
+                $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Bearings');
                 // Column D
-                $activeSheet->mergeCells(sprintf('D%s:D%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('D%s', $gripRowStart), $grip->size);
+                $activeSheet->mergeCells(sprintf('D%s:D%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('D%s', $bearingRowStart), $bearing->material);
                 // Column E
-                $activeSheet->mergeCells(sprintf('E%s:E%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('E%s', $gripRowStart), ucwords($grip->color));
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('E%s', $bearingRowStart), $bearing->abec);
                 // Column F
-                $activeSheet->mergeCells(sprintf('F%s:F%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('F%s', $gripRowStart), $grip->grit);
+                $activeSheet->mergeCells(sprintf('F%s:F%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('F%s', $bearingRowStart), $bearing->race);
 
                 // Column G
-                $activeSheet->mergeCells(sprintf('G%s:G%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('G%s', $gripRowStart), $grip->perforation ? 'Yes' : 'No');
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 1, $endRange + 4));
+                $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->raceprintvalue);
+                $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->race_print);
 
                 // Column H
-                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->die_cut)->first()['date'])){
-                    $green = true;
-                }
-                $activeSheet->mergeCells(sprintf('H%s:H%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $gripRowStart), $this->setStartTextBold('', $grip->die_cut, $green));
-                $green = false;
+                $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->retainer);
                 // Column I
-                $activeSheet->mergeCells(sprintf('I%s:I%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->top_print)->first()['date'])){
-                    $green = true;
+
+                if(isset($bearing->shieldcolor)){
+                    $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart, $endRange = $bearingRowStart + 6));
+                    $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'Color:'.$bearing->shieldcolor);
+                } else{
+                    $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart, $bearingRowStart + 7));
+                    $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart), $bearing->shield);
                 }
-                $activeSheet->setCellValue(sprintf('I%s', $gripRowStart), $this->setStartTextBold('', $grip->top_print, $green));
-                $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->top_print_color));
-                $green = false;
+                
                 // Column J
-                $activeSheet->mergeCells(sprintf('J%s:J%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('J%s', $gripRowStart), $grip->backpaper);
+
+                if(isset($bearing->firstbrandcolor)){
+                    $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $endRange = $bearingRowStart + 5));
+                    $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->shield);
+                    $text = 'Color1: ';
+                    $text .= $bearing->firstbrandcolor;
+                    if(isset($bearing->secondbrandcolor)){
+                        $text .= ', Color2: ';
+                        $text .= $bearing->firstbrandcolor;
+                    }
+                    $activeSheet->setCellValue(sprintf('J%s', $endRange + 1), $text);
+                } else{
+                    $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $bearingRowStart + 7));
+                    $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->shield);
+                }
+
 
                 // Column K
-                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->backpaper_print)->first()['date'])){
-                    $green = true;
-                }
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('K%s', $gripRowStart), $this->setStartTextBold('', $grip->backpaper_print, $green));
-                $activeSheet->setCellValue(sprintf('K%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->backpaper_print_color));
-                $green = false;
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart), $bearing->shield_brand_print);
+
                 // Column L
-                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $grip->carton_print)->first()['date'])){
-                    $green = true;
-                }
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $gripRowStart, $endRange = $gripRowStart + 6));
-                $activeSheet->setCellValue(sprintf('L%s', $gripRowStart), $this->setStartTextBold('', $grip->carton_print, $green));
-                $activeSheet->setCellValue(sprintf('L%s', $endRange + 1), 'colors: ' . Griptape::colorCount($grip->carton_print_color));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart), $bearing->spamaterial);
 
                 // Column M
-                $activeSheet->mergeCells(sprintf('M%s:M%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('M%s', $gripRowStart), $grip->price);
+                $activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('M%s', $bearingRowStart), $bearing->spacolor);
 
                 // Column N
-                $activeSheet->mergeCells(sprintf('N%s:N%s', $gripRowStart, $gripRowStart + 7));
-                $activeSheet->setCellValue(sprintf('N%s', $gripRowStart), $grip->total);
+                $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('N%s', $bearingRowStart), $bearing->packfirst);
+
+                // Column O
+                $activeSheet->mergeCells(sprintf('O%s:O%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('O%s', $bearingRowStart), $bearing->brandfirst);
+
+                // Column P
+                $activeSheet->mergeCells(sprintf('P%s:P%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('P%s', $bearingRowStart), $bearing->packsecond);
+
+
+                // Column Q
+                $activeSheet->mergeCells(sprintf('Q%s:Q%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('Q%s', $bearingRowStart), $bearing->brandsecond);
+
+                // Column R
+                $activeSheet->mergeCells(sprintf('R%s:R%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('R%s', $bearingRowStart), $bearing->designname);
+                
+
+                // Column S
+                $activeSheet->mergeCells(sprintf('S%s:S%s', $bearingRowStart, $bearingRowStart + 7));
+                $pantonecolors = json_decode($bearing->pantone_color, true);
+                $text = '';
+                if(isset($pantonecolors['colors']))
+                    foreach($pantonecolors['colors'] as $i => $pantonecolor){
+                        $text = $text.', Color'.($i+1).': '.$pantonecolor;
+                    }
+                
+                $activeSheet->setCellValue(sprintf('S%s', $bearingRowStart), $text);
+
+                // Column T
+                $activeSheet->mergeCells(sprintf('T%s:T%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('T%s', $bearingRowStart), $bearing->pantone_print);
+
+
+                // Column U
+                $activeSheet->mergeCells(sprintf('U%s:U%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('U%s', $bearingRowStart), $bearing->price);
+
+                // Column V
+                $activeSheet->mergeCells(sprintf('V%s:V%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('V%s', $bearingRowStart), $bearing->total);
+
             }
         });
 
@@ -1103,9 +1358,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         // start + count grips * 8(count rows in single item)
         $range = sprintf(
-            'C%s:N%s', 
-            $gripRowStart,
-            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM) - 1
+            'C%s:V%s', 
+            $bearingRowStart,
+            $bearingRowStart + ($this->bearingsCount * self::ROWS_ITEM) - 1
         ); 
 
         $styles = $this->getStylesRange($range);
@@ -1127,9 +1382,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setWrapText(true);
 
         $rangeCurrency = sprintf(
-            'M%s:N%s', 
-            $gripRowStart,  
-            $gripRowStart + ($this->gripsCount * self::ROWS_ITEM)
+            'U%s:V%s', 
+            $bearingRowStart,  
+            $bearingRowStart + ($this->bearingsCount * self::ROWS_ITEM)
         );
         // set currency format for cells
         $this->getStylesRange($rangeCurrency)

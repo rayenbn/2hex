@@ -49,7 +49,14 @@
             <td>{{$bearing->abec}}</td>
             <td>{{$bearing->race}}</td>
             <td @if(isset($fees['race_print'][$bearing->race_print]['paid']) && $fees['race_print'][$bearing->race_print]['paid'] == 1) class="paid" @endif>
-                {{$bearing->race_print ?? ''}}<br>
+                
+                    <p>{{$bearing->raceprintvalue ?? ''}}</p>
+                @if(isset($bearing->race_print))
+                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                    <br>
+                    {{$bearing->race_print ?? ''}}<br>
+                @endif
+                
             </td>
             <td>{{$bearing->retainer}}</td>
             <td>{{$bearing->shield}}
@@ -72,9 +79,6 @@
             </td>
             <td @if(isset($fees['shield_brand_print'][$bearing->shield_brand_print]['paid']) && $fees['shield_brand_print'][$bearing->shield_brand_print]['paid'] == 1) class="paid" @endif>
                 {{$bearing->shield_brand_print ?? ''}}<br>
-                <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
-                <br>
-                {{$bearing->shield_brand_color ?? ''}}
             </td>
             <td>{{$bearing->spamaterial}}</td>
             <td>{{$bearing->spacolor}}</td>
@@ -91,9 +95,6 @@
                     @foreach($pantonecolors['colors'] as $i => $pantonecolor)
                         <p>Color{{($i+1).': '.$pantonecolor}}</p>
                     @endforeach
-                @endif
-                @if($pantonecolors['title'] == 'CMYK photo print on outer carton')
-                    <p>CMYK Color</p>
                 @endif
                 
             </td>
@@ -121,7 +122,7 @@
                     </form>
                 </div>
                 <div class="btn-group" role="group" aria-label="First group">
-                    <a class="m-btn btn btn-secondary" href="{{route('bearings.save', $bearing->id)}}" title="Edit">
+                    <a class="m-btn btn btn-secondary" href="{{route('bearings.save', $bearing->id)}}" title="Save">
                         <i class="la la-floppy-o"></i>
                     </a>
                     <a class="m-btn btn btn-secondary" href="{{route('bearings.show', $bearing->id)}}" title="Edit">
