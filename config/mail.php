@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' =>  env('MAIL_USERNAME', 'goldengolem0815@gmail.com'),
+    'username' =>  env('MAIL_USERNAME', 'twohex-com-0001'),
 
-    'password' => env('MAIL_PASSWORD', '123!@#IS SPECIAL'),
+    'password' => env('MAIL_PASSWORD', 'Rt6/8(?)correct'),
 
     /*
     |--------------------------------------------------------------------------
