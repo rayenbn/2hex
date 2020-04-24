@@ -17,7 +17,7 @@
             <p style="color: #f4526c;">How much money would your skateboard company make?</p>
             <br>
             <p style="color: black;">1.	Register on 2HEX.com/register to see your production costs.</p>
-            <p style="color: black;">2.	Fill these numbers into the 2HEX Profit Calculator (download here).</p>
+            <p style="color: black;">2.	Fill these numbers into the 2HEX Profit Calculator <a href="{{asset('skateboard-deck-production/2HEX Profit Calculator.xlsx')}}" style="color: black">(download here).</a></p>
             <p style="color: black;">3.	See how much profit your company would make in three months.</p>
             <img src="{{asset('skateboard-deck-production/money.png')}}" width="100%" alt="2HEX welcome message" title="2HEX welcome message" />
             <p style="color: black;">Making money is important.</p>

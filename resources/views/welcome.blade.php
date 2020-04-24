@@ -557,12 +557,7 @@
                                      <div class="mc-field-group">
                                          <input type="text" value="" name="fname" class="" id="mce-FNAME" placeholder="enter your first name">
                                      </div>
-                                     @if(session()->has('error'))
-                                        <span style="color: red">Your email address is connected to a 2HEX account. Please login to download the book.</span>
-                                     @endif
-                                     @if(session()->has('success'))
-                                        <span style="color: blue">Successfully subscribed. Please check you email</span>
-                                     @endif
+                                     
 
                                      <div id="mce-responses" class="clear">
                                          <div class="response" id="mce-error-response" style="display:none"></div>
@@ -573,6 +568,13 @@
                                      <br>
                                      <div style="text-align: justify; color: #9699a4;">
                                     <p>*By submitting you agree to our terms and conditions.</p>
+
+                                    @if(session()->has('error'))
+                                        <span style="color: red">Your email address is connected to a 2HEX account. Please login to download the book.</span>
+                                     @endif
+                                     @if(session()->has('success'))
+                                        <span style="color: blue">Successfully subscribed. Please check you email</span>
+                                     @endif
                                  </div>
                                 </div>
                             </form>
