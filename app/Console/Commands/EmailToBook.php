@@ -48,11 +48,10 @@ class EmailToBook extends Command
             $now = strtotime(date('Y-m-d H:i:s'));
 
             $check = User::where('email', $user['email'])->count();
-            var_dump($check);
             if($check > 0)
                 continue;
             /////////Live/////////
-            /*
+            
             $difference = ($now - $date) / 3600;
             $type = 0;
             if($difference < 1801 && $difference >= 1800){
@@ -80,12 +79,12 @@ class EmailToBook extends Command
                 $type = 2;
             }
 
-            */
+            
 
             /////////Test/////////
-            $difference = ($now - $date) / 60;
+            /*$difference = ($now - $date) / 60;
             var_dump($difference);
-            $type = 2;/*
+            $type = 2;
             if($difference < 17 && $difference >= 16){
                 $type = 9;
             }
@@ -110,8 +109,8 @@ class EmailToBook extends Command
             else if($difference < 3 && $difference >= 2){
                 $type = 2;
             }*/
-            var_dump($type);
-            var_dump($user['email']);
+            /*var_dump($type);
+            var_dump($user['email']);*/
 
 
             if($type != 0)

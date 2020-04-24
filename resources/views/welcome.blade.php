@@ -527,7 +527,19 @@
                          </p>
                          <br>
                      </div>
+                     @if (Auth::user())
+                     <div class="col-xl-6 my-auto">
+                        <div id="mc_embed_signup_scroll" style="max-width: 700px;">
 
+                            <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
+                            <div style="text-align: justify; color: #9699a4; padding-right: 20px;">
+                            <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
+                            </div>
+
+                            <a href="https://www.2hex.com/skateboard-deck-production/TheSkateboardCompanyFoundersBook.pdf" class="btn-danger btn" >DOWNLOAD</a>
+                        </div>
+                    </div>
+                     @else
                      <div class="col-xl-6 my-auto">
                          <link href="../../../css/classic-10_7.css" rel="stylesheet" type="text/css" />
                          <div id="mc_embed_signup">
@@ -546,7 +558,7 @@
                                          <input type="text" value="" name="fname" class="" id="mce-FNAME" placeholder="enter your first name">
                                      </div>
                                      @if(session()->has('error'))
-                                        <span style="color: red">You have already submitted with this email.</span>
+                                        <span style="color: red">Your email address is connected to a 2HEX account. Please login to download the book.</span>
                                      @endif
                                      @if(session()->has('success'))
                                         <span style="color: blue">Successfully subscribed. Please check you email</span>
@@ -566,6 +578,7 @@
                             </form>
                          </div>
                     </div>
+                    @endif
 
                  </div>
              </div>
