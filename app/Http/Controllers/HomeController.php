@@ -54,4 +54,7 @@ class HomeController extends Controller
         \Mail::to($email)->send(new EmailBook(['id'=>$user->id, 'name' => $fname, 'type' => 1]));
         return redirect()->route('index',['#mc-embedded-subscribe-form']);
     }
+    public function downBooksView(){
+        return view('welcome');
+    }
 }
