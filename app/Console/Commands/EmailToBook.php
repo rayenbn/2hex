@@ -42,7 +42,7 @@ class EmailToBook extends Command
        //
         // $users = User::where('id','702')->whereNotNull('confirmed_date')->get();
         //$users = User::all();
-        $users = BookSubscribe::where('email','icelandcoldplace@gmail.com')->get();
+        $users = BookSubscribe::all();
         foreach($users as $user){
             $date = strtotime($user['created_at']);
             $now = strtotime(date('Y-m-d H:i:s'));
