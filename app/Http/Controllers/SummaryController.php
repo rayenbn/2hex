@@ -399,7 +399,7 @@ class SummaryController extends Controller
         }
 
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || Bearing::auth()->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 

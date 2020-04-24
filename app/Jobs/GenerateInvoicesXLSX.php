@@ -719,8 +719,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
         }, 0);
 
+        $bearingWeight = $this->bearings->sum('quantity')*0.12;
         // total weight
-        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT)  + $gripWeight + $this->getWheelsWeight();
+        $weight = ($this->orders->sum('quantity') * Order::SKATEBOARD_WEIGHT)  + $gripWeight + $this->getWheelsWeight()+$bearingWeight;
+
+        
 
         // find not empty order fees
         $orderFees = $this->orders->map(function($order) {
@@ -1027,7 +1030,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->calculateWheelFixCost($fees);
 
         // Set Global delivery
-        if ($this->ordersCount || $this->gripsCount || $this->wheelsCount) {
+        if ($this->ordersCount || $this->gripsCount || $this->wheelsCount || $this->bearingsCount) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image'   => $this->user ? $weight . ' KG' : '$?.??',
