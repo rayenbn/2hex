@@ -89,7 +89,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/autodown', 'HomeController@downBooksView')->name('autodown');
+Route::get('/testlink', 'HomeController@downBooksView')->name('testlink');
 Route::post('/bookdown', 'HomeController@downBooks');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
 Route::post('/inquiries', 'InquiriesController@submit');
