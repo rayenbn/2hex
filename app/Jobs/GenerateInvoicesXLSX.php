@@ -161,29 +161,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
             \App\Classes\Invoice\HeatTransfer::class => $this->transfers,
         ];
 
-        // Filter empty batches
+        // Filter filled batches
         $batches = array_filter($batches, function (Collection $batch) {
            return $batch->count() > 0;
         });
 
-
-        $firstBatch = array_key_first($batches);
-
         foreach ($batches as $batch => $items) {
-            $offset = ($items->count() * 8) + 1;
-
-            // Skip offset for first batch
-            if ($firstBatch !== $batch) {
-                $this->startBatch += $offset;
-            }
-
-            $this->startDelivery += $offset;
             $this->finalAmount += $items->sum('total');
             $this->totalQuantity += $items->sum('quantity');
 
             /** @var \App\Classes\Invoice\Batch $batchEntry */
             $batchEntry = new $batch($this->getActiveSheet(), $items);
             $batchEntry->setStartRow($this->startBatch)->handle();
+
+            $offset = ($items->count() * 8) + 1;
+            $this->startBatch += $offset;
+            $this->startDelivery += $offset;
         }
 
         $this
