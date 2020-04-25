@@ -238,20 +238,20 @@
                                                                 <ul class="m-widget27__nav-items nav nav-pills nav-fill" role="tablist">
                                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                                         <a
-                                                                            :class="{'active' : steps[1].state}"
-                                                                            class="nav-link"
-                                                                            data-toggle="pill"
-                                                                            href="#m_personal_income_quater_1"
+                                                                                :class="{'active' : steps[1].state}"
+                                                                                class="nav-link"
+                                                                                data-toggle="pill"
+                                                                                href="#m_personal_income_quater_1"
                                                                         >
                                                                             Deep Concave
                                                                         </a>
                                                                     </li>
                                                                     <li class="step2-tab-nav nav-item" @click="steps[1].state = !steps[1].state">
                                                                         <a
-                                                                            :class="{'active' : !steps[1].state}"
-                                                                            class="nav-link"
-                                                                            data-toggle="pill"
-                                                                            href="#m_personal_income_quater_2"
+                                                                                :class="{'active' : !steps[1].state}"
+                                                                                class="nav-link"
+                                                                                data-toggle="pill"
+                                                                                href="#m_personal_income_quater_2"
                                                                         >
                                                                             Medium Concave
                                                                         </a>
@@ -661,19 +661,19 @@
                                                             <div class="form-group m-form__group">
                                                                 <div class="custom-file">
                                                                     <input
-                                                                        onclick="() => {user ? true : false}"
-                                                                        type="file"
-                                                                        data-type-upload="bottom"
-                                                                        data-step="4"
-                                                                        class="custom-file-input"
-                                                                        id="bottomPrintFile"
-                                                                        @click="perdeck += (steps[4].state ? (steps[4].selectpaid ? 0.75 : 0) : 0.75), steps[4].state = 1"
-                                                                        @change.prevent="uploadFile"
+                                                                            onclick="() => {user ? true : false}"
+                                                                            type="file"
+                                                                            data-type-upload="bottom"
+                                                                            data-step="4"
+                                                                            class="custom-file-input"
+                                                                            id="bottomPrintFile"
+                                                                            @click="perdeck += (steps[4].state ? (steps[4].selectpaid ? 0.75 : 0) : 0.75), steps[4].state = 1"
+                                                                            @change.prevent="uploadFile"
                                                                     >
                                                                     <label
-                                                                        class="custom-file-label unchecked"
-                                                                        :class="{checked: steps[4].state}"
-                                                                        for="bottomPrintFile"
+                                                                            class="custom-file-label unchecked"
+                                                                            :class="{checked: steps[4].state}"
+                                                                            for="bottomPrintFile"
                                                                     >
                                                                         Upload artwork preview
                                                                     </label>
@@ -682,36 +682,36 @@
                                                             </div>
                                                             <div class="progress mb-3" style="height: 2px;">
                                                                 <div
-                                                                    class="progress-bar m--bg-info"
-                                                                    role="progressbar"
-                                                                    :style="'width:' + steps[4].uploadProgress + '%'"
-                                                                    aria-valuenow="65"
-                                                                    aria-valuemin="0"
-                                                                    aria-valuemax="100"
+                                                                        class="progress-bar m--bg-info"
+                                                                        role="progressbar"
+                                                                        :style="'width:' + steps[4].uploadProgress + '%'"
+                                                                        aria-valuenow="65"
+                                                                        aria-valuemin="0"
+                                                                        aria-valuemax="100"
                                                                 >
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown">
                                                                 <button
-                                                                    class="btn btn-secondary dropdown-toggle unchecked"
-                                                                    type="button"
-                                                                    id="step-5-recent"
-                                                                    data-toggle="dropdown"
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded="false"
-                                                                    style="width:100%;"
-                                                                    :class="{checked: steps[4].state}"
-                                                                    @click="perdeck += (steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75)), steps[4].state = 1"
+                                                                        class="btn btn-secondary dropdown-toggle unchecked"
+                                                                        type="button"
+                                                                        id="step-5-recent"
+                                                                        data-toggle="dropdown"
+                                                                        aria-haspopup="true"
+                                                                        aria-expanded="false"
+                                                                        style="width:100%;"
+                                                                        :class="{checked: steps[4].state}"
+                                                                        @click="perdeck += (steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75)), steps[4].state = 1"
                                                                 >
                                                                     Recent file
                                                                 </button>
 
                                                                 <div class="dropdown-menu" aria-labelledby="step-5-recent">
                                                                     <a
-                                                                        v-for="file in (filenames.bottom.concat(filenames.top))"
-                                                                        class="dropdown-item file-dropdown"
-                                                                        href="#"
-                                                                        @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid'], steps[4].name = file['name']"
+                                                                            v-for="file in (filenames.bottom.concat(filenames.top))"
+                                                                            class="dropdown-item file-dropdown"
+                                                                            href="#"
+                                                                            @click="perdeck += steps[4].state?steps[4].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[4].state = 1, steps[4].color = file['color_qty'], steps[4].dropdisable = file['is_disable'], steps[4].selectpaid = file['paid'], steps[4].name = file['name']"
                                                                     >
                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
@@ -719,10 +719,10 @@
                                                             </div>
                                                             <br>
                                                             <color-btn
-                                                                :color="steps[4].color"
-                                                                labelledby="step-5-colors"
-                                                                @colorChange="(val) => steps[4].color = val"
-                                                                v-if="!steps[4].dropdisable"
+                                                                    :color="steps[4].color"
+                                                                    labelledby="step-5-colors"
+                                                                    @colorChange="(val) => steps[4].color = val"
+                                                                    v-if="!steps[4].dropdisable"
                                                             >
                                                                 <template slot="btn">
                                                                     <button
@@ -742,15 +742,15 @@
                                                             </color-btn>
 
                                                             <button v-else
-                                                                id="step-5-colors"
-                                                                class="btn btn-secondary dropdown-toggle"
-                                                                type="button"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false"
-                                                                style="width:100%;"
-                                                                @click="perdeck += steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75), steps[4].state = true"
-                                                                :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
+                                                                    id="step-5-colors"
+                                                                    class="btn btn-secondary dropdown-toggle"
+                                                                    type="button"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    style="width:100%;"
+                                                                    @click="perdeck += steps[4].state ? 0 : (steps[4].selectpaid ? 0 : 0.75), steps[4].state = true"
+                                                                    :class="[steps[4].state && steps[4].color ? 'checked' : 'unchecked']"
                                                             >
                                                                 {{ steps[4].color ? steps[4].color : 'How many colors are in your design?' }}
                                                             </button>
@@ -907,7 +907,7 @@
                                                                             class="dropdown-item file-dropdown"
                                                                             @click="perdeck += steps[5].state?steps[5].selectpaid?file['paid']?0:0.75:file['paid']?-0.75:0:0.75, steps[5].state = 1, steps[5].color=file['color_qty'], steps[5].dropdisable = file['is_disable'], steps[5].selectpaid = file['paid'], steps[5].name = file['name']"
                                                                             href="#"
-                                                                            v-bind:class="{'paid': file['paid'] == 0}" 
+                                                                            v-bind:class="{'paid': file['paid'] == 0}"
                                                                     >
                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
@@ -1760,9 +1760,9 @@
                                                                             href="#"
                                                                             @click="perdeck += steps[10].state?steps[10].selectpaid?file['paid']?0:0.15:file['paid']?-0.15:0:0.15, steps[10].state = 1, steps[10].color=file['color_qty'], steps[10].dropdisable=file['is_disable'], steps[10].selectpaid = file['paid']"
                                                                             v-bind:class="{'paid': file['paid'] == 0}"
-                                                                            
+
                                                                     >
-                                                                         <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
+                                                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -2024,7 +2024,7 @@
                                         <a href="/skateboard-deck-production/2HEX-skateboard-deck-design-template.pdf" target="_blank">
                                     <p>2HEX skateboard deck design template</p>
                                     <img src="/skateboard-deck-production/skateboard-deck-template-preview.png" alt="skateboard deck template" style="width: 100%">
-                                        </a>
+                                    </a>
                                     </p>
                                     <p>
                                         Download our skateboard deck design template, fill in your skateboard deck design, upload the filled in PDF file and select your color quantity (or CMYK for multi color prints).
@@ -2098,11 +2098,11 @@
                                 </a>
                                 <br>
                                 </p>
-                                        Upload your cardboard artwork as vector file (PDF or AI) in actual size 1 to 1.
+                                Upload your cardboard artwork as vector file (PDF or AI) in actual size 1 to 1.
                                         When preparing your artwork, place your folding and cutting lines in separate layers marked "cutting line"
                                         and "folding line". Leave a 5mm bleed around all cutting edges.<br>
                                         To make sure your cardboard artwork has the right size, use a ruler to draw and cut an accurate sample. Wrap the sample around a deck and check if the size fits.
-                                    </p>
+                                </p>
                                 </div>
                             </span>
 
@@ -2298,7 +2298,7 @@
                 currentColors:['natural', 'natural', 'natural', 'natural', 'natural', 'natural', 'natural'],
                 title: 'Skateboard Deck Configurator',
                 randomColors: [],
-                quantity: 2000,
+                quantity: 0,
                 total_quantity: 0,
                 orderId: '',
                 total: 0,
@@ -2309,7 +2309,7 @@
                 pre_size: "",
                 steps: [
                     {state: false},
-                    {state: false},
+                    {state: true},
                     {state: true},
                     {state: true},
                     {state: false, color: null, uploadProgress: 0, dropdisable: false, selectpaid: false, name: ''},
@@ -2352,7 +2352,7 @@
                         type: "warning",
                         confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                     });
-                    this.quantity = 2000;
+                    this.quantity = 50;
 
                     return false;
                 }
@@ -2793,10 +2793,6 @@
                 this.size = e.params.data.text;
                 this.sizeChange();
             });
-
-            if (!this.order) {
-                this.randomClicked();
-            }
         },
         created() {
             if (this.order) {
@@ -2814,10 +2810,6 @@
                     this.steps[10].state = true;
                     this.steps[10].color = this.order.carton_color;
                 }
-            } else {
-                // 7.875" x 31.875" (G4: WB14.25": N6.93", T6.54")
-                this.size = this.sizes[17];
-                this.pre_size = this.sizes[17];
             }
             this.$store.commit('changeStep', 1);
             this.renderProduct();
