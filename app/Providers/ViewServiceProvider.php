@@ -20,27 +20,15 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('*', function(IlluminateView $view) {
             $route = Route::current();
 
-            /** @var \Illuminate\Database\Eloquent\Collection $transfers */
-            $transfers = HeatTransfer::query()
-                ->auth()
-                ->leftJoin('paid_files as p', 'p.file_name', '=', 'small_preview')
-                ->selectRaw('heat_transfers.*, p.color_code, p.date')
-                ->get();
+            $view
+                ->with('orders',  \App\Models\Order::auth()->get())
+                ->with('grips',  \App\Models\GripTape::auth()->get())
+                ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
+                ->with('transfers', HeatTransfer::query()->get());
 
             if(isset($route)){
-                $view
-                    ->with('orders',  \App\Models\Order::auth()->get())
-                    ->with('grips',  \App\Models\GripTape::auth()->get())
-                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
-                    ->with('transfers', $transfers)
-                    ->with('isHomePage',  Route::current()->getName() === 'index');
-            } else {
-                $view
-                    ->with('orders',  \App\Models\Order::auth()->get())
-                    ->with('grips',  \App\Models\GripTape::auth()->get())
-                    ->with('transfers', $transfers)
-                    ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get());
-            }
+                $view->with('isHomePage',  Route::current()->getName() === 'index');
+            };
         });
     }
 

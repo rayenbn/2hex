@@ -61,22 +61,25 @@
             <br>
             <span title="{{$transfer->large_preview}}">{{$transfer->large_preview}}</span>
         </td>
-        @php $codes = explode('.', $transfer->color_code); @endphp
-        <td class="p-0 border-0" {{count($codes) > 5 ? 'colspan=1' : 'colspan=2'}}>
-            <table style=" {{count($codes) > 5 ? '' : 'border: hidden;'}}">
-                @foreach(array_slice($codes, 0, 5) as $code)
+        @php
+            /** @var App\Models\HeatTransfer\ $transfer */
+            $colors = explode(';', $transfer->colors);
+        @endphp
+        <td class="p-0 border-0" {{count($colors) > 5 ? 'colspan=1' : 'colspan=2'}}>
+            <table style=" {{count($colors) > 5 ? '' : 'border: hidden;'}}" class="w-100">
+                @foreach(array_slice($colors, 0, 5) as $color)
                     <tr>
-                        <td>{{$code}}</td>
+                        <td>{{$color}}</td>
                     </tr>
                 @endforeach
             </table>
         </td>
-        @if (count($codes) > 5)
+        @if (count($colors) > 5)
             <td class="p-0 border-0">
-                <table>
-                    @foreach(array_slice($codes, 5) as $code)
+                <table class="w-100">
+                    @foreach(array_slice($colors, 5) as $color)
                     <tr>
-                        <td>{{$code}}</td>
+                        <td>{{$color}}</td>
                     </tr>
                     @endforeach
                 </table>
