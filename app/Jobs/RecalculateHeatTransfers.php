@@ -100,7 +100,9 @@ class RecalculateHeatTransfers
         );
 
         $costPerTransfer = round($transferPrice / $heatTransfer->quantity, 2);
-        $costPerScreen = round($screensPrice / $heatTransfer->colors_count, 2);
+
+        $colorsCount = $heatTransfer->colors_count > 0 ? $heatTransfer->colors_count : 1;
+        $costPerScreen = round($screensPrice / $colorsCount, 2);
 
         return $heatTransfer->update([
             'total_screens' => $screensPrice,

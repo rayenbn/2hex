@@ -82,7 +82,6 @@
                                     v-model="pantoneColor.colors[index]"
                                     :disabled="! hasChange"
                                     :name="'color' + index"
-                                    v-validate="'required'"
                                     @input="onChangePantoneColor"
                                 >
                             </template>
@@ -95,7 +94,6 @@
                                     placeholder="Enter Pantone Color"
                                     v-model="cmykColors[index]"
                                     :name="'cmyk-color' + index"
-                                    v-validate="'required'"
                                     @input="onChangeCMYKColor"
                                 >
                             </template>
@@ -308,6 +306,11 @@
                     },
                 ],
                 pantoneColors: [
+                    {
+                        "title": "0 field to enter Pantone Color",
+                        "countFields": 0,
+                        "colors": new Array(),
+                    },
                     {
                         "title": "1 field to enter Pantone Color",
                         "countFields": 1,
