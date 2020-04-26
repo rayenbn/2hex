@@ -115,7 +115,7 @@
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                         
                                         @if($isAdmin)
-                                        <div class="form-group m-form__group row">
+                                        <div class="form-group m-form__group row" id="saved_batches">
                                             <div class="col-10 ml-auto">
                                                 <h3 class="m-form__section">Saved Batches</h3>
                                             </div>

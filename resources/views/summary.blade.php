@@ -100,20 +100,21 @@
 
 						  	<div class="dropdown-menu" aria-labelledby="actions">
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
-						  			Add Griptapes
+						  			Griptapes
 						  		</a>
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-						  			Add Decks
+						  			S.B. Decks
 						  		</a>
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
-									Add Wheels
+									S.B. Wheels
 								</a>
 						  		@if($isAdmin)
 									<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
-										Add Heat Transfers
+										Heat Transfers
 									</a>
 								@endif
-                                <a class="dropdown-item" href="{{ route('profile') . '#saved_orders' }}">
+								<hr>
+                                <a class="dropdown-item" href="{{ route('profile') . '#saved_batches' }}">
                                     Saved Batches
                                 </a>
 								
@@ -159,11 +160,11 @@
 
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
-									<td colspan="3">Fixed Cost</td>
-									<td colspan="3">Batches</td>
-									<td colspan="2">Colors</td>
+									<td colspan="3">Tooling&nbspCost</td>
+									<td colspan="3">Batch</td>
+									<td colspan="2">Number&nbspof&nbspColors</td>
 									<td colspan="5">Filename</td>
-									<td>Fixed&nbspTotal</td>
+									<td>Tooling&nbspTotal</td>
 								</tr>
 						   	</thead>
 

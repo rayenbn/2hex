@@ -53,7 +53,7 @@
                         <i class="m-menu__link-icon flaticon-box"></i>
                         <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">add Transfers</span>
+                                <span class="m-menu__link-text">Heat Transfers</span>
                             </span>
                         </span>
                     </a>
