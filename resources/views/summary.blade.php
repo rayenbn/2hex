@@ -247,12 +247,12 @@
 										&& strlen($auth->position) 
 										&& strlen($auth->phone_num)
 									)
-										@php 
+										@php
 											$gripsQuantity = $grips->sum('quantity');
 											$wheelsQuantity = $wheels->sum('quantity');
 										@endphp
 
-										@if(($gripsQuantity == 0 && $totalOrders > 1170) || ($totalOrders > 1170 && $gripsQuantity > 0))
+										@if ($gripsQuantity == 0  || ($totalOrders > 1170 && $gripsQuantity > 0))
 											<a href="{{ route('orders.submit') }}" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
 												<span>
 													<i class="la la-rocket"></i>
