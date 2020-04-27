@@ -84,7 +84,7 @@ class EmailBook extends Mailable
             return $this
                 ->from('niklas@2HEX.com', "Niklas")
                 ->bcc('customermails@2hex.com')
-                ->subject('Hey'.$this->data['name'].', did you register on 2HEX yet?')
+                ->subject('Hey '.$this->data['name'].', did you register on 2HEX yet?')
                 ->markdown('emails.books.books2');
         }
         else if($type == 1){

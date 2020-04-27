@@ -15,9 +15,11 @@
             <p style="color: black;">I hope you enjoy reading The Skateboard Company Founders Book I wrote.</p>
             <p style="color: black;">Did you register on 2HEX.com yet? If not, I suggest you do so today!</p>
             <p style="color: black;">The 2HEX.com configurator lets you create your company’s custom fitted skateboard components. Take for example step 8 of the 11-step-deck configurator:</p>
-            <img src="{{asset('skateboard-deck-production/deckstep8.png')}}" width="100%" alt="2HEX welcome message" title="2HEX welcome message" />
-            <p style="color: black;">The 2HEX.com configurator lets you create your company’s custom fitted skateboard components. Take for example step 8 of the 11-step-deck configurator:</p>
-            <img src="{{asset('skateboard-deck-production/summarypage.png')}}" width="100%" alt="2HEX welcome message" title="2HEX welcome message" />
+            <img src="{{asset('skateboard-deck-production/deckstep8.png')}}" width="100%" alt="2HEX prooduction planning"/>
+            <p></p>
+            <p style="color: black;">Your prices will be calculated in real time. And you can check your complete order summary, before submitting:</p>
+            <img src="{{asset('skateboard-deck-production/summarypage.png')}}" width="100%" alt="2HEX order summary"/>
+            <p></p>
             <p style="color: black;">Skateboard manufacturing has never been this accessible and transparent to skateboarders.</p>
             <p style="color: black;">Be sure to be one of the first skateboarders in your city to build a skateboard company by starting today!</p>
             <p style="color: black;">Your first step: Register!<br>
