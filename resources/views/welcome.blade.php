@@ -562,7 +562,7 @@
                                      <div id="mce-responses" class="clear">
                                          <div class="response" id="mce-error-response" style="display:none"></div>
                                          <div class="response" id="mce-success-response" style="display:none"></div>
-                                     </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                     </div>
                                      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_647f3b724d78e4fe975871794_bb8f89e732" tabindex="-1" value=""></div>
                                      <div class="clear"><input type="submit" value="Receive the Book by Email*" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
                                      <br>
@@ -570,10 +570,10 @@
                                     <p>*By submitting you agree to our terms and conditions.</p>
 
                                     @if(session()->has('error'))
-                                        <span style="color: red">Your email address is connected to a 2HEX account. Please login to download the book.</span>
+                                        <span style="color: #e35e6f"><b>Please login to download your free eBook.</b></span>
                                      @endif
                                      @if(session()->has('success'))
-                                        <span style="color: blue">Successfully subscribed. Please check you email</span>
+                                             <span style="color: #2e802e"><b>Congrats! We sent a copy of the eBook to you by email!</b></span>
                                      @endif
                                  </div>
                                 </div>

@@ -54,6 +54,8 @@ class EmailToBook extends Command
             
             $difference = ($now - $date) / 3600;
             $type = 0;
+
+
             if($difference < 1801 && $difference >= 1800){
                 $type = 9;
             }
@@ -69,6 +71,9 @@ class EmailToBook extends Command
             else if($difference < 337 && $difference >= 336){
                 $type = 5;
             }
+
+
+
             else if($difference < 169 && $difference >= 168){
                 $type = 4;
             }
