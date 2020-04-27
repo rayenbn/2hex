@@ -128,7 +128,7 @@
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'sm')"
                                         v-validate="'required'"
-                                        accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png"
+                                        data-accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png"
                                         data-max-size="1000000"
                                     >
                                     <label
@@ -196,8 +196,7 @@
                                         id="lg-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
-                                        v-validate="'required'"
-                                        accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png,.ai,.pdf,.tif,.tiff,.psd"
+                                        data-accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png,.ai,.pdf,.tif,.tiff,.psd"
                                         data-max-size="10000000"
                                     >
                                     <label
@@ -425,12 +424,12 @@
                 let file = event.target.files[0];
 
                 // Validate file type
-                if (! this.validFileType(file, event.target.accept.split(','))) {
+                if (! this.validFileType(file, event.target.dataset.accept.split(','))) {
                     this.$notify({
                         group: 'main',
                         type: 'error',
                         title: 'Unsupported type',
-                        text: "Supported types: " + event.target.accept
+                        text: "Supported types: " + event.target.dataset.accept
                     });
 
                     return false;
