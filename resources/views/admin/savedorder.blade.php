@@ -26,12 +26,12 @@
 			<div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
 				@foreach($unSubmitOrders as $order)
 					<div class="saved-order-list-item">
-						<div class="btn btn-secondary id-select" data-orderid="{{$order->saved_date}}"><a href="javascript:void(0)">Continue</a></div>
+						<div class="btn btn-secondary id-select" data-orderid="{{$order['saved_date']}}"><a href="javascript:void(0)">Continue</a></div>
 						<div class="btn btn-secondary">
-							Saved order: {{$order->saved_name}}
+							Saved order: {{$order['saved_name']}}
 						</div>
 						<div class="btn btn-secondary">
-							<a class="remove_button" href="/remove_saveorder/{{$order->saved_date}}">Remove</a>
+							<a class="remove_button" href="/remove_saveorder/{{$order['saved_date']}}">Remove</a>
 						</div>
 					</div>    
 				@endforeach

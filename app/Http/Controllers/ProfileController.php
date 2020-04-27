@@ -150,6 +150,34 @@ class ProfileController extends Controller
 
         $returnorder = Order::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
+        GripTape::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($griptape) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $griptape['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($griptape);
+        });
+        Wheel::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($wheel) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $wheel['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($wheel);
+        });
+        Bearing::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($bearing) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $bearing['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($bearing);
+        });
+
         $selected_order = Session::get('selected_order');
 
         
@@ -209,7 +237,7 @@ class ProfileController extends Controller
             })
             ->toArray();
         
-        $bearings = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)
+        $bearings = Bearing::where('created_by', $createdBy)->where('saved_batch', 1)
             ->get()
             ->map(function($bearing) {
                 return array_filter($bearing->attributesToArray());

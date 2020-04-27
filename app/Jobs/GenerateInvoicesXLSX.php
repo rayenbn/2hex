@@ -658,7 +658,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             )
             ->setCellValue(
                 sprintf('N%s', $startTotal), 
-                $this->finalAmount += $this->orders->sum('total') + $this->grips->sum('total') + $this->wheels->sum('total') - $this->rewardPromocode
+                $this->finalAmount += $this->orders->sum('total') + $this->grips->sum('total') + $this->wheels->sum('total') + $this->bearings->sum('total') - $this->rewardPromocode
             );
 
         // Total styles
@@ -1202,7 +1202,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $offset = 2;
 
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
-            $this->offsetRows += 3;
+            $this->offsetRows += 2;
             $offset = 0;
         } else {
             $this->offsetRows += 2;
