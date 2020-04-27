@@ -2810,6 +2810,14 @@
                     this.steps[10].state = true;
                     this.steps[10].color = this.order.carton_color;
                 }
+            } else {
+                // Preselect quantity and size
+
+                this.quantity = 2000;
+                // '7.875" x 31.875" (G4: WB14.25": N6.93", T6.54")'
+                this.size = this.sizes[17];
+                this.quantityChange();
+                this.sizeChange();
             }
             this.$store.commit('changeStep', 1);
             this.renderProduct();
