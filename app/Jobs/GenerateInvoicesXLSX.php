@@ -1204,8 +1204,18 @@ class GenerateInvoicesXLSX implements ShouldQueue
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
             $this->offsetRows += 2;
             $offset = 0;
-        } else {
+        } else if($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount != 0) {
+            $this->offsetRows += 1;
+            $offset = 1;
+        } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount == 0){
             $this->offsetRows += 2;
+            $offset = 1;
+        } else if($this->ordersCount != 0 && $this->gripsCount == 0 && $this->wheelsCount == 0){
+            $this->offsetRows += 1;
+            $offset = 0;
+        }
+        else{
+            $this->offsetRows += 1;
         }
 
         // +1 If exists grips
@@ -1336,7 +1346,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $text = '';
                 if(isset($pantonecolors['colors']))
                     foreach($pantonecolors['colors'] as $i => $pantonecolor){
-                        $text = $text.', Color'.($i+1).': '.$pantonecolor;
+                        if($i == 0)
+                            $text = 'Color'.($i+1).': '.$pantonecolor;
+                        else
+                            $text = $text.', Color'.($i+1).': '.$pantonecolor;
                     }
                 
                 $activeSheet->setCellValue(sprintf('S%s', $bearingRowStart), $text);
@@ -1393,6 +1406,18 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->getStylesRange($rangeCurrency)
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+        $activeSheet->getStyle(sprintf('C%s:V%s', $bearingRowStart - 1, $bearingRowStart - 1))
+            ->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setARGB('52A3F1');
+
+        $activeSheet->getStyle(sprintf('C%s:V%s', $bearingRowStart - 1, $bearingRowStart - 1))
+                ->getFont()
+                ->setSize(10)
+                ->getColor()
+                ->setARGB(Color::COLOR_WHITE);
 
         return $this;
     }
