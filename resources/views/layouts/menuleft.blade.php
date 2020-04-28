@@ -284,8 +284,7 @@
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
-                                    <span class="m-menu__link-text">
-                                Heat Transfers Batch {{ $transfers->count() ? $transfers->count() + 1 : 1}}
+                                    <span class="m-menu__link-text">Transfers Batch {{ $transfers->count() ? $transfers->count() + 1 : 1}}
                             </span>
                                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                                 </a>
