@@ -4,10 +4,12 @@
             <div class="col-xl-9">
                 <div class="m-portlet">
 
+                    <a href="/mail">
                     <head-configurator
                         title="Skateboard Wheel Factory"
                         :links="headLinks"
                     />
+                    </a>
 
                     <div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
                         <div class="m-portlet__padding-x"></div>
@@ -287,7 +289,7 @@
             changeStepInfo(step) {
                 switch(step) {
                     case 1:
-                        this.stepInfo.head = 'Your first batch of transfers!';
+                        this.stepInfo.head = 'Select the quantity and size of your design!';
                         this.stepInfo.content = 'A batch consists of all heat transfers in one size and style. Each batch must have at least 50 heat transfers. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
                         break;
                     case 2:

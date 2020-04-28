@@ -8,7 +8,7 @@
                             <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--sides">
                                 <div class="m-widget19__pic m-portlet-fit--sides preview-bg">
                                     <img
-                                        src="/img/transfers/skateboard-heat-transfer-example.jpg"
+                                        src="/img/transfers/skateboard-heat-transfer-template.png"
                                         class="step1-img1"
                                         alt="Design Preview"
                                         title="Design Preview"
