@@ -1204,6 +1204,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
             $this->offsetRows += 2;
             $offset = 0;
+        } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount != 0) {
+            $this->offsetRows += 2;
+            $offset = 2;
         } else if($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount != 0) {
             $this->offsetRows += 1;
             $offset = 1;
