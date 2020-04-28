@@ -25,7 +25,7 @@
                                 type="text"
                                 class="form-control"
                                 name="designName"
-                                placeholder="Enter design name"
+                                placeholder="Enter design name for outer packing"
                                 v-model="step_designName"
                                 v-validate="'required'"
                                 required

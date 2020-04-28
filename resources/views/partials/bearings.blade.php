@@ -15,11 +15,11 @@
             <th>Shield Print</th>
             <th>Spacers Material</th>
             <th>Spacers Color</th>
-            <th>Packing1</th>
+            <th>Bearing Packing1</th>
             <th>Shield Branding1</th>
-            <th>Packing2</th>
+            <th>Bearing Packing2</th>
             <th>Shield Branding2</th>
-            <th>Design Name</th>
+            <th>Outer Packing</th>
             <th>Packing Colors</th>
             <th>Packing Print</th>
             @if(!isset($batches))
