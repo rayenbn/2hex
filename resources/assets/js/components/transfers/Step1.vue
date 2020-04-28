@@ -39,9 +39,7 @@
 
                             <div style="color: #9699a4;" class="mt-4 text-justify">
                                 <h3>Quantity</h3>
-                                The standard in professional skateboarding.
-                                Printing on back paper is the most common way to brand griptapes without directly
-                                printing on the griptapes top.
+                                The higher the quantity the lower the price.
                             </div>
                         </div>
                     </div>
@@ -93,9 +91,7 @@
 
                             <div style="color: #9699a4;" class="mt-4 text-justify">
                                 <h3>Sizes</h3>
-                                The standard in professional skateboarding.
-                                Printing on back paper is the most common way to brand griptapes without directly
-                                printing on the griptapes top.
+                                Select a size which is a bit wider and longer than your deck.
                             </div>
                         </div>
                     </div>

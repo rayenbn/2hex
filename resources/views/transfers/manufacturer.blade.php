@@ -178,7 +178,7 @@
                                     <a href="{{route('transfers.configurator')}}">
                                         <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>
 
-                                    <img alt="" src="/img/Wheels/2hex-skateboard-wheels-factory.jpg" style="width: 100%" />
+                                    <img alt="" src="/img/transfers/skateboard-heat-transfers-factory.jpg" style="width: 100%" />
                                 </div>
                             </div>
                             <!--end: Form Body -->

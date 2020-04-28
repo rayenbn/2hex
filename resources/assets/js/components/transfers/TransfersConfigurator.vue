@@ -287,12 +287,12 @@
             changeStepInfo(step) {
                 switch(step) {
                     case 1:
-                        this.stepInfo.head = 'Your first batch of wheels!';
-                        this.stepInfo.content = 'A batch consists of all skateboard wheels in one size and style. Each batch must have at least 100 sets of wheels. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
+                        this.stepInfo.head = 'Your first batch of transfers!';
+                        this.stepInfo.content = 'A batch consists of all heat transfers in one size and style. Each batch must have at least 50 heat transfers. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
                         break;
                     case 2:
-                        this.stepInfo.head = 'Select shape and size!';
-                        this.stepInfo.content = 'Below the skateboard wheel size, you will find the contact patch width. This is the surface of the wheel touching the ground. Note: If you change the wheels shape or upload a custom shape, remember to select the wheels size.';
+                        this.stepInfo.head = 'Give your design a name!';
+                        this.stepInfo.content = 'And to make sure the print looks perfect, select the finish, the number of colors and add the Pantone color codes.';
                         break;
                     default:
                         this.stepInfo.head = '';

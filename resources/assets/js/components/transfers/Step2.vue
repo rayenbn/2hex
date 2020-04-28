@@ -100,9 +100,8 @@
 
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 <h3>Number of Colors used</h3>
-                                The standard in professional skateboarding.
-                                Printing on back paper is the most common way to brand griptapes without directly
-                                printing on the griptapes top.
+                                How many colors are used in your design?<br>
+                                Please note: White does not need to be added as color.
                             </div>
                         </div>
                     </div>
@@ -112,7 +111,7 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
-                            <p class="h5 m-0">Upload small preview:</p>
+                            <p class="h5 m-0">Upload small preview: (mandatory)</p>
                         </div>
                     </div>
                     <div class="m-portlet__body">
@@ -181,7 +180,7 @@
                         </div>
                         <div class="m-portlet__head p-0">
                             <div class="m-portlet__head-caption">
-                                <p class="h5 m-0">Upload full quality print file:</p>
+                                <p class="h5 m-0">Upload print file (optional)</p>
                             </div>
                         </div>
 
