@@ -1202,23 +1202,23 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $offset = 2;
 
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
-            $this->offsetRows += 2;
+            $this->offsetRows += 3;
             $offset = 0;
         } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount != 0) {
-            $this->offsetRows += 2;
+            $this->offsetRows += 3;
             $offset = 2;
         } else if($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount != 0) {
-            $this->offsetRows += 1;
-            $offset = 1;
-        } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount == 0){
             $this->offsetRows += 2;
             $offset = 1;
+        } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount == 0){
+            $this->offsetRows += 3;
+            $offset = 1;
         } else if($this->ordersCount != 0 && $this->gripsCount == 0 && $this->wheelsCount == 0){
-            $this->offsetRows += 1;
+            $this->offsetRows += 2;
             $offset = 0;
         }
         else{
-            $this->offsetRows += 1;
+            $this->offsetRows += 2;
         }
 
         // +1 If exists grips
@@ -1226,27 +1226,33 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         $activeSheet = $this->getActiveSheet();
         // Insert head Grip Tapes
-        $activeSheet->insertNewRowBefore($bearingRowStart = ($this->rangeStart + ($this->ordersCount + $this->wheelsCount + $this->gripsCount) * self::ROWS_ITEM) + $offset);
+        $activeSheet->insertNewRowBefore($bearingRowStart = ($this->rangeStart + ($this->ordersCount + $this->wheelsCount + $this->gripsCount) * self::ROWS_ITEM) + $offset, 2);
         $activeSheet->setCellValue('C' . $bearingRowStart, 'Quantity');
         $activeSheet->setCellValue('D' . $bearingRowStart, 'Material');
-        $activeSheet->setCellValue('E' . $bearingRowStart, 'Abec');
-        $activeSheet->setCellValue('F' . $bearingRowStart, 'Race');
-        $activeSheet->setCellValue('G' . $bearingRowStart, 'Race Print');
-        $activeSheet->setCellValue('H' . $bearingRowStart, 'Retainer');
-        $activeSheet->setCellValue('I' . $bearingRowStart, 'Shield Material');
-        $activeSheet->setCellValue('J' . $bearingRowStart, 'Shield Branding');
-        $activeSheet->setCellValue('K' . $bearingRowStart, 'Shield Print');
-        $activeSheet->setCellValue('L' . $bearingRowStart, 'Spacers Material');
-        $activeSheet->setCellValue('M' . $bearingRowStart, 'Spacers Color');
-        $activeSheet->setCellValue('N' . $bearingRowStart, 'Packing1');
-        $activeSheet->setCellValue('O' . $bearingRowStart, 'Shield Branding1');
-        $activeSheet->setCellValue('P' . $bearingRowStart, 'Packing2');
-        $activeSheet->setCellValue('Q' . $bearingRowStart, 'Shield Branding2');
-        $activeSheet->setCellValue('R' . $bearingRowStart, 'Design Name');
-        $activeSheet->setCellValue('S' . $bearingRowStart, 'Packing Colors');
-        $activeSheet->setCellValue('T' . $bearingRowStart, 'Packing Print');
-        $activeSheet->setCellValue('U' . $bearingRowStart, 'Price per bearing');
-        $activeSheet->setCellValue('V' . $bearingRowStart, 'Total of Row');
+        $activeSheet->setCellValue('E' . $bearingRowStart, 'Race');
+        $activeSheet->setCellValue('F' . $bearingRowStart, 'Retainer');
+        $activeSheet->mergeCells(sprintf('F%s:F%s', $bearingRowStart, $bearingRowStart + 1));
+        $activeSheet->setCellValue('G' . $bearingRowStart, 'Shield Material');
+        $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $bearingRowStart + 1));
+        $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Branding');
+        $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Material');
+        $activeSheet->setCellValue('J' . $bearingRowStart, 'Packing1');
+        $activeSheet->setCellValue('K' . $bearingRowStart, 'Packing2');
+        $activeSheet->setCellValue('L' . $bearingRowStart, 'Packing Colors');
+        $activeSheet->setCellValue('M' . $bearingRowStart, 'Price per bearing');
+        $activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 1));
+        $activeSheet->setCellValue('N' . $bearingRowStart, 'Total of Row');
+        $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 1));
+        
+        $bearingRowStart += 1; // after head row
+        $activeSheet->setCellValue('C' . $bearingRowStart, 'Design Name');
+        $activeSheet->setCellValue('D' . $bearingRowStart, 'Abec');
+        $activeSheet->setCellValue('E' . $bearingRowStart, 'Race Print');
+        $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Print');
+        $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Color');
+        $activeSheet->setCellValue('J' . $bearingRowStart, 'Shield Branding1');
+        $activeSheet->setCellValue('K' . $bearingRowStart, 'Shield Branding2');
+        $activeSheet->setCellValue('L' . $bearingRowStart, 'Packing Print');
 
         $bearingRowStart += 1; // after head row
 
@@ -1257,94 +1263,91 @@ class GenerateInvoicesXLSX implements ShouldQueue
             foreach ($activeSheet->getRowIterator($bearingRowStart, self::ROWS_ITEM) as $row) {
                 $green = false;
                 // Column C
-                $activeSheet->mergeCells(sprintf('C%s:C%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
-                $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1, $endRange + 4));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $bearingRowStart, $endRange = $bearingRowStart + 2));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 1 , $endRange + 2));
+                $activeSheet->mergeCells(sprintf('C%s:C%s', $endRange + 3, $endRange + 5));
                 $activeSheet->setCellValue(sprintf('C%s', $bearingRowStart), $bearing->quantity);
                 $activeSheet->setCellValue(sprintf('C%s', $endRange + 1), 'Bearings');
+                $activeSheet->setCellValue(sprintf('C%s', $endRange + 3), $bearing->designname);
+
+
                 // Column D
-                $activeSheet->mergeCells(sprintf('D%s:D%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->mergeCells(sprintf('D%s:D%s', $bearingRowStart, $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('D%s:D%s', $bearingRowStart + 4, $bearingRowStart + 7));
                 $activeSheet->setCellValue(sprintf('D%s', $bearingRowStart), $bearing->material);
+                $activeSheet->setCellValue(sprintf('D%s', $bearingRowStart + 4), $bearing->abec);
+
+
                 // Column E
-                $activeSheet->mergeCells(sprintf('E%s:E%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('E%s', $bearingRowStart), $bearing->abec);
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $bearingRowStart, $bearingRowStart + 2));
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $bearingRowStart + 3, $bearingRowStart + 4));
+                $activeSheet->mergeCells(sprintf('E%s:E%s', $bearingRowStart + 5, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('E%s', $bearingRowStart), $bearing->race);
+                $activeSheet->setCellValue(sprintf('E%s', $bearingRowStart + 3), $bearing->raceprintvalue);
+                $activeSheet->setCellValue(sprintf('E%s', $bearingRowStart + 5), $bearing->race_print);
+
                 // Column F
                 $activeSheet->mergeCells(sprintf('F%s:F%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('F%s', $bearingRowStart), $bearing->race);
-
+                $activeSheet->setCellValue(sprintf('F%s', $bearingRowStart), $bearing->retainer);
+                
                 // Column G
-                $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
-                $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 1, $endRange + 4));
-                $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->raceprintvalue);
-                $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->race_print);
-
-                // Column H
-                $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->retainer);
-                // Column I
 
                 if(isset($bearing->shieldcolor)){
-                    $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart, $endRange = $bearingRowStart + 6));
-                    $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart), $bearing->shield);
-                    $activeSheet->setCellValue(sprintf('I%s', $endRange + 1), 'Color:'.$bearing->shieldcolor);
+                    $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $endRange = $bearingRowStart + 6));
+                    $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->setCellValue(sprintf('G%s', $endRange + 1), 'Color:'.$bearing->shieldcolor);
                 } else{
-                    $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart, $bearingRowStart + 7));
-                    $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $bearingRowStart + 7));
+                    $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->shield);
                 }
                 
-                // Column J
+                // Column H
 
                 if(isset($bearing->firstbrandcolor)){
-                    $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $endRange = $bearingRowStart + 5));
-                    $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 1, $endRange + 2));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 3, $endRange + 4));
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
                     $text = 'Color1: ';
                     $text .= $bearing->firstbrandcolor;
                     if(isset($bearing->secondbrandcolor)){
                         $text .= ', Color2: ';
                         $text .= $bearing->firstbrandcolor;
                     }
-                    $activeSheet->setCellValue(sprintf('J%s', $endRange + 1), $text);
+                    $activeSheet->setCellValue(sprintf('H%s', $endRange + 1), $text);
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield_brand_print);
                 } else{
-                    $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $bearingRowStart + 7));
-                    $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 4));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart + 5, $bearingRowStart + 7));
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart + 5), $bearing->shield_brand_print);
                 }
 
 
+                // Column I
+                $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart, $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('I%s:I%s', $bearingRowStart + 4, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart), $bearing->spamaterial);
+                $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart + 4), $bearing->spacolor);
+
+                // Column J
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart + 4, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->packfirst);
+                $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart + 4), $bearing->brandfirst);
+
                 // Column K
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart), $bearing->shield_brand_print);
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart, $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart + 4, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart), $bearing->packsecond);
+                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart + 4), $bearing->brandsecond);
 
-                // Column L
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart), $bearing->spamaterial);
-
-                // Column M
-                $activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('M%s', $bearingRowStart), $bearing->spacolor);
-
-                // Column N
-                $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('N%s', $bearingRowStart), $bearing->packfirst);
-
-                // Column O
-                $activeSheet->mergeCells(sprintf('O%s:O%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('O%s', $bearingRowStart), $bearing->brandfirst);
-
-                // Column P
-                $activeSheet->mergeCells(sprintf('P%s:P%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('P%s', $bearingRowStart), $bearing->packsecond);
-
-
-                // Column Q
-                $activeSheet->mergeCells(sprintf('Q%s:Q%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('Q%s', $bearingRowStart), $bearing->brandsecond);
-
-                // Column R
-                $activeSheet->mergeCells(sprintf('R%s:R%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('R%s', $bearingRowStart), $bearing->designname);
+                
                 
 
-                // Column S
-                $activeSheet->mergeCells(sprintf('S%s:S%s', $bearingRowStart, $bearingRowStart + 7));
+                // Column L
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 5));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart + 6, $bearingRowStart + 7));
                 $pantonecolors = json_decode($bearing->pantone_color, true);
                 $text = '';
                 if(isset($pantonecolors['colors']))
@@ -1355,20 +1358,17 @@ class GenerateInvoicesXLSX implements ShouldQueue
                             $text = $text.', Color'.($i+1).': '.$pantonecolor;
                     }
                 
-                $activeSheet->setCellValue(sprintf('S%s', $bearingRowStart), $text);
-
-                // Column T
-                $activeSheet->mergeCells(sprintf('T%s:T%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('T%s', $bearingRowStart), $bearing->pantone_print);
+                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart), $text);
+                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart + 6), $bearing->pantone_print);
 
 
-                // Column U
-                $activeSheet->mergeCells(sprintf('U%s:U%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('U%s', $bearingRowStart), $bearing->price);
+                // Column M
+                $activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('M%s', $bearingRowStart), $bearing->price);
 
-                // Column V
-                $activeSheet->mergeCells(sprintf('V%s:V%s', $bearingRowStart, $bearingRowStart + 7));
-                $activeSheet->setCellValue(sprintf('V%s', $bearingRowStart), $bearing->total);
+                // Column N
+                $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 7));
+                $activeSheet->setCellValue(sprintf('N%s', $bearingRowStart), $bearing->total);
 
             }
         });
@@ -1377,7 +1377,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         // start + count grips * 8(count rows in single item)
         $range = sprintf(
-            'C%s:V%s', 
+            'C%s:N%s', 
             $bearingRowStart,
             $bearingRowStart + ($this->bearingsCount * self::ROWS_ITEM) - 1
         ); 
@@ -1410,13 +1410,13 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $activeSheet->getStyle(sprintf('C%s:V%s', $bearingRowStart - 1, $bearingRowStart - 1))
+        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 2, $bearingRowStart - 1))
             ->getFill()
             ->setFillType(Fill::FILL_SOLID)
             ->getStartColor()
             ->setARGB('52A3F1');
 
-        $activeSheet->getStyle(sprintf('C%s:V%s', $bearingRowStart - 1, $bearingRowStart - 1))
+        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 2, $bearingRowStart - 1))
                 ->getFont()
                 ->setSize(10)
                 ->getColor()
