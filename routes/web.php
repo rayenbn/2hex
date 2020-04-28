@@ -162,7 +162,7 @@ Route::group(['as' => 'wheels.'], function () {
     Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
 });
 
-Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
+Route::group(['as' => 'transfers.'], function () {
     Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
     Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');
     Route::get('/transfers-configurator/{id}', 'TransferController@show')->name('show');

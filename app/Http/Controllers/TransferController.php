@@ -97,7 +97,7 @@ class TransferController extends Controller
         $totalColors = $transfers->sum('colors_count');
 
         if (empty($user)) {
-            return view('transfers.configurator', compact('filenames'));
+            return view('transfers.configurator', compact('filenames', 'totalQuantity', 'totalColors'));
         }
 
         /** @var \Illuminate\Database\Eloquent\Collection|PaidFile[] $fileActions */

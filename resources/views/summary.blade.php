@@ -11,7 +11,6 @@
 @section('content')
 	@php
 		$isAuth = auth()->check();
-		$isAdmin = $isAuth && auth()->user()->isAdmin();
 		setlocale(LC_MONETARY, 'en_US');
 	@endphp
 
@@ -108,11 +107,9 @@
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
 									S.B. Wheels
 								</a>
-						  		@if($isAdmin)
-									<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
-										Heat Transfers
-									</a>
-								@endif
+								<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
+									Heat Transfers
+								</a>
 								<hr>
                                 <a class="dropdown-item" href="{{ route('profile') . '#saved_batches' }}">
                                     Saved Batches
