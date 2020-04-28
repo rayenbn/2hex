@@ -107,6 +107,7 @@ Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::post('/detail_save', 'ProfileController@detail_save');
 Route::post('/address_save', 'ProfileController@store_address');
 Route::post('/production_filter', 'ProfileController@production_filter');
+Route::get('/recent-file', 'ProfileController@getRecentFileByName');
 
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
@@ -164,6 +165,11 @@ Route::group(['as' => 'wheels.'], function () {
 Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
     Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
     Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');
+    Route::get('/transfers-configurator/{id}', 'TransferController@show')->name('show');
+    Route::put('/transfers-configurator/{id}', 'TransferController@update')->name('update');
+    Route::post('/transfers-configurator/{id}/copy', 'TransferController@copy')->name('copy');
+    Route::get('/transfers-remove/{id}', 'TransferController@destroy')->name('destroy');
+    Route::post('/transfers-save/{id}', 'TransferController@save')->name('save');
     Route::post('/transfers-configurator', 'TransferController@store')->name('configurator.store');
     Route::post('/transfers-configurator-upload', 'TransferController@uploadFile')->name('upload');
 });

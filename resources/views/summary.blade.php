@@ -9,8 +9,9 @@
 @endpush
 
 @section('content')
-	@php 
-		$isAdmin = auth()->check() && auth()->user()->isAdmin();
+	@php
+		$isAuth = auth()->check();
+		$isAdmin = $isAuth && auth()->user()->isAdmin();
 		setlocale(LC_MONETARY, 'en_US');
 	@endphp
 
@@ -99,19 +100,23 @@
 
 						  	<div class="dropdown-menu" aria-labelledby="actions">
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
-						  			Add Griptapes
+						  			Griptapes
 						  		</a>
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-						  			Add Decks
+						  			S.B. Decks
 						  		</a>
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
-									Add Wheels
+									S.B. Wheels
 								</a>
 						  		@if($isAdmin)
-									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-										Saved Batches
+									<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
+										Heat Transfers
 									</a>
 								@endif
+								<hr>
+                                <a class="dropdown-item" href="{{ route('profile') . '#saved_batches' }}">
+                                    Saved Batches
+                                </a>
 								
 						  	</div>
 
@@ -149,17 +154,17 @@
 							@endif
 
 							@if(count($transfers) > 0)
-								@include('partials.transfers', ['transfers' => $transfers, 'fees' => $fees])
+								@include('partials.transfers', ['transfers1' => $transfers, 'fees' => $fees])
 							@endif
 
 
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
-									<td colspan="3">Fixed Cost</td>
-									<td colspan="3">Batches</td>
-									<td colspan="2">Colors</td>
+									<td colspan="3">Tooling&nbspCost</td>
+									<td colspan="3">Batch</td>
+									<td colspan="2">Number&nbspof&nbspColors</td>
 									<td colspan="5">Filename</td>
-									<td>Fixed&nbspTotal</td>
+									<td>Tooling&nbspTotal</td>
 								</tr>
 						   	</thead>
 
@@ -169,8 +174,15 @@
 										<td colspan="3">{{ $value['type'] }}</td>
 										<td colspan="3">{{ $value['batches'] }}</td>
 										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-										<td colspan="5">{{ $value['image'] }}</td>
-										<td>{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+
+										@if(isset($value['batch']) && $value['batch'] === 'transfer')
+											<td colspan="2">{{ $value['designName'] }}</td>
+											<td colspan="3">{{ $value['image'] }}</td>
+										@else
+											<td colspan="5">{{ $value['image'] }}</td>
+										@endif
+
+										<td>{{ $isAuth ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 									</tr>
                             	@endforeach
 							@endforeach
@@ -203,7 +215,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									USD TOTAL:  {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
+									USD TOTAL:  {{ $isAuth ? money_format('%.2n', $totalOrders) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
@@ -212,7 +224,7 @@
 							
 							@else
 							<ul class="m-portlet__nav">
-								
+
 {{--								<li class="m-portlet__nav-item">--}}
 {{--									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >--}}
 {{--										<span>--}}
@@ -235,12 +247,12 @@
 										&& strlen($auth->position) 
 										&& strlen($auth->phone_num)
 									)
-										@php 
+										@php
 											$gripsQuantity = $grips->sum('quantity');
 											$wheelsQuantity = $wheels->sum('quantity');
 										@endphp
 
-										@if(($gripsQuantity == 0 && $totalOrders > 1170) || ($totalOrders > 1170 && $gripsQuantity > 0))
+										@if ($gripsQuantity == 0  || ($totalOrders > 1170 && $gripsQuantity > 0))
 											<a href="{{ route('orders.submit') }}" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
 												<span>
 													<i class="la la-rocket"></i>

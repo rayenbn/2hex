@@ -86,6 +86,9 @@ class HeatTransferService {
     }
 
     toNumber(number) {
+        if (isNaN(number)) {
+            return 0;
+        }
         return parseFloat(Number(number).toFixed(2));
     }
 }

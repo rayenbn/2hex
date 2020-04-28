@@ -115,7 +115,7 @@
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                         
                                         @if($isAdmin)
-                                        <div class="form-group m-form__group row">
+                                        <div class="form-group m-form__group row" id="saved_batches">
                                             <div class="col-10 ml-auto">
                                                 <h3 class="m-form__section">Saved Batches</h3>
                                             </div>
@@ -132,9 +132,13 @@
                                                 @if(count($savedWheelBatches) > 0)
                                                     @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
+
+                                                @if(count($savedTransferBatches) > 0)
+                                                    @include('partials.transfers', ['transfers1' => $savedTransferBatches, 'batches' => 1, 'fees' => $fees])
+                                                @endif
                                             </table>
 
-                                                <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Summary</button>
+                                                <button type="submit" name="submit" value="Add" class="btn btn-outline-info">Add to Shopping Cart</button>
                                                 &nbsp &nbsp
                                                 <button type="submit" name="submit" value="Delete" class="btn btn-outline-danger">Delete</button>
                                             </form>

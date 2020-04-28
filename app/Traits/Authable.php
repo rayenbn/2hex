@@ -17,13 +17,14 @@ trait Authable
     public function scopeAuth(Builder $query, $type = true)
     {
         $auth = auth()->id();
+        $table = $this->getTable();
 
         if (isset($auth)) {
-            $query->where('created_by', '=', (string) $auth);
+            $query->where($table . '.created_by', '=', (string) $auth);
         } else {
-            $query->where('created_by', '=', csrf_token());
+            $query->where($table . '.created_by', '=', csrf_token());
         } 
 
-        return $query->where('usenow', '=', $type);
+        return $query->where($table . '.usenow', '=', $type);
     }
 }

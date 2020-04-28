@@ -134,23 +134,32 @@ if (!function_exists('remove_specials_symbols')) {
 
 if (!function_exists('get_global_delivery')) {
     /**
+     * @param float $weight
+     *
      * @return string
      */
-    function get_global_delivery($weight)
+    function get_global_delivery(float $weight)
     {
        switch(true) {
-            case ($weight <= 13): return 38;
-            case ($weight > 13   && $weight <= 26): return 52;
-            case ($weight > 26   && $weight <= 39): return 90;
-            case ($weight > 39   && $weight <= 65): return 450;
-            case ($weight > 65   && $weight <= 80): return 482;
-            case ($weight > 80   && $weight <= 110): return 600;
-            case ($weight > 110   && $weight <= 130): return 650;
-            case ($weight > 130  && $weight <= 260): return 800;
-            case ($weight > 260  && $weight <= 390): return 900;
-            case ($weight > 390  && $weight <= 650): return 1100;
-            case ($weight > 650  && $weight <= 975): return 1200;
-            case ($weight > 975  && $weight <= 1300): return 1300;
+            case ($weight <= 2): return 20;
+            case ($weight > 2 && $weight <= 4): return 35;
+            case ($weight > 4 && $weight <= 6): return 43;
+            case ($weight > 6 && $weight <= 13): return 73;
+            case ($weight > 13 && $weight <= 19): return 105;
+            case ($weight > 19 && $weight <= 26): return 136;
+            case ($weight > 26 && $weight <= 39): return 195;
+            case ($weight > 39 && $weight <= 58): return 310;
+            case ($weight > 58 && $weight <= 65): return 342;
+            case ($weight > 65 && $weight <= 75): return 399;
+            case ($weight > 75 && $weight <= 85): return 432;
+            case ($weight > 85 && $weight <= 105): return 525;
+            case ($weight > 105 && $weight <= 130): return 650;
+            case ($weight > 130 && $weight <= 180): return 867;
+            case ($weight > 180 && $weight <= 260): return 900;
+            case ($weight > 260 && $weight <= 390): return 1000;
+            case ($weight > 390 && $weight <= 650): return 1100;
+            case ($weight > 650 && $weight <= 975): return 1200;
+            case ($weight > 975 && $weight <= 1300): return 1300;
             case ($weight > 1300 && $weight <= 1950): return 1500;
             case ($weight > 1950 && $weight <= 2600): return 1700;
             case ($weight > 2600 && $weight <= 3900): return 1980;
@@ -160,5 +169,14 @@ if (!function_exists('get_global_delivery')) {
             case ($weight > 11700): return 3600;
             default: return 0;
         } 
+    }
+}
+
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr) {
+        foreach($arr as $key => $unused) {
+            return $key;
+        }
+        return null;
     }
 }
