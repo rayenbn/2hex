@@ -1460,6 +1460,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 ->setSize(10)
                 ->getColor()
                 ->setARGB(Color::COLOR_WHITE);
+        $activeSheet
+            ->getRowDimension($bearingRowStart - 1)
+            ->setRowHeight(40);
 
         return $this;
     }
