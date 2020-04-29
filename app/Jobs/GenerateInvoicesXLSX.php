@@ -1276,7 +1276,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Branding');
         $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Material');
         $activeSheet->setCellValue('J' . $bearingRowStart, 'Bearing Packing');
-        //$activeSheet->mergeCells(sprintf('J%s:K%s', $bearingRowStart, $bearingRowStart + 1));
+        $activeSheet->mergeCells(sprintf('J%s:K%s', $bearingRowStart, $bearingRowStart));
         $activeSheet->setCellValue('L' . $bearingRowStart, 'Outer Packing');
         //$activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('M' . $bearingRowStart, 'Price p. bearing');
@@ -1343,7 +1343,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $endRange = $bearingRowStart + 2));
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 1, $endRange + 2));
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 3, $endRange + 5));
-                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield_brand);
                     $text = 'Color1: ';
                     $text .= $bearing->firstbrandcolor;
                     if(isset($bearing->secondbrandcolor)){
@@ -1355,7 +1355,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 } else{
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 3));
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart + 4, $bearingRowStart + 7));
-                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield_brand);
                     $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart + 4), $bearing->shield_brand_print);
                 }
 
