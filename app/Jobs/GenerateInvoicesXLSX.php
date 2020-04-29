@@ -1240,23 +1240,23 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $offset = 2;
 
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
-            $this->offsetRows += 3;
+            $this->offsetRows += 2;
             $offset = 0;
         } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount != 0) {
-            $this->offsetRows += 3;
+            $this->offsetRows += 2;
             $offset = 2;
         } else if($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount != 0) {
-            $this->offsetRows += 2;
+            $this->offsetRows += 1;
             $offset = 1;
         } else if($this->ordersCount == 0 && $this->gripsCount != 0 && $this->wheelsCount == 0){
-            $this->offsetRows += 3;
+            $this->offsetRows += 2;
             $offset = 1;
         } else if($this->ordersCount != 0 && $this->gripsCount == 0 && $this->wheelsCount == 0){
-            $this->offsetRows += 2;
+            $this->offsetRows += 1;
             $offset = 0;
         }
         else{
-            $this->offsetRows += 2;
+            $this->offsetRows += 1;
         }
 
         // +1 If exists grips
@@ -1264,31 +1264,31 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         $activeSheet = $this->getActiveSheet();
         // Insert head Grip Tapes
-        $activeSheet->insertNewRowBefore($bearingRowStart = ($this->rangeStart + ($this->ordersCount + $this->wheelsCount + $this->gripsCount) * self::ROWS_ITEM) + $offset, 2);
+        $activeSheet->insertNewRowBefore($bearingRowStart = ($this->rangeStart + ($this->ordersCount + $this->wheelsCount + $this->gripsCount) * self::ROWS_ITEM) + $offset);
         $activeSheet->setCellValue('C' . $bearingRowStart, 'Quantity');
-        $activeSheet->mergeCells(sprintf('C%s:C%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('C%s:C%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('D' . $bearingRowStart, 'Material');
         $activeSheet->setCellValue('E' . $bearingRowStart, 'Race');
         $activeSheet->setCellValue('F' . $bearingRowStart, 'Retainer');
-        $activeSheet->mergeCells(sprintf('F%s:F%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('F%s:F%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('G' . $bearingRowStart, 'Shield Material');
-        $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Branding');
         $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Material');
         $activeSheet->setCellValue('J' . $bearingRowStart, 'Bearing Packing');
-        $activeSheet->mergeCells(sprintf('J%s:K%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('J%s:K%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('L' . $bearingRowStart, 'Outer Packing');
-        $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('M' . $bearingRowStart, 'Price p. bearing');
-        $activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('M%s:M%s', $bearingRowStart, $bearingRowStart + 1));
         $activeSheet->setCellValue('N' . $bearingRowStart, 'Total of Row');
-        $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 1));
+        //$activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 1));
         
-        $bearingRowStart += 1; // after head row
-        $activeSheet->setCellValue('D' . $bearingRowStart, 'Abec');
-        $activeSheet->setCellValue('E' . $bearingRowStart, 'Race Print');
-        $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Print');
-        $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Color');
+        // $bearingRowStart += 1; // after head row
+        // $activeSheet->setCellValue('D' . $bearingRowStart, 'Abec');
+        // $activeSheet->setCellValue('E' . $bearingRowStart, 'Race Print');
+        // $activeSheet->setCellValue('H' . $bearingRowStart, 'Shield Print');
+        // $activeSheet->setCellValue('I' . $bearingRowStart, 'Spacers Color');
         
 
         $bearingRowStart += 1; // after head row
@@ -1328,7 +1328,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 // Column G
 
                 if(isset($bearing->shieldcolor)){
-                    $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $endRange = $bearingRowStart + 6));
+                    $activeSheet->mergeCells(sprintf('G%s:G%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
+                    $activeSheet->mergeCells(sprintf('G%s:G%s', $endRange + 1, $endRange + 4));
                     $activeSheet->setCellValue(sprintf('G%s', $bearingRowStart), $bearing->shield);
                     $activeSheet->setCellValue(sprintf('G%s', $endRange + 1), 'Color:'.$bearing->shieldcolor);
                 } else{
@@ -1339,9 +1340,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 // Column H
 
                 if(isset($bearing->firstbrandcolor)){
-                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $endRange = $bearingRowStart + 3));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $endRange = $bearingRowStart + 2));
                     $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 1, $endRange + 2));
-                    $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 3, $endRange + 4));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $endRange + 3, $endRange + 5));
                     $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
                     $text = 'Color1: ';
                     $text .= $bearing->firstbrandcolor;
@@ -1350,12 +1351,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
                         $text .= $bearing->firstbrandcolor;
                     }
                     $activeSheet->setCellValue(sprintf('H%s', $endRange + 1), $text);
-                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield_brand_print);
+                    $activeSheet->setCellValue(sprintf('H%s', $endRange + 3), $bearing->shield_brand_print);
                 } else{
-                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 4));
-                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart + 5, $bearingRowStart + 7));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart, $bearingRowStart + 3));
+                    $activeSheet->mergeCells(sprintf('H%s:H%s', $bearingRowStart + 4, $bearingRowStart + 7));
                     $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart), $bearing->shield);
-                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart + 5), $bearing->shield_brand_print);
+                    $activeSheet->setCellValue(sprintf('H%s', $bearingRowStart + 4), $bearing->shield_brand_print);
                 }
 
 
@@ -1382,9 +1383,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
                 // Column L
                 
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 1));
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart + 2, $bearingRowStart + 5));
-                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart + 6, $bearingRowStart + 7));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart, $bearingRowStart + 2));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart + 3, $bearingRowStart + 4));
+                $activeSheet->mergeCells(sprintf('L%s:L%s', $bearingRowStart + 5, $bearingRowStart + 7));
                 $pantonecolors = json_decode($bearing->pantone_color, true);
                 $text = '';
                 if(isset($pantonecolors['colors']))
@@ -1396,8 +1397,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     }
                 
                 $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart), $bearing->designname);
-                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart + 2), $text);
-                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart + 6), $bearing->pantone_print);
+                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart + 3), $bearing->pantone_print);
+                $activeSheet->setCellValue(sprintf('L%s', $bearingRowStart + 5), $text);
 
 
                 // Column M
@@ -1448,13 +1449,13 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 2, $bearingRowStart - 1))
+        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 1, $bearingRowStart - 1))
             ->getFill()
             ->setFillType(Fill::FILL_SOLID)
             ->getStartColor()
             ->setARGB('52A3F1');
 
-        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 2, $bearingRowStart - 1))
+        $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart - 1, $bearingRowStart - 1))
                 ->getFont()
                 ->setSize(10)
                 ->getColor()
