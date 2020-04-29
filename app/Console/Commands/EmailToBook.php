@@ -56,23 +56,22 @@ class EmailToBook extends Command
             $type = 0;
 
 
-            if($difference < 1801 && $difference >= 1800){
-                $type = 9;
-            }
-            if($difference < 1401 && $difference >= 1400){
-                $type = 8;
-            }
-            if($difference < 1081 && $difference >= 1080){
-                $type = 7;
-            }
+            //   if($difference < 1801 && $difference >= 1800){
+            //    $type = 9;
+            // }
+            //  if($difference < 1401 && $difference >= 1400){
+            //    $type = 8;
+            //  }
+            //  if($difference < 1081 && $difference >= 1080){
+            //    $type = 7;
+            //     }
+
             else if($difference < 721 && $difference >= 720){
                 $type = 6;
             }
             else if($difference < 337 && $difference >= 336){
                 $type = 5;
             }
-
-
 
             else if($difference < 169 && $difference >= 168){
                 $type = 4;

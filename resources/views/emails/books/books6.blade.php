@@ -10,13 +10,20 @@
 <table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
-			
+            <font style="color: black;">
+
             <p style="color: black;">Hi {{$data['name']}}</p>
-            <p style="color: black;">I have attached photos of our skateboard decks...</p>
-            <p style="color: black;">
-                To your success! <br>
+            <p>I just saw that you haven't signed up to our configurator yet.</p>
+                <p>If you have any questions or if anything is unclear, let me know.</p>
+                <p>However generally my team and I tried to answer all questions that might come up within the configurator.</p>
+                <p>Give it a shot when you have time. :-)<br></p>
+
+            <p>
+                To your skateboard company's success! <br>
 				Niklas
 			</p>
+
+            </font>
         </td>
     </tr>
 </table>
