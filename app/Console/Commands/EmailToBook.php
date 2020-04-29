@@ -66,7 +66,7 @@ class EmailToBook extends Command
             //    $type = 7;
             //     }
 
-            else if($difference < 721 && $difference >= 720){
+            if($difference < 721 && $difference >= 720){
                 $type = 6;
             }
             else if($difference < 337 && $difference >= 336){
