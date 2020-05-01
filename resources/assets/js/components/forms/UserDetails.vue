@@ -53,7 +53,7 @@
                 <div class="col-7">
                     <input 
                     	class="form-control m-input" 
-                    	type="number" 
+                    	type="text"
                     	v-model="userProfile.phone_num" 
                     	placeholder="Enter your phone number" 
                     	name="phone_num"
