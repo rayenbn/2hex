@@ -152,7 +152,7 @@
                 <div class="col-7">
                     <input 
                     class="form-control m-input" 
-                    type="number" 
+                    type="text"
                     id="shipping_phone"
                     v-model="info.shipping_phone"
                 >

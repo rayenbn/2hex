@@ -419,7 +419,14 @@ class ProfileController extends Controller
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedTransferBatches', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
     }
 
-    public function store_address(Request $request)
+    /**
+     * Save my address
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveMyAddress(Request $request)
     {
         $data = $request->all();
         if(Auth::user())
