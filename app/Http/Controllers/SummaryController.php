@@ -749,7 +749,7 @@ class SummaryController extends Controller
             Wheel::insert($array);
         }
         for($i = 0; $i < count($transfers); $i ++){
-            unset($transfers[$i]['if']);
+            unset($transfers[$i]['id']);
             unset($transfers[$i]['saved_date']);
             unset($transfers[$i]['usenow']);
             unset($transfers[$i]['submit']);
