@@ -7,11 +7,9 @@ use App\Services\TransferService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
-use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
-use Mail;
+use Mail, Cookie;
 use Itlead\Promocodes\Models\Promocode;
-use Cookie;
 
 class SummaryController extends Controller
 {
@@ -529,43 +527,45 @@ class SummaryController extends Controller
         return response()->download($exporter->getPathInvoice());
     }
 
-    public function submitOrder()
+    /**
+     * Submit the order
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function submitOrder(Request $request)
     {
-        $info = ShipInfo::auth()->select('invoice_name')->first(); 
-        $queryOrders = Order::auth();
-        $queryGripTapes = GripTape::auth();
-        $queryWheels = Wheel::auth();
-        $queryTransfers = HeatTransfer::auth();
+        /** @var \Illuminate\Support\Collection $cart */
+        $cart = collect();
 
-        Mail::to(auth()->user())->send($mailer = new \App\Mail\OrderSubmit($info->toArray()));
+        $cart->put('orders', Order::auth());
+        $cart->put('grips', GripTape::auth());
+        $cart->put('wheels', Wheel::auth());
+        $cart->put('transfers', HeatTransfer::auth());
+
+        $totalQuantity = $cart->reduce(function ($carry, $item) {
+            return $carry + $item->count();
+        }, 0);
+
+        if ($totalQuantity === 0) {
+            return redirect()->back()->withErrors(['emptyOrder' => 'You can not submit empty order']);
+        }
+
+        Mail::to($request->user())->send($mailer = new \App\Mail\OrderSubmit());
 
         $invoiceNumber = $mailer->getInvoiceNumber();
-
         $now = now();
 
-        $queryOrders->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
+        $cart->map(function($items) use ($now) {
+             if ($items->count() === 0) return false;
 
-        $queryGripTapes->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
-
-        $queryWheels->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
-
-        $queryTransfers->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
+            $items->update([
+                'submit' => 1,
+                'saved_date' => $now,
+                'usenow' => 0
+            ]);
+        });
 
         session()->flash('success', 'Your order has been successfully sent!');
         session()->flash('invoiceNumber', $invoiceNumber); 

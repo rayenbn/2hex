@@ -58,6 +58,14 @@
         
 		<!-- END: Subheader -->
 		<div class="m-content">
+
+			@if($errors->any())
+				@foreach($errors->all() as $error)
+					<div class="alert alert-danger" role="alert">
+						{{$error}}
+					</div>
+				@endforeach
+			@endif
 			
 			@if(session()->has('success'))
 				<submit-order-modal></submit-order-modal>
