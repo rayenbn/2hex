@@ -137,6 +137,28 @@
                                         :brandfirst="brandfirst"
                                         @packfirstChange="packfirstChange"
                                         @brandfirstChange="brandfirstChange"
+                                        :options2="steps.stickerPrint"
+                                        :files="filenames.top"
+                                        :uploadProgress="steps.stickerPrint.uploadProgress"
+                                        @stateChange2="(val) => {
+                                            steps.stickerPrint.state = val;
+                                        }"
+                                        @selectpaidChange2="(val) => {
+                                            steps.stickerPrint.selectpaid = val;
+                                        }"
+                                        @fileChange2="(val) => {steps.stickerPrint.file = val}"
+                                        @prepareFile2="(e) => { stepUpload = 6.1; uploadFile(e); }"
+
+
+                                        :options="steps.cardboxPrint"
+                                        @stateChange="(val) => {
+                                            steps.cardboxPrint.state = val;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.cardboxPrint.selectpaid = val;
+                                        }"
+                                        @fileChange="(val) => {steps.cardboxPrint.file = val}"
+                                        @prepareFile="(e) => { stepUpload = 6; uploadFile(e); }"
                                     />
 
                                     <!-- Step 7 -->
@@ -145,6 +167,18 @@
                                         :brandsecond="brandsecond"
                                         @packsecondChange="packsecondChange"
                                         @brandsecondChange="brandsecondChange"
+                                        :options="steps.cardbox2Print"
+                                        :files="filenames.top"
+                                        :uploadProgress="steps.cardbox2Print.uploadProgress"
+                                        @stateChange="(val) => {
+                                            steps.cardbox2Print.state = val;
+                                        }"
+                                        @selectpaidChange="(val) => {
+                                            steps.cardbox2Print.selectpaid = val;
+                                        }"
+                                        @fileChange="(val) => {steps.cardbox2Print.file = val}"
+                                        @colorChange="(val) => {steps.cardbox2Print.color = val}"
+                                        @prepareFile="(e) => { stepUpload = 7; uploadFile(e); }"
                                     />
 
                                     <!-- Step 8 -->
@@ -412,6 +446,9 @@
                     backpaperPrint:  {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     cartonPrint:     {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                     pantonePrint:    {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    cardbox2Print:   {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    cardboxPrint:    {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
+                    stickerPrint:    {state: false, file: null, color: null, uploadProgress: 0, selectpaid: false, dropdisable: false},
                 }
             }
         },
@@ -444,10 +481,14 @@
                 switch(this.stepUpload) {
                     case 3: step = 'racePrint'; break;
                     case 4: step = 'shieldBrandPrint'; break;
+                    case 6: step = 'cardboxPrint'; break;
+                    case 6.1: step = 'stickerPrint'; break;
+                    case 7: step = 'cardbox2Print'; break;
                     case 8: step = 'pantonePrint'; break;
                 }
-
                 let input = document.getElementById('step-'+ this.stepUpload +'-upload');
+                if(this.stepUpload == 6.1)
+                    input = document.getElementById('step-6-1-upload');
                 let options = {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -467,7 +508,10 @@
                         if(response != 'failed' && input){
                             input.nextElementSibling.innerHTML = response;
                             input.nextElementSibling.classList.remove("unchecked");
-                            document.getElementById('step-'+ this.stepUpload +'-recent').innerHTML = response;
+                            if(this.stepUpload == 6.1)
+                                document.getElementById('step-6-1-recent').innerHTML = response;
+                            else
+                                document.getElementById('step-'+ this.stepUpload +'-recent').innerHTML = response;
                             this.$notify({
                                 group: 'main',
                                 type: 'success',
@@ -738,6 +782,12 @@
                     && this.steps.racePrint.file ? this.steps.racePrint.file : "");
                 formData.append('shield_brand_print', this.steps.shieldBrandPrint.state 
                     && this.steps.shieldBrandPrint.file ? this.steps.shieldBrandPrint.file : "");
+                formData.append('cardbox_print', this.steps.cardboxPrint.state 
+                    && this.steps.cardboxPrint.file ? this.steps.cardboxPrint.file : "");
+                formData.append('cardboxtwo_print', this.steps.cardbox2Print.state 
+                    && this.steps.cardbox2Print.file ? this.steps.cardbox2Print.file : "");
+                formData.append('sticker_print', this.steps.stickerPrint.state 
+                    && this.steps.stickerPrint.file ? this.steps.stickerPrint.file : "");
                 formData.append('pantone_print',this.steps.pantonePrint.state 
                     && this.steps.pantonePrint.file ? this.steps.pantonePrint.file : "");
                 formData.append('price', this.price);
@@ -810,9 +860,24 @@
                     this.packfirst = this.bearing.packfirst;
                     this.brandfirst = this.bearing.brandfirst;
 
+                    if(this.bearing.shield_brand_print){
+                        this.steps.cardboxPrint.state = true;
+                        this.steps.cardboxPrint.file = this.bearing.cardbox_print;
+                    }
+
+                    if(this.bearing.shield_brand_print){
+                        this.steps.stickerPrint.state = true;
+                        this.steps.stickerPrint.file = this.bearing.sticker_print;
+                    }
+
                     // Step 7
                     this.packsecond = this.bearing.packsecond;
                     this.brandsecond = this.bearing.brandsecond;
+
+                    if(this.bearing.shield_brand_print){
+                        this.steps.cardbox2Print.state = true;
+                        this.steps.cardbox2Print.file = this.bearing.cardboxtwo_print;
+                    }
 
                     // Step 8
                     this.designName = this.bearing.designname;

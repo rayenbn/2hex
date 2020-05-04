@@ -82,9 +82,36 @@
             </td>
             <td>{{$bearing->spamaterial}}</td>
             <td>{{$bearing->spacolor}}</td>
-            <td>{{$bearing->packfirst}}</td>
-            <td>{{$bearing->brandfirst}}</td>
-            <td>{{$bearing->packsecond}}</td>
+            <td @if(isset($fees['cardbox_print'][$bearing->cardbox_print]['paid']) && $fees['cardbox_print'][$bearing->cardbox_print]['paid'] == 1) class="paid" @endif>
+                
+                    <p>{{$bearing->packfirst ?? ''}}</p>
+                @if(isset($bearing->cardbox_print))
+                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                    <br>
+                    {{$bearing->cardbox_print ?? ''}}<br>
+                @endif
+                
+            </td>
+            <td @if(isset($fees['sticker_print'][$bearing->sticker_print]['paid']) && $fees['sticker_print'][$bearing->sticker_print]['paid'] == 1) class="paid" @endif>
+                
+                    <p>{{$bearing->brandfirst ?? ''}}</p>
+                @if(isset($bearing->sticker_print))
+                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                    <br>
+                    {{$bearing->sticker_print ?? ''}}<br>
+                @endif
+                
+            </td>
+            <td @if(isset($fees['cardboxtwo_print'][$bearing->cardboxtwo_print]['paid']) && $fees['cardboxtwo_print'][$bearing->cardboxtwo_print]['paid'] == 1) class="paid" @endif>
+                
+                    <p>{{$bearing->packsecond ?? ''}}</p>
+                @if(isset($bearing->cardboxtwo_print))
+                    <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
+                    <br>
+                    {{$bearing->cardboxtwo_print ?? ''}}<br>
+                @endif
+                
+            </td>
             <td>{{$bearing->brandsecond}}</td>
             <td>{{$bearing->designname}}</td>
             <td>

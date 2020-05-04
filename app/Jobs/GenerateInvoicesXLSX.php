@@ -1367,16 +1367,23 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $activeSheet->setCellValue(sprintf('I%s', $bearingRowStart + 4), $bearing->spacolor);
 
                 // Column J
-                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $bearingRowStart + 3));
-                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart + 4, $bearingRowStart + 7));
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart, $bearingRowStart + 1));
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart+2, $bearingRowStart + 3));
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart+4, $bearingRowStart + 5));
+                $activeSheet->mergeCells(sprintf('J%s:J%s', $bearingRowStart + 6, $bearingRowStart + 7));
                 $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart), $bearing->packfirst);
+                $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart + 2), $bearing->cardbox_print);
                 $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart + 4), $bearing->brandfirst);
+                $activeSheet->setCellValue(sprintf('J%s', $bearingRowStart + 6), $bearing->sticker_print);
 
                 // Column K
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart, $bearingRowStart + 3));
-                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart + 4, $bearingRowStart + 7));
+
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart, $bearingRowStart + 2));
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart + 3, $bearingRowStart + 4));
+                $activeSheet->mergeCells(sprintf('K%s:K%s', $bearingRowStart + 5, $bearingRowStart + 7));
                 $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart), $bearing->packsecond);
-                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart + 4), $bearing->brandsecond);
+                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart + 3), $bearing->cardboxtwo_print);
+                $activeSheet->setCellValue(sprintf('K%s', $bearingRowStart + 5), $bearing->brandsecond);
 
                 
                 

@@ -48,6 +48,67 @@
                        
                             </select>
 
+
+                            <div class="form-group m-form__group upload-files-divsec">
+                                <div></div>
+                                <div class="custom-file">
+                                    <input
+                                        type="file"
+                                        data-type-upload="shieldbrand"
+                                        class="custom-file-input"
+                                        data-step="shieldBrand"
+                                        id="step-7-upload"
+                                        @click="step_options.state = true"
+                                        @change.prevent="prepareFile"
+                                    >
+                                    <label 
+                                        class="custom-file-label unchecked" 
+                                        :class="{checked: step_options.state}" 
+                                        for="customFile"
+                                    >
+                                        Choose file
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="progress mb-3 upload-files-divsec" style="height: 2px;">
+                                <div 
+                                    class="progress-bar m--bg-info" 
+                                    role="progressbar" 
+                                    :style="'width:' + uploadProgress + '%'" 
+                                    aria-valuenow="65" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                >
+                                </div>
+                            </div>
+                            <div class="dropdown upload-files-divsec">
+                                <button 
+                                    class="btn btn-secondary dropdown-toggle" 
+                                    type="button" 
+                                    id="step-7-recent" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false" 
+                                    style="width:100%;" 
+                                    :class="[step_options.state && step_options.file 
+                                        ? 'checked' : 'unchecked'
+                                    ]" 
+                                    @click="step_options.state = true"
+                                >
+                                    {{ step_options.file ? step_options.file : 'Recent file' }}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="step-4-recent">
+                                    <a 
+                                        v-for="file in files"
+                                        class="dropdown-item file-dropdown" 
+                                        @click="() => {step_options.file = file['name']; step_options.state = true; step_options.selectpaid = file['paid']; step_options.dropdisable = file['is_disable']; }"
+                                        href="#"
+                                    >
+                                        <span v-bind:class="{'paid': file['paid'] == 1}" > {{ file['name'] }} {{file['paid']==1?'paid on '+file['paid_date']:''}} </span>
+                                    </a>
+                                </div>
+                            </div>
+
                             <div style="text-align: justify; color: #9699a4;margin-top: 20px;">
                                 <h3>Packing</h3>
                                 Skateboard griptapes are produced in batches of 200. Select the required quantity of your first style of grip tapes. The final griptape price depends on your griptape specifications as well as your total order quantity. With every batch or product you add, your previous batches get cheaper.
@@ -116,8 +177,12 @@
 </template>
 
 <script>
+    import upload from '../mixins/uploadFile';
+    import ColorBtn from './ColorBtn';
+    import BtnFileUpload from '@/components/BtnFileUpload';
     export default {
 		name: 'skateboard-decks-step-7',
+        mixins: [upload],
         props: {
             packsecond: {
                 type: [Object, String],
@@ -126,6 +191,10 @@
             brandsecond: {
                 type: [Object, String],
                 default: ""
+            },
+            uploadProgress: {
+                type: Number,
+                default: 0
             }
         },
 		data() {
@@ -145,6 +214,20 @@
 		},
 		methods: {
 			packsecondChange(){
+                let value = $('#brandfirst').val();
+                if(this.step_packsecond && typeof this.step_packsecond === 'object') {
+                    switch(this.step_packsecond.name) {
+                        case 'No added cardboard': this.step_options.state = false; break;
+                        default: this.step_options.state = true; break;
+                    }
+                }
+                if(this.step_options.state){
+                    $('.upload-files-divsec').show();
+                }
+                else
+                    $('.upload-files-divsec').hide();
+
+
                 this.$store.commit('BearingConfigurator/setPacksecond', this.step_packsecond);
 	            this.$emit('packsecondChange', this.step_packsecond);
 	        },
@@ -202,6 +285,12 @@
                 this.step_packsecond = this.packseconds.find(s => s.name == value);
                 this.packsecondChange();
             });
+
+            if(this.step_options.state){
+                $('.upload-files-divsec').show();
+            }
+            else
+                $('.upload-files-divsec').hide();
         }
 
     }

@@ -82,6 +82,18 @@ class DashboardController extends Controller
             'name' => 'Packing Print',
             'price' => 0
         ],
+        'cardbox_print' => [
+            'name' => 'Packing First Print',
+            'price' => 0
+        ],
+        'cardboxtwo_print' => [
+            'name' => 'Packing Second Print',
+            'price' => 0
+        ],
+        'sticker_print' => [
+            'name' => 'Sheid Brand First Print',
+            'price' => 0
+        ]
     ];
     /**
      * Create a new controller instance.
