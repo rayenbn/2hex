@@ -104,8 +104,8 @@ Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
-Route::post('/detail_save', 'ProfileController@detail_save');
-Route::post('/address_save', 'ProfileController@store_address');
+Route::post('/detail_save', 'ProfileController@saveDetails');
+Route::post('/address_save', 'ProfileController@saveMyAddress');
 Route::post('/production_filter', 'ProfileController@production_filter');
 Route::get('/recent-file', 'ProfileController@getRecentFileByName');
 

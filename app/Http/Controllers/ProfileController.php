@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only('getRecentFileByName');
+        $this->middleware('auth')->only(['getRecentFileByName', 'saveDetails']);
     }
 
     /**
@@ -419,7 +419,14 @@ class ProfileController extends Controller
         return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedTransferBatches', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
     }
 
-    public function store_address(Request $request)
+    /**
+     * Save my address
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveMyAddress(Request $request)
     {
         $data = $request->all();
         if(Auth::user())
@@ -438,15 +445,26 @@ class ProfileController extends Controller
         return redirect()->route('profile');
     }
 
-    public function detail_save(Request $request)
+    /**
+     * Save user details
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveDetails(Request $request)
     {
-        $data = $request->all();
-        unset($data['_token']);
+        $payload = $request->validate([
+            'name' => 'nullable|string|max:191',
+            'position' => 'nullable|string|max:191',
+            'company_name' => 'nullable|string|max:191',
+            'phone_num'  => 'nullable|string|max:191',
+            'email' => 'email|max:191'
+        ]);
 
-        if(auth()->check()) {
-            $user = User::where('id','=', auth()->id())->update($data);
-        }
-        
+        // Update auth user
+        $request->user()->update($payload);
+
         return redirect()->route('profile');
     }
 
