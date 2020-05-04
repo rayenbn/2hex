@@ -456,9 +456,9 @@ class ProfileController extends Controller
     {
         $payload = $request->validate([
             'name' => 'nullable|string|max:191',
-            'position' => 'nullable|string|max:45',
-            'company_name' => 'nullable|string|max:45',
-            'phone_num'  => 'nullable|string|max:45',
+            'position' => 'nullable|string|max:191',
+            'company_name' => 'nullable|string|max:191',
+            'phone_num'  => 'nullable|string|max:191',
             'email' => 'email|max:191'
         ]);
 
