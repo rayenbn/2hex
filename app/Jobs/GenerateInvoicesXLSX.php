@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -1297,6 +1298,18 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
             $activeSheet->insertNewRowBefore($bearingRowStart, self::ROWS_ITEM);
             
+            $styleArray = [
+                'borders' => [
+                    'bottom' => [
+                        'borderStyle' => Border::BORDER_DOUBLE,
+                        'color' => ['argb' => '0000000'],
+                    ],
+                ],
+            ];
+            $activeSheet->getStyle(sprintf('C%s:N%s', $bearingRowStart + 7, $bearingRowStart + 7))
+            ->applyFromArray($styleArray);
+
+            
             foreach ($activeSheet->getRowIterator($bearingRowStart, self::ROWS_ITEM) as $row) {
                 $green = false;
                 // Column C
@@ -1418,7 +1431,6 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
             }
         });
-
         // ------------- Set styles --------------
 
         // start + count grips * 8(count rows in single item)
