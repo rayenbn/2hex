@@ -614,7 +614,7 @@
                             <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
                             </div>
 
-                            <a href="https://www.2hex.com/skateboard-deck-production/TheSkateboardCompanyFoundersBook.pdf" class="btn-danger btn" >DOWNLOAD</a>
+                            <a href="https://www.2hex.com/skateboard-deck-production/The_Skateboard_Company_Founders_Book_2020-05-06.pdf" class="btn-danger btn" >DOWNLOAD</a>
                         </div>
                     </div>
                      @else
