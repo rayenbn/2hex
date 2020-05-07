@@ -22,9 +22,9 @@ class InquiryCompanyEmail extends Mailable
     public function build()
     {
         return $this
-            ->from(config($this->data['email'], $this->data['name']))
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->bcc($this->data['email'], $this->data['name'])
-            ->subject('2HEX Company Production Inquiry')
+            ->subject('New Company Inquiries')
             ->markdown('emails.companyinquiries');
     }
 }
