@@ -240,7 +240,6 @@
 								<li class="m-portlet__nav-item">
 									@php
 										$gripsQuantity = $grips->sum('quantity');
-										$wheelsQuantity = $wheels->sum('quantity');
 									@endphp
 
 									@if ($gripsQuantity == 0  || ($totalOrders > 1170 && $gripsQuantity > 0))
@@ -255,11 +254,6 @@
 											$message = 'Your order is too small to add custom grip tapes. Please order at least a total of 400 grip tapes or 50 decks to enable grip tapes.';
 										@endphp
 
-										@if($wheelsQuantity < 300 && $wheelsQuantity != 0)
-											@php
-												$message = 'Your ordered too few wheels to run a custom wheels production. Please order at least 300 sets of wheels.';
-											@endphp
-										@endif
 										<a
 											href="javascript:void(0);"
 											class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
