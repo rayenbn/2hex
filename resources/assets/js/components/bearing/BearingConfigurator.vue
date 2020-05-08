@@ -521,6 +521,8 @@
                         } else {
                             input.nextElementSibling.classList.add("unchecked");
                             this.steps[step].uploadProgress = 0;
+                            event.target.value = '';
+                            event.target.file = '';
                             this.$notify({
                                 group: 'main',
                                 type: 'error',
@@ -533,6 +535,8 @@
                     .catch(error => {
                         input.nextElementSibling.classList.add("unchecked");
                         this.steps[step].uploadProgress = 0;
+                        event.target.value = '';
+                        event.target.file = '';
                         this.$notify({
                             group: 'main',
                             type: 'error',
