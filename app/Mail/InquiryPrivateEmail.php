@@ -22,9 +22,9 @@ class InquiryPrivateEmail extends Mailable
     public function build()
     {
         return $this
-            ->from(config('mail.from.address'), config('mail.from.name'))
+            ->from($this->data['email'], $this->data['name'])
             ->bcc($this->data['email'], $this->data['name'])
-            ->subject('New Private Inquiries')
+            ->subject('Skateboard Production Private Inquiry by ' + $this->data['name'])
             ->markdown('emails.privateinquiries');
     }
 }

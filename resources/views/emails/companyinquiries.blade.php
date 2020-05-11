@@ -10,7 +10,7 @@
 <table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
-            <p style="color: black;">New Company Inquries is cretaed</p>
+            <p style="color: black;">New Company Inquries is created</p>
             <p style="color: black;">Product: {{$data['product']}}</p>
             <p style="color: black;">Quantity: {{$data['quantity']}}</p>
             <p style="color: black;">Name: {{$data['name']}}</p>
