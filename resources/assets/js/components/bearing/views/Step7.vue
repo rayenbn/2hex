@@ -54,9 +54,9 @@
                                 <div class="custom-file">
                                     <input
                                         type="file"
-                                        data-type-upload="shieldbrand"
+                                        data-type-upload="packsecond"
                                         class="custom-file-input"
-                                        data-step="shieldBrand"
+                                        data-step="packSecond"
                                         id="step-7-upload"
                                         @click="step_options.state = true"
                                         @change.prevent="prepareFile"

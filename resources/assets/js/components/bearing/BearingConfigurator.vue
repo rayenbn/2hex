@@ -109,7 +109,7 @@
                                         @shieldBrandChange="shieldBrandChange"
                                         @shieldBrandColor1Change="shieldBrandColor1Change"
                                         @shieldBrandColor2Change="shieldBrandColor2Change"
-                                        :files="filenames.top"
+                                        :files="filenames.shieldbrand"
                                         :uploadProgress="steps.shieldBrandPrint.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.shieldBrandPrint.state = val;
@@ -138,7 +138,7 @@
                                         @packfirstChange="packfirstChange"
                                         @brandfirstChange="brandfirstChange"
                                         :options2="steps.stickerPrint"
-                                        :files="filenames.top"
+                                        :files="filenames.packfirst"
                                         :uploadProgress="steps.stickerPrint.uploadProgress"
                                         @stateChange2="(val) => {
                                             steps.stickerPrint.state = val;
@@ -168,7 +168,7 @@
                                         @packsecondChange="packsecondChange"
                                         @brandsecondChange="brandsecondChange"
                                         :options="steps.cardbox2Print"
-                                        :files="filenames.top"
+                                        :files="filenames.packsecond"
                                         :uploadProgress="steps.cardbox2Print.uploadProgress"
                                         @stateChange="(val) => {
                                             steps.cardbox2Print.state = val;

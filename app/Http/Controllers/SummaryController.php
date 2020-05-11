@@ -646,7 +646,7 @@ class SummaryController extends Controller
 
         // TODO add wheels to invoice
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings, $id);
 
         if ($orders->count()) {
             $model = $orders->first();
@@ -662,7 +662,7 @@ class SummaryController extends Controller
 
         $exporter->setInvoiceNumber($model->invoice_number);
 
-        $exporter->setDate($model->created_at->timestamp);
+        $exporter->setDate($id);
 
         dispatch($exporter);
         

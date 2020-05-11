@@ -28,53 +28,54 @@ class BearingController extends Controller
 	 */
     public function configurator() : View
     {
-        // $filenames = [
-        //     'wheel-shape'     => [],
-        //     'wheel-front'     => [],
-        //     'wheel-back'      => [],
-        //     'wheel-cardboard' => [],
-        //     'wheel-carton'    => [],
-        // ];
+        $filenames = [
+            'brandfirst'     => [],
+            'pantone'     => [],
+            'shieldbrand' => [],
+            'packfirst'    => [],
+            'race'    => [],
+            'packsecond' => []
+        ];
 
-        // $user = auth()->user();
+        $user = auth()->user();
 
-        // if (empty($user)) {
-        //     return view('wheel-configurator.configurator', compact('filenames'));
-        // }
+        if (empty($user)) {
+            return view('bearing-configurator.configurator', compact('filenames'));
+        }
 
-        // $path = '';
+        $path = '';
         
-        // foreach (array_keys($filenames) as $value) {
-        //     $count = 0;
-        //     $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
-        //     if(\File::exists($path)) {
-        //         $filesInFolder = \File::files($path);
+        foreach (array_keys($filenames) as $value) {
+            $count = 0;
+            $path = public_path('uploads/' .  auth()->user()->name . '/' . $value);
+            if(\File::exists($path)) {
+                $filesInFolder = \File::files($path);
 
-        //         foreach($filesInFolder as $filepath) { 
-        //               $file = pathinfo($filepath);
-        //               $filenames[$value][$count] = [];
-        //               $filenames[$value][$count]['name'] = $file['filename'] . '.' . $file['extension'] ;
-        //               $filenames[$value][$count]['is_disable'] = false;
-        //               $filenames[$value][$count]['color_qty'] = '';
-        //               $filenames[$value][$count]['paid'] = false;
-        //               $filenames[$value][$count]['paid_date'] = '';
-        //               $fileaction = PaidFile::where('created_by', auth()->id())->where('file_name', $filenames[$value][$count]['name'])->first();
-        //               if($fileaction != null){
+                foreach($filesInFolder as $filepath) { 
+                      $file = pathinfo($filepath);
+                      $filenames[$value][$count] = [];
+                      $filenames[$value][$count]['name'] = $file['filename'] . '.' . $file['extension'] ;
+                      $filenames[$value][$count]['is_disable'] = false;
+                      $filenames[$value][$count]['color_qty'] = '';
+                      $filenames[$value][$count]['paid'] = false;
+                      $filenames[$value][$count]['paid_date'] = '';
+                      $fileaction = PaidFile::where('created_by', auth()->id())->where('file_name', $filenames[$value][$count]['name'])->first();
+                      if($fileaction != null){
                           
                           
-        //                 $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
-        //                 $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
-        //                 $wheels = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->wheel;
-        //                 $filenames[$value][$count]['paid_date'] = $fileaction['date'];
-        //                 $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
-        //               }
-        //               $count ++;
-        //         } 
-        //     }
-        // }
+                        $filenames[$value][$count]['paid'] = !empty($fileaction['date']);
+                        $filenames[$value][$count]['color_qty'] = empty($fileaction['color_qty'])?'':$fileaction['color_qty']==4?'CMYK':$fileaction['color_qty'].' color';
+                        $wheels = empty($fileaction['selected_orders'])?[]:json_decode($fileaction['selected_orders'])->wheel;
+                        $filenames[$value][$count]['paid_date'] = $fileaction['date'];
+                        $filenames[$value][$count]['is_disable'] = $filenames[$value][$count]['color_qty']?true:false;
+                      }
+                      $count ++;
+                } 
+            }
+        }
 
-        // return view('wheel-configurator.configurator', compact('filenames'));
-        return view('bearing-configurator.configurator');
+        return view('bearing-configurator.configurator', compact('filenames'));
+        //return view('bearing-configurator.configurator');
     }
 
     /**

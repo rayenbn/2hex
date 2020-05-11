@@ -179,7 +179,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         'pattern'       => 'Pattern Press',
     ];
 
-    public function __construct($orders, $grips, $wheels, $bearings)
+    public function __construct($orders, $grips, $wheels, $bearings, $date = '')
     {
         $this->orders = $orders;
         $this->grips = $grips;
@@ -192,7 +192,10 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->setPropertiesSheet();
         $this->writer = new Xlsx($this->getSpreadsheet());
         $this->drawing = new Drawing();
-        $this->date = time();
+        if($date)
+            $this->date = $date;
+        else
+            $this->date = time();
         $this->ordersCount = $this->getCountOrders();
         $this->gripsCount = $this->getCountGrips();
         $this->wheelsCount = $this->getCountWheels();
@@ -207,7 +210,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     public function handle()
     {
         $this
-            ->generateOrders()
+           ->generateOrders()
             ->generateGrips()
             ->generateWheels()
             ->generateBearings()
@@ -661,7 +664,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     }
 
     protected function setSeparateCell()
-    { 
+    {
         $this
             ->getActiveSheet()
             ->setCellValue('G7', 'First and Lastname: ' . (isset($this->user) ? $this->user->name : ''))
@@ -742,11 +745,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
                     ), 
                     'Cellphone Number: ' . $shipinfo->shipping_phone
                 );
-        }   
-        $this
-            ->getStylesRange('E8')
-            ->getNumberFormat()
-            ->setFormatCode('dd/mm/yyyy');
+        }
+        if(gettype($this->date) == 'integer')
+            $this
+                ->getStylesRange('E8')
+                ->getNumberFormat()
+                ->setFormatCode('dd/mm/yyyy');
 
         return $this;
     }
