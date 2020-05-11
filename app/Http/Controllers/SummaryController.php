@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\RecalculateHeatTransfers;
+use App\Rules\EmptyOrder;
+use App\Rules\WheelSubmitMinimum;
 use App\Services\TransferService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, PaidFile};
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Mail, Cookie;
 use Itlead\Promocodes\Models\Promocode;
 
@@ -548,8 +551,19 @@ class SummaryController extends Controller
             return $carry + $item->count();
         }, 0);
 
-        if ($totalQuantity === 0) {
-            return redirect()->back()->withErrors(['emptyOrder' => 'You can not submit empty order']);
+        /** @var \Illuminate\Validation\Validator $validator */
+        $validator = Validator::make(
+            [
+                'wheels' => (int) $cart->get('wheels')->sum('quantity'),
+                'total' => $totalQuantity,
+            ],
+            [
+                'wheels' => [new WheelSubmitMinimum()],
+                'total' => [new EmptyOrder()],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
         }
 
         Mail::to($request->user())->send($mailer = new \App\Mail\OrderSubmit());
