@@ -18,7 +18,7 @@
                     style="padding: 0.85rem 2.5rem;margin: 15px 0; display: none;"
             >
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-                <span>Successfully Deliverd</span>
+                <span>Successfully Delivered</span>
             </div>
             <div
                     class="alert alert-danger alert-dismissible fade show m-alert m-alert--air"
