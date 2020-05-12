@@ -179,7 +179,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         'pattern'       => 'Pattern Press',
     ];
 
-    public function __construct($orders, $grips, $wheels, $bearings, $date = '')
+    public function __construct($orders, $grips, $wheels, $bearings)
     {
         $this->orders = $orders;
         $this->grips = $grips;
@@ -192,10 +192,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $this->setPropertiesSheet();
         $this->writer = new Xlsx($this->getSpreadsheet());
         $this->drawing = new Drawing();
-        if($date)
-            $this->date = $date;
-        else
-            $this->date = time();
+        $this->date = time();
         $this->ordersCount = $this->getCountOrders();
         $this->gripsCount = $this->getCountGrips();
         $this->wheelsCount = $this->getCountWheels();
@@ -1242,6 +1239,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         if ($this->bearingsCount <= 0) return $this;
 
+        
+
         $offset = 2;
 
         if ($this->ordersCount == 0 && $this->gripsCount == 0 && $this->wheelsCount == 0) {
@@ -1299,6 +1298,8 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $bearingRowStart += 1; // after head row
 
         $this->bearings->map(function(Bearing $bearing, $index) use ($bearingRowStart, $activeSheet) {
+            
+            var_dump(json_encode($bearing));
 
             $activeSheet->insertNewRowBefore($bearingRowStart, self::ROWS_ITEM);
             
@@ -1432,11 +1433,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 // Column N
                 $activeSheet->mergeCells(sprintf('N%s:N%s', $bearingRowStart, $bearingRowStart + 7));
                 $activeSheet->setCellValue(sprintf('N%s', $bearingRowStart), $bearing->total);
-
+            
+            
             }
         });
         // ------------- Set styles --------------
-
+        exit();
         // start + count grips * 8(count rows in single item)
         $range = sprintf(
             'C%s:N%s', 

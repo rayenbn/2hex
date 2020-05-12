@@ -639,15 +639,15 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
-        $orders = Order::auth()->get();
-        $grips = GripTape::auth()->get();
-        $wheels = Wheel::auth()->get();
-        $bearings = Bearing::auth()->get();
-
+        $orders = Order::auth()->orderBy('id', 'DESC')->get();
+        $grips = GripTape::auth()->orderBy('id', 'DESC')->get();
+        $wheels = Wheel::auth()->orderBy('wheel_id', 'DESC')->get();
+        $bearings = Bearing::auth()->orderBy('id', 'DESC')->get();
+        
         // TODO add wheels to invoice
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings, $id);
-
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings);
+        
         if ($orders->count()) {
             $model = $orders->first();
 
