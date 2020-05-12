@@ -639,10 +639,10 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
-        $orders = Order::auth()->orderBy('id', 'DESC')->get();
-        $grips = GripTape::auth()->orderBy('id', 'DESC')->get();
-        $wheels = Wheel::auth()->orderBy('wheel_id', 'DESC')->get();
-        $bearings = Bearing::auth()->orderBy('id', 'DESC')->get();
+        $orders = Order::auth()->get();
+        $grips = GripTape::auth()->get();
+        $wheels = Wheel::auth()->get();
+        $bearings = Bearing::auth()->get();
         
         // TODO add wheels to invoice
 

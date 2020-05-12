@@ -60,7 +60,7 @@ trait WheelGenerator
 
         $wheelRowStart += 1; // after head row
         
-
+        $this->wheels = $this->wheels->reverse();
         $this->wheels->map(function(Wheel $wheel, $index) use ($wheelRowStart, $activeSheet) {
 
             $activeSheet->insertNewRowBefore($wheelRowStart, self::ROWS_ITEM);

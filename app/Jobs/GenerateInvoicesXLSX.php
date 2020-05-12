@@ -318,7 +318,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $activeSheet->setCellValue('M' . 17, 'Price p. deck');
         $activeSheet->setCellValue('N' . 17, 'Total of Row');
 
-
+        $this->orders = $this->orders->reverse();
         $this->orders->map(function(Order $order, $index) use ($activeSheet) {
 
             $activeSheet->insertNewRowBefore($this->rangeStart, self::ROWS_ITEM);
@@ -444,7 +444,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $activeSheet->setCellValue('N' . $gripRowStart, 'Total of Row');
 
         $gripRowStart += 1; // after head row
-
+        $this->grips = $this->grips->reverse();
         $this->grips->map(function(GripTape $grip, $index) use ($gripRowStart, $activeSheet) {
 
             $activeSheet->insertNewRowBefore($gripRowStart, self::ROWS_ITEM);
@@ -1296,11 +1296,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
         
 
         $bearingRowStart += 1; // after head row
-
+        $this->bearings = $this->bearings->reverse();
         $this->bearings->map(function(Bearing $bearing, $index) use ($bearingRowStart, $activeSheet) {
             
-            var_dump(json_encode($bearing));
-
             $activeSheet->insertNewRowBefore($bearingRowStart, self::ROWS_ITEM);
             
             $styleArray = [
@@ -1438,7 +1436,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             }
         });
         // ------------- Set styles --------------
-        exit();
+
         // start + count grips * 8(count rows in single item)
         $range = sprintf(
             'C%s:N%s', 
