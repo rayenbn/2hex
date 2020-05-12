@@ -24,7 +24,7 @@ class InquiryPrivateEmail extends Mailable
         return $this
             ->from($this->data['email'], $this->data['name'])
             ->bcc($this->data['email'], $this->data['name'])
-            ->subject('Skateboard Production Private Inquiry by ' + $this->data['name'])
+            ->subject('Skateboard Production Private Inquiry By '.$this->data['name'])
             ->markdown('emails.privateinquiries');
     }
 }

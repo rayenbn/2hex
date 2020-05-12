@@ -10,7 +10,7 @@
 <table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
-            <p style="color: black;">New Private Inquries is created</p>
+            <p style="color: black;">New private inquiry</p>
             <p style="color: black;">Product & Quantity: {{$data['product']}}</p>
             <p style="color: black;">Question: {{$data['question']}}</p>
             <p style="color: black;">Name: {{$data['name']}}</p>
