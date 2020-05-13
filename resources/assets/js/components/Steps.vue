@@ -69,6 +69,7 @@
 						"Inner Packaging 1",
 						"Inner Packaging 2",
 						"Outer Packaging",
+					];
 				} else if (this.type === "transfer") {
 					return [
 						"Quantity & Size",
