@@ -2,31 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Scopes\GapScope;
-use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\Post;
-
+use Illuminate\Http\Request;
+use App\Models\BookSubscribe;
+use App\Mail\EmailBook;
+use App\Models\Auth\User\User;
 class HomeController extends Controller
 {
     /**
      * Show the application dashboard.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        /** @var \Illuminate\Database\Eloquent\Collection $posts */
-        $posts = Post::query()
-            ->withGlobalScope('gap', new GapScope($request))
-            ->orderBy('created_at', 'desc')
-            ->where('active', true)
-            ->with('author')
-            ->paginate(4);
-
-        return view('welcome', compact('posts'));
+        return view('welcome');
     }
 
     public function getData()
@@ -41,5 +32,29 @@ class HomeController extends Controller
         }
         return ['quantity' => $quantity, 'total' => $total];
     }
-    
+    public function downBooks(Request $request)
+    {
+        $email = $request->input('email');
+        $fname = $request->input('fname');
+        $check = BookSubscribe::where('email',$email)->count();
+        if($check > 0){
+            session()->flash('error', 'You already submitted your email');
+            return redirect()->route('index',['#mc-embedded-subscribe-form']);
+        }
+        $check = User::where('email', $email)->count();
+        if($check > 0){
+            session()->flash('error', 'You already submitted your email');
+            return redirect()->route('index',['#mc-embedded-subscribe-form']);
+        }
+        $user = new BookSubscribe;
+        $user->email = $email;
+        $user->name = $fname;
+        $user->save();
+        session()->flash('success', 'success');
+        \Mail::to($email)->send(new EmailBook(['id'=>$user->id, 'name' => $fname, 'type' => 1]));
+        return redirect()->route('index',['#mc-embedded-subscribe-form']);
+    }
+    public function downBooksView(){
+        return view('welcome');
+    }
 }

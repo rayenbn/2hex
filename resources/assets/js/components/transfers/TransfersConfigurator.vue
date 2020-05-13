@@ -4,10 +4,12 @@
             <div class="col-xl-9">
                 <div class="m-portlet">
 
+                    <a href="/mail">
                     <head-configurator
                         title="Skateboard Wheel Factory"
                         :links="headLinks"
                     />
+                    </a>
 
                     <div class="m-wizard m-wizard--1 m-wizard--success" id="m_wizard">
                         <div class="m-portlet__padding-x"></div>
@@ -48,47 +50,6 @@
                                 </div>
 
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                    <div class="m-form__actions m-form__actions">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <b>Total including batch</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transfersColorsQuantity}} colors</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Total including batch</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transfersQuantity}} transfers</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Transfer price</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{transferPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Screens Price</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{screensPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Heat transfer cost</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{heatTransferPrice}}</p>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <b>Price Per Sheet (Transfer price + Screens Price)</b>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>{{pricePerSheet}}</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
                                     <div class="m-form__actions m-form__actions">
                                         <div class="row">
 
@@ -149,45 +110,58 @@
                         <div class="m-separator m-separator--fit"></div>
 
                         <div class="m-widget1 m-widget1--paddingless">
+
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-<!--                                        <h3 class="m-widget1__title">{{ auth ? 'Wheel' : 'Login' }}</h3>-->
-<!--                                        <span class="m-widget1__desc">{{ auth ? 'Price per set' : 'To See Prices' }}</span>-->
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Heat Transfer' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per transfer' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
-                                        <span
-                                                class="m-widget1__number m--font-brand"
-                                                id="perSet"
-                                        >
-<!--                                                                                            v-if="auth"-->
-
-<!--                                            //${{ perSetPrice && perSetPrice.toFixed(2) }}-->
+                                        <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
+                                            $ {{costPerTransfer && costPerTransfer.toFixed(2)}}
                                         </span>
-<!--                                        <span v-else class="m-widget1__number m&#45;&#45;font-danger" id="perSetPrice" >-->
-<!--                                            $ ?.??-->
-<!--                                        </span>-->
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="m-widget1__item">
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
-<!--                                        <h3 class="m-widget1__title">{{ auth ? 'Batch' : 'Login' }}</h3>-->
-<!--                                        <span class="m-widget1__desc">{{ auth ? 'Total of Batch' : 'To See Prices' }}</span>-->
-                                        <h3 class="m-widget1__title">Batch</h3>
-                                        <span class="m-widget1__desc">Total of Batch</span>
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Screens' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Price per screen' : 'To See Prices' }}</span>
                                     </div>
                                     <div class="col m--align-right">
-<!--                                        v-if="auth"-->
+                                        <span class="m-widget1__number m--font-brand" v-if="hasAuthUser">
+                                            $ {{costPerScreen && costPerScreen.toFixed(2)}}
+                                        </span>
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
+                                        <h3 class="m-widget1__title">{{ hasAuthUser ? 'Batch' : 'Login' }}</h3>
+                                        <span class="m-widget1__desc">{{ hasAuthUser ? 'Total of Batch' : 'To See Prices' }}</span>
+                                    </div>
 
-                                        <span class="m-widget1__number m--font-danger">
+                                    <div class="col m--align-right">
+                                        <span
+                                            v-if="hasAuthUser"
+                                            class="m-widget1__number m--font-danger"
+                                        >
                                             $ {{ pricePerSheet }}
                                         </span>
-<!--                                        <span v-else class="m-widget1__number m&#45;&#45;font-danger" id="total" >-->
-<!--                                            $ ?.??-->
-<!--                                        </span>-->
+                                        <span v-else class="m-widget1__number m--font-danger">
+                                            $ ?.??
+                                        </span>
                                     </div>
+
                                 </div>
                             </div>
                             <br>
@@ -243,15 +217,22 @@
                 type: Number,
                 default: 0
             },
-            isAdmin: {
-                type: Number,
-                default: false,
-                validator: function (value) {
-                    value = parseInt(value);
-
-                    return value == 0 || value == 1;
+            transfer: {
+                type: Object,
+                default: null
+            },
+            user: {
+                type: Object,
+                default: () => {
+                    return null;
                 }
-            }
+            },
+            paidFile: {
+                type: Object,
+                default: () => {
+                    return null;
+                }
+            },
         },
         components: {
             TransfersStep1,
@@ -276,6 +257,13 @@
             }
         },
         computed: {
+            hasAuthUser() {
+                if (! this.user) {
+                    return false;
+                }
+
+                return Object.keys(this.user).length > 0;
+            },
             currentStep: {
                 get() {
                     return this.$store.getters.getCurrentStep;
@@ -290,32 +278,23 @@
             pricePerSheet() {
                 return this.$store.getters['TransfersConfigurator/pricePerSheet'];
             },
-            transferPrice() {
-                return this.$store.getters['TransfersConfigurator/transferPrice'];
+            costPerTransfer() {
+                return this.$store.getters['TransfersConfigurator/costPerTransfer'];
             },
-            screensPrice() {
-                return this.$store.getters['TransfersConfigurator/screensPrice'];
+            costPerScreen() {
+                return this.$store.getters['TransfersConfigurator/costPerScreen'];
             },
-            heatTransferPrice() {
-                return this.$store.getters['TransfersConfigurator/heatTransferPrice'];
-            },
-            transfersColorsQuantity() {
-                return this.$store.getters['TransfersConfigurator/getTransfersColorsQuantity'];
-            },
-            transfersQuantity() {
-                return this.$store.getters['TransfersConfigurator/getTransfersQuantity'];
-            }
         },
         methods: {
             changeStepInfo(step) {
                 switch(step) {
                     case 1:
-                        this.stepInfo.head = 'Your first batch of wheels!';
-                        this.stepInfo.content = 'A batch consists of all skateboard wheels in one size and style. Each batch must have at least 100 sets of wheels. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
+                        this.stepInfo.head = 'Select the quantity and size of your design!';
+                        this.stepInfo.content = 'A batch consists of all heat transfers in one size and style. Each batch must have at least 50 heat transfers. The more batches you add to your total order, the cheaper each batch will get! (You will see this on the summary page)';
                         break;
                     case 2:
-                        this.stepInfo.head = 'Select shape and size!';
-                        this.stepInfo.content = 'Below the skateboard wheel size, you will find the contact patch width. This is the surface of the wheel touching the ground. Note: If you change the wheels shape or upload a custom shape, remember to select the wheels size.';
+                        this.stepInfo.head = 'Give your design a name!';
+                        this.stepInfo.content = 'And to make sure the print looks perfect, select the finish, the number of colors and add the Pantone color codes.';
                         break;
                     default:
                         this.stepInfo.head = '';
@@ -331,7 +310,6 @@
             saveBatch() {
                 this.$store.dispatch('TransfersConfigurator/saveBatch')
                     .then((response) => {
-                        console.log(response);
                         this.$notify({
                             group: 'main',
                             type: 'success',
@@ -339,9 +317,9 @@
                             text: "Heat Transfer succesfully saved"
                         });
 
-                        // setTimeout(() => {
-                        //     window.location = response.request.responseURL
-                        // }, 1500);
+                        setTimeout(() => {
+                            window.location = response.request.responseURL
+                        }, 1500);
                     })
                     .catch(err => {
                         this.$notify({
@@ -357,7 +335,11 @@
             this.$store.commit('TransfersConfigurator/setRecentFiles', this.filenames);
             this.$store.commit('TransfersConfigurator/setTransfersQuantity', this.totalQuantity);
             this.$store.commit('TransfersConfigurator/setTransfersColorsQuantity', this.totalColors);
-            this.$store.commit('TransfersConfigurator/setIsAdmin', this.isAdmin);
+            this.$store.commit('TransfersConfigurator/setPaidFile', this.paidFile);
+
+            if (this.transfer != null) {
+                this.$store.commit('TransfersConfigurator/setTransfer', this.transfer);
+            }
         }
     };
 </script>

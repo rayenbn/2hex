@@ -11,8 +11,6 @@ vendor/
 node_modules/
 npm-shrinkwrap.json
 bower_components/
-bootstrap/compiled.php
-bootstrap/cache/
 package-lock.json
 
 /storage/*.key

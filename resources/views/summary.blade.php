@@ -9,8 +9,8 @@
 @endpush
 
 @section('content')
-	@php 
-		$isAdmin = auth()->check() && auth()->user()->isAdmin();
+	@php
+		$isAuth = auth()->check();
 		setlocale(LC_MONETARY, 'en_US');
 	@endphp
 
@@ -58,6 +58,8 @@
         
 		<!-- END: Subheader -->
 		<div class="m-content">
+
+			@component('components.errors') @endcomponent
 			
 			@if(session()->has('success'))
 				<submit-order-modal></submit-order-modal>
@@ -99,22 +101,24 @@
 
 						  	<div class="dropdown-menu" aria-labelledby="actions">
 						  		<a class="dropdown-item" href="{{ route('griptape.index') }}">
-						  			Add Griptapes
+						  			Griptapes
 						  		</a>
 						  		<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-						  			Add Decks
+						  			S.B. Decks
 						  		</a>
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
-									Add Wheels
+									S.B. Wheels
 								</a>
 								<a class="dropdown-item" href="{{route('bearings.configurator')}}">
 									Add Bearings
 								</a>
-						  		@if($isAdmin)
-									<a class="dropdown-item" href="{{ route('get.skateboard.configurator') }}">
-										Saved Batches
-									</a>
-								@endif
+								<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
+									Heat Transfers
+								</a>
+								<hr>
+                                <a class="dropdown-item" href="{{ route('profile') . '#saved_batches' }}">
+                                    Saved Batches
+                                </a>
 								
 						  	</div>
 
@@ -152,7 +156,7 @@
 							@endif
 
 							@if(count($transfers) > 0)
-								@include('partials.transfers', ['transfers' => $transfers, 'fees' => $fees])
+								@include('partials.transfers', ['transfers1' => $transfers, 'fees' => $fees])
 							@endif
 
 							@if(count($bearings) > 0)
@@ -162,11 +166,11 @@
 
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
-									<td colspan="5">Fixed Cost</td>
+									<td colspan="5">Tooling Cost</td>
 									<td colspan="5">Batches</td>
 									<td colspan="3">Colors</td>
 									<td colspan="6">Filename</td>
-									<td colspan="3">Fixed&nbspTotal</td>
+									<td colspan="3">Tooling&nbspTotal</td>
 								</tr>
 						   	</thead>
 
@@ -177,8 +181,15 @@
 											<td colspan="5">{{ $value['type'] }}</td>
 											<td colspan="5">{{ $value['batches'] }}</td>
 											<td colspan="3">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
-											<td colspan="6">{{ $value['image'] }}</td>
-											<td colspan="3">{{ auth()->check() ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+
+											@if(isset($value['batch']) && $value['batch'] === 'transfer')
+												<td colspan="3">{{ $value['designName'] }}</td>
+												<td colspan="3">{{ $value['image'] }}</td>
+											@else
+												<td colspan="6">{{ $value['image'] }}</td>
+											@endif
+
+											<td colspan="3">{{ $isAuth ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
 										</tr>
 									@endif
                             	@endforeach
@@ -212,7 +223,7 @@
 						<div class="m-portlet__head-caption">
 							<div class="m-portlet__head-title" style="padding-left: 20px;">
 								<h3 class="m-portlet__head-text">
-									USD TOTAL:  {{ auth()->check() ? money_format('%.2n', $totalOrders) : '$?.??' }}
+									USD TOTAL:  {{ $isAuth ? money_format('%.2n', $totalOrders) : '$?.??' }}
 								</h3>
 							</div>
 						</div>
@@ -221,7 +232,7 @@
 							
 							@else
 							<ul class="m-portlet__nav">
-								
+
 {{--								<li class="m-portlet__nav-item">--}}
 {{--									<a href="{{ route('export.invoice') }}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" >--}}
 {{--										<span>--}}
@@ -236,53 +247,27 @@
 								</li>
 								
 								<li class="m-portlet__nav-item">
-									@php $auth = auth()->user(); @endphp
-									
-									@if (
-										$auth 
-										&& strlen($auth->company_name) 
-										&& strlen($auth->position) 
-										&& strlen($auth->phone_num)
-									)
-										@php 
-											$gripsQuantity = $grips->sum('quantity');
-											$wheelsQuantity = $wheels->sum('quantity');
-										@endphp
+									@php
+										$gripsQuantity = $grips->sum('quantity');
+									@endphp
 
-										@if(($gripsQuantity == 0 && $totalOrders > 1170) || ($totalOrders > 1170 && $gripsQuantity > 0))
-											<a href="{{ route('orders.submit') }}" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
-												<span>
-													<i class="la la-rocket"></i>
-													<span>SUBMIT</span>
-												</span>
-											</a>
-										@else
-											@php 
-												$message = 'Your order is too small to add custom grip tapes. Please order at least a total of 400 grip tapes or 50 decks to enable grip tapes.';
-											@endphp
-
-											@if($wheelsQuantity < 300 && $wheelsQuantity != 0)
-												@php 
-													$message = 'Your ordered too few wheels to run a custom wheels production. Please order at least 300 sets of wheels.'; 
-												@endphp
-											@endif
-											<a 
-												href="javascript:void(0);" 
-												class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
-												onclick="alert('{{$message}}')"
-											>
+									@if ($gripsQuantity == 0  || ($totalOrders > 1170 && $gripsQuantity > 0))
+										<a href="{{ route('orders.submit') }}" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
 											<span>
 												<i class="la la-rocket"></i>
 												<span>SUBMIT</span>
 											</span>
 										</a>
-										@endif
 									@else
-									<a 
-										href="javascript:void(0);" 
-										class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
-										onclick="alert('Please fill in your complete profile before submitting an order')"
-									>
+										@php
+											$message = 'Your order is too small to add custom grip tapes. Please order at least a total of 400 grip tapes or 50 decks to enable grip tapes.';
+										@endphp
+
+										<a
+											href="javascript:void(0);"
+											class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+											onclick="alert('{{$message}}')"
+										>
 										<span>
 											<i class="la la-rocket"></i>
 											<span>SUBMIT</span>

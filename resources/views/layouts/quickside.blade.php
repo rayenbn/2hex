@@ -7,8 +7,5 @@
                 <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_quick_sidebar_tabs_messenger" role="tab" style="margin-left:30px;">Support Chat</a>
             </li>
         </ul>
-        <div style="height: calc(100% - 60px);">
-            <iframe height="100%" width="100%" style="margin:0px;" src="https://tawk.to/chat/5c702860a726ff2eea59008f/default" frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-        </div>
     </div>
 </div>

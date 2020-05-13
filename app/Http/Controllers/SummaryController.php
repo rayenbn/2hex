@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RecalculateHeatTransfers;
+use App\Rules\EmptyOrder;
+use App\Rules\WheelSubmitMinimum;
+use App\Services\TransferService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile, ProductionComment, ProductionDate};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
-use Mail;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OrderExport;
+use Illuminate\Support\Facades\Validator;
+use Mail, Cookie;
 use Itlead\Promocodes\Models\Promocode;
 use App\Jobs\RecalculateOrders;
-use Cookie;
+
+
 
 class SummaryController extends Controller
 {
@@ -92,21 +97,29 @@ class SummaryController extends Controller
                 Order::auth()->where('submit', 0)->get(), 
                 GripTape::auth()->where('submit', 0)->get(),
                 Wheel::auth()->where('submit', 0)->get(),
-                Bearing::auth()->where('submit', 0)->get()
+                Bearing::auth()->where('submit', 0)->get(),
+                HeatTransfer::auth()->where('submit',0)->get()
             )
         );
+
+        // TODO Replace to App\Classes\Batch
+
         $ordersQuery = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
+
+        /** @var \Illuminate\Database\Eloquent\Collection|HeatTransfer[] $transfers */
         $transfers = HeatTransfer::auth()->get();
         $bearingQuery = Bearing::auth();
         
         $fees = [];
         $sum_fees = 0;
 
+        $transfersWeight = TransferService::getGlobalDeliveryWeight($transfers);
+
         // Set wheel fix cost to main fees array
         $this->calculateWheelFixCost($fees);
-        
+
         // Order weight
         $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
             return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
@@ -121,7 +134,8 @@ class SummaryController extends Controller
         $bearingWeight = (clone $bearingQuery)->get()->sum('quantity')*0.12;
 
         // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $bearingWeight;
+        $weight = round(($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $transfersWeight + $bearingWeight, 2);
+
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
             ->get()
@@ -409,9 +423,9 @@ class SummaryController extends Controller
                 }
             }
         }
-
+        $this->calculateTransfersFixCost($fees, (clone $transfers));
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || Bearing::auth()->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || Bearing::auth()->count() || $transfers->isNotEmpty()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -426,9 +440,15 @@ class SummaryController extends Controller
                 $sum_fees += $f['price'];
             });
         }
+        // calculate total
+        $totalOrders =
+            $ordersQuery->sum('total')
+            + GripTape::auth()->sum('total')
+            + Wheel::auth()->sum('total')
+            + Bearing::auth()->sum('total')
+            + $transfers->sum('total')
+            + $sum_fees;
 
-        // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + Bearing::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -449,7 +469,7 @@ class SummaryController extends Controller
 
         Cookie::queue('orderTotal', $totalOrders);
 
-        return view('summary', compact('fees', 'totalOrders', 'transfers'));
+        return view('summary', compact('fees', 'totalOrders'));
     }
 
     /**
@@ -562,20 +582,78 @@ class SummaryController extends Controller
         }
     }
 
+    /**
+     * Calculate fix cost for active transfers
+     *
+     * @param array $fees
+     * @param \Illuminate\Database\Eloquent\Collection|null $transfers
+     *
+     * @return void
+     */
+    protected function calculateTransfersFixCost(array &$fees, Collection $transfers = null)
+    {
+        /** @var \Illuminate\Database\Eloquent\Collection $transfers */
+        $transfers = $transfers ?? HeatTransfer::auth()->get();
+
+        /** @var \Illuminate\Database\Eloquent\Collection $paidFiles */
+        $paidFiles = PaidFile::query()
+            ->whereIn('created_by', $transfers->pluck('created_by'))
+            ->get();
+
+        $transfers->transform(function(HeatTransfer $transfer, $key) use (&$fees, $paidFiles) {
+
+            $transferKey = $transfer['small_preview'];
+
+            // If same design
+            if (isset($fees['transfer_small_preview']) && array_key_exists($transferKey, $fees['transfer_small_preview'])) {
+                $fees['transfer_small_preview'][$transferKey]['batches'] .= "," . ++$key;
+                $fees['transfer_small_preview'][$transferKey]['quantity'] += $transfer['quantity'];
+                return false;
+            }
+
+            $fees['transfer_small_preview'][$transferKey] = [
+                'batch'    => 'transfer',
+                'image'    => $transfer['small_preview'],
+                'batches'  => (string) ++$key,
+                'type'     => 'Transfer Paper',
+                'quantity' => $transfer['quantity'],
+                'designName'    => $transfer['design_name'],
+                'color'    => $transfer['cmyk']
+                    ? $transfer['colors_count'] - (int) $transfer['transparency']
+                    : $transfer['colors_count'],
+                'price'    => $transfer['reorder_at'] ? 0 : $transfer['total_screens'],
+            ];
+
+            if ($transfer['transparency']) {
+                $fees['transfer_small_preview'][$transferKey]['color'] .= ' + Transparency';
+            }
+
+            $isPaid = $paidFiles
+                ->where('file_name', $transferKey)
+                ->where('date', '!=', null)
+                ->isNotEmpty();
+
+            if ($isPaid){
+                $fees['transfer_small_preview'][$transferKey]['price'] = 0;
+                $fees['transfer_small_preview'][$transferKey]['paid'] = 1;
+            }
+        });
+    }
+
     public function exportcsv()
     {
         $queryOrders = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
         $bearingQuery = Bearing::auth();
-
-        // TODO add wheels to invoice
+        $transfersQuery = HeatTransfer::auth();
 
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
-            $queryOrders->get(), 
-            $gripQuery->get(), 
+            $queryOrders->get(),
+            $gripQuery->get(),
             $wheelQuery->get(),
-            $bearingQuery->get()
+            $bearingQuery->get(),
+            $transfersQuery->get()
         ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
@@ -597,11 +675,13 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::auth()->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        HeatTransfer::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -638,6 +718,14 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($bearings[$i]), true);
             Bearing::insert($array);
         }
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
 
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
@@ -645,9 +733,10 @@ class SummaryController extends Controller
         $bearings = Bearing::auth()->get();
         
         // TODO add wheels to invoice
+        $transfers = HeatTransfer::auth()->get();
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings);
-        
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings,$transfers);
+
         if ($orders->count()) {
             $model = $orders->first();
 
@@ -655,8 +744,10 @@ class SummaryController extends Controller
             $model = $grips->first();
         } else if ($wheels->count()){
             $model =$wheels->first();
-        } else {
+        } else if ($bearings->count()){
             $model =$bearings->first();
+        } else if( $transfers->count()){
+            $model = $transfers->first();
         }
 
 
@@ -669,43 +760,59 @@ class SummaryController extends Controller
         return response()->download($exporter->getPathInvoice());
     }
 
-    public function submitOrder()
+    /**
+     * Submit the order
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function submitOrder(Request $request)
     {
-        $info = ShipInfo::auth()->select('invoice_name')->first(); 
-        $queryOrders = Order::auth();
-        $queryGripTapes = GripTape::auth();
-        $queryWheels = Wheel::auth();
-        $queryBearings = Bearing::auth();
+        /** @var \Illuminate\Support\Collection $cart */
+        $cart = collect();
 
-        Mail::to(auth()->user())->send($mailer = new \App\Mail\OrderSubmit($info->toArray()));
+
+        $cart->put('orders', Order::auth());
+        $cart->put('grips', GripTape::auth());
+        $cart->put('wheels', Wheel::auth());
+        $cart->put('transfers', HeatTransfer::auth());
+        $cart->put('bearings', Bearing::auth());
+
+        $totalQuantity = $cart->reduce(function ($carry, $item) {
+            return $carry + $item->count();
+        }, 0);
+
+        /** @var \Illuminate\Validation\Validator $validator */
+        $validator = Validator::make(
+            [
+                'wheels' => (int) $cart->get('wheels')->sum('quantity'),
+                'total' => $totalQuantity,
+            ],
+            [
+                'wheels' => [new WheelSubmitMinimum()],
+                'total' => [new EmptyOrder()],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        Mail::to($request->user())->send($mailer = new \App\Mail\OrderSubmit());
 
         $invoiceNumber = $mailer->getInvoiceNumber();
-
         $now = now();
 
-        $queryOrders->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
+        $cart->map(function($items) use ($now) {
+             if ($items->count() === 0) return false;
 
-        $queryGripTapes->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
+            $items->update([
+                'submit' => 1,
+                'saved_date' => $now,
+                'usenow' => 0
+            ]);
+        });
 
-        $queryWheels->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
-
-        $queryBearings->update([
-            'submit' => 1,
-            'saved_date' => $now,
-            'usenow' => 0
-        ]);
 
         session()->flash('success', 'Your order has been successfully sent!');
         session()->flash('invoiceNumber', $invoiceNumber); 
@@ -738,6 +845,7 @@ class SummaryController extends Controller
         $grips = GripTape::where('created_by', '=', $created_by)->where('usenow', '=', 1)->get();
         $wheels = Wheel::auth()->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
+        $transfers = HeatTransfer::auth()->get();
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
@@ -747,6 +855,7 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         Wheel::auth()->update($save_data);
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
+        HeatTransfer::auth()->update($save_data);
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -782,6 +891,14 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
+        for ($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['invoice_number']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
         return redirect()->route('profile', ['#saved_orders']);
     }
     public function load($id)
@@ -803,12 +920,13 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
-        
+        HeatTransfer::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -846,8 +964,19 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
-        return redirect()->route('summary');
-    } 
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
+        return redirect()->route('summary');   
+    }
+
+
     public function view($id)
     {
         $save_data['usenow'] = 0;
@@ -867,11 +996,13 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Wheel::auth()->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        HeatTransfer::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -889,7 +1020,6 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($grips[$i]), true);
             GripTape::insert($array);
         }
-
         for($i = 0; $i < count($wheels); $i ++){
             unset($wheels[$i]['wheel_id']);
             unset($wheels[$i]['saved_date']);
@@ -907,6 +1037,15 @@ class SummaryController extends Controller
             Bearing::insert($array);
         }
 
+        for($i = 0; $i < count($transfers); $i ++){
+            unset($transfers[$i]['id']);
+            unset($transfers[$i]['saved_date']);
+            unset($transfers[$i]['usenow']);
+            unset($transfers[$i]['submit']);
+            $array = json_decode(json_encode($transfers[$i]), true);
+            HeatTransfer::insert($array);
+        }
+
         return redirect()->route('summary')->with(['viewonly'=>1]);   
     }
     public function removeOrder($id)
@@ -921,6 +1060,7 @@ class SummaryController extends Controller
         GripTape::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         Wheel::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         Bearing::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        HeatTransfer::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
 
         return redirect()->route('profile');
     }
@@ -971,6 +1111,7 @@ class SummaryController extends Controller
         $grip_checked = $request->input('gripBatches');
         $wheel_checked = $request->input('wheelBatches');
         $bearing_checked = $request->input('bearingBatches');
+        $transfer_checked = $request->input('transferBatches');
 
         if($request->submit == 'Add'){
             if(isset($order_checked)){
@@ -1000,7 +1141,7 @@ class SummaryController extends Controller
                     GripTape::insert($array);
                 }
             }
-            
+
             if(isset($wheel_checked)){
                 $wheels = Wheel::whereIn('wheel_id',$wheel_checked)->get();
                 for($i = 0; $i < count($wheels); $i ++){
@@ -1028,6 +1169,20 @@ class SummaryController extends Controller
                     Bearing::insert($array);
                 }
             }
+            if(isset($transfer_checked)){
+                $transfers = HeatTransfer::whereIn('id',$transfer_checked)->get();
+                for($i = 0; $i < $transfers->count(); $i ++){
+                    unset($transfers[$i]['id']);
+                    unset($transfers[$i]['saved_date']);
+                    unset($transfers[$i]['usenow']);
+                    unset($transfers[$i]['submit']);
+                    unset($transfers[$i]['invoice_number']);
+                    $transfers[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($transfers[$i]), true);
+                    HeatTransfer::insert($array);
+                }
+                dispatch(new RecalculateHeatTransfers);
+            }
             
         }
         if($request->submit == 'Delete'){
@@ -1040,6 +1195,8 @@ class SummaryController extends Controller
                 Wheel::whereIn('wheel_id',$wheel_checked)->delete();
             if(isset($bearing_checked))
                 Bearing::whereIn('id',$bearing_checked)->delete();
+            if(isset($transfer_checked))
+                HeatTransfer::whereIn('id',$transfer_checked)->delete();
             return redirect()->back();
         }
         return redirect()->route('summary');

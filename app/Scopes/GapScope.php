@@ -29,10 +29,10 @@ class GapScope extends BaseWhereScope
 
         switch ($gap) {
             case static::LAST_YEAR:
-                $builder->whereYear('created_at', date('Y', strtotime('-1 year')));
+                $builder->whereYear('created_at', date('Y'));
                 break;
             case static::LAST_MONTH:
-                $builder->whereMonth('created_at', date('m', strtotime('-1 month')));
+                $builder->whereMonth('created_at', date('m'));
                 break;
         }
     }

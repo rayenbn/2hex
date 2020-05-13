@@ -3,44 +3,41 @@
     <div class="m-container m-container--fluid m-container--full-height">
         <div class="m-stack m-stack--ver m-stack--desktop">
 
-            <!-- BEGIN: Brand Logo -->
-            <div class="m-stack__item m-brand  m-brand--skin-dark ">
-                <div class="m-stack m-stack--ver m-stack--general">
+            @if ($isHomePage === false)
+                <!-- BEGIN: Brand Logo -->
+                <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                    <div class="m-stack m-stack--ver m-stack--general">
 
+                        <div class="m-stack__item m-stack__item--middle m-brand__logo">
+                            <a href="/" class="m-brand__logo-wrapper">
+                                <img alt="" src="{{asset('img/2HEXlogo.png')}}"/>
+                            </a>
+                        </div>
 
-                    <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                        <a href="/" class="m-brand__logo-wrapper">
-                            <img alt="" src="{{asset('img/2HEXlogo.png')}}"/>
-                        </a>
-                    </div>
+                        <div class="m-stack__item m-stack__item--middle m-brand__tools">
 
+                            <!-- BEGIN: Left Aside Minimize Toggle -->
+                            <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
+                                <span></span>
+                            </a>
+                            <!-- END -->
 
+                            <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                            <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                <span></span>
+                            </a>
+                            <!-- END -->
 
-                    <div class="m-stack__item m-stack__item--middle m-brand__tools">
+                            <!-- BEGIN: Topbar Toggler -->
+                            <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+                                <i class="flaticon-more"></i>
+                            </a>
 
-                        <!-- BEGIN: Left Aside Minimize Toggle -->
-                        <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
-                            <span></span>
-                        </a>
-
-                        <!-- END -->
-
-                        <!-- BEGIN: Responsive Aside Left Menu Toggler -->
-                        <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
-                            <span></span>
-                        </a>
-
-                        <!-- END -->
-
-                        <!-- BEGIN: Topbar Toggler -->
-                        <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
-                            <i class="flaticon-more"></i>
-                        </a>
-
-                        <!-- BEGIN: Topbar Toggler -->
+                            <!-- BEGIN: Topbar Toggler -->
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <!-- END: Brand -->
             <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
@@ -48,8 +45,6 @@
                 <!-- BEGIN: Horizontal Menu -->
                 <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
                 <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-dark m-aside-header-menu-mobile--submenu-skin-dark ">
-
-
                     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
                         <li class="m-menu__item  m-menu__item--submenu m-menu__item--rel">
                             <span class="m-menu__link-text">
@@ -70,14 +65,8 @@
                                 <span class="m-menu__link-text">Samples</span>
                             </a>
                         </li>
-
-
                     </ul>
-
-
                 </div>
-
-
 
                 <!-- END: Horizontal Menu -->
 
@@ -85,15 +74,26 @@
                 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
                     <div class="m-stack__item m-topbar__nav-wrapper">
                         <ul class="m-topbar__nav m-nav m-nav--inline">
+
+                            @if (Auth::user())
+                            <a href="/summary" class="m-nav__link m-dropdown__toggle">
+
+                                     <span class="m-topbar__userpic">
+                                         <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Shopping Cart</span>
+                                     </span>
+
+                            </a>
+
                             <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                 m-dropdown-toggle="click">
-                                @if (Auth::user())
-                                <a href="#" class="m-nav__link m-dropdown__toggle">
+
+
+                                    <a href="#" class="m-nav__link m-dropdown__toggle">
                                                                                              
                                      <span class="m-topbar__userpic">
                                          <span class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">{{Auth::user()->name}}</span>
                                      </span>
-                                                                                     
+
                                  </a>
 
                                 <div class="m-dropdown__wrapper">
@@ -182,6 +182,9 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
                                 @else
                                 <li class="m-nav__item">
                                 <a href="/register" class="m-nav__link"> <!-- class="m-nav__link m-dropdown__toggle"> -->
@@ -202,13 +205,15 @@
                                 </li>
 
 
-                                @endif 
+                                @endif
+                                        <!--
                             </li>
                             <li id="m_quick_sidebar_toggle" class="m-nav__item">
                                 <a   class="m-nav__link m-dropdown__toggle">
                                     <span class="m-nav__link-icon"><i class="flaticon-chat"></i></span>
                                 </a>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>

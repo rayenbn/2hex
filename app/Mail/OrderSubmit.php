@@ -2,19 +2,15 @@
 namespace App\Mail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\{Order, GripTape, Wheel\Wheel, Bearing};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape,Bearing, ShipInfo, Wheel\Wheel};
+
 
 class OrderSubmit extends Mailable
 {
     use SerializesModels;
 
-    public $data;
     protected $invoiceNumber;
 
-    public function __construct(array $data = [])
-    {
-        $this->data  = $data;
-    }
     /**
      * Build the message.
      *
@@ -27,8 +23,12 @@ class OrderSubmit extends Mailable
         $wheelQuery = Wheel::auth();
         $bearingQuery = Bearing::auth();
 
+        
+        $transfersQuery = HeatTransfer::auth();
+        $info = ShipInfo::auth()->select('invoice_name')->first();
+
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
-            $queryOrders->get(), $gripQuery->get(), $wheelQuery->get(), $bearingQuery->get()
+            $queryOrders->get(), $gripQuery->get(), $wheelQuery->get(), $bearingQuery->get(), $transfersQuery->get()
         ));
 
         $this->invoiceNumber = $exporter->getInvoiceNumber();
@@ -37,11 +37,15 @@ class OrderSubmit extends Mailable
         $gripQuery->update(['invoice_number'   => $this->invoiceNumber]);
         $wheelQuery->update(['invoice_number'  => $this->invoiceNumber]);
         $bearingQuery->update(['invoice_number'  => $this->invoiceNumber]);
+        $transfersQuery->update(['invoice_number'  => $this->invoiceNumber]);
 
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->bcc('niklas@skateboard-factory.com', 'SBfactory')
             ->subject('2HEX Production Order Confirmation')
+            ->with([
+                'invoiceName' => (isset($info) && $info->invoice_name) ? $info->invoice_name : 'Non stated'
+            ])
             ->attach($exporter->getPathInvoice(), [
                 'as' => $this->invoiceNumber . '.xlsx',
                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

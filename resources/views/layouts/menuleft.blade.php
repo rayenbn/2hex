@@ -8,7 +8,7 @@
         <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
 
             <li class="m-menu__section ">
-                <h4 class="m-menu__section-text">Our Products</h4>
+                <h4 class="m-menu__section-text">Customizable Products</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
             </li>
 
@@ -18,7 +18,7 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Skateboard Decks</span>
+                            <span class="m-menu__link-text">Skateboard Decks</span>
                         </span>
                     </span>
                 </a>
@@ -29,7 +29,7 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Griptapes</span>
+                            <span class="m-menu__link-text">Griptapes</span>
                         </span>
                     </span>
                 </a>
@@ -40,57 +40,55 @@
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Wheels</span>
+                            <span class="m-menu__link-text">Wheels</span>
                         </span>
                     </span>
                 </a>
             </li>
 
-            <li class="m-menu__item  {{ request()->routeIs('bearings.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+           <li class="m-menu__item  {{ request()->routeIs('bearings.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('bearings.manufacturer') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
                     <span class="m-menu__link-title">
                         <span class="m-menu__link-wrap">
-                            <span class="m-menu__link-text">add Bearings</span>
+                            <span class="m-menu__link-text">Bearings</span>
                         </span>
                     </span>
                 </a>
             </li>
 
-            @php $authUser = auth()->user(); @endphp
-            @if((isset($authUser)) && $authUser->isAdmin())
-                <li class="m-menu__item  {{ request()->routeIs('transfers.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
-                    <a href="{{ route('transfers.manufacturer') }}" class="m-menu__link ">
-                        <i class="m-menu__link-icon flaticon-box"></i>
-                        <span class="m-menu__link-title">
-                            <span class="m-menu__link-wrap">
-                                <span class="m-menu__link-text">add Transfers</span>
-                            </span>
+            <li class="m-menu__item  {{ request()->routeIs('transfers.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('transfers.manufacturer') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-box"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">Heat Transfers</span>
                         </span>
-                    </a>
-                </li>
-            @endif
+                    </span>
+                </a>
+            </li>
 
 
             <li class="m-menu__section ">
-                <h4 class="m-menu__section-text">Your Production</h4>
+                <h4 class="m-menu__section-text">Your Overview</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li 
                 class="m-menu__item  m-menu__item--submenu  m-menu__item--closed 
                     {{ (request()->is('skateboard-deck-configurator*') 
                         || request()->is('grip-tape-configurator*')
+                        || request()->is('skateboard-wheels-configurator*')
                         || request()->is('bearing-configurator')
-                        || request()->is('skateboard-wheels-configurator*'))
-                        ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open' 
+                        || request()->is('transfers-configurator*'))
+                        ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open'
                         : '' 
                     }}" 
                 aria-haspopup="true" 
                 m-menu-submenu-toggle="hover"
             >
                 <a href="javascript:;" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-truck"></i>
-                    <span class="m-menu__link-text">Your Products</span>
+                    <i class="m-menu__link-icon flaticon-list"></i>
+                    <span class="m-menu__link-text">Configuration</span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>
 
@@ -142,10 +140,7 @@
                             <div class="m-menu__submenu ">
                                 <span class="m-menu__arrow"></span>
                                 <!-- Steps vue -->
-                                <steps 
-                                    :path="{{ json_encode(route('griptape.show', $grip->id)) }}"
-                                    type="griptape"
-                                />
+                                <steps path="{{ route('griptape.show', $grip->id) }}" type="griptape"></steps>
                             </div>
                         </li>
 
@@ -179,8 +174,31 @@
                         </li>
 
                         @endforeach
-                        
-                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0)
+
+                        @foreach($transfers as $key => $transfer)
+                        <li
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed
+                            {{ (route('transfers.show', $transfer->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}"
+                            aria-haspopup="true"
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Transfers Batch {{++$key}}</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <!-- Steps vue -->
+                                <steps path="{{route('transfers.show', $transfer->id) }}" type="transfer"/>
+                            </div>
+                        </li>
+
+                        @endforeach
+
+                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0 && $transfers->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>
@@ -267,6 +285,7 @@
 
                         @endif
 
+
                         @if (request()->routeIs('bearings.configurator'))
 
                         <li 
@@ -290,6 +309,31 @@
                                 <steps type="bearing"/>
                             </div>
                         </li>
+
+                        @endif
+
+                        @if (request()->routeIs('transfers.configurator'))
+
+                            <li
+                                class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active"
+                                aria-haspopup="true"
+                                m-menu-submenu-toggle="hover"
+                            >
+                                <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="m-menu__link-text">Transfers Batch {{ $transfers->count() ? $transfers->count() + 1 : 1}}
+                            </span>
+                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                </a>
+                                <div class="m-menu__submenu ">
+                                    <span class="m-menu__arrow"></span>
+
+                                    <!-- Steps vue -->
+                                    <steps type="transfer"/>
+                                </div>
+                            </li>
 
                         @endif
                         
@@ -318,10 +362,10 @@
             >
 
                 <a href="{{route('summary')}}" class="m-menu__link ">
-                    <i class="m-menu__link-icon flaticon-list-1">
+                    <i class="m-menu__link-icon flaticon-cart">
                         <span></span>
                     </i>
-                    <span class="m-menu__link-text">Your Summary</span>
+                    <span class="m-menu__link-text">Shopping Cart</span>
                 </a>
             </li>
 
@@ -348,25 +392,21 @@
             </li>
 
 
-            <li
-                    class="m-menu__item
-                    {{
-                        request()->routeIs('about')
-                            ? 'm-menu__item--expanded m-menu__item--active'
-                            : ''
-                    }}"
-                    aria-haspopup="true"
-            >
 
-                <a href="{{route('about')}}" class="m-menu__link ">
-                    <img src="/img/skatefactory2.svg" style=width:25px;height:25px">
-                    <i class="m-menu__link-icon flaticon-list-3w">
-                        <span></span>
-                    </i>
-                    <span class="m-menu__link-text">About Us</span>
+
+            <li class="m-menu__item  {{ request()->routeIs('about') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('about') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-presentation"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">About Us</span>
+                        </span>
+                    </span>
                 </a>
             </li>
 
+
+        <!--
             <li class="m-menu__item  {{ request()->routeIs('samplesets') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('samplesets') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
@@ -378,6 +418,7 @@
                 </a>
             </li>
 
+
             <li class="m-menu__item  {{ request()->routeIs('inquirieschoice') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="/inquirieschoice" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-multimedia"></i>
@@ -388,6 +429,7 @@
                     </span>
                 </a>
             </li>
+             -->
 
         </ul>
     </div>

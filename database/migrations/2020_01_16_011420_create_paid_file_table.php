@@ -16,9 +16,9 @@ class CreatePaidFileTable extends Migration
         Schema::create('paid_files', function (Blueprint $table) {
             $table->increments('id');
             $table->string('file_name');
-            $table->string('date')->nullable();;
-            $table->integer('color_qty')->nullable();;
-            $table->string('color_code')->nullable();;
+            $table->string('date');
+            $table->integer('color_qty')->nullable();
+            $table->string('color_code')->nullable();
             $table->timestamps();
         });
     }

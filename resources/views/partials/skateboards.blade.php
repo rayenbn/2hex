@@ -35,21 +35,17 @@
                 </label>
             </td>
             @endif
-            <td>Skateboard Deck Batch #{{++$batch}}</td>
-            <td>{{$skateboard->quantity}}</td>
-            <td colspan="2">{{$skateboard->size}}</td>
-            <td colspan="2">{{$skateboard->concave}}</td>
+            <td class="align-middle">Skateboard Deck Batch #{{++$batch}}</td>
+            <td class="align-middle text-center">{{$skateboard->quantity}}</td>
+            <td colspan="2" class="align-middle" title="{{$skateboard->size}}">{{$skateboard->size}}</td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->concave}}</td>
             <td colspan="2">
                 <div>
-                    <span style="margin-top: 15px; display: block;">
-                        {{$skateboard->wood}}<br>
-                    </span>
+                    {{$skateboard->wood}}<br>
                 </div>
                 <hr style="border-color: #f4f5f8; margin: 0 -5px 0 -3px">
-                <div>
-                    <span style="margin-top: 15px; display: block;">
-                        {{$skateboard->glue}}<br>
-                    </span>
+                <div class="mt-3">
+                    {{$skateboard->glue}}<br>
                 </div>
             </td>
             <td colspan="2">
@@ -76,7 +72,7 @@
                 </div>
             </td>
 
-            <td colspan="2">{{$skateboard->engravery ? $skateboard->engravery : 'None'}}</td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->engravery ? $skateboard->engravery : 'None'}}</td>
             <td colspan="2">
                 <ol style="padding-left:0; list-style-position:inside;">
                     @foreach(json_decode($skateboard->veneer) as $veneer)
@@ -113,7 +109,7 @@
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
                 Shrink Wrap: Yes
             </td>
-            <td colspan="2">{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
             <td colspan="2">
                 <div>
                     <p style="margin: 30px 0px;" @if(isset($fees['carton'][$skateboard->carton]['paid']) && $fees['carton'][$skateboard->carton]['paid'] == 1) class="paid" @endif>
@@ -124,8 +120,8 @@
                 </div>
             </td>
             @if(!isset($batches))
-            <td>{{ auth()->check() ? money_format('%.2n', $skateboard->perdeck) : '$?.??' }}</td>
-            <td>{{ auth()->check() ? money_format('%.2n', $skateboard->total) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $skateboard->perdeck) : '$?.??' }}</td>
+            <td class="align-middle text-center">{{ auth()->check() ? money_format('%.2n', $skateboard->total) : '$?.??' }}</td>
             @endif
             @if(Session::get('viewonly') == null && !isset($batches))
                 <td>

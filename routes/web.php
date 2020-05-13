@@ -89,6 +89,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
 Route::get('/', 'HomeController@index')->name('index');
+Route::get('/testlink', 'HomeController@downBooksView')->name('testlink');
+Route::post('/bookdown', 'HomeController@downBooks');
 Route::get('/inquiries', 'InquiriesController@index')->name('inquiries');
 Route::post('/inquiries', 'InquiriesController@submit');
 Route::get('/inquirieschoice', 'InquirieschoiceController@index')->name('inquirieschoice');
@@ -98,13 +100,15 @@ Route::get('/mail', 'ContactController@index')->name('mail');
 Route::get('/inquiriesprivate', 'InquiriesprivateController@index')->name('inquiriesprivate');
 Route::post('/inquiriesprivate', 'InquiriesprivateController@submit');
 Route::get('/samplesets', 'SamplesetsController@index')->name('samplesets');
+Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
 Route::get('/delete_summary', 'SummaryController@deleteSummary');
-Route::post('/detail_save', 'ProfileController@detail_save');
-Route::post('/address_save', 'ProfileController@store_address');
+Route::post('/detail_save', 'ProfileController@saveDetails');
+Route::post('/address_save', 'ProfileController@saveMyAddress');
 Route::post('/production_filter', 'ProfileController@production_filter');
+Route::get('/recent-file', 'ProfileController@getRecentFileByName');
 
 Route::get('/skateboard-deck-configurator', 'ConfiguratorController@index')->name('get.skateboard.configurator');
 Route::get('/skateboard-deck-configurator/{id}', 'ConfiguratorController@show')->name('show.skateboard.configurator');
@@ -170,9 +174,14 @@ Route::group(['as' => 'bearings.'], function () {
     Route::post('/bearing-configurator/{id}/copy', 'BearingController@copy')->name('copy');
 });
 
-Route::group(['as' => 'transfers.', 'middleware' => ['admin']], function () {
+Route::group(['as' => 'transfers.'], function () {
     Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
     Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');
+    Route::get('/transfers-configurator/{id}', 'TransferController@show')->name('show');
+    Route::put('/transfers-configurator/{id}', 'TransferController@update')->name('update');
+    Route::post('/transfers-configurator/{id}/copy', 'TransferController@copy')->name('copy');
+    Route::get('/transfers-remove/{id}', 'TransferController@destroy')->name('destroy');
+    Route::post('/transfers-save/{id}', 'TransferController@save')->name('save');
     Route::post('/transfers-configurator', 'TransferController@store')->name('configurator.store');
     Route::post('/transfers-configurator-upload', 'TransferController@uploadFile')->name('upload');
 });
@@ -187,8 +196,11 @@ Route::group(['as' => 'protection.'], function () {
 });
 
 
+Route::get('/sbblog', 'SbblogController@index')->name('sbblog');
+
 Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], function () {
     // Route::get('/', 'BlogController@index')->name('index');
+
     Route::get('/create', 'BlogController@create')->name('create');
     Route::post('/', 'BlogController@store')->name('store');
     Route::delete('/{post}', 'BlogController@destroy')->name('destroy');
@@ -197,8 +209,9 @@ Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => 'auth'], func
 });
 Route::get('/blog/{id}', 'BlogController@show')->name('blog.show');
 
-
 Route::post('/vendor-code', 'SummaryController@applyPromocode')->name('vendor.code.apply');
 
 Route::get('/clickevent', 'SamplesController@mouseClicked')->name('clickevent');
+
+
 

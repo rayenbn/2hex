@@ -6,11 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
-use App\Models\{Order, GripTape, Wheel\Wheel,ProductionComment, ProductionDate, PaidFile, Bearing};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Wheel\Wheel, ProductionComment, ProductionDate, PaidFile, Bearing};
 use Session;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\InvalidArgumentException;
 
 class ProfileController extends Controller
 {
+    /**
+     * ProfileController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['getRecentFileByName', 'saveDetails']);
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -119,27 +129,33 @@ class ProfileController extends Controller
             ->groupBy('saved_date', 'invoice_number', 'saved_name')
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
+        $queryTransfers = HeatTransfer::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
 
         $querySubmitOrders = clone $queryOrders;
         $querySubmitGrips = clone $queryGrips;
         $querySubmitWheels = clone $queryWheels;
         $querySubmitBearings = clone $queryBearings;
+        $querySubmitTransfers = clone $queryTransfers;
 
+        // Unsubmit
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
-
-        
-
         $unSubmitOrders = $unSubmitOrders->toBase()->merge($queryWheels->where('submit', 0)->get());
-
         $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
             $unSubmitOrders->push($grip);
         });
         $queryBearings->where('submit', 0)->get()->each(function($bearing) use (&$unSubmitOrders) {
             $unSubmitOrders->push($bearing);
         });
-
+        $queryTransfers->where('submit', 0)->get()->each(function($transfer) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($transfer);
+        });
         $unSubmitOrders = $unSubmitOrders->unique('saved_date');
 
+        // Submit
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
@@ -147,6 +163,9 @@ class ProfileController extends Controller
         });
         $querySubmitBearings->where('submit', 1)->addSelect('invoice_number')->get()->each(function($bearing) use (&$submitorders) {
             $submitorders->push($bearing);
+        });
+        $querySubmitTransfers->where('submit', 1)->addSelect('invoice_number')->get()->each(function($transfer) use (&$submitorders) {
+            $submitorders->push($transfer);
         });
 
         $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
@@ -159,6 +178,7 @@ class ProfileController extends Controller
         $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedBearingBatches = Bearing::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedTransferBatches = HeatTransfer::where('created_by', $createdBy)->where('saved_batch', 1)->get();
 
         $returnorder = Order::where('created_by','=',$createdBy)->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number')->get();
 
@@ -256,6 +276,8 @@ class ProfileController extends Controller
             })
             ->toArray();
 
+
+        $transfers = HeatTransfer::where('created_by', $createdBy)->where('saved_batch', 1)->get();
 
 
         foreach ($orders as $index => $order) {
@@ -423,6 +445,7 @@ class ProfileController extends Controller
             }
         }
 
+
         foreach ($bearings as $index => $bearing) {
             $index += 1;
 
@@ -587,16 +610,73 @@ class ProfileController extends Controller
         }
 
         
+        
+        /** @var \Illuminate\Database\Eloquent\Collection $paidFiles */
+        $paidFiles = PaidFile::query()
+            ->whereIn('created_by', $transfers->pluck('created_by'))
+            ->get();
+
+        $transfers->transform(function(HeatTransfer $transfer, $key) use (&$fees, $paidFiles) {
+
+            $transferKey = $transfer['small_preview'];
+
+            // If same design
+            if (isset($fees['transfer_small_preview']) && array_key_exists($transferKey, $fees['transfer_small_preview'])) {
+                $fees['transfer_small_preview'][$transferKey]['batches'] .= "," . ++$key;
+                $fees['transfer_small_preview'][$transferKey]['quantity'] += $transfer['quantity'];
+                return false;
+            }
+
+            $fees['transfer_small_preview'][$transferKey] = [
+                'batch'    => 'transfer',
+                'image'    => $transfer['small_preview'],
+                'batches'  => (string) ++$key,
+                'type'     => 'Transfer Paper',
+                'quantity' => $transfer['quantity'],
+                'designName'    => $transfer['design_name'],
+                'color'    => $transfer['cmyk']
+                    ? $transfer['colors_count'] - (int) $transfer['transparency']
+                    : $transfer['colors_count'],
+                'price'    => $transfer['reorder_at'] ? 0 : $transfer['total_screens'],
+            ];
+
+            if ($transfer['transparency']) {
+                $fees['transfer_small_preview'][$transferKey]['color'] .= ' + Transparency';
+            }
+
+            $isPaid = $paidFiles
+                ->where('file_name', $transferKey)
+                ->where('date', '!=', null)
+                ->isNotEmpty();
+
+            if ($isPaid){
+                $fees['transfer_small_preview'][$transferKey]['price'] = 0;
+                $fees['transfer_small_preview'][$transferKey]['paid'] = 1;
+            }
+        });
+
         $unSubmitOrders = json_decode(json_encode($unSubmitOrders), true);
         $submitorders = json_decode(json_encode($submitorders), true);
         $unSubmitOrders = array_values($unSubmitOrders);
         $submitorders = array_values($submitorders);
         usort($unSubmitOrders, function($a, $b) {return strcmp($b['saved_date'], $a['saved_date']);});
         usort($submitorders, function($a, $b) {return strcmp($b['saved_date'], $a['saved_date']);});
-        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'savedBearingBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
+
+        
+        return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedTransferBatches', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'savedBearingBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
+
+        //return view('profile', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'savedTransferBatches', 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'returnorder','startdate','enddate','selected_order', 'comments', 'fees'));
+
     }
 
-    public function store_address(Request $request)
+    /**
+     * Save my address
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveMyAddress(Request $request)
     {
         $data = $request->all();
         if(Auth::user())
@@ -615,15 +695,26 @@ class ProfileController extends Controller
         return redirect()->route('profile');
     }
 
-    public function detail_save(Request $request)
+    /**
+     * Save user details
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveDetails(Request $request)
     {
-        $data = $request->all();
-        unset($data['_token']);
+        $payload = $request->validate([
+            'name' => 'nullable|string|max:191',
+            'position' => 'nullable|string|max:191',
+            'company_name' => 'nullable|string|max:191',
+            'phone_num'  => 'nullable|string|max:191',
+            'email' => 'email|max:191'
+        ]);
 
-        if(auth()->check()) {
-            $user = User::where('id','=', auth()->id())->update($data);
-        }
-        
+        // Update auth user
+        $request->user()->update($payload);
+
         return redirect()->route('profile');
     }
 
@@ -633,5 +724,48 @@ class ProfileController extends Controller
         //$enddate = $request->input('enddate');
 
         return redirect()->route('profile',['#submitted_orders'])->with(['selected_order' => $selected_order]);
+    }
+
+    /**
+     * Get recent file by name
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @return string
+     */
+    public function getRecentFileByName(Request $request)
+    {
+        $this->validate($request, [
+            'fileName' => 'required|string',
+            'folder'   => 'required|string',
+        ]);
+
+        /** @var User $authUser */
+        $authUser = $request->user();
+        $fileName = $request->get('fileName');
+        $folder = $request->get('folder');
+        $format = $request->get('format', 'base64');
+
+        $path = sprintf(public_path('uploads/%s/%s/%s'), $authUser->name, $folder, $fileName);
+
+        if (\File::exists($path) === false) {
+            throw new FileNotFoundException("File {$fileName} was not found.");
+        }
+
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+
+        if ($type != "jpg" && $type != "png" && $type != "jpeg" && $type != "gif" ) {
+            throw new InvalidArgumentException('Sorry, only JPG, JPEG, PNG & GIF files are allowed.');
+        }
+
+        $response = null;
+
+        switch ($format) {
+            case 'base64': $response = 'data:image/' . $type . ';base64,' . base64_encode(\File::get($path)); ; break;
+        }
+
+        return response()->json($response, 200);
     }
 }

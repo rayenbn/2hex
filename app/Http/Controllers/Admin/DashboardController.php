@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Classes\Enum\Delivery;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Auth\User\User;
 use Arcanedev\LogViewer\Entities\Log;
@@ -11,7 +12,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Route;
 use App\Models\ShipInfo;
-use App\Models\{Order, GripTape, Bearing, Wheel\Wheel, ProductionComment, Session, PaidFile, ProductionDate};
+use App\Models\{HeatTransfer\HeatTransfer,
+    Order,
+    GripTape,
+    Wheel\Wheel,
+    ProductionComment,
+    Session,
+    PaidFile,
+    ProductionDate,
+    Bearing};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
 use App\Mail\CommentAddedEmail;
@@ -72,27 +81,33 @@ class DashboardController extends Controller
         //Bearing
         'race_print' => [
             'name' => 'Race Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'race'
         ],
         'shield_brand_print' => [
             'name' => 'Shield Brand Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'shield'
         ],
         'pantone_print' => [
             'name' => 'Packing Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'pantone'
         ],
         'cardbox_print' => [
             'name' => 'Packing First Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'packfirst'
         ],
         'cardboxtwo_print' => [
             'name' => 'Packing Second Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'packsecond'
         ],
         'sticker_print' => [
             'name' => 'Sheid Brand First Print',
-            'price' => 0
+            'price' => 0,
+            'folder' => 'brandfirst'
         ]
     ];
     /**
@@ -408,8 +423,7 @@ class DashboardController extends Controller
                     ];
 
                     //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
-                    $folder_name = str_replace('_print','',$key);
-                    $folder_name = str_replace('_','',$folder_name);
+                    $folder_name = $this->feesTypes[$key]['folder'];
                     $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     if(\File::exists($path)){
                         $size = \File::size($path);
@@ -622,8 +636,7 @@ class DashboardController extends Controller
                 ];
 
                 //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
-                $folder_name = str_replace('_print','',$key);
-                $folder_name = str_replace('_','',$folder_name);
+                $folder_name = $this->feesTypes[$key]['folder'];
                 $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                 if(\File::exists($path)){
                     $size = \File::size($path);
@@ -1037,12 +1050,16 @@ class DashboardController extends Controller
 
         return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'savedBearingBatches','users','user', 'fees'));
     }
-    public function getSubmitOrder(Request $request ){
+    public function getSubmitOrder(Request $request )
+    {
 
         $save_data['usenow'] = 0;
 
-        $user = Auth::user();
+        /** @var User $user */
+        $user = \Auth::user();
+
         $saved_date = "";
+
         if($request->isMethod('post')){
             $saved_date = $request->input('order_id');
             $email = $request->input('filter_email');
@@ -1051,6 +1068,7 @@ class DashboardController extends Controller
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $bearingQuery = Bearing::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $transferQuery = HeatTransfer::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
@@ -1088,23 +1106,24 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow','=',1);
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow','=',1);
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow','=',1); */
-        }
-        else{
+        } else{
             $ordersQuery = Order::auth()->where('submit',1)->whereNotNull('saved_date');
             $gripQuery = GripTape::auth()->where('submit',1)->whereNotNull('saved_date');
             $wheelQuery = Wheel::auth()->where('submit',1)->whereNotNull('saved_date');
-            $bearingQuery = Bearing::auth()->where('submit',1)->whereNotNull('saved_date');
+           $bearingQuery = Bearing::auth()->where('submit',1)->whereNotNull('saved_date');
+            $transferQuery = HeatTransfer::auth()->where('submit', 1)->whereNotNull('saved_date');
         }
-        
-        
-        
 
-        
+        $fees = [];
+        $sum_fees = 0;
+        $weight = 0;
 
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
         $returnbearing = $bearingQuery->get();
+
+       /* 
 
         $fees = [];
         $sum_fees = 0;
@@ -1302,32 +1321,29 @@ class DashboardController extends Controller
                             break;
                     }
                 }
+        */
+        $returnTransfer = $transferQuery->get();
 
-                //$fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+        $batches = [
+            \App\Classes\Batch\Deck::class => (clone $returnorder),
+            \App\Classes\Batch\GripTape::class => (clone $returngrip),
+            \App\Classes\Batch\Wheel::class => (clone $returnwheel),
+            \App\Classes\Batch\HeatTransfer::class => (clone $returnTransfer),
+            \App\Classes\Batch\Bearing::class => (clone $returnTransfer),
+        ];
 
-                if ($key === 'top_print' || $key === 'back_print') {
-                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * 20 * 1.5;
-                } else if ($key === 'cardboard_print') {
-                    if ($wheel['quantity'] < 1500) {
-                        $fees[$key][$value]['price'] = 525 - (0.35 * $wheel['quantity']);
-                    } else {
-                        $fees[$key][$value]['price'] = 0;
-                    }
-                } else if ($key === 'carton_print'){
-                    $fees[$key][$value]['price'] = 80 * $fees[$key][$value]['color'];
-                } else if ($key === 'shape_print'){
-                    $fees[$key][$value]['price'] = 2000;
-                } else {
-                    $fees[$key][$value]['price'] = 0;
-                }
 
-                if(!empty(PaidFile::where('created_by', $wheel['created_by'])->where('file_name', $value)->first()['date'])){
-                    $fees[$key][$value]['price'] = 0;
-                    $fees[$key][$value]['paid'] = 1;
-                }
-            }
+        foreach ($batches as $class => $batch) {
+            if (empty($batch)) { continue; }
+
+            /** @var \App\Classes\Batch\Batch $batchEntry */
+            $batchEntry = new $class($batch);
+
+            $fees = array_merge($fees, $batchEntry->buildUploads());
+            $weight += $batchEntry->getDeliveryWeigh();
         }
 
+        /*
 
         foreach ($bearings as $index => $bearing) {
             $index += 1;
@@ -1491,15 +1507,16 @@ class DashboardController extends Controller
                 }
             }
         }
+        */
 
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $bearingQuery->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $transferQuery->count() || $bearingQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
-                'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
-                'batches' => '', 
-                'price' => get_global_delivery($weight), 
-                'type' => $weight <= 110 ? 'Worldwide 10-day airfreight' : 'Ocean freight'
+                'image' => auth()->check() ? $weight . ' KG' : '$?.??',
+                'batches' => '',
+                'price' => get_global_delivery($weight),
+                'type' => $weight <= 110 ? Delivery::AIRFREIGHT : Delivery::OCEAN_FREIGHT
             ]);
         }
 
@@ -1510,38 +1527,37 @@ class DashboardController extends Controller
             });
         }
 
-        // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + Bearing::auth()->sum('total') + $sum_fees;
+        // calculate total
+        $totalOrders = Order::auth()->sum('total')
+            + GripTape::auth()->sum('total')
+            + Wheel::auth()->sum('total')
+            + HeatTransfer::auth()->sum('total')
+            + Bearing::auth()->sum('total')
+            + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
         if ($promocode) {
-            
+
             $promocode = json_decode($promocode);
 
             switch ($promocode->type) {
                 case Promocode::FIXED :
                     $totalOrders -= $promocode->reward;
                     break;
-                
+
                 case Promocode::PERCENT:
                     $totalOrders -= $totalOrders * $promocode->reward / 100;
                     break;
             }
         }
 
-        Cookie::queue('orderTotal', $totalOrders);
-        $users = User::select('email','name')->get();
-        //return view('admin.submittedorder', ['fees' => $fees, 'totalOrders' => $totalOrders, 'returnorder'=> $returnorder, 'returngrip'=> $returngrip, 'returnwheel'=> $returnwheel, 'users' => $users, 'user' => $user]);
-        
-        $user = Auth::user();
         if($request->isMethod('post')){
             $email = $request->input('filter_email');
-           $user = User::where('email','=',$email)->first();
-           $createdBy = $user['id'];
-        }
-        else{
-            $createdBy = auth()->id();
+            $user = User::where('email','=',$email)->first();
+            $createdBy = $user['id'];
+        } else{
+            $createdBy = $user['id'];
         }
 
         $queryOrders = Order::query()
@@ -1562,7 +1578,13 @@ class DashboardController extends Controller
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
-        $queryBearings = Bearing::query()
+       $queryBearings = Bearing::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+            $queryTransfer = HeatTransfer::query()
             ->where('created_by', $createdBy)
             ->groupBy('saved_date', 'invoice_number', 'saved_name')
             ->whereNotNull('saved_date')
@@ -1572,6 +1594,7 @@ class DashboardController extends Controller
         $querySubmitGrips = clone $queryGrips;
         $querySubmitWheels = clone $queryWheels;
         $querySubmitBearings = clone $queryBearings;
+        $querySubmitTransfers = clone $queryTransfer;
 
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
 
@@ -1603,8 +1626,12 @@ class DashboardController extends Controller
         
         usort($submitorders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
 
+        /** @var ShipInfo $shipinfo */
         $shipinfo = ShipInfo::auth()->first();
-        $users = User::select('email','name')->get();
+
+        /** @var \Illuminate\Database\Eloquent\Collection $users */
+        $users = User::query()->select(['email', 'name'])->get();
+
         return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel', 'returnbearing'));
     }
     public function deleteSubmitOrder($id){
@@ -2510,8 +2537,7 @@ class DashboardController extends Controller
                 ];
                 $user = User::where('id',$bearing['created_by'])->first();
                 if($user){
-                    $folder_name = str_replace('_print','',$key);
-                    $folder_name = str_replace('_','',$folder_name);
+                    $folder_name = $this->feesTypes[$key]['folder'];
                     $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
                     //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
                     if(\File::exists($path)){
@@ -2642,11 +2668,13 @@ class DashboardController extends Controller
         return view('admin.analystic', ['user_count' => $user_count, 'order_count' => $order_count, 'filecount' => $count, 'total_time' => $total, 'startdate' => $startdate, 'enddate' => $enddate, 'totalsize' => $totalsize, 'signupByDays' => $signupByDays, 'activeDatas' => $activeDatas]);
     }
 
-    public function getUploadFiles(Request $request){
+    public function getUploadFiles(Request $request)
+    {
         $user = Auth::user();
         $startdate = date('Y-m-d',strtotime("-1 years"));
         $enddate = date('Y-m-d',strtotime("+1 days"));
-        if($request->isMethod('post')){
+
+        if ($request->isMethod('post')){
             $email = $request->input('filter_email');
             $user = User::where('email','=',$email)->first();
 
@@ -2657,33 +2685,35 @@ class DashboardController extends Controller
             $gripQuery = GripTape::where('created_by','=',$user['id']);
             $wheelQuery = Wheel::where('created_by','=',$user['id']);
             $bearingQuery = Bearing::where('created_by','=',$user['id']);
+            $transferQuery = HeatTransfer::where('created_by','=',$user['id']);
 
             if($startdate){
                 $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);
                 $gripQuery = $gripQuery->where('created_at','>=',$startdate);
                 $wheelQuery = $wheelQuery->where('created_at','>=',$startdate);
                 $bearingQuery = $bearingQuery->where('created_at','>=',$startdate);
+                $transferQuery = $transferQuery->where('created_at','>=',$startdate);
             }
             if($enddate){
                 $ordersQuery = $ordersQuery->where('created_at','<=',$enddate);
                 $gripQuery = $gripQuery->where('created_at','<=',$enddate);
                 $wheelQuery = $wheelQuery->where('created_at','<=',$enddate);
                 $bearingQuery = $bearingQuery->where('created_at','<=',$enddate);
+                $transferQuery = $transferQuery->where('created_at','<=',$enddate);
             }
             
-        }
-        else{
+        } else{
             $ordersQuery = Order::auth(false);
             $gripQuery = GripTape::auth(false);
             $wheelQuery = Wheel::auth(false);
             $bearingQuery = Bearing::auth(false);
+            $transferQuery = HeatTransfer::auth(false);
         }
         
         $fees = [];
         $sum_fees = 0;
 
-        
-        
+
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
             ->get()
@@ -2715,6 +2745,8 @@ class DashboardController extends Controller
             })
             ->toArray();
         
+        $transfers = (clone $transferQuery)->get()->toArray();
+
         $count = 0;
         $totalsize = 0;
         
@@ -2841,7 +2873,7 @@ class DashboardController extends Controller
                     'path'     => $down_path,
                     'size'     => $size,
                     'color'    => 1,
-                    'created_by' => $order['created_by']
+                    'created_by' => $wheel['created_by']
                 ];
                 if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
                     switch ($wheel[str_replace('_print','',$key) . '_colors']) {
@@ -2915,6 +2947,39 @@ class DashboardController extends Controller
 
         //var_dump('first',$fees);
         
+        foreach ($transfers as $index => $transfer) {
+            foreach ($transfer as $key => $value) {
+
+                if ($key !== 'small_preview') {continue;}
+
+                $folder_name = 'transfers-small-preview';
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                $down_path = '/' . 'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
+                $size = 0;
+
+                if (\File::exists($path)) {
+                    $size = \File::size($path);
+                }
+                $totalsize += $size;
+                $fees[$count] = [
+                    'image' => $value,
+                    'product' => 'Heat Transfer',
+                    'type' => 'Transfer Paper',
+                    'date' => $transfer['created_at'],
+                    'key' => $key,
+                    'id' => $transfer['id'],
+                    'path' => $down_path,
+                    'size' => $size,
+                    'color' => $transfer['cmyk']
+                        ? $transfer['colors_count'] - (int)$transfer['transparency']
+                        : $transfer['colors_count'],
+                    'created_by' => $transfer['created_by']
+                ];
+
+                $count++;
+            }
+        }
+
         $_data = array();
         $count = 0;
         $totalsize = 0;
@@ -3566,13 +3631,26 @@ class DashboardController extends Controller
         return view('admin.action', compact('user','users', 'startdate','enddate', 'sessions', 'isall'));
         
     }
-    public function addUpload(Request $request){
+
+    /**
+     * Add upload
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addUpload(Request $request)
+    {
         $conditions = $request->input('selected');
         $type = $request->input('type');
         $value = $request->input('value');
         
         foreach($conditions as $condition){
-            $paidfile = PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->first();
+            /** @var PaidFile|null $paidFile */
+            $paidFile = PaidFile::query()
+                ->where('file_name', $condition['name'])
+                ->where('created_by', $condition['created_by'])
+                ->first();
 
             if($type == 'color_qty'){
                 $selected_order = [];
@@ -3580,9 +3658,11 @@ class DashboardController extends Controller
                 $order = Order::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name']);
                 })->pluck('id');
+
                 $grip = GripTape::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name']);
                 })->pluck('id');
+
                 $wheel = Wheel::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name']);
                 })->pluck('wheel_id');
@@ -3590,19 +3670,21 @@ class DashboardController extends Controller
                     $query->where('race_print', $condition['name'])->orwhere('shield_brand_print', $condition['name'])->orwhere('pantone_print', $condition['name']);
                 })->pluck('id');
 
-                // $order = Order::where('bottomprint', $condition['name'])->orwhere('topprint', $condition['name'])->orwhere('engravery', $condition['name'])->orwhere('cardboard', $condition['name'])->where('carton', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
-                // $grip = GripTape::where('backpaper_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('die_cut', $condition['name'])->orwhere('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('id');
-                // $wheel = Wheel::where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name'])->where('created_by',$condition['created_by'])->pluck('wheel_id');
+                $transfer = HeatTransfer::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('small_preview', $condition['name'])->orwhere('large_preview', $condition['name']);
+                })->pluck('id');
 
                 $selected_order['order'] = $order;
                 $selected_order['grip'] = $grip;
                 $selected_order['wheel'] = $wheel;
                 $selected_order['bearing'] = $bearing;
+                $selected_order['transfer'] = $transfer;
 
                 $orders = Order::where('created_by', $condition['created_by'])->get()->map(function($order) {
                     return array_filter($order->attributesToArray());
                 })
                 ->toArray();
+
                 foreach($orders as $order){
                     foreach($order as $key => $value1){
                         
@@ -3652,12 +3734,8 @@ class DashboardController extends Controller
                     }
                 }
             }
-            
 
-            //var_dump(json_encode($selected_order));
-            
-
-            if($paidfile == null){
+            if ($paidFile == null) {
                 if(isset($selected_order))
                     PaidFile::insert(['file_name' => $condition['name'], 'created_by' => $condition['created_by'], $type => $value, $selected_order => json_encode($selected_order)]);
                 else
@@ -3669,9 +3747,11 @@ class DashboardController extends Controller
                 else
                     PaidFile::where('file_name', $condition['name'])->where('created_by', $condition['created_by'])->update([$type => $value]);
             }
-        }   
+        }
+
         return response('success');
     }
+
     public function deleteUpload(Request $request){
         $conditions = $request->input('selected');
         $type = $request->input('type');

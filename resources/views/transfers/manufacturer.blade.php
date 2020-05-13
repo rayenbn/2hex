@@ -38,7 +38,7 @@
                             <div class="m-portlet__head-tools">
                                 <ul class="m-portlet__nav">
                                     <li class="m-portlet__nav-item">
-                                        <a href="#" data-toggle="m-tooltip" class="m-portlet__nav-link m-portlet__nav-link--icon" data-direction="left" data-width="auto" title="Get help with filling up this form">
+                                        <a href="/mail" data-toggle="m-tooltip" class="m-portlet__nav-link m-portlet__nav-link--icon" data-direction="left" data-width="auto" title="Get help with filling up this form">
                                             <i class="flaticon-info m--icon-font-size-lg3"></i>
                                         </a>
                                     </li>
@@ -178,7 +178,7 @@
                                     <a href="{{route('transfers.configurator')}}">
                                         <h2 class="m-section__heading" style="color: #5867dd">Start Here</h2></a>
 
-                                    <img alt="" src="/img/Wheels/2hex-skateboard-wheels-factory.jpg" style="width: 100%" />
+                                    <img alt="" src="/img/transfers/skateboard-heat-transfers-factory.jpg" style="width: 100%" />
                                 </div>
                             </div>
                             <!--end: Form Body -->

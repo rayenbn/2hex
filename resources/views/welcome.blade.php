@@ -22,7 +22,7 @@
 @endpush
 
 @section('content')
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+    <div class="m-grid__item m-grid__item--fluid {{$isHomePage ? '' : 'm-wrapper'}}">
     
 		<!-- BEGIN: Subheader -->
 		<div class="m-subheader ">
@@ -43,6 +43,7 @@
 		<div class="m-content">
 
 
+        <!--
             <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
                 <div class="m-alert__text">
                     <h4>
@@ -57,18 +58,25 @@
 
                 </div>
             </div>
+-->
+            <div class="m-alert m-alert--icon  m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%; background-color: transparent;" role="alert">
+                <div class="m-alert__text">
+                    <h2>Custom Productions for Skateboard Companies.</h2>
+                    Get access to simple, reliable, transparent, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
+                    With 2HEX skateboard companies can produce customized skateboard components and track productions online.
+                </div>
+            </div>
 
 
             <div class="m--margin-bottom-30">
-
                 <div class="ism-slider" data-play_type="loop" data-radio_type="thumbnail" id="my-slider">
                     <ol>
                         <li>
                             <img
-                                src="{{ asset('/skateboard-deck-production/2HEX-skateboard-manufacturer-warehouse-factory-skate.jpg') }}"
-                                alt="2HEX Your Skateboard Manufacturer"
-                                title="2HEX Your Skateboard Manufacturer"
-                                style="width: 100%;"
+                                    src="{{ asset('/skateboard-deck-production/skateboard-manufacturer-factory-skate.jpg') }}"
+                                    alt="2HEX Your Skateboard Manufacturer"
+                                    title="2HEX Your Skateboard Manufacturer"
+                                    style="width: 100%;"
                             >
                         </li>
 
@@ -76,7 +84,9 @@
                             <img src="/ism/image/slides/2HEX-skateboard-wheels-manufacturer-factory.jpg">
                         </li>
                         <li>
-                            <img src="/ism/image/slides/2HEX-skateboard-griptape-manufacturer-factory.jpg">
+                            <img
+                                    src="/ism/image/slides/2HEX-skateboard-griptape-manufacturer-factory.jpg"
+                            >
                         </li>
                     </ol>
                 </div>
@@ -97,8 +107,75 @@
             -->
                         
 			<!--Begin::Section-->
-			<div class="row">
 
+        <!--
+            <div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" style="width: 100%;" role="alert">
+                <div class="m-alert__text" style="background-image: url(/img/wall.jpg); background-size: 100%;">
+
+
+                    <h2>Custom Productions for Skateboard Companies.</h2>
+                   Get access to simple, reliable, transparent, pro quality, mass productions of skateboard wheels, decks and grip tapes.<br>
+                    With 2HEX skateboard companies can produce customized skateboard components and track productions online.
+                </div>
+            </div>
+-->
+            <div class="m-portlet" style="background-color: #eceff1; margin-top: 10%;">
+
+
+                <div class="row">
+
+                    <div class="col-xl-4" style="margin: 20px;" >
+                        <p>
+                            <img alt="" src="/img/skateboard/process-devices.jpg" style="width: 100%" />
+                        </p>
+                    </div>
+                    <div class="col-xl-6 my-auto">
+                        <h2>Your Production Order in 3 Steps:</h2>
+                        <p>1. customize your decks, wheels or griptapes </p>
+                        <p>2. upload your designs</p>
+                        <p>3. check your shopping cart and submit</p>
+                        <p>We will do the rest!</p>
+                        <p>
+                            @if (Auth::user())
+                            <div class="dropdown">
+                                <button
+                                        class="btn m-btn dropdown-toggle dropdown-toggle-split m-btn--gradient-from-primary m-btn--gradient-to-info"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        id="actions"
+                                >
+                                    Select a Product to get started!
+                                </button>
+
+
+                                <div class="dropdown-menu" aria-labelledby="actions">
+                                    <a class="dropdown-item" href="{{ route('griptape.manufacturer') }}">
+                                       Griptapes
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('skateboard.manufacturer') }}">
+                                        Decks
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('wheels.manufacturer') }}">
+                                        Wheels
+                                    </a>
+                                </div>
+
+                            </div>
+
+                            @else
+                                <a href="{{route('register')}}">
+                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info">Register now to start your production!</button>
+                        </a>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+			<div class="row">
 
 				<div class="col-xl-4">
 					<!--begin:: Widgets/Activity-->
@@ -169,8 +246,7 @@
 							<div class="m-widget19__action">
 								<a href="{{route('skateboard.manufacturer')}}" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
-                                        <span>add decks to order</span>
-                                        <i class="la la-arrow-right"></i>
+                                        <span>Customize & Add to Shopping Cart</span>
                                     </span>
 								</a>
 							</div>
@@ -250,8 +326,7 @@
                             <div class="m-widget19__action">
                                     <a href="skateboard-wheels-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
-                                        <span>add wheels to order</span>
-                                        <i class="la la-arrow-right"></i>
+                                        <span>Customize & Add to Shopping Cart</span>
                                     </span>
                                 </a>
                             </div>
@@ -271,9 +346,86 @@
                 </div>
 
 
-
                 <div class="col-xl-4">
-                    <!--begin:: samples-->
+                    <!--begin:: Wheels-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text m--font-dark">
+                                        Heat Transfers
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="m-portlet__head m-portlet__head--fit">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-action">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/img/transfers/custom-skateboard-transfers-factory-banner-2hex.jpg" alt="custom skateboard transfers manufacturer" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+<span class="m-widget17__icon">
+	<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+</span>
+                                            <span class="m-widget17__subtitle">
+	Finish
+</span>
+                                            <span class="m-widget17__desc">
+	Glossy, Matte or Both on one Transfer?
+</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+<span class="m-widget17__icon">
+	<i class="flaticon-graph m--font-success"></i>
+</span>
+                                            <span class="m-widget17__subtitle">
+	Size
+</span>
+                                            <span class="m-widget17__desc">
+	For Longboards or Skateboards?
+</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Heat Transfers</h3>
+                                Upload your artwork and configure your custom heat transfers! Choose between
+                                glossy, matte or mixed finished of heat transfers for longboards, cruisers,
+                                skimboards or of course skateboard decks. We will do the rest!
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                <a href="transfers-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                         <span>
+                             <span>Customize & Add to Shopping Cart</span>
+                         </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Activity-->
+                </div>
+
+<!--
+                <div class="col-xl-4">
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                         <div class="m-portlet__head">
 
@@ -324,7 +476,7 @@
                                 </div>
                             </div>
                             <div style="text-align: justify; color: #9699a4;">
-                                <h3>Deck & Grip Samples</h3>
+                                <h3>Sample Sets</h3>
                                 Order a sample pack with decks and griptapes. Test our samples to feel the
                                 high product quality offered at 2HEX. You can order between one and three
                                 decks with your required shape, concave and other specifications. Each deck
@@ -332,7 +484,7 @@
                             </div>
                             <br>
                             <div class="m-widget19__action">
-                                <a href="samples" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                <a href="samplesets" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                     <span>
                                         <span>order samples</span>
                                         <i class="la la-arrow-right"></i>
@@ -342,13 +494,11 @@
 
                         </div>
                     </div>
-                    <!--end:: samples-->
                 </div>
 
 
 
                 <div class="col-xl-4">
-                    <!--begin:: newsletter-->
                     <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
@@ -421,14 +571,17 @@
 
                         </div>
                     </div>
-                    <!--end:: newsletter-->
                 </div>
-
+            -->
 
                 <!-- MANUAL PRODUCTS -->
 
 			</div>
+
 		</div>
+
+
+
 
         <!--
 		<div class="m-subheader ">
@@ -440,91 +593,110 @@
 		</div>
         -->
 
+
 		 <div class="m-content" id="blog">
-         
-			<div class="row">
-				<div class="col-xl-12">
-					<div class="m-portlet m-portlet--full-height ">
-						<div class="m-portlet__head">
-							<div class="m-portlet__head-caption">
-								<div class="m-portlet__head-title">
-									<h2 class="m-portlet__head-text">
-                                        The Skateboard Manufacturer Blog
-									</h2>
-								</div>
-							</div>
 
-                            @php $request = request(); @endphp
 
-                            <div class="m-portlet__head-caption">
-                                <div class="d-flex justify-content-between mr-4">
-                                    <a
-                                        href="{{route('index',['gap' => 'last_month', '#blog'])}}"
-                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_month' ? 'btn-brand' : ''}}"
-                                    >
-                                        Last Month
-                                    </a>
-                                    <a
-                                        href="{{route('index', ['gap' => 'last_year', '#blog'])}}"
-                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'last_year' ? 'btn-brand' : ''}}"
-                                    >
-                                        Last Year
-                                    </a>
-                                    <a
-                                        href="{{route('index', ['gap' => 'all', '#blog'])}}"
-                                        class="btn btn-sm m-btn--pill {{$request->get('gap') == 'all' || empty($request->get('gap')) ? 'btn-brand' : ''}}"
-                                    >
-                                        All time
-                                    </a>
-                                </div>
-                                @if($posts->count())
-                                    {{ $posts->fragment('blog')->appends($request->input())->links() }}
-                                @endif
+             <div class="m-portlet">
+                 <div class="row">
+                     <div class="col-xl-4" style="margin: 20px;">
+                         <p>
+                             <img alt="" src="/skateboard-deck-production/2hex-book.jpg" style="width: 100%" />
+                         </p>
+                         <br>
+                     </div>
+                     @if (Auth::user())
+                     <div class="col-xl-6 my-auto">
+                        <div id="mc_embed_signup_scroll" style="max-width: 700px;">
+
+                            <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
+                            <div style="text-align: justify; color: #9699a4; padding-right: 20px;">
+                            <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
                             </div>
 
-
-                            @if(auth()->check() && auth()->user()->isAdmin())
-    							<div class="m-portlet__head-caption">
-                                    <a href="{{ route('blog.create') }}" class="btn btn-outline-success">New Post</a>
-                                </div>
-                            @endif
-						</div>
-						<div class="m-portlet__body">
-
-							<div class="tab-content">
-								<div class="tab-pane active" id="m_widget5_tab1_content" aria-expanded="true">
-                                    <div class="m-widget5">
-
-                                        @forelse ($posts as $article)
-                                            @include('blog.partials.article', ['article' => $article])
-                                        @empty
-                                            <p>We haven't published anything yet, but soon there will be something to read here.</p>
-                                        @endforelse
-
-                                    </div>
-                                </div>
-                            </div>
-
+                            <a href="https://www.2hex.com/skateboard-deck-production/The_Skateboard_Company_Founders_Book_2020-05-06.pdf" class="btn-danger btn" >DOWNLOAD</a>
                         </div>
                     </div>
+                     @else
+                     <div class="col-xl-6 my-auto">
+                         <link href="../../../css/classic-10_7.css" rel="stylesheet" type="text/css" />
+                         <div id="mc_embed_signup">
+                            <form action="/bookdown" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate">
+                                {{ csrf_field() }}
+                                <div id="mc_embed_signup_scroll" style="max-width: 700px;">
 
-                </div>
-            </div>
+                                     <h2 style="color: #d46671">GET THE SKATEBOARD COMPANY FOUNDERS BOOK</h2>
+                                     <div style="text-align: justify; color: #9699a4; padding-right: 20px;">
+                                        <p>This book guides you through the difficulties of building a skateboard company. It helps you identify and solve problems, which big skateboard companies struggled with when they started.</p>
+                                     </div>
+                                     <div class="mc-field-group">
+                                         <input type="email" value="" name="email" class="required email" id="mce-EMAIL" placeholder="enter your email address">
+                                     </div>
+                                     <div class="mc-field-group">
+                                         <input type="text" value="" name="fname" class="" id="mce-FNAME" placeholder="enter your first name">
+                                     </div>
+                                     
 
-            <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" role="alert">
-                <div class="m-alert__icon">
-                    <i class="flaticon-exclamation-1"></i>
-                </div>
+                                     <div id="mce-responses" class="clear">
+                                         <div class="response" id="mce-error-response" style="display:none"></div>
+                                         <div class="response" id="mce-success-response" style="display:none"></div>
+                                     </div>
+                                     <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_647f3b724d78e4fe975871794_bb8f89e732" tabindex="-1" value=""></div>
+                                     <div class="clear"><input type="submit" value="Receive the Book by Email*" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                                     <br>
+                                     <div style="text-align: justify; color: #9699a4;">
+                                    <p>*By submitting you agree to our terms and conditions.</p>
+
+                                    @if(session()->has('error'))
+                                        <span style="color: #e35e6f"><b>Please login to download your free eBook.</b></span>
+                                     @endif
+                                     @if(session()->has('success'))
+                                             <span style="color: #2e802e"><b>Congrats! We sent a copy of the eBook to you by email!</b></span>
+                                     @endif
+                                 </div>
+                                </div>
+                            </form>
+                         </div>
+                    </div>
+                    @endif
+
+                 </div>
+             </div>
+
+            <div class="alert alert-info m-alert m-alert--icon m-alert--air m-alert--square m--margin-bottom-30" style="width: 100%;" role="alert">
+
                 <div class="m-alert__text">
-                    Download the 2HEX
-                    <a href="newsletter" class="m-link m-link--warning m--font-bold" target="_blank">
-                        catalog
-                    </a>
-                    or
-                    <a href="inquiries" class="m-link m-link--warning m--font-bold" target="_blank">
-                        message
-                    </a> us.
+                    @if (Auth::user())
+                        <div class="dropdown">
+                            <button
+                                class="btn m-btn dropdown-toggle dropdown-toggle-split m-btn--gradient-from-primary m-btn--gradient-to-info"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                id="actions"
+                            >
+                                Select a Product to get started!
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="actions">
+                                <a class="dropdown-item" href="{{ route('griptape.manufacturer') }}">
+                                    Griptapes
+                                </a>
+                                <a class="dropdown-item" href="{{ route('skateboard.manufacturer') }}">
+                                    Decks
+                                </a>
+                                <a class="dropdown-item" href="{{ route('wheels.manufacturer') }}">
+                                    Wheels
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{route('register')}}">
+                            <button type="button" class="btn m-btn m-btn--gradient-from-primary m-btn--gradient-to-info" style="width: 100%;">→ Register now to see our prices!</button><br>
+                        </a>
+                    @endif
                 </div>
+
             </div>
 
         </div>

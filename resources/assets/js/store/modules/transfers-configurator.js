@@ -5,6 +5,9 @@ let heatTransferService = new HeatTransferService();
 export default {
     namespaced: true,
     state: {
+        isUpdate: false,
+        id: null,
+        transferBatch: null,
         quantity: 6000,
         size: null,
         designName: '',
@@ -16,13 +19,11 @@ export default {
         isCMYK: false,
         smallPreview: null,
         largePreview: null,
-        reOrder: false,
         recentFiles: null,
-        isAdmin: false,
         heatTransfer: null,
-
         transfersColorsQuantity: 0,
         transfersQuantity: 0,
+        paidFile: null
     },
     getters: {
         getQuantity: state => state.quantity,
@@ -37,10 +38,10 @@ export default {
         getTransparency: state => state.transparency,
         getSmallPreview: state => state.smallPreview,
         getLargePreview: state => state.largePreview,
-        getReOrder: state => state.reOrder,
         getRecentFiles: state => state.recentFiles,
-        getIsAdmin: state => state.isAdmin,
-        hasChange: state => !state.reOrder || (state.isAdmin &&  state.reOrder),
+        hasChange: state => {
+            return !(state.paidFile && state.paidFile.date);
+        },
         transferPrice: (state, getters) => {
             let price =  heatTransferService.calculateTransferPrice(
                 state.quantity,
@@ -114,6 +115,7 @@ export default {
         costPerScreen: (state, getters) => {
             return heatTransferService.toNumber(getters.screensPrice / getters.currentCountColors);
         },
+        getPaidFile: state => state.paidFile,
     },
     mutations: {
         setQuantity(state, payload) {
@@ -154,15 +156,40 @@ export default {
         setLargePreview(state, payload) {
             state.largePreview = payload;
         },
-        setReOrder(state, payload) {
-            state.reOrder = payload;
-        },
         setRecentFiles(state, payload) {
             state.recentFiles = payload;
         },
-        setIsAdmin(state, payload) {
-            state.isAdmin = payload;
+        setPaidFile(state, payload) {
+            state.paidFile = payload;
         },
+        setTransfer(state, payload) {
+            state.isUpdate = true;
+            state.id = payload.id;
+            state.transferBatch = payload;
+            state.quantity = payload.quantity;
+            state.size = payload.size;
+            state.designName = payload.design_name;
+            state.transparency = Boolean(payload.transparency);
+            state.countColors = payload.colors_count;
+            state.smallPreview = payload.small_preview;
+            state.largePreview = payload.large_preview;
+            state.isCMYK = Boolean(payload.cmyk);
+
+            if (state.isCMYK) {
+                state.cmykColors = payload.colors.split(';');
+                state.pantoneColor = {
+                    countFields: payload.colors_count - 4 - +payload.transparency,
+                    colors: state.cmykColors
+                };
+            } else {
+                state.colors = payload.colors.split(';');
+                state.pantoneColor = {
+                    countFields: payload.colors_count - +payload.transparency,
+                    colors: state.colors
+                };
+            }
+
+        }
     },
     actions: {
         saveBatch({commit, state , getters}) {
@@ -180,14 +207,18 @@ export default {
                     colors: getters.currentColors.filter(Boolean).join(';'),
                     small_preview: state.smallPreview,
                     large_preview: state.largePreview,
-                    price: getters.screensPrice,
-                    total: getters.pricePerSheet,
-                    reorder: state.reOrder,
+                    total_screens: getters.screensPrice,
+                    total: getters.transferPrice,
                     cost_per_transfer: getters.costPerTransfer,
                     cost_per_screen: getters.costPerScreen
                 };
 
                 let path = '/transfers-configurator';
+
+                if (state.isUpdate) {
+                    formParam._method = 'PUT';
+                    path += `/${state.id}`;
+                }
 
                 axios({method: 'POST', url: path, data: formParam})
                     .then(repsonse => {

@@ -8,7 +8,7 @@
                             <div class="mb-4 m-widget17__visual m-widget17__visual--chart m-portlet-fit--sides">
                                 <div class="m-widget19__pic m-portlet-fit--sides preview-bg">
                                     <img
-                                        src="/img/transfers/skateboard-heat-transfer-example.jpg"
+                                        src="/img/transfers/skateboard-heat-transfer-template.png"
                                         class="step1-img1"
                                         alt="Design Preview"
                                         title="Design Preview"
@@ -22,7 +22,6 @@
                                 name="designName"
                                 placeholder="Enter design name"
                                 v-model="designName"
-                                :disabled="! hasChange"
                                 v-validate="'required'"
                             >
 
@@ -67,6 +66,7 @@
                                     :value="index"
                                     v-for="(item, index) in pantoneColors"
                                     :key="'color' + index"
+                                    :name="'pantoneColor-' + index"
                                     v-validate="'required'"
                                 >
                                     {{ item.title }}
@@ -82,28 +82,26 @@
                                     v-model="pantoneColor.colors[index]"
                                     :disabled="! hasChange"
                                     :name="'color' + index"
-                                    v-validate="'required'"
                                     @input="onChangePantoneColor"
                                 >
                             </template>
                             <template v-if="CMYK">
                                 <input
-                                    v-for="(color, index) in totalCmykColors"
+                                    v-for="(color, index) in cmykColors"
                                     type="text"
+                                    :disabled="index < 4 + +transparency"
                                     class="form-control mt-2 mb-2"
                                     placeholder="Enter Pantone Color"
                                     v-model="cmykColors[index]"
                                     :name="'cmyk-color' + index"
-                                    v-validate="'required'"
                                     @input="onChangeCMYKColor"
                                 >
                             </template>
 
                             <div style="text-align: justify; color: #9699a4;" class="mt-4">
                                 <h3>Number of Colors used</h3>
-                                The standard in professional skateboarding.
-                                Printing on back paper is the most common way to brand griptapes without directly
-                                printing on the griptapes top.
+                                How many colors are used in your design?<br>
+                                Please note: White does not need to be added as color.
                             </div>
                         </div>
                     </div>
@@ -113,7 +111,7 @@
                 <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
-                            <p class="h5 m-0">Upload small preview:</p>
+                            <p class="h5 m-0">Upload small preview: (mandatory)</p>
                         </div>
                     </div>
                     <div class="m-portlet__body">
@@ -122,14 +120,14 @@
                             <div class="form-group m-form__group">
                                 <div class="custom-file">
                                     <input
-                                        :disabled="! hasChange"
                                         type="file"
+                                        name="smallPreview"
                                         data-type-upload="transfers-small-preview"
                                         id="sm-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'sm')"
                                         v-validate="'required'"
-                                        accept="image/*"
+                                        data-accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png"
                                         data-max-size="1000000"
                                     >
                                     <label
@@ -154,7 +152,6 @@
                             </div>
                             <div class="dropdown">
                                 <button
-                                    :disabled="! hasChange"
                                     class="btn btn-secondary dropdown-toggle w-100"
                                     type="button"
                                     id="sm-recent"
@@ -170,7 +167,7 @@
                                         v-for="file in recentFiles['transfers-small-preview']"
                                         class="dropdown-item file-dropdown"
                                         href="javascript:void(0);"
-                                        @click.prevent="() => {smPreview = file.name; renderPreview(file.name, 'sm');}"
+                                        @click.prevent="clickRecentSmallPreview(file.name)"
                                     >
                                         {{ file && file.name}}
                                     </a>
@@ -183,7 +180,7 @@
                         </div>
                         <div class="m-portlet__head p-0">
                             <div class="m-portlet__head-caption">
-                                <p class="h5 m-0">Upload full quality print file:</p>
+                                <p class="h5 m-0">Upload print file (optional)</p>
                             </div>
                         </div>
 
@@ -193,12 +190,12 @@
                                     <input
                                         :disabled="! hasChange"
                                         type="file"
+                                        name="fullPreview"
                                         data-type-upload="transfers-full-preview"
                                         id="lg-preview"
                                         class="custom-file-input"
                                         @change.prevent="uploadFile($event, 'lg')"
-                                        v-validate="'required'"
-                                        accept="image/*"
+                                        data-accept=".jpg,.jpeg,.jfif,.pjpeg,.pjp,.png,.ai,.pdf,.tif,.tiff,.psd"
                                         data-max-size="10000000"
                                     >
                                     <label
@@ -259,12 +256,13 @@
                             </div>
                             <div class="mt-4 mb-2 d-flex align-items-center justify-content-start">
                                 <label class="switch mb-0 mr-4">
-                                    <input type="checkbox" name="re-order" v-model="reOrder" :disabled="! hasChange">
+                                    <input type="checkbox" name="re-order" disabled :checked="!hasChange">
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="d-flex flex-column">
                                     <span>This print is a re-order.</span>
-                                    <small>First order of this design.</small>
+                                    <small v-if="!hasChange">{{paidFile.date}}</small>
+                                    <small v-else>First order of this design.</small>
                                 </div>
                             </div>
                         </div>
@@ -306,6 +304,11 @@
                     },
                 ],
                 pantoneColors: [
+                    {
+                        "title": "0 field to enter Pantone Color",
+                        "countFields": 0,
+                        "colors": new Array(),
+                    },
                     {
                         "title": "1 field to enter Pantone Color",
                         "countFields": 1,
@@ -351,10 +354,33 @@
                 lgProgress: 0,
             }
         },
-
         methods: {
+            clickRecentSmallPreview(fileName) {
+                this.smPreview = fileName;
+                this.renderPreview(fileName, 'sm');
+
+                let options = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+
+                axios.get(`/recent-file?fileName=${fileName}&folder=transfers-small-preview`, {}, options)
+                    .then(response => response.data)
+                    .then(response => {
+                        document.getElementById('designPreview').setAttribute('src', response)
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            group: 'main',
+                            type: 'error',
+                            title: 'Render preview is fail',
+                            text: error.response && error.response.data.message
+                        });
+                    });
+            },
             toggleHeatTransfer(heatTransfer) {
-                if (this.heatTransfer.name === heatTransfer.name) return;
+                if (this.heatTransfer.name === heatTransfer.name || !this.hasChange) return;
 
                 this.heatTransfers.map(transfer => {
                     transfer.active = transfer.name === heatTransfer.name;
@@ -386,9 +412,27 @@
 
                 return true;
             },
+            validFileType(file, fileTypes) {
+                return fileTypes.some(type => type === file.name.match(/\.[0-9a-z]+$/i)[0]);
+            },
             uploadFile(event, type = 'lg') {
                 // Check auth
                 this.checkAuth();
+
+                let formData = new FormData();
+                let file = event.target.files[0];
+
+                // Validate file type
+                if (! this.validFileType(file, event.target.dataset.accept.split(','))) {
+                    this.$notify({
+                        group: 'main',
+                        type: 'error',
+                        title: 'Unsupported type',
+                        text: "Supported types: " + event.target.dataset.accept
+                    });
+
+                    return false;
+                }
 
                 if (type === 'sm') {
                     if (! this.readURL(event.target)) {
@@ -402,8 +446,6 @@
 
                     return false;
                 }
-                let formData = new FormData();
-                let file = event.target.files[0];
 
                 formData.append('typeUpload', event.target.dataset.typeUpload);
                 formData.append('fileName', file ? file.name : '');
@@ -473,21 +515,21 @@
                 this.$store.commit('TransfersConfigurator/setPantoneColor', this.pantoneColor);
             }, 1000),
             onChangeCMYKColor: _.debounce(function (e) {
-                this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
-            }, 1000)
+                // this.$store.commit('TransfersConfigurator/setCMYKColors', this.cmykColors);
+            }, 1000),
+            recalculateCmykColors() {
+                this.$nextTick(() => {
+                    let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
+
+                    if (this.transparency) {
+                        colors.push('Transparency');
+                    }
+
+                    this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
+                });
+            },
         },
         computed: {
-            totalCmykColors() {
-                let colors = ['CMYK-Cyan', 'CMYK-Magenta', 'CMYK-Yellow', 'CMYK-Key Black'];
-
-                if (this.transparency) {
-                    colors.push('Transparency');
-                }
-
-                this.cmykColors = colors.concat(new Array(this.pantoneColor.countFields).fill(null));
-
-                return this.pantoneColor.countFields + 4 + +this.transparency;
-            },
             designName: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getDesignName'];
@@ -501,24 +543,30 @@
                     return this.$store.getters['TransfersConfigurator/getCMYK'];
                 },
                 set: _.debounce(function (newVal) {
+                    this.recalculateCmykColors();
+
                     this.$store.commit('TransfersConfigurator/setCMYK', newVal);
-                }, 1000)
+                }, 500)
             },
             cmykColors: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getCMYKColors'];
                 },
                 set: _.debounce(function (newVal) {
+
                     this.$store.commit('TransfersConfigurator/setCMYKColors', newVal);
-                }, 1000)
+                }, 500)
             },
             transparency: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getTransparency'];
                 },
                 set: _.debounce(function (newVal) {
+                    if (this.CMYK) {
+                        this.recalculateCmykColors();
+                    }
                     this.$store.commit('TransfersConfigurator/setTransparency', newVal);
-                }, 1000)
+                }, 500)
             },
             pantoneColor: {
                 get() {
@@ -558,6 +606,9 @@
             hasChange() {
                 return this.$store.getters['TransfersConfigurator/hasChange'];
             },
+            paidFile() {
+                return this.$store.getters['TransfersConfigurator/getPaidFile'];
+            },
             heatTransfer: {
                 get() {
                     return this.$store.getters['TransfersConfigurator/getHeatTransfer'];
@@ -575,8 +626,38 @@
 
             // Listen change select with color types
             queryPantoneColor.on('select2:select', (e) => {
+                if (this.CMYK) {
+                    this.recalculateCmykColors();
+                }
                 this.pantoneColor = this.pantoneColors[e.params.data.id];
             });
+
+            let parentComponent= this.$parent;
+
+            if (parentComponent.transfer) {
+
+                // Set heat transfer
+                this.heatTransfer = this.heatTransfers.find(t => t.name === parentComponent.transfer.heat_transfer);
+                this.heatTransfers.map(transfer => {
+                    transfer.active = transfer.name === this.heatTransfer.name;
+                });
+
+                this.$nextTick(() => {
+                    this.renderPreview(parentComponent.transfer.small_preview, 'sm');
+                    this.clickRecentSmallPreview(parentComponent.transfer.small_preview);
+
+                    if (parentComponent.transfer.large_preview) {
+                        this.renderPreview(parentComponent.transfer.large_preview, 'lg');
+                    }
+
+                    let index = this.pantoneColors.findIndex(c => c.countFields === this.pantoneColor.countFields) || 0;
+
+                    if (this.CMYK) {
+                        this.pantoneColor = this.pantoneColors[index];
+                    }
+                    queryPantoneColor.val(index).trigger('change');
+                });
+            }
 
             if (! this.pantoneColor) {
                 this.pantoneColor = this.pantoneColors[0];
