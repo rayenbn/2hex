@@ -277,7 +277,7 @@
 <script>
     import checkAuth from '@/mixins/checkAuth';
     import {HEAT_TRANSFERS} from '@/constants';
-
+    
     export default {
         name: 'transfers-step-2',
         mixins: [checkAuth],

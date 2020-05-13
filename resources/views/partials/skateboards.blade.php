@@ -5,15 +5,15 @@
             @endif
             <th>Deck Batch</th>
             <th>Pcs</th>
-            <th>Size</th>
-            <th>Concave</th>
-            <th>Materials</th>
-            <th>Print</th>
-            <th>Top Engravery</th>
-            <th>Veneer&nbspColors</th>
+            <th colspan="2">Size</th>
+            <th colspan="2">Concave</th>
+            <th colspan="2">Materials</th>
+            <th colspan="2">Print</th>
+            <th colspan="2">Top Engravery</th>
+            <th colspan="2">Veneer&nbspColors</th>
             <th>Specials</th>
-            <th>Cardboard Wrap</th>
-            <th>Carton Print</th>
+            <th colspan="2">Cardboard Wrap</th>
+            <th colspan="2">Carton Print</th>
             @if(!isset($batches))
             <th>Deck&nbspPrice</th>
             <th>Batch&nbspTotal</th>
@@ -37,9 +37,9 @@
             @endif
             <td class="align-middle">Skateboard Deck Batch #{{++$batch}}</td>
             <td class="align-middle text-center">{{$skateboard->quantity}}</td>
-            <td class="align-middle" title="{{$skateboard->size}}">{{$skateboard->size}}</td>
-            <td class="align-middle text-center">{{$skateboard->concave}}</td>
-            <td>
+            <td colspan="2" class="align-middle" title="{{$skateboard->size}}">{{$skateboard->size}}</td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->concave}}</td>
+            <td colspan="2">
                 <div>
                     {{$skateboard->wood}}<br>
                 </div>
@@ -48,7 +48,7 @@
                     {{$skateboard->glue}}<br>
                 </div>
             </td>
-            <td>
+            <td colspan="2">
                 <div>
                     <span style="margin-top: 15px; display: block;" @if(isset($fees['bottomprint'][$skateboard->bottomprint]['paid']) && $fees['bottomprint'][$skateboard->bottomprint]['paid'] == 1) class="paid" @endif >
                         <b>Bottom</b><br>
@@ -72,8 +72,8 @@
                 </div>
             </td>
 
-            <td class="align-middle text-center">{{$skateboard->engravery ? $skateboard->engravery : 'None'}}</td>
-            <td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->engravery ? $skateboard->engravery : 'None'}}</td>
+            <td colspan="2">
                 <ol style="padding-left:0; list-style-position:inside;">
                     @foreach(json_decode($skateboard->veneer) as $veneer)
                         <li>{{$veneer}}</li>
@@ -109,8 +109,8 @@
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px">
                 Shrink Wrap: Yes
             </td>
-            <td class="align-middle text-center">{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
-            <td>
+            <td colspan="2" class="align-middle text-center">{{$skateboard->cardboard ? $skateboard->cardboard : 'None'}}</td>
+            <td colspan="2">
                 <div>
                     <p style="margin: 30px 0px;" @if(isset($fees['carton'][$skateboard->carton]['paid']) && $fees['carton'][$skateboard->carton]['paid'] == 1) class="paid" @endif>
                         {{$skateboard->carton ? $skateboard->carton : 'None'}}

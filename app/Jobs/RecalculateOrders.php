@@ -25,12 +25,14 @@ class RecalculateOrders
         '11" x 720"' => 39,
     ];
 
-    public function __construct($orders, $griptapes, $wheels)
+    public function __construct($orders, $griptapes, $wheels, $bearings)
     {
         $this->orders = $orders;
         $this->griptapes = $griptapes;
         $this->wheels = $wheels;
+        $this->bearings = $bearings;
         $this->totalQuantity = $this->orders->sum('quantity');
+        $this->totalBearing = $this->bearings->sum('quantity');
     }
 
     /** 
@@ -38,6 +40,7 @@ class RecalculateOrders
      *
      * @return array
      */
+    
     protected function calculateTotals()
     {
         $auth = auth()->id();
@@ -48,7 +51,7 @@ class RecalculateOrders
 
         $auth = (string) $auth;
 
-        $bindings = array_fill(0, 3, $auth);
+        $bindings = array_fill(0, 4, $auth);
 
         $result = (array) \DB::select(\DB::raw('
             SELECT IFNULL(SUM(sumTable.total), 0) AS total, IFNULL(SUM(sumTable.quantity), 0) AS quantity
@@ -58,6 +61,8 @@ class RecalculateOrders
                 SELECT total, quantity FROM grip_tapes WHERE created_by = ? AND usenow = 1 AND submit = 0
                 UNION ALL
                 SELECT total, quantity FROM wheels WHERE created_by = ? AND usenow = 1 AND submit = 0
+                UNION ALL
+                SELECT total, quantity FROM bearing WHERE created_by = ? AND usenow = 1 AND submit = 0
             ) sumTable 
         '), $bindings)[0];
 
@@ -97,6 +102,15 @@ class RecalculateOrders
         $wheels->setTotalSum($totals['total']);
         $wheels->setTotalQuantity($totals['quantity']);
         $wheels->recalculate();
+
+        $this->bearings->map(function($bearing){
+            $price = $this->calculateBearingPrice($bearing);
+
+            $bearing->update([
+                'price' => $price,
+                'total' => (float) ($price * $bearing->quantity)
+            ]);
+        });
 
 
         $this->updatePromocode();
@@ -359,5 +373,124 @@ class RecalculateOrders
     public function getSumTotalOrders()
     {
         return $this->orders->sum('total');
+    }
+
+    
+    public function calculateBearingPrice($bearing){
+        $bearing_array = json_decode(json_encode($bearing));
+        $pricelist = [
+            'material'=>[
+                'Carbon Balls'=>0.82,
+                'Chrome Balls'=>1.11,
+                'Stainless Steel Balls'=>2.57,
+                'White Ceramic Balls'=>5.65,
+                'Black Ceramic Balls'=>8.07,
+            ],
+            'abec'=>[
+                'Abec3'=>0,
+                'Abec5'=>0.04,
+                'Abec7'=>0.08,
+                'Abec9'=>0.32
+            ],
+            'race'=>[
+                'Silver Races'=>0,
+                'Black Races'=>0.21,
+                'Matte Gery Races'=>0.43,
+                'Gold Races'=>1.25,
+                'Rainbow Races'=>2.79
+            ],
+            'retainer'=>[
+                'Brown SB-Flex Retainer'=>0,
+                'Black SB-Flex Retainer'=>0.15,
+                'White SB-Flex Retainer'=>0.15,
+                'Neon Green SB-Flex Retainer'=>0.15,
+            ],
+            'race_print'=>[
+                'Blank Races'=>0,
+                'Engraved Races'=>0.29,
+            ],
+            'shield'=>[
+                'Metal Shield'=>0,
+                'Black Rubber Shield'=>0.05,
+                'Red Rubber Shield'=>0.19,
+                'Custom Color Rubber Shield'=>0.24,
+            ],
+            'shield_brand'=>[
+                'No Shield Branding'=>0,
+                'Emboss'=>0.18,
+                '1 Color Print'=>0.18,
+                '2 Color Print'=>0.32,
+
+            ],
+            'spamaterial'=>[
+                'No Spacers'=>0,
+                'Carbon Spacers'=>0.4,
+                'Stainless Steel Spacers'=>0.59
+            ],
+            'spacolor'=>[
+                'Silver Spacers'=>0,
+                'Black Spacers'=>0.15
+            ],
+            'packfirst'=>[
+                'Transparent Softplastic Tube'=>0,
+                'Transparent Hardplastic Case'=>0.35,
+                'Silver Round Tin closed'=>0.48,
+                'Black Round Tin closed'=>0.68,
+                'Silver Round Tin with window'=>0.58,
+                'Black Round Tin with window'=>0.79,
+                'Silver Square Tin closed'=>0.48,
+                'Black Square Tin closed'=>0.68,
+                'Silver Square Tin with small window'=>0.58,
+                'Black Square Tin with small window'=>0.79,
+                'Silver Square Tin with full window'=>0.58,
+                'Black Square Tin with full window'=>0.79,
+                'Custom Cardboard Box'=>0.68,
+            ],
+            'brandfirst'=>[
+                'No sticker'=>0,
+                'Sticker on one side of packaging'=>0.06,
+                'Sticker on two sides of packaging'=>0.12,
+                'Sticker on three sides of packaging'=>0.18,
+                'Sticker folded around packaging'=>0.08,
+                'Sticker inside packaging'=>0.06
+            ],
+            'packsecond'=>[
+                'No added cardboard'=>0,
+                'Cardboard sleeve around Tin packaging'=>0.45,
+                'Cardboard box around Tin packaging'=>0.69
+            ],
+            'brandsecond'=>[
+                'No shrink wrap'=>0,
+                'Shrink wrap'=>0.15
+            ],
+            'raceprintvalue'=>[
+                'Blank Races'=>0,
+                'Engraved Races'=> 0.29
+            ]
+        ];
+        $price = 0;
+        foreach($bearing_array as $key => $value){
+            if(isset($pricelist[$key][$value])){
+                 
+                $price += $pricelist[$key][$value];
+            }
+        }
+
+        switch(true){
+            case $this->totalBearing < 800: $price += 1.4;  break;
+            case $this->totalBearing < 1000: $price += 1.1;  break;
+            case $this->totalBearing < 1200: $price += 0.9;  break;
+            case $this->totalBearing < 1500: $price += 0.85;  break;
+            case $this->totalBearing < 2000: $price += 0.7;  break;
+            case $this->totalBearing < 2500: $price += 0.45;  break;
+            case $this->totalBearing < 3000: $price += 0.35;  break;
+            case $this->totalBearing < 4000: $price += 0.3;  break;
+            case $this->totalBearing < 5000: $price += 0.2;  break;
+            case $this->totalBearing < 8000: $price += 0.18;  break;
+            case $this->totalBearing < 10000: $price += 0.05;  break;
+            default: $price += 0; break;
+        }
+        return $price;
+
     }
 }

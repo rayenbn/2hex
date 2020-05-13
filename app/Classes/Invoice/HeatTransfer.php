@@ -25,7 +25,7 @@ class HeatTransfer extends Batch
     {
         /** @var \App\Models\Auth\User\User $authUser */
         $authUser = auth()->user();
-
+        
         if ($this->items->count() === 0) {
             return;
         }

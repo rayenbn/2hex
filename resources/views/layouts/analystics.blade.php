@@ -7,6 +7,18 @@
         }
     });
 </script>
+<script>
+    $(document).ready(function(){
+        $(".select2-selection__rendered").hover(function(){
+            $(this).attr("tooltip-data", $(this).attr("title"));
+            $(this).removeAttr("title");
+        }, function(){
+            $(this).attr("title", $(this).attr("tooltip-data"));
+            $(this).removeAttr("tooltip-data");
+        });
+    });
+    
+</script>
 
 <link rel="shortcut icon" href="img/favicon.ico" />
 

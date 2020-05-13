@@ -11,7 +11,6 @@
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
 			<h1 style="color: #E35D6F">Your new business account is ready!</h1>
-
 			<p style="color: black; margin-top: 20px;">
 				Plan your next production order now:<br>
 				→ <a href="https://www.2hex.com/skateboard-deck-manufacturer">Custom Skateboard Decks</a><br>

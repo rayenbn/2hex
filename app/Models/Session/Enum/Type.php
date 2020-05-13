@@ -25,12 +25,19 @@ class Type extends AbstractEnum
     const UPDATE_WHEEL = 'Update Wheel';
     const SAVE_WHEEL_BATCH = 'Save Wheel To Batch';
     const DELETE_WHEEL = 'Delete Wheel';
+    
 
     // Heat Transfer
     const SAVE_HEAT_TRANSFER = 'Save Heat Transfer';
     const DELETE_HEAT_TRANSFER = 'Delete Heat Transfer';
     const SAVE_HEAT_TRANSFER_BATCH = 'Save Heat Transfer To Batch';
     const UPDATE_HEAT_TRANSFER = 'Update Heat Transfer';
+
+    // Bearing
+
+    const SAVE_BEARING = 'Save Bearing';
+    const SAVE_BEARING_BATCH = 'Save Bearing to Batch';
+    const DELETE_BEARING = 'Delete Bearing';
 
     // Other
     const UPLOAD = 'Upload';

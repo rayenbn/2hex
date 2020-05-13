@@ -104,6 +104,7 @@ Route::get('/mockup', 'MockupController@index')->name('mockup');
 Route::get('/book', 'BookController@index')->name('book');
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/add_summary', 'SummaryController@addFromBatch');
+Route::get('/delete_summary', 'SummaryController@deleteSummary');
 Route::post('/detail_save', 'ProfileController@saveDetails');
 Route::post('/address_save', 'ProfileController@saveMyAddress');
 Route::post('/production_filter', 'ProfileController@production_filter');
@@ -160,6 +161,17 @@ Route::group(['as' => 'wheels.'], function () {
     Route::post('/skateboard-wheels-configurator/{id}', 'WheelController@updateConfigurator')->name('configurator.update');
     Route::get('/skateboard-wheels-remove/{id}/', 'WheelController@destroy')->name('configurator.delete');
     Route::post('/skateboard-wheels-configurator/{id}/copy', 'WheelController@copy')->name('configurator.copy');
+});
+
+Route::group(['as' => 'bearings.'], function () {
+    Route::get('/bearing-manufacturer', 'BearingController@manufacturer')->name('manufacturer');
+    Route::get('/bearing-configurator', 'BearingController@configurator')->name('configurator');
+    Route::get('/bearing-configurator/{id}', 'BearingController@show')->name('show');
+    Route::get('/bearing-save/{id}', 'BearingController@save')->name('save');
+    Route::post('/bearing-configurator', 'BearingController@storeConfigurator')->name('store');
+    Route::post('/bearing-configurator/{id}', 'BearingController@updateConfigurator')->name('update');
+    Route::get('/bearing-remove/{id}/', 'BearingController@destroy')->name('destroy');
+    Route::post('/bearing-configurator/{id}/copy', 'BearingController@copy')->name('copy');
 });
 
 Route::group(['as' => 'transfers.'], function () {

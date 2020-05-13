@@ -46,6 +46,17 @@
                 </a>
             </li>
 
+           <li class="m-menu__item  {{ request()->routeIs('bearings.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('bearings.manufacturer') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-box"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">Bearings</span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+
             <li class="m-menu__item  {{ request()->routeIs('transfers.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('transfers.manufacturer') }}" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-box"></i>
@@ -67,6 +78,7 @@
                     {{ (request()->is('skateboard-deck-configurator*') 
                         || request()->is('grip-tape-configurator*')
                         || request()->is('skateboard-wheels-configurator*')
+                        || request()->is('bearing-configurator')
                         || request()->is('transfers-configurator*'))
                         ? 'm-menu__item--active m-menu__item--expanded m-menu__item--open'
                         : '' 
@@ -273,6 +285,33 @@
 
                         @endif
 
+
+                        @if (request()->routeIs('bearings.configurator'))
+
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                    Bearing Batch 1
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+
+                                <!-- Steps vue -->
+                                <steps type="bearing"/>
+                            </div>
+                        </li>
+
+                        @endif
+
                         @if (request()->routeIs('transfers.configurator'))
 
                             <li
@@ -335,7 +374,7 @@
                 <a class="m-menu__link ">
                     <span></span>
                     @php 
-                        $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total'));
+                        $total = \Cookie::get('orderTotal') ?? ($orders->sum('total') + $grips->sum('total')) + $wheels->sum('total') + $bearings->sum('total');
                     @endphp
                     <span class="m-menu__link-text" id = "totalconprice">
                         USD TOTAL: $ {{ auth()->check() ? number_format($total, 2, '.', '') : '(unregistered)' }}

@@ -73,7 +73,18 @@ $(document).ready(function(){
         verticalbuttons: true,
         verticalupclass: 'la la-angle-up',
         verticaldownclass: 'la la-angle-down'
-    });
+	});
+	$("#quantity_bearing").TouchSpin({
+        min: 0,
+        max: 1000000000,
+        step: 200,
+        buttondown_class: 'btn btn-secondary',
+        buttonup_class: 'btn btn-secondary',
+        verticalbuttons: true,
+        verticalupclass: 'la la-angle-up',
+        verticaldownclass: 'la la-angle-down'
+	});
+	
 
     $('#size').select2({
         placeholder: "Select a size"

@@ -47,6 +47,7 @@ class Wheel extends Batch
 
         $this->startRow += 1; // after head row
 
+        $this->items = $this->items->reverse();
         /** @var \App\Models\Wheel\Wheel $item */
         foreach ($this->items as $item) {
 

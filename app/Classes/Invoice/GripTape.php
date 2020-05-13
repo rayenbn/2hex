@@ -48,7 +48,8 @@ class GripTape extends Batch
         $this->worksheet->setCellValue('N' . $this->startRow, 'Total of Row');
 
         $this->startRow += 1; // after head row
-
+        
+        $this->items = $this->items->reverse();
         /** @var \App\Models\GripTape $item */
         foreach ($this->items as $item) {
 

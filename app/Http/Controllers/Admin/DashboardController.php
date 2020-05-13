@@ -19,9 +19,11 @@ use App\Models\{HeatTransfer\HeatTransfer,
     ProductionComment,
     Session,
     PaidFile,
-    ProductionDate};
+    ProductionDate,
+    Bearing};
 use Cookie;
 use Itlead\Promocodes\Models\Promocode;
+use App\Mail\CommentAddedEmail;
 class DashboardController extends Controller
 {
     protected $feesTypes = [
@@ -75,6 +77,38 @@ class DashboardController extends Controller
             'name' => 'Shape Print',
             'price' => 45
         ],
+
+        //Bearing
+        'race_print' => [
+            'name' => 'Race Print',
+            'price' => 0,
+            'folder' => 'race'
+        ],
+        'shield_brand_print' => [
+            'name' => 'Shield Brand Print',
+            'price' => 0,
+            'folder' => 'shield'
+        ],
+        'pantone_print' => [
+            'name' => 'Packing Print',
+            'price' => 0,
+            'folder' => 'pantone'
+        ],
+        'cardbox_print' => [
+            'name' => 'Packing First Print',
+            'price' => 0,
+            'folder' => 'packfirst'
+        ],
+        'cardboxtwo_print' => [
+            'name' => 'Packing Second Print',
+            'price' => 0,
+            'folder' => 'packsecond'
+        ],
+        'sticker_print' => [
+            'name' => 'Sheid Brand First Print',
+            'price' => 0,
+            'folder' => 'brandfirst'
+        ]
     ];
     /**
      * Create a new controller instance.
@@ -255,6 +289,7 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
             $gripQuery = GripTape::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
             $wheelQuery = Wheel::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
+            $bearingQuery = Bearing::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)->where('created_by','=',$user['id']);
 
             $fees = [];
             $sum_fees = 0;
@@ -282,6 +317,13 @@ class DashboardController extends Controller
                 ->get()
                 ->map(function($wheel) {
                     return array_filter($wheel->attributesToArray());
+                })
+                ->toArray();
+
+            $bearings = (clone $bearingQuery)
+                ->get()
+                ->map(function($bearing) {
+                    return array_filter($bearing->attributesToArray());
                 })
                 ->toArray();
             
@@ -366,6 +408,31 @@ class DashboardController extends Controller
                 }
             }
 
+            foreach ($bearings as $index => $bearing) {
+                $index += 1;
+
+                foreach ($bearing as $key => $value) {
+
+                    if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                    $fees[$count++] = [
+                        'image'    => $value,
+                        'product'  => 'S.B Bearing',
+                        'type'     => $this->feesTypes[$key]['name'],
+                        'date' => $bearing['created_at'],
+                    ];
+
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    $folder_name = $this->feesTypes[$key]['folder'];
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $fees[$count - 1]['size'] = $size;
+                        $totalsize += $size;
+                    }
+                }
+            }
+
             //$totalsize = $this->formatSizeUnits($totalsize);
             $_data = array();
             foreach ($fees as $v) {
@@ -428,6 +495,7 @@ class DashboardController extends Controller
         $ordersQuery = Order::auth(false);
         $gripQuery = GripTape::auth(false);
         $wheelQuery = Wheel::auth(false);
+        $bearingQuery = Bearing::auth(false);
 
         $fees = [];
         $sum_fees = 0;
@@ -455,6 +523,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($wheel) {
                 return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+        
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
             })
             ->toArray();
         
@@ -546,6 +621,32 @@ class DashboardController extends Controller
             }
         }
         
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Bearing',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $bearing['created_at'],
+                ];
+
+                //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                $folder_name = $this->feesTypes[$key]['folder'];
+                $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                if(\File::exists($path)){
+                    $size = \File::size($path);
+                    $fees[$count - 1]['size'] = $size;
+                    $totalsize += $size;
+                }
+            }
+        }
+
+
         $_data = array();
         foreach ($fees as $v) {
             if (isset($_data[$v['image']])) {
@@ -585,6 +686,7 @@ class DashboardController extends Controller
         $savedOrderBatches = Order::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedGripBatches = GripTape::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $savedWheelBatches = Wheel::where('created_by', $createdBy)->where('saved_batch', 1)->get();
+        $savedBearingBatches = Bearing::where('created_by', $createdBy)->where('saved_batch', 1)->get();
         $fees = [];
 
         $orders = Order::where('created_by', $createdBy)->where('saved_batch', 1)
@@ -607,6 +709,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($wheel) {
                 return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+        $bearings = Bearing::where('created_by', $createdBy)->where('saved_batch', 1)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
             })
             ->toArray();
 
@@ -776,7 +885,170 @@ class DashboardController extends Controller
             }
         }
 
-        return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches','users','user', 'fees'));
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
+                        continue;
+                    }
+                } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bearing['quantity'],
+                    'color'    => 1
+                ];
+
+                $fees[$key][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        return view('admin.savedbatch',compact( 'savedOrderBatches', 'savedGripBatches', 'savedWheelBatches', 'savedBearingBatches','users','user', 'fees'));
     }
     public function getSubmitOrder(Request $request )
     {
@@ -795,8 +1067,8 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
+            $bearingQuery = Bearing::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $transferQuery = HeatTransfer::where('created_by','=',$user['id'])->where('submit','=',1)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
-
             /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             Wheel::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
@@ -838,6 +1110,7 @@ class DashboardController extends Controller
             $ordersQuery = Order::auth()->where('submit',1)->whereNotNull('saved_date');
             $gripQuery = GripTape::auth()->where('submit',1)->whereNotNull('saved_date');
             $wheelQuery = Wheel::auth()->where('submit',1)->whereNotNull('saved_date');
+           $bearingQuery = Bearing::auth()->where('submit',1)->whereNotNull('saved_date');
             $transferQuery = HeatTransfer::auth()->where('submit', 1)->whereNotNull('saved_date');
         }
 
@@ -848,6 +1121,207 @@ class DashboardController extends Controller
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
+        $returnbearing = $bearingQuery->get();
+
+       /* 
+
+        $fees = [];
+        $sum_fees = 0;
+
+        
+        
+        // Set wheel fix cost to main fees array
+        
+        //$this->calculateWheelFixCost($fees, 1);
+
+        // Order weight
+        $gripWeight = (clone $gripQuery)->get()->reduce(function($carry, $item) {
+            return $carry + ($item->quantity * GripTape::sizePrice($item->size)['weight']); 
+        }, 0);
+
+        $wheelWeight = (clone $wheelQuery)
+            ->selectRaw('SUM(quantity * ?) as weight')
+            ->addBinding(Wheel::WHEEL_WEIGHT, 'select')
+            ->first()
+            ->weight;
+
+        $bearingWeight = (clone $bearingQuery)->get()->sum('quantity')*0.12;
+
+        // total weight
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $bearingWeight;
+
+        // Fetching all desing by orders
+        $orders = (clone $ordersQuery)
+            ->get()
+            ->map(function($order) {
+                return array_filter($order->attributesToArray());
+            })
+            ->toArray();
+
+
+        // Fetching all desing by griptapes
+        $gripTapes = (clone $gripQuery)
+            ->get()
+            ->map(function($grip) {
+                return array_filter($grip->attributesToArray());
+            })
+            ->toArray();
+        
+        $wheels = (clone $wheelQuery)
+            ->get()
+            ->map(function($wheel) {
+                return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
+            })
+            ->toArray();
+
+
+        foreach ($orders as $index => $order) {
+            $index += 1;
+            foreach ($order as $key => $value) {
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $order)) continue;
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $order['quantity'];
+                        continue;
+                    }
+                } 
+
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $order['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $order)) {
+                    switch ($order[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                if ($key === 'bottomprint' || $key === 'topprint') {
+                    $fees[$key][$value]['price'] = $fees[$key][$value]['color'] * Order::COLOR_COST;
+                } else {
+                    $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+                }
+
+                if(!empty(PaidFile::where('created_by', $order['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($gripTapes as $index => $grip) {
+            $index += 1;
+
+            foreach ($grip as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $grip)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $grip['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $grip['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $grip)) {
+                    switch ($grip[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $grip['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
+        foreach ($wheels as $index => $wheel) {
+            $index += 1;
+
+            foreach ($wheel as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $wheel)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $wheel['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $wheel['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $wheel)) {
+                    switch ($wheel[str_replace('_print','',$key) . '_colors']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+        */
         $returnTransfer = $transferQuery->get();
 
         $batches = [
@@ -855,7 +1329,9 @@ class DashboardController extends Controller
             \App\Classes\Batch\GripTape::class => (clone $returngrip),
             \App\Classes\Batch\Wheel::class => (clone $returnwheel),
             \App\Classes\Batch\HeatTransfer::class => (clone $returnTransfer),
+            \App\Classes\Batch\Bearing::class => (clone $returnTransfer),
         ];
+
 
         foreach ($batches as $class => $batch) {
             if (empty($batch)) { continue; }
@@ -867,8 +1343,174 @@ class DashboardController extends Controller
             $weight += $batchEntry->getDeliveryWeigh();
         }
 
+        /*
+
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
+                        continue;
+                    }
+                } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bearing['quantity'],
+                    'color'    => 1
+                ];
+
+                $fees[$key][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+        */
+
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $transferQuery->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $transferQuery->count() || $bearingQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??',
@@ -890,6 +1532,7 @@ class DashboardController extends Controller
             + GripTape::auth()->sum('total')
             + Wheel::auth()->sum('total')
             + HeatTransfer::auth()->sum('total')
+            + Bearing::auth()->sum('total')
             + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
@@ -935,7 +1578,13 @@ class DashboardController extends Controller
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
-        $queryTransfer = HeatTransfer::query()
+       $queryBearings = Bearing::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
+            $queryTransfer = HeatTransfer::query()
             ->where('created_by', $createdBy)
             ->groupBy('saved_date', 'invoice_number', 'saved_name')
             ->whereNotNull('saved_date')
@@ -944,6 +1593,7 @@ class DashboardController extends Controller
         $querySubmitOrders = clone $queryOrders;
         $querySubmitGrips = clone $queryGrips;
         $querySubmitWheels = clone $queryWheels;
+        $querySubmitBearings = clone $queryBearings;
         $querySubmitTransfers = clone $queryTransfer;
 
         $unSubmitOrders = $queryOrders->where('submit', 0)->get();
@@ -954,12 +1604,19 @@ class DashboardController extends Controller
             $unSubmitOrders->push($grip);
         });
 
+        $queryBearings->where('submit', 0)->get()->each(function($bearing) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($bearing);
+        });
+
         $unSubmitOrders = $unSubmitOrders->unique('saved_date');
 
         $submitorders = $querySubmitOrders->where('submit', 1)->addSelect('invoice_number')->get();
         
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
             $submitorders->push($grip);
+        });
+        $querySubmitBearings->where('submit', 1)->get()->each(function($bearing) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($bearing);
         });
 
         $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
@@ -975,7 +1632,7 @@ class DashboardController extends Controller
         /** @var \Illuminate\Database\Eloquent\Collection $users */
         $users = User::query()->select(['email', 'name'])->get();
 
-        return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
+        return view('admin.submittedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel', 'returnbearing'));
     }
     public function deleteSubmitOrder($id){
 
@@ -988,6 +1645,10 @@ class DashboardController extends Controller
             ->where('submit',1)->delete();
 
         $queryWheels = Wheel::query()
+            ->where('saved_date', $id)
+            ->where('submit',1)->delete();
+        
+        $queryBearings = Wheel::query()
             ->where('saved_date', $id)
             ->where('submit',1)->delete();
 
@@ -1008,9 +1669,6 @@ class DashboardController extends Controller
                 return array_filter($wheel->attributesToArray());
             })
             ->toArray();
-
-        var_dump($wheels);
-        exit();
 
         $feesTypes = [
             'top_print' => [
@@ -1101,7 +1759,7 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
-            
+            $bearingQuery = Bearing::where('created_by','=',$user['id'])->where('submit','=',0)->where('saved_date', '=', $saved_date)->whereNotNull('saved_date');
             
             /*Order::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
             GripTape::where('created_by','=',(string)$user['id'])->where('usenow', '=', 1)->update(['usenow'=>0]);
@@ -1146,6 +1804,7 @@ class DashboardController extends Controller
             $ordersQuery = Order::auth()->whereNotNull('saved_date')->where('submit',0);
             $gripQuery = GripTape::auth()->whereNotNull('saved_date')->where('submit',0);
             $wheelQuery = Wheel::auth()->whereNotNull('saved_date')->where('submit',0);
+            $bearingQuery = Bearing::auth()->whereNotNull('saved_date')->where('submit',0);
         }
         
         
@@ -1156,6 +1815,7 @@ class DashboardController extends Controller
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
+        $returnbearing = $bearingQuery->get();
 
         $fees = [];
         $sum_fees = 0;
@@ -1176,8 +1836,10 @@ class DashboardController extends Controller
             ->first()
             ->weight;
 
+        $bearingWeight = (clone $bearingQuery)->get()->sum('quantity')*0.12;
+
         // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $bearingWeight;
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -1200,6 +1862,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($wheel) {
                 return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+        
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
             })
             ->toArray();
         
@@ -1373,8 +2042,172 @@ class DashboardController extends Controller
             }
         }
 
+
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
+                        continue;
+                    }
+                } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bearing['quantity'],
+                    'color'    => 1
+                ];
+
+                $fees[$key][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
         // Set Global delivery
-        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) && $saved_date) {
+        if (($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $bearingQuery->count()) && $saved_date) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -1392,7 +2225,7 @@ class DashboardController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + Bearing::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -1435,6 +2268,12 @@ class DashboardController extends Controller
             ->whereNotNull('saved_date')
             ->select(['saved_date', 'saved_name']);
 
+        $queryBearings = Bearing::query()
+            ->where('created_by', $createdBy)
+            ->groupBy('saved_date', 'invoice_number', 'saved_name')
+            ->whereNotNull('saved_date')
+            ->select(['saved_date', 'saved_name']);
+
         $querySubmitOrders = clone $queryOrders;
         $querySubmitGrips = clone $queryGrips;
         $querySubmitWheels = clone $queryWheels;
@@ -1446,6 +2285,9 @@ class DashboardController extends Controller
         $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
             $unSubmitOrders->push($grip);
         });
+        $queryBearings->where('submit', 0)->get()->each(function($bearing) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($bearing);
+        });
 
         $unSubmitOrders = $unSubmitOrders->unique('saved_date');
         $unSubmitOrders = json_decode(json_encode($unSubmitOrders));
@@ -1455,6 +2297,9 @@ class DashboardController extends Controller
         $querySubmitGrips->where('submit', 1)->addSelect('invoice_number')->get()->each(function($grip) use (&$submitorders) {
             $submitorders->push($grip);
         });
+        $queryBearings->where('submit', 1)->get()->each(function($bearing) use (&$unSubmitOrders) {
+            $unSubmitOrders->push($bearing);
+        });
 
         $submitorders = $submitorders->toBase()->merge($querySubmitWheels->where('submit',1)->addSelect('invoice_number')->get());
 
@@ -1463,8 +2308,14 @@ class DashboardController extends Controller
         $shipinfo = ShipInfo::auth()->first();
         $users = User::select('email','name')->get();
 
-        usort($unSubmitOrders, function($a, $b) {return strcmp($b->saved_date, $a->saved_date);});
-        return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel'));
+        $unSubmitOrders = json_decode(json_encode($unSubmitOrders), true);
+        $submitorders = json_decode(json_encode($submitorders), true);
+        $unSubmitOrders = array_values($unSubmitOrders);
+        $submitorders = array_values($submitorders);
+        usort($unSubmitOrders, function($a, $b) {return strcmp($b['saved_date'], $a['saved_date']);});
+        usort($submitorders, function($a, $b) {return strcmp($b['saved_date'], $a['saved_date']);});
+        
+        return view('admin.savedorder', compact('unSubmitOrders', 'submitorders', 'shipinfo', 'users','user', 'fees', 'totalOrders', 'returnorder', 'returngrip', 'returnwheel', 'returnbearing'));
     }
 
 
@@ -1539,6 +2390,7 @@ class DashboardController extends Controller
         $ordersQuery = Order::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
         $gripQuery = GripTape::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
         $wheelQuery = Wheel::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
+        $bearingQuery = Bearing::where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp);
 
         $fees = [];
         $sum_fees = 0;
@@ -1566,6 +2418,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($wheel) {
                 return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
             })
             ->toArray();
         
@@ -1662,6 +2521,35 @@ class DashboardController extends Controller
             }
         }
 
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $fees[$count++] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Bearing',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $bearing['created_at'],
+                    'created_by' => $bearing['created_by']
+                ];
+                $user = User::where('id',$bearing['created_by'])->first();
+                if($user){
+                    $folder_name = $this->feesTypes[$key]['folder'];
+                    $path = public_path('uploads/' . $user->name . '/' . $folder_name . '/' . $value);
+                    //$path = public_path('uploads/' . $user->name . '/' . $key . '/' . $value);
+                    if(\File::exists($path)){
+                        $size = \File::size($path);
+                        $fees[$count-1]['size'] = $size;
+                        $totalsize += $size;
+                    }
+                }
+
+            }
+        }
+
         $_data = array();
         // foreach ($fees as $v) {
         //     if (isset($_data[$v['image']])) {
@@ -1736,9 +2624,17 @@ class DashboardController extends Controller
                 ->whereNotNull('saved_date')
                 ->select(['saved_date', 'saved_name']);
 
+            $queryBearings = Bearing::query()
+                ->where('created_by', $id)
+                ->where('created_at','>=', $startdate_temp)->where('created_at','<=',$enddate_temp)
+                ->groupBy('saved_date', 'invoice_number', 'saved_name')
+                ->whereNotNull('saved_date')
+                ->select(['saved_date', 'saved_name']);
+
             $querySubmitOrders = clone $queryOrders;
             $querySubmitGrips = clone $queryGrips;
             $querySubmitWheels = clone $queryWheels;
+            $querySubmitBearings = clone $queryBearings;
 
             $unSubmitOrders = $queryOrders->where('submit', 0)->get();
 
@@ -1746,6 +2642,9 @@ class DashboardController extends Controller
 
             $queryGrips->where('submit', 0)->get()->each(function($grip) use (&$unSubmitOrders) {
                 $unSubmitOrders->push($grip);
+            });
+            $queryBearings->where('submit', 0)->get()->each(function($bearing) use (&$unSubmitOrders) {
+                $unSubmitOrders->push($bearing);
             });
 
             $unSubmitOrders = $unSubmitOrders->unique('saved_date');
@@ -1785,18 +2684,21 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id']);
             $gripQuery = GripTape::where('created_by','=',$user['id']);
             $wheelQuery = Wheel::where('created_by','=',$user['id']);
+            $bearingQuery = Bearing::where('created_by','=',$user['id']);
             $transferQuery = HeatTransfer::where('created_by','=',$user['id']);
 
             if($startdate){
                 $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);
                 $gripQuery = $gripQuery->where('created_at','>=',$startdate);
                 $wheelQuery = $wheelQuery->where('created_at','>=',$startdate);
+                $bearingQuery = $bearingQuery->where('created_at','>=',$startdate);
                 $transferQuery = $transferQuery->where('created_at','>=',$startdate);
             }
             if($enddate){
                 $ordersQuery = $ordersQuery->where('created_at','<=',$enddate);
                 $gripQuery = $gripQuery->where('created_at','<=',$enddate);
                 $wheelQuery = $wheelQuery->where('created_at','<=',$enddate);
+                $bearingQuery = $bearingQuery->where('created_at','<=',$enddate);
                 $transferQuery = $transferQuery->where('created_at','<=',$enddate);
             }
             
@@ -1804,6 +2706,7 @@ class DashboardController extends Controller
             $ordersQuery = Order::auth(false);
             $gripQuery = GripTape::auth(false);
             $wheelQuery = Wheel::auth(false);
+            $bearingQuery = Bearing::auth(false);
             $transferQuery = HeatTransfer::auth(false);
         }
         
@@ -1835,6 +2738,13 @@ class DashboardController extends Controller
             })
             ->toArray();
 
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
+            })
+            ->toArray();
+        
         $transfers = (clone $transferQuery)->get()->toArray();
 
         $count = 0;
@@ -1986,6 +2896,57 @@ class DashboardController extends Controller
             }
         }
 
+
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes)) continue;
+
+                $folder_name = str_replace('_print','',$key);
+                $folder_name = str_replace('top','front',$folder_name);
+                $path = public_path('uploads/' . $user->name .  '/' . $folder_name . '/' . $value);
+                $down_path = '/'.'uploads/' . $user->name . '/' . $folder_name . '/' . $value;
+                $size = 0;
+                if(\File::exists($path))
+                    $size = \File::size($path);
+                $totalsize += $size;
+                $fees[$count] = [
+                    'image'    => $value,
+                    'product'  => 'S.B Bearing',
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'date' => $bearing['created_at'],
+                    'key'      => $key,
+                    'id'       => $bearing['id'],
+                    'path'     => $down_path,
+                    'size'     => $size,
+                    'color'    => 1,
+                    'created_by' => $order['created_by']
+                ];
+                if (array_key_exists(str_replace('_print','',$key) . '_colors', $bearing)) {
+                    switch ($bearing[str_replace('_print','',$key) . '_colors']) {
+                        case '1 color':
+                            $fees[$count]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$count]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$count]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$count]['color'] = 4;
+                            break;
+                    }
+                }
+                $count ++;
+
+            }
+        }
+
+        //var_dump('first',$fees);
+        
         foreach ($transfers as $index => $transfer) {
             foreach ($transfer as $key => $value) {
 
@@ -2084,7 +3045,7 @@ class DashboardController extends Controller
                 ProductionComment::where('id', $remove_id)->delete();   
             }            
             else if(isset($content) && isset($selected_date)){
-                $exists_comment = ProductionComment::where('date',$selected_date)->where('created_number', $selected_order)->get();
+                //$exists_comment = ProductionComment::where('date',$selected_date)->where('created_number', $selected_order)->get();
                 if(isset($exists_comment) && count($exists_comment) > 0){
                     ProductionComment::where('id',$exists_comment[0]['id'])->update(['comment' => $content]);
                 }
@@ -2092,6 +3053,8 @@ class DashboardController extends Controller
                     ProductionComment::insert(
                         ['date' => $selected_date, 'comment' => $content, 'order_id' => '1', 'created_at' => date("Y-m-d H:i:s"), 'created_number' => $selected_order]
                     );
+
+                    \Mail::to($email)->send(new CommentAddedEmail(['date' => $selected_date, 'comment' => $content,'created_number' => $selected_order, 'name' => $user->name]));
                 }
                 
             }
@@ -2101,6 +3064,34 @@ class DashboardController extends Controller
 
 
         $returnorder = Order::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get();
+        GripTape::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($griptape) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $griptape['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($griptape);
+        });
+        Wheel::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($wheel) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $wheel['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($wheel);
+        });
+        Bearing::where('created_by','=',$user['id'])->select('invoice_number')->where('submit','=',1)->groupBy('invoice_number','saved_date')->orderBy('saved_date','DESC')->get()->each(function($bearing) use (&$returnorder) {
+            $check = 1;
+            foreach($returnorder as $each_order){
+                if($each_order['invoice_number'] == $bearing['invoice_number'])
+                    $check = 0;
+            }
+            if($check == 1)
+                $returnorder->push($bearing);
+        });
+        
         if(!isset($selected_order) && count($returnorder) > 0){
             $selected_order = $returnorder[0]['invoice_number'];
         }
@@ -2119,7 +3110,7 @@ class DashboardController extends Controller
         if(!isset($selected_date)){
             $selected_date = date('Y-m-d');
         }
-        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'asc')->get();
+        $comments = ProductionComment::where('created_number',$selected_order)->where('date','>=',$startdate)->where('date','<=',$enddate)->orderBy('date', 'desc')->get();
 
 
         return view('admin.production',compact( 'users','user', 'returnorder', 'selected_order','startdate','enddate','dates','selected_date','comments'));
@@ -2152,16 +3143,19 @@ class DashboardController extends Controller
             $ordersQuery = Order::where('created_by','=',$user['id'])->where('usenow',1);
             $gripQuery = GripTape::where('created_by','=',$user['id'])->where('usenow',1);
             $wheelQuery = Wheel::where('created_by','=',$user['id'])->where('usenow',1);
+            $bearingQuery = Bearing::where('created_by','=',$user['id'])->where('usenow',1);
 
             if($startdate){
                 $ordersQuery = $ordersQuery->where('created_at','>=',$startdate);
                 $gripQuery = $gripQuery->where('created_at','>=',$startdate);
                 $wheelQuery = $wheelQuery->where('created_at','>=',$startdate);
+                $bearingQuery = $bearingQuery->where('created_at','>=',$startdate);
             }
             if($enddate){
                 $ordersQuery = $ordersQuery->where('created_at','<=',$enddate);
                 $gripQuery = $gripQuery->where('created_at','<=',$enddate);
                 $wheelQuery = $wheelQuery->where('created_at','<=',$enddate);
+                $bearingQuery = $bearingQuery->where('created_at','<=',$enddate);
             }
             
         }
@@ -2169,11 +3163,13 @@ class DashboardController extends Controller
             $ordersQuery = Order::auth();
             $gripQuery = GripTape::auth();
             $wheelQuery = Wheel::auth();
+            $bearingQuery = Bearing::auth();
         }
 
         $returnorder = $ordersQuery->get();
         $returngrip = $gripQuery->get();
         $returnwheel = $wheelQuery->get();
+        $returnbearing = $bearingQuery->get();
 
         $fees = [];
         $sum_fees = 0;
@@ -2192,8 +3188,10 @@ class DashboardController extends Controller
             ->first()
             ->weight;
 
+        $bearingWeight = (clone $bearingQuery)->get()->sum('quantity')*0.12;
+
         // total weight
-        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight;
+        $weight = ($ordersQuery->sum('quantity') * Order::SKATEBOARD_WEIGHT) + $gripWeight + $wheelWeight + $bearingWeight;
 
         // Fetching all desing by orders
         $orders = (clone $ordersQuery)
@@ -2216,6 +3214,13 @@ class DashboardController extends Controller
             ->get()
             ->map(function($wheel) {
                 return array_filter($wheel->attributesToArray());
+            })
+            ->toArray();
+
+        $bearings = (clone $bearingQuery)
+            ->get()
+            ->map(function($bearing) {
+                return array_filter($bearing->attributesToArray());
             })
             ->toArray();
 
@@ -2385,8 +3390,172 @@ class DashboardController extends Controller
             }
         }
 
+
+        foreach ($bearings as $index => $bearing) {
+            $index += 1;
+
+            foreach ($bearing as $key => $value) {
+
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        if($key == "material" && $value == "Chrome Balls"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec7"){
+                            $fees[$key][$value]['price'] += 2.51;
+                        }
+                        if($key == "abec" && $value == "Abec9"){
+                            $fees[$key][$value]['price'] += 2.59;
+                        }
+                        if($key == "shield_brand" && $value == "Emboss"){
+                            $fees[$key][$value]['price'] += 149.9;
+                        }
+                        if(isset($fees[$key][$value]['quantity']))
+                            $fees[$key][$value]['quantity'] += $bearing['quantity'];
+                        if($key == 'pantone_color'){
+
+                        }
+                        if($key == 'pantone_color'){
+                            $panthone = json_decode($bearing['pantone_color'], true);
+                            switch($panthone['title']){
+                                case '1 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 90;
+                                    break;
+                                case '2 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 180;
+                                    break;
+                                case '3 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 270;
+                                    break;
+                                case '4 Color on outer cartons':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                case 'CMYK photo print on outer carton':
+                                    $fees[$key][$value]['price'] += 360;
+                                    break;
+                                default:
+                                    $fees[$key][$value]['price'] += 0;
+                                    break;
+                            }
+                        }
+                        continue;
+                    }
+                } 
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bearing)) {
+                    if($key == "material" && $value == "Chrome Balls")
+                    {
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Material",
+                            'batches'  => (string) $index,
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec7"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'batches'  => (string) $index,
+                            'type'     => "Abec",
+                            'price'    => 2.51
+                        ];
+                    }
+                    if($key == "abec" && $value == "Abec9"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Abec",
+                            'batches'  => (string) $index,
+                            'price'    => 2.59
+                        ];
+                    }
+                    if($key == "shield_brand" && $value == "Emboss"){
+                        $fees[$key][$value] = [
+                            'image'    => $value,
+                            'type'     => "Shield Brand",
+                            'batches'  => (string) $index,
+                            'price'    => 149.9
+                        ];
+                    }
+                    if($key == 'pantone_color'){
+                        $panthone = json_decode($bearing['pantone_color'], true);
+                        switch($panthone['title']){
+                            case '1 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "1 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 90
+                                ];
+                                break;
+                            case '2 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "2 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 180
+                                ];
+                                break;
+                            case '3 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "3 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 270
+                                ];
+                                break;
+                            case '4 Color on outer cartons':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "4 Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            case 'CMYK photo print on outer carton':
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "CMYK",
+                                    'batches'  => (string) $index,
+                                    'price'    => 360
+                                ];
+                                break;
+                            default:
+                                $fees[$key][$value] = [
+                                    'image'    => $panthone['title'],
+                                    'type'     => "No Color",
+                                    'batches'  => (string) $index,
+                                    'price'    => 0
+                                ];
+                                break;
+                        }
+                    }
+                    
+                    continue;
+                }
+
+                // If same design
+                
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bearing['quantity'],
+                    'color'    => 1
+                ];
+
+                $fees[$key][$value]['price'] = 0;
+
+
+                if(!empty(PaidFile::where('created_by', $bearing['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count()) {
+        if ($ordersQuery->count() || $gripQuery->count() || $wheelQuery->count() || $bearingQuery->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -2404,7 +3573,7 @@ class DashboardController extends Controller
         }
 
         // calculate total 
-        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + $sum_fees;
+        $totalOrders = $ordersQuery->sum('total') + GripTape::auth()->sum('total') + Wheel::auth()->sum('total') + Bearing::auth()->sum('total') + $sum_fees;
 
         $promocode = $ordersQuery->count() ? $ordersQuery->first()->promocode : false;
 
@@ -2427,7 +3596,7 @@ class DashboardController extends Controller
 
         $users = User::select('email','name')->get();
         
-        return view('admin.summary', compact('fees', 'totalOrders','returnorder','returngrip','returnwheel','users','user','startdate','enddate'));
+        return view('admin.summary', compact('fees', 'totalOrders','returnorder','returngrip','returnwheel','returnbearing','users','user','startdate','enddate'));
     }
 
     public function getAction(Request $request){
@@ -2497,6 +3666,9 @@ class DashboardController extends Controller
                 $wheel = Wheel::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('back_print', $condition['name'])->orwhere('top_print', $condition['name'])->orwhere('shape_print', $condition['name'])->orwhere('cardboard_print', $condition['name'])->where('carton_print', $condition['name']);
                 })->pluck('wheel_id');
+                $bearing = Bearing::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
+                    $query->where('race_print', $condition['name'])->orwhere('shield_brand_print', $condition['name'])->orwhere('pantone_print', $condition['name']);
+                })->pluck('id');
 
                 $transfer = HeatTransfer::where('created_by', $condition['created_by'])->where(function($query) use ($condition){
                     $query->where('small_preview', $condition['name'])->orwhere('large_preview', $condition['name']);
@@ -2505,6 +3677,7 @@ class DashboardController extends Controller
                 $selected_order['order'] = $order;
                 $selected_order['grip'] = $grip;
                 $selected_order['wheel'] = $wheel;
+                $selected_order['bearing'] = $bearing;
                 $selected_order['transfer'] = $transfer;
 
                 $orders = Order::where('created_by', $condition['created_by'])->get()->map(function($order) {
@@ -2544,6 +3717,19 @@ class DashboardController extends Controller
                         if($value1 == $condition['name']){
                             if(isset($wheel[str_replace('_print','',$key).'_colors']))
                                 Wheel::where('wheel_id', $wheel['wheel_id'])->update([str_replace('_print','',$key).'_colors'=> $value==4?'CMYK':$value.' color']);
+                        }
+                    }
+                }
+
+                $bearings = Bearing::where('created_by', $condition['created_by'])->get()->map(function($bearing) {
+                    return array_filter($bearing->attributesToArray());
+                })
+                ->toArray();
+                foreach($bearings as $bearing){
+                    foreach($bearing as $key => $value1){
+                        if($value1 == $condition['name']){
+                            if(isset($bearing[str_replace('_print','',$key).'_colors']))
+                                Bearing::where('id', $bearing['id'])->update([str_replace('_print','',$key).'_colors'=> $value==4?'CMYK':$value.' color']);
                         }
                     }
                 }
@@ -2608,6 +3794,18 @@ class DashboardController extends Controller
                     foreach($wheel as $key => $value1){
                         if($value1 == $condition['name']){
                             Wheel::where('wheel_id', $wheel['wheel_id'])->update([$key=> '']);
+                        }
+                    }
+                }
+
+                $bearings = Bearing::where('created_by', $condition['created_by'])->get()->map(function($bearing) {
+                    return array_filter($bearing->attributesToArray());
+                })
+                ->toArray();
+                foreach($bearings as $bearing){
+                    foreach($bearing as $key => $value1){
+                        if($value1 == $condition['name']){
+                            Bearing::where('id', $bearing['id'])->update([$key=> '']);
                         }
                     }
                 }

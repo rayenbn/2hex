@@ -162,7 +162,7 @@
                                                     </li>
 
                                                     <li class="m-nav__item">
-                                                        <a href="/profile" class="m-nav__link">
+                                                        <a href="/delete_summary" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-delete"></i>
                                                             <span class="m-nav__link-title">
                                                                          <span class="m-nav__link-wrap">

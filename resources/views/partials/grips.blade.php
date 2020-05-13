@@ -5,15 +5,15 @@
             @endif
             <th>Grip Batch</th>
             <th>Pcs</th>
-            <th>Size</th>
-            <th>Grip Color</th>
-            <th>Grit</th>
-            <th>Perforation</th>
-            <th>Die Cut</th>
-            <th>Top Print</th>
+            <th colspan="2">Size</th>
+            <th colspan="2">Grip Color</th>
+            <th colspan="2">Grit</th>
+            <th colspan="2">Perforation</th>
+            <th colspan="2">Die Cut</th>
+            <th colspan="2">Top Print</th>
             <th>Backpaper</th>
-            <th>Backpaper Print</th>
-            <th>Carton Print</th>
+            <th colspan="2">Backpaper Print</th>
+            <th colspan="2">Carton Print</th>
             @if(!isset($batches))
             <th>Grip Price</th>
             <th>Batch&nbspTotal</th>
@@ -37,25 +37,25 @@
             @endif
             <td class="align-middle">Griptape Batch #{{++$batch}}</td>
             <td class="align-middle text-center">{{$grip->quantity}}</td>
-            <td class="align-middle" title="{{$grip->size}}">{{$grip->size}}</td>
-            <td class="align-middle text-center">{{$grip->color}}</td>
-            <td class="align-middle text-center">{{$grip->grit}}</td>
-            <td class="align-middle text-center">{{$grip->perforation ? 'Yes' : 'None'}}</td>
-            <td class="align-middle text-center">{{$grip->die_cut}}</td>
-            <td class="text-center" @if(isset($fees['top_print'][$grip->top_print]['paid']) && $fees['top_print'][$grip->top_print]['paid'] == 1) class="paid" @endif>
+            <td colspan="2" class="align-middle" title="{{$grip->size}}">{{$grip->size}}</td>
+            <td colspan="2" class="align-middle text-center">{{$grip->color}}</td>
+            <td colspan="2" class="align-middle text-center">{{$grip->grit}}</td>
+            <td colspan="2" class="align-middle text-center">{{$grip->perforation ? 'Yes' : 'None'}}</td>
+            <td colspan="2" class="align-middle text-center">{{$grip->die_cut}}</td>
+            <td colspan="2" class="text-center" @if(isset($fees['top_print'][$grip->top_print]['paid']) && $fees['top_print'][$grip->top_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->top_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 {{$grip->top_print_color ?? ''}}
             </td>
             <td class="align-middle text-center">{{$grip->backpaper}}</td>
-            <td  @if(isset($fees['backpaper_print'][$grip->backpaper_print]['paid']) && $fees['backpaper_print'][$grip->backpaper_print]['paid'] == 1) class="paid" @endif>
+            <td colspan="2"  @if(isset($fees['backpaper_print'][$grip->backpaper_print]['paid']) && $fees['backpaper_print'][$grip->backpaper_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->backpaper_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>
                 {{$grip->backpaper_print_color ?? ''}}
             </td>
-            <td @if(isset($fees['carton_print'][$grip->carton_print]['paid']) && $fees['carton_print'][$grip->carton_print]['paid'] == 1) class="paid" @endif>
+            <td colspan="2" @if(isset($fees['carton_print'][$grip->carton_print]['paid']) && $fees['carton_print'][$grip->carton_print]['paid'] == 1) class="paid" @endif>
                 {{$grip->carton_print ?? ''}}<br>
                 <hr style="border-color: #f4f5f8; margin-left:-3px; margin-right:-5px;">
                 <br>

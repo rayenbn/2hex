@@ -13,6 +13,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
@@ -51,6 +53,16 @@ class GenerateInvoicesXLSX implements ShouldQueue
      * @var Collection|null
      */
     private $transfers;
+
+
+    /**
+     * List bearings
+     * Collection $bearings
+     */
+    protected $bearings;
+
+
+
 
     /**
      * Working spreadsheet
@@ -119,11 +131,12 @@ class GenerateInvoicesXLSX implements ShouldQueue
      */
     protected $totalQuantity = 0;
 
-    public function __construct($orders, $grips, $wheels, $transfers =  null)
+    public function __construct($orders, $grips, $wheels, $bearings = null, $transfers =  null)
     {
         $this->orders = $orders;
         $this->grips = $grips;
         $this->wheels = $wheels;
+        $this->bearings = $bearings;
         $this->transfers = $transfers ?? collect();
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
@@ -159,6 +172,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             \App\Classes\Invoice\GripTape::class => $this->grips,
             \App\Classes\Invoice\Wheel::class => $this->wheels,
             \App\Classes\Invoice\HeatTransfer::class => $this->transfers,
+            \App\Classes\Invoice\Bearing::class => $this->bearings,
         ];
 
         // Filter filled batches
@@ -179,8 +193,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $this->startDelivery += $offset;
         }
 
-        $this
-            ->setDeliveryCells()
+        $this->setDeliveryCells()
             ->setDiscountRow()
             ->setSeparateCell()
             ->write();
@@ -336,6 +349,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             \App\Classes\Batch\Deck::class => $this->orders,
             \App\Classes\Batch\GripTape::class => $this->grips,
             \App\Classes\Batch\Wheel::class => $this->wheels,
+            \App\Classes\Batch\Bearing::class => $this->bearings,
             \App\Classes\Batch\HeatTransfer::class => $this->transfers,
         ];
 
@@ -368,7 +382,6 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $sum_fees += $f['price'];
             });
         }
-
         return [$fees, $sum_fees];
     }
 
@@ -413,20 +426,28 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         // Skip head uploads
         $this->startDelivery += 1;
-
+        $fileUploads = [];
+        array_walk($orderFees, function($fees) use (&$fileUploads){
+            array_push($fileUploads, ...array_values($fees));
+        });
+        $array_index = 0;
+        foreach ($fileUploads as $index => $value) {
+            if($value['price'] > 0)
+                $array_index ++;
+        }
         // Insert rows = count uploads
         $this
             ->getActiveSheet()
             ->insertNewRowBefore(
                 $this->startDelivery,
-                $this->countFees
+                $array_index - 1
             );
 
         // start + count orders * 8(count rows in single item)
         $rangeFees = sprintf(
             'C%s:N%s',
             $this->startDelivery,
-            $this->startDelivery + $this->countFees
+            $this->startDelivery + $array_index - 1
         );
 
         $styles = $this->getActiveSheet()->getStyle($rangeFees);
@@ -438,22 +459,22 @@ class GenerateInvoicesXLSX implements ShouldQueue
         // set currency format cell
         $styles->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-        $fileUploads = [];
-        array_walk($orderFees, function($fees) use (&$fileUploads){
-            array_push($fileUploads, ...array_values($fees));
-        });
-
+        
+        $array_index = 0;
         foreach ($fileUploads as $index => $value) {
-            $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $pos = $this->startDelivery + $index, $pos));
-            $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $pos, $pos));
+            if($value['price'] > 0){
+                $this->getActiveSheet()->mergeCells(sprintf('C%s:I%s', $pos = $this->startDelivery + $array_index, $pos));
+                $this->getActiveSheet()->mergeCells(sprintf('J%s:M%s', $pos, $pos));
 
-            $this->getActiveSheet()->setCellValue('C' . $pos, $value['type']);
-            $this->getActiveSheet()->setCellValue('N' . $pos, $value['price']);
+                $this->getActiveSheet()->setCellValue('C' . $pos, $value['type']);
+                $this->getActiveSheet()->setCellValue('N' . $pos, $value['price']);
 
-            if(isset($value['paid'])) {
-                $this->getActiveSheet()->setCellValue('J' . $pos, $this->setStartTextBold('', $value['image'], true));
-            } else {
-                $this->getActiveSheet()->setCellValue('J'. $pos, $value['image']);
+                if(isset($value['paid'])) {
+                    $this->getActiveSheet()->setCellValue('J' . $pos, $this->setStartTextBold('', $value['image'], true));
+                } else {
+                    $this->getActiveSheet()->setCellValue('J'. $pos, $value['image']);
+                }
+                $array_index ++;
             }
         }
 
@@ -559,4 +580,5 @@ class GenerateInvoicesXLSX implements ShouldQueue
 
         return $total;
     }
+
 }

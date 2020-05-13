@@ -5,6 +5,7 @@ import SkateboardDecksConfigurator from './configurator/SkateboardDecksConfigura
 import GripTapeConfigurator from './griptape-configurator/GripTapeConfigurator.vue';
 import SkateboardWheelConfigurator from './skateboard-wheel-configurator/SkateboardWheelConfigurator.vue';
 import TransfersConfigurator from './transfers/TransfersConfigurator.vue';
+import BearingConfigurator from './bearing/BearingConfigurator.vue';
 
 // Forms
 import FormUserDetails from './forms/UserDetails.vue';
@@ -25,5 +26,6 @@ export default [
     FormDeliveryAddress,
     ChangeNameOrderModal,
     BtnOrderLater,
-    SubmitOrderModal
+    SubmitOrderModal,
+    BearingConfigurator
 ];

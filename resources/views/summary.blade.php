@@ -109,6 +109,9 @@
 								<a class="dropdown-item" href="{{ route('wheels.configurator') }}">
 									S.B. Wheels
 								</a>
+								<a class="dropdown-item" href="{{route('bearings.configurator')}}">
+									Add Bearings
+								</a>
 								<a class="dropdown-item" href="{{ route('transfers.configurator') }}">
 									Heat Transfers
 								</a>
@@ -156,33 +159,39 @@
 								@include('partials.transfers', ['transfers1' => $transfers, 'fees' => $fees])
 							@endif
 
+							@if(count($bearings) > 0)
+								@include('partials.bearings', ['bearings1' => $bearings, 'fees' => $fees])
+							@endif
+
 
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
-									<td colspan="3">Tooling&nbspCost</td>
-									<td colspan="3">Batch</td>
-									<td colspan="2">Number&nbspof&nbspColors</td>
-									<td colspan="5">Filename</td>
-									<td>Tooling&nbspTotal</td>
+									<td colspan="5">Tooling Cost</td>
+									<td colspan="5">Batches</td>
+									<td colspan="3">Colors</td>
+									<td colspan="6">Filename</td>
+									<td colspan="3">Tooling&nbspTotal</td>
 								</tr>
 						   	</thead>
 
                             @foreach($fees as $key => $group)
                             	@foreach($group as $k => $value)
-									<tr @isset($value['paid']) class="paid" @endif>
-										<td colspan="3">{{ $value['type'] }}</td>
-										<td colspan="3">{{ $value['batches'] }}</td>
-										<td colspan="2">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
+									@if($value['price'] != 0)
+										<tr @isset($value['paid']) class="paid" @endif>
+											<td colspan="5">{{ $value['type'] }}</td>
+											<td colspan="5">{{ $value['batches'] }}</td>
+											<td colspan="3">{{ array_key_exists('color', $value) ? $value['color'] : '' }}</td>
 
-										@if(isset($value['batch']) && $value['batch'] === 'transfer')
-											<td colspan="2">{{ $value['designName'] }}</td>
-											<td colspan="3">{{ $value['image'] }}</td>
-										@else
-											<td colspan="5">{{ $value['image'] }}</td>
-										@endif
+											@if(isset($value['batch']) && $value['batch'] === 'transfer')
+												<td colspan="3">{{ $value['designName'] }}</td>
+												<td colspan="3">{{ $value['image'] }}</td>
+											@else
+												<td colspan="6">{{ $value['image'] }}</td>
+											@endif
 
-										<td>{{ $isAuth ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
-									</tr>
+											<td colspan="3">{{ $isAuth ? money_format('%.2n', $value['price']) : '$?.??' }}</td>
+										</tr>
+									@endif
                             	@endforeach
 							@endforeach
 
@@ -191,17 +200,17 @@
 									$promocode = json_decode($orders->first()->promocode); 
 								@endphp
 								<tr>
-									<td colspan="8">Discount</td>
+									<td colspan="13">Discount</td>
 
-									<td colspan="5">{{ $promocode->code }}</td>
-									<td>{{ $promocode->type == 'fixed' 
+									<td colspan="6">{{ $promocode->code }}</td>
+									<td colspan="3">{{ $promocode->type == 'fixed' 
 										? money_format('-%.2n', $promocode->reward)
 										: ($promocode->reward . '%')}}</td>
 								</tr>		
 							@endif
 
 							<tr>
-								<td colspan="16"></td>
+								<td colspan="22"></td>
 							</tr>
 						</tr>
 

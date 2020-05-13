@@ -98,21 +98,20 @@
                                             <div class="col-10 ml-auto">
                                                 <h3 class="m-form__section">Saved Orders</h3>
                                             </div>
-                                            @if ($unSubmitOrders->count())
-                                                <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
-                                                    @foreach($unSubmitOrders as $order)
-                                                        <div class="saved-order-list-item">
-                                                            <div class="btn btn-secondary"><a href="/summary/{{$order->saved_date}}">Continue</a></div>
-                                                            <div class="btn btn-secondary">
-                                                                Saved order: {{$order->saved_name}}
-                                                            </div>
-                                                            <div class="btn btn-secondary">
-                                                                <a class="remove_button" href="/remove_saveorder/{{$order->saved_date}}">Remove</a>
-                                                            </div>
+                                            <div class="m-scrollable saved-order-list" data-scrollbar-shown="true" data-scrollable="true" data-height="300" style="overflow:hidden; height: 300px">
+                                            @foreach($unSubmitOrders as $order)
+                                                    <div class="saved-order-list-item">
+                                                        <div class="btn btn-secondary"><a href="/summary/{{$order['saved_date']}}">Continue</a></div>
+                                                        <div class="btn btn-secondary">
+                                                            Saved order: {{$order['saved_name']}}
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
+                                                        <div class="btn btn-secondary">
+                                                            <a class="remove_button" href="/remove_saveorder/{{$order['saved_date']}}">Remove</a>
+                                                        </div>
+                                                    </div>    
+                                                @endforeach
+                                            </div>
+
                                         </div>
                                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                         
@@ -135,6 +134,10 @@
                                                     @include('partials.wheels', ['wheels1' => $savedWheelBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
 
+                                                @if(count($savedBearingBatches) > 0)
+                                                    @include('partials.bearings', ['bearings1' => $savedBearingBatches, 'batches' => 1, 'fees' => $fees])
+                                                @endif
+                                                
                                                 @if(count($savedTransferBatches) > 0)
                                                     @include('partials.transfers', ['transfers1' => $savedTransferBatches, 'batches' => 1, 'fees' => $fees])
                                                 @endif
@@ -185,20 +188,20 @@
                                                     <div class="saved-order-list-item">
                                                         <div>
                                                             <div class="btn btn-secondary" style="flex-wrap: wrap;display: flex;">
-                                                                <div>Order Number: #{{$order->invoice_number}}&nbsp;&nbsp;</div>
-                                                                <div>Submitted: {{$order->saved_date}}</div>
+                                                                <div>Order Number: #{{$order['invoice_number']}}&nbsp;&nbsp;</div>
+                                                                <div>Submitted: {{$order['saved_date']}}</div>
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <div>
                                                                 <div class="btn btn-secondary">
-                                                                    <a href="/summary/view/{{$order->saved_date}}">View</a>
+                                                                    <a href="/summary/view/{{$order['saved_date']}}">View</a>
                                                                 </div>
                                                                 <div class="btn btn-secondary">
-                                                                    <a href="/summary/{{$order->saved_date}}">re-use</a>
+                                                                    <a href="/summary/{{$order['saved_date']}}">re-use</a>
                                                                 </div>
                                                                 <div class="btn btn-secondary">
-                                                                    <a href="{{ route('export.csv.id', $order->saved_date) }}">Invoice</a>
+                                                                    <a href="{{ route('export.csv.id', $order['saved_date']) }}">Invoice</a>
                                                                 </div>
                                                             </div>
                                                         </div>

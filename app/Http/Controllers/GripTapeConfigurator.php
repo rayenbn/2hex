@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{GripTape, Order, Session};
+use App\Models\{GripTape, Order, Session, Bearing};
 use App\Jobs\RecalculateOrders;
 use App\Models\Wheel\Wheel;
 use App\Models\PaidFile;
@@ -114,6 +114,7 @@ class GripTapeConfigurator extends Controller
 
         $data = $request->all();
         $data['saved_batch'] = 0;
+        
         if(empty($data['id'])){
             $data['id'] = GripTape::query()->create(array_except($data, ['id']))->id;
         } else {
@@ -124,9 +125,10 @@ class GripTapeConfigurator extends Controller
 
         dispatch(
             new RecalculateOrders(
-                Order::auth()->get(), 
-                GripTape::auth()->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
         );
     }
@@ -152,11 +154,12 @@ class GripTapeConfigurator extends Controller
         Session::insert(['action' => Session\Enum\Type::DELETE_GRIP, 'created_by' => auth()->check() ? auth()->id() : csrf_token(), 'comment' => $id, 'created_at' => date("Y-m-d H:i:s")]);
         dispatch(
             new RecalculateOrders(
-                Order::auth()->get(), 
-                GripTape::auth()->get(),
-                Wheel::auth()->where('submit', 0)->get()
+                Order::auth()->where('submit', 0)->get(), 
+                GripTape::auth()->where('submit', 0)->get(),
+                Wheel::auth()->where('submit', 0)->get(),
+                Bearing::auth()->where('submit', 0)->get()
             )
-        );  
+        );
 
         return redirect()->route('summary');
     }

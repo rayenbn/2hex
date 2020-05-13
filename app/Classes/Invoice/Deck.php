@@ -62,6 +62,8 @@ class Deck extends Batch
 
         $startRow = $this->startRow + 1;
 
+
+        $this->items = $this->items->reverse();
         /** @var Order $item */
         foreach ($this->items as $item) {
 

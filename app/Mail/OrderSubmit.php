@@ -2,7 +2,8 @@
 namespace App\Mail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, ShipInfo, Wheel\Wheel};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape,Bearing, ShipInfo, Wheel\Wheel};
+
 
 class OrderSubmit extends Mailable
 {
@@ -20,11 +21,14 @@ class OrderSubmit extends Mailable
         $queryOrders = Order::auth();
         $gripQuery = GripTape::auth();
         $wheelQuery = Wheel::auth();
+        $bearingQuery = Bearing::auth();
+
+        
         $transfersQuery = HeatTransfer::auth();
         $info = ShipInfo::auth()->select('invoice_name')->first();
 
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
-            $queryOrders->get(), $gripQuery->get(), $wheelQuery->get(), $transfersQuery->get()
+            $queryOrders->get(), $gripQuery->get(), $wheelQuery->get(), $bearingQuery->get(), $transfersQuery->get()
         ));
 
         $this->invoiceNumber = $exporter->getInvoiceNumber();
@@ -32,6 +36,7 @@ class OrderSubmit extends Mailable
         $queryOrders->update(['invoice_number' => $this->invoiceNumber]);
         $gripQuery->update(['invoice_number'   => $this->invoiceNumber]);
         $wheelQuery->update(['invoice_number'  => $this->invoiceNumber]);
+        $bearingQuery->update(['invoice_number'  => $this->invoiceNumber]);
         $transfersQuery->update(['invoice_number'  => $this->invoiceNumber]);
 
         return $this
