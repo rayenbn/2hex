@@ -269,7 +269,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
     {
         // Set total cells
         $startTotal = $this->startDelivery + $this->countFees + ($this->hasPromocode ? 1 : 0);
-
+        
         $this->getActiveSheet()->insertNewRowBefore($startTotal);
 
         $this->getActiveSheet()->getStyle(sprintf('C%s:N%s', $startTotal, $startTotal + 1))->applyFromArray([
@@ -327,7 +327,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $this
                 ->getActiveSheet()
                 ->setCellValue('G11', 'Invoice Address: ' . $shipinfo->invoice_country)
-                ->setCellValue('C' . $shipsStart = $startTotal + 4, 'Company Name: ' . $shipinfo->shipping_company)
+                ->setCellValue('C' . $shipsStart = $startTotal + 3, 'Company Name: ' . $shipinfo->shipping_company)
                 ->setCellValue('C' . ($shipsStart + 1), 'First + Lastname: ' . $this->user->name)
                 ->setCellValue('C' . ($shipsStart + 2), 'Shipping Address: ' . $shipinfo->fulladdress)
                 ->setCellValue('C' . ($shipsStart + 3), 'Cellphone Number: ' . $shipinfo->shipping_phone);
@@ -394,7 +394,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         // Prepare orders design
         list($orderFees, $feesTotal) = $this->prepareFees();
 
-        $this->countFees = $this->calculateFees($orderFees);
+        //$this->countFees = $this->calculateFees($orderFees);
 
         // Plus total delivery price, with global delivery
         $this->finalAmount += $feesTotal;
@@ -477,7 +477,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
                 $array_index ++;
             }
         }
-
+        $this->countFees = $array_index;
         return $this;
     }
 
@@ -490,7 +490,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
         $query = Order::query()
             ->whereIn('orders.id', $this->orders->pluck('id')->toArray())
             ->whereNotNull('promocode');
-
+        
         if (! $query->count()) return $this;
 
         // Promocode is exists
