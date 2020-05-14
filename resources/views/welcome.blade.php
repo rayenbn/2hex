@@ -378,28 +378,28 @@
                                 <div class="m-widget17__stats">
                                     <div class="m-widget17__items m-widget17__items-col1">
                                         <div class="m-widget17__item">
-<span class="m-widget17__icon">
-	<i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
-</span>
+                                            <span class="m-widget17__icon">
+                                                <i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+                                            </span>
                                             <span class="m-widget17__subtitle">
-	Finish
-</span>
+                                                Finish
+                                            </span>
                                             <span class="m-widget17__desc">
-	Glossy, Matte or Both on one Transfer?
-</span>
+                                                Glossy, Matte or Both on one Transfer?
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="m-widget17__items m-widget17__items-col2">
                                         <div class="m-widget17__item">
-<span class="m-widget17__icon">
-	<i class="flaticon-graph m--font-success"></i>
-</span>
+                                            <span class="m-widget17__icon">
+                                                <i class="flaticon-graph m--font-success"></i>
+                                            </span>
                                             <span class="m-widget17__subtitle">
-	Size
-</span>
+                                                Size
+                                            </span>
                                             <span class="m-widget17__desc">
-	For Longboards or Skateboards?
-</span>
+                                                For Longboards or Skateboards?
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -416,6 +416,85 @@
                          <span>
                              <span>Customize & Add to Shopping Cart</span>
                          </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Activity-->
+                </div>
+
+
+                <div class="col-xl-4">
+                    <!--begin:: Wheels-->
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--widget-fit m-portlet--full-height m-portlet--skin-light  m-portlet--rounded-force">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text m--font-dark">
+                                        Heat Transfers
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="m-portlet__head m-portlet__head--fit">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-action">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <div class="m-widget17">
+                                <div class="m-widget17__visual m-widget17__visual--chart m-portlet-fit--top m-portlet-fit--sides m--bg-danger">
+                                    <div>
+                                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides">
+                                            <img src="/img/transfers/custom-skateboard-transfers-factory-banner-2hex.jpg" alt="custom skateboard transfers manufacturer" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-widget17__stats">
+                                    <div class="m-widget17__items m-widget17__items-col1">
+                                        <div class="m-widget17__item">
+                                            <span class="m-widget17__icon">
+                                                <i class="flaticon-	flaticon-presentation-1 m--font-brand"></i>
+                                            </span>
+                                            <span class="m-widget17__subtitle">
+                                                Finish
+                                            </span>
+                                            <span class="m-widget17__desc">
+                                                Glossy, Matte or Both on one Bearing?
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget17__items m-widget17__items-col2">
+                                        <div class="m-widget17__item">
+                                            <span class="m-widget17__icon">
+                                                <i class="flaticon-graph m--font-success"></i>
+                                            </span>
+                                            <span class="m-widget17__subtitle">
+                                                Size
+                                            </span>
+                                            <span class="m-widget17__desc">
+                                                For Longboards or Skateboards?
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: justify; color: #9699a4;">
+                                <h3>Bearing</h3>
+                                Upload your artwork and configure your custom bearing! Choose between
+                                glossy, matte or mixed finished of bearings for longboards, cruisers,
+                                skimboards or of course skateboard decks. We will do the rest!
+                            </div>
+                            <br>
+                            <div class="m-widget19__action">
+                                <a href="bearing-manufacturerr" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                <span>
+                                    <span>Customize & Add to Shopping Cart</span>
+                                </span>
                                 </a>
                             </div>
 
