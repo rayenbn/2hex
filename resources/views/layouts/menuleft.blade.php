@@ -198,7 +198,30 @@
 
                         @endforeach
 
-                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0 && $transfers->count() == 0)
+                        @foreach($bearings as $key => $bearing)
+                        <li
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed
+                            {{ (route('bearings.show', $bearing->id) == url()->current()) ? 'm-menu__item--open m-menu__item--active' : '' }}"
+                            aria-haspopup="true"
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">Bearing Batch {{++$key}}</span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <!-- Steps vue -->
+                                <steps path="{{route('bearings.show', $bearing->id) }}" type="bearing"/>
+                            </div>
+                        </li>
+
+                        @endforeach
+
+                        @if ($orders->count() == 0 && $grips->count() == 0 && $wheels->count() == 0 && $transfers->count() == 0 && $bearings->count() == 0)
                         <li class="m-menu__item">
                             <div class="m-menu__link ">
                                 <span class="m-menu__link-text" style="text-transform: uppercase;">List Empty</span>

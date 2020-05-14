@@ -224,7 +224,7 @@ class Bearing extends Batch
             ->setWrapText(true);
 
         $rangeCurrency = sprintf(
-            'U%s:V%s', 
+            'M%s:N%s', 
             $this->startRow,  
             $offset - 1
         );
