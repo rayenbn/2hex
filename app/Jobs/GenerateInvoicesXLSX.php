@@ -294,8 +294,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
             ->setCellValue('E8', Date::PHPToExcel($this->date))
             ->getRowDimension(4)
             ->setRowHeight(40);
-
-        $this->getStylesRange('E8')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+        if(gettype($this->date) == 'integer')
+            $this->getStylesRange('E8')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+        
 
         $shipinfo = \App\Models\ShipInfo::query()
             ->selectRaw(
