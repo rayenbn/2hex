@@ -491,7 +491,7 @@
                             </div>
                             <br>
                             <div class="m-widget19__action">
-                                <a href="bearing-manufacturerr" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
+                                <a href="bearing-manufacturer" class="btn btn-sm btn-danger m-btn--pill  btn-brand">
                                 <span>
                                     <span>Customize & Add to Shopping Cart</span>
                                 </span>
