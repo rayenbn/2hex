@@ -11,7 +11,7 @@
 <table align="left" width="570" cellpadding="0" cellspacing="0" style="color: black;">
     <tr>
         <td align="left" style="font-size: 16px; font-family: Avenir,sans-serif;">
-            <p style="color: black;">Dear {{ $invoiceName }}</p>
+            <p style="color: black;">Dear {{Auth::user()->name}}</p>
 
 			<p style="color: black;">Congrats on your order at 2HEX. <br>
 			We have already received your product details.<p>
