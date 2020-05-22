@@ -436,7 +436,11 @@ class RecalculateWheels implements Orderable
 			->where('size', '=', $wheel->size)
 			->where('shape_id', '=', $shape->shape_id)
 			->first();
-
+		
+		if(!$shapeSize){
+			return (float) 0;
+		}
+		
 		/** @var Hardness $hardness*/	
 		$hardness = $this->getHardness($wheel->hardness, $wheel->is_shr);
 
