@@ -2879,7 +2879,7 @@ class CreateShapesSeeder extends Seeder
 	        	],
         		'sizes' => [
         			[
-                        'size' =>  ' 50*28mm', 
+                        'size' =>  '50*28mm',
                         'contact_patch' => '15.5mm-16.0mm',
                         'prices' => [
                             [
@@ -2905,7 +2905,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' =>  ' 51*28mm', 
+                        'size' =>  '51*28mm',
                         'contact_patch' => '15.5mm-16.0mm',
                         'prices' => [
                             [
@@ -2931,7 +2931,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' =>  ' 52*31mm', 
+                        'size' =>  '52*31mm',
                         'contact_patch' => '15.5mm-16.0mm',
                         'prices' => [
                             [
@@ -2957,7 +2957,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' =>  ' 53*28mm', 
+                        'size' =>  '53*28mm',
                         'contact_patch' => '15.5mm-16.0mm',
                         'prices' => [
                             [
@@ -2983,7 +2983,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' =>  ' 54*28mm', 
+                        'size' =>  '54*28mm',
                         'contact_patch' => '15.5mm-16.0mm',
                         'prices' => [
                             [
@@ -3018,7 +3018,7 @@ class CreateShapesSeeder extends Seeder
 	        	],
         		'sizes' => [
         			[
-                        'size' => ' 50*28mm', 
+                        'size' => '50*28mm',
                         'contact_patch' => '16.0mm-16.5mm',
                         'prices' => [
                             [
@@ -3044,7 +3044,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 51*28mm', 
+                        'size' => '51*28mm',
                         'contact_patch' => '16.0mm-16.5mm',
                         'prices' => [
                             [
@@ -3070,7 +3070,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 52*30mm', 
+                        'size' => '52*30mm',
                         'contact_patch' => '16.5mm-17.0mm',
                         'prices' => [
                             [
@@ -3096,7 +3096,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 53*31mm', 
+                        'size' => '53*31mm',
                         'contact_patch' => '16.5mm-17.0mm',
                         'prices' => [
                             [
@@ -3122,7 +3122,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 54*32mm', 
+                        'size' => '54*32mm',
                         'contact_patch' => '16.5mm-17.0mm',
                         'prices' => [
                             [
@@ -3148,7 +3148,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 55*32mm', 
+                        'size' => '55*32mm',
                         'contact_patch' => '18.0mm-18.5mm',
                         'prices' => [
                             [
@@ -3174,7 +3174,7 @@ class CreateShapesSeeder extends Seeder
                         ]
                     ],
 					[
-                        'size' => ' 56*33mm', 
+                        'size' => '56*33mm',
                         'contact_patch' => '19.5mm-20.0mm',
                         'prices' => [
                             [
