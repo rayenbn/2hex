@@ -68,6 +68,17 @@
                 </a>
             </li>
 
+            <li class="m-menu__item  {{ request()->routeIs('bolts.manufacturer') ? 'm-menu__item--expanded m-menu__item--active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('bolts.manufacturer') }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon flaticon-box"></i>
+                    <span class="m-menu__link-title">
+                        <span class="m-menu__link-wrap">
+                            <span class="m-menu__link-text">Bolts</span>
+                        </span>
+                    </span>
+                </a>
+            </li>
+
 
             <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Your Overview</h4>
@@ -321,7 +332,7 @@
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
-                                    Bearing Batch 1
+                                    Bearing Batch {{ $bearings->count() ? $bearings->count() + 1 : 1}}
                                 </span>
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
@@ -330,6 +341,32 @@
 
                                 <!-- Steps vue -->
                                 <steps type="bearing"/>
+                            </div>
+                        </li>
+
+                        @endif
+
+                        @if (request()->routeIs('bolts.configurator'))
+
+                        <li 
+                            class="m-menu__item  m-menu__item--submenu  m-menu__item--closed m-menu__item--open m-menu__item--active" 
+                            aria-haspopup="true" 
+                            m-menu-submenu-toggle="hover"
+                        >
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                    Bolts Batch 1
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+
+                                <!-- Steps vue -->
+                                <steps type="bolt"/>
                             </div>
                         </li>
 

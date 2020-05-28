@@ -25,7 +25,8 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('grips',  \App\Models\GripTape::auth()->get())
                 ->with('wheels',  \App\Models\Wheel\Wheel::auth()->get())
                 ->with('bearings', \App\Models\Bearing::auth()->get())
-                ->with('transfers', HeatTransfer::query()->auth()->get());
+                ->with('transfers', HeatTransfer::query()->auth()->get())
+                ->with('bolts', \App\Models\BoltNut::query()->auth()->get());
 
             if(isset($route)){
                 $view->with('isHomePage',  Route::current()->getName() === 'index');

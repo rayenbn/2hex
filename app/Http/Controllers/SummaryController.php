@@ -8,7 +8,7 @@ use App\Rules\WheelSubmitMinimum;
 use App\Services\TransferService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile, ProductionComment, ProductionDate};
+use App\Models\{HeatTransfer\HeatTransfer, Order, GripTape, Bearing, Wheel\Wheel, PaidFile, ProductionComment, ProductionDate, BoltNut};
 use App\Models\ShipInfo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -81,6 +81,10 @@ class SummaryController extends Controller
         'sticker_print' => [
             'name' => 'Sheid Brand First Print',
             'price' => 0
+        ],
+        'pack_print' => [
+            'name' => 'Bolt and Nut Packign Print',
+            'price' => 0
         ]
         
     ];
@@ -111,6 +115,7 @@ class SummaryController extends Controller
         /** @var \Illuminate\Database\Eloquent\Collection|HeatTransfer[] $transfers */
         $transfers = HeatTransfer::auth()->get();
         $bearingQuery = Bearing::auth();
+        $boltQuery = BoltNut::auth();
         
         $fees = [];
         $sum_fees = 0;
@@ -157,6 +162,13 @@ class SummaryController extends Controller
             ->get()
             ->map(function($bearing) {
                 return array_filter($bearing->attributesToArray());
+            })
+            ->toArray();
+        
+        $bolts = (clone $boltQuery)
+            ->get()
+            ->map(function($bolt) {
+                return array_filter($bolt->attributesToArray());
             })
             ->toArray();
 
@@ -423,9 +435,59 @@ class SummaryController extends Controller
                 }
             }
         }
+
+        foreach ($bolts as $index => $bolt) {
+            $index += 1;
+
+            foreach ($bolt as $key => $value) {
+
+                if (!array_key_exists($key,  $this->feesTypes) || !array_key_exists('quantity',  $bolt)) continue;
+
+                // If same design
+                if (array_key_exists($key, $fees)) {
+                    if (array_key_exists($value, $fees[$key])) {
+                        $fees[$key][$value]['batches'] .= ",{$index}";
+                        $fees[$key][$value]['quantity'] += $bolt['quantity'];
+                        continue;
+                    }
+                } 
+                $fees[$key][$value] = [
+                    'image'    => $value,
+                    'batches'  => (string) $index,
+                    'type'     => $this->feesTypes[$key]['name'],
+                    'quantity' => $bolt['quantity'],
+                    'color'    => 1
+                ];
+
+                if (array_key_exists($key . '_color', $bolt)) {
+                    switch ($bolt[$key . '_color']) {
+                        case '1 color':
+                            $fees[$key][$value]['color'] = 1;
+                            break;
+                        case '2 color':
+                            $fees[$key][$value]['color'] = 2;
+                            break;
+                        case '3 color':
+                            $fees[$key][$value]['color'] = 3;
+                            break;
+                        case 'CMYK':
+                            $fees[$key][$value]['color'] = 4;
+                            break;
+                    }
+                }
+
+                $fees[$key][$value]['price'] = $this->feesTypes[$key]['price'] * $fees[$key][$value]['color'];
+
+                if(!empty(PaidFile::where('created_by', $bolt['created_by'])->where('file_name', $value)->first()['date'])){
+                    $fees[$key][$value]['price'] = 0;
+                    $fees[$key][$value]['paid'] = 1;
+                }
+            }
+        }
+
         $this->calculateTransfersFixCost($fees, (clone $transfers));
         // Set Global delivery
-        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || Bearing::auth()->count() || $transfers->isNotEmpty()) {
+        if ($ordersQuery->count() || $gripQuery->count() || Wheel::auth()->count() || Bearing::auth()->count() || $transfers->isNotEmpty() || BoltNut::auth()->count()) {
             $fees['global'] = [];
             array_push($fees['global'], [
                 'image' => auth()->check() ? $weight . ' KG' : '$?.??', 
@@ -446,6 +508,7 @@ class SummaryController extends Controller
             + GripTape::auth()->sum('total')
             + Wheel::auth()->sum('total')
             + Bearing::auth()->sum('total')
+            + BoltNut::auth()->sum('total')
             + $transfers->sum('total')
             + $sum_fees;
 
@@ -647,13 +710,16 @@ class SummaryController extends Controller
         $wheelQuery = Wheel::auth();
         $bearingQuery = Bearing::auth();
         $transfersQuery = HeatTransfer::auth();
+        $boltQuery = BoltNut::auth();
+        
 
         dispatch($exporter = new \App\Jobs\GenerateInvoicesXLSX(
             $queryOrders->get(),
             $gripQuery->get(),
             $wheelQuery->get(),
             $bearingQuery->get(),
-            $transfersQuery->get()
+            $transfersQuery->get(),
+            $boltQuery->get()
         ));
 
         $queryOrders->update(['invoice_number' => $exporter->getInvoiceNumber()]);
@@ -663,6 +729,7 @@ class SummaryController extends Controller
 
     public function exportcsvbyid($id)
     {
+        
         $save_data['usenow'] = 0;
         //$save_data['saved_date'] =new \DateTime();
 
@@ -676,12 +743,14 @@ class SummaryController extends Controller
         Wheel::auth()->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         HeatTransfer::auth()->delete();
+        BoltNut::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $transfers = HeatTransfer::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
+        $bolts = BoltNut::where('created_by','=', $created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -726,16 +795,25 @@ class SummaryController extends Controller
             $array = json_decode(json_encode($transfers[$i]), true);
             HeatTransfer::insert($array);
         }
+        for($i = 0; $i < count($bolts); $i ++){
+            unset($bolts[$i]['id']);
+            unset($bolts[$i]['saved_date']);
+            unset($bolts[$i]['usenow']);
+            unset($bolts[$i]['submit']);
+            $array = json_decode(json_encode($bolts[$i]), true);
+            BoltNut::insert($array);
+        }
 
         $orders = Order::auth()->get();
         $grips = GripTape::auth()->get();
         $wheels = Wheel::auth()->get();
         $bearings = Bearing::auth()->get();
+        $bolts = BoltNut::auth()->get();
         
         // TODO add wheels to invoice
         $transfers = HeatTransfer::auth()->get();
 
-        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings,$transfers);
+        $exporter = new \App\Jobs\GenerateInvoicesXLSX($orders, $grips, $wheels, $bearings,$transfers, $bolts);
 
         if ($orders->count()) {
             $model = $orders->first();
@@ -748,6 +826,8 @@ class SummaryController extends Controller
             $model =$bearings->first();
         } else if( $transfers->count()){
             $model = $transfers->first();
+        } else if( $bolts->count()){
+            $model = $bolts->first();
         }
 
 
@@ -778,6 +858,7 @@ class SummaryController extends Controller
         $cart->put('wheels', Wheel::auth());
         $cart->put('transfers', HeatTransfer::auth());
         $cart->put('bearings', Bearing::auth());
+        $cart->put('bolts', BoltNut::auth());
 
         $totalQuantity = $cart->reduce(function ($carry, $item) {
             return $carry + $item->count();
@@ -846,6 +927,7 @@ class SummaryController extends Controller
         $wheels = Wheel::auth()->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->get();
         $transfers = HeatTransfer::auth()->get();
+        $bolts = BoltNut::auth()->get();
 
         $save_data['usenow'] = 0;
         $save_data['saved_date'] = now();
@@ -856,6 +938,7 @@ class SummaryController extends Controller
         Wheel::auth()->update($save_data);
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->update($save_data);
         HeatTransfer::auth()->update($save_data);
+        BoltNut::auth()->update($save_data);
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -899,6 +982,14 @@ class SummaryController extends Controller
             HeatTransfer::insert($array);
         }
 
+        for ($i = 0; $i < count($bolts); $i ++){
+            unset($bolts[$i]['id']);
+            unset($bolts[$i]['saved_date']);
+            unset($bolts[$i]['invoice_number']);
+            $array = json_decode(json_encode($bolts[$i]), true);
+            BoltNut::insert($array);
+        }
+
         return redirect()->route('profile', ['#saved_orders']);
     }
     public function load($id)
@@ -921,12 +1012,14 @@ class SummaryController extends Controller
         Wheel::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         HeatTransfer::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
+        BoltNut::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $bolts = BoltNut::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -971,6 +1064,15 @@ class SummaryController extends Controller
             unset($transfers[$i]['submit']);
             $array = json_decode(json_encode($transfers[$i]), true);
             HeatTransfer::insert($array);
+        }
+
+        for($i = 0; $i < count($bolts); $i ++){
+            unset($bolts[$i]['id']);
+            unset($bolts[$i]['saved_date']);
+            unset($bolts[$i]['usenow']);
+            unset($bolts[$i]['submit']);
+            $array = json_decode(json_encode($bolts[$i]), true);
+            BoltNut::insert($array);
         }
 
         return redirect()->route('summary');   
@@ -997,12 +1099,14 @@ class SummaryController extends Controller
         Wheel::auth()->delete();
         Bearing::where('created_by','=',$created_by)->where('usenow', '=', 1)->delete();
         HeatTransfer::auth()->delete();
+        BoltNut::auth()->delete();
 
         $data = Order::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $grips = GripTape::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $wheels = Wheel::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $bearings = Bearing::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
         $transfers = HeatTransfer::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
+        $bolts = BoltNut::where('created_by','=',$created_by)->where('saved_date', '=', $id)->get();
 
         for($i = 0; $i < count($data); $i ++){
             unset($data[$i]['id']);
@@ -1046,6 +1150,15 @@ class SummaryController extends Controller
             HeatTransfer::insert($array);
         }
 
+        for($i = 0; $i < count($bolts); $i ++){
+            unset($bolts[$i]['id']);
+            unset($bolts[$i]['saved_date']);
+            unset($bolts[$i]['usenow']);
+            unset($bolts[$i]['submit']);
+            $array = json_decode(json_encode($bolts[$i]), true);
+            BoltNut::insert($array);
+        }
+
         return redirect()->route('summary')->with(['viewonly'=>1]);   
     }
     public function removeOrder($id)
@@ -1061,6 +1174,7 @@ class SummaryController extends Controller
         Wheel::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         Bearing::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
         HeatTransfer::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
+        BoltNut::where('created_by','=',$created_by)->where('saved_date','=',$id)->delete();
 
         return redirect()->route('profile');
     }
@@ -1070,6 +1184,7 @@ class SummaryController extends Controller
         $wheelQuery = Wheel::auth()->delete();
         $transfers = HeatTransfer::auth()->delete();
         $bearingQuery = Bearing::auth()->delete();
+        $boltQuery = BoltNut::auth()->delete();
         return redirect()->route('summary');
     }
     public function applyPromocode(Request $request)
@@ -1112,6 +1227,7 @@ class SummaryController extends Controller
         $wheel_checked = $request->input('wheelBatches');
         $bearing_checked = $request->input('bearingBatches');
         $transfer_checked = $request->input('transferBatches');
+        $bolt_checked = $request->input('boltBatches');
 
         if($request->submit == 'Add'){
             if(isset($order_checked)){
@@ -1183,6 +1299,20 @@ class SummaryController extends Controller
                 }
                 dispatch(new RecalculateHeatTransfers);
             }
+
+            if(isset($bolt_checked)){
+                $bolts = BoltNut::whereIn('id',$bolt_checked)->get();
+                for($i = 0; $i < $bolts->count(); $i ++){
+                    unset($bolts[$i]['id']);
+                    unset($bolts[$i]['saved_date']);
+                    unset($bolts[$i]['usenow']);
+                    unset($bolts[$i]['submit']);
+                    unset($bolts[$i]['invoice_number']);
+                    $bolts[$i]['saved_batch'] = 0;
+                    $array = json_decode(json_encode($bolts[$i]), true);
+                    BoltNut::insert($array);
+                }
+            }
             
         }
         if($request->submit == 'Delete'){
@@ -1197,6 +1327,8 @@ class SummaryController extends Controller
                 Bearing::whereIn('id',$bearing_checked)->delete();
             if(isset($transfer_checked))
                 HeatTransfer::whereIn('id',$transfer_checked)->delete();
+            if(isset($bolt_checked))
+                HeatTransfer::whereIn('id',$bolt_checked)->delete();
             return redirect()->back();
         }
         return redirect()->route('summary');

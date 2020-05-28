@@ -55,20 +55,21 @@ class Bearing extends Batch
         // $this->worksheet->setCellValue('I' . $this->startRow, 'Spacers Color');
         
         $this->items = $this->items->reverse();
-        foreach ($this->items as $item) {
-            
+        foreach ($this->items as $index => $item) {
             $this->worksheet->insertNewRowBefore($this->startRow, 8);
-            
-            $styleArray = [
-                'borders' => [
-                    'bottom' => [
-                        'borderStyle' => Border::BORDER_DOUBLE,
-                        'color' => ['argb' => '0000000'],
+            if($index != (count($this->items) - 1)){
+                $styleArray = [
+                    'borders' => [
+                        'bottom' => [
+                            'borderStyle' => Border::BORDER_DOUBLE,
+                            'color' => ['argb' => '0000000'],
+                        ],
                     ],
-                ],
-            ];
-            $this->worksheet->getStyle(sprintf('C%s:N%s', $this->startRow + 7, $this->startRow + 7))
-            ->applyFromArray($styleArray);
+                ];
+                $this->worksheet->getStyle(sprintf('C%s:N%s', $this->startRow + 7, $this->startRow + 7))
+                ->applyFromArray($styleArray);
+            }
+            
 
             
             foreach ($this->worksheet->getRowIterator($this->startRow, 8) as $row) {

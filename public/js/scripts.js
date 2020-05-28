@@ -75,9 +75,19 @@ $(document).ready(function(){
         verticaldownclass: 'la la-angle-down'
 	});
 	$("#quantity_bearing").TouchSpin({
-        min: 0,
+        min: 625,
         max: 1000000000,
-        step: 200,
+        step: 10,
+        buttondown_class: 'btn btn-secondary',
+        buttonup_class: 'btn btn-secondary',
+        verticalbuttons: true,
+        verticalupclass: 'la la-angle-up',
+        verticaldownclass: 'la la-angle-down'
+	});
+	$("#quantity_bolt").TouchSpin({
+        min: 500,
+        max: 1000000000,
+        step: 10,
         buttondown_class: 'btn btn-secondary',
         buttonup_class: 'btn btn-secondary',
         verticalbuttons: true,

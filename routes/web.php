@@ -174,6 +174,17 @@ Route::group(['as' => 'bearings.'], function () {
     Route::post('/bearing-configurator/{id}/copy', 'BearingController@copy')->name('copy');
 });
 
+Route::group(['as' => 'bolts.'], function () {
+    Route::get('/bolt-manufacturer', 'BoltController@manufacturer')->name('manufacturer');
+    Route::get('/bolt-configurator', 'BoltController@configurator')->name('configurator');
+    Route::get('/bolt-configurator/{id}', 'BoltController@show')->name('show');
+    Route::get('/bolt-save/{id}', 'BoltController@save')->name('save');
+    Route::post('/bolt-configurator', 'BoltController@storeConfigurator')->name('store');
+    Route::post('/bolt-configurator/{id}', 'BoltController@updateConfigurator')->name('update');
+    Route::get('/bolt-remove/{id}/', 'BoltController@destroy')->name('destroy');
+    Route::post('/bolt-configurator/{id}/copy', 'BoltController@copy')->name('copy');
+});
+
 Route::group(['as' => 'transfers.'], function () {
     Route::get('/transfers-manufacturer', 'TransferController@manufacturer')->name('manufacturer');
     Route::get('/transfers-configurator', 'TransferController@configurator')->name('configurator');

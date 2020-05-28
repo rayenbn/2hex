@@ -30,7 +30,7 @@
 				type: String,
 				required: true,
 				validator: function (value) {
-			    	return ['griptape', 'skateboard', 'wheel','bearing', 'transfer'].indexOf(value) !== -1;
+			    	return ['griptape', 'skateboard', 'wheel','bearing', 'transfer', 'bolt'].indexOf(value) !== -1;
 			    }
 			}
 		},
@@ -74,6 +74,14 @@
 					return [
 						"Quantity & Size",
 						"Artwork"
+					];
+				} else if(this.type === "bolt"){
+					return [
+						"Quantity & Colors",
+						"Color Allocation",
+						"Material and Size",
+						"Phillips Or Allen",
+						"Packaging",
 					];
 				}
 

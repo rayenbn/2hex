@@ -163,6 +163,10 @@
 								@include('partials.bearings', ['bearings1' => $bearings, 'fees' => $fees])
 							@endif
 
+							@if(count($bolts) > 0)
+								@include('partials.bolts', ['bolts1' => $bolts, 'fees' => $fees])
+							@endif
+
 
 							<thead style="background-color: #52a3f0; color: white;">
 								<tr>
