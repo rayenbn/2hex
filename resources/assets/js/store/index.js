@@ -5,6 +5,7 @@ import gripTapeConfigurator from './modules/griptape-configurator';
 import SkateboardWheelConfigurator from './modules/skateboard-wheel-configurator';
 import TransfersConfigurator from './modules/transfers-configurator';
 import BearingConfigurator from './modules/bearing-configurator';
+import BoltConfigurator from './modules/bolt-configurator';
 
 Vue.use(Vuex);
 
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     	gripTapeConfigurator,
         SkateboardWheelConfigurator,
         TransfersConfigurator,
-        BearingConfigurator
+        BearingConfigurator,
+        BoltConfigurator
     }
 });

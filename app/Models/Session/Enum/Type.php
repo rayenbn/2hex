@@ -39,6 +39,12 @@ class Type extends AbstractEnum
     const SAVE_BEARING_BATCH = 'Save Bearing to Batch';
     const DELETE_BEARING = 'Delete Bearing';
 
+    // Bolt
+
+    const SAVE_BOLTNUT = 'Save Bearing';
+    const SAVE_BOLTNUT_BATCH = 'Save Bearing to Batch';
+    const DELETE_BOLTNUT = 'Delete Bearing';
+
     // Other
     const UPLOAD = 'Upload';
     const CLICKED = 'clicked';

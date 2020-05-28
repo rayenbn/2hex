@@ -62,6 +62,11 @@ class GenerateInvoicesXLSX implements ShouldQueue
     protected $bearings;
 
 
+    /**
+     * List bolts
+     * Collection $bolts;
+     */
+    protected $bolts;
 
 
     /**
@@ -131,13 +136,14 @@ class GenerateInvoicesXLSX implements ShouldQueue
      */
     protected $totalQuantity = 0;
 
-    public function __construct($orders, $grips, $wheels, $bearings = null, $transfers =  null)
+    public function __construct($orders, $grips, $wheels, $bearings = null, $transfers =  null, $bolts = null)
     {
         $this->orders = $orders;
         $this->grips = $grips;
         $this->wheels = $wheels;
         $this->bearings = $bearings;
         $this->transfers = $transfers ?? collect();
+        $this->bolts = $bolts;
         $this->pathTemplate = storage_path('app/xlsx/invoices.xlsx');
         $this->user = auth()->user();
         $this->spreadsheet = IOFactory::createReader('Xlsx')->load($this->pathTemplate);
@@ -173,6 +179,7 @@ class GenerateInvoicesXLSX implements ShouldQueue
             \App\Classes\Invoice\Wheel::class => $this->wheels,
             \App\Classes\Invoice\HeatTransfer::class => $this->transfers,
             \App\Classes\Invoice\Bearing::class => $this->bearings,
+            \App\Classes\Invoice\Bolt::class => $this->bolts,
         ];
 
         // Filter filled batches
@@ -189,6 +196,9 @@ class GenerateInvoicesXLSX implements ShouldQueue
             $batchEntry->setStartRow($this->startBatch)->handle();
 
             $offset = ($items->count() * 8) + 1;
+            if($batch == 'App\\Classes\\Invoice\\Bolt')
+                $offset += count($this->bolts)*2;
+
             $this->startBatch += $offset;
             $this->startDelivery += $offset;
         }

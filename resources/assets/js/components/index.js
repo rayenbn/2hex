@@ -6,6 +6,7 @@ import GripTapeConfigurator from './griptape-configurator/GripTapeConfigurator.v
 import SkateboardWheelConfigurator from './skateboard-wheel-configurator/SkateboardWheelConfigurator.vue';
 import TransfersConfigurator from './transfers/TransfersConfigurator.vue';
 import BearingConfigurator from './bearing/BearingConfigurator.vue';
+import BoltConfigurator from './bolt/boltConfigurator.vue';
 
 // Forms
 import FormUserDetails from './forms/UserDetails.vue';
@@ -27,5 +28,6 @@ export default [
     ChangeNameOrderModal,
     BtnOrderLater,
     SubmitOrderModal,
-    BearingConfigurator
+    BearingConfigurator,
+    BoltConfigurator
 ];
